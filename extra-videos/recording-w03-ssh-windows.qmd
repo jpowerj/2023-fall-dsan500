@@ -1,5 +1,5 @@
 ---
-title: "W03 Lab: Using SSH and SCP on Windows"
+title: "Video Series: Using SSH and SCP on Windows"
 ---
 
 Since this video had to be recorded in multiple parts, I'm linking each part here:

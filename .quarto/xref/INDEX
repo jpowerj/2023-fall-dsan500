@@ -49,5 +49,8 @@
   "about/about.qmd": {
     "index.html": "91d04fd1",
     "slides.html": "40d14550"
+  },
+  "extra-videos/recording-w03-ssh-windows.qmd": {
+    "recording-w03-ssh-windows.html": "9684b29c"
   }
 }

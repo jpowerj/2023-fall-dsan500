@@ -42,7 +42,7 @@ website:
         text: "<i class=\"bi bi-arrow-left\" style=\"margin-right: 4px\"></i>Main Course Page"
       - "---"
       - href: index.qmd
-        text: "Section <span class='sec-num'>02</span> Home"
+        text: "<i class='bi bi-house pe-1'></i> Section <span class='sec-num'>02</span> Home"
       - href: w01/index.qmd
         text: "Week 1: <span class='sec-w01-date'>Aug 23</span>"
       - href: w02/index.qmd

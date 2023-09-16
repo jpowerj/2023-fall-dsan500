@@ -68,15 +68,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   let localStorageChecked = false;
   if (!localStorageChecked) {
     let curSection = getSection();
-    if (curSection == '02') {
-      //$('#btn-label-02').addClass('active');
-      //$('#btn-label-03').removeClass('active');
-      $('#btn-radio-02').click();
-    }
-    if (curSection == '03') {
-      //$('#btn-label-02').removeClass('active');
-      //$('#btn-label-03').addClass('active');
-      $('#btn-radio-03').click();
+    let radioSelector = `#btn-radio-${curSection}`;
+    let radioElt = $(radioSelector);
+    if (radioElt.length) {
+      radioElt.click();
+    } else {
+      applyToggleSection(curSection);
     }
     //applyToggleSection(curSection);
     localStorageChecked = true;
