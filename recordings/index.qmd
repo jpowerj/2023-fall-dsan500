@@ -14,7 +14,7 @@ listing:
     - lecture-recordings.yml
     - extra-videos.yml
   type: table
-  categories: true
+  #categories: true
 #   include:
 #     categories: "{Lecture Videos,Extra Videos}"
   fields: [week,title,section,categories,date]

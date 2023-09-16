@@ -13,7 +13,7 @@ listing:
   contents:
     - extra-videos.yml
   type: table
-  categories: true
+  #categories: true
 #   include:
 #     categories: "{Extra Videos}"
   fields: [title,date]
