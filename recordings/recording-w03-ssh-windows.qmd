@@ -1,0 +1,10 @@
+---
+title: "W03 Lab: Using SSH and SCP on Windows"
+---
+
+Since this video had to be recorded in multiple parts, I'm linking each part here:
+
+* [Part 1: Installing Necessary Apps+Addons on Windows](https://georgetown.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=7a013699-163b-4352-b128-b07e01821a1c){target="_blank"}
+* [Part 2: Setting Up a Linux Terminal on Windows](https://georgetown.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=7a013699-163b-4352-b128-b07e01821a1c){target="_blank"}
+* [Part 3: Using SSH and SCP in the Terminal on Windows](https://georgetown.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=3763fc8a-5ddc-4c34-8b2a-b07e01822abf)
+

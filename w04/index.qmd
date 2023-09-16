@@ -1,0 +1,1089 @@
+---
+title: "Week 4: Data Gathering and APIs"
+subtitle: "*DSAN 5100: Data Science and Analytics*<br>Section 02"
+date: 2023-09-12
+date-format: full
+author: "Jeff Jacobs"
+institute: "<a href=\"mailto:jj1088@georgetown.edu\" target=\"_blank\">jj1088@georgetown.edu</a>"
+#date: last-modified
+#date-format: "dddd MMM D, YYYY, HH:mm:ss"
+lecnum: 4
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    html-math-method: mathjax
+    #cache: false
+    scrollable: false
+    slide-number: true
+    output-file: slides.html
+    section-divs: false
+    simplemenu:
+      flat: true
+      barhtml:
+        header: "<div class='menubar'><span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span><ul class='menu'></ul></div>"
+      scale: 0.5
+    theme: [default, "../_jjslides.scss"]
+    revealjs-plugins:
+      - simplemenu
+    include-in-header: {"text":"<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css\" integrity=\"sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65\" crossorigin=\"anonymous\"><link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\">"}
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+---
+
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-stack-name="Schedule"}
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+| | Start | End | Topic | Recording |
+|:- |:- |:- |:- |:-:|
+| **Lecture** | <span class='sec-start'>12:30pm</span> | 12:40pm | <a href="#week-03-recap">Week 03 Recap &rarr;</a> | <a href="../recordings/recording-w04-1.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 12:40pm | 1:00pm | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201388">Quiz 2.1 <i class="bi bi-box-arrow-up-right" style="font-size: 1.5rem;"></i></a> | |
+| | 1:00pm | 1:30pm | <a href="#data-gathering">Data Gathering &rarr;</a> | <a href="../recordings/recording-w04-2.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 1:30pm | 1:45pm | <a href="#web-scraping">Web Scraping &rarr;</a> | <a href="../recordings/recording-w04-3.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 1:45pm | 2:00pm | <a href="#apis">APIs &rarr;</a> | <a href="../recordings/recording-w04-4.html" target="_blank"><i class="bi bi-film"></i></a> |
+| **Break!** | 2:00pm | 2:10pm | | |
+| **Lab** | 2:10pm | 2:50pm | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a href="../recordings/recording-w04-5.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 2:50pm | 3:00pm | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a href="../recordings/recording-w04-6.html" target="_blank"><i class="bi bi-film"></i></a> |
+
+: {tbl-colwidths="[14,12,12,50,12]"} 
+
+# Week 03 Recap {.smaller .smaller-title .not-title-slide data-stack-name="Recap"}
+
+![Image from @menczer_first_2020 [p. 90]](images/client_server.jpeg){fig-align="center"}
+
+## Git Commands {.smaller .crunch-title}
+
+| Command | What It Does |
+| - | - |
+| `git clone` | Downloads a repo from the web to our local computer |
+| `git init` | Creates a new, blank Git repository on our local computer (configuration/change-tracking stored in `.git` subfolder) |
+| `git add` | **Stages** a file(s): Git will now track changes in this file(s) |
+| `git reset` | Undoes a `git add` |
+| `git status` | Shows currently staged files and their status (created, modified, deleted) |
+| `git commit -m "message"` | "Saves" the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub |
+| `git push` | Transmits local commits to remote server |
+| `git pull` | Downloads commits from remote server to local computer |
+| `git merge` | Merges remote versions of files with local versions |
+
+: {tbl-colwidths="[30,70]"}
+
+## Reproducible Docs/Literate Programming {.small-title .crunch-title}
+
+* 1980s: $\LaTeX$ for $\widehat{\mathcal{T}}$ypesetting $\sqrt{math}^2$
+* 1990s: **Python** and **R** as powerful **scripting** languages (no compilation required)
+* 2000s/2010s: Interactive Python via **Jupyter**, fancy IDE for R called **RStudio**
+* 2020s: **Quarto** (using **pandoc** under the hood) enables use of markdown for formatting, $\LaTeX$ for math, and both Python and R in same document, with choice of output formats (HTML, presentations, Word docs, ...)
+
+# Quiz Time
+
+# Data Gathering {data-stack-name="Data Gathering"}
+
+* Preexisting data sources
+* Web scraping
+* Converting between formats
+
+## Preexisting Data Sources {.crunch-title}
+
+* Depending on your field, or the type of data you're looking for, there may be a "standard" data source! For example:
+* *Economics*:
+    * US data: [FRED](https://fred.stlouisfed.org/){target="_blank"}
+    * Global data: [World Bank Open Data](https://data.worldbank.org/){target="_blank"}, [OECD Data](https://data.oecd.org/){target="_blank"}, etc.
+* *Political Science*:
+    * [ICPSR](https://www.icpsr.umich.edu/web/pages/){target="_blank"}
+* *Network Science*:
+    * [Stanford SNAP: Large Network Dataset Collection](https://snap.stanford.edu/data/){target="_blank"}
+
+## Web Scraping
+
+* Fun fact: you can view a webpage's **HTML source code** by right-clicking on the page and selecting "View Source"
+  * On older websites, this means we can just request page and parse the returned HTML
+* Less fun fact: modern web frameworks (**React**, **Next.js**) generate pages dynamically using JS, meaning that what you see on the page will not be visible in the HTML source
+  * Data scraping still possible for these sites! Using browser automation tools like <a href="https://www.selenium.dev/" target="_blank">**Selenium**</a>
+
+## Scraping Difficulty {.crunch-title}
+
+::: {.smallish}
+
+| | | How is data loaded? | Solution | Example |
+|:-:|-|-|-|:-:|
+| 😊 | **Easy** | Data in HTML source | "View Source" | [<i class="bi bi-box-arrow-up-right"></i>](https://ivanstat.com/en/gdp/ao.html){target="_blank"}
+| 😐 | **Medium** | Data loaded dynamically via API | "View Source", find API call, scrape programmatically | [<i class="bi bi-box-arrow-up-right"></i>](https://archive.org/details/killinghopeusmil0000blum/page/n3/mode/2up){target="_blank"}
+| 😳 | **Hard** | Data loaded dynamically [internally] via web framework | Use <a href="https://www.selenium.dev/" target="_blank">Selenium</a> | [<i class="bi bi-box-arrow-up-right"></i>](https://www.google.com/books/edition/Killing_Hope/-IbQvd13uToC?hl=en&gbpv=1&dq=killing%20hope&pg=PA215&printsec=frontcover){target="_blank"}
+
+: {tbl-colwidths="[5,10,45,35,5]"}
+
+:::
+
+## Data Structures: Foundations
+
+* Could be ([is](https://www.cs.umd.edu/class/spring2022/cmsc420-0101/){target="_blank"}) a whole class
+* Could be ([is](https://www.google.com/books/edition/The_Design_and_Analysis_of_Spatial_Data/LttQAAAAMAAJ?hl=en&gbpv=0&bsq=samet%20spatial%20data%20structures){target="_blank"}) a whole class just for one type of data (geographic/spatial)
+* For this class: some **foundational** principles that should let you figure out fancier data structures you encounter
+
+## Opening Datasets With Your Terminator Glasses On
+
+::: {layout-ncol=2}
+
+::: {.smallish}
+* What does a **row** represent?
+* What does a **column** represent?
+* What does a value in a **cell** represent?
+* Are there **unique identifiers** for the objects you care about?
+:::
+
+![What you should see when you look at a new dataset](images/terminator.jpeg){#fig-terminator}
+
+:::
+
+## From Raw Data to Clean Data
+
+{{< video https://youtu.be/crVo8Cdo4x0 width="100%" height="75%" >}}
+
+## Data Structures: Simple $\rightarrow$ Complex {.smaller .crunch-title .crunch-figures}
+
+::: {layout="[[1,1],[1,1]]"}
+
+::: {#fig-record-data}
+
+| id | name | email |
+| - | - | - |
+| 0 | K. Desbrow | kd9@dailymail.com |
+| 1 | D. Minall | dminall1@wired.com |
+| 2 | C. Knight | ck2@microsoft.com |
+| 3 | M. McCaffrey | mccaf4@nhs.uk |
+
+Record Data
+:::
+
+::: {#fig-time-series-data}
+
+| year | month | points |
+| - | - | - |
+| 2023 | Jan | 65 |
+| 2023 | Feb | |
+| 2023 | Mar | 42 |
+| 2023 | Apr | 11 |
+
+Time-Series Data
+:::
+
+::: {#fig-panel-data}
+
+| id | date | rating | num_rides |
+| - | - | - | - |
+| 0 | 2023-01 | 0.75 | 45 |
+| 0 | 2023-02 | 0.89 | 63 |
+| 0 | 2023-03 | 0.97 | 7 |
+| 1 | 2023-06 | 0.07 | 10 |
+
+
+Panel Data
+:::
+
+::: {#fig-network-data}
+
+| Source | Target | Weight |
+| - | - | - |
+| IGF2 | IGF1R | 1 |
+| IGF1R | TP53 | 2 |
+| TP53 | EGFR | 0.5 |
+
+Network Data
+:::
+
+:::
+
+::: {.aside}
+
+Fake data via [Mockaroo](https://www.mockaroo.com/){target="_blank"} and [Random.org](https://www.random.org/integers/){target="_blank"}. Protein-protein interaction network from [@agrawal_largescale_2018](http://psb.stanford.edu/psb-online/proceedings/psb18/agrawal.pdf)
+
+:::
+
+## Tabular Data vs. Relational Data {.smaller}
+
+* All of the datasets on the previous slide are **tabular**
+* Databases like SQLite, MySQL, require us to think about relationships **within** and **between** tabular datasets
+* Imagine you're creating the **backend** for a social network. How would you record **users** and **friendships**? Your intuition may be **record data**:
+
+::: {layout-ncol=2}
+
+::: {#fig-user-table}
+
+```{=html}
+<style>
+  #user-table tr th:nth-child(3) {
+	background-color: rgba(255,0,0,0.25);
+  border-left: 3px solid red;
+  border-top: 3px solid red;
+  border-right: 3px solid red;
+}  
+#user-table tr td:nth-child(3) {
+	background-color: rgba(255,0,0,0.25);
+  border-left: 3px solid red;
+  border-right: 3px solid red;
+}
+#user-table tr:last-child td:last-child {
+  border-bottom: 3px solid red;
+}
+</style>
+<table id="user-table">
+<colgroup>
+  <col>
+  <col>
+  <col style="border: 5px solid red !important;">
+</colgroup>
+<thead>
+  <tr>
+    <th>id</th><th>name</th><th>friends</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1</td><td>Purna</td><td>[2,3,4]</td>
+  </tr>
+  <tr>
+    <td>2</td><td>Jeff</td><td>[1,3,4,5,6]</td>
+  </tr>
+  <tr>
+    <td>3</td><td>James</td><td>[1,2,4,6]</td>
+  </tr>
+  <tr>
+    <td>4</td><td>Nakul</td><td>[1,2,3]</td>
+  </tr>
+  <tr>
+    <td>5</td><td>Dr. Fauci</td><td>[2,6]</td>
+  </tr>
+  <tr>
+    <td>6</td><td>Pitbull</td><td>[2,5]</td>
+  </tr>
+</tbody>
+</table>
+```
+
+Our first attempt at a **data structure** for our social network app's backend
+:::
+
+::: {#friend-table-desc}
+
+Long story short...
+
+* This doesn't scale
+* Extremely inefficient to find whether two users are friends
+* Redundant information: Have to store friendship between **A** and **B** in both **A**'s row and **B**'s row
+
+:::
+
+:::
+
+## A Better Approach {.smaller .crunch-title .crunch-figures .crunch-layout-panel}
+
+* Move the **friendship** data into its own table!
+* This table now represents **relational data**, (**user** table still corresponds to **records**):
+
+::: {layout="[50,50]"}
+
+::: {#fig-user-table}
+
+```{=html}
+<style>
+  #user-table-rel tr th:nth-child(3) {
+	background-color: rgba(255,0,0,0.25);
+  border-left: 3px solid red;
+  border-top: 3px solid red;
+  border-right: 3px solid red;
+}  
+#user-table-rel tr td:nth-child(3) {
+	background-color: rgba(255,0,0,0.25);
+  border-left: 3px solid red;
+  border-right: 3px solid red;
+}
+</style>
+<table id="user-table-rel">
+<thead>
+  <tr>
+    <th>user_id</th><th>name</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1</td><td>Purna</td>
+  </tr>
+  <tr>
+    <td>2</td><td>Jeff</td>
+  </tr>
+  <tr>
+    <td>3</td><td>James</td>
+  </tr>
+  <tr>
+    <td>4</td><td>Nakul</td>
+  </tr>
+  <tr>
+    <td>5</td><td>Dr. Fauci</td>
+  </tr>
+  <tr>
+    <td>6</td><td>Pitbull</td>
+  </tr>
+</tbody>
+</table>
+```
+
+The **user** table in our relational structure
+:::
+
+::: {#fig-relational-friendships}
+
+
+```{=html}
+<style>
+#friend-table-rel tr th:nth-child(3) {
+  border-right: 3px solid black;
+}  
+#friend-table-rel tr td:nth-child(3) {
+  border-right: 3px solid black;
+}
+</style>
+<table id="friend-table-rel">
+<thead>
+  <tr>
+    <th>id</th><th>friend_1</th><th>friend_2</th><th>id</th><th>friend_1</th><th>friend_2</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1</td><td>1</td><td>2</td>
+    <td>6</td><td>2</td><td>5</td>
+  </tr>
+  <tr>
+    <td>2</td><td>1</td><td>3</td>
+    <td>7</td><td>2</td><td>6</td>
+  </tr>
+  <tr>
+    <td>3</td><td>1</td><td>4</td>
+    <td>8</td><td>3</td><td>4</td>
+  </tr>
+  <tr>
+    <td>4</td><td>2</td><td>3</td>
+    <td>9</td><td>3</td><td>6</td>
+  </tr>
+  <tr>
+    <td>5</td><td>2</td><td>4</td>
+    <td>10</td><td>5</td><td>6</td>
+  </tr>
+</tbody>
+</table>
+```
+
+The **friendships** table in our relational structure
+:::
+:::
+
+* May seem weird in terms of human readability, but think in terms of **memory/computational efficiency**: **(a)** Scalable, **(b)** Easy to find if two users are friends (via sorting/searching algorithms), **(c)** No redundant info
+
+## DBs: Relational or Otherwise {.smaller .crunch-title .crunch-ul .shift-footnotes}
+
+* For rest of lecture we zoom in on cases where data comes as individual **files**
+* But on top of the **relational** format from previous slide, there are also **non-relational database** formats, like the **document-based** format used by e.g. MongoDB[^prisma]
+* In either case, data is spread over **many files**, so that to obtain a single dataset we use **queries**.
+
+::: {layout="[1,2]"}
+
+::: {#fig-data-files}
+
+```{dot}
+//| fig-width: 5
+//| fig-height: 2
+digraph G {
+  rankdir=LR
+  file[label="File (.csv/.json/etc.)"];
+  load[label="read_csv()"];
+  dataset[label="Dataset"];
+  file -> load;
+  load -> dataset;
+}
+```
+
+**Statically** datasets (as **individual files** on disk)
+:::
+
+::: {#fig-data-queries}
+
+```{dot}
+//| fig-width: 6
+//| fig-height: 3
+digraph G {
+  rankdir=LR
+
+  subgraph cluster_00 {
+    label="Database"
+    tab1[label="Table 1"];
+    tab2[label="Table 2"];
+    tabdots[label="...", penwidth=0];
+    tabN[label="Table N"];
+  }
+
+  query[label="Query", style="dashed"];
+  tab1 -> query;
+  tab2 -> query;
+  tabdots -> query;
+  tabN -> query
+
+  dataset[label="Dataset"];
+
+  query -> dataset;
+}
+```
+
+Datasets formed **dynamically** via **database queries**
+:::
+
+:::
+
+[^prisma]: For (much) more on this topic, see [this page](https://www.prisma.io/dataguide/types/relational-vs-document-databases){target="_blank"} from **Prisma**, a high-level "wrapper" that auto-syncs your DB structure with a TypeScript **schema**, so your code knows exactly "what's inside" a variable whose content was retrieved from the DB...
+
+## Data Formats
+
+* The most common formats, for most fields:
+  * `.csv`: Comma-Separated Values
+  * `.tsv`: Tab-Separated Values
+  * `.json`: JavaScript Object Notation
+  * `.xls`/`.xlsx`: Excel format
+  * `.dta`: Stata format
+
+## `.csv` / `.tsv` {.smaller}
+
+::: columns
+::: {.column width="47%"}
+
+👍
+
+```csv {filename="my_data.csv"}
+index,var_1,var_2,var_3
+A,val_A1,val_A2,val_A3
+B,val_B1,val_B2,val_B3
+C,val_C1,val_C2,val_C3
+D,val_D1,val_D2,val_D3
+```
+
+::: {.small-codeblock}
+
+(👎)
+
+```csv {filename="my_data.tsv"}
+index var_1 var_2 var_3
+A val_A1  val_A2  val_A3
+B val_B1  val_B2  val_B3
+C val_C1  val_C2  val_C3
+D val_D1  val_D2  val_D3
+```
+
+:::
+
+:::
+::: {.column width="6%"}
+&rarr;
+:::
+
+::: {.column width="47%"}
+
+::: {.fw-table .small-table .r-stretch}
+
+```{r}
+#| label: sample-csv
+source("../_globals.r")
+library(readr)
+data <- read_csv("assets/my_data.csv")
+disp(data)
+# | index | var_1 | var_2 | var_3 |
+# | - | - | - | - |
+# | A | val_A1 | val_A2 | val_A3 |
+# | B | val_B1 | val_B2 | val_B3 |
+# | C | val_C1 | val_C2 | val_C3 |
+# | D | val_D1 | val_D2 | val_D3 | 
+```
+
+:::
+
+:::
+:::
+
+* Python: `pd.read_csv()` (from Pandas library)
+* R: `read_csv()` (from `readr` library)
+
+## `.json` {.smaller}
+
+::: {.smallish-codeblock}
+
+```json {filename="courses.json"}
+{
+  "dsan5000": {
+    "title": "Data Science and Analytics",
+    "credits": 3,
+    "lectures": [
+      "Intro",
+      "Tools and Workflow"
+    ]
+  },
+  "dsan5100": {
+    "title": "Probabilistic Modeling and Statistical Computing",
+    "credits": 3,
+    "lectures": [
+      "Intro",
+      "Conditional Probability"
+    ]
+  }
+}
+```
+:::
+
+* Python: <a href="https://docs.python.org/3/library/json.html" target="_blank">`json`</a> (built-in library</a>, `import json`)
+* R: <a href="https://cran.r-project.org/web/packages/jsonlite/index.html" target="_blank">`jsonlite`</a> (`install.packages(jsonlite)`)
+* <a href="https://jsonlint.com/" target="_blank">Helpful validator</a> (for when `.json` file won't load)
+
+## Other Formats
+
+* `.xls`/`.xlsx`: Requires special libraries in Python/R
+  * Python: <a href="https://openpyxl.readthedocs.io" target="_blank">`openpyxl`</a>
+  * R: <a href="https://readxl.tidyverse.org/" target="_blank">`readxl`</a> (part of tidyverse)
+* `.dta`: Stata format, but can be read/written to in Python/R
+  * Python: Pandas has built-in `pd.read_stata()` and `pd.to_stata()`
+  * R: `read_dta()` from <a href="https://haven.tidyverse.org/reference/read_dta.html" target="_blank">Haven</a> library (part of tidyverse)
+
+
+# Web Scraping {.smaller .small-title .not-title-slide data-stack-name="Web Scraping"}
+
+| | How is data loaded? | Solution | Example |
+|-|-|-|-|:-:|
+| **This section &rarr;** | 😊 **Easy** | Data in HTML source | "View Source" | [<i class="bi bi-box-arrow-up-right"></i>](https://ivanstat.com/en/gdp/ao.html){target="_blank"}
+| **Next section &rarr;** | 😐 **Medium** | Data loaded dynamically via API | "View Source", find API call, scrape programmatically | [<i class="bi bi-box-arrow-up-right"></i>](https://archive.org/details/killinghopeusmil0000blum/page/n3/mode/2up){target="_blank"}
+| **Future weeks &rarr;** | 😳 **Hard** | Data loaded dynamically [internally] via web framework | Use <a href="https://www.selenium.dev/" target="_blank">Selenium</a> | [<i class="bi bi-box-arrow-up-right"></i>](https://www.google.com/books/edition/Killing_Hope/-IbQvd13uToC?hl=en&gbpv=1&dq=killing%20hope&pg=PA215&printsec=frontcover){target="_blank"}
+
+: {tbl-colwidths="[30,20,30,30,5]"}
+
+## Scraping HTML with `requests` and BeautifulSoup {.smaller .small-title}
+
+<a href="https://requests.readthedocs.io/en/latest/" target="_blank">`requests` Documentation</a> | <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank">BeautifulSoup Documentation</a>
+
+```{python, reticulate=FALSE}
+#| label: requests-example
+#| echo: true
+#| code-fold: show
+# Get HTML
+import requests
+# Perform request
+response = requests.get("https://en.wikipedia.org/wiki/Data_science")
+# Parse HTML
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(response.text, 'html.parser')
+all_headers = soup.find_all("h2")
+section_headers = [h.find("span", {'class': 'mw-headline'}).text for h in all_headers[1:]]
+section_headers
+```
+
+
+## Navigating HTML with BeautifulSoup
+
+* Let's focus on this line from the previous slide:
+
+```python
+all_headers = soup.find_all("h2")
+```
+
+* `find_all()` is the **key function** for scraping!
+* If the HTML has a **repeating structure** (like rows in a table), `find_all()` can instantly parse this structure into a Python list.
+
+## The Power of `find_all()` {.smaller}
+
+::: {layout="[[1,1],[0.75,1]]"}
+
+::: {#fig-page-html}
+
+```html {filename="data_page.html"}
+<div class="all-the-data">
+    <h4>First Dataset</h4>
+    <div class="data-1">
+        <div class="dataval">1</div>
+        <div class="dataval">2</div>
+        <div class="dataval">3</div>
+    </div>
+    <h4>Second Dataset</h4>
+    <div class="data-2">
+        <ul>
+            <li>4.0</li>
+            <li>5.5</li>
+            <li>6.7</li>
+        </ul>
+    </div>
+</div>
+```
+
+Data in page elements (`<div>`, `<li>`)
+:::
+
+::: {#fig-page-rendered fig-align="left"}
+
+```{=html}
+<div class="all-the-data" style="margin-left: 16px !important; font-size: 1.3rem !important;">
+    <h4>First Dataset</h4>
+    <div class="data-1">
+        <div class="datapoint">1</div>
+        <div class="datapoint">2</div>
+        <div class="datapoint">3</div>
+    </div>
+    <h4>Second Dataset</h4>
+        <ul>
+            <li>4.0</li>
+            <li>5.5</li>
+            <li>6.7</li>
+        </ul>
+</div>
+```
+
+The code from @fig-page-html, rendered by your browser
+:::
+
+::: {#fig-page-parse-code}
+
+```{python}
+#| label: page-html-to-var
+#| echo: false
+#| code-fold: false
+page_html = """<div class="all-the-data">
+    <div class="data-1">
+        <div class="dataval">1</div>
+        <div class="dataval">2</div>
+        <div class="dataval">3</div>
+    </div>
+    <div class="data-2">
+        <ul>
+            <li>4.0</li>
+            <li>5.5</li>
+            <li>6.7</li>
+        </ul>
+    </div>
+</div>"""
+```
+
+```{python}
+#| label: bs4-parse-page
+#| echo: true
+#| fig-align: left
+#| code-overflow: wrap
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(page_html, 'html.parser')
+ds1_elt = soup.find("div", class_='data-1')
+ds1 = [e.text for e in ds1_elt.find_all("div")]
+ds2_elt = soup.find("div", {'class': 'data-2'})
+ds2 = [e.text for e in ds2_elt.find_all("li")]
+```
+
+The BeautifulSoup code used to parse the HTML
+:::
+
+::: {#fig-page-parsed}
+
+```{python}
+#| label: bs4-output-page
+#| echo: true
+print(f"dataset-1: {ds1}\ndataset-2: {ds2}")
+```
+
+Contents of the Python variables holding the parsed data
+:::
+
+:::
+
+## Parsing HTML Tables {.smaller}
+
+::: {layout="[[1,1],[1,1]]"}
+
+::: {#fig-table-html}
+
+```html {filename="table_data.html"}
+<table>
+<thead>
+    <tr>
+        <th>X1</th><th>X2</th><th>X3</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>1</td><td>3</td><td>5</td>
+    </tr>
+    <tr>
+        <td>2</td><td>4</td><td>6</td>
+    </tr>
+</tbody>
+</table>
+```
+
+
+Data in HTML table format
+:::
+
+::: {#fig-table-rendered}
+
+```{=html}
+<table>
+<thead>
+    <tr>
+        <th>X1</th><th>X2</th><th>X3</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>1</td>
+        <td>3</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>4</td>
+        <td>6</td>
+    </tr>
+</tbody>
+</table>
+```
+
+The HTML table code, as rendered by your browser
+:::
+
+::: {#fig-table-parse-code}
+
+```{python}
+#| label: table-html-to-var
+#| echo: false
+table_html = """<table>
+<thead>
+  <tr>
+    <th>X1</th><th>X2</th><th>X3</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1</td><td>3</td><td>5</td>
+  </tr>
+  <tr>
+    <td>2</td><td>4</td><td>6</td>
+  </tr>
+</tbody>
+</table>"""
+```
+
+```{python}
+#| label: bs4-parse-table
+#| echo: true
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(table_html, 'html.parser')
+thead = soup.find("thead")
+headers = [e.text for e in thead.find_all("th")]
+tbody = soup.find("tbody")
+rows = tbody.find_all("tr")
+data = [[e.text for e in r.find_all("td")]
+            for r in rows]
+```
+
+The BeautifulSoup code used to parse the table HTML
+:::
+
+::: {#fig-table-parsed}
+
+```{python}
+#| label: table-parse-output
+#| echo: true
+print(f"headers: {headers}\ndata: {data}")
+```
+
+Contents of the Python variables holding the parsed data
+:::
+
+:::
+
+# APIs {.small-title .not-title-slide data-stack-name="APIs"}
+
+**A**pplication **P**rogramming **I**nterfaces: **developer-facing** part of data pipeline/service. **Abstracts unnecessary details**:
+
+| Example | Care about | Don't care about |
+| - | - | - |
+| Electrical outlet |  **Electricity** | Details of Alternating/Direct Currents |
+| Water fountain | **Water** | Details of how it's pumped into the fountain |
+| Car | **Accelerate**, **brake**, **reverse** | Details of combustion engine |
+
+: {tbl-colwidths="[25,25,50]"}
+
+<!-- * Can accept **parameters** for more fine-tuned usage:
+
+| Example | Default | Options |
+| - | - | - |
+| Electrical outlet |  -->
+
+## What Does an API Do?
+
+Exposes **endpoints** for use by developers, without requiring them to know the nuts and bolts of your pipeline/service:
+
+| Example | Endpoint | Not Exposed |
+| - | - | - |
+| Electrical outlet | **Socket** | Internal wiring |
+| Water fountain | **Aerator** | Water pump |
+| Car | **Pedals**, **Steering wheel**, etc. |Engine |
+
+: {tbl-colwidths="[25,50,25]"}
+
+::: {.notes}
+
+When I'm teaching programming to students in refugee camps who may have never used a computer before, I try to use the idea of "robots": a program is a robot trained to sit there and wait for inputs, then process them in some way and spit out some output. APIs really capture this notion, honestly.
+
+:::
+
+## Example: Math API
+
+* Base URL: <a href="https://newton.vercel.app/api/v2/" target="_blank">`https://newton.vercel.app/api/v2/`</a>
+* The **endpoint**: `factor`
+* The **argument**: `"x^2 - 1"`
+* The **request**: <a href="https://newton.vercel.app/api/v2/factor/x^2-1" target="_blank">`https://newton.vercel.app/api/v2/factor/x^2-1`</a>
+```{python}
+#| label: math-api-call
+#| echo: true
+#| code-fold: show
+import requests
+response = requests.get("https://newton.vercel.app/api/v2/factor/x^2-1")
+print(response.json())
+```
+
+## Math API Endpoints {.smaller}
+
+| Operation | API Endpoint | Result |
+| - | - | - |
+| Simplify | `/simplify/2^2+2(2)` | `8` |
+| Factor | `/factor/x^2 + 2x` | `x (x + 2)` |
+| Derive | `/derive/x^2+2x` | `2 x + 2` |
+| Integrate | `/integrate/x^2+2x` | `1/3 x^3 + x^2 + C` |
+| Find 0's | `/zeroes/x^2+2x` | `[-2, 0]` |
+| Find Tangent | `/tangent/2|x^3` | `12 x + -16` |
+| Area Under Curve | `/area/2:4|x^3` | `60` |
+| Cosine | `/cos/pi` | `-1` |
+| Sine | `/sin/0` | `0` |
+| Tangent | `/tan/0` | `0` |
+
+<!-- | Inverse Cosine | `/arccos/1` | `0` |
+Inverse Sine 	/arcsin/0 	0
+Inverse Tangent 	/arctan/0 	0
+Absolute Value 	/abs/-1 	1
+Logarithm 	/log/2l8 	3 -->
+
+
+## Authentication
+
+* Unlike the math API, most APIs do not allow requests to be made by **anonymous** requesters, and require **authentication**.
+* For example, you can access **public GitHub repos** anonymously, but to access **private GitHub repos** using GitHub's API, you'll need to authenticate that you are in fact the one making the request
+
+
+## Authentication via `PyGithub` {.smaller}
+
+::: {.callout-tip icon="false" title="`PyGithub` Installation"}
+
+Install using the following terminal/shell command [[Documentation]](https://github.com/PyGithub/PyGithub){target="_blank" style="margin-left: 8px;"}
+
+```bash
+pip install PyGithub
+```
+
+:::
+
+`PyGithub` can handle authentication for you. Example: <a href="https://github.com/jpowerj/private-repo-test/" target="_blank">this private repo</a> in my account does **not** show up unless the request is **authenticated** (via a Personal Access Token)[^security]:
+
+::: {layout-ncol=2}
+
+
+::: {#fig-github-noauth}
+
+```{python}
+#| label: pygithub-noauth
+#| echo: true
+# import github
+# g = github.Github()
+# try:
+#   g.get_repo("jpowerj/private-repo-test")
+# except Exception as e:
+#   print(e)
+```
+
+Using the GitHub API **without** authentication
+:::
+
+::: {#fig-gh-auth}
+
+```{python}
+#| label: pygithub-auth
+#| echo: true
+# Load the access token securely
+# import os
+# my_access_token = os.getenv('GITHUB_TOKEN')
+# import github
+# # Use the access token to make an API request
+# auth = github.Auth.Token(my_access_token)
+# g = github.Github(auth=auth)
+# g.get_user().get_repo("private-repo-test")
+```
+
+Using the GitHub API **with** authentication
+:::
+:::
+
+[^security]: Your code should **🚨never🚨** contain authentication info, especially when using GitHub. In this case, I created an OS **environment variable** called `GITHUB_TOKEN` containing my Personal Access Token, which I then loaded using `os.getenv()` and provided to `PyGithub`.
+
+## References {.smaller}
+
+::: {#refs}
+:::
+
+<!-- R APPENDIX -->
+
+# Appendix: Code Examples in R
+
+## Scraping HTML with `httr2` and `xml2`
+
+<a href="https://httr2.r-lib.org/" target="_blank">`httr2` Documentation</a> | <a href="https://xml2.r-lib.org/" target="_blank">`xml2` Documentation</a>
+
+```{r}
+#| label: httr2-example
+#| echo: true
+#| code-fold: show
+# Get HTML
+library(httr2)
+request_obj <- request("https://en.wikipedia.org/wiki/Data_science")
+response_obj <- req_perform(request_obj)
+# Parse HTML
+library(xml2)
+html_obj <- response_obj %>% resp_body_html()
+html_obj %>% xml_find_all('//h2//span[@class="mw-headline"]')
+```
+
+::: {.aside}
+
+Note: `httr2` is a re-written version of the original `httr` package, which is now deprecated. You'll still see lots of code using `httr`, however, so it's good to know how both versions work. <a href="https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html" target="_blank">Click here for a helpful vignette</a> on the original `httr` library.
+
+:::
+
+## Navigating HTML with XPath
+
+<a href="https://devhints.io/xpath" target="_blank">XPath Cheatsheet</a>
+
+* Notice the last line on the previous slide:
+
+```r
+html_obj %>% xml_find_all('//h2//span[@class="mw-headline"]')
+```
+
+* The string passed to `xml_find_all()` is an **XPath selector**
+
+::: {.aside}
+
+XPath selectors are used by many different libraries, including **Selenium** (which we'll look at very soon) and **jQuery** (a standard extension to plain JavaScript allowing easy searching/manipulation of the DOM), so it's good to learn it now!
+
+:::
+
+## XPath I: Selecting Elements
+
+```html {filename="mypage.html"}
+<div class="container">
+  <h1>Header</h1>
+  <p id="page-content">Content</p>
+  <img class="footer-image m-5" src="footer.png">
+</div>
+```
+
+* `'//div'` matches all elements `<div>` in the document:
+
+    ```html
+    <div class="container">
+      <h1>Header</h1>
+      <p id="page-content">Content</p>
+      <img class="footer-image m-5" src="footer.png">
+    </div>
+    ```
+* `'//div//img'` matches `<img>` elements which are **children of** `<div>` elements:
+
+    ```html
+    <img class="footer-image m-5" src="footer.png">
+    ```
+
+## XPath II: Filtering by Attributes {.smaller}
+
+
+
+```html {filename="mypage.html"}
+<div class="container">
+  <h1>Header</h1>
+  <p id="page-content">Content</p>
+  <img class="footer-image m-5" src="footer.png">
+</div>
+```
+
+* `'//p[id="page-content"]'` matches all `<p>` elements with id `page-content`[^unique-id]:
+
+    ```html
+    <p id="page-content">Content</p>
+    ```
+* Matching **classes** is a bit trickier:
+
+    [`'//img[contains(concat(" ", normalize-space(@class), " "), " footer-image ")]'`]{.small-codeblock}
+
+    matches all `<img>` elements with `page-content` as one of their classes[^multi-class]
+
+    ```html
+    <img class="footer-image m-5" src="footer.png">
+    ```
+
+[^unique-id]: In HTML, `id`s are required to be **unique** to particular elements (and elements cannot have more than one `id`), meaning that this should only return a **single** element, for valid HTML code (not followed by all webpages!). Also note the **double-quotes** after `id=`, which are required in XPath.
+
+[^multi-class]: Your intuition may be to just use `'//img[@class="footer-image"]'`. Sadly, however, this will match only elements with `footer-image` as their **only** class. i.e., it will match `<img class="footer-image">` but not `<img class="footer-image another-class">`. This will usually fail, since most elements on modern webpages have several classes. For example, if the site is using <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank">Bootstrap</a>, `<p class="p-5 m-3"></p>` creates a paragraph element with a padding of 5 pixels and a margin of 3 pixels.
+
+## Example: Math API
+
+* Base URL: <a href="https://newton.vercel.app/api/v2/" target="_blank">`https://newton.vercel.app/api/v2/`</a>
+* The **endpoint**: `factor`
+* The **argument**: `"x^2 - 1"`
+* The **request**: <a href="https://newton.vercel.app/api/v2/factor/x^2-1" target="_blank">`https://newton.vercel.app/api/v2/factor/x^2-1`</a>
+```{r}
+#| label: math-api-call-r
+#| echo: true
+#| code-fold: show
+library(httr2)
+request_obj <- request("https://newton.vercel.app/api/v2/factor/x^2-1")
+response_obj <- req_perform(request_obj)
+writeLines(response_obj %>% resp_body_string())
+```
+
+## Authentication
+
+* Most APIs don't allow requests to be made by anonymous requesters, and require **authentication**.
+* For example, to access private GitHub repos using GitHub's API, you'll need to authenticate that you are in fact the one making the request
+
+## Authentication via `GH`
+
+* The `GH` library for `R` can handle this authentication process for you. For example, <a href="https://github.com/jpowerj/private-repo-test/" target="_blank">this private repo</a> in my account does not show up if requested anonymously, but does show up when requested using `GH` with a Personal Access Token[^security-r]:
+
+```{r}
+#| label: gh-authenticate
+#| echo: true
+#| code-fold: show
+library(gh)
+result <- gh("GET /repos/jpowerj/private-repo-test")
+writeLines(paste0(result$name, ": ",result$description))
+```
+
+&nbsp;
+
+[^security-r]: Your code should **never** contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called `GITHUB_TOKEN` containing my Personal Access Token, which `GH` then uses to make authenticated requests.

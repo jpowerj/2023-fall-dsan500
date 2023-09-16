@@ -1,0 +1,36 @@
+---
+title: "Homework 1 Clarifications"
+date: last-modified
+format:
+  html:
+    cache: false
+categories:
+  - "Clarifications"
+---
+
+::: {.callout-tip title="Relevant Links"}
+
+* **Main Course Page:**
+  * [Homework 1 Assignment Page](https://jfh.georgetown.domains/dsan5000/homeworks/HW-01/HW-1.html){target="_blank"}
+  * [Project Topic Spreadsheet](https://docs.google.com/spreadsheets/d/1kfPKeub87489lSnL3p7DYVdQFjpN_cDYG3iwEa_QUMA/edit#gid=1153849618){target="_blank"} (Claim your project topic here! See Step 4 on the assignment page)
+* **Other Writeups:**
+  * [Using Quarto's Reference/Citation Manager](../refs-and-citations/index.qmd){target="_blank"}
+
+:::
+
+## ⚠️ Due Date Clarification: Pushed to Sep 21
+
+* **Important clarification for Jeff's DSAN 5000 sections (02 and 03)**: Because of my delay in teaching you all the lab material, I am pushing the due date for Homework 1, **for both Section 02 and Section 03**, forward to **Thursday, September 21st at 11:59pm EDT**.
+
+## (HW1 Step 2) Cloning the GitHub repo
+
+* The GitHub repository that is automatically created when you [accept the GitHub Classroom assignment](https://classroom.github.com/a/JHg6HXli){target="_blank"} **defaults to private**. This may be an issue if you have not yet set up a **Personal Access Token** on your GitHub account, or if you have run into issues when trying to set up the Personal Access Token. See [this page](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) for GitHub's documentation on how to set up and manage these tokens.
+  * Once you have created a token, run the following command:
+
+  ```bash
+  git clone https://github.com/anly501/dsan-5000-project-[your username].git
+  ```
+
+  * This command tells `git` that you'd like it to **clone** (i.e., copy) the automatically-created `dsan-5000-project-[your username]` repository to your local computer.
+  * But, it may ask you for a **password** before it allows this downloading. If so, **do not enter your "main" GitHub password**: GitHub is phasing out the ability to use this password to clone repositories. Instead, just copy-and-paste the **Personal Access Token** you created into the terminal (as in, paste this Token instead of typing out your GitHub account password).
+  * It should now download the remote (automatically-created) repository to your local drive. (If it doesn't, or if you're still experiencing issues, feel free to email me or sign up for an office hours slot!)

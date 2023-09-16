@@ -1,0 +1,53 @@
+{
+  "index.qmd": {
+    "index.html": "50c10881"
+  },
+  "w04/index.qmd": {
+    "slides.html": "b08bdc67",
+    "index.html": "b38d509b"
+  },
+  "w01/index.qmd": {
+    "index.html": "8aa0a621"
+  },
+  "extra-videos/index.qmd": {
+    "index.html": "613f29eb"
+  },
+  "writeups/index.qmd": {
+    "index.html": "9184a768"
+  },
+  "w02/index.qmd": {
+    "index.html": "f9a2fb0b"
+  },
+  "w03/index.qmd": {
+    "slides.html": "b706579e",
+    "index.html": "7dae0517"
+  },
+  "recordings/index.qmd": {
+    "index.html": "a57785ec"
+  },
+  "recordings/recording-w03-ssh-windows.qmd": {
+    "recording-w03-ssh-windows.html": "d95b59ce"
+  },
+  "writeups/domains-ssh/index.qmd": {
+    "index.html": "85aa74ea"
+  },
+  "writeups/hw1-clarifications/index.qmd": {
+    "index.html": "dcb2ff75"
+  },
+  "writeups/lab-1-2-clarifications/index.qmd": {
+    "index.html": "d00484d3"
+  },
+  "writeups/zotero/index.qmd": {
+    "index.html": "30135834"
+  },
+  "writeups/refs-and-citations/index.qmd": {
+    "index.html": "9358a0af"
+  },
+  "writeups/columns/index.qmd": {
+    "index.html": "1e069bc7"
+  },
+  "about/about.qmd": {
+    "index.html": "91d04fd1",
+    "slides.html": "40d14550"
+  }
+}

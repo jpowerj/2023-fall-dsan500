@@ -1,0 +1,55 @@
+---
+title: "Making Multiple Columns"
+date: last-modified
+format: html
+categories:
+  - "Extra Writeups"
+---
+
+The following Quarto code:
+
+::: {.callout-note title="Quarto Code Using `::: columns`"}
+
+<pre>
+Hello this is my document
+
+::: columns
+
+::: {.column width="50%"}
+
+Here is column 1
+
+:::
+::: {.column width="50%"}
+
+Here is column 2
+
+:::
+
+:::
+</pre>
+
+:::
+
+Produces the following rendered output:
+
+::: {.callout-note title="Rendered Output Using `::: columns`"}
+
+Hello this is my document
+
+::: columns
+
+::: {.column width="50%"}
+
+Here is column 1
+
+:::
+::: {.column width="50%"}
+
+Here is column 2
+
+:::
+
+:::
+:::
+

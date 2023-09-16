@@ -1,0 +1,19 @@
+---
+title: "DSAN 5000, Section <span class='sec-num'>02</span>"
+listing:
+  sort-ui: false
+  filter-ui: false
+  type: table
+  include:
+    categories: "{Class Sessions}"
+  fields: [title,date]
+  sort: "lecnum asc"
+  table-hover: true
+  date-format: full
+---
+
+This is a "hub" collecting relevant links for each week, for students in the **<span class='sec-day-full'>Tuesday</span> section (Section <span class='sec-num'>02</span>)** of *DSAN 5000: Data Science and Analytics*, Fall 2023 at Georgetown University.
+
+It is *not* a replacement for the **<a href="https://jfh.georgetown.domains/dsan5000/" target="_blank">Main Course Page</a>** or the **<a href="https://georgetown.instructure.com/courses/173310" target="_blank">Canvas Page</a>**, which are shared across all sections!
+
+Use the menu on the left, or the table below, to view the resources for a specific week.

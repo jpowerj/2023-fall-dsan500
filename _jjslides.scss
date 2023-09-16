@@ -1,0 +1,88 @@
+/*-- scss:rules --*/
+
+a.disabled {
+  /* Make the disabled links grayish*/
+  color: gray;
+  /* And disable the pointer events */
+  pointer-events: none;
+}
+.caption {
+  text-align: center !important;
+}
+.crunch-callout .callout {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+.crunch-figcaption figcaption {
+  margin-top: 2px !important;
+}
+.crunch-figures .quarto-figure {
+    margin-bottom: 0 !important;
+}
+.crunch-figures figcaption {
+    margin-top: 0 !important;
+}
+.crunch-figures-left .quarto-figure {
+  margin-left: 0px !important;
+}
+.crunch-figures-less div.quarto_figure {
+  margin-bottom: 0 !important;
+}
+.crunch-images img {
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+}
+.crunch-layout-panel .quarto-layout-panel {
+  margin-bottom: 0px !important;
+}
+.crunch-lists li {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+}
+.crunch-math .MathJax_Display {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.crunch-math .math.display {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+.crunch-math mjx-container {
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+}
+.crunch-title h1 {
+  margin-bottom: 1px !important;
+}
+.crunch-title h2 {
+    margin-bottom: 1px !important;
+}
+.crunch-ul ul {
+  margin-bottom: 0px !important;
+}
+figcaption {
+  text-align: center !important;
+}
+.not-title-slide {
+  display: block !important;
+  top: 0px !important;
+}
+.param {
+    color: purple !important;
+}
+.shift-footnotes aside {
+  transform: translateY(45px) !important;
+}
+.smallish {
+  font-size: 2.1rem !important;
+}
+.small-title h1 {
+  // font-size: var(--r-heading2-size) !important;
+  font-size: var(--r-heading2-size) !important;
+}
+
+.small-title h2 {
+    // font-size: var(--r-heading2-size) !important;
+    font-size: var(--r-heading3-size) !important;
+}
+

@@ -1,0 +1,24 @@
+---
+title: "Week 1: Welcome to DSAN 5000!"
+date: 2023-08-23
+lecnum: 1
+categories:
+  - "Class Sessions"
+format:
+  html:
+    cache: true
+---
+
+*(Week 1 of DSAN 5000 was a joint session across all individual sections, taught on Zoom.)*
+
+
+::: {.callout-note}
+
+# Today's Links
+
+* <a class="icon-link" href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/faculty/notes.html" target="_blank"><i class="bi bi-journals pe-1"></i>Week 1 Lecture Notes</a>
+* <a class="icon-link" href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-00/lab-0.pdf" target="_blank"><i class="bi bi-laptop pe-1"></i>Lab 0 Instructions</a>
+* <a class="icon-link" href="https://georgetown.zoom.us/rec/play/A7VzrmQEWpDYp10mDDbTWzxA7HYzaN3mXHvy4_pdDi1MsLocjxei3PG6qxLSc7_cjuu8dolvZlvyOD3j.scF7T7VpX5SvUA-_?canPlayFromShare=true&from=share_recording_detail&startTime=1692808468000&componentName=rec-play&originRequestUrl=https%3A%2F%2Fgeorgetown.zoom.us%2Frec%2Fshare%2Fe_Ei6X4qg_5ch6dnj7k_NP8ZrOnrquWTltKhdrFqF1lDgRw57Ti81vdgjOae387a.dlsZvy60UY-pezSr%3FstartTime%3D1692808468000" target="_blank"><i class="bi bi-film pe-1"></i>Week 1 Lecture Recording</a>
+
+:::
+

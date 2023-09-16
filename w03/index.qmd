@@ -1,0 +1,833 @@
+---
+title: "Week 3: Data Science Workflow"
+subtitle: "*DSAN 5100: Data Science and Analytics*<br>Sections 02 and 03"
+date: 2023-09-06
+date-format: full
+author: "Prof. Jeff"
+institute: "<a href=\"mailto:jj1088@georgetown.edu\" target=\"_blank\">jj1088@georgetown.edu</a>"
+#date: last-modified
+#date-format: "dddd MMM D, YYYY, HH:mm:ss"
+lecnum: 3
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    html-math-method: mathjax
+    slide-number: true
+    output-file: slides.html
+    section-divs: false
+    simplemenu:
+      flat: true
+      barhtml:
+        header: "<div class='menubar'><span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span><ul class='menu'></ul></div>"
+      scale: 0.5
+    theme: [default, "../_jjslides.scss"]
+    revealjs-plugins:
+      - simplemenu
+    include-in-header:
+      text: "<script src='https://code.jquery.com/jquery-3.7.1.slim.min.js'></script><script src='/jjcustom.js'></script><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css' integrity='sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65' crossorigin='anonymous'><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css'>"
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+---
+
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
+
+::: {.callout-note icon="false" title="<i class=\"bi bi-info-circle pe-2\"></i>Today's Links"}
+
+* <a class="icon-link" href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/computer-networks/notes.html" target="_blank"><i class="bi bi-journals pe-1"></i>Week 3: Professor Hickman's Lecture Notes</a>
+* <a class="icon-link" href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/lab-1.2-demo/notes.html" target="_blank"><i class="bi bi-laptop pe-1"></i>Lab 1.2 Demonstration</a>
+* <a class="icon-link" href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-1.2/assignment.html" target="_blank"><i class="bi bi-laptop pe-1"></i>Lab 1.2 Assignment</a>
+
+:::
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+| | Start | End | Topic | Recording |
+|:- |:- |:- |:- |:-:|
+| **Lecture** | <span class='sec-start'>3:30pm</span> | 4:00pm | <a href="#how-the-internet-works">How the Internet Works &rarr;</a> | <a href="../recordings/recording-w03-1.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 4:00pm | 4:30pm | <a href="#quarto-and-reproducible-research">Quarto and Reproducible Research &rarr;</a> | <a href="../recordings/recording-w03-2.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 4:30pm | 5:00pm | <a href="#git-and-github">Git and GitHub &rarr;</a> | <a href="../recordings/recording-w03-3.html" target="_blank"><i class="bi bi-film"></i></a> |
+| **Break!** | 5:00pm | 5:10pm | | | |
+| **Lab** | 5:10pm | 5:50pm | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a href="../recordings/recording-w03-4.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 5:50pm | 6:00pm | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a href="../recordings/recording-w03-5.html" target="_blank"><i class="bi bi-film"></i></a> |
+
+: {tbl-colwidths="[14,12,12,50,12]"} 
+
+# How the Internet Works {.smaller .small-title .not-title-slide data-stack-name="The Internet"}
+
+::: {layout-ncol=2}
+
+::: {#fig-internet-book}
+<img src="images/internet_book_cover.jpg" height="525"></img>
+
+With great power...<br>(Image via [Amazon.com](https://www.amazon.com/Internet-First-Discovery-Book-Books/dp/0439148243){target="_blank"})
+:::
+
+::: {#fig-timecube}
+
+<img src="images/timecube.jpeg" height="525"></img>
+
+...comes great responsibility.<br>(Image via [Wayback Machine](https://web.archive.org/web/20100701201146/http://www.timecube.com/index.html){target="_blank"}, archived July 1, 2010)
+:::
+
+:::
+
+## Intranet vs. Internet {.smaller}
+
+* Crucial distinction: can set up a "mini-internet", an **intranet**, within your own home
+* Organizations (businesses, government agencies) with security needs often do exactly this: link a set of computers and servers together, no outside access
+
+![](images/intranet.png){fig-align="center"}
+
+* In**ter**net = basically a giant in**tra**net, open to the whole world
+
+## Key Building Blocks: Locating Servers {.smaller}
+
+* **IP Addresses** (**I**nternet **P**rotocol addresses): Numeric addresses for uniquely identifying computers on a network
+  * **Georgetown University**, for example, is [allocated IP addresses](https://ipinfo.io/AS11318){target="_blank"} between `141.161.0.0` and `141.161.255.255`
+* **URLs** (**U**niform **R**esource **L**ocators): The more human-readable website addresses you're used to: `google.com`, `georgetown.edu`, etc.
+  * **Built on top of** IP addresses, via a directory which maps URLs &rarr; IP addresses
+  * `georgetown.edu`, for example, is really `23.185.0.2`[^ping]
+
+[^ping]: To see this, you can open your Terminal and run the `ping` command: `ping georgetown.edu`.
+
+## What Happens When I Visit a URL/IP? {.smaller}
+
+* **HTTP(S)** (**H**yper**T**ext **T**ransfer **P**rotocol (**S**ecure)): common syntax for web clients to make **requests** and servers to **respond**
+  * Several types of requests can be made: `GET`, `POST`, `HEAD`; for now, we focus on the `GET` request, the request your **browser** makes by default
+* **HTML** (**H**yper**T**ext **M**arkup **L**anguage): For specifying **layout and content** of page
+  * Structure is analogous to **boxes** of content: `<html>` box contains `<head>` (metadata, e.g., page title) and `<body>` (page content) boxes, `<body>` box contains e.g. header, footer, navigation bar, and main content of page.
+  * Modern webpages also include **CSS** (**C**ascading **S**tyle **S**heets) for **styling** this content, and **Javascript**[^js] for **interactivity** (changing/updating content)
+  * HTML allows **linking** to another page with a special anchor tag (`<a>`): `<a href="https://npr.org/">news</a>` creates a link, so when you click "news", browser will request (fetch the HTML for) the **URL** `https://npr.org`
+
+[^js]: Incredibly, despite the name, Javascript has absolutely nothing to do with the Java programming language...
+
+## HTTP(S) Requests in Action
+
+![Image from @menczer_first_2020 [p. 90]](images/client_server.jpeg){fig-align="center"}
+
+## How Does a Web Server Work? {.smaller .shift-footnotes .crunch-title .crunch-images .crunch-lists}
+
+* We use the term "server" **metonymously**[^metonym]
+  * Sometimes we mean the **hardware**, the box of processors and hard drives
+  * But, sometimes we mean the **software** that **runs on** the hardware
+* A web server, in the **software** sense, is a program that is **always running**, 24/7
+* Waits for **requests** (via HTTPS), then **serves** HTML code in response (also via HTTPS)
+
+::: columns
+::: {.column width="55%"}
+
+::: {#fig-server-code}
+
+```python {filename="hello_server.py"}
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+@app.route("/hack")
+def hacker_detected():
+    return "<p>Hacker detected, pls stop</p>"
+```
+```bash
+$ flask --app hello_server run
+ * Serving Flask app 'hello_server'
+ * Running on http://127.0.0.1:5000 (CTRL+C to quit)
+127.0.0.1 [06/Sep/2023 00:11:05] "GET / HTTP" 200
+127.0.0.1 [06/Sep/2023 00:11:06] "GET /hack HTTP" 200
+```
+
+Basic web server (written in [Flask](https://flask.palletsprojects.com/en/2.3.x/quickstart/#a-minimal-application){target="_blank"})
+:::
+
+:::
+::: {.column width="45%"}
+
+
+
+::: {#fig-localhost .crunch-figcaption layout-nrow=2}
+
+<img src="images/flask_server.jpeg"></img>
+
+<img src="images/flask_server_hacker.jpeg"></img>
+
+[Browser-parsed] responses to `GET` requests
+:::
+
+:::
+:::
+
+[^metonym]: Sorry for jargon: it just means using the **same word** for **different levels** of a system (dangerous when talking computers!)
+
+## How Does a Web Client Work? {.smaller .crunch-title .crunch-figures-left}
+
+<!-- * The figures on the previous slide "hid" one of the important steps! -->
+* Once the server has responded to your **request**, you still only have **raw HTML code**
+* So, the **browser** is the program that **renders** this raw HTML code as a visual, (possibly) interactive webpage
+* As a data scientist, the most important thing to know is that **different browsers can render the same HTML differently!**
+
+::: columns
+::: {.column width="50%"}
+
+* A headache when pages are accessed through laptops
+* A **nightmare** when pages are accessed through laptops **and mobile**
+
+:::
+::: {.column width="50%"}
+
+![](images/qualtrics_preview.jpeg){fig-align="center"}
+
+:::
+:::
+
+## Connecting to Servers
+
+* We've talked about the shell on your **local computer**, as well as the Georgetown Domains shell
+* We used Georgetown Domains' web interface to access that shell, but you can **remotely connect** to any other shell from your local computer using the `ssh` command!
+
+![](images/ssh){fig-align="center"}
+
+## Transferring Files to/from Servers
+
+* Recall the **copy** command, `cp`, for files on your local computer
+* There is a remote equivalent, `scp` (**S**ecure **C**opy **P**rotocol), which you can use to copy files to/from remote servers to your local computer
+
+![](images/scp.png){fig-align="center"}
+
+## Important Alternative: `rsync` {.crunch-title}
+
+* Similar to `scp`, with same syntax, except it **synchronizes** (only copies files which are different or missing)
+
+```bash {filename="sync_files.sh"}
+rsync -avz source_directory/ user@remote_server:/path/to/destination/
+```
+
+* `-a` ("archive") tells rsync you want it to copy *recursively*
+* `-v` ("verbose") tells rsync to print information as it copies
+* `-z` ("zip/compress") tells rsync to compress files before copying and then decompress them on the server (thus massively speeding up the transfer)
+* [https://explainshell.com/explain?cmd=rsync+-avz](https://explainshell.com/explain?cmd=rsync+-avz){target="_blank"}
+
+# Quarto and Reproducible Research {data-stack-name="Quarto"}
+
+![](images/quarto_logo.svg){fig-align="center"}
+
+## Why Do We Need Reproducible Research? {.smaller .small-title}
+
+* Main human motivations (Max Weber): Wealth, Prestige, Power &rarr; "TED talk circuit"
+
+![<a href="https://www.nytimes.com/2017/10/18/magazine/when-the-revolution-came-for-amy-cuddy.html" target="_blank">*New York Times Magazine*, October 18, 2017.</a>](images/cuddy.jpeg){fig-align="center"}
+
+## Science vs. Human Fallibility {.smaller}
+
+* Scientific method + replicability/pre-registration = "Tying ourselves to the mast"
+
+![John William Waterhouse, <a href="https://commons.wikimedia.org/wiki/File:WATERHOUSE_-_Ulises_y_las_Sirenas_(National_Gallery_of_Victoria,_Melbourne,_1891._%C3%93leo_sobre_lienzo,_100.6_x_202_cm).jpg">*Ulysses and the Sirens*</a>, Public domain, via Wikimedia Commons](images/ulysses.jpg){fig-align="center"}
+
+* If we aim to **disprove (!)** our hypotheses, and we **pre-register** our methodology, we are **bound** to discovering truth, even when it is disadvantageous to our lives...
+
+## Human Fallibility is Winning... {.smaller}
+
+> More than 70% of researchers have tried and failed to reproduce another scientist's experiments, and more than half have failed to reproduce their own experiments. Those are some of the telling figures that emerged from Nature's survey of 1,576 researchers [@baker_500_2016]
+
+::: columns
+::: {.column width="65%"}
+
+```{r}
+#| label: ski-revenue-lawyers
+#| fig-align: center
+source("../_globals.r")
+library(dplyr)
+library(ggplot2)
+ga_lawyers <- c(21362, 22254, 23134, 23698, 24367, 24930, 25632, 26459, 27227, 27457)
+ski_df <- tibble::tribble(
+  ~year, ~varname, ~value,
+  2000, "ski_revenue", 1551,
+  2001, "ski_revenue", 1635,
+  2002, "ski_revenue", 1801,
+  2003, "ski_revenue", 1827,
+  2004, "ski_revenue", 1956,
+  2005, "ski_revenue", 1989,
+  2006, "ski_revenue", 2178,
+  2007, "ski_revenue", 2257,
+  2008, "ski_revenue", 2476,
+  2009, "ski_revenue", 2438,
+)
+ski_mean <- mean(ski_df$value)
+ski_sd <- sd(ski_df$value)
+ski_df <- ski_df %>% mutate(val_scaled = 12*value, val_norm = (value - ski_mean)/ski_sd)
+law_df <- tibble::tibble(year=2000:2009, varname="ga_lawyers", value=ga_lawyers)
+law_mean <- mean(law_df$value)
+law_sd <- sd(law_df$value)
+law_df <- law_df %>% mutate(val_norm = (value - law_mean)/law_sd)
+spur_df <- dplyr::bind_rows(ski_df, law_df)
+ggplot(spur_df, aes(x=year, y=val_norm, color=factor(varname, labels = c("Ski Revenue","Lawyers in Georgia")))) +
+  stat_smooth(method="loess", se=FALSE) +
+  geom_point(size=g_pointsize/4) +
+  labs(
+    fill="",
+    title="Ski Revenue vs. Georgia Lawyers",
+    x="Year",
+    color="Correlation: 99.2%",
+    linetype=NULL
+  ) +
+  dsan_theme("custom", 18) +
+  scale_x_continuous(
+    breaks=seq(from=2000, to=2014, by=2)
+  ) +
+  #scale_y_continuous(
+  #  name="Total Revenue, Ski Facilities (Million USD)",
+  #  sec.axis = sec_axis(~ . * law_sd + law_mean, name = "Number of Lawyers in Georgia")
+  #) +
+  scale_y_continuous(breaks = -1:1,
+    labels = ~ . * round(ski_sd,1) + round(ski_mean,1),
+    name="Total Revenue, Ski Facilities (Million USD)",
+    sec.axis = sec_axis(~ . * law_sd + law_mean, name = "Number of Lawyers in Georgia")) +
+  expand_limits(x=2010) +
+  #geom_hline(aes(yintercept=x, color="Mean Values"), as.data.frame(list(x=0)), linewidth=0.75, alpha=1.0, show.legend = TRUE) +
+  scale_color_manual(
+    breaks=c('Ski Revenue', 'Lawyers in Georgia'),
+    values=c('Ski Revenue'=cbPalette[1], 'Lawyers in Georgia'=cbPalette[2]))
+```
+
+:::
+::: {.column width="35%"}
+
+```{r,echo=TRUE}
+cor(ski_df$value, law_df$value)
+```
+
+:::
+:::
+
+## R vs. RStudio vs. Quarto {.smaller data-name="R"}
+
+<!-- (Another important distinction!) -->
+
+<!-- start Quarto box -->
+
+:::::: {style="border: 2px solid black; padding: 10px;"}
+
+<center>
+<img src="images/quarto_logo.svg" width="20%"></img>
+</center>
+
+<!-- start columns -->
+::::: columns
+
+<!-- start RStudio column -->
+<div class="column" style="width: 45%; border: 2px solid black; padding: 8px;">
+
+<center style="margin: 0px !important;">
+<img src="images/RStudio_logo.svg" width="25%"></img>
+</center>
+
+* GUI wrapper around R (Integrated Development Environment = IDE)
+* Run **blocks** of R code (`.qmd` **chunks**)
+
+<!-- start R box inside RStudio box -->
+
+::: {style="border: 2px solid black; width: 98%; margin: auto; padding: 2px;"}
+
+**<a href="https://www.r-project.org/" target="_blank">The R Language <i class="fa-brands fa-r-project"></i></a>**
+
+* Programming language
+* Runs scripts via `Rscript <script>.r`
+<!-- * Comes with a basic GUI (R-GUI) -->
+
+:::
+<!-- end R box -->
+
+</div>
+<!-- end RStudio column -->
+
+<!-- start + column -->
+<div class="column" style="width: 5%; padding: 5px;">
+
+<div class="center r-stretch" style="margin-top: auto;">
+<h3 style="text-align: center;">\+</h3>
+</div>
+
+</div>
+<!-- end + column -->
+
+<!-- start Jupyter column -->
+<div class="column" style="width: 45%; border: 2px solid black; padding: 8px;">
+
+<center style="margin: 0px !important;">
+<img src="images/jupyter_logo.svg" width="50%" style="margin: 0px;"></img></span>
+</center>
+
+* GUI wrapper around Python (IDE)
+* Run **blocks** of Python code (`.ipynb` **cells**)
+
+<!-- start python box inside Jupyter column -->
+::: {.column style="width: 98%; border: 2px solid black; margin: auto; padding: 2px;"}
+
+<!-- <img src="/assets/img/python_logo.svg" width="50%" style="margin: 0px !important;"></img> -->
+<a href="https://www.python.org/" target="_blank">The Python Language <i class="fa-brands fa-python"></i></a>
+
+* Scripting language
+* On its own, just runs scripts via `python <script>.py`
+
+:::
+<!-- end Python column -->
+
+</div>
+<!-- end Jupyter column -->
+
+:::::
+<!-- end columns -->
+
+::::::
+<!-- end quarto box -->
+
+## Reproducibility and Literate Programming {.smaller .small-title}
+
+* **Reproducible document**: includes both the **content** (text, tables, figures) and the **code** or instructions required to **generate** that content.
+  * Designed to ensure that others can reproduce the same document, including its data analysis, results, and visualizations, consistently and accurately.
+  * tldr: If you're copying-and-pasting results from your **code output** to your **results document**, a red flag should go off in your head!
+* **Literate programming** is a coding and documentation approach where **code** and **explanations of the code** are combined in a single document.
+  * Emphasizes clear and understandable code by interleaving **human-readable text** (explanations, comments, and documentation) with **executable code**.
+
+## Single Source, Many Outputs {.smaller}
+
+* We can create content (text, code, results, graphics) within a **source document**, and then use different **weaving engines** to create different **document types**:
+
+::: columns
+::: {.column width="50%"}
+
+* Documents
+  * Web pages (HTML)
+  * Word documents
+  * PDF files
+* Presentations
+  * HTML
+  * PowerPoint
+:::
+::: {.column width="50%"}
+
+* Websites/blogs
+* Books
+* Dashboards
+* Interactive documents
+* Formatted journal articles
+
+:::
+:::
+
+
+## Interactivity! {.smaller}
+
+* Are we "hiding something" by choosing a specific bin width? **Make it transparent!**
+
+```{=html}
+<iframe src="https://jjallaire.shinyapps.io/shiny-old-faithful/" height="70%" width="100%"></iframe>
+```
+
+<!-- https://observablehq.com/@slopp/observable-for-r-users -->
+
+# Git and GitHub {data-stack-name="Git and GitHub"}
+
+
+## Git vs. GitHub {data-name="Git"}
+
+(Important distinction!)
+
+::: columns
+::: {.column width="50%"}
+
+**<a href="https://git-scm.com/" target="_blank">Git <i class="bi bi-git" style="margin-left: 5px !important;"></i></a>**
+
+* Command-line program
+* `git init` in shell to create
+* `git add` to track files
+* `git commit` to commit changes to tracked files
+
+:::
+::: {.column width="50%"}
+
+**<a href="https://github.com/" target="_blank">GitHub <i class="bi bi-github"style="margin-left: 5px !important;"></i></a>**
+
+* Code hosting website
+* Create a **repository** (repo) for each project
+* Can **clone** repos onto your local machine
+
+:::
+:::
+
+<center style="border: 2px solid black !important; padding: 5px !important;">
+**`git push`/`git pull`**: The link between the two!
+</center>
+
+## Git Diagram
+
+<img src="https://mermaid.ink/svg/pako:eNp9j70KAjEQhF8lbH1PkFqwsrJNsyZ7STB_rBtBjnt34x0IitgNM9_AzAK2OgINPsqRsQVTlFK25hzlW14Yiw3K0Z1SbXsayF5rl0_zZ_uNZoxlczKxp_9NmGBQo-HGxOUVGJBAmQzoIR3N2JMYMGUdKHap50exoIU7TdCbQ6FDRM-YQc-YbsMlF6Xyab-9vV-fAwFZpw" class="quarto-figure quarto-figure-center"></img>
+
+## Initializing a Repo
+
+* Let's make a directory for our project called `cool-project`, and initialize a Git repo for it
+
+<!-- ```{.bash code-line-numbers="|3|4|"} -->
+```bash
+user@hostname:~$ mkdir cool-project
+user@hostname:~$ cd cool-project
+user@hostname:~/cool-project$ git init
+Initialized empty Git repository in /home/user/cool-project/.git/
+```
+
+* This creates a hidden folder, `.git`, in the directory:
+
+<!-- ```bash{.bash code-line-numbers="|3-5"} -->
+```bash
+user@hostname:~/cool-project$ ls -lah
+total 12K
+drwxr-xr-x  3 user user 4.0K May 28 00:53 .
+drwxr-xr-x 12 user user 4.0K May 28 00:53 ..
+drwxr-xr-x  7 user user 4.0K May 28 00:53 .git
+```
+
+::: {.footer .footersmall}
+The Git Side: Local I
+:::
+
+## Adding and Committing a File
+
+We're writing Python code, so let's create and track `cool_code.py`:
+
+```bash
+user@hostname:~/cool-project$ touch cool_code.py
+user@hostname:~/cool-project$ git add cool_code.py
+user@hostname:~/cool-project$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   cool_code.py
+
+user@hostname:~/cool-project$ git commit -m "Initial version of cool_code.py"
+[main (root-commit) b40dc25] Initial version of cool_code.py
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 cool_code.py
+```
+
+## The Commit Log
+
+* View the commit log using `git log`:
+
+```bash
+user@hostname:~/cool-project$ git log
+commit b40dc252a3b7355cc4c28397fefe7911ff3c94b9 (HEAD -> main)
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:57:16 2023 +0000
+
+    Initial version of cool_code.py
+```
+
+::: {.hidden}
+```{mermaid}
+gitGraph
+   commit id: "b40dc25"
+```
+:::
+
+<div class="quarto-figure quarto-figure-center">
+<img class="r-stretch center" src="https://mermaid.ink/svg/pako:eNpdjjELwjAUhP9KOOjWQYoumQUnJzfJ8sx7bQNNUuLLIKX_3VZxcb37vuMW-MwCiyHopdA8umSM8TnGoCawNQ6P44F9d3JwqWn-y84BLaKUSIG3mWX3HXSUKA47wdJTnXTX1w2lqvn2Sh5WS5UWdWZSOQcaCkXYnqbnlgoHzeX6vfZ52GKmdM_5x6xvd4Y8pg"></img>
+</div>
+
+## Making Changes
+
+```bash
+user@hostname:~/cool-project$ git status
+On branch main
+nothing to commit, working tree clean
+user@hostname:~/cool-project$ echo "1 + 1" >> cool_code.py
+user@hostname:~/cool-project$ more cool_code.py
+1 + 1
+user@hostname:~/cool-project$ git add cool_code.py
+user@hostname:~/cool-project$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   cool_code.py
+
+user@hostname:~/cool-project$ git commit -m "Added code to cool_code.py"
+[main e3bc497] Added code to cool_code.py
+ 1 file changed, 1 insertion(+)
+```
+
+##
+
+The `git log` will show the new version:
+
+```bash
+user@hostname:~/cool-project$ git log
+commit e3bc497acbb5a487566ff2014dcd7b83d0c75224 (HEAD -> main)
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:38:05 2023 +0000
+
+    Added code to cool_code.py
+
+commit b40dc25b14c0426b06c8d182184e147853f3c12e
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:37:02 2023 +0000
+
+    Initial version of cool_code.py
+
+
+```
+
+<img class="quarto-figure quarto-figure-center" src="https://mermaid.ink/svg/pako:eNpljrEKwjAURX8l3LmDaEXMLDg5uUmW17zXNtA0Jb4MUvrvtoqT672Hw5nhEwssuqDXTFPvRmOMTzEGNYGtcWjqHfv90eH_kkPj6_PJARWi5EiBV9W8gQ7aSxSHjWNpqQy6KZYVpaLp_ho9rOYiFcrEpHIJ1GWKsC0Nz3UVDpry7Zv3qaww0fhI6ccsb4kvPis"></img>
+
+## More Changes
+
+```bash
+user@hostname:~/cool-project$ echo "2 + 2" >> cool_code.py
+user@hostname:~/cool-project$ more cool_code.py
+1 + 1
+2 + 2
+user@hostname:~/cool-project$ git add cool_code.py
+user@hostname:~/cool-project$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   cool_code.py
+
+user@hostname:~/cool-project$ git commit -m "Second version of cool_code.py"
+[main 4007db9] Second version of cool_code.py
+ 1 file changed, 1 insertion(+)
+```
+
+## And the `git log`
+
+```bash
+user@hostname:~/cool-project$ git log
+commit 4007db9a031ca134fe09eab840b2bc845366a9c1 (HEAD -> main)
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:39:28 2023 +0000
+
+    Second version of cool_code.py
+
+commit e3bc497acbb5a487566ff2014dcd7b83d0c75224
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:38:05 2023 +0000
+
+    Added code to cool_code.py
+
+commit b40dc25b14c0426b06c8d182184e147853f3c12e
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:37:02 2023 +0000
+
+    Initial (empty) version of cool_code.py
+```
+
+## Undoing a Commit I
+
+First check the `git log` to find the **hash** for the commit you want to revert back to:
+
+```{.bash}
+commit e3bc497acbb5a487566ff2014dcd7b83d0c75224
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:38:05 2023 +0000
+
+    Added code to cool_code.py
+```
+
+<img class="quarto-figure quarto-figure-center" src="https://mermaid.ink/svg/pako:eNptjz8PgjAQxb9KczNDoxhCZxMnJzfT5do7oAmlpF4HQ_jugsZJ1_d-eX8W8IkYDPRBLhnnwU5KKZ9iDKICGWXB1Zr84WTh1-Kj83Xb_LNqrRtyrQWoIHKOGGhrWXbQggwc2cLOEXdYRtkj1g3FIun2nDwYyYUrKDOh8DlgnzGC6XB8bCpTkJSvn-XvAxXMON1T-jLrC-H5Res"></img>
+
+## Undoing a Commit II
+
+* <i class="bi bi-exclamation-triangle"></i> **This is irreversable!** <i class="bi bi-exclamation-triangle"></i>
+
+```bash
+user@hostname:~/cool-project$ git reset --hard e3bc497ac
+HEAD is now at e3bc497 Added code to cool_code.py
+user@hostname:~/cool-project$ git log
+commit e3bc497acbb5a487566ff2014dcd7b83d0c75224 (HEAD -> main)
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:38:05 2023 +0000
+
+    Added code to cool_code.py
+
+commit b40dc25b14c0426b06c8d182184e147853f3c12e
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:37:02 2023 +0000
+
+    Initial (empty) version of cool_code.py
+```
+
+## Onwards and Upwards
+
+```bash
+user@hostname:~/cool-project$ echo "3 + 3" >> cool_code.py
+user@hostname:~/cool-project$ git add cool_code.py
+user@hostname:~/cool-project$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   cool_code.py
+
+user@hostname:~/cool-project$ git commit -m "Added different code to cool_code.py"
+[main 700d955] Added different code to cool_code.py
+ 1 file changed, 1 insertion(+)
+```
+
+<img src="https://mermaid.ink/svg/pako:eNptz7EOgkAMBuBXuXRmuCiGcLPEyQUSB3NLuVa4xOPIWQZDeHdB46Rr_y9t_xlcJAYDnZdTwrG3g1LKxRC8KE9GWWhzTW53sPAb8b51eVn8i3KtC2pLC0qeIxtVV5eqbqpfWGhN5WFdDxkETgE9re_MG7QgPQe2sDniG0532W4tK8VJYvMcHBhJE2cwjYTCR49dwgDmhvfHOmXyEtP5U_HdNIMRh2uMX7O8ADEKUdc"></img>
+
+##
+
+The final `git log`:
+
+```bash
+user@hostname:~/cool-project$ git log
+commit 700d955faacb27d7b8bc464b9451851b5e319f20 (HEAD -> main)
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:44:49 2023 +0000
+
+    Added different code to cool_code.py
+
+commit e3bc497acbb5a487566ff2014dcd7b83d0c75224
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:38:05 2023 +0000
+
+    Added code to cool_code.py
+
+commit b40dc25b14c0426b06c8d182184e147853f3c12e
+Author: Jeff Jacobs <jjacobs3@cs.stanford.edu>
+Date:   Sun May 28 00:37:02 2023 +0000
+
+    Initial (empty) version of cool_code.py
+
+```
+
+## But Why These Diagrams?
+
+Even the simplest projects can start to look like:
+
+::: {.hidden}
+```{mermaid}
+gitGraph
+       commit id: "537dd67"
+       commit id: "6639143"
+       branch nice_feature
+       checkout nice_feature
+       commit id: "937ded8"
+       checkout main
+       commit id: "9e6679c"
+       checkout nice_feature
+       branch very_nice_feature
+       checkout very_nice_feature
+       commit id: "7f4de03"
+       checkout main
+       commit id: "6df80c1"
+       checkout nice_feature
+       commit id: "bd0ebb8"
+       checkout main
+       merge nice_feature id: "9ff61cc" tag: "V 1.0.0" type: HIGHLIGHT
+       checkout very_nice_feature
+       commit id: "370613b"
+       checkout main
+       commit id: "9a07a97"
+```
+:::
+
+<img src="https://mermaid.ink/svg/pako:eNqdU8FqwzAM_RWjcykO6Zwm50E72E4bO4xAUWw5MWvi4DmDUPrvc9aFpdB27Qy-SO9JjydpB9IqggxK41cO2ypv2OFJW9fGM6MylsNdnCglkhxOp4WI02gRT9KFw0ZWrDGSNprQd45-qRXJd9v5M9lp4TT0JbWc9h3JNZrmDImESFJ5inSy44_WT3L95rLgC5CpgEQvFPH4NtVC6SWX0dWqj8iF4lQUf_tUkyvpqN7omdYiksEz5rEcAq8smvM5HwJ9SxlbP6zWj-G__NuVOOEiiosbZ4k8wTQsHswgiA9AFZZ1N4Bz8BXVlMOAU6Sx2_qh-D5AsfP2uW8kZN51NIOuVejp3mDpsIZM4_YjREkZb93T4QC-72AGLTZv1o6Y_RdGMfVs"></img>
+
+## The GitHub Side: Remote
+
+![](images/github_repo.png)
+
+## An Empty Repo
+
+![](images/github_empty_repo.png)
+
+## Refresh after `git push`
+
+![](images/github_push.png)
+
+## Commit History
+
+![](images/gh_history.png)
+
+## Checking the `diff`
+
+![](images/gh_diff.png)
+
+## Web Development {data-name="Web Dev"}
+
+| | Frontend<br><i class="bi bi-layout-text-window-reverse"></i> <i class="bi bi-display"></i> <i class="bi bi-graph-up"></i> <i class="bi bi-ui-checks"></i> | Backend<br><i class="bi bi-database"></i> <i class="bi bi-terminal"></i> <i class="bi bi-table"></i> <i class="bi bi-key"></i> |
+| - | - | - |
+| **Low Level** | HTML/CSS/JavaScript | GitHub Pages
+| **Middle Level** | JS Libraries | PHP, SQL |
+| **High Level** | React, Next.js | Node.js, Vercel |
+
+::: {.notes}
+Frontend icons: UI+UI elements, what the user sees (on the screen), user experience (UX), data visualization
+Backend icons: Databases, Security
+:::
+
+## Getting Content onto the Internet {.nostretch}
+
+::: columns
+::: {.column width="50%"}
+
+<ul>
+<li>Step 1: `index.html`</li>
+<li>Step 2: Create GitHub repository</li>
+<li>Step 3: `git init`, `git add -A .`, `git push`</li>
+<li style="border: 2px solid black !important; padding: 4px !important;"><span>Step 4: Enable GitHub Pages in repo settings</span></li>
+<li>Step 5: `<username>.github.io`!</li>
+</ul>
+
+:::
+::: {.column width="50%"}
+
+![](images/gh_pages.png){fig-align="center" width=70%}
+
+:::
+:::
+
+## Deploying from a Branch/Folder
+
+![](images/gh_pages_2.png)
+
+# Lab Demonstrations {data-stack-name="Lab Demos"}
+
+## Lab Demonstration 1: Transferring Files
+
+## Lab Demonstration 2: Quarto
+
+## Lab Demonstration 3: Git and GitHub
+
+# Lab Assignment Overview {data-stack-name="Lab Assignment"}
+
+## Assignment Overview {.smaller}
+
+1. **Create a repo** on your private GitHub account called `5000-lab-1.2`
+2. **Clone** the repo to your local machine with `git clone`
+3. Create a blank **Quarto website** project, then use a `.bib` file to add citations
+4. Add content to `index.qmd`
+5. Add content to `about.ipynb`
+6. Build a simple presentation in `slides/slides.ipynb` using the `revealjs` format
+7. Render the website using `quarto render`
+8. Sync your changes to GitHub
+9. Use `rsync` or `scp` to copy the `_site` directory to your **GU domains** server (within `~/public_html`)
+10. Create a **Zotero** (or **Mendeley**) account, download the software, and add at least one reference to your site by syncing the `.bib` file
+
+## References {data-sm="false"}
+
+::: {#refs}
+:::

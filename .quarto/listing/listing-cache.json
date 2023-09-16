@@ -1,0 +1,17 @@
+{
+  "listingMap": {
+    "recordings/index.qmd": [
+      "lecture-recordings.yml",
+      "extra-videos.yml"
+    ],
+    "writeups/index.qmd": [
+      "B3049D40"
+    ],
+    "index.qmd": [
+      "B3049D40"
+    ],
+    "extra-videos/index.qmd": [
+      "extra-videos.yml"
+    ]
+  }
+}
