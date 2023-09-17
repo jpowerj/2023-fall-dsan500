@@ -54,6 +54,68 @@ Rather than using VS-Code->New file->"Quarto project", in the most recent versio
 
 You should now be able to proceed with the lab, by modifying and adding files to this newly-created Quarto website project.
 
+::: {#quarto-doesnt-appear .callout-note title="If \"Quarto: Create Project\" Does Not Appear"}
+
+Some students are experiencing a bug where the "Quarto: Create Project" option does not appear in their Command Palette, after pressing {{< kbd Cmd+Shift+P >}}. In this case, no need to worry: just create a new folder (called `simple_quarto_website`, for example), and within this folder you'll need to create four files, which are the same four files that the "Quarto: Create Project" command creates:
+
+### 1. `_quarto.yml`
+
+Create a file called `_quarto.yml` with the following contents:
+
+```yaml {filename="_quarto.yml"}
+project:
+  type: website
+
+website:
+  title: "simple_quarto_website"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+```
+
+### 2. `styles.css`
+
+Then create a file called `styles.css` that can be empty for now.
+
+### 3. `index.qmd`
+
+This file should have the following contents:
+
+```md
+---
+title: "simple_quarto_website"
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+```
+
+### 4. `about.qmd`
+
+This file should have the following contents:
+
+```md
+---
+title: "About"
+---
+
+About this site
+
+```
+
+These are the default website contents that the "Quarto: New Project" command creates in this `_quarto.yml` file, so for the most part you should be ready to work on the rest of the project even if this command did not appear when you typed "Quarto" into the Command Palette.
+
+:::
+
 ### Multiple Versions of the About Page
 
 There is a step in Component-3 which asks you to:
