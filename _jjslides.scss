@@ -63,6 +63,10 @@ a.disabled {
 figcaption {
   text-align: center !important;
 }
+.no-decoration {
+  text-decoration: none !important;
+  color: black !important;
+}
 .not-title-slide {
   display: block !important;
   top: 0px !important;
@@ -73,8 +77,14 @@ figcaption {
 .shift-footnotes aside {
   transform: translateY(45px) !important;
 }
+.small-captions figcaption {
+  font-size: 70% !important;
+}
 .smallish {
   font-size: 2.1rem !important;
+}
+.small-table-text table > * {
+  font-size: 80% !important;
 }
 .small-title h1 {
   // font-size: var(--r-heading2-size) !important;

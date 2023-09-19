@@ -133,480 +133,410 @@
     "text": "Order By\n       Default\n         \n          Week\n        \n         \n          Section\n        \n         \n          Title\n        \n         \n          Last Updated - Oldest\n        \n         \n          Last Updated - Newest\n        \n         \n          Category\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nWeek\n\n\nTitle\n\n\nSection\n\n\nCategory\n\n\nLast Updated\n\n\n\n\n\n\n4\n\n\nWeek 04: Lecture+Lab (Sec 02)\n\n\n02\n\n\nLecture Recordings\n\n\nTuesday Sep 12, 2023\n\n\n\n\n4\n\n\nWeek 04: Lecture (Sec 03)\n\n\n03\n\n\nLecture Recordings\n\n\nWednesday Sep 13, 2023\n\n\n\n\n4\n\n\nWeek 04: Lab (Sec 03)\n\n\n03\n\n\nLecture Recordings\n\n\nWednesday Sep 13, 2023\n\n\n\n\n3\n\n\nW03 Lecture+Lab (Sec 02 and 03)\n\n\n\n\n\nLecture Recordings\n\n\nTuesday Sep 5, 2023\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "w04/slides.html#git-commands",
-    "href": "w04/slides.html#git-commands",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Git Commands",
-    "text": "Git Commands\n\n\n\n\n\n\n\nCommand\nWhat It Does\n\n\n\n\ngit clone\nDownloads a repo from the web to our local computer\n\n\ngit init\nCreates a new, blank Git repository on our local computer (configuration/change-tracking stored in .git subfolder)\n\n\ngit add\nStages a file(s): Git will now track changes in this file(s)\n\n\ngit reset\nUndoes a git add\n\n\ngit status\nShows currently staged files and their status (created, modified, deleted)\n\n\ngit commit -m \"message\"\n“Saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub\n\n\ngit push\nTransmits local commits to remote server\n\n\ngit pull\nDownloads commits from remote server to local computer\n\n\ngit merge\nMerges remote versions of files with local versions"
+    "objectID": "w05/slides.html#data-formats-network-data",
+    "href": "w05/slides.html#data-formats-network-data",
+    "title": "Week 5: Data Cleaning",
+    "section": "Data Formats: Network Data",
+    "text": "Data Formats: Network Data\n\nNetwork data form two tabular datasets: one for nodes and one for edges\nEx: Network on left could be represented via pair of tabular datasets on right\n\n\n\n\n\n\n\nFigure 1: Network of some sort of ancient kinship structure\n\n\n\n\n\n\n\n\nnode_id\nlabel\n\n\n\n\n1\nBulbasaur\n\n\n2\nIvysaur\n\n\n\\(\\vdots\\)\n\\(\\vdots\\)\n\n\n9\nBlastoise\n\n\n\nFigure 2: A tabular dataset representing the nodes in the network above\n\n\n\n\n\n\n\nedge_id\nsource\ntarget\nweight\n\n\n\n\n0\n1\n2\n16\n\n\n1\n2\n3\n32\n\n\n2\n4\n5\n16\n\n\n3\n5\n6\n36\n\n\n4\n7\n8\n16\n\n\n5\n8\n9\n36\n\n\n\nFigure 3: A tabular dataset representing the edges in the network above"
   },
   {
-    "objectID": "w04/slides.html#reproducible-docsliterate-programming",
-    "href": "w04/slides.html#reproducible-docsliterate-programming",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Reproducible Docs/Literate Programming",
-    "text": "Reproducible Docs/Literate Programming\n\n1980s: \\(\\LaTeX\\) for \\(\\widehat{\\mathcal{T}}\\)ypesetting \\(\\sqrt{math}^2\\)\n1990s: Python and R as powerful scripting languages (no compilation required)\n2000s/2010s: Interactive Python via Jupyter, fancy IDE for R called RStudio\n2020s: Quarto (using pandoc under the hood) enables use of markdown for formatting, \\(\\LaTeX\\) for math, and both Python and R in same document, with choice of output formats (HTML, presentations, Word docs, …)"
+    "objectID": "w05/slides.html#web-scraping-with-requests-and-beautifulsoup",
+    "href": "w05/slides.html#web-scraping-with-requests-and-beautifulsoup",
+    "title": "Week 5: Data Cleaning",
+    "section": "Web Scraping with requests and BeautifulSoup",
+    "text": "Web Scraping with requests and BeautifulSoup\n\n\n\n\n\n\n\nWhat I Want To Do\nPython Code I Can Use\n\n\n\n\nSend an HTTP GET request\nresponse = requests.get(url)\n\n\nSend an HTTP POST request\nresponse = requests.post(url, post_data)\n\n\nGet just the plain HTML code (excluding headers, JS) returned by the request\nhtml_str = response.text\n\n\nParse a string containing HTML code\nsoup = BeautifulSoup(html_str, 'html.parser')\n\n\nGet contents of all &lt;xyz&gt; tags in the parsed HTML\nxyz_elts = soup.find_all('xyz')\n\n\nGet contents of the first &lt;xyz&gt; tag in the parsed HTML\nxyz_elt = soup.find('xyz')\n\n\nGet just the text (without formatting or tag info) contained in a given element\nxyz_elt.text"
   },
   {
-    "objectID": "w04/slides.html#preexisting-data-sources",
-    "href": "w04/slides.html#preexisting-data-sources",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Preexisting Data Sources",
-    "text": "Preexisting Data Sources\n\nDepending on your field, or the type of data you’re looking for, there may be a “standard” data source! For example:\nEconomics:\n\nUS data: FRED\nGlobal data: World Bank Open Data, OECD Data, etc.\n\nPolitical Science:\n\nICPSR\n\nNetwork Science:\n\nStanford SNAP: Large Network Dataset Collection"
+    "objectID": "w05/slides.html#apis-recap",
+    "href": "w05/slides.html#apis-recap",
+    "title": "Week 5: Data Cleaning",
+    "section": "APIs Recap",
+    "text": "APIs Recap\n\nKeep in mind the distinction between your entire application and the API endpoints you want to make available to other developers!\n\n\n\n\n\n\n\n\n\nApplication\nShould Be Endpoints\nShouldn’t Be Endpoints\n\n\n\n\nVoting Machine\ncast_vote() (End User), get_vote_totals() (Admin)\nget_vote(name), get_previous_vote()\n\n\nGaming Platform\nget_points() (Anyone), add_points(), remove_points() (Game Companies)\nset_points()\n\n\nThermometer\nview_temperature()\nrelease_mercury()\n\n\nCanvas App for Georgetown\nview_grades() (different for Students and Teachers)\nSQL Statement for Storing and Retrieving Grades in Georgetown DB"
   },
   {
-    "objectID": "w04/slides.html#web-scraping",
-    "href": "w04/slides.html#web-scraping",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Web Scraping",
-    "text": "Web Scraping\n\nFun fact: you can view a webpage’s HTML source code by right-clicking on the page and selecting “View Source”\n\nOn older websites, this means we can just request page and parse the returned HTML\n\nLess fun fact: modern web frameworks (React, Next.js) generate pages dynamically using JS, meaning that what you see on the page will not be visible in the HTML source\n\nData scraping still possible for these sites! Using browser automation tools like Selenium"
+    "objectID": "w05/slides.html#rest-vs.-soap-vs.-graphql",
+    "href": "w05/slides.html#rest-vs.-soap-vs.-graphql",
+    "title": "Week 5: Data Cleaning",
+    "section": "REST vs. SOAP vs. GraphQL",
+    "text": "REST vs. SOAP vs. GraphQL\n\nSOAP: Standard Object Access Protocol: Operates using a stricter schema (data must have this form, must include these keys, etc.), XML only\nREST (REpresentational State Transfer): Uses standard HTTP, wide range of formats\nGraphQL (Graph Query Language): Rather than exposing several endpoints, each performing a single function, GraphQL exposes a single endpoint for queries (so that the server then goes and figures out how to satisfy these queries)\n\n\n\n\n\n\n\n\n\n\n\n\nG1\n\n \n\ncluster_00\n\n Endpoints   \n\ndev\n\n Developer   \n\napi1\n\n get_users   \n\ndev-&gt;api1\n\n  API call   \n\napi2\n\n get_friends   \n\ndev-&gt;api2\n\n  API call (id = 5)   \n\nfigureOut\n\n is User 5 friends w Pitbull?   \n\ndev-&gt;figureOut\n\n    \n\napi1-&gt;dev\n\n    \n\napi2-&gt;dev\n\n   \n\n\n\n\n\nFigure 4: Using individual endpoints (get_users and get_friends) to derive answer to “Is User 5 friends with Pitbull?”\n\n\n\n\n\n\n\n\n\n\n\nG2\n\n \n\ncluster_00\n\n (Single) Endpoint   \n\napi1\n\n get_users   \n\ngqlServer\n\n GraphQL Server   \n\napi1-&gt;gqlServer\n\n  (internal)   \n\ndev\n\n Developer   \n\ndev-&gt;gqlServer\n\n  GraphQL API call (“is User 5 friends with Pitbull?”)   \n\ngqlServer-&gt;api1\n\n    \n\ngqlServer-&gt;dev\n\n    \n\napi2\n\n get_friends   \n\ngqlServer-&gt;api2\n\n  (internal)   \n\napi2-&gt;gqlServer\n\n   \n\n\n\n\n\nFigure 5: Answering the same question (“Is User 5 friends with Pitbull?”) directly using GraphQL"
   },
   {
-    "objectID": "w04/slides.html#scraping-difficulty",
-    "href": "w04/slides.html#scraping-difficulty",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Scraping Difficulty",
-    "text": "Scraping Difficulty\n\n\n\n\n\n\n\n\n\n\n\n\n\nHow is data loaded?\nSolution\nExample\n\n\n\n\n😊\nEasy\nData in HTML source\n“View Source”\n\n\n\n😐\nMedium\nData loaded dynamically via API\n“View Source”, find API call, scrape programmatically\n\n\n\n😳\nHard\nData loaded dynamically [internally] via web framework\nUse Selenium"
+    "objectID": "w05/slides.html#what-should-i-include-in-my-api",
+    "href": "w05/slides.html#what-should-i-include-in-my-api",
+    "title": "Week 5: Data Cleaning",
+    "section": "What Should I Include in My API?",
+    "text": "What Should I Include in My API?\nKey Principle: CRUD\n\nCreate: Place a new record in some table(s)\nRead: Get data for all (or subset of) records\nUpdate*: Locate record, change its value(s)\n\n“Upsert”: Update if already exists, otherwise create\n\nDelete: Remove record from some table(s)"
   },
   {
-    "objectID": "w04/slides.html#data-structures-foundations",
-    "href": "w04/slides.html#data-structures-foundations",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Data Structures: Foundations",
-    "text": "Data Structures: Foundations\n\nCould be (is) a whole class\nCould be (is) a whole class just for one type of data (geographic/spatial)\nFor this class: some foundational principles that should let you figure out fancier data structures you encounter"
+    "objectID": "w05/slides.html#the-unexpected-pitfalls",
+    "href": "w05/slides.html#the-unexpected-pitfalls",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Unexpected Pitfalls",
+    "text": "The Unexpected Pitfalls\n\nYou find the perfect dataset for your project, only to open it and find…"
   },
   {
-    "objectID": "w04/slides.html#opening-datasets-with-your-terminator-glasses-on",
-    "href": "w04/slides.html#opening-datasets-with-your-terminator-glasses-on",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Opening Datasets With Your Terminator Glasses On",
-    "text": "Opening Datasets With Your Terminator Glasses On\n\n\n\n\nWhat does a row represent?\nWhat does a column represent?\nWhat does a value in a cell represent?\nAre there unique identifiers for the objects you care about?\n\n\n\n\n\n\nFigure 1: What you should see when you look at a new dataset"
+    "objectID": "w05/slides.html#text-data",
+    "href": "w05/slides.html#text-data",
+    "title": "Week 5: Data Cleaning",
+    "section": "Text Data",
+    "text": "Text Data"
   },
   {
-    "objectID": "w04/slides.html#from-raw-data-to-clean-data",
-    "href": "w04/slides.html#from-raw-data-to-clean-data",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "From Raw Data to Clean Data",
-    "text": "From Raw Data to Clean Data"
-  },
-  {
-    "objectID": "w04/slides.html#data-structures-simple-rightarrow-complex",
-    "href": "w04/slides.html#data-structures-simple-rightarrow-complex",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Data Structures: Simple \\(\\rightarrow\\) Complex",
-    "text": "Data Structures: Simple \\(\\rightarrow\\) Complex\n\n\n\n\n\n\n\nid\nname\nemail\n\n\n\n\n0\nK. Desbrow\nkd9@dailymail.com\n\n\n1\nD. Minall\ndminall1@wired.com\n\n\n2\nC. Knight\nck2@microsoft.com\n\n\n3\nM. McCaffrey\nmccaf4@nhs.uk\n\n\n\nFigure 2: Record Data\n\n\n\n\n\n\n\nyear\nmonth\npoints\n\n\n\n\n2023\nJan\n65\n\n\n2023\nFeb\n\n\n\n2023\nMar\n42\n\n\n2023\nApr\n11\n\n\n\nFigure 3: Time-Series Data\n\n\n\n\n\n\n\n\n\nid\ndate\nrating\nnum_rides\n\n\n\n\n0\n2023-01\n0.75\n45\n\n\n0\n2023-02\n0.89\n63\n\n\n0\n2023-03\n0.97\n7\n\n\n1\n2023-06\n0.07\n10\n\n\n\nFigure 4: Panel Data\n\n\n\n\n\n\n\nSource\nTarget\nWeight\n\n\n\n\nIGF2\nIGF1R\n1\n\n\nIGF1R\nTP53\n2\n\n\nTP53\nEGFR\n0.5\n\n\n\nFigure 5: Network Data\n\n\n\n\n\n\nFake data via Mockaroo and Random.org. Protein-protein interaction network from Agrawal, Zitnik, and Leskovec (2018)"
-  },
-  {
-    "objectID": "w04/slides.html#tabular-data-vs.-relational-data",
-    "href": "w04/slides.html#tabular-data-vs.-relational-data",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Tabular Data vs. Relational Data",
-    "text": "Tabular Data vs. Relational Data\n\nAll of the datasets on the previous slide are tabular\nDatabases like SQLite, MySQL, require us to think about relationships within and between tabular datasets\nImagine you’re creating the backend for a social network. How would you record users and friendships? Your intuition may be record data:\n\n\n\n\n\n\n\n\n\n\n\nid\nname\nfriends\n\n\n\n\n1\nPurna\n[2,3,4]\n\n\n2\nJeff\n[1,3,4,5,6]\n\n\n3\nJames\n[1,2,4,6]\n\n\n4\nNakul\n[1,2,3]\n\n\n5\nDr. Fauci\n[2,6]\n\n\n6\nPitbull\n[2,5]\n\n\n\nFigure 6: Our first attempt at a data structure for our social network app’s backend\n\n\n\nLong story short…\n\nThis doesn’t scale\nExtremely inefficient to find whether two users are friends\nRedundant information: Have to store friendship between A and B in both A’s row and B’s row"
-  },
-  {
-    "objectID": "w04/slides.html#a-better-approach",
-    "href": "w04/slides.html#a-better-approach",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "A Better Approach",
-    "text": "A Better Approach\n\nMove the friendship data into its own table!\nThis table now represents relational data, (user table still corresponds to records):\n\n\n\n\n\n\n\n\n\n\n\nuser_id\nname\n\n\n\n\n1\nPurna\n\n\n2\nJeff\n\n\n3\nJames\n\n\n4\nNakul\n\n\n5\nDr. Fauci\n\n\n6\nPitbull\n\n\n\nFigure 7: The user table in our relational structure\n\n\n\n\n\n\n\n\n\n\nid\nfriend_1\nfriend_2\nid\nfriend_1\nfriend_2\n\n\n\n\n1\n1\n2\n6\n2\n5\n\n\n2\n1\n3\n7\n2\n6\n\n\n3\n1\n4\n8\n3\n4\n\n\n4\n2\n3\n9\n3\n6\n\n\n5\n2\n4\n10\n5\n6\n\n\n\nFigure 8: The friendships table in our relational structure\n\n\n\n\n\nMay seem weird in terms of human readability, but think in terms of memory/computational efficiency: (a) Scalable, (b) Easy to find if two users are friends (via sorting/searching algorithms), (c) No redundant info"
-  },
-  {
-    "objectID": "w04/slides.html#dbs-relational-or-otherwise",
-    "href": "w04/slides.html#dbs-relational-or-otherwise",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "DBs: Relational or Otherwise",
-    "text": "DBs: Relational or Otherwise\n\nFor rest of lecture we zoom in on cases where data comes as individual files\nBut on top of the relational format from previous slide, there are also non-relational database formats, like the document-based format used by e.g. MongoDB1\nIn either case, data is spread over many files, so that to obtain a single dataset we use queries.\n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nfile\n\n File (.csv/.json/etc.)   \n\nload\n\n read_csv()   \n\nfile-&gt;load\n\n    \n\ndataset\n\n Dataset   \n\nload-&gt;dataset\n\n   \n\n\n\n\n\nFigure 9: Statically datasets (as individual files on disk)\n\n\n\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_00\n\n Database   \n\ntab1\n\n Table 1   \n\nquery\n\n Query   \n\ntab1-&gt;query\n\n    \n\ntab2\n\n Table 2   \n\ntab2-&gt;query\n\n    \n\ntabdots\n\n …   \n\ntabdots-&gt;query\n\n    \n\ntabN\n\n Table N   \n\ntabN-&gt;query\n\n    \n\ndataset\n\n Dataset   \n\nquery-&gt;dataset\n\n   \n\n\n\n\n\nFigure 10: Datasets formed dynamically via database queries\n\n\n\n\nFor (much) more on this topic, see this page from Prisma, a high-level “wrapper” that auto-syncs your DB structure with a TypeScript schema, so your code knows exactly “what’s inside” a variable whose content was retrieved from the DB…"
-  },
-  {
-    "objectID": "w04/slides.html#data-formats",
-    "href": "w04/slides.html#data-formats",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Data Formats",
-    "text": "Data Formats\n\nThe most common formats, for most fields:\n\n.csv: Comma-Separated Values\n.tsv: Tab-Separated Values\n.json: JavaScript Object Notation\n.xls/.xlsx: Excel format\n.dta: Stata format"
-  },
-  {
-    "objectID": "w04/slides.html#csv-.tsv",
-    "href": "w04/slides.html#csv-.tsv",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": ".csv / .tsv",
-    "text": ".csv / .tsv\n\n\n👍\n\n\nmy_data.csv\n\nindex,var_1,var_2,var_3\nA,val_A1,val_A2,val_A3\nB,val_B1,val_B2,val_B3\nC,val_C1,val_C2,val_C3\nD,val_D1,val_D2,val_D3\n\n\n(👎)\n\n\nmy_data.tsv\n\nindex var_1 var_2 var_3\nA val_A1  val_A2  val_A3\nB val_B1  val_B2  val_B3\nC val_C1  val_C2  val_C3\nD val_D1  val_D2  val_D3\n\n\n\n→\n\n\n\n\n\n\n\n\n\n\n\n\n\nPython: pd.read_csv() (from Pandas library)\nR: read_csv() (from readr library)"
-  },
-  {
-    "objectID": "w04/slides.html#json",
-    "href": "w04/slides.html#json",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": ".json",
-    "text": ".json\n\n\n\ncourses.json\n\n{\n  \"dsan5000\": {\n    \"title\": \"Data Science and Analytics\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Tools and Workflow\"\n    ]\n  },\n  \"dsan5100\": {\n    \"title\": \"Probabilistic Modeling and Statistical Computing\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Conditional Probability\"\n    ]\n  }\n}\n\n\n\nPython: json (built-in library, import json)\nR: jsonlite (install.packages(jsonlite))\nHelpful validator (for when .json file won’t load)"
-  },
-  {
-    "objectID": "w04/slides.html#other-formats",
-    "href": "w04/slides.html#other-formats",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Other Formats",
-    "text": "Other Formats\n\n.xls/.xlsx: Requires special libraries in Python/R\n\nPython: openpyxl\nR: readxl (part of tidyverse)\n\n.dta: Stata format, but can be read/written to in Python/R\n\nPython: Pandas has built-in pd.read_stata() and pd.to_stata()\nR: read_dta() from Haven library (part of tidyverse)"
-  },
-  {
-    "objectID": "w04/slides.html#scraping-html-with-requests-and-beautifulsoup",
-    "href": "w04/slides.html#scraping-html-with-requests-and-beautifulsoup",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Scraping HTML with requests and BeautifulSoup",
-    "text": "Scraping HTML with requests and BeautifulSoup\nrequests Documentation | BeautifulSoup Documentation\n\n\nCode\n# Get HTML\nimport requests\n# Perform request\nresponse = requests.get(\"https://en.wikipedia.org/wiki/Data_science\")\n# Parse HTML\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(response.text, 'html.parser')\nall_headers = soup.find_all(\"h2\")\nsection_headers = [h.find(\"span\", {'class': 'mw-headline'}).text for h in all_headers[1:]]\nsection_headers\n\n\n['Foundations', 'Etymology', 'Data Science and Data Analysis', 'History', 'See also', 'References']"
-  },
-  {
-    "objectID": "w04/slides.html#navigating-html-with-beautifulsoup",
-    "href": "w04/slides.html#navigating-html-with-beautifulsoup",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Navigating HTML with BeautifulSoup",
-    "text": "Navigating HTML with BeautifulSoup\n\nLet’s focus on this line from the previous slide:\n\nall_headers = soup.find_all(\"h2\")\n\nfind_all() is the key function for scraping!\nIf the HTML has a repeating structure (like rows in a table), find_all() can instantly parse this structure into a Python list."
-  },
-  {
-    "objectID": "w04/slides.html#the-power-of-find_all",
-    "href": "w04/slides.html#the-power-of-find_all",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "The Power of find_all()",
-    "text": "The Power of find_all()\n\n\n\n\n\n\ndata_page.html\n\n&lt;div class=\"all-the-data\"&gt;\n    &lt;h4&gt;First Dataset&lt;/h4&gt;\n    &lt;div class=\"data-1\"&gt;\n        &lt;div class=\"dataval\"&gt;1&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;2&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;3&lt;/div&gt;\n    &lt;/div&gt;\n    &lt;h4&gt;Second Dataset&lt;/h4&gt;\n    &lt;div class=\"data-2\"&gt;\n        &lt;ul&gt;\n            &lt;li&gt;4.0&lt;/li&gt;\n            &lt;li&gt;5.5&lt;/li&gt;\n            &lt;li&gt;6.7&lt;/li&gt;\n        &lt;/ul&gt;\n    &lt;/div&gt;\n&lt;/div&gt;\n\nFigure 11: Data in page elements (&lt;div&gt;, &lt;li&gt;)\n\n\n\n\n\n    First Dataset\n    \n        1\n        2\n        3\n    \n    Second Dataset\n        \n            4.0\n            5.5\n            6.7\n        \n\nFigure 12: The code from Figure 11, rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(page_html, 'html.parser')\nds1_elt = soup.find(\"div\", class_='data-1')\nds1 = [e.text for e in ds1_elt.find_all(\"div\")]\nds2_elt = soup.find(\"div\", {'class': 'data-2'})\nds2 = [e.text for e in ds2_elt.find_all(\"li\")]\n\nFigure 13: The BeautifulSoup code used to parse the HTML\n\n\n\n\n\nprint(f\"dataset-1: {ds1}\\ndataset-2: {ds2}\")\n\ndataset-1: ['1', '2', '3']\ndataset-2: ['4.0', '5.5', '6.7']\n\n\nFigure 14: Contents of the Python variables holding the parsed data"
-  },
-  {
-    "objectID": "w04/slides.html#parsing-html-tables",
-    "href": "w04/slides.html#parsing-html-tables",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Parsing HTML Tables",
-    "text": "Parsing HTML Tables\n\n\n\n\n\n\ntable_data.html\n\n&lt;table&gt;\n&lt;thead&gt;\n    &lt;tr&gt;\n        &lt;th&gt;X1&lt;/th&gt;&lt;th&gt;X2&lt;/th&gt;&lt;th&gt;X3&lt;/th&gt;\n    &lt;/tr&gt;\n&lt;/thead&gt;\n&lt;tbody&gt;\n    &lt;tr&gt;\n        &lt;td&gt;1&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n        &lt;td&gt;2&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;\n    &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n\nFigure 15: Data in HTML table format\n\n\n\n\n\n\n\nX1\nX2\nX3\n\n\n\n\n1\n3\n5\n\n\n2\n4\n6\n\n\n\nFigure 16: The HTML table code, as rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(table_html, 'html.parser')\nthead = soup.find(\"thead\")\nheaders = [e.text for e in thead.find_all(\"th\")]\ntbody = soup.find(\"tbody\")\nrows = tbody.find_all(\"tr\")\ndata = [[e.text for e in r.find_all(\"td\")]\n            for r in rows]\n\nFigure 17: The BeautifulSoup code used to parse the table HTML\n\n\n\n\n\nprint(f\"headers: {headers}\\ndata: {data}\")\n\nheaders: ['X1', 'X2', 'X3']\ndata: [['1', '3', '5'], ['2', '4', '6']]\n\n\nFigure 18: Contents of the Python variables holding the parsed data"
-  },
-  {
-    "objectID": "w04/slides.html#what-does-an-api-do",
-    "href": "w04/slides.html#what-does-an-api-do",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "What Does an API Do?",
-    "text": "What Does an API Do?\nExposes endpoints for use by developers, without requiring them to know the nuts and bolts of your pipeline/service:\n\n\n\n\n\n\n\n\nExample\nEndpoint\nNot Exposed\n\n\n\n\nElectrical outlet\nSocket\nInternal wiring\n\n\nWater fountain\nAerator\nWater pump\n\n\nCar\nPedals, Steering wheel, etc.\nEngine\n\n\n\n\nWhen I’m teaching programming to students in refugee camps who may have never used a computer before, I try to use the idea of “robots”: a program is a robot trained to sit there and wait for inputs, then process them in some way and spit out some output. APIs really capture this notion, honestly."
-  },
-  {
-    "objectID": "w04/slides.html#example-math-api",
-    "href": "w04/slides.html#example-math-api",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Example: Math API",
-    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nimport requests\nresponse = requests.get(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nprint(response.json())\n\n\n{'operation': 'factor', 'expression': 'x^2-1', 'result': '(x - 1) (x + 1)'}"
-  },
-  {
-    "objectID": "w04/slides.html#math-api-endpoints",
-    "href": "w04/slides.html#math-api-endpoints",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Math API Endpoints",
-    "text": "Math API Endpoints\n\n\n\nOperation\nAPI Endpoint\nResult\n\n\n\n\nSimplify\n/simplify/2^2+2(2)\n8\n\n\nFactor\n/factor/x^2 + 2x\nx (x + 2)\n\n\nDerive\n/derive/x^2+2x\n2 x + 2\n\n\nIntegrate\n/integrate/x^2+2x\n1/3 x^3 + x^2 + C\n\n\nFind 0’s\n/zeroes/x^2+2x\n[-2, 0]\n\n\nFind Tangent\n/tangent/2|x^3\n12 x + -16\n\n\nArea Under Curve\n/area/2:4|x^3\n60\n\n\nCosine\n/cos/pi\n-1\n\n\nSine\n/sin/0\n0\n\n\nTangent\n/tan/0\n0"
-  },
-  {
-    "objectID": "w04/slides.html#authentication",
-    "href": "w04/slides.html#authentication",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication",
-    "text": "Authentication\n\nUnlike the math API, most APIs do not allow requests to be made by anonymous requesters, and require authentication.\nFor example, you can access public GitHub repos anonymously, but to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
-  },
-  {
-    "objectID": "w04/slides.html#authentication-via-pygithub",
-    "href": "w04/slides.html#authentication-via-pygithub",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication via PyGithub",
-    "text": "Authentication via PyGithub\n\n\n\nPyGithub Installation\n\n\nInstall using the following terminal/shell command [Documentation]\npip install PyGithub\n\n\n\nPyGithub can handle authentication for you. Example: this private repo in my account does not show up unless the request is authenticated (via a Personal Access Token)1:\n\n\n\n\n\n# import github\n# g = github.Github()\n# try:\n#   g.get_repo(\"jpowerj/private-repo-test\")\n# except Exception as e:\n#   print(e)\n\nFigure 19: Using the GitHub API without authentication\n\n\n\n\n\n# Load the access token securely\n# import os\n# my_access_token = os.getenv('GITHUB_TOKEN')\n# import github\n# # Use the access token to make an API request\n# auth = github.Auth.Token(my_access_token)\n# g = github.Github(auth=auth)\n# g.get_user().get_repo(\"private-repo-test\")\n\nFigure 20: Using the GitHub API with authentication\n\n\n\n\nYour code should 🚨never🚨 contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which I then loaded using os.getenv() and provided to PyGithub."
-  },
-  {
-    "objectID": "w04/slides.html#references",
-    "href": "w04/slides.html#references",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "References",
-    "text": "References\n\n\nAgrawal, Monica, Marinka Zitnik, and Jure Leskovec. 2018. “Large-Scale Analysis of Disease Pathways in the Human Interactome.” In PACIFIC SYMPOSIUM on BIOCOMPUTING 2018: Proceedings of the Pacific Symposium, 111–22. World Scientific.\n\n\nMenczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. A First Course in Network Science. Cambridge University Press."
-  },
-  {
-    "objectID": "w04/slides.html#scraping-html-with-httr2-and-xml2",
-    "href": "w04/slides.html#scraping-html-with-httr2-and-xml2",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Scraping HTML with httr2 and xml2",
-    "text": "Scraping HTML with httr2 and xml2\nhttr2 Documentation | xml2 Documentation\n\n\nCode\n# Get HTML\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://en.wikipedia.org/wiki/Data_science\")\nresponse_obj &lt;- req_perform(request_obj)\n# Parse HTML\nlibrary(xml2)\nhtml_obj &lt;- response_obj %&gt;% resp_body_html()\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\n\n{xml_nodeset (6)}\n[1] &lt;span class=\"mw-headline\" id=\"Foundations\"&gt;Foundations&lt;/span&gt;\n[2] &lt;span class=\"mw-headline\" id=\"Etymology\"&gt;Etymology&lt;/span&gt;\n[3] &lt;span class=\"mw-headline\" id=\"Data_Science_and_Data_Analysis\"&gt;Data Scienc ...\n[4] &lt;span class=\"mw-headline\" id=\"History\"&gt;History&lt;/span&gt;\n[5] &lt;span class=\"mw-headline\" id=\"See_also\"&gt;See also&lt;/span&gt;\n[6] &lt;span class=\"mw-headline\" id=\"References\"&gt;References&lt;/span&gt;\n\n\n\n\nNote: httr2 is a re-written version of the original httr package, which is now deprecated. You’ll still see lots of code using httr, however, so it’s good to know how both versions work. Click here for a helpful vignette on the original httr library."
-  },
-  {
-    "objectID": "w04/slides.html#navigating-html-with-xpath",
-    "href": "w04/slides.html#navigating-html-with-xpath",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Navigating HTML with XPath",
-    "text": "Navigating HTML with XPath\nXPath Cheatsheet\n\nNotice the last line on the previous slide:\n\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\nThe string passed to xml_find_all() is an XPath selector\n\n\n\nXPath selectors are used by many different libraries, including Selenium (which we’ll look at very soon) and jQuery (a standard extension to plain JavaScript allowing easy searching/manipulation of the DOM), so it’s good to learn it now!"
-  },
-  {
-    "objectID": "w04/slides.html#xpath-i-selecting-elements",
-    "href": "w04/slides.html#xpath-i-selecting-elements",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "XPath I: Selecting Elements",
-    "text": "XPath I: Selecting Elements\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//div' matches all elements &lt;div&gt; in the document:\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n'//div//img' matches &lt;img&gt; elements which are children of &lt;div&gt; elements:\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;"
-  },
-  {
-    "objectID": "w04/slides.html#xpath-ii-filtering-by-attributes",
-    "href": "w04/slides.html#xpath-ii-filtering-by-attributes",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "XPath II: Filtering by Attributes",
-    "text": "XPath II: Filtering by Attributes\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//p[id=\"page-content\"]' matches all &lt;p&gt; elements with id page-content1:\n&lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\nMatching classes is a bit trickier:\n'//img[contains(concat(\" \", normalize-space(@class), \" \"), \" footer-image \")]'\nmatches all &lt;img&gt; elements with page-content as one of their classes2\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n\nIn HTML, ids are required to be unique to particular elements (and elements cannot have more than one id), meaning that this should only return a single element, for valid HTML code (not followed by all webpages!). Also note the double-quotes after id=, which are required in XPath.Your intuition may be to just use '//img[@class=\"footer-image\"]'. Sadly, however, this will match only elements with footer-image as their only class. i.e., it will match &lt;img class=\"footer-image\"&gt; but not &lt;img class=\"footer-image another-class\"&gt;. This will usually fail, since most elements on modern webpages have several classes. For example, if the site is using Bootstrap, &lt;p class=\"p-5 m-3\"&gt;&lt;/p&gt; creates a paragraph element with a padding of 5 pixels and a margin of 3 pixels."
-  },
-  {
-    "objectID": "w04/slides.html#example-math-api-1",
-    "href": "w04/slides.html#example-math-api-1",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Example: Math API",
-    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nresponse_obj &lt;- req_perform(request_obj)\nwriteLines(response_obj %&gt;% resp_body_string())\n\n\n{\"operation\":\"factor\",\"expression\":\"x^2-1\",\"result\":\"(x - 1) (x + 1)\"}"
-  },
-  {
-    "objectID": "w04/slides.html#authentication-1",
-    "href": "w04/slides.html#authentication-1",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication",
-    "text": "Authentication\n\nMost APIs don’t allow requests to be made by anonymous requesters, and require authentication.\nFor example, to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
-  },
-  {
-    "objectID": "w04/slides.html#authentication-via-gh",
-    "href": "w04/slides.html#authentication-via-gh",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication via GH",
-    "text": "Authentication via GH\n\nThe GH library for R can handle this authentication process for you. For example, this private repo in my account does not show up if requested anonymously, but does show up when requested using GH with a Personal Access Token1:\n\n\n\nCode\nlibrary(gh)\nresult &lt;- gh(\"GET /repos/jpowerj/private-repo-test\")\nwriteLines(paste0(result$name, \": \",result$description))\n\n\nprivate-repo-test: Private repo example for DSAN5000\n\n\n \n\n\n\n\nYour code should never contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which GH then uses to make authenticated requests."
-  },
-  {
-    "objectID": "w04/index.html",
-    "href": "w04/index.html",
-    "title": "Week 4: Data Gathering and APIs",
+    "objectID": "w05/index.html",
+    "href": "w05/index.html",
+    "title": "Week 5: Data Cleaning",
     "section": "",
     "text": "Open slides in new window →"
   },
   {
-    "objectID": "w04/index.html#git-commands",
-    "href": "w04/index.html#git-commands",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Git Commands",
-    "text": "Git Commands\n\n\n\n\n\n\n\nCommand\nWhat It Does\n\n\n\n\ngit clone\nDownloads a repo from the web to our local computer\n\n\ngit init\nCreates a new, blank Git repository on our local computer (configuration/change-tracking stored in .git subfolder)\n\n\ngit add\nStages a file(s): Git will now track changes in this file(s)\n\n\ngit reset\nUndoes a git add\n\n\ngit status\nShows currently staged files and their status (created, modified, deleted)\n\n\ngit commit -m \"message\"\n“Saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub\n\n\ngit push\nTransmits local commits to remote server\n\n\ngit pull\nDownloads commits from remote server to local computer\n\n\ngit merge\nMerges remote versions of files with local versions"
+    "objectID": "w05/index.html#data-formats-network-data",
+    "href": "w05/index.html#data-formats-network-data",
+    "title": "Week 5: Data Cleaning",
+    "section": "Data Formats: Network Data",
+    "text": "Data Formats: Network Data\n\nNetwork data form two tabular datasets: one for nodes and one for edges\nEx: Network on left could be represented via pair of tabular datasets on right\n\n\n\n\n\n\n\nFigure 1: Network of some sort of ancient kinship structure\n\n\n\n\n\n\n\n\nnode_id\nlabel\n\n\n\n\n1\nBulbasaur\n\n\n2\nIvysaur\n\n\n\\(\\vdots\\)\n\\(\\vdots\\)\n\n\n9\nBlastoise\n\n\n\nFigure 2: A tabular dataset representing the nodes in the network above\n\n\n\n\n\n\n\nedge_id\nsource\ntarget\nweight\n\n\n\n\n0\n1\n2\n16\n\n\n1\n2\n3\n32\n\n\n2\n4\n5\n16\n\n\n3\n5\n6\n36\n\n\n4\n7\n8\n16\n\n\n5\n8\n9\n36\n\n\n\nFigure 3: A tabular dataset representing the edges in the network above"
   },
   {
-    "objectID": "w04/index.html#reproducible-docsliterate-programming",
-    "href": "w04/index.html#reproducible-docsliterate-programming",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Reproducible Docs/Literate Programming",
-    "text": "Reproducible Docs/Literate Programming\n\n1980s: \\(\\LaTeX\\) for \\(\\widehat{\\mathcal{T}}\\)ypesetting \\(\\sqrt{math}^2\\)\n1990s: Python and R as powerful scripting languages (no compilation required)\n2000s/2010s: Interactive Python via Jupyter, fancy IDE for R called RStudio\n2020s: Quarto (using pandoc under the hood) enables use of markdown for formatting, \\(\\LaTeX\\) for math, and both Python and R in same document, with choice of output formats (HTML, presentations, Word docs, …)"
+    "objectID": "w05/index.html#web-scraping-with-requests-and-beautifulsoup",
+    "href": "w05/index.html#web-scraping-with-requests-and-beautifulsoup",
+    "title": "Week 5: Data Cleaning",
+    "section": "Web Scraping with requests and BeautifulSoup",
+    "text": "Web Scraping with requests and BeautifulSoup\n\n\n\n\n\n\n\nWhat I Want To Do\nPython Code I Can Use\n\n\n\n\nSend an HTTP GET request\nresponse = requests.get(url)\n\n\nSend an HTTP POST request\nresponse = requests.post(url, post_data)\n\n\nGet just the plain HTML code (excluding headers, JS) returned by the request\nhtml_str = response.text\n\n\nParse a string containing HTML code\nsoup = BeautifulSoup(html_str, 'html.parser')\n\n\nGet contents of all &lt;xyz&gt; tags in the parsed HTML\nxyz_elts = soup.find_all('xyz')\n\n\nGet contents of the first &lt;xyz&gt; tag in the parsed HTML\nxyz_elt = soup.find('xyz')\n\n\nGet just the text (without formatting or tag info) contained in a given element\nxyz_elt.text"
   },
   {
-    "objectID": "w04/index.html#preexisting-data-sources",
-    "href": "w04/index.html#preexisting-data-sources",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Preexisting Data Sources",
-    "text": "Preexisting Data Sources\n\nDepending on your field, or the type of data you’re looking for, there may be a “standard” data source! For example:\nEconomics:\n\nUS data: FRED\nGlobal data: World Bank Open Data, OECD Data, etc.\n\nPolitical Science:\n\nICPSR\n\nNetwork Science:\n\nStanford SNAP: Large Network Dataset Collection"
+    "objectID": "w05/index.html#apis-recap",
+    "href": "w05/index.html#apis-recap",
+    "title": "Week 5: Data Cleaning",
+    "section": "APIs Recap",
+    "text": "APIs Recap\n\nKeep in mind the distinction between your entire application and the API endpoints you want to make available to other developers!\n\n\n\n\n\n\n\n\n\nApplication\nShould Be Endpoints\nShouldn’t Be Endpoints\n\n\n\n\nVoting Machine\ncast_vote() (End User), get_vote_totals() (Admin)\nget_vote(name), get_previous_vote()\n\n\nGaming Platform\nget_points() (Anyone), add_points(), remove_points() (Game Companies)\nset_points()\n\n\nThermometer\nview_temperature()\nrelease_mercury()\n\n\nCanvas App for Georgetown\nview_grades() (different for Students and Teachers)\nSQL Statement for Storing and Retrieving Grades in Georgetown DB"
   },
   {
-    "objectID": "w04/index.html#web-scraping",
-    "href": "w04/index.html#web-scraping",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Web Scraping",
-    "text": "Web Scraping\n\nFun fact: you can view a webpage’s HTML source code by right-clicking on the page and selecting “View Source”\n\nOn older websites, this means we can just request page and parse the returned HTML\n\nLess fun fact: modern web frameworks (React, Next.js) generate pages dynamically using JS, meaning that what you see on the page will not be visible in the HTML source\n\nData scraping still possible for these sites! Using browser automation tools like Selenium"
+    "objectID": "w05/index.html#rest-vs.-soap-vs.-graphql",
+    "href": "w05/index.html#rest-vs.-soap-vs.-graphql",
+    "title": "Week 5: Data Cleaning",
+    "section": "REST vs. SOAP vs. GraphQL",
+    "text": "REST vs. SOAP vs. GraphQL\n\nSOAP: Standard Object Access Protocol: Operates using a stricter schema (data must have this form, must include these keys, etc.), XML only\nREST (REpresentational State Transfer): Uses standard HTTP, wide range of formats\nGraphQL (Graph Query Language): Rather than exposing several endpoints, each performing a single function, GraphQL exposes a single endpoint for queries (so that the server then goes and figures out how to satisfy these queries)\n\n\n\n\n\n\n\n\n\n\n\n\nG1\n\n \n\ncluster_00\n\n Endpoints   \n\ndev\n\n Developer   \n\napi1\n\n get_users   \n\ndev-&gt;api1\n\n  API call   \n\napi2\n\n get_friends   \n\ndev-&gt;api2\n\n  API call (id = 5)   \n\nfigureOut\n\n is User 5 friends w Pitbull?   \n\ndev-&gt;figureOut\n\n    \n\napi1-&gt;dev\n\n    \n\napi2-&gt;dev\n\n   \n\n\n\n\n\nFigure 4: Using individual endpoints (get_users and get_friends) to derive answer to “Is User 5 friends with Pitbull?”\n\n\n\n\n\n\n\n\n\n\n\nG2\n\n \n\ncluster_00\n\n (Single) Endpoint   \n\napi1\n\n get_users   \n\ngqlServer\n\n GraphQL Server   \n\napi1-&gt;gqlServer\n\n  (internal)   \n\ndev\n\n Developer   \n\ndev-&gt;gqlServer\n\n  GraphQL API call (“is User 5 friends with Pitbull?”)   \n\ngqlServer-&gt;api1\n\n    \n\ngqlServer-&gt;dev\n\n    \n\napi2\n\n get_friends   \n\ngqlServer-&gt;api2\n\n  (internal)   \n\napi2-&gt;gqlServer\n\n   \n\n\n\n\n\nFigure 5: Answering the same question (“Is User 5 friends with Pitbull?”) directly using GraphQL"
   },
   {
-    "objectID": "w04/index.html#scraping-difficulty",
-    "href": "w04/index.html#scraping-difficulty",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Scraping Difficulty",
-    "text": "Scraping Difficulty\n\n\n\n\n\n\n\n\n\n\n\n\n\nHow is data loaded?\nSolution\nExample\n\n\n\n\n😊\nEasy\nData in HTML source\n“View Source”\n\n\n\n😐\nMedium\nData loaded dynamically via API\n“View Source”, find API call, scrape programmatically\n\n\n\n😳\nHard\nData loaded dynamically [internally] via web framework\nUse Selenium"
+    "objectID": "w05/index.html#what-should-i-include-in-my-api",
+    "href": "w05/index.html#what-should-i-include-in-my-api",
+    "title": "Week 5: Data Cleaning",
+    "section": "What Should I Include in My API?",
+    "text": "What Should I Include in My API?\nKey Principle: CRUD\n\nCreate: Place a new record in some table(s)\nRead: Get data for all (or subset of) records\nUpdate*: Locate record, change its value(s)\n\n“Upsert”: Update if already exists, otherwise create\n\nDelete: Remove record from some table(s)"
   },
   {
-    "objectID": "w04/index.html#data-structures-foundations",
-    "href": "w04/index.html#data-structures-foundations",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Data Structures: Foundations",
-    "text": "Data Structures: Foundations\n\nCould be (is) a whole class\nCould be (is) a whole class just for one type of data (geographic/spatial)\nFor this class: some foundational principles that should let you figure out fancier data structures you encounter"
+    "objectID": "w05/index.html#the-unexpected-pitfalls",
+    "href": "w05/index.html#the-unexpected-pitfalls",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Unexpected Pitfalls",
+    "text": "The Unexpected Pitfalls\n\nYou find the perfect dataset for your project, only to open it and find…"
   },
   {
-    "objectID": "w04/index.html#opening-datasets-with-your-terminator-glasses-on",
-    "href": "w04/index.html#opening-datasets-with-your-terminator-glasses-on",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Opening Datasets With Your Terminator Glasses On",
-    "text": "Opening Datasets With Your Terminator Glasses On\n\n\n\n\nWhat does a row represent?\nWhat does a column represent?\nWhat does a value in a cell represent?\nAre there unique identifiers for the objects you care about?\n\n\n\n\n\n\nFigure 1: What you should see when you look at a new dataset"
+    "objectID": "w05/index.html#text-data",
+    "href": "w05/index.html#text-data",
+    "title": "Week 5: Data Cleaning",
+    "section": "Text Data",
+    "text": "Text Data"
   },
   {
-    "objectID": "w04/index.html#from-raw-data-to-clean-data",
-    "href": "w04/index.html#from-raw-data-to-clean-data",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "From Raw Data to Clean Data",
-    "text": "From Raw Data to Clean Data"
+    "objectID": "w03/slides.html#intranet-vs.-internet",
+    "href": "w03/slides.html#intranet-vs.-internet",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Intranet vs. Internet",
+    "text": "Intranet vs. Internet\n\nCrucial distinction: can set up a “mini-internet”, an intranet, within your own home\nOrganizations (businesses, government agencies) with security needs often do exactly this: link a set of computers and servers together, no outside access\n\n\n\nInternet = basically a giant intranet, open to the whole world"
   },
   {
-    "objectID": "w04/index.html#data-structures-simple-rightarrow-complex",
-    "href": "w04/index.html#data-structures-simple-rightarrow-complex",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Data Structures: Simple \\(\\rightarrow\\) Complex",
-    "text": "Data Structures: Simple \\(\\rightarrow\\) Complex\n\n\n\n\n\n\n\nid\nname\nemail\n\n\n\n\n0\nK. Desbrow\nkd9@dailymail.com\n\n\n1\nD. Minall\ndminall1@wired.com\n\n\n2\nC. Knight\nck2@microsoft.com\n\n\n3\nM. McCaffrey\nmccaf4@nhs.uk\n\n\n\nFigure 2: Record Data\n\n\n\n\n\n\n\nyear\nmonth\npoints\n\n\n\n\n2023\nJan\n65\n\n\n2023\nFeb\n\n\n\n2023\nMar\n42\n\n\n2023\nApr\n11\n\n\n\nFigure 3: Time-Series Data\n\n\n\n\n\n\n\n\n\nid\ndate\nrating\nnum_rides\n\n\n\n\n0\n2023-01\n0.75\n45\n\n\n0\n2023-02\n0.89\n63\n\n\n0\n2023-03\n0.97\n7\n\n\n1\n2023-06\n0.07\n10\n\n\n\nFigure 4: Panel Data\n\n\n\n\n\n\n\nSource\nTarget\nWeight\n\n\n\n\nIGF2\nIGF1R\n1\n\n\nIGF1R\nTP53\n2\n\n\nTP53\nEGFR\n0.5\n\n\n\nFigure 5: Network Data\n\n\n\n\n\n\nFake data via Mockaroo and Random.org. Protein-protein interaction network from Agrawal, Zitnik, and Leskovec (2018)"
+    "objectID": "w03/slides.html#key-building-blocks-locating-servers",
+    "href": "w03/slides.html#key-building-blocks-locating-servers",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Key Building Blocks: Locating Servers",
+    "text": "Key Building Blocks: Locating Servers\n\nIP Addresses (Internet Protocol addresses): Numeric addresses for uniquely identifying computers on a network\n\nGeorgetown University, for example, is allocated IP addresses between 141.161.0.0 and 141.161.255.255\n\nURLs (Uniform Resource Locators): The more human-readable website addresses you’re used to: google.com, georgetown.edu, etc.\n\nBuilt on top of IP addresses, via a directory which maps URLs → IP addresses\ngeorgetown.edu, for example, is really 23.185.0.21\n\n\nTo see this, you can open your Terminal and run the ping command: ping georgetown.edu."
   },
   {
-    "objectID": "w04/index.html#tabular-data-vs.-relational-data",
-    "href": "w04/index.html#tabular-data-vs.-relational-data",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Tabular Data vs. Relational Data",
-    "text": "Tabular Data vs. Relational Data\n\nAll of the datasets on the previous slide are tabular\nDatabases like SQLite, MySQL, require us to think about relationships within and between tabular datasets\nImagine you’re creating the backend for a social network. How would you record users and friendships? Your intuition may be record data:\n\n\n\n\n\n\n\n\n\n\n\nid\nname\nfriends\n\n\n\n\n1\nPurna\n[2,3,4]\n\n\n2\nJeff\n[1,3,4,5,6]\n\n\n3\nJames\n[1,2,4,6]\n\n\n4\nNakul\n[1,2,3]\n\n\n5\nDr. Fauci\n[2,6]\n\n\n6\nPitbull\n[2,5]\n\n\n\nFigure 6: Our first attempt at a data structure for our social network app’s backend\n\n\n\nLong story short…\n\nThis doesn’t scale\nExtremely inefficient to find whether two users are friends\nRedundant information: Have to store friendship between A and B in both A’s row and B’s row"
+    "objectID": "w03/slides.html#what-happens-when-i-visit-a-urlip",
+    "href": "w03/slides.html#what-happens-when-i-visit-a-urlip",
+    "title": "Week 3: Data Science Workflow",
+    "section": "What Happens When I Visit a URL/IP?",
+    "text": "What Happens When I Visit a URL/IP?\n\nHTTP(S) (HyperText Transfer Protocol (Secure)): common syntax for web clients to make requests and servers to respond\n\nSeveral types of requests can be made: GET, POST, HEAD; for now, we focus on the GET request, the request your browser makes by default\n\nHTML (HyperText Markup Language): For specifying layout and content of page\n\nStructure is analogous to boxes of content: &lt;html&gt; box contains &lt;head&gt; (metadata, e.g., page title) and &lt;body&gt; (page content) boxes, &lt;body&gt; box contains e.g. header, footer, navigation bar, and main content of page.\nModern webpages also include CSS (Cascading Style Sheets) for styling this content, and Javascript1 for interactivity (changing/updating content)\nHTML allows linking to another page with a special anchor tag (&lt;a&gt;): &lt;a href=\"https://npr.org/\"&gt;news&lt;/a&gt; creates a link, so when you click “news”, browser will request (fetch the HTML for) the URL https://npr.org\n\n\nIncredibly, despite the name, Javascript has absolutely nothing to do with the Java programming language…"
   },
   {
-    "objectID": "w04/index.html#a-better-approach",
-    "href": "w04/index.html#a-better-approach",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "A Better Approach",
-    "text": "A Better Approach\n\nMove the friendship data into its own table!\nThis table now represents relational data, (user table still corresponds to records):\n\n\n\n\n\n\n\n\n\n\n\nuser_id\nname\n\n\n\n\n1\nPurna\n\n\n2\nJeff\n\n\n3\nJames\n\n\n4\nNakul\n\n\n5\nDr. Fauci\n\n\n6\nPitbull\n\n\n\nFigure 7: The user table in our relational structure\n\n\n\n\n\n\n\n\n\n\nid\nfriend_1\nfriend_2\nid\nfriend_1\nfriend_2\n\n\n\n\n1\n1\n2\n6\n2\n5\n\n\n2\n1\n3\n7\n2\n6\n\n\n3\n1\n4\n8\n3\n4\n\n\n4\n2\n3\n9\n3\n6\n\n\n5\n2\n4\n10\n5\n6\n\n\n\nFigure 8: The friendships table in our relational structure\n\n\n\n\n\nMay seem weird in terms of human readability, but think in terms of memory/computational efficiency: (a) Scalable, (b) Easy to find if two users are friends (via sorting/searching algorithms), (c) No redundant info"
+    "objectID": "w03/slides.html#https-requests-in-action",
+    "href": "w03/slides.html#https-requests-in-action",
+    "title": "Week 3: Data Science Workflow",
+    "section": "HTTP(S) Requests in Action",
+    "text": "HTTP(S) Requests in Action\n\nImage from Menczer, Fortunato, and Davis (2020, 90)"
   },
   {
-    "objectID": "w04/index.html#dbs-relational-or-otherwise",
-    "href": "w04/index.html#dbs-relational-or-otherwise",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "DBs: Relational or Otherwise",
-    "text": "DBs: Relational or Otherwise\n\nFor rest of lecture we zoom in on cases where data comes as individual files\nBut on top of the relational format from previous slide, there are also non-relational database formats, like the document-based format used by e.g. MongoDB1\nIn either case, data is spread over many files, so that to obtain a single dataset we use queries.\n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nfile\n\n File (.csv/.json/etc.)   \n\nload\n\n read_csv()   \n\nfile-&gt;load\n\n    \n\ndataset\n\n Dataset   \n\nload-&gt;dataset\n\n   \n\n\n\n\n\nFigure 9: Statically datasets (as individual files on disk)\n\n\n\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_00\n\n Database   \n\ntab1\n\n Table 1   \n\nquery\n\n Query   \n\ntab1-&gt;query\n\n    \n\ntab2\n\n Table 2   \n\ntab2-&gt;query\n\n    \n\ntabdots\n\n …   \n\ntabdots-&gt;query\n\n    \n\ntabN\n\n Table N   \n\ntabN-&gt;query\n\n    \n\ndataset\n\n Dataset   \n\nquery-&gt;dataset\n\n   \n\n\n\n\n\nFigure 10: Datasets formed dynamically via database queries"
+    "objectID": "w03/slides.html#how-does-a-web-server-work",
+    "href": "w03/slides.html#how-does-a-web-server-work",
+    "title": "Week 3: Data Science Workflow",
+    "section": "How Does a Web Server Work?",
+    "text": "How Does a Web Server Work?\n\nWe use the term “server” metonymously1\n\nSometimes we mean the hardware, the box of processors and hard drives\nBut, sometimes we mean the software that runs on the hardware\n\nA web server, in the software sense, is a program that is always running, 24/7\nWaits for requests (via HTTPS), then serves HTML code in response (also via HTTPS)\n\n\n\n\n\n\n\nhello_server.py\n\nfrom flask import Flask\napp = Flask(__name__)\n\n@app.route(\"/\")\ndef hello_world():\n    return \"&lt;p&gt;Hello, World!&lt;/p&gt;\"\n@app.route(\"/hack\")\ndef hacker_detected():\n    return \"&lt;p&gt;Hacker detected, pls stop&lt;/p&gt;\"\n\n$ flask --app hello_server run\n * Serving Flask app 'hello_server'\n * Running on http://127.0.0.1:5000 (CTRL+C to quit)\n127.0.0.1 [06/Sep/2023 00:11:05] \"GET / HTTP\" 200\n127.0.0.1 [06/Sep/2023 00:11:06] \"GET /hack HTTP\" 200\nFigure 3: Basic web server (written in Flask)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 4: [Browser-parsed] responses to GET requests\n\n\n\n\nSorry for jargon: it just means using the same word for different levels of a system (dangerous when talking computers!)"
   },
   {
-    "objectID": "w04/index.html#data-formats",
-    "href": "w04/index.html#data-formats",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Data Formats",
-    "text": "Data Formats\n\nThe most common formats, for most fields:\n\n.csv: Comma-Separated Values\n.tsv: Tab-Separated Values\n.json: JavaScript Object Notation\n.xls/.xlsx: Excel format\n.dta: Stata format"
+    "objectID": "w03/slides.html#how-does-a-web-client-work",
+    "href": "w03/slides.html#how-does-a-web-client-work",
+    "title": "Week 3: Data Science Workflow",
+    "section": "How Does a Web Client Work?",
+    "text": "How Does a Web Client Work?\n\n\nOnce the server has responded to your request, you still only have raw HTML code\nSo, the browser is the program that renders this raw HTML code as a visual, (possibly) interactive webpage\nAs a data scientist, the most important thing to know is that different browsers can render the same HTML differently!\n\n\n\n\nA headache when pages are accessed through laptops\nA nightmare when pages are accessed through laptops and mobile"
   },
   {
-    "objectID": "w04/index.html#csv-.tsv",
-    "href": "w04/index.html#csv-.tsv",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": ".csv / .tsv",
-    "text": ".csv / .tsv\n\n\n👍\n\n\nmy_data.csv\n\nindex,var_1,var_2,var_3\nA,val_A1,val_A2,val_A3\nB,val_B1,val_B2,val_B3\nC,val_C1,val_C2,val_C3\nD,val_D1,val_D2,val_D3\n\n\n(👎)\n\n\nmy_data.tsv\n\nindex var_1 var_2 var_3\nA val_A1  val_A2  val_A3\nB val_B1  val_B2  val_B3\nC val_C1  val_C2  val_C3\nD val_D1  val_D2  val_D3\n\n\n\n→\n\n\n\nsource(\"../_globals.r\")\nlibrary(readr)\ndata &lt;- read_csv(\"assets/my_data.csv\")\n\nRows: 3 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): index, var_1, var_2, var_3\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndisp(data)\n\n\n\n\n\n# | index | var_1 | var_2 | var_3 |\n# | - | - | - | - |\n# | A | val_A1 | val_A2 | val_A3 |\n# | B | val_B1 | val_B2 | val_B3 |\n# | C | val_C1 | val_C2 | val_C3 |\n# | D | val_D1 | val_D2 | val_D3 | \n\n\n\n\n\nPython: pd.read_csv() (from Pandas library)\nR: read_csv() (from readr library)"
+    "objectID": "w03/slides.html#connecting-to-servers",
+    "href": "w03/slides.html#connecting-to-servers",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Connecting to Servers",
+    "text": "Connecting to Servers\n\nWe’ve talked about the shell on your local computer, as well as the Georgetown Domains shell\nWe used Georgetown Domains’ web interface to access that shell, but you can remotely connect to any other shell from your local computer using the ssh command!"
   },
   {
-    "objectID": "w04/index.html#json",
-    "href": "w04/index.html#json",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": ".json",
-    "text": ".json\n\n\n\ncourses.json\n\n{\n  \"dsan5000\": {\n    \"title\": \"Data Science and Analytics\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Tools and Workflow\"\n    ]\n  },\n  \"dsan5100\": {\n    \"title\": \"Probabilistic Modeling and Statistical Computing\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Conditional Probability\"\n    ]\n  }\n}\n\n\n\nPython: json (built-in library, import json)\nR: jsonlite (install.packages(jsonlite))\nHelpful validator (for when .json file won’t load)"
+    "objectID": "w03/slides.html#transferring-files-tofrom-servers",
+    "href": "w03/slides.html#transferring-files-tofrom-servers",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Transferring Files to/from Servers",
+    "text": "Transferring Files to/from Servers\n\nRecall the copy command, cp, for files on your local computer\nThere is a remote equivalent, scp (Secure Copy Protocol), which you can use to copy files to/from remote servers to your local computer"
   },
   {
-    "objectID": "w04/index.html#other-formats",
-    "href": "w04/index.html#other-formats",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Other Formats",
-    "text": "Other Formats\n\n.xls/.xlsx: Requires special libraries in Python/R\n\nPython: openpyxl\nR: readxl (part of tidyverse)\n\n.dta: Stata format, but can be read/written to in Python/R\n\nPython: Pandas has built-in pd.read_stata() and pd.to_stata()\nR: read_dta() from Haven library (part of tidyverse)"
+    "objectID": "w03/slides.html#important-alternative-rsync",
+    "href": "w03/slides.html#important-alternative-rsync",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Important Alternative: rsync",
+    "text": "Important Alternative: rsync\n\nSimilar to scp, with same syntax, except it synchronizes (only copies files which are different or missing)\n\n\n\nsync_files.sh\n\nrsync -avz source_directory/ user@remote_server:/path/to/destination/\n\n\n-a (“archive”) tells rsync you want it to copy recursively\n-v (“verbose”) tells rsync to print information as it copies\n-z (“zip/compress”) tells rsync to compress files before copying and then decompress them on the server (thus massively speeding up the transfer)\nhttps://explainshell.com/explain?cmd=rsync+-avz"
   },
   {
-    "objectID": "w04/index.html#scraping-html-with-requests-and-beautifulsoup",
-    "href": "w04/index.html#scraping-html-with-requests-and-beautifulsoup",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Scraping HTML with requests and BeautifulSoup",
-    "text": "Scraping HTML with requests and BeautifulSoup\nrequests Documentation | BeautifulSoup Documentation\n\n\nCode\n# Get HTML\nimport requests\n# Perform request\nresponse = requests.get(\"https://en.wikipedia.org/wiki/Data_science\")\n# Parse HTML\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(response.text, 'html.parser')\nall_headers = soup.find_all(\"h2\")\nsection_headers = [h.find(\"span\", {'class': 'mw-headline'}).text for h in all_headers[1:]]\nsection_headers\n\n\n['Foundations', 'Etymology', 'Data Science and Data Analysis', 'History', 'See also', 'References']"
+    "objectID": "w03/slides.html#why-do-we-need-reproducible-research",
+    "href": "w03/slides.html#why-do-we-need-reproducible-research",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Why Do We Need Reproducible Research?",
+    "text": "Why Do We Need Reproducible Research?\n\nMain human motivations (Max Weber): Wealth, Prestige, Power → “TED talk circuit”\n\n\nNew York Times Magazine, October 18, 2017."
   },
   {
-    "objectID": "w04/index.html#navigating-html-with-beautifulsoup",
-    "href": "w04/index.html#navigating-html-with-beautifulsoup",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Navigating HTML with BeautifulSoup",
-    "text": "Navigating HTML with BeautifulSoup\n\nLet’s focus on this line from the previous slide:\n\nall_headers = soup.find_all(\"h2\")\n\nfind_all() is the key function for scraping!\nIf the HTML has a repeating structure (like rows in a table), find_all() can instantly parse this structure into a Python list."
+    "objectID": "w03/slides.html#science-vs.-human-fallibility",
+    "href": "w03/slides.html#science-vs.-human-fallibility",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Science vs. Human Fallibility",
+    "text": "Science vs. Human Fallibility\n\nScientific method + replicability/pre-registration = “Tying ourselves to the mast”\n\n\nJohn William Waterhouse, Ulysses and the Sirens, Public domain, via Wikimedia Commons\nIf we aim to disprove (!) our hypotheses, and we pre-register our methodology, we are bound to discovering truth, even when it is disadvantageous to our lives…"
   },
   {
-    "objectID": "w04/index.html#the-power-of-find_all",
-    "href": "w04/index.html#the-power-of-find_all",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "The Power of find_all()",
-    "text": "The Power of find_all()\n\n\n\n\n\n\ndata_page.html\n\n&lt;div class=\"all-the-data\"&gt;\n    &lt;h4&gt;First Dataset&lt;/h4&gt;\n    &lt;div class=\"data-1\"&gt;\n        &lt;div class=\"dataval\"&gt;1&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;2&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;3&lt;/div&gt;\n    &lt;/div&gt;\n    &lt;h4&gt;Second Dataset&lt;/h4&gt;\n    &lt;div class=\"data-2\"&gt;\n        &lt;ul&gt;\n            &lt;li&gt;4.0&lt;/li&gt;\n            &lt;li&gt;5.5&lt;/li&gt;\n            &lt;li&gt;6.7&lt;/li&gt;\n        &lt;/ul&gt;\n    &lt;/div&gt;\n&lt;/div&gt;\n\nFigure 11: Data in page elements (&lt;div&gt;, &lt;li&gt;)\n\n\n\n\n\n    First Dataset\n    \n        1\n        2\n        3\n    \n    Second Dataset\n        \n            4.0\n            5.5\n            6.7\n        \n\nFigure 12: The code from Figure 11, rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(page_html, 'html.parser')\nds1_elt = soup.find(\"div\", class_='data-1')\nds1 = [e.text for e in ds1_elt.find_all(\"div\")]\nds2_elt = soup.find(\"div\", {'class': 'data-2'})\nds2 = [e.text for e in ds2_elt.find_all(\"li\")]\n\nFigure 13: The BeautifulSoup code used to parse the HTML\n\n\n\n\n\nprint(f\"dataset-1: {ds1}\\ndataset-2: {ds2}\")\n\ndataset-1: ['1', '2', '3']\ndataset-2: ['4.0', '5.5', '6.7']\n\n\nFigure 14: Contents of the Python variables holding the parsed data"
+    "objectID": "w03/slides.html#human-fallibility-is-winning",
+    "href": "w03/slides.html#human-fallibility-is-winning",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Human Fallibility is Winning…",
+    "text": "Human Fallibility is Winning…\n\nMore than 70% of researchers have tried and failed to reproduce another scientist’s experiments, and more than half have failed to reproduce their own experiments. Those are some of the telling figures that emerged from Nature’s survey of 1,576 researchers (Baker 2016)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncor(ski_df$value, law_df$value)\n\n[1] 0.9921178"
   },
   {
-    "objectID": "w04/index.html#parsing-html-tables",
-    "href": "w04/index.html#parsing-html-tables",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Parsing HTML Tables",
-    "text": "Parsing HTML Tables\n\n\n\n\n\n\ntable_data.html\n\n&lt;table&gt;\n&lt;thead&gt;\n    &lt;tr&gt;\n        &lt;th&gt;X1&lt;/th&gt;&lt;th&gt;X2&lt;/th&gt;&lt;th&gt;X3&lt;/th&gt;\n    &lt;/tr&gt;\n&lt;/thead&gt;\n&lt;tbody&gt;\n    &lt;tr&gt;\n        &lt;td&gt;1&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n        &lt;td&gt;2&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;\n    &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n\nFigure 15: Data in HTML table format\n\n\n\n\n\n\n\nX1\nX2\nX3\n\n\n\n\n1\n3\n5\n\n\n2\n4\n6\n\n\n\nFigure 16: The HTML table code, as rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(table_html, 'html.parser')\nthead = soup.find(\"thead\")\nheaders = [e.text for e in thead.find_all(\"th\")]\ntbody = soup.find(\"tbody\")\nrows = tbody.find_all(\"tr\")\ndata = [[e.text for e in r.find_all(\"td\")]\n            for r in rows]\n\nFigure 17: The BeautifulSoup code used to parse the table HTML\n\n\n\n\n\nprint(f\"headers: {headers}\\ndata: {data}\")\n\nheaders: ['X1', 'X2', 'X3']\ndata: [['1', '3', '5'], ['2', '4', '6']]\n\n\nFigure 18: Contents of the Python variables holding the parsed data"
+    "objectID": "w03/slides.html#r-vs.-rstudio-vs.-quarto",
+    "href": "w03/slides.html#r-vs.-rstudio-vs.-quarto",
+    "title": "Week 3: Data Science Workflow",
+    "section": "R vs. RStudio vs. Quarto",
+    "text": "R vs. RStudio vs. Quarto\n\n\n\n\n\n\n\n\n\n\n\n\n\nGUI wrapper around R (Integrated Development Environment = IDE)\nRun blocks of R code (.qmd chunks)\n\n\n\nThe R Language \n\nProgramming language\nRuns scripts via Rscript &lt;script&gt;.r \n\n\n\n\n\n\n+\n\n\n\n\n\n\n\nGUI wrapper around Python (IDE)\nRun blocks of Python code (.ipynb cells)\n\n\n\n\nThe Python Language \n\nScripting language\nOn its own, just runs scripts via python &lt;script&gt;.py"
   },
   {
-    "objectID": "w04/index.html#what-does-an-api-do",
-    "href": "w04/index.html#what-does-an-api-do",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "What Does an API Do?",
-    "text": "What Does an API Do?\nExposes endpoints for use by developers, without requiring them to know the nuts and bolts of your pipeline/service:\n\n\n\n\n\n\n\n\nExample\nEndpoint\nNot Exposed\n\n\n\n\nElectrical outlet\nSocket\nInternal wiring\n\n\nWater fountain\nAerator\nWater pump\n\n\nCar\nPedals, Steering wheel, etc.\nEngine\n\n\n\n\nWhen I’m teaching programming to students in refugee camps who may have never used a computer before, I try to use the idea of “robots”: a program is a robot trained to sit there and wait for inputs, then process them in some way and spit out some output. APIs really capture this notion, honestly."
+    "objectID": "w03/slides.html#reproducibility-and-literate-programming",
+    "href": "w03/slides.html#reproducibility-and-literate-programming",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Reproducibility and Literate Programming",
+    "text": "Reproducibility and Literate Programming\n\nReproducible document: includes both the content (text, tables, figures) and the code or instructions required to generate that content.\n\nDesigned to ensure that others can reproduce the same document, including its data analysis, results, and visualizations, consistently and accurately.\ntldr: If you’re copying-and-pasting results from your code output to your results document, a red flag should go off in your head!\n\nLiterate programming is a coding and documentation approach where code and explanations of the code are combined in a single document.\n\nEmphasizes clear and understandable code by interleaving human-readable text (explanations, comments, and documentation) with executable code."
   },
   {
-    "objectID": "w04/index.html#example-math-api",
-    "href": "w04/index.html#example-math-api",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Example: Math API",
-    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nimport requests\nresponse = requests.get(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nprint(response.json())\n\n\n{'operation': 'factor', 'expression': 'x^2-1', 'result': '(x - 1) (x + 1)'}"
+    "objectID": "w03/slides.html#single-source-many-outputs",
+    "href": "w03/slides.html#single-source-many-outputs",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Single Source, Many Outputs",
+    "text": "Single Source, Many Outputs\n\nWe can create content (text, code, results, graphics) within a source document, and then use different weaving engines to create different document types:\n\n\n\n\nDocuments\n\nWeb pages (HTML)\nWord documents\nPDF files\n\nPresentations\n\nHTML\nPowerPoint\n\n\n\n\nWebsites/blogs\nBooks\nDashboards\nInteractive documents\nFormatted journal articles"
   },
   {
-    "objectID": "w04/index.html#math-api-endpoints",
-    "href": "w04/index.html#math-api-endpoints",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Math API Endpoints",
-    "text": "Math API Endpoints\n\n\n\nOperation\nAPI Endpoint\nResult\n\n\n\n\nSimplify\n/simplify/2^2+2(2)\n8\n\n\nFactor\n/factor/x^2 + 2x\nx (x + 2)\n\n\nDerive\n/derive/x^2+2x\n2 x + 2\n\n\nIntegrate\n/integrate/x^2+2x\n1/3 x^3 + x^2 + C\n\n\nFind 0’s\n/zeroes/x^2+2x\n[-2, 0]\n\n\nFind Tangent\n/tangent/2|x^3\n12 x + -16\n\n\nArea Under Curve\n/area/2:4|x^3\n60\n\n\nCosine\n/cos/pi\n-1\n\n\nSine\n/sin/0\n0\n\n\nTangent\n/tan/0\n0"
+    "objectID": "w03/slides.html#interactivity",
+    "href": "w03/slides.html#interactivity",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Interactivity!",
+    "text": "Interactivity!\n\nAre we “hiding something” by choosing a specific bin width? Make it transparent!"
   },
   {
-    "objectID": "w04/index.html#authentication",
-    "href": "w04/index.html#authentication",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication",
-    "text": "Authentication\n\nUnlike the math API, most APIs do not allow requests to be made by anonymous requesters, and require authentication.\nFor example, you can access public GitHub repos anonymously, but to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
+    "objectID": "w03/slides.html#git-vs.-github",
+    "href": "w03/slides.html#git-vs.-github",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Git vs. GitHub",
+    "text": "Git vs. GitHub\n(Important distinction!)\n\n\nGit \n\nCommand-line program\ngit init in shell to create\ngit add to track files\ngit commit to commit changes to tracked files\n\n\nGitHub \n\nCode hosting website\nCreate a repository (repo) for each project\nCan clone repos onto your local machine\n\n\n\n\ngit push/git pull: The link between the two!"
   },
   {
-    "objectID": "w04/index.html#authentication-via-pygithub",
-    "href": "w04/index.html#authentication-via-pygithub",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication via PyGithub",
-    "text": "Authentication via PyGithub\n\n\n\n\n\n\nPyGithub Installation\n\n\n\nInstall using the following terminal/shell command [Documentation]\npip install PyGithub\n\n\nPyGithub can handle authentication for you. Example: this private repo in my account does not show up unless the request is authenticated (via a Personal Access Token)2:\n\n\n\n\n\n# import github\n# g = github.Github()\n# try:\n#   g.get_repo(\"jpowerj/private-repo-test\")\n# except Exception as e:\n#   print(e)\n\nFigure 19: Using the GitHub API without authentication\n\n\n\n\n\n# Load the access token securely\n# import os\n# my_access_token = os.getenv('GITHUB_TOKEN')\n# import github\n# # Use the access token to make an API request\n# auth = github.Auth.Token(my_access_token)\n# g = github.Github(auth=auth)\n# g.get_user().get_repo(\"private-repo-test\")\n\nFigure 20: Using the GitHub API with authentication"
+    "objectID": "w03/slides.html#git-diagram",
+    "href": "w03/slides.html#git-diagram",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Git Diagram",
+    "text": "Git Diagram"
   },
   {
-    "objectID": "w04/index.html#references",
-    "href": "w04/index.html#references",
-    "title": "Week 4: Data Gathering and APIs",
+    "objectID": "w03/slides.html#initializing-a-repo",
+    "href": "w03/slides.html#initializing-a-repo",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Initializing a Repo",
+    "text": "Initializing a Repo\n\nLet’s make a directory for our project called cool-project, and initialize a Git repo for it\n\n\nuser@hostname:~$ mkdir cool-project\nuser@hostname:~$ cd cool-project\nuser@hostname:~/cool-project$ git init\nInitialized empty Git repository in /home/user/cool-project/.git/\n\nThis creates a hidden folder, .git, in the directory:\n\n\nuser@hostname:~/cool-project$ ls -lah\ntotal 12K\ndrwxr-xr-x  3 user user 4.0K May 28 00:53 .\ndrwxr-xr-x 12 user user 4.0K May 28 00:53 ..\ndrwxr-xr-x  7 user user 4.0K May 28 00:53 .git\n\nThe Git Side: Local I"
+  },
+  {
+    "objectID": "w03/slides.html#adding-and-committing-a-file",
+    "href": "w03/slides.html#adding-and-committing-a-file",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Adding and Committing a File",
+    "text": "Adding and Committing a File\nWe’re writing Python code, so let’s create and track cool_code.py:\nuser@hostname:~/cool-project$ touch cool_code.py\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\n\nNo commits yet\n\nChanges to be committed:\n  (use \"git rm --cached &lt;file&gt;...\" to unstage)\n        new file:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Initial version of cool_code.py\"\n[main (root-commit) b40dc25] Initial version of cool_code.py\n 1 file changed, 0 insertions(+), 0 deletions(-)\n create mode 100644 cool_code.py"
+  },
+  {
+    "objectID": "w03/slides.html#the-commit-log",
+    "href": "w03/slides.html#the-commit-log",
+    "title": "Week 3: Data Science Workflow",
+    "section": "The Commit Log",
+    "text": "The Commit Log\n\nView the commit log using git log:\n\nuser@hostname:~/cool-project$ git log\ncommit b40dc252a3b7355cc4c28397fefe7911ff3c94b9 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:57:16 2023 +0000\n\n    Initial version of cool_code.py\n\n\n\n\n\ngitGraph\n   commit id: \"b40dc25\""
+  },
+  {
+    "objectID": "w03/slides.html#making-changes",
+    "href": "w03/slides.html#making-changes",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Making Changes",
+    "text": "Making Changes\nuser@hostname:~/cool-project$ git status\nOn branch main\nnothing to commit, working tree clean\nuser@hostname:~/cool-project$ echo \"1 + 1\" &gt;&gt; cool_code.py\nuser@hostname:~/cool-project$ more cool_code.py\n1 + 1\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\nChanges to be committed:\n  (use \"git restore --staged &lt;file&gt;...\" to unstage)\n        modified:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Added code to cool_code.py\"\n[main e3bc497] Added code to cool_code.py\n 1 file changed, 1 insertion(+)"
+  },
+  {
+    "objectID": "w03/slides.html#section",
+    "href": "w03/slides.html#section",
+    "title": "Week 3: Data Science Workflow",
+    "section": "",
+    "text": "The git log will show the new version:\nuser@hostname:~/cool-project$ git log\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial version of cool_code.py"
+  },
+  {
+    "objectID": "w03/slides.html#more-changes",
+    "href": "w03/slides.html#more-changes",
+    "title": "Week 3: Data Science Workflow",
+    "section": "More Changes",
+    "text": "More Changes\nuser@hostname:~/cool-project$ echo \"2 + 2\" &gt;&gt; cool_code.py\nuser@hostname:~/cool-project$ more cool_code.py\n1 + 1\n2 + 2\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\nChanges to be committed:\n  (use \"git restore --staged &lt;file&gt;...\" to unstage)\n        modified:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Second version of cool_code.py\"\n[main 4007db9] Second version of cool_code.py\n 1 file changed, 1 insertion(+)"
+  },
+  {
+    "objectID": "w03/slides.html#and-the-git-log",
+    "href": "w03/slides.html#and-the-git-log",
+    "title": "Week 3: Data Science Workflow",
+    "section": "And the git log",
+    "text": "And the git log\nuser@hostname:~/cool-project$ git log\ncommit 4007db9a031ca134fe09eab840b2bc845366a9c1 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:39:28 2023 +0000\n\n    Second version of cool_code.py\n\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial (empty) version of cool_code.py"
+  },
+  {
+    "objectID": "w03/slides.html#undoing-a-commit-i",
+    "href": "w03/slides.html#undoing-a-commit-i",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Undoing a Commit I",
+    "text": "Undoing a Commit I\nFirst check the git log to find the hash for the commit you want to revert back to:\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py"
+  },
+  {
+    "objectID": "w03/slides.html#undoing-a-commit-ii",
+    "href": "w03/slides.html#undoing-a-commit-ii",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Undoing a Commit II",
+    "text": "Undoing a Commit II\n\n This is irreversable! \n\nuser@hostname:~/cool-project$ git reset --hard e3bc497ac\nHEAD is now at e3bc497 Added code to cool_code.py\nuser@hostname:~/cool-project$ git log\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial (empty) version of cool_code.py"
+  },
+  {
+    "objectID": "w03/slides.html#onwards-and-upwards",
+    "href": "w03/slides.html#onwards-and-upwards",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Onwards and Upwards",
+    "text": "Onwards and Upwards\nuser@hostname:~/cool-project$ echo \"3 + 3\" &gt;&gt; cool_code.py\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\nChanges to be committed:\n  (use \"git restore --staged &lt;file&gt;...\" to unstage)\n        modified:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Added different code to cool_code.py\"\n[main 700d955] Added different code to cool_code.py\n 1 file changed, 1 insertion(+)"
+  },
+  {
+    "objectID": "w03/slides.html#section-1",
+    "href": "w03/slides.html#section-1",
+    "title": "Week 3: Data Science Workflow",
+    "section": "",
+    "text": "The final git log:\nuser@hostname:~/cool-project$ git log\ncommit 700d955faacb27d7b8bc464b9451851b5e319f20 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:44:49 2023 +0000\n\n    Added different code to cool_code.py\n\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial (empty) version of cool_code.py"
+  },
+  {
+    "objectID": "w03/slides.html#but-why-these-diagrams",
+    "href": "w03/slides.html#but-why-these-diagrams",
+    "title": "Week 3: Data Science Workflow",
+    "section": "But Why These Diagrams?",
+    "text": "But Why These Diagrams?\nEven the simplest projects can start to look like:\n\n\n\n\n\ngitGraph\n       commit id: \"537dd67\"\n       commit id: \"6639143\"\n       branch nice_feature\n       checkout nice_feature\n       commit id: \"937ded8\"\n       checkout main\n       commit id: \"9e6679c\"\n       checkout nice_feature\n       branch very_nice_feature\n       checkout very_nice_feature\n       commit id: \"7f4de03\"\n       checkout main\n       commit id: \"6df80c1\"\n       checkout nice_feature\n       commit id: \"bd0ebb8\"\n       checkout main\n       merge nice_feature id: \"9ff61cc\" tag: \"V 1.0.0\" type: HIGHLIGHT\n       checkout very_nice_feature\n       commit id: \"370613b\"\n       checkout main\n       commit id: \"9a07a97\""
+  },
+  {
+    "objectID": "w03/slides.html#the-github-side-remote",
+    "href": "w03/slides.html#the-github-side-remote",
+    "title": "Week 3: Data Science Workflow",
+    "section": "The GitHub Side: Remote",
+    "text": "The GitHub Side: Remote"
+  },
+  {
+    "objectID": "w03/slides.html#an-empty-repo",
+    "href": "w03/slides.html#an-empty-repo",
+    "title": "Week 3: Data Science Workflow",
+    "section": "An Empty Repo",
+    "text": "An Empty Repo"
+  },
+  {
+    "objectID": "w03/slides.html#refresh-after-git-push",
+    "href": "w03/slides.html#refresh-after-git-push",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Refresh after git push",
+    "text": "Refresh after git push"
+  },
+  {
+    "objectID": "w03/slides.html#commit-history",
+    "href": "w03/slides.html#commit-history",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Commit History",
+    "text": "Commit History"
+  },
+  {
+    "objectID": "w03/slides.html#checking-the-diff",
+    "href": "w03/slides.html#checking-the-diff",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Checking the diff",
+    "text": "Checking the diff"
+  },
+  {
+    "objectID": "w03/slides.html#web-development",
+    "href": "w03/slides.html#web-development",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Web Development",
+    "text": "Web Development\n\n\n\n\n\n\n\n\n\nFrontend   \nBackend   \n\n\n\n\nLow Level\nHTML/CSS/JavaScript\nGitHub Pages\n\n\nMiddle Level\nJS Libraries\nPHP, SQL\n\n\nHigh Level\nReact, Next.js\nNode.js, Vercel\n\n\n\n\nFrontend icons: UI+UI elements, what the user sees (on the screen), user experience (UX), data visualization Backend icons: Databases, Security"
+  },
+  {
+    "objectID": "w03/slides.html#getting-content-onto-the-internet",
+    "href": "w03/slides.html#getting-content-onto-the-internet",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Getting Content onto the Internet",
+    "text": "Getting Content onto the Internet\n\n\n\n\nStep 1: index.html\n\n\nStep 2: Create GitHub repository\n\n\nStep 3: git init, git add -A ., git push\n\n\nStep 4: Enable GitHub Pages in repo settings\n\n\nStep 5: &lt;username&gt;.github.io!"
+  },
+  {
+    "objectID": "w03/slides.html#deploying-from-a-branchfolder",
+    "href": "w03/slides.html#deploying-from-a-branchfolder",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Deploying from a Branch/Folder",
+    "text": "Deploying from a Branch/Folder"
+  },
+  {
+    "objectID": "w03/slides.html#lab-demonstration-1-transferring-files",
+    "href": "w03/slides.html#lab-demonstration-1-transferring-files",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Lab Demonstration 1: Transferring Files",
+    "text": "Lab Demonstration 1: Transferring Files"
+  },
+  {
+    "objectID": "w03/slides.html#lab-demonstration-2-quarto",
+    "href": "w03/slides.html#lab-demonstration-2-quarto",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Lab Demonstration 2: Quarto",
+    "text": "Lab Demonstration 2: Quarto"
+  },
+  {
+    "objectID": "w03/slides.html#lab-demonstration-3-git-and-github",
+    "href": "w03/slides.html#lab-demonstration-3-git-and-github",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Lab Demonstration 3: Git and GitHub",
+    "text": "Lab Demonstration 3: Git and GitHub"
+  },
+  {
+    "objectID": "w03/slides.html#assignment-overview",
+    "href": "w03/slides.html#assignment-overview",
+    "title": "Week 3: Data Science Workflow",
+    "section": "Assignment Overview",
+    "text": "Assignment Overview\n\nCreate a repo on your private GitHub account called 5000-lab-1.2\nClone the repo to your local machine with git clone\nCreate a blank Quarto website project, then use a .bib file to add citations\nAdd content to index.qmd\nAdd content to about.ipynb\nBuild a simple presentation in slides/slides.ipynb using the revealjs format\nRender the website using quarto render\nSync your changes to GitHub\nUse rsync or scp to copy the _site directory to your GU domains server (within ~/public_html)\nCreate a Zotero (or Mendeley) account, download the software, and add at least one reference to your site by syncing the .bib file"
+  },
+  {
+    "objectID": "w03/slides.html#references",
+    "href": "w03/slides.html#references",
+    "title": "Week 3: Data Science Workflow",
     "section": "References",
-    "text": "References\n\n\nAgrawal, Monica, Marinka Zitnik, and Jure Leskovec. 2018. “Large-Scale Analysis of Disease Pathways in the Human Interactome.” In PACIFIC SYMPOSIUM on BIOCOMPUTING 2018: Proceedings of the Pacific Symposium, 111–22. World Scientific.\n\n\nMenczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. A First Course in Network Science. Cambridge University Press."
-  },
-  {
-    "objectID": "w04/index.html#scraping-html-with-httr2-and-xml2",
-    "href": "w04/index.html#scraping-html-with-httr2-and-xml2",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Scraping HTML with httr2 and xml2",
-    "text": "Scraping HTML with httr2 and xml2\nhttr2 Documentation | xml2 Documentation\n\n\nCode\n# Get HTML\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://en.wikipedia.org/wiki/Data_science\")\nresponse_obj &lt;- req_perform(request_obj)\n# Parse HTML\nlibrary(xml2)\n\n\n\nAttaching package: 'xml2'\n\n\nThe following object is masked from 'package:httr2':\n\n    url_parse\n\n\nCode\nhtml_obj &lt;- response_obj %&gt;% resp_body_html()\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\n\n{xml_nodeset (6)}\n[1] &lt;span class=\"mw-headline\" id=\"Foundations\"&gt;Foundations&lt;/span&gt;\n[2] &lt;span class=\"mw-headline\" id=\"Etymology\"&gt;Etymology&lt;/span&gt;\n[3] &lt;span class=\"mw-headline\" id=\"Data_Science_and_Data_Analysis\"&gt;Data Scienc ...\n[4] &lt;span class=\"mw-headline\" id=\"History\"&gt;History&lt;/span&gt;\n[5] &lt;span class=\"mw-headline\" id=\"See_also\"&gt;See also&lt;/span&gt;\n[6] &lt;span class=\"mw-headline\" id=\"References\"&gt;References&lt;/span&gt;\n\n\n\n\nNote: httr2 is a re-written version of the original httr package, which is now deprecated. You’ll still see lots of code using httr, however, so it’s good to know how both versions work. Click here for a helpful vignette on the original httr library."
-  },
-  {
-    "objectID": "w04/index.html#navigating-html-with-xpath",
-    "href": "w04/index.html#navigating-html-with-xpath",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Navigating HTML with XPath",
-    "text": "Navigating HTML with XPath\nXPath Cheatsheet\n\nNotice the last line on the previous slide:\n\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\nThe string passed to xml_find_all() is an XPath selector\n\n\n\nXPath selectors are used by many different libraries, including Selenium (which we’ll look at very soon) and jQuery (a standard extension to plain JavaScript allowing easy searching/manipulation of the DOM), so it’s good to learn it now!"
-  },
-  {
-    "objectID": "w04/index.html#xpath-i-selecting-elements",
-    "href": "w04/index.html#xpath-i-selecting-elements",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "XPath I: Selecting Elements",
-    "text": "XPath I: Selecting Elements\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//div' matches all elements &lt;div&gt; in the document:\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n'//div//img' matches &lt;img&gt; elements which are children of &lt;div&gt; elements:\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;"
-  },
-  {
-    "objectID": "w04/index.html#xpath-ii-filtering-by-attributes",
-    "href": "w04/index.html#xpath-ii-filtering-by-attributes",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "XPath II: Filtering by Attributes",
-    "text": "XPath II: Filtering by Attributes\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//p[id=\"page-content\"]' matches all &lt;p&gt; elements with id page-content3:\n&lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\nMatching classes is a bit trickier:\n'//img[contains(concat(\" \", normalize-space(@class), \" \"), \" footer-image \")]'\nmatches all &lt;img&gt; elements with page-content as one of their classes4\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;"
-  },
-  {
-    "objectID": "w04/index.html#example-math-api-1",
-    "href": "w04/index.html#example-math-api-1",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Example: Math API",
-    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nresponse_obj &lt;- req_perform(request_obj)\nwriteLines(response_obj %&gt;% resp_body_string())\n\n\n{\"operation\":\"factor\",\"expression\":\"x^2-1\",\"result\":\"(x - 1) (x + 1)\"}"
-  },
-  {
-    "objectID": "w04/index.html#authentication-1",
-    "href": "w04/index.html#authentication-1",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication",
-    "text": "Authentication\n\nMost APIs don’t allow requests to be made by anonymous requesters, and require authentication.\nFor example, to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
-  },
-  {
-    "objectID": "w04/index.html#authentication-via-gh",
-    "href": "w04/index.html#authentication-via-gh",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Authentication via GH",
-    "text": "Authentication via GH\n\nThe GH library for R can handle this authentication process for you. For example, this private repo in my account does not show up if requested anonymously, but does show up when requested using GH with a Personal Access Token5:\n\n\n\nCode\nlibrary(gh)\nresult &lt;- gh(\"GET /repos/jpowerj/private-repo-test\")\nwriteLines(paste0(result$name, \": \",result$description))\n\n\nprivate-repo-test: Private repo example for DSAN5000"
-  },
-  {
-    "objectID": "w04/index.html#footnotes",
-    "href": "w04/index.html#footnotes",
-    "title": "Week 4: Data Gathering and APIs",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nFor (much) more on this topic, see this page from Prisma, a high-level “wrapper” that auto-syncs your DB structure with a TypeScript schema, so your code knows exactly “what’s inside” a variable whose content was retrieved from the DB…↩︎\nYour code should 🚨never🚨 contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which I then loaded using os.getenv() and provided to PyGithub.↩︎\nIn HTML, ids are required to be unique to particular elements (and elements cannot have more than one id), meaning that this should only return a single element, for valid HTML code (not followed by all webpages!). Also note the double-quotes after id=, which are required in XPath.↩︎\nYour intuition may be to just use '//img[@class=\"footer-image\"]'. Sadly, however, this will match only elements with footer-image as their only class. i.e., it will match &lt;img class=\"footer-image\"&gt; but not &lt;img class=\"footer-image another-class\"&gt;. This will usually fail, since most elements on modern webpages have several classes. For example, if the site is using Bootstrap, &lt;p class=\"p-5 m-3\"&gt;&lt;/p&gt; creates a paragraph element with a padding of 5 pixels and a margin of 3 pixels.↩︎\nYour code should never contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which GH then uses to make authenticated requests.↩︎"
+    "text": "References\n\n\nBaker, Monya. 2016. “1,500 Scientists Lift the Lid on Reproducibility.” Nature 533 (7604): 452–54. https://doi.org/10.1038/533452a.\n\n\nMenczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. A First Course in Network Science. Cambridge University Press."
   },
   {
     "objectID": "w03/index.html",
@@ -924,305 +854,480 @@
     "text": "Footnotes\n\n\nTo see this, you can open your Terminal and run the ping command: ping georgetown.edu.↩︎\nIncredibly, despite the name, Javascript has absolutely nothing to do with the Java programming language…↩︎\nSorry for jargon: it just means using the same word for different levels of a system (dangerous when talking computers!)↩︎"
   },
   {
-    "objectID": "w03/slides.html#intranet-vs.-internet",
-    "href": "w03/slides.html#intranet-vs.-internet",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Intranet vs. Internet",
-    "text": "Intranet vs. Internet\n\nCrucial distinction: can set up a “mini-internet”, an intranet, within your own home\nOrganizations (businesses, government agencies) with security needs often do exactly this: link a set of computers and servers together, no outside access\n\n\n\nInternet = basically a giant intranet, open to the whole world"
-  },
-  {
-    "objectID": "w03/slides.html#key-building-blocks-locating-servers",
-    "href": "w03/slides.html#key-building-blocks-locating-servers",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Key Building Blocks: Locating Servers",
-    "text": "Key Building Blocks: Locating Servers\n\nIP Addresses (Internet Protocol addresses): Numeric addresses for uniquely identifying computers on a network\n\nGeorgetown University, for example, is allocated IP addresses between 141.161.0.0 and 141.161.255.255\n\nURLs (Uniform Resource Locators): The more human-readable website addresses you’re used to: google.com, georgetown.edu, etc.\n\nBuilt on top of IP addresses, via a directory which maps URLs → IP addresses\ngeorgetown.edu, for example, is really 23.185.0.21\n\n\nTo see this, you can open your Terminal and run the ping command: ping georgetown.edu."
-  },
-  {
-    "objectID": "w03/slides.html#what-happens-when-i-visit-a-urlip",
-    "href": "w03/slides.html#what-happens-when-i-visit-a-urlip",
-    "title": "Week 3: Data Science Workflow",
-    "section": "What Happens When I Visit a URL/IP?",
-    "text": "What Happens When I Visit a URL/IP?\n\nHTTP(S) (HyperText Transfer Protocol (Secure)): common syntax for web clients to make requests and servers to respond\n\nSeveral types of requests can be made: GET, POST, HEAD; for now, we focus on the GET request, the request your browser makes by default\n\nHTML (HyperText Markup Language): For specifying layout and content of page\n\nStructure is analogous to boxes of content: &lt;html&gt; box contains &lt;head&gt; (metadata, e.g., page title) and &lt;body&gt; (page content) boxes, &lt;body&gt; box contains e.g. header, footer, navigation bar, and main content of page.\nModern webpages also include CSS (Cascading Style Sheets) for styling this content, and Javascript1 for interactivity (changing/updating content)\nHTML allows linking to another page with a special anchor tag (&lt;a&gt;): &lt;a href=\"https://npr.org/\"&gt;news&lt;/a&gt; creates a link, so when you click “news”, browser will request (fetch the HTML for) the URL https://npr.org\n\n\nIncredibly, despite the name, Javascript has absolutely nothing to do with the Java programming language…"
-  },
-  {
-    "objectID": "w03/slides.html#https-requests-in-action",
-    "href": "w03/slides.html#https-requests-in-action",
-    "title": "Week 3: Data Science Workflow",
-    "section": "HTTP(S) Requests in Action",
-    "text": "HTTP(S) Requests in Action\n\nImage from Menczer, Fortunato, and Davis (2020, 90)"
-  },
-  {
-    "objectID": "w03/slides.html#how-does-a-web-server-work",
-    "href": "w03/slides.html#how-does-a-web-server-work",
-    "title": "Week 3: Data Science Workflow",
-    "section": "How Does a Web Server Work?",
-    "text": "How Does a Web Server Work?\n\nWe use the term “server” metonymously1\n\nSometimes we mean the hardware, the box of processors and hard drives\nBut, sometimes we mean the software that runs on the hardware\n\nA web server, in the software sense, is a program that is always running, 24/7\nWaits for requests (via HTTPS), then serves HTML code in response (also via HTTPS)\n\n\n\n\n\n\n\nhello_server.py\n\nfrom flask import Flask\napp = Flask(__name__)\n\n@app.route(\"/\")\ndef hello_world():\n    return \"&lt;p&gt;Hello, World!&lt;/p&gt;\"\n@app.route(\"/hack\")\ndef hacker_detected():\n    return \"&lt;p&gt;Hacker detected, pls stop&lt;/p&gt;\"\n\n$ flask --app hello_server run\n * Serving Flask app 'hello_server'\n * Running on http://127.0.0.1:5000 (CTRL+C to quit)\n127.0.0.1 [06/Sep/2023 00:11:05] \"GET / HTTP\" 200\n127.0.0.1 [06/Sep/2023 00:11:06] \"GET /hack HTTP\" 200\nFigure 3: Basic web server (written in Flask)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 4: [Browser-parsed] responses to GET requests\n\n\n\n\nSorry for jargon: it just means using the same word for different levels of a system (dangerous when talking computers!)"
-  },
-  {
-    "objectID": "w03/slides.html#how-does-a-web-client-work",
-    "href": "w03/slides.html#how-does-a-web-client-work",
-    "title": "Week 3: Data Science Workflow",
-    "section": "How Does a Web Client Work?",
-    "text": "How Does a Web Client Work?\n\n\nOnce the server has responded to your request, you still only have raw HTML code\nSo, the browser is the program that renders this raw HTML code as a visual, (possibly) interactive webpage\nAs a data scientist, the most important thing to know is that different browsers can render the same HTML differently!\n\n\n\n\nA headache when pages are accessed through laptops\nA nightmare when pages are accessed through laptops and mobile"
-  },
-  {
-    "objectID": "w03/slides.html#connecting-to-servers",
-    "href": "w03/slides.html#connecting-to-servers",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Connecting to Servers",
-    "text": "Connecting to Servers\n\nWe’ve talked about the shell on your local computer, as well as the Georgetown Domains shell\nWe used Georgetown Domains’ web interface to access that shell, but you can remotely connect to any other shell from your local computer using the ssh command!"
-  },
-  {
-    "objectID": "w03/slides.html#transferring-files-tofrom-servers",
-    "href": "w03/slides.html#transferring-files-tofrom-servers",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Transferring Files to/from Servers",
-    "text": "Transferring Files to/from Servers\n\nRecall the copy command, cp, for files on your local computer\nThere is a remote equivalent, scp (Secure Copy Protocol), which you can use to copy files to/from remote servers to your local computer"
-  },
-  {
-    "objectID": "w03/slides.html#important-alternative-rsync",
-    "href": "w03/slides.html#important-alternative-rsync",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Important Alternative: rsync",
-    "text": "Important Alternative: rsync\n\nSimilar to scp, with same syntax, except it synchronizes (only copies files which are different or missing)\n\n\n\nsync_files.sh\n\nrsync -avz source_directory/ user@remote_server:/path/to/destination/\n\n\n-a (“archive”) tells rsync you want it to copy recursively\n-v (“verbose”) tells rsync to print information as it copies\n-z (“zip/compress”) tells rsync to compress files before copying and then decompress them on the server (thus massively speeding up the transfer)\nhttps://explainshell.com/explain?cmd=rsync+-avz"
-  },
-  {
-    "objectID": "w03/slides.html#why-do-we-need-reproducible-research",
-    "href": "w03/slides.html#why-do-we-need-reproducible-research",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Why Do We Need Reproducible Research?",
-    "text": "Why Do We Need Reproducible Research?\n\nMain human motivations (Max Weber): Wealth, Prestige, Power → “TED talk circuit”\n\n\nNew York Times Magazine, October 18, 2017."
-  },
-  {
-    "objectID": "w03/slides.html#science-vs.-human-fallibility",
-    "href": "w03/slides.html#science-vs.-human-fallibility",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Science vs. Human Fallibility",
-    "text": "Science vs. Human Fallibility\n\nScientific method + replicability/pre-registration = “Tying ourselves to the mast”\n\n\nJohn William Waterhouse, Ulysses and the Sirens, Public domain, via Wikimedia Commons\nIf we aim to disprove (!) our hypotheses, and we pre-register our methodology, we are bound to discovering truth, even when it is disadvantageous to our lives…"
-  },
-  {
-    "objectID": "w03/slides.html#human-fallibility-is-winning",
-    "href": "w03/slides.html#human-fallibility-is-winning",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Human Fallibility is Winning…",
-    "text": "Human Fallibility is Winning…\n\nMore than 70% of researchers have tried and failed to reproduce another scientist’s experiments, and more than half have failed to reproduce their own experiments. Those are some of the telling figures that emerged from Nature’s survey of 1,576 researchers (Baker 2016)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncor(ski_df$value, law_df$value)\n\n[1] 0.9921178"
-  },
-  {
-    "objectID": "w03/slides.html#r-vs.-rstudio-vs.-quarto",
-    "href": "w03/slides.html#r-vs.-rstudio-vs.-quarto",
-    "title": "Week 3: Data Science Workflow",
-    "section": "R vs. RStudio vs. Quarto",
-    "text": "R vs. RStudio vs. Quarto\n\n\n\n\n\n\n\n\n\n\n\n\n\nGUI wrapper around R (Integrated Development Environment = IDE)\nRun blocks of R code (.qmd chunks)\n\n\n\nThe R Language \n\nProgramming language\nRuns scripts via Rscript &lt;script&gt;.r \n\n\n\n\n\n\n+\n\n\n\n\n\n\n\nGUI wrapper around Python (IDE)\nRun blocks of Python code (.ipynb cells)\n\n\n\n\nThe Python Language \n\nScripting language\nOn its own, just runs scripts via python &lt;script&gt;.py"
-  },
-  {
-    "objectID": "w03/slides.html#reproducibility-and-literate-programming",
-    "href": "w03/slides.html#reproducibility-and-literate-programming",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Reproducibility and Literate Programming",
-    "text": "Reproducibility and Literate Programming\n\nReproducible document: includes both the content (text, tables, figures) and the code or instructions required to generate that content.\n\nDesigned to ensure that others can reproduce the same document, including its data analysis, results, and visualizations, consistently and accurately.\ntldr: If you’re copying-and-pasting results from your code output to your results document, a red flag should go off in your head!\n\nLiterate programming is a coding and documentation approach where code and explanations of the code are combined in a single document.\n\nEmphasizes clear and understandable code by interleaving human-readable text (explanations, comments, and documentation) with executable code."
-  },
-  {
-    "objectID": "w03/slides.html#single-source-many-outputs",
-    "href": "w03/slides.html#single-source-many-outputs",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Single Source, Many Outputs",
-    "text": "Single Source, Many Outputs\n\nWe can create content (text, code, results, graphics) within a source document, and then use different weaving engines to create different document types:\n\n\n\n\nDocuments\n\nWeb pages (HTML)\nWord documents\nPDF files\n\nPresentations\n\nHTML\nPowerPoint\n\n\n\n\nWebsites/blogs\nBooks\nDashboards\nInteractive documents\nFormatted journal articles"
-  },
-  {
-    "objectID": "w03/slides.html#interactivity",
-    "href": "w03/slides.html#interactivity",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Interactivity!",
-    "text": "Interactivity!\n\nAre we “hiding something” by choosing a specific bin width? Make it transparent!"
-  },
-  {
-    "objectID": "w03/slides.html#git-vs.-github",
-    "href": "w03/slides.html#git-vs.-github",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Git vs. GitHub",
-    "text": "Git vs. GitHub\n(Important distinction!)\n\n\nGit \n\nCommand-line program\ngit init in shell to create\ngit add to track files\ngit commit to commit changes to tracked files\n\n\nGitHub \n\nCode hosting website\nCreate a repository (repo) for each project\nCan clone repos onto your local machine\n\n\n\n\ngit push/git pull: The link between the two!"
-  },
-  {
-    "objectID": "w03/slides.html#git-diagram",
-    "href": "w03/slides.html#git-diagram",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Git Diagram",
-    "text": "Git Diagram"
-  },
-  {
-    "objectID": "w03/slides.html#initializing-a-repo",
-    "href": "w03/slides.html#initializing-a-repo",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Initializing a Repo",
-    "text": "Initializing a Repo\n\nLet’s make a directory for our project called cool-project, and initialize a Git repo for it\n\n\nuser@hostname:~$ mkdir cool-project\nuser@hostname:~$ cd cool-project\nuser@hostname:~/cool-project$ git init\nInitialized empty Git repository in /home/user/cool-project/.git/\n\nThis creates a hidden folder, .git, in the directory:\n\n\nuser@hostname:~/cool-project$ ls -lah\ntotal 12K\ndrwxr-xr-x  3 user user 4.0K May 28 00:53 .\ndrwxr-xr-x 12 user user 4.0K May 28 00:53 ..\ndrwxr-xr-x  7 user user 4.0K May 28 00:53 .git\n\nThe Git Side: Local I"
-  },
-  {
-    "objectID": "w03/slides.html#adding-and-committing-a-file",
-    "href": "w03/slides.html#adding-and-committing-a-file",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Adding and Committing a File",
-    "text": "Adding and Committing a File\nWe’re writing Python code, so let’s create and track cool_code.py:\nuser@hostname:~/cool-project$ touch cool_code.py\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\n\nNo commits yet\n\nChanges to be committed:\n  (use \"git rm --cached &lt;file&gt;...\" to unstage)\n        new file:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Initial version of cool_code.py\"\n[main (root-commit) b40dc25] Initial version of cool_code.py\n 1 file changed, 0 insertions(+), 0 deletions(-)\n create mode 100644 cool_code.py"
-  },
-  {
-    "objectID": "w03/slides.html#the-commit-log",
-    "href": "w03/slides.html#the-commit-log",
-    "title": "Week 3: Data Science Workflow",
-    "section": "The Commit Log",
-    "text": "The Commit Log\n\nView the commit log using git log:\n\nuser@hostname:~/cool-project$ git log\ncommit b40dc252a3b7355cc4c28397fefe7911ff3c94b9 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:57:16 2023 +0000\n\n    Initial version of cool_code.py\n\n\n\n\n\ngitGraph\n   commit id: \"b40dc25\""
-  },
-  {
-    "objectID": "w03/slides.html#making-changes",
-    "href": "w03/slides.html#making-changes",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Making Changes",
-    "text": "Making Changes\nuser@hostname:~/cool-project$ git status\nOn branch main\nnothing to commit, working tree clean\nuser@hostname:~/cool-project$ echo \"1 + 1\" &gt;&gt; cool_code.py\nuser@hostname:~/cool-project$ more cool_code.py\n1 + 1\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\nChanges to be committed:\n  (use \"git restore --staged &lt;file&gt;...\" to unstage)\n        modified:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Added code to cool_code.py\"\n[main e3bc497] Added code to cool_code.py\n 1 file changed, 1 insertion(+)"
-  },
-  {
-    "objectID": "w03/slides.html#section",
-    "href": "w03/slides.html#section",
-    "title": "Week 3: Data Science Workflow",
+    "objectID": "w04/index.html",
+    "href": "w04/index.html",
+    "title": "Week 4: Data Gathering and APIs",
     "section": "",
-    "text": "The git log will show the new version:\nuser@hostname:~/cool-project$ git log\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial version of cool_code.py"
+    "text": "Open slides in new window →"
   },
   {
-    "objectID": "w03/slides.html#more-changes",
-    "href": "w03/slides.html#more-changes",
-    "title": "Week 3: Data Science Workflow",
-    "section": "More Changes",
-    "text": "More Changes\nuser@hostname:~/cool-project$ echo \"2 + 2\" &gt;&gt; cool_code.py\nuser@hostname:~/cool-project$ more cool_code.py\n1 + 1\n2 + 2\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\nChanges to be committed:\n  (use \"git restore --staged &lt;file&gt;...\" to unstage)\n        modified:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Second version of cool_code.py\"\n[main 4007db9] Second version of cool_code.py\n 1 file changed, 1 insertion(+)"
+    "objectID": "w04/index.html#git-commands",
+    "href": "w04/index.html#git-commands",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Git Commands",
+    "text": "Git Commands\n\n\n\n\n\n\n\nCommand\nWhat It Does\n\n\n\n\ngit clone\nDownloads a repo from the web to our local computer\n\n\ngit init\nCreates a new, blank Git repository on our local computer (configuration/change-tracking stored in .git subfolder)\n\n\ngit add\nStages a file(s): Git will now track changes in this file(s)\n\n\ngit reset\nUndoes a git add\n\n\ngit status\nShows currently staged files and their status (created, modified, deleted)\n\n\ngit commit -m \"message\"\n“Saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub\n\n\ngit push\nTransmits local commits to remote server\n\n\ngit pull\nDownloads commits from remote server to local computer\n\n\ngit merge\nMerges remote versions of files with local versions"
   },
   {
-    "objectID": "w03/slides.html#and-the-git-log",
-    "href": "w03/slides.html#and-the-git-log",
-    "title": "Week 3: Data Science Workflow",
-    "section": "And the git log",
-    "text": "And the git log\nuser@hostname:~/cool-project$ git log\ncommit 4007db9a031ca134fe09eab840b2bc845366a9c1 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:39:28 2023 +0000\n\n    Second version of cool_code.py\n\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial (empty) version of cool_code.py"
+    "objectID": "w04/index.html#reproducible-docsliterate-programming",
+    "href": "w04/index.html#reproducible-docsliterate-programming",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Reproducible Docs/Literate Programming",
+    "text": "Reproducible Docs/Literate Programming\n\n1980s: \\(\\LaTeX\\) for \\(\\widehat{\\mathcal{T}}\\)ypesetting \\(\\sqrt{math}^2\\)\n1990s: Python and R as powerful scripting languages (no compilation required)\n2000s/2010s: Interactive Python via Jupyter, fancy IDE for R called RStudio\n2020s: Quarto (using pandoc under the hood) enables use of markdown for formatting, \\(\\LaTeX\\) for math, and both Python and R in same document, with choice of output formats (HTML, presentations, Word docs, …)"
   },
   {
-    "objectID": "w03/slides.html#undoing-a-commit-i",
-    "href": "w03/slides.html#undoing-a-commit-i",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Undoing a Commit I",
-    "text": "Undoing a Commit I\nFirst check the git log to find the hash for the commit you want to revert back to:\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py"
+    "objectID": "w04/index.html#preexisting-data-sources",
+    "href": "w04/index.html#preexisting-data-sources",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Preexisting Data Sources",
+    "text": "Preexisting Data Sources\n\nDepending on your field, or the type of data you’re looking for, there may be a “standard” data source! For example:\nEconomics:\n\nUS data: FRED\nGlobal data: World Bank Open Data, OECD Data, etc.\n\nPolitical Science:\n\nICPSR\n\nNetwork Science:\n\nStanford SNAP: Large Network Dataset Collection"
   },
   {
-    "objectID": "w03/slides.html#undoing-a-commit-ii",
-    "href": "w03/slides.html#undoing-a-commit-ii",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Undoing a Commit II",
-    "text": "Undoing a Commit II\n\n This is irreversable! \n\nuser@hostname:~/cool-project$ git reset --hard e3bc497ac\nHEAD is now at e3bc497 Added code to cool_code.py\nuser@hostname:~/cool-project$ git log\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial (empty) version of cool_code.py"
+    "objectID": "w04/index.html#web-scraping",
+    "href": "w04/index.html#web-scraping",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Web Scraping",
+    "text": "Web Scraping\n\nFun fact: you can view a webpage’s HTML source code by right-clicking on the page and selecting “View Source”\n\nOn older websites, this means we can just request page and parse the returned HTML\n\nLess fun fact: modern web frameworks (React, Next.js) generate pages dynamically using JS, meaning that what you see on the page will not be visible in the HTML source\n\nData scraping still possible for these sites! Using browser automation tools like Selenium"
   },
   {
-    "objectID": "w03/slides.html#onwards-and-upwards",
-    "href": "w03/slides.html#onwards-and-upwards",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Onwards and Upwards",
-    "text": "Onwards and Upwards\nuser@hostname:~/cool-project$ echo \"3 + 3\" &gt;&gt; cool_code.py\nuser@hostname:~/cool-project$ git add cool_code.py\nuser@hostname:~/cool-project$ git status\nOn branch main\nChanges to be committed:\n  (use \"git restore --staged &lt;file&gt;...\" to unstage)\n        modified:   cool_code.py\n\nuser@hostname:~/cool-project$ git commit -m \"Added different code to cool_code.py\"\n[main 700d955] Added different code to cool_code.py\n 1 file changed, 1 insertion(+)"
+    "objectID": "w04/index.html#scraping-difficulty",
+    "href": "w04/index.html#scraping-difficulty",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Scraping Difficulty",
+    "text": "Scraping Difficulty\n\n\n\n\n\n\n\n\n\n\n\n\n\nHow is data loaded?\nSolution\nExample\n\n\n\n\n😊\nEasy\nData in HTML source\n“View Source”\n\n\n\n😐\nMedium\nData loaded dynamically via API\n“View Source”, find API call, scrape programmatically\n\n\n\n😳\nHard\nData loaded dynamically [internally] via web framework\nUse Selenium"
   },
   {
-    "objectID": "w03/slides.html#section-1",
-    "href": "w03/slides.html#section-1",
-    "title": "Week 3: Data Science Workflow",
-    "section": "",
-    "text": "The final git log:\nuser@hostname:~/cool-project$ git log\ncommit 700d955faacb27d7b8bc464b9451851b5e319f20 (HEAD -&gt; main)\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:44:49 2023 +0000\n\n    Added different code to cool_code.py\n\ncommit e3bc497acbb5a487566ff2014dcd7b83d0c75224\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:38:05 2023 +0000\n\n    Added code to cool_code.py\n\ncommit b40dc25b14c0426b06c8d182184e147853f3c12e\nAuthor: Jeff Jacobs &lt;jjacobs3@cs.stanford.edu&gt;\nDate:   Sun May 28 00:37:02 2023 +0000\n\n    Initial (empty) version of cool_code.py"
+    "objectID": "w04/index.html#data-structures-foundations",
+    "href": "w04/index.html#data-structures-foundations",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Data Structures: Foundations",
+    "text": "Data Structures: Foundations\n\nCould be (is) a whole class\nCould be (is) a whole class just for one type of data (geographic/spatial)\nFor this class: some foundational principles that should let you figure out fancier data structures you encounter"
   },
   {
-    "objectID": "w03/slides.html#but-why-these-diagrams",
-    "href": "w03/slides.html#but-why-these-diagrams",
-    "title": "Week 3: Data Science Workflow",
-    "section": "But Why These Diagrams?",
-    "text": "But Why These Diagrams?\nEven the simplest projects can start to look like:\n\n\n\n\n\ngitGraph\n       commit id: \"537dd67\"\n       commit id: \"6639143\"\n       branch nice_feature\n       checkout nice_feature\n       commit id: \"937ded8\"\n       checkout main\n       commit id: \"9e6679c\"\n       checkout nice_feature\n       branch very_nice_feature\n       checkout very_nice_feature\n       commit id: \"7f4de03\"\n       checkout main\n       commit id: \"6df80c1\"\n       checkout nice_feature\n       commit id: \"bd0ebb8\"\n       checkout main\n       merge nice_feature id: \"9ff61cc\" tag: \"V 1.0.0\" type: HIGHLIGHT\n       checkout very_nice_feature\n       commit id: \"370613b\"\n       checkout main\n       commit id: \"9a07a97\""
+    "objectID": "w04/index.html#opening-datasets-with-your-terminator-glasses-on",
+    "href": "w04/index.html#opening-datasets-with-your-terminator-glasses-on",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Opening Datasets With Your Terminator Glasses On",
+    "text": "Opening Datasets With Your Terminator Glasses On\n\n\n\n\nWhat does a row represent?\nWhat does a column represent?\nWhat does a value in a cell represent?\nAre there unique identifiers for the objects you care about?\n\n\n\n\n\n\nFigure 1: What you should see when you look at a new dataset"
   },
   {
-    "objectID": "w03/slides.html#the-github-side-remote",
-    "href": "w03/slides.html#the-github-side-remote",
-    "title": "Week 3: Data Science Workflow",
-    "section": "The GitHub Side: Remote",
-    "text": "The GitHub Side: Remote"
+    "objectID": "w04/index.html#from-raw-data-to-clean-data",
+    "href": "w04/index.html#from-raw-data-to-clean-data",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "From Raw Data to Clean Data",
+    "text": "From Raw Data to Clean Data"
   },
   {
-    "objectID": "w03/slides.html#an-empty-repo",
-    "href": "w03/slides.html#an-empty-repo",
-    "title": "Week 3: Data Science Workflow",
-    "section": "An Empty Repo",
-    "text": "An Empty Repo"
+    "objectID": "w04/index.html#data-structures-simple-rightarrow-complex",
+    "href": "w04/index.html#data-structures-simple-rightarrow-complex",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Data Structures: Simple \\(\\rightarrow\\) Complex",
+    "text": "Data Structures: Simple \\(\\rightarrow\\) Complex\n\n\n\n\n\n\n\nid\nname\nemail\n\n\n\n\n0\nK. Desbrow\nkd9@dailymail.com\n\n\n1\nD. Minall\ndminall1@wired.com\n\n\n2\nC. Knight\nck2@microsoft.com\n\n\n3\nM. McCaffrey\nmccaf4@nhs.uk\n\n\n\nFigure 2: Record Data\n\n\n\n\n\n\n\nyear\nmonth\npoints\n\n\n\n\n2023\nJan\n65\n\n\n2023\nFeb\n\n\n\n2023\nMar\n42\n\n\n2023\nApr\n11\n\n\n\nFigure 3: Time-Series Data\n\n\n\n\n\n\n\n\n\nid\ndate\nrating\nnum_rides\n\n\n\n\n0\n2023-01\n0.75\n45\n\n\n0\n2023-02\n0.89\n63\n\n\n0\n2023-03\n0.97\n7\n\n\n1\n2023-06\n0.07\n10\n\n\n\nFigure 4: Panel Data\n\n\n\n\n\n\n\nSource\nTarget\nWeight\n\n\n\n\nIGF2\nIGF1R\n1\n\n\nIGF1R\nTP53\n2\n\n\nTP53\nEGFR\n0.5\n\n\n\nFigure 5: Network Data\n\n\n\n\n\n\nFake data via Mockaroo and Random.org. Protein-protein interaction network from Agrawal, Zitnik, and Leskovec (2018)"
   },
   {
-    "objectID": "w03/slides.html#refresh-after-git-push",
-    "href": "w03/slides.html#refresh-after-git-push",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Refresh after git push",
-    "text": "Refresh after git push"
+    "objectID": "w04/index.html#tabular-data-vs.-relational-data",
+    "href": "w04/index.html#tabular-data-vs.-relational-data",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Tabular Data vs. Relational Data",
+    "text": "Tabular Data vs. Relational Data\n\nAll of the datasets on the previous slide are tabular\nDatabases like SQLite, MySQL, require us to think about relationships within and between tabular datasets\nImagine you’re creating the backend for a social network. How would you record users and friendships? Your intuition may be record data:\n\n\n\n\n\n\n\n\n\n\n\nid\nname\nfriends\n\n\n\n\n1\nPurna\n[2,3,4]\n\n\n2\nJeff\n[1,3,4,5,6]\n\n\n3\nJames\n[1,2,4,6]\n\n\n4\nNakul\n[1,2,3]\n\n\n5\nDr. Fauci\n[2,6]\n\n\n6\nPitbull\n[2,5]\n\n\n\nFigure 6: Our first attempt at a data structure for our social network app’s backend\n\n\n\nLong story short…\n\nThis doesn’t scale\nExtremely inefficient to find whether two users are friends\nRedundant information: Have to store friendship between A and B in both A’s row and B’s row"
   },
   {
-    "objectID": "w03/slides.html#commit-history",
-    "href": "w03/slides.html#commit-history",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Commit History",
-    "text": "Commit History"
+    "objectID": "w04/index.html#a-better-approach",
+    "href": "w04/index.html#a-better-approach",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "A Better Approach",
+    "text": "A Better Approach\n\nMove the friendship data into its own table!\nThis table now represents relational data, (user table still corresponds to records):\n\n\n\n\n\n\n\n\n\n\n\nuser_id\nname\n\n\n\n\n1\nPurna\n\n\n2\nJeff\n\n\n3\nJames\n\n\n4\nNakul\n\n\n5\nDr. Fauci\n\n\n6\nPitbull\n\n\n\nFigure 7: The user table in our relational structure\n\n\n\n\n\n\n\n\n\n\nid\nfriend_1\nfriend_2\nid\nfriend_1\nfriend_2\n\n\n\n\n1\n1\n2\n6\n2\n5\n\n\n2\n1\n3\n7\n2\n6\n\n\n3\n1\n4\n8\n3\n4\n\n\n4\n2\n3\n9\n3\n6\n\n\n5\n2\n4\n10\n5\n6\n\n\n\nFigure 8: The friendships table in our relational structure\n\n\n\n\n\nMay seem weird in terms of human readability, but think in terms of memory/computational efficiency: (a) Scalable, (b) Easy to find if two users are friends (via sorting/searching algorithms), (c) No redundant info"
   },
   {
-    "objectID": "w03/slides.html#checking-the-diff",
-    "href": "w03/slides.html#checking-the-diff",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Checking the diff",
-    "text": "Checking the diff"
+    "objectID": "w04/index.html#dbs-relational-or-otherwise",
+    "href": "w04/index.html#dbs-relational-or-otherwise",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "DBs: Relational or Otherwise",
+    "text": "DBs: Relational or Otherwise\n\nFor rest of lecture we zoom in on cases where data comes as individual files\nBut on top of the relational format from previous slide, there are also non-relational database formats, like the document-based format used by e.g. MongoDB1\nIn either case, data is spread over many files, so that to obtain a single dataset we use queries.\n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nfile\n\n File (.csv/.json/etc.)   \n\nload\n\n read_csv()   \n\nfile-&gt;load\n\n    \n\ndataset\n\n Dataset   \n\nload-&gt;dataset\n\n   \n\n\n\n\n\nFigure 9: Statically datasets (as individual files on disk)\n\n\n\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_00\n\n Database   \n\ntab1\n\n Table 1   \n\nquery\n\n Query   \n\ntab1-&gt;query\n\n    \n\ntab2\n\n Table 2   \n\ntab2-&gt;query\n\n    \n\ntabdots\n\n …   \n\ntabdots-&gt;query\n\n    \n\ntabN\n\n Table N   \n\ntabN-&gt;query\n\n    \n\ndataset\n\n Dataset   \n\nquery-&gt;dataset\n\n   \n\n\n\n\n\nFigure 10: Datasets formed dynamically via database queries"
   },
   {
-    "objectID": "w03/slides.html#web-development",
-    "href": "w03/slides.html#web-development",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Web Development",
-    "text": "Web Development\n\n\n\n\n\n\n\n\n\nFrontend   \nBackend   \n\n\n\n\nLow Level\nHTML/CSS/JavaScript\nGitHub Pages\n\n\nMiddle Level\nJS Libraries\nPHP, SQL\n\n\nHigh Level\nReact, Next.js\nNode.js, Vercel\n\n\n\n\nFrontend icons: UI+UI elements, what the user sees (on the screen), user experience (UX), data visualization Backend icons: Databases, Security"
+    "objectID": "w04/index.html#data-formats",
+    "href": "w04/index.html#data-formats",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Data Formats",
+    "text": "Data Formats\n\nThe most common formats, for most fields:\n\n.csv: Comma-Separated Values\n.tsv: Tab-Separated Values\n.json: JavaScript Object Notation\n.xls/.xlsx: Excel format\n.dta: Stata format"
   },
   {
-    "objectID": "w03/slides.html#getting-content-onto-the-internet",
-    "href": "w03/slides.html#getting-content-onto-the-internet",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Getting Content onto the Internet",
-    "text": "Getting Content onto the Internet\n\n\n\n\nStep 1: index.html\n\n\nStep 2: Create GitHub repository\n\n\nStep 3: git init, git add -A ., git push\n\n\nStep 4: Enable GitHub Pages in repo settings\n\n\nStep 5: &lt;username&gt;.github.io!"
+    "objectID": "w04/index.html#csv-.tsv",
+    "href": "w04/index.html#csv-.tsv",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": ".csv / .tsv",
+    "text": ".csv / .tsv\n\n\n👍\n\n\nmy_data.csv\n\nindex,var_1,var_2,var_3\nA,val_A1,val_A2,val_A3\nB,val_B1,val_B2,val_B3\nC,val_C1,val_C2,val_C3\nD,val_D1,val_D2,val_D3\n\n\n(👎)\n\n\nmy_data.tsv\n\nindex var_1 var_2 var_3\nA val_A1  val_A2  val_A3\nB val_B1  val_B2  val_B3\nC val_C1  val_C2  val_C3\nD val_D1  val_D2  val_D3\n\n\n\n→\n\n\n\nsource(\"../_globals.r\")\nlibrary(readr)\ndata &lt;- read_csv(\"assets/my_data.csv\")\n\nRows: 3 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): index, var_1, var_2, var_3\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndisp(data)\n\n\n\n\n\n# | index | var_1 | var_2 | var_3 |\n# | - | - | - | - |\n# | A | val_A1 | val_A2 | val_A3 |\n# | B | val_B1 | val_B2 | val_B3 |\n# | C | val_C1 | val_C2 | val_C3 |\n# | D | val_D1 | val_D2 | val_D3 | \n\n\n\n\n\nPython: pd.read_csv() (from Pandas library)\nR: read_csv() (from readr library)"
   },
   {
-    "objectID": "w03/slides.html#deploying-from-a-branchfolder",
-    "href": "w03/slides.html#deploying-from-a-branchfolder",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Deploying from a Branch/Folder",
-    "text": "Deploying from a Branch/Folder"
+    "objectID": "w04/index.html#json",
+    "href": "w04/index.html#json",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": ".json",
+    "text": ".json\n\n\n\ncourses.json\n\n{\n  \"dsan5000\": {\n    \"title\": \"Data Science and Analytics\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Tools and Workflow\"\n    ]\n  },\n  \"dsan5100\": {\n    \"title\": \"Probabilistic Modeling and Statistical Computing\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Conditional Probability\"\n    ]\n  }\n}\n\n\n\nPython: json (built-in library, import json)\nR: jsonlite (install.packages(jsonlite))\nHelpful validator (for when .json file won’t load)"
   },
   {
-    "objectID": "w03/slides.html#lab-demonstration-1-transferring-files",
-    "href": "w03/slides.html#lab-demonstration-1-transferring-files",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Lab Demonstration 1: Transferring Files",
-    "text": "Lab Demonstration 1: Transferring Files"
+    "objectID": "w04/index.html#other-formats",
+    "href": "w04/index.html#other-formats",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Other Formats",
+    "text": "Other Formats\n\n.xls/.xlsx: Requires special libraries in Python/R\n\nPython: openpyxl\nR: readxl (part of tidyverse)\n\n.dta: Stata format, but can be read/written to in Python/R\n\nPython: Pandas has built-in pd.read_stata() and pd.to_stata()\nR: read_dta() from Haven library (part of tidyverse)"
   },
   {
-    "objectID": "w03/slides.html#lab-demonstration-2-quarto",
-    "href": "w03/slides.html#lab-demonstration-2-quarto",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Lab Demonstration 2: Quarto",
-    "text": "Lab Demonstration 2: Quarto"
+    "objectID": "w04/index.html#scraping-html-with-requests-and-beautifulsoup",
+    "href": "w04/index.html#scraping-html-with-requests-and-beautifulsoup",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Scraping HTML with requests and BeautifulSoup",
+    "text": "Scraping HTML with requests and BeautifulSoup\nrequests Documentation | BeautifulSoup Documentation\n\n\nCode\n# Get HTML\nimport requests\n# Perform request\nresponse = requests.get(\"https://en.wikipedia.org/wiki/Data_science\")\n# Parse HTML\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(response.text, 'html.parser')\nall_headers = soup.find_all(\"h2\")\nsection_headers = [h.find(\"span\", {'class': 'mw-headline'}).text for h in all_headers[1:]]\nsection_headers\n\n\n['Foundations', 'Etymology', 'Data Science and Data Analysis', 'History', 'See also', 'References']"
   },
   {
-    "objectID": "w03/slides.html#lab-demonstration-3-git-and-github",
-    "href": "w03/slides.html#lab-demonstration-3-git-and-github",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Lab Demonstration 3: Git and GitHub",
-    "text": "Lab Demonstration 3: Git and GitHub"
+    "objectID": "w04/index.html#navigating-html-with-beautifulsoup",
+    "href": "w04/index.html#navigating-html-with-beautifulsoup",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Navigating HTML with BeautifulSoup",
+    "text": "Navigating HTML with BeautifulSoup\n\nLet’s focus on this line from the previous slide:\n\nall_headers = soup.find_all(\"h2\")\n\nfind_all() is the key function for scraping!\nIf the HTML has a repeating structure (like rows in a table), find_all() can instantly parse this structure into a Python list."
   },
   {
-    "objectID": "w03/slides.html#assignment-overview",
-    "href": "w03/slides.html#assignment-overview",
-    "title": "Week 3: Data Science Workflow",
-    "section": "Assignment Overview",
-    "text": "Assignment Overview\n\nCreate a repo on your private GitHub account called 5000-lab-1.2\nClone the repo to your local machine with git clone\nCreate a blank Quarto website project, then use a .bib file to add citations\nAdd content to index.qmd\nAdd content to about.ipynb\nBuild a simple presentation in slides/slides.ipynb using the revealjs format\nRender the website using quarto render\nSync your changes to GitHub\nUse rsync or scp to copy the _site directory to your GU domains server (within ~/public_html)\nCreate a Zotero (or Mendeley) account, download the software, and add at least one reference to your site by syncing the .bib file"
+    "objectID": "w04/index.html#the-power-of-find_all",
+    "href": "w04/index.html#the-power-of-find_all",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "The Power of find_all()",
+    "text": "The Power of find_all()\n\n\n\n\n\n\ndata_page.html\n\n&lt;div class=\"all-the-data\"&gt;\n    &lt;h4&gt;First Dataset&lt;/h4&gt;\n    &lt;div class=\"data-1\"&gt;\n        &lt;div class=\"dataval\"&gt;1&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;2&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;3&lt;/div&gt;\n    &lt;/div&gt;\n    &lt;h4&gt;Second Dataset&lt;/h4&gt;\n    &lt;div class=\"data-2\"&gt;\n        &lt;ul&gt;\n            &lt;li&gt;4.0&lt;/li&gt;\n            &lt;li&gt;5.5&lt;/li&gt;\n            &lt;li&gt;6.7&lt;/li&gt;\n        &lt;/ul&gt;\n    &lt;/div&gt;\n&lt;/div&gt;\n\nFigure 11: Data in page elements (&lt;div&gt;, &lt;li&gt;)\n\n\n\n\n\n    First Dataset\n    \n        1\n        2\n        3\n    \n    Second Dataset\n        \n            4.0\n            5.5\n            6.7\n        \n\nFigure 12: The code from Figure 11, rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(page_html, 'html.parser')\nds1_elt = soup.find(\"div\", class_='data-1')\nds1 = [e.text for e in ds1_elt.find_all(\"div\")]\nds2_elt = soup.find(\"div\", {'class': 'data-2'})\nds2 = [e.text for e in ds2_elt.find_all(\"li\")]\n\nFigure 13: The BeautifulSoup code used to parse the HTML\n\n\n\n\n\nprint(f\"dataset-1: {ds1}\\ndataset-2: {ds2}\")\n\ndataset-1: ['1', '2', '3']\ndataset-2: ['4.0', '5.5', '6.7']\n\n\nFigure 14: Contents of the Python variables holding the parsed data"
   },
   {
-    "objectID": "w03/slides.html#references",
-    "href": "w03/slides.html#references",
-    "title": "Week 3: Data Science Workflow",
+    "objectID": "w04/index.html#parsing-html-tables",
+    "href": "w04/index.html#parsing-html-tables",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Parsing HTML Tables",
+    "text": "Parsing HTML Tables\n\n\n\n\n\n\ntable_data.html\n\n&lt;table&gt;\n&lt;thead&gt;\n    &lt;tr&gt;\n        &lt;th&gt;X1&lt;/th&gt;&lt;th&gt;X2&lt;/th&gt;&lt;th&gt;X3&lt;/th&gt;\n    &lt;/tr&gt;\n&lt;/thead&gt;\n&lt;tbody&gt;\n    &lt;tr&gt;\n        &lt;td&gt;1&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n        &lt;td&gt;2&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;\n    &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n\nFigure 15: Data in HTML table format\n\n\n\n\n\n\n\nX1\nX2\nX3\n\n\n\n\n1\n3\n5\n\n\n2\n4\n6\n\n\n\nFigure 16: The HTML table code, as rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(table_html, 'html.parser')\nthead = soup.find(\"thead\")\nheaders = [e.text for e in thead.find_all(\"th\")]\ntbody = soup.find(\"tbody\")\nrows = tbody.find_all(\"tr\")\ndata = [[e.text for e in r.find_all(\"td\")]\n            for r in rows]\n\nFigure 17: The BeautifulSoup code used to parse the table HTML\n\n\n\n\n\nprint(f\"headers: {headers}\\ndata: {data}\")\n\nheaders: ['X1', 'X2', 'X3']\ndata: [['1', '3', '5'], ['2', '4', '6']]\n\n\nFigure 18: Contents of the Python variables holding the parsed data"
+  },
+  {
+    "objectID": "w04/index.html#what-does-an-api-do",
+    "href": "w04/index.html#what-does-an-api-do",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "What Does an API Do?",
+    "text": "What Does an API Do?\nExposes endpoints for use by developers, without requiring them to know the nuts and bolts of your pipeline/service:\n\n\n\n\n\n\n\n\nExample\nEndpoint\nNot Exposed\n\n\n\n\nElectrical outlet\nSocket\nInternal wiring\n\n\nWater fountain\nAerator\nWater pump\n\n\nCar\nPedals, Steering wheel, etc.\nEngine\n\n\n\n\nWhen I’m teaching programming to students in refugee camps who may have never used a computer before, I try to use the idea of “robots”: a program is a robot trained to sit there and wait for inputs, then process them in some way and spit out some output. APIs really capture this notion, honestly."
+  },
+  {
+    "objectID": "w04/index.html#example-math-api",
+    "href": "w04/index.html#example-math-api",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Example: Math API",
+    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nimport requests\nresponse = requests.get(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nprint(response.json())\n\n\n{'operation': 'factor', 'expression': 'x^2-1', 'result': '(x - 1) (x + 1)'}"
+  },
+  {
+    "objectID": "w04/index.html#math-api-endpoints",
+    "href": "w04/index.html#math-api-endpoints",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Math API Endpoints",
+    "text": "Math API Endpoints\n\n\n\nOperation\nAPI Endpoint\nResult\n\n\n\n\nSimplify\n/simplify/2^2+2(2)\n8\n\n\nFactor\n/factor/x^2 + 2x\nx (x + 2)\n\n\nDerive\n/derive/x^2+2x\n2 x + 2\n\n\nIntegrate\n/integrate/x^2+2x\n1/3 x^3 + x^2 + C\n\n\nFind 0’s\n/zeroes/x^2+2x\n[-2, 0]\n\n\nFind Tangent\n/tangent/2|x^3\n12 x + -16\n\n\nArea Under Curve\n/area/2:4|x^3\n60\n\n\nCosine\n/cos/pi\n-1\n\n\nSine\n/sin/0\n0\n\n\nTangent\n/tan/0\n0"
+  },
+  {
+    "objectID": "w04/index.html#authentication",
+    "href": "w04/index.html#authentication",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication",
+    "text": "Authentication\n\nUnlike the math API, most APIs do not allow requests to be made by anonymous requesters, and require authentication.\nFor example, you can access public GitHub repos anonymously, but to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
+  },
+  {
+    "objectID": "w04/index.html#authentication-via-pygithub",
+    "href": "w04/index.html#authentication-via-pygithub",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication via PyGithub",
+    "text": "Authentication via PyGithub\n\n\n\n\n\n\nPyGithub Installation\n\n\n\nInstall using the following terminal/shell command [Documentation]\npip install PyGithub\n\n\nPyGithub can handle authentication for you. Example: this private repo in my account does not show up unless the request is authenticated (via a Personal Access Token)2:\n\n\n\n\n\n# import github\n# g = github.Github()\n# try:\n#   g.get_repo(\"jpowerj/private-repo-test\")\n# except Exception as e:\n#   print(e)\n\nFigure 19: Using the GitHub API without authentication\n\n\n\n\n\n# Load the access token securely\n# import os\n# my_access_token = os.getenv('GITHUB_TOKEN')\n# import github\n# # Use the access token to make an API request\n# auth = github.Auth.Token(my_access_token)\n# g = github.Github(auth=auth)\n# g.get_user().get_repo(\"private-repo-test\")\n\nFigure 20: Using the GitHub API with authentication"
+  },
+  {
+    "objectID": "w04/index.html#references",
+    "href": "w04/index.html#references",
+    "title": "Week 4: Data Gathering and APIs",
     "section": "References",
-    "text": "References\n\n\nBaker, Monya. 2016. “1,500 Scientists Lift the Lid on Reproducibility.” Nature 533 (7604): 452–54. https://doi.org/10.1038/533452a.\n\n\nMenczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. A First Course in Network Science. Cambridge University Press."
+    "text": "References\n\n\nAgrawal, Monica, Marinka Zitnik, and Jure Leskovec. 2018. “Large-Scale Analysis of Disease Pathways in the Human Interactome.” In PACIFIC SYMPOSIUM on BIOCOMPUTING 2018: Proceedings of the Pacific Symposium, 111–22. World Scientific.\n\n\nMenczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. A First Course in Network Science. Cambridge University Press."
+  },
+  {
+    "objectID": "w04/index.html#scraping-html-with-httr2-and-xml2",
+    "href": "w04/index.html#scraping-html-with-httr2-and-xml2",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Scraping HTML with httr2 and xml2",
+    "text": "Scraping HTML with httr2 and xml2\nhttr2 Documentation | xml2 Documentation\n\n\nCode\n# Get HTML\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://en.wikipedia.org/wiki/Data_science\")\nresponse_obj &lt;- req_perform(request_obj)\n# Parse HTML\nlibrary(xml2)\n\n\n\nAttaching package: 'xml2'\n\n\nThe following object is masked from 'package:httr2':\n\n    url_parse\n\n\nCode\nhtml_obj &lt;- response_obj %&gt;% resp_body_html()\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\n\n{xml_nodeset (6)}\n[1] &lt;span class=\"mw-headline\" id=\"Foundations\"&gt;Foundations&lt;/span&gt;\n[2] &lt;span class=\"mw-headline\" id=\"Etymology\"&gt;Etymology&lt;/span&gt;\n[3] &lt;span class=\"mw-headline\" id=\"Data_Science_and_Data_Analysis\"&gt;Data Scienc ...\n[4] &lt;span class=\"mw-headline\" id=\"History\"&gt;History&lt;/span&gt;\n[5] &lt;span class=\"mw-headline\" id=\"See_also\"&gt;See also&lt;/span&gt;\n[6] &lt;span class=\"mw-headline\" id=\"References\"&gt;References&lt;/span&gt;\n\n\n\n\nNote: httr2 is a re-written version of the original httr package, which is now deprecated. You’ll still see lots of code using httr, however, so it’s good to know how both versions work. Click here for a helpful vignette on the original httr library."
+  },
+  {
+    "objectID": "w04/index.html#navigating-html-with-xpath",
+    "href": "w04/index.html#navigating-html-with-xpath",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Navigating HTML with XPath",
+    "text": "Navigating HTML with XPath\nXPath Cheatsheet\n\nNotice the last line on the previous slide:\n\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\nThe string passed to xml_find_all() is an XPath selector\n\n\n\nXPath selectors are used by many different libraries, including Selenium (which we’ll look at very soon) and jQuery (a standard extension to plain JavaScript allowing easy searching/manipulation of the DOM), so it’s good to learn it now!"
+  },
+  {
+    "objectID": "w04/index.html#xpath-i-selecting-elements",
+    "href": "w04/index.html#xpath-i-selecting-elements",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "XPath I: Selecting Elements",
+    "text": "XPath I: Selecting Elements\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//div' matches all elements &lt;div&gt; in the document:\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n'//div//img' matches &lt;img&gt; elements which are children of &lt;div&gt; elements:\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;"
+  },
+  {
+    "objectID": "w04/index.html#xpath-ii-filtering-by-attributes",
+    "href": "w04/index.html#xpath-ii-filtering-by-attributes",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "XPath II: Filtering by Attributes",
+    "text": "XPath II: Filtering by Attributes\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//p[id=\"page-content\"]' matches all &lt;p&gt; elements with id page-content3:\n&lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\nMatching classes is a bit trickier:\n'//img[contains(concat(\" \", normalize-space(@class), \" \"), \" footer-image \")]'\nmatches all &lt;img&gt; elements with page-content as one of their classes4\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;"
+  },
+  {
+    "objectID": "w04/index.html#example-math-api-1",
+    "href": "w04/index.html#example-math-api-1",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Example: Math API",
+    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nresponse_obj &lt;- req_perform(request_obj)\nwriteLines(response_obj %&gt;% resp_body_string())\n\n\n{\"operation\":\"factor\",\"expression\":\"x^2-1\",\"result\":\"(x - 1) (x + 1)\"}"
+  },
+  {
+    "objectID": "w04/index.html#authentication-1",
+    "href": "w04/index.html#authentication-1",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication",
+    "text": "Authentication\n\nMost APIs don’t allow requests to be made by anonymous requesters, and require authentication.\nFor example, to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
+  },
+  {
+    "objectID": "w04/index.html#authentication-via-gh",
+    "href": "w04/index.html#authentication-via-gh",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication via GH",
+    "text": "Authentication via GH\n\nThe GH library for R can handle this authentication process for you. For example, this private repo in my account does not show up if requested anonymously, but does show up when requested using GH with a Personal Access Token5:\n\n\n\nCode\nlibrary(gh)\nresult &lt;- gh(\"GET /repos/jpowerj/private-repo-test\")\nwriteLines(paste0(result$name, \": \",result$description))\n\n\nprivate-repo-test: Private repo example for DSAN5000"
+  },
+  {
+    "objectID": "w04/index.html#footnotes",
+    "href": "w04/index.html#footnotes",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nFor (much) more on this topic, see this page from Prisma, a high-level “wrapper” that auto-syncs your DB structure with a TypeScript schema, so your code knows exactly “what’s inside” a variable whose content was retrieved from the DB…↩︎\nYour code should 🚨never🚨 contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which I then loaded using os.getenv() and provided to PyGithub.↩︎\nIn HTML, ids are required to be unique to particular elements (and elements cannot have more than one id), meaning that this should only return a single element, for valid HTML code (not followed by all webpages!). Also note the double-quotes after id=, which are required in XPath.↩︎\nYour intuition may be to just use '//img[@class=\"footer-image\"]'. Sadly, however, this will match only elements with footer-image as their only class. i.e., it will match &lt;img class=\"footer-image\"&gt; but not &lt;img class=\"footer-image another-class\"&gt;. This will usually fail, since most elements on modern webpages have several classes. For example, if the site is using Bootstrap, &lt;p class=\"p-5 m-3\"&gt;&lt;/p&gt; creates a paragraph element with a padding of 5 pixels and a margin of 3 pixels.↩︎\nYour code should never contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which GH then uses to make authenticated requests.↩︎"
+  },
+  {
+    "objectID": "w04/slides.html#git-commands",
+    "href": "w04/slides.html#git-commands",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Git Commands",
+    "text": "Git Commands\n\n\n\n\n\n\n\nCommand\nWhat It Does\n\n\n\n\ngit clone\nDownloads a repo from the web to our local computer\n\n\ngit init\nCreates a new, blank Git repository on our local computer (configuration/change-tracking stored in .git subfolder)\n\n\ngit add\nStages a file(s): Git will now track changes in this file(s)\n\n\ngit reset\nUndoes a git add\n\n\ngit status\nShows currently staged files and their status (created, modified, deleted)\n\n\ngit commit -m \"message\"\n“Saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub\n\n\ngit push\nTransmits local commits to remote server\n\n\ngit pull\nDownloads commits from remote server to local computer\n\n\ngit merge\nMerges remote versions of files with local versions"
+  },
+  {
+    "objectID": "w04/slides.html#reproducible-docsliterate-programming",
+    "href": "w04/slides.html#reproducible-docsliterate-programming",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Reproducible Docs/Literate Programming",
+    "text": "Reproducible Docs/Literate Programming\n\n1980s: \\(\\LaTeX\\) for \\(\\widehat{\\mathcal{T}}\\)ypesetting \\(\\sqrt{math}^2\\)\n1990s: Python and R as powerful scripting languages (no compilation required)\n2000s/2010s: Interactive Python via Jupyter, fancy IDE for R called RStudio\n2020s: Quarto (using pandoc under the hood) enables use of markdown for formatting, \\(\\LaTeX\\) for math, and both Python and R in same document, with choice of output formats (HTML, presentations, Word docs, …)"
+  },
+  {
+    "objectID": "w04/slides.html#preexisting-data-sources",
+    "href": "w04/slides.html#preexisting-data-sources",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Preexisting Data Sources",
+    "text": "Preexisting Data Sources\n\nDepending on your field, or the type of data you’re looking for, there may be a “standard” data source! For example:\nEconomics:\n\nUS data: FRED\nGlobal data: World Bank Open Data, OECD Data, etc.\n\nPolitical Science:\n\nICPSR\n\nNetwork Science:\n\nStanford SNAP: Large Network Dataset Collection"
+  },
+  {
+    "objectID": "w04/slides.html#web-scraping",
+    "href": "w04/slides.html#web-scraping",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Web Scraping",
+    "text": "Web Scraping\n\nFun fact: you can view a webpage’s HTML source code by right-clicking on the page and selecting “View Source”\n\nOn older websites, this means we can just request page and parse the returned HTML\n\nLess fun fact: modern web frameworks (React, Next.js) generate pages dynamically using JS, meaning that what you see on the page will not be visible in the HTML source\n\nData scraping still possible for these sites! Using browser automation tools like Selenium"
+  },
+  {
+    "objectID": "w04/slides.html#scraping-difficulty",
+    "href": "w04/slides.html#scraping-difficulty",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Scraping Difficulty",
+    "text": "Scraping Difficulty\n\n\n\n\n\n\n\n\n\n\n\n\n\nHow is data loaded?\nSolution\nExample\n\n\n\n\n😊\nEasy\nData in HTML source\n“View Source”\n\n\n\n😐\nMedium\nData loaded dynamically via API\n“View Source”, find API call, scrape programmatically\n\n\n\n😳\nHard\nData loaded dynamically [internally] via web framework\nUse Selenium"
+  },
+  {
+    "objectID": "w04/slides.html#data-structures-foundations",
+    "href": "w04/slides.html#data-structures-foundations",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Data Structures: Foundations",
+    "text": "Data Structures: Foundations\n\nCould be (is) a whole class\nCould be (is) a whole class just for one type of data (geographic/spatial)\nFor this class: some foundational principles that should let you figure out fancier data structures you encounter"
+  },
+  {
+    "objectID": "w04/slides.html#opening-datasets-with-your-terminator-glasses-on",
+    "href": "w04/slides.html#opening-datasets-with-your-terminator-glasses-on",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Opening Datasets With Your Terminator Glasses On",
+    "text": "Opening Datasets With Your Terminator Glasses On\n\n\n\n\nWhat does a row represent?\nWhat does a column represent?\nWhat does a value in a cell represent?\nAre there unique identifiers for the objects you care about?\n\n\n\n\n\n\nFigure 1: What you should see when you look at a new dataset"
+  },
+  {
+    "objectID": "w04/slides.html#from-raw-data-to-clean-data",
+    "href": "w04/slides.html#from-raw-data-to-clean-data",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "From Raw Data to Clean Data",
+    "text": "From Raw Data to Clean Data"
+  },
+  {
+    "objectID": "w04/slides.html#data-structures-simple-rightarrow-complex",
+    "href": "w04/slides.html#data-structures-simple-rightarrow-complex",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Data Structures: Simple \\(\\rightarrow\\) Complex",
+    "text": "Data Structures: Simple \\(\\rightarrow\\) Complex\n\n\n\n\n\n\n\nid\nname\nemail\n\n\n\n\n0\nK. Desbrow\nkd9@dailymail.com\n\n\n1\nD. Minall\ndminall1@wired.com\n\n\n2\nC. Knight\nck2@microsoft.com\n\n\n3\nM. McCaffrey\nmccaf4@nhs.uk\n\n\n\nFigure 2: Record Data\n\n\n\n\n\n\n\nyear\nmonth\npoints\n\n\n\n\n2023\nJan\n65\n\n\n2023\nFeb\n\n\n\n2023\nMar\n42\n\n\n2023\nApr\n11\n\n\n\nFigure 3: Time-Series Data\n\n\n\n\n\n\n\n\n\nid\ndate\nrating\nnum_rides\n\n\n\n\n0\n2023-01\n0.75\n45\n\n\n0\n2023-02\n0.89\n63\n\n\n0\n2023-03\n0.97\n7\n\n\n1\n2023-06\n0.07\n10\n\n\n\nFigure 4: Panel Data\n\n\n\n\n\n\n\nSource\nTarget\nWeight\n\n\n\n\nIGF2\nIGF1R\n1\n\n\nIGF1R\nTP53\n2\n\n\nTP53\nEGFR\n0.5\n\n\n\nFigure 5: Network Data\n\n\n\n\n\n\nFake data via Mockaroo and Random.org. Protein-protein interaction network from Agrawal, Zitnik, and Leskovec (2018)"
+  },
+  {
+    "objectID": "w04/slides.html#tabular-data-vs.-relational-data",
+    "href": "w04/slides.html#tabular-data-vs.-relational-data",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Tabular Data vs. Relational Data",
+    "text": "Tabular Data vs. Relational Data\n\nAll of the datasets on the previous slide are tabular\nDatabases like SQLite, MySQL, require us to think about relationships within and between tabular datasets\nImagine you’re creating the backend for a social network. How would you record users and friendships? Your intuition may be record data:\n\n\n\n\n\n\n\n\n\n\n\nid\nname\nfriends\n\n\n\n\n1\nPurna\n[2,3,4]\n\n\n2\nJeff\n[1,3,4,5,6]\n\n\n3\nJames\n[1,2,4,6]\n\n\n4\nNakul\n[1,2,3]\n\n\n5\nDr. Fauci\n[2,6]\n\n\n6\nPitbull\n[2,5]\n\n\n\nFigure 6: Our first attempt at a data structure for our social network app’s backend\n\n\n\nLong story short…\n\nThis doesn’t scale\nExtremely inefficient to find whether two users are friends\nRedundant information: Have to store friendship between A and B in both A’s row and B’s row"
+  },
+  {
+    "objectID": "w04/slides.html#a-better-approach",
+    "href": "w04/slides.html#a-better-approach",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "A Better Approach",
+    "text": "A Better Approach\n\nMove the friendship data into its own table!\nThis table now represents relational data, (user table still corresponds to records):\n\n\n\n\n\n\n\n\n\n\n\nuser_id\nname\n\n\n\n\n1\nPurna\n\n\n2\nJeff\n\n\n3\nJames\n\n\n4\nNakul\n\n\n5\nDr. Fauci\n\n\n6\nPitbull\n\n\n\nFigure 7: The user table in our relational structure\n\n\n\n\n\n\n\n\n\n\nid\nfriend_1\nfriend_2\nid\nfriend_1\nfriend_2\n\n\n\n\n1\n1\n2\n6\n2\n5\n\n\n2\n1\n3\n7\n2\n6\n\n\n3\n1\n4\n8\n3\n4\n\n\n4\n2\n3\n9\n3\n6\n\n\n5\n2\n4\n10\n5\n6\n\n\n\nFigure 8: The friendships table in our relational structure\n\n\n\n\n\nMay seem weird in terms of human readability, but think in terms of memory/computational efficiency: (a) Scalable, (b) Easy to find if two users are friends (via sorting/searching algorithms), (c) No redundant info"
+  },
+  {
+    "objectID": "w04/slides.html#dbs-relational-or-otherwise",
+    "href": "w04/slides.html#dbs-relational-or-otherwise",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "DBs: Relational or Otherwise",
+    "text": "DBs: Relational or Otherwise\n\nFor rest of lecture we zoom in on cases where data comes as individual files\nBut on top of the relational format from previous slide, there are also non-relational database formats, like the document-based format used by e.g. MongoDB1\nIn either case, data is spread over many files, so that to obtain a single dataset we use queries.\n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nfile\n\n File (.csv/.json/etc.)   \n\nload\n\n read_csv()   \n\nfile-&gt;load\n\n    \n\ndataset\n\n Dataset   \n\nload-&gt;dataset\n\n   \n\n\n\n\n\nFigure 9: Statically datasets (as individual files on disk)\n\n\n\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_00\n\n Database   \n\ntab1\n\n Table 1   \n\nquery\n\n Query   \n\ntab1-&gt;query\n\n    \n\ntab2\n\n Table 2   \n\ntab2-&gt;query\n\n    \n\ntabdots\n\n …   \n\ntabdots-&gt;query\n\n    \n\ntabN\n\n Table N   \n\ntabN-&gt;query\n\n    \n\ndataset\n\n Dataset   \n\nquery-&gt;dataset\n\n   \n\n\n\n\n\nFigure 10: Datasets formed dynamically via database queries\n\n\n\n\nFor (much) more on this topic, see this page from Prisma, a high-level “wrapper” that auto-syncs your DB structure with a TypeScript schema, so your code knows exactly “what’s inside” a variable whose content was retrieved from the DB…"
+  },
+  {
+    "objectID": "w04/slides.html#data-formats",
+    "href": "w04/slides.html#data-formats",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Data Formats",
+    "text": "Data Formats\n\nThe most common formats, for most fields:\n\n.csv: Comma-Separated Values\n.tsv: Tab-Separated Values\n.json: JavaScript Object Notation\n.xls/.xlsx: Excel format\n.dta: Stata format"
+  },
+  {
+    "objectID": "w04/slides.html#csv-.tsv",
+    "href": "w04/slides.html#csv-.tsv",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": ".csv / .tsv",
+    "text": ".csv / .tsv\n\n\n👍\n\n\nmy_data.csv\n\nindex,var_1,var_2,var_3\nA,val_A1,val_A2,val_A3\nB,val_B1,val_B2,val_B3\nC,val_C1,val_C2,val_C3\nD,val_D1,val_D2,val_D3\n\n\n(👎)\n\n\nmy_data.tsv\n\nindex var_1 var_2 var_3\nA val_A1  val_A2  val_A3\nB val_B1  val_B2  val_B3\nC val_C1  val_C2  val_C3\nD val_D1  val_D2  val_D3\n\n\n\n→\n\n\n\n\n\n\n\n\n\n\n\n\n\nPython: pd.read_csv() (from Pandas library)\nR: read_csv() (from readr library)"
+  },
+  {
+    "objectID": "w04/slides.html#json",
+    "href": "w04/slides.html#json",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": ".json",
+    "text": ".json\n\n\n\ncourses.json\n\n{\n  \"dsan5000\": {\n    \"title\": \"Data Science and Analytics\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Tools and Workflow\"\n    ]\n  },\n  \"dsan5100\": {\n    \"title\": \"Probabilistic Modeling and Statistical Computing\",\n    \"credits\": 3,\n    \"lectures\": [\n      \"Intro\",\n      \"Conditional Probability\"\n    ]\n  }\n}\n\n\n\nPython: json (built-in library, import json)\nR: jsonlite (install.packages(jsonlite))\nHelpful validator (for when .json file won’t load)"
+  },
+  {
+    "objectID": "w04/slides.html#other-formats",
+    "href": "w04/slides.html#other-formats",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Other Formats",
+    "text": "Other Formats\n\n.xls/.xlsx: Requires special libraries in Python/R\n\nPython: openpyxl\nR: readxl (part of tidyverse)\n\n.dta: Stata format, but can be read/written to in Python/R\n\nPython: Pandas has built-in pd.read_stata() and pd.to_stata()\nR: read_dta() from Haven library (part of tidyverse)"
+  },
+  {
+    "objectID": "w04/slides.html#scraping-html-with-requests-and-beautifulsoup",
+    "href": "w04/slides.html#scraping-html-with-requests-and-beautifulsoup",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Scraping HTML with requests and BeautifulSoup",
+    "text": "Scraping HTML with requests and BeautifulSoup\nrequests Documentation | BeautifulSoup Documentation\n\n\nCode\n# Get HTML\nimport requests\n# Perform request\nresponse = requests.get(\"https://en.wikipedia.org/wiki/Data_science\")\n# Parse HTML\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(response.text, 'html.parser')\nall_headers = soup.find_all(\"h2\")\nsection_headers = [h.find(\"span\", {'class': 'mw-headline'}).text for h in all_headers[1:]]\nsection_headers\n\n\n['Foundations', 'Etymology', 'Data Science and Data Analysis', 'History', 'See also', 'References']"
+  },
+  {
+    "objectID": "w04/slides.html#navigating-html-with-beautifulsoup",
+    "href": "w04/slides.html#navigating-html-with-beautifulsoup",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Navigating HTML with BeautifulSoup",
+    "text": "Navigating HTML with BeautifulSoup\n\nLet’s focus on this line from the previous slide:\n\nall_headers = soup.find_all(\"h2\")\n\nfind_all() is the key function for scraping!\nIf the HTML has a repeating structure (like rows in a table), find_all() can instantly parse this structure into a Python list."
+  },
+  {
+    "objectID": "w04/slides.html#the-power-of-find_all",
+    "href": "w04/slides.html#the-power-of-find_all",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "The Power of find_all()",
+    "text": "The Power of find_all()\n\n\n\n\n\n\ndata_page.html\n\n&lt;div class=\"all-the-data\"&gt;\n    &lt;h4&gt;First Dataset&lt;/h4&gt;\n    &lt;div class=\"data-1\"&gt;\n        &lt;div class=\"dataval\"&gt;1&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;2&lt;/div&gt;\n        &lt;div class=\"dataval\"&gt;3&lt;/div&gt;\n    &lt;/div&gt;\n    &lt;h4&gt;Second Dataset&lt;/h4&gt;\n    &lt;div class=\"data-2\"&gt;\n        &lt;ul&gt;\n            &lt;li&gt;4.0&lt;/li&gt;\n            &lt;li&gt;5.5&lt;/li&gt;\n            &lt;li&gt;6.7&lt;/li&gt;\n        &lt;/ul&gt;\n    &lt;/div&gt;\n&lt;/div&gt;\n\nFigure 11: Data in page elements (&lt;div&gt;, &lt;li&gt;)\n\n\n\n\n\n    First Dataset\n    \n        1\n        2\n        3\n    \n    Second Dataset\n        \n            4.0\n            5.5\n            6.7\n        \n\nFigure 12: The code from Figure 11, rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(page_html, 'html.parser')\nds1_elt = soup.find(\"div\", class_='data-1')\nds1 = [e.text for e in ds1_elt.find_all(\"div\")]\nds2_elt = soup.find(\"div\", {'class': 'data-2'})\nds2 = [e.text for e in ds2_elt.find_all(\"li\")]\n\nFigure 13: The BeautifulSoup code used to parse the HTML\n\n\n\n\n\nprint(f\"dataset-1: {ds1}\\ndataset-2: {ds2}\")\n\ndataset-1: ['1', '2', '3']\ndataset-2: ['4.0', '5.5', '6.7']\n\n\nFigure 14: Contents of the Python variables holding the parsed data"
+  },
+  {
+    "objectID": "w04/slides.html#parsing-html-tables",
+    "href": "w04/slides.html#parsing-html-tables",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Parsing HTML Tables",
+    "text": "Parsing HTML Tables\n\n\n\n\n\n\ntable_data.html\n\n&lt;table&gt;\n&lt;thead&gt;\n    &lt;tr&gt;\n        &lt;th&gt;X1&lt;/th&gt;&lt;th&gt;X2&lt;/th&gt;&lt;th&gt;X3&lt;/th&gt;\n    &lt;/tr&gt;\n&lt;/thead&gt;\n&lt;tbody&gt;\n    &lt;tr&gt;\n        &lt;td&gt;1&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n        &lt;td&gt;2&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;\n    &lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n\nFigure 15: Data in HTML table format\n\n\n\n\n\n\n\nX1\nX2\nX3\n\n\n\n\n1\n3\n5\n\n\n2\n4\n6\n\n\n\nFigure 16: The HTML table code, as rendered by your browser\n\n\n\n\n\n\n\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(table_html, 'html.parser')\nthead = soup.find(\"thead\")\nheaders = [e.text for e in thead.find_all(\"th\")]\ntbody = soup.find(\"tbody\")\nrows = tbody.find_all(\"tr\")\ndata = [[e.text for e in r.find_all(\"td\")]\n            for r in rows]\n\nFigure 17: The BeautifulSoup code used to parse the table HTML\n\n\n\n\n\nprint(f\"headers: {headers}\\ndata: {data}\")\n\nheaders: ['X1', 'X2', 'X3']\ndata: [['1', '3', '5'], ['2', '4', '6']]\n\n\nFigure 18: Contents of the Python variables holding the parsed data"
+  },
+  {
+    "objectID": "w04/slides.html#what-does-an-api-do",
+    "href": "w04/slides.html#what-does-an-api-do",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "What Does an API Do?",
+    "text": "What Does an API Do?\nExposes endpoints for use by developers, without requiring them to know the nuts and bolts of your pipeline/service:\n\n\n\n\n\n\n\n\nExample\nEndpoint\nNot Exposed\n\n\n\n\nElectrical outlet\nSocket\nInternal wiring\n\n\nWater fountain\nAerator\nWater pump\n\n\nCar\nPedals, Steering wheel, etc.\nEngine\n\n\n\n\nWhen I’m teaching programming to students in refugee camps who may have never used a computer before, I try to use the idea of “robots”: a program is a robot trained to sit there and wait for inputs, then process them in some way and spit out some output. APIs really capture this notion, honestly."
+  },
+  {
+    "objectID": "w04/slides.html#example-math-api",
+    "href": "w04/slides.html#example-math-api",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Example: Math API",
+    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nimport requests\nresponse = requests.get(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nprint(response.json())\n\n\n{'operation': 'factor', 'expression': 'x^2-1', 'result': '(x - 1) (x + 1)'}"
+  },
+  {
+    "objectID": "w04/slides.html#math-api-endpoints",
+    "href": "w04/slides.html#math-api-endpoints",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Math API Endpoints",
+    "text": "Math API Endpoints\n\n\n\nOperation\nAPI Endpoint\nResult\n\n\n\n\nSimplify\n/simplify/2^2+2(2)\n8\n\n\nFactor\n/factor/x^2 + 2x\nx (x + 2)\n\n\nDerive\n/derive/x^2+2x\n2 x + 2\n\n\nIntegrate\n/integrate/x^2+2x\n1/3 x^3 + x^2 + C\n\n\nFind 0’s\n/zeroes/x^2+2x\n[-2, 0]\n\n\nFind Tangent\n/tangent/2|x^3\n12 x + -16\n\n\nArea Under Curve\n/area/2:4|x^3\n60\n\n\nCosine\n/cos/pi\n-1\n\n\nSine\n/sin/0\n0\n\n\nTangent\n/tan/0\n0"
+  },
+  {
+    "objectID": "w04/slides.html#authentication",
+    "href": "w04/slides.html#authentication",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication",
+    "text": "Authentication\n\nUnlike the math API, most APIs do not allow requests to be made by anonymous requesters, and require authentication.\nFor example, you can access public GitHub repos anonymously, but to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
+  },
+  {
+    "objectID": "w04/slides.html#authentication-via-pygithub",
+    "href": "w04/slides.html#authentication-via-pygithub",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication via PyGithub",
+    "text": "Authentication via PyGithub\n\n\n\nPyGithub Installation\n\n\nInstall using the following terminal/shell command [Documentation]\npip install PyGithub\n\n\n\nPyGithub can handle authentication for you. Example: this private repo in my account does not show up unless the request is authenticated (via a Personal Access Token)1:\n\n\n\n\n\n# import github\n# g = github.Github()\n# try:\n#   g.get_repo(\"jpowerj/private-repo-test\")\n# except Exception as e:\n#   print(e)\n\nFigure 19: Using the GitHub API without authentication\n\n\n\n\n\n# Load the access token securely\n# import os\n# my_access_token = os.getenv('GITHUB_TOKEN')\n# import github\n# # Use the access token to make an API request\n# auth = github.Auth.Token(my_access_token)\n# g = github.Github(auth=auth)\n# g.get_user().get_repo(\"private-repo-test\")\n\nFigure 20: Using the GitHub API with authentication\n\n\n\n\nYour code should 🚨never🚨 contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which I then loaded using os.getenv() and provided to PyGithub."
+  },
+  {
+    "objectID": "w04/slides.html#references",
+    "href": "w04/slides.html#references",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "References",
+    "text": "References\n\n\nAgrawal, Monica, Marinka Zitnik, and Jure Leskovec. 2018. “Large-Scale Analysis of Disease Pathways in the Human Interactome.” In PACIFIC SYMPOSIUM on BIOCOMPUTING 2018: Proceedings of the Pacific Symposium, 111–22. World Scientific.\n\n\nMenczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. A First Course in Network Science. Cambridge University Press."
+  },
+  {
+    "objectID": "w04/slides.html#scraping-html-with-httr2-and-xml2",
+    "href": "w04/slides.html#scraping-html-with-httr2-and-xml2",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Scraping HTML with httr2 and xml2",
+    "text": "Scraping HTML with httr2 and xml2\nhttr2 Documentation | xml2 Documentation\n\n\nCode\n# Get HTML\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://en.wikipedia.org/wiki/Data_science\")\nresponse_obj &lt;- req_perform(request_obj)\n# Parse HTML\nlibrary(xml2)\nhtml_obj &lt;- response_obj %&gt;% resp_body_html()\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\n\n{xml_nodeset (6)}\n[1] &lt;span class=\"mw-headline\" id=\"Foundations\"&gt;Foundations&lt;/span&gt;\n[2] &lt;span class=\"mw-headline\" id=\"Etymology\"&gt;Etymology&lt;/span&gt;\n[3] &lt;span class=\"mw-headline\" id=\"Data_Science_and_Data_Analysis\"&gt;Data Scienc ...\n[4] &lt;span class=\"mw-headline\" id=\"History\"&gt;History&lt;/span&gt;\n[5] &lt;span class=\"mw-headline\" id=\"See_also\"&gt;See also&lt;/span&gt;\n[6] &lt;span class=\"mw-headline\" id=\"References\"&gt;References&lt;/span&gt;\n\n\n\n\nNote: httr2 is a re-written version of the original httr package, which is now deprecated. You’ll still see lots of code using httr, however, so it’s good to know how both versions work. Click here for a helpful vignette on the original httr library."
+  },
+  {
+    "objectID": "w04/slides.html#navigating-html-with-xpath",
+    "href": "w04/slides.html#navigating-html-with-xpath",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Navigating HTML with XPath",
+    "text": "Navigating HTML with XPath\nXPath Cheatsheet\n\nNotice the last line on the previous slide:\n\nhtml_obj %&gt;% xml_find_all('//h2//span[@class=\"mw-headline\"]')\n\nThe string passed to xml_find_all() is an XPath selector\n\n\n\nXPath selectors are used by many different libraries, including Selenium (which we’ll look at very soon) and jQuery (a standard extension to plain JavaScript allowing easy searching/manipulation of the DOM), so it’s good to learn it now!"
+  },
+  {
+    "objectID": "w04/slides.html#xpath-i-selecting-elements",
+    "href": "w04/slides.html#xpath-i-selecting-elements",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "XPath I: Selecting Elements",
+    "text": "XPath I: Selecting Elements\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//div' matches all elements &lt;div&gt; in the document:\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n'//div//img' matches &lt;img&gt; elements which are children of &lt;div&gt; elements:\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;"
+  },
+  {
+    "objectID": "w04/slides.html#xpath-ii-filtering-by-attributes",
+    "href": "w04/slides.html#xpath-ii-filtering-by-attributes",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "XPath II: Filtering by Attributes",
+    "text": "XPath II: Filtering by Attributes\n\n\nmypage.html\n\n&lt;div class=\"container\"&gt;\n  &lt;h1&gt;Header&lt;/h1&gt;\n  &lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\n  &lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n&lt;/div&gt;\n\n\n'//p[id=\"page-content\"]' matches all &lt;p&gt; elements with id page-content1:\n&lt;p id=\"page-content\"&gt;Content&lt;/p&gt;\nMatching classes is a bit trickier:\n'//img[contains(concat(\" \", normalize-space(@class), \" \"), \" footer-image \")]'\nmatches all &lt;img&gt; elements with page-content as one of their classes2\n&lt;img class=\"footer-image m-5\" src=\"footer.png\"&gt;\n\nIn HTML, ids are required to be unique to particular elements (and elements cannot have more than one id), meaning that this should only return a single element, for valid HTML code (not followed by all webpages!). Also note the double-quotes after id=, which are required in XPath.Your intuition may be to just use '//img[@class=\"footer-image\"]'. Sadly, however, this will match only elements with footer-image as their only class. i.e., it will match &lt;img class=\"footer-image\"&gt; but not &lt;img class=\"footer-image another-class\"&gt;. This will usually fail, since most elements on modern webpages have several classes. For example, if the site is using Bootstrap, &lt;p class=\"p-5 m-3\"&gt;&lt;/p&gt; creates a paragraph element with a padding of 5 pixels and a margin of 3 pixels."
+  },
+  {
+    "objectID": "w04/slides.html#example-math-api-1",
+    "href": "w04/slides.html#example-math-api-1",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Example: Math API",
+    "text": "Example: Math API\n\nBase URL: https://newton.vercel.app/api/v2/\nThe endpoint: factor\nThe argument: \"x^2 - 1\"\nThe request: https://newton.vercel.app/api/v2/factor/x^2-1\n\n\n\nCode\nlibrary(httr2)\nrequest_obj &lt;- request(\"https://newton.vercel.app/api/v2/factor/x^2-1\")\nresponse_obj &lt;- req_perform(request_obj)\nwriteLines(response_obj %&gt;% resp_body_string())\n\n\n{\"operation\":\"factor\",\"expression\":\"x^2-1\",\"result\":\"(x - 1) (x + 1)\"}"
+  },
+  {
+    "objectID": "w04/slides.html#authentication-1",
+    "href": "w04/slides.html#authentication-1",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication",
+    "text": "Authentication\n\nMost APIs don’t allow requests to be made by anonymous requesters, and require authentication.\nFor example, to access private GitHub repos using GitHub’s API, you’ll need to authenticate that you are in fact the one making the request"
+  },
+  {
+    "objectID": "w04/slides.html#authentication-via-gh",
+    "href": "w04/slides.html#authentication-via-gh",
+    "title": "Week 4: Data Gathering and APIs",
+    "section": "Authentication via GH",
+    "text": "Authentication via GH\n\nThe GH library for R can handle this authentication process for you. For example, this private repo in my account does not show up if requested anonymously, but does show up when requested using GH with a Personal Access Token1:\n\n\n\nCode\nlibrary(gh)\nresult &lt;- gh(\"GET /repos/jpowerj/private-repo-test\")\nwriteLines(paste0(result$name, \": \",result$description))\n\n\nprivate-repo-test: Private repo example for DSAN5000\n\n\n \n\n\n\n\nYour code should never contain authentication info, especially when using GitHub. In this case, I created an OS environment variable called GITHUB_TOKEN containing my Personal Access Token, which GH then uses to make authenticated requests."
   },
   {
     "objectID": "w02/index.html",
@@ -1341,7 +1446,7 @@
     "href": "index.html",
     "title": "DSAN 5000, Section 02",
     "section": "",
-    "text": "This is a “hub” collecting relevant links for each week, for students in the Tuesday section (Section 02) of DSAN 5000: Data Science and Analytics, Fall 2023 at Georgetown University.\nIt is not a replacement for the Main Course Page or the Canvas Page, which are shared across all sections!\nUse the menu on the left, or the table below, to view the resources for a specific week.\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nDate\n\n\n\n\n\n\nWeek 1: Welcome to DSAN 5000!\n\n\nWednesday, August 23, 2023\n\n\n\n\nWeek 2: Data Science Fundamentals and Workflow\n\n\nTuesday, August 29, 2023\n\n\n\n\nWeek 3: Data Science Workflow\n\n\nWednesday, September 6, 2023\n\n\n\n\nWeek 4: Data Gathering and APIs\n\n\nTuesday, September 12, 2023\n\n\n\n\n\n\nNo matching items"
+    "text": "This is a “hub” collecting relevant links for each week, for students in the Tuesday section (Section 02) of DSAN 5000: Data Science and Analytics, Fall 2023 at Georgetown University.\nIt is not a replacement for the Main Course Page or the Canvas Page, which are shared across all sections!\nUse the menu on the left, or the table below, to view the resources for a specific week.\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nDate\n\n\n\n\n\n\nWeek 1: Welcome to DSAN 5000!\n\n\nWednesday, August 23, 2023\n\n\n\n\nWeek 2: Data Science Fundamentals and Workflow\n\n\nTuesday, August 29, 2023\n\n\n\n\nWeek 3: Data Science Workflow\n\n\nWednesday, September 6, 2023\n\n\n\n\nWeek 4: Data Gathering and APIs\n\n\nTuesday, September 12, 2023\n\n\n\n\nWeek 5: Data Cleaning\n\n\nTuesday, September 19, 2023\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "extra-videos/recording-w03-ssh-windows.html",

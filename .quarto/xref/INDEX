@@ -52,5 +52,9 @@
   },
   "extra-videos/recording-w03-ssh-windows.qmd": {
     "recording-w03-ssh-windows.html": "9684b29c"
+  },
+  "w05/index.qmd": {
+    "slides.html": "3326544a",
+    "index.html": "70b63d25"
   }
 }

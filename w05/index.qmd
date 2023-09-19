@@ -1,0 +1,237 @@
+---
+title: "Week 5: Data Cleaning"
+subtitle: "*DSAN 5100: Data Science and Analytics*<br>Section <span class='sec-num'>02</span>"
+date: "Tuesday, September 19, 2023"
+date-format: full
+author: "Jeff Jacobs"
+institute: "<a href=\"mailto:jj1088@georgetown.edu\" target=\"_blank\">jj1088@georgetown.edu</a>"
+#date: last-modified
+#date-format: "dddd MMM D, YYYY, HH:mm:ss"
+lecnum: 4
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    html-math-method: mathjax
+    #cache: false
+    scrollable: false
+    slide-number: true
+    output-file: slides.html
+    section-divs: false
+    simplemenu:
+      flat: true
+      barhtml:
+        header: >
+          <div class='menubar'>
+            <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>
+            
+            <span style='position: absolute; right: 0; padding-right: 8px; z-index: 10; display: inline-flex !important;'>
+              <a href='#' onclick="window.toggleSectionClicked('02'); return(false);" class='no-decoration'>02 </a>
+              <a href='#' onclick="window.toggleIconClicked(); return(false);" class='no-decoration'><i id='section-toggle-icon' class='bi bi-toggle-off pt-0 ps-1 pe-1'></i></a>
+              <a href='#' onclick="window.toggleSectionClicked('03'); return(false);" class='no-decoration'> 03</a>
+            </span>
+            <ul class='menu'></ul>
+          </div>
+      scale: 0.5
+    theme: [default, "../_jjslides.scss"]
+    revealjs-plugins:
+      - simplemenu
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-stack-name="Schedule"}
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+| | Start | End | Topic | Recording |
+|:- |:- |:- |:- |:-:|
+| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p10'>12:40pm</a> | <a href="#week-04-recap">Week 04 Recap &rarr;</a> | <a href="../recordings/recording-w04-1.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p10'>12:40pm</span> | <span class='sec-p30'>1:00pm</a> | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201963">Quiz 2.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a> | |
+| | 1:00pm | 1:30pm | <a href="#data-gathering">More on APIs &rarr;</a> | <a href="../recordings/recording-w04-2.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 1:30pm | 1:45pm | <a href="#web-scraping">Cleaning Tabular Data &rarr;</a> | <a href="../recordings/recording-w04-3.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 1:45pm | 2:00pm | <a href="#apis">Cleaning Text Data &rarr;</a> | <a href="../recordings/recording-w04-4.html" target="_blank"><i class="bi bi-film"></i></a> |
+| **Break!** | 2:00pm | 2:10pm | | |
+| **Lab** | 2:10pm | 2:50pm | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a href="../recordings/recording-w04-5.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 2:50pm | 3:00pm | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a href="../recordings/recording-w04-6.html" target="_blank"><i class="bi bi-film"></i></a> |
+
+: {tbl-colwidths="[14,12,12,50,12]"} 
+
+# Week 04 Recap {.smaller .smaller-title .not-title-slide data-stack-name="Recap"}
+
+* Dataset Types / Formats
+* Web Scraping
+* APIs
+
+## Data Formats: Network Data {.smaller .crunch-title .crunch-ul .small-table-text .small-captions}
+
+* Network data form **two** tabular datasets: one for **nodes** and one for **edges**
+* Ex: Network on left could be represented via pair of tabular datasets on right
+
+::: {layout-ncol=3}
+
+![Network of some sort of ancient kinship structure](images/pokemon_graph_subsets.png){#fig-pokemon width="500"}
+
+::: {#fig-nodes}
+
+| node_id | label |
+| - | - |
+| 1 | Bulbasaur |
+| 2 | Ivysaur |
+| $\vdots$ | $\vdots$ |
+| 9 | Blastoise |
+
+A tabular dataset representing the **nodes** in the network above
+:::
+
+::: {#fig-edges}
+
+| edge_id | source | target | weight |
+| - | - | - | - |
+| 0 | 1 | 2 | 16 |
+| 1 | 2 | 3 | 32 |
+| 2 | 4 | 5 | 16 |
+| 3 | 5 | 6 | 36 |
+| 4 | 7 | 8 | 16 |
+| 5 | 8 | 9 | 36 |
+
+A tabular dataset representing the **edges** in the network above
+:::
+
+:::
+
+## Web Scraping with `requests` and BeautifulSoup {.smaller .small-title}
+
+| What I Want To Do | Python Code I Can Use |
+| - | - |
+| Send an HTTP GET request | `response = requests.get(url)` |
+| Send an HTTP POST request | `response = requests.post(url, post_data)` |
+| Get just the plain HTML code (excluding headers, JS) returned by the request | `html_str = response.text` |
+| Parse a string containing HTML code | `soup = BeautifulSoup(html_str, 'html.parser')` |
+| Get contents of all `<xyz>` tags in the parsed HTML | `xyz_elts = soup.find_all('xyz')` |
+| Get contents of the **first** `<xyz>` tag in the parsed HTML | `xyz_elt = soup.find('xyz')` |
+| Get just the **text** (without formatting or tag info) contained in a given element | `xyz_elt.text` |
+
+## APIs Recap {.smaller}
+
+* Keep in mind the distinction between your **entire application** and the **API endpoints** you want to make available to other developers!
+
+| Application | Should Be Endpoints | Shouldn't Be Endpoints |
+| - | - | - |
+| Voting Machine | `cast_vote()` (End User), `get_vote_totals()` (Admin) | `get_vote(name)`, `get_previous_vote()` |
+| Gaming Platform | `get_points()` (Anyone), `add_points()`, `remove_points()` (Game Companies) | `set_points()` |
+| Thermometer | `view_temperature()` | `release_mercury()` |
+| Canvas App for Georgetown | `view_grades()` (different for Students and Teachers) | SQL Statement for Storing and Retrieving Grades in Georgetown DB |
+
+# Quiz Time! {data-name="Quiz Time!"}
+
+<a class="icon-link" href="https://georgetown.instructure.com/courses/173310/quizzes/201963" target="_blank">Quiz 2.2 on Canvas <i class='bi bi-box-arrow-up-right ps-1'></i></a>
+
+# APIs Part 2 {data-stack-name="APIs"}
+
+## REST vs. SOAP vs. GraphQL {.smaller .crunch-title .crunch-ul}
+
+* **SOAP**: **S**tandard **O**bject **A**ccess **P**rotocol: Operates using a stricter schema (data must have this form, must include these keys, etc.), XML only
+* **REST** (**RE**presentational **S**tate **T**ransfer): Uses standard HTTP, wide range of formats
+* **GraphQL** (**Graph** **Q**uery **L**anguage): Rather than exposing several endpoints, each performing a single function, GraphQL exposes a **single** endpoint for queries (so that the **server** then goes and figures out how to satisfy these queries)
+
+::: {layout-ncol=2}
+
+::: {#fig-rest}
+
+```{dot}
+//| fig-width: 5
+//| fig-height: 3
+digraph G1 {
+    rankdir=TB;
+    subgraph cluster_00 {
+        dev[label="Developer"];
+        api1[label="get_users"];
+        api2[label="get_friends"];
+        label="Endpoints";
+        labelloc="bottom";
+    }
+    dev -> api1[label="API call"];
+    api1 -> dev;
+    dev -> api2 [label="API call (id = 5)"];
+    api2 -> dev;
+    figureOut[label="is User 5 friends w Pitbull?"]
+    dev -> figureOut;
+}
+```
+
+Using individual endpoints (`get_users` and `get_friends`) to derive answer to "Is User 5 friends with Pitbull?"
+:::
+
+::: {#fig-graphql}
+
+```{dot}
+//| fig-width: 5
+//| fig-height: 3
+digraph G2 {
+    newrank=true;
+    rankdir=TB;
+    api1[label="get_users"];
+    
+    //gqlServer -> api1[label="API call"];
+    subgraph cluster_00 {
+        node [label="Developer"] dev;
+        node [label="GraphQL Server"] gqlServer;
+        margin="25.5,0.5"
+        dev -> gqlServer[label="GraphQL API call\n(\"is User 5 friends\nwith Pitbull?\")"];
+        gqlServer -> dev;
+        label="(Single) Endpoint";
+        labelloc="bottom";
+    }
+    
+    {
+        rank=same;
+        api2[label="get_friends"];
+        gqlServer -> api1;
+        api1 -> gqlServer[label="(internal)"];
+        gqlServer -> api2 [label="(internal)"];
+        api2 -> gqlServer;
+    }
+}
+```
+
+Answering the same question ("Is User 5 friends with Pitbull?") directly using GraphQL
+:::
+
+:::
+
+## What Should I Include in My API?
+
+Key Principle: **CRUD**
+
+* **C**reate: Place a new record in some table(s)
+* **R**ead: Get data for all (or subset of) records
+* **U**pdate*: Locate record, change its value(s)
+    * "**U**psert": Update if already exists, otherwise create
+* **D**elete: Remove record from some table(s)
+
+
+# Cleaning Tabular Data {data-stack-name="Tabular Data"}
+
+## The Unexpected Pitfalls {.smaller .crunch-title}
+
+* You find the **perfect dataset** for your project, only to open it and find...
+
+{{< video images/nathan1.mp4 width="100%" height="75%" >}}
+
+# Cleaning Text Data {data-stack-name="Text Data"}
+
+## Text Data
