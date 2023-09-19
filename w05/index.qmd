@@ -68,7 +68,7 @@ Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 | | Start | End | Topic | Recording |
 |:- |:- |:- |:- |:-:|
 | **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p10'>12:40pm</a> | <a href="#week-04-recap">Week 04 Recap &rarr;</a> | <a href="../recordings/recording-w05-1.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p10'>12:40pm</span> | <span class='sec-p30'>1:00pm</a> | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201963">Quiz 2.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a> | |
+| | <span class='sec-p10'>12:40pm</span> | <span class='sec-p30'>1:00pm</a> | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201963" target="_blank">Quiz 2.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a> | |
 | | <span class='sec-p30'>1:00pm</span> | <span class='sec-p40'>1:10pm</span> | <a href="#apis-part-2">More on APIs &rarr;</a> | <a href="../recordings/recording-w05-2.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
 | | <span class='sec-p40'>1:10pm</span> | <span class='sec-p70'>1:40pm</span> | <a href="#cleaning-tabular-data">Cleaning Tabular Data &rarr;</a> | <a href="../recordings/recording-w05-3.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
 | | <span class='sec-p70'>1:40pm</span> | <span class='sec-p90'>2:00pm</span> | <a href="#cleaning-text-data">Cleaning Text Data &rarr;</a> | <a href="../recordings/recording-w04-4.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
