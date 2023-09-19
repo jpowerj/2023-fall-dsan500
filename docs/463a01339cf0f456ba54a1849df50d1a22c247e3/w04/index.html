@@ -1176,7 +1176,7 @@ D val_D1  val_D2  val_D3</code></pre>
 <p>→</p>
 </div><div class="column" style="width:47%;">
 <div class="fw-table small-table r-stretch">
-<div class="cell" data-hash="index_cache/html/sample-csv_45b1545e37efbd18e97ed8c533f0c0fa">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/my_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1305,7 +1305,7 @@ chr (4): index, var_1, var_2, var_3
 <section id="scraping-html-with-requests-and-beautifulsoup" class="level2 smaller small-title">
 <h2 class="smaller small-title anchored" data-anchor-id="scraping-html-with-requests-and-beautifulsoup">Scraping HTML with <code>requests</code> and BeautifulSoup</h2>
 <p><a href="https://requests.readthedocs.io/en/latest/" target="_blank"><code>requests</code> Documentation</a> | <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank">BeautifulSoup Documentation</a></p>
-<div class="cell" data-layout-align="center" data-reticulate="false" data-hash="index_cache/html/requests-example_0a8b179fe88b09cdb223c5bc68f49da0">
+<div class="cell" data-layout-align="center" data-reticulate="false">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get HTML</span></span>
@@ -1388,7 +1388,7 @@ chr (4): index, var_1, var_2, var_3
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div id="fig-page-parse-code" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 42.9%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="left" data-hash="index_cache/html/bs4-parse-page_0c5da502353b4b6c92dbdfcbee010778">
+<div class="cell" data-layout-align="left">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(page_html, <span class="st">'html.parser'</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ds1_elt <span class="op">=</span> soup.find(<span class="st">"div"</span>, class_<span class="op">=</span><span class="st">'data-1'</span>)</span>
@@ -1401,7 +1401,7 @@ chr (4): index, var_1, var_2, var_3
 </div>
 <div id="fig-page-parsed" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 57.1%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/bs4-output-page_194211fc03b45795ccc48089421e3cc3">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"dataset-1: </span><span class="sc">{</span>ds1<span class="sc">}</span><span class="ch">\n</span><span class="ss">dataset-2: </span><span class="sc">{</span>ds2<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dataset-1: ['1', '2', '3']
@@ -1473,7 +1473,7 @@ dataset-2: ['4.0', '5.5', '6.7']</code></pre>
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div id="fig-table-parse-code" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/bs4-parse-table_f10effeb8badd1bd4e608347514381d5">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(table_html, <span class="st">'html.parser'</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>thead <span class="op">=</span> soup.find(<span class="st">"thead"</span>)</span>
@@ -1488,7 +1488,7 @@ dataset-2: ['4.0', '5.5', '6.7']</code></pre>
 </div>
 <div id="fig-table-parsed" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/table-parse-output_37af7f9ab547e6b111faef0a67832209">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"headers: </span><span class="sc">{</span>headers<span class="sc">}</span><span class="ch">\n</span><span class="ss">data: </span><span class="sc">{</span>data<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>headers: ['X1', 'X2', 'X3']
@@ -1587,7 +1587,7 @@ data: [['1', '3', '5'], ['2', '4', '6']]</code></pre>
 <li>The <strong>argument</strong>: <code>"x^2 - 1"</code></li>
 <li>The <strong>request</strong>: <a href="https://newton.vercel.app/api/v2/factor/x^2-1" target="_blank"><code>https://newton.vercel.app/api/v2/factor/x^2-1</code></a></li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/math-api-call_bf20aea1006a0b6247521e97f7225a2a">
+<div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
@@ -1696,7 +1696,7 @@ Logarithm   /log/2l8    3 -->
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div id="fig-github-noauth" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/pygithub-noauth_6669c977d7b8accb4991c4d4d6f4241b">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import github</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># g = github.Github()</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># try:</span></span>
@@ -1709,7 +1709,7 @@ Logarithm   /log/2l8    3 -->
 </div>
 <div id="fig-gh-auth" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/pygithub-auth_0cfb52e8a5f52befcdd6135694d8dc58">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the access token securely</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import os</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># my_access_token = os.getenv('GITHUB_TOKEN')</span></span>
@@ -1743,7 +1743,7 @@ Menczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. <em>A <span>First
 <section id="scraping-html-with-httr2-and-xml2" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="scraping-html-with-httr2-and-xml2">Scraping HTML with <code>httr2</code> and <code>xml2</code></h2>
 <p><a href="https://httr2.r-lib.org/" target="_blank"><code>httr2</code> Documentation</a> | <a href="https://xml2.r-lib.org/" target="_blank"><code>xml2</code> Documentation</a></p>
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/httr2-example_57401a244e80b393e49bb864c149ed2d">
+<div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get HTML</span></span>
@@ -1847,7 +1847,7 @@ Attaching package: 'xml2'</code></pre>
 <li>The <strong>argument</strong>: <code>"x^2 - 1"</code></li>
 <li>The <strong>request</strong>: <a href="https://newton.vercel.app/api/v2/factor/x^2-1" target="_blank"><code>https://newton.vercel.app/api/v2/factor/x^2-1</code></a></li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/math-api-call-r_3b365ac7c711e439dfba61c4a1f5b14f">
+<div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
@@ -1872,7 +1872,7 @@ Attaching package: 'xml2'</code></pre>
 <ul>
 <li>The <code>GH</code> library for <code>R</code> can handle this authentication process for you. For example, <a href="https://github.com/jpowerj/private-repo-test/" target="_blank">this private repo</a> in my account does not show up if requested anonymously, but does show up when requested using <code>GH</code> with a Personal Access Token<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</li>
 </ul>
-<div class="cell" data-layout-align="center" data-hash="index_cache/html/gh-authenticate_a0f13d63a05a092d628d4296133c455f">
+<div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gh)</span>

@@ -57,7 +57,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       w05Date: 'Sep 19',
       w05DateFull: 'Tuesday, September 19, 2023',
       start: '12:30pm',
-      p10: '12:40pm'
+      p10: '12:40pm',
+      p30: '1:00pm',
+      p40: '1:10pm',
+      p70: '1:40pm',
+      p90: '2:00pm',
+      p100: '2:10pm',
+      p140: '2:50pm',
+      end: '3:00pm',
     },
     '03': {
       day: 'Wed',
@@ -71,7 +78,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       w05Date: 'Sep 20',
       w05DateFull: 'Wednesday, September 20, 2023',
       start: '3:30pm',
-      p10: '3:40pm'
+      p10: '3:40pm',
+      p30: '4:00pm',
+      p40: '4:10pm',
+      p70: '4:40pm',
+      p90: '5:00pm',
+      p100: '5:10pm',
+      p140: '5:50pm',
+      end: '6:00pm',
     }
   }
 
@@ -90,6 +104,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // Times
     $('.sec-start').text(sData.start);
     $('.sec-p10').text(sData.p10);
+    $('.sec-p30').text(sData.p30);
+    $('.sec-p40').text(sData.p40);
+    $('.sec-p70').text(sData.p70);
+    $('.sec-p90').text(sData.p90);
+    $('.sec-p100').text(sData.p100);
+    $('.sec-p140').text(sData.p140);
+    $('.sec-end').text(sData.end);
     // And the weekly dates
     $('.sec-w01-date').text(sData.w01Date);
     $('.sec-w02-date').text(sData.w02Date);
@@ -127,11 +148,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     if (toggleElt.length && newSection == "03") {
       toggleElt.removeClass("bi-toggle-off");
       toggleElt.addClass("bi-toggle-on");
+      // And bold the name
+      let oldLabelElt = $('#toggle-02-label');
+      oldLabelElt.css('font-weight', 'normal')
+      let newLabelElt = $('#toggle-03-label');
+      newLabelElt.css('font-weight', 'bolder');
       return;
     }
     if (toggleElt.length && newSection == "02") {
       toggleElt.removeClass("bi-toggle-on");
       toggleElt.addClass("bi-toggle-off");
+      let oldLabelElt = $('#toggle-03-label');
+      oldLabelElt.css('font-weight', 'normal');
+      let newLabelElt = $('#toggle-02-label');
+      newLabelElt.css('font-weight', 'bolder');
     }
   }
 

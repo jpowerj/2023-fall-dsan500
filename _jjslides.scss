@@ -9,6 +9,31 @@ a.disabled {
 .caption {
   text-align: center !important;
 }
+figcaption {
+  text-align: center !important;
+}
+.caption-left .caption {
+  text-align: left !important;
+}
+.caption-left figcaption {
+  text-align: left !important;
+}
+
+.cb1 {
+  color: #E69F00 !important;
+}
+
+.cb2 {
+  color: #56B4E9 !important;
+}
+
+.cb3 {
+  color: #009E73 !important;
+}
+
+.cb4 {
+  color: #F0E442 !important;
+}
 .crunch-callout .callout {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
@@ -27,6 +52,9 @@ a.disabled {
 }
 .crunch-figures-less div.quarto_figure {
   margin-bottom: 0 !important;
+}
+.crunch-iframe iframe {
+  margin-bottom: 0px !important;
 }
 .crunch-images img {
   margin-bottom: 0px !important;
@@ -60,9 +88,7 @@ a.disabled {
 .crunch-ul ul {
   margin-bottom: 0px !important;
 }
-figcaption {
-  text-align: center !important;
-}
+
 .no-decoration {
   text-decoration: none !important;
   color: black !important;
@@ -76,6 +102,9 @@ figcaption {
 }
 .shift-footnotes aside {
   transform: translateY(45px) !important;
+}
+.shift-footnotes-more aside {
+  transform: translateY(60px) !important;
 }
 .small-captions figcaption {
   font-size: 70% !important;
@@ -96,3 +125,9 @@ figcaption {
     font-size: var(--r-heading3-size) !important;
 }
 
+.some-left-margin {
+  margin-left: 5px !important;
+}
+.some-right-margin {
+  margin-right: 5px !important;
+}

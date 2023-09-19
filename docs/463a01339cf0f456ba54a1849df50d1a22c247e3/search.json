@@ -175,11 +175,207 @@
     "text": "The Unexpected Pitfalls\n\nYou find the perfect dataset for your project, only to open it and find…"
   },
   {
-    "objectID": "w05/slides.html#text-data",
-    "href": "w05/slides.html#text-data",
+    "objectID": "w05/slides.html#data-cleaning",
+    "href": "w05/slides.html#data-cleaning",
     "title": "Week 5: Data Cleaning",
-    "section": "Text Data",
-    "text": "Text Data"
+    "section": "Data Cleaning",
+    "text": "Data Cleaning\n\nThe most undervalued skill in data science!\nRegardless of industry, absurd variety of data formats1\n\n\n\n\n\nSource: XKCD #927\n\n\n\nTo fully appreciate the importance of standards in the modern industrial/technology-driven world, see Chapter 18: “The Empire of the Red Octagon” (referring to the US’s octagonal stop sign), in Immerwahr (2019)."
+  },
+  {
+    "objectID": "w05/slides.html#the-data-cleaning-toolbox",
+    "href": "w05/slides.html#the-data-cleaning-toolbox",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Data Cleaning Toolbox",
+    "text": "The Data Cleaning Toolbox\n\nText Editors\nRegular Expressions\nConversion Tools\nHTML Parsers"
+  },
+  {
+    "objectID": "w05/slides.html#text-editors",
+    "href": "w05/slides.html#text-editors",
+    "title": "Week 5: Data Cleaning",
+    "section": "Text Editors",
+    "text": "Text Editors\n\n“Broken” data can often be fixed by manually examining it in a text editor!\n\n\n\n\nmy_data.csv\n\nid,var_A,var_B,var_C\\n\n1,val_1A,val_1B,val_1C\\r\\n\n2,val_2A,val_2B,val_2C\\n\n3,val_3A,val_3B,val_3C\\n\n\n\n\n\n\n\n\n\nindex\nvar_1\nvar_2\nvar_3\n\n\n\n\nA\nval_A1\nval_A2\nval_A3\n\n\nB\nval_B1\nval_B2\nval_B3\n\n\nC\nval_C1\nval_C2\nval_C3"
+  },
+  {
+    "objectID": "w05/slides.html#regular-expressions",
+    "href": "w05/slides.html#regular-expressions",
+    "title": "Week 5: Data Cleaning",
+    "section": "Regular Expressions",
+    "text": "Regular Expressions\n\nThe language for turning unstructured data into structured data\nIn Computer Science, a whole course, if not two…\ntldr: a regular expression, or a RegEx string, represents a machine that either accepts or rejects input strings\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRegEx\n[A-Za-z0-9]+\n@\n[A-Za-z0-9.-]+\n\\.\n(com|org|edu)\nResult:\n\n\nString A\njj1088\n@\ngeorgetown\n.\nedu\nAccept✅\n\n\nString B\nspammer\n@\nfakesite!!\n.\ncoolio\nReject"
+  },
+  {
+    "objectID": "w05/slides.html#regular-expressions-intuition",
+    "href": "w05/slides.html#regular-expressions-intuition",
+    "title": "Week 5: Data Cleaning",
+    "section": "Regular Expressions: Intuition",
+    "text": "Regular Expressions: Intuition\n\nThe guiding principle: think of the types of strings you want to match:\n\nWhat kinds of characters do they contain? (and, what kinds of characters should they not contain?)\nWhat is the pattern in which these characters appear: is there a character limit? Which characters/patterns are optional, which are required?\n\nYou can then use the RegEx syntax to encode the answers to these questions!"
+  },
+  {
+    "objectID": "w05/slides.html#regex-syntax-single-characters",
+    "href": "w05/slides.html#regex-syntax-single-characters",
+    "title": "Week 5: Data Cleaning",
+    "section": "RegEx Syntax: Single Characters",
+    "text": "RegEx Syntax: Single Characters\n\nz: Match lowercase z, a single time\nzz: Match two lowercase zs in a row\nz{n}: Match \\(n\\) lowercase zs in a row\n[abc]: Match a, b, or c, a single time\n[A-Z]: Match one uppercase letter\n[0-9]: Match one numeric digit\n[A-Za-z0-9]: Match a single alphanumeric character\n[A-Za-z0-9]{n}: Match \\(n\\) alphanumeric characters"
+  },
+  {
+    "objectID": "w05/slides.html#regex-syntax-repeating-patterns",
+    "href": "w05/slides.html#regex-syntax-repeating-patterns",
+    "title": "Week 5: Data Cleaning",
+    "section": "RegEx Syntax: Repeating Patterns",
+    "text": "RegEx Syntax: Repeating Patterns\n\nz*: Match lowercase z zero or more times\nz+: Match lowercase z one or more times\nz?: Match zero or one lowercase zs\n\n\n\n\n\n\n\n\n\n\n\n\n\nz*\nz+\nz?\nz{3}\n\n\n\n\n\"\"\n✅\n\n✅\n\n\n\n\"z\"\n✅\n✅\n✅\n\n\n\n\"zzz\"\n✅\n✅\n\n✅"
+  },
+  {
+    "objectID": "w05/slides.html#example-us-phone-numbers",
+    "href": "w05/slides.html#example-us-phone-numbers",
+    "title": "Week 5: Data Cleaning",
+    "section": "Example: US Phone Numbers",
+    "text": "Example: US Phone Numbers\n\nArea code sometimes surrounded by parentheses:\n\n202-687-1587 and (202) 687-1587 both valid!\n\nWhich repeating pattern syntax (from the previous slide) helps us here?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRegEx\n[(]?\n[0-9]{3}\n[)]?\n[ -]\n[0-9]{3}-[0-9]{4}\nResult\n\n\n\"202-687-1587\"\n\\(\\varepsilon\\)\n202\n\\(\\varepsilon\\)\n-\n687-1587\nAccept\n\n\n\"(202) 687-1587\"\n(\n202\n)\n \n687-1587\nAccept\n\n\n\"2020687-1587\"\n\\(\\varepsilon\\)\n202\n\\(\\varepsilon\\)\n0\n687-1587\nReject"
+  },
+  {
+    "objectID": "w05/slides.html#building-and-testing-regex-strings",
+    "href": "w05/slides.html#building-and-testing-regex-strings",
+    "title": "Week 5: Data Cleaning",
+    "section": "Building and Testing RegEx Strings",
+    "text": "Building and Testing RegEx Strings\n\nRegExr.com →"
+  },
+  {
+    "objectID": "w05/slides.html#tidy-data",
+    "href": "w05/slides.html#tidy-data",
+    "title": "Week 5: Data Cleaning",
+    "section": "Tidy Data",
+    "text": "Tidy Data\n\n\n\nOverview | In-Depth\n\nEvery column is a variable\nEvery row is an observation\nEvery cell is a value\n\n\n\n\n\n\n\n\nVar1\nVar 2\n\n\n\n\nObs 1\nVal 1\nVal 2\n\n\nObs 2\nVal 3\nVal 4\n\n\n\nFigure 6: A template for tidy data, with observations in blue, variables in orange, and values in green\n\n\n\n\n\n\n\n\n\n\n\n\ncountry\nyear\ncases\npopulation\n\n\n\n\nAfghanistan\n1999\n745\n19987071\n\n\nAfghanistan\n2000\n2666\n20595360\n\n\nBrazil\n1999\n37737\n172006362\n\n\nBrazil\n2000\n80488\n174504898\n\n\nChina\n1999\n212258\n1272915272\n\n\nChina\n2000\n213766\n1280428583\n\n\n\n\n\n\nFigure 7: An example panel dataset in tidy format\n\n\n\n\n\n\n\n\n\n\ncountry\nyear\ntype\ncount\n\n\n\n\nAfghanistan\n1999\ncases\n745\n\n\nAfghanistan\n1999\npopulation\n19987071\n\n\nAfghanistan\n2000\ncases\n2666\n\n\nAfghanistan\n2000\npopulation\n20595360\n\n\nBrazil\n1999\ncases\n37737\n\n\nBrazil\n1999\npopulation\n172006362\n\n\n\n\n\n\nFigure 8: An example panel dataset in non-tidy format"
+  },
+  {
+    "objectID": "w05/slides.html#how-do-we-get-our-data-into-tidy-form",
+    "href": "w05/slides.html#how-do-we-get-our-data-into-tidy-form",
+    "title": "Week 5: Data Cleaning",
+    "section": "How Do We Get Our Data Into Tidy Form?",
+    "text": "How Do We Get Our Data Into Tidy Form?\n\nR: The Tidyverse\nPython: Pandas + Regular Expressions (lab demo!)"
+  },
+  {
+    "objectID": "w05/slides.html#the-tidyverse",
+    "href": "w05/slides.html#the-tidyverse",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Tidyverse",
+    "text": "The Tidyverse\n\n\nhttps://www.tidyverse.org/\n\n\n\ndplyr →\nggplot2 →\nforcats →\ntibble →\nreadr →\nstringr →\ntidyr →\npurrr →"
+  },
+  {
+    "objectID": "w05/slides.html#tibble",
+    "href": "w05/slides.html#tibble",
+    "title": "Week 5: Data Cleaning",
+    "section": "tibble",
+    "text": "tibble\nHomepage | Overview | Cheatsheet\n\n\n\n\nReplaces R’s built-in data.frame objects, but retains syntax for backwards compatibility:\n\n\nlibrary(tibble)\ndata &lt;- c(3.4,1.1,9.6)\nlabels &lt;- c(0,1,0)\nsupervised_df &lt;- tibble(x=data, y=labels)\nsupervised_df\n\n\n\n\n\nx\ny\n\n\n\n\n3.4\n0\n\n\n1.1\n1\n\n\n9.6\n0\n\n\n\n\n\n\n\n\n\nProvides a surprisingly useful function: tribble() (tibble defined row-by-row)\n\n\nlibrary(tibble)\ndsan_df &lt;- tibble::tribble(\n    ~code, ~topic, ~credits,\n    \"dsan5000\", \"Data Science\", 3,\n    \"dsan5100\", \"Probabilistic Modeling\", 3\n)\ndsan_df\n\n\n\n\n\ncode\ntopic\ncredits\n\n\n\n\ndsan5000\nData Science\n3\n\n\ndsan5100\nProbabilistic Modeling\n3"
+  },
+  {
+    "objectID": "w05/slides.html#dplyr",
+    "href": "w05/slides.html#dplyr",
+    "title": "Week 5: Data Cleaning",
+    "section": "dplyr",
+    "text": "dplyr\nHomepage | Overview | Cheatsheet\n\n\nGrammar of data manipulation (think verbs):\n\nfilter()\nselect()\narrange()\nmutate()\nsummarize()\n\n\nfilter():\n\n\nCode\ntable1 |&gt; filter(year == 2000)\n\n\n\n\n\n\ncountry\nyear\ncases\npopulation\n\n\n\n\nAfghanistan\n2000\n2666\n20595360\n\n\nBrazil\n2000\n80488\n174504898\n\n\nChina\n2000\n213766\n1280428583"
+  },
+  {
+    "objectID": "w05/slides.html#section",
+    "href": "w05/slides.html#section",
+    "title": "Week 5: Data Cleaning",
+    "section": "",
+    "text": "select():\n\n\nCode\ntable1 |&gt; select(country)\n\n\n\n\n\n\ncountry\n\n\n\n\nAfghanistan\n\n\nAfghanistan\n\n\nBrazil\n\n\nBrazil\n\n\nChina\n\n\nChina\n\n\n\n\n\n\n\narrange():\n\n\nCode\ntable1 |&gt; arrange(population)\n\n\n\n\n\n\ncountry\nyear\ncases\npopulation\n\n\n\n\nAfghanistan\n1999\n745\n19987071\n\n\nAfghanistan\n2000\n2666\n20595360\n\n\nBrazil\n1999\n37737\n172006362\n\n\nBrazil\n2000\n80488\n174504898\n\n\nChina\n1999\n212258\n1272915272\n\n\nChina\n2000\n213766\n1280428583"
+  },
+  {
+    "objectID": "w05/slides.html#section-1",
+    "href": "w05/slides.html#section-1",
+    "title": "Week 5: Data Cleaning",
+    "section": "",
+    "text": "mutate():\n\n\nCode\ntable1 |&gt; mutate(newvar = 300)\n\n\n\n\n\n\ncountry\nyear\ncases\npopulation\nnewvar\n\n\n\n\nAfghanistan\n1999\n745\n19987071\n300\n\n\nAfghanistan\n2000\n2666\n20595360\n300\n\n\nBrazil\n1999\n37737\n172006362\n300\n\n\nBrazil\n2000\n80488\n174504898\n300\n\n\nChina\n1999\n212258\n1272915272\n300\n\n\nChina\n2000\n213766\n1280428583\n300"
+  },
+  {
+    "objectID": "w05/slides.html#section-2",
+    "href": "w05/slides.html#section-2",
+    "title": "Week 5: Data Cleaning",
+    "section": "",
+    "text": "summarize():\n\n\nCode\ntable1 |&gt; \n  summarize(\n    avg_cases = mean(cases),\n    avg_pop = mean(population)\n  )\n\n\n\n\n\n\navg_cases\navg_pop\n\n\n\n\n91276.67\n490072924\n\n\n\n\n\n\n\nsummarize() with grouping:\n\n\nCode\ntable1 |&gt;\n  group_by(country) |&gt;\n  summarize(\n    avg_cases = mean(cases),\n    avg_pop = mean(population)\n  )\n\n\n\n\n\n\ncountry\navg_cases\navg_pop\n\n\n\n\nAfghanistan\n1705.5\n20291216\n\n\nBrazil\n59112.5\n173255630\n\n\nChina\n213012.0\n1276671928"
+  },
+  {
+    "objectID": "w05/slides.html#the-rest-of-the-tidyverse",
+    "href": "w05/slides.html#the-rest-of-the-tidyverse",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Rest of the Tidyverse",
+    "text": "The Rest of the Tidyverse\n\nforcats\nreadr\nstringr\ntidyr\npurrr\nlubridate*"
+  },
+  {
+    "objectID": "w05/slides.html#forcats",
+    "href": "w05/slides.html#forcats",
+    "title": "Week 5: Data Cleaning",
+    "section": "forcats",
+    "text": "forcats\nHomepage | Overview | Cheatsheet\n\nUtilities for working with factor variables (R’s data structure for categorical variables)\nfactors = data + levels:\n\n\n\n\n\nCode\nmonth_levels &lt;- c(\n    \"Jan\", \"Feb\", \"Mar\", \"Apr\",\n    \"May\", \"Jun\", \"Jul\", \"Aug\",\n    \"Sep\", \"Oct\", \"Nov\", \"Dec\"\n)\nd &lt;- c(\"Jan\",\"Jan\",\"Feb\",\"Dec\")\nprint(d)\n\n\n[1] \"Jan\" \"Jan\" \"Feb\" \"Dec\"\n\n\n\n\nCode\ndataf &lt;- parse_factor(\n    d,\n    levels=month_levels\n)\nprint(dataf)\n\n\n[1] Jan Jan Feb Dec\nLevels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"
+  },
+  {
+    "objectID": "w05/slides.html#factors-for-ordering-plot-elements",
+    "href": "w05/slides.html#factors-for-ordering-plot-elements",
+    "title": "Week 5: Data Cleaning",
+    "section": "Factors for Ordering Plot Elements",
+    "text": "Factors for Ordering Plot Elements\n\n\nWithout forcats:\n\n\nCode\nrelig_summary |&gt;\n  ggplot(aes(tvhours, relig)) +\n  geom_point(size=g_pointsize) +\n  geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n  dsan_theme(\"half\") +\n  relig_labs\n\n\n\n\n\n\n\n\n\n\nWith forcats:\n\n\nCode\nrelig_summary |&gt;\n  mutate(relig = fct_reorder(relig, tvhours)) |&gt;\n  ggplot(aes(x=tvhours, y=relig)) +\n    geom_point(size=g_pointsize) +\n    geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n    dsan_theme(\"half\") +\n    relig_labs"
+  },
+  {
+    "objectID": "w05/slides.html#sorting-barplots-with-fct_infreq",
+    "href": "w05/slides.html#sorting-barplots-with-fct_infreq",
+    "title": "Week 5: Data Cleaning",
+    "section": "Sorting Barplots with fct_infreq()",
+    "text": "Sorting Barplots with fct_infreq()\n\n\nCode\ngss_cat |&gt;\n  mutate(marital = marital |&gt; fct_infreq() |&gt; fct_rev()) |&gt;\n  ggplot(aes(marital)) + geom_bar() + barplot_labs +\n  dsan_theme(\"full\")"
+  },
+  {
+    "objectID": "w05/slides.html#recodingcombining-categories",
+    "href": "w05/slides.html#recodingcombining-categories",
+    "title": "Week 5: Data Cleaning",
+    "section": "Recoding/Combining Categories",
+    "text": "Recoding/Combining Categories\n\n\nAutomatically combining using fct_lump():\n\n\nCode\ngss_cat |&gt;\n    mutate(relig = fct_lump(relig)) |&gt;\n    count(relig)\n\n\n\n\n\n\nrelig\nn\n\n\n\n\nProtestant\n10846\n\n\nOther\n10637\n\n\n\n\n\n\n\nManually Combining using fct_recode():\n\n\nCode\ngss_cat |&gt;\n    mutate(partyid = fct_recode(partyid,\n    \"Republican\"  = \"Strong republican\",\n    \"Republican\"  = \"Not str republican\",\n    \"Independent\" = \"Ind,near rep\",\n    \"Independent\" = \"Ind,near dem\",\n    \"Democrat\"    = \"Not str democrat\",\n    \"Democrat\"    = \"Strong democrat\",\n    \"Other\"       = \"No answer\",\n    \"Other\"       = \"Don't know\",\n    \"Other\"       = \"Other party\"\n  )) |&gt;\n  count(partyid)\n\n\n\n\n\n\npartyid\nn\n\n\n\n\nOther\n548\n\n\nRepublican\n5346\n\n\nIndependent\n8409\n\n\nDemocrat\n7180"
+  },
+  {
+    "objectID": "w05/slides.html#readr",
+    "href": "w05/slides.html#readr",
+    "title": "Week 5: Data Cleaning",
+    "section": "readr",
+    "text": "readr\nHomepage | Overview | Cheatsheet\n\nTwo key functions: read_csv(), write_csv()1\n\n\n\n\n\n\nWarning! read_csv() vs. read.csv()\n\n\nNote that these are not the same as R’s built-in read.csv() and write.csv()! The built-in R functions will produce a plain data.frame object, not a tibble\n\n\n\n\n\n\n\n\nCan handle URLs as well!\nShare data+code in seconds by using in combination with GitHub Gist\n(No more read_csv() path issues either…)\nGist dataset →\n\n\n\n\n\n\n\n\nname\ncode\nyear\nvalue\n\n\n\n\nAfghanistan\nAFG\n2010\n15936800636\n\n\nAlbania\nALB\n2010\n11926953259\n\n\nAlgeria\nDZA\n2010\n161207268655\n\n\nAmerican Samoa\nASM\n2010\n576000000\n\n\nAndorra\nAND\n2010\n3355695364\n\n\nAngola\nAGO\n2010\n82470913121\n\n\n\n\n\n\n\n\nPlus a bonus read_delim() if read_csv() fails"
+  },
+  {
+    "objectID": "w05/slides.html#purrr-functional-programming",
+    "href": "w05/slides.html#purrr-functional-programming",
+    "title": "Week 5: Data Cleaning",
+    "section": "purrr: Functional Programming",
+    "text": "purrr: Functional Programming\nHomepage | Overview | Cheatsheet | Tutorials, with Applications\n\n\nProvides an anonymous function operator ~, arguments get named .x, .y:\n\n\nCode\nmy_points &lt;- c(\"Midterm\"=18, \"Final\"=300)\ntotal_points &lt;- c(\"Midterm\"=20, \"Final\"=400)\n(avg_score &lt;- map2(my_points, total_points,\n  ~ list(frac=.x / .y, pct=(.x/.y)*100)))\n\n\n$Midterm\n$Midterm$frac\n[1] 0.9\n\n$Midterm$pct\n[1] 90\n\n\n$Final\n$Final$frac\n[1] 0.75\n\n$Final$pct\n[1] 75\n\n\n\nAlong with helpful functions for transforming the output\n\n\nCode\nlist_flatten(avg_score)\n\n\n$Midterm_frac\n[1] 0.9\n\n$Midterm_pct\n[1] 90\n\n$Final_frac\n[1] 0.75\n\n$Final_pct\n[1] 75\n\n\n\n\nCode\nevery(avg_score, ~ .x$frac &gt; 0.5)\n\n\n[1] TRUE"
+  },
+  {
+    "objectID": "w05/slides.html#lubridate",
+    "href": "w05/slides.html#lubridate",
+    "title": "Week 5: Data Cleaning",
+    "section": "lubridate*",
+    "text": "lubridate*\nHomepage | Overview | Cheatsheet\n\n\n\n\n\n\nCaution: Importing lubridate\n\n\nNote that lubridate does not get loaded with the other packages in the tidyverse when you call library(tidyverse). It needs to be imported explicitly:\nlibrary(tidyverse)\nlibrary(lubridate)"
+  },
+  {
+    "objectID": "w05/slides.html#one-of-the-scariest-papers-of-all-time",
+    "href": "w05/slides.html#one-of-the-scariest-papers-of-all-time",
+    "title": "Week 5: Data Cleaning",
+    "section": "One of the Scariest Papers of All Time",
+    "text": "One of the Scariest Papers of All Time\n\nText Preprocessing For Unsupervised Learning: Why It Matters, When It Misleads, And What To Do About It (Denny and Spirling 2018) (PDF Link)\n\n\n\n\n\nFigure 9: A plot where \\(x\\)-axis represents UK party manifestos (arranged on left-right ideology dimension, \\(y\\)-axis slots represent an ordering of preprocessing steps, and a filled bar means the manifesto was placed incorrectly on the ideological dimension when that preprocessing combination was used.\n\n\n\n\n\n\nFigure 10: An ancient hieroglyph"
+  },
+  {
+    "objectID": "w05/slides.html#the-secret-behind-all-text-analysis",
+    "href": "w05/slides.html#the-secret-behind-all-text-analysis",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Secret Behind All Text Analysis",
+    "text": "The Secret Behind All Text Analysis\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 11: Excerpts from two data science textbooks, plus another book\n\n\n\n\n\n\n\n\n\n\ndoc_id\ntext\ntexts\nKékkek\nvoice\n\n\n\n\n\n0\n0\n6\n0\n1\n\n\n\n1\n0\n0\n3\n1\n\n\n\n2\n6\n0\n0\n0\n\n\n\n\nFigure 12: The Document-Term Matrix (DTM)\n\n\n\n\n\n\n\n\n\n \n\n\n\ndoc_id\ntext\nkekkek\nvoice\n\n\n\n\n\n\n0\n6\n0\n1\n\n\n\n\n1\n0\n3\n1\n\n\n\n\n2\n6\n0\n0\n\n\n\n\n\nFigure 13: The cleaned DTM, after lowercasing, lemmatization, and unicode standardization"
+  },
+  {
+    "objectID": "w05/slides.html#lab-assignment-overview",
+    "href": "w05/slides.html#lab-assignment-overview",
+    "title": "Week 5: Data Cleaning",
+    "section": "Lab Assignment Overview",
+    "text": "Lab Assignment Overview\nLab-2.2: Cleaning Record Data in R and Python"
+  },
+  {
+    "objectID": "w05/slides.html#references",
+    "href": "w05/slides.html#references",
+    "title": "Week 5: Data Cleaning",
+    "section": "References",
+    "text": "References\n\n\nDenny, Matthew J., and Arthur Spirling. 2018. “Text Preprocessing For Unsupervised Learning: Why It Matters, When It Misleads, And What To Do About It.” Political Analysis 26 (2): 168–89. https://doi.org/10.1017/pan.2017.44.\n\n\nImmerwahr, Daniel. 2019. How to Hide an Empire: A History of the Greater United States. Farrar, Straus and Giroux."
   },
   {
     "objectID": "w05/index.html",
@@ -231,11 +427,214 @@
     "text": "The Unexpected Pitfalls\n\nYou find the perfect dataset for your project, only to open it and find…"
   },
   {
-    "objectID": "w05/index.html#text-data",
-    "href": "w05/index.html#text-data",
+    "objectID": "w05/index.html#data-cleaning",
+    "href": "w05/index.html#data-cleaning",
     "title": "Week 5: Data Cleaning",
-    "section": "Text Data",
-    "text": "Text Data"
+    "section": "Data Cleaning",
+    "text": "Data Cleaning\n\nThe most undervalued skill in data science!\nRegardless of industry, absurd variety of data formats1\n\n\n\n\n\nSource: XKCD #927"
+  },
+  {
+    "objectID": "w05/index.html#the-data-cleaning-toolbox",
+    "href": "w05/index.html#the-data-cleaning-toolbox",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Data Cleaning Toolbox",
+    "text": "The Data Cleaning Toolbox\n\nText Editors\nRegular Expressions\nConversion Tools\nHTML Parsers"
+  },
+  {
+    "objectID": "w05/index.html#text-editors",
+    "href": "w05/index.html#text-editors",
+    "title": "Week 5: Data Cleaning",
+    "section": "Text Editors",
+    "text": "Text Editors\n\n“Broken” data can often be fixed by manually examining it in a text editor!\n\n\n\n\nmy_data.csv\n\nid,var_A,var_B,var_C\\n\n1,val_1A,val_1B,val_1C\\r\\n\n2,val_2A,val_2B,val_2C\\n\n3,val_3A,val_3B,val_3C\\n\n\n\n\nlibrary(readr)\ndata &lt;- read_csv(\"assets/my_data.csv\")\n\nRows: 3 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): index, var_1, var_2, var_3\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndata\n\n# A tibble: 3 × 4\n  index var_1  var_2  var_3 \n  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; \n1 A     val_A1 val_A2 val_A3\n2 B     val_B1 val_B2 val_B3\n3 C     val_C1 val_C2 val_C3"
+  },
+  {
+    "objectID": "w05/index.html#regular-expressions",
+    "href": "w05/index.html#regular-expressions",
+    "title": "Week 5: Data Cleaning",
+    "section": "Regular Expressions",
+    "text": "Regular Expressions\n\nThe language for turning unstructured data into structured data\nIn Computer Science, a whole course, if not two…\ntldr: a regular expression, or a RegEx string, represents a machine that either accepts or rejects input strings\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRegEx\n[A-Za-z0-9]+\n@\n[A-Za-z0-9.-]+\n\\.\n(com|org|edu)\nResult:\n\n\nString A\njj1088\n@\ngeorgetown\n.\nedu\nAccept✅\n\n\nString B\nspammer\n@\nfakesite!!\n.\ncoolio\nReject"
+  },
+  {
+    "objectID": "w05/index.html#regular-expressions-intuition",
+    "href": "w05/index.html#regular-expressions-intuition",
+    "title": "Week 5: Data Cleaning",
+    "section": "Regular Expressions: Intuition",
+    "text": "Regular Expressions: Intuition\n\nThe guiding principle: think of the types of strings you want to match:\n\nWhat kinds of characters do they contain? (and, what kinds of characters should they not contain?)\nWhat is the pattern in which these characters appear: is there a character limit? Which characters/patterns are optional, which are required?\n\nYou can then use the RegEx syntax to encode the answers to these questions!"
+  },
+  {
+    "objectID": "w05/index.html#regex-syntax-single-characters",
+    "href": "w05/index.html#regex-syntax-single-characters",
+    "title": "Week 5: Data Cleaning",
+    "section": "RegEx Syntax: Single Characters",
+    "text": "RegEx Syntax: Single Characters\n\nz: Match lowercase z, a single time\nzz: Match two lowercase zs in a row\nz{n}: Match \\(n\\) lowercase zs in a row\n[abc]: Match a, b, or c, a single time\n[A-Z]: Match one uppercase letter\n[0-9]: Match one numeric digit\n[A-Za-z0-9]: Match a single alphanumeric character\n[A-Za-z0-9]{n}: Match \\(n\\) alphanumeric characters"
+  },
+  {
+    "objectID": "w05/index.html#regex-syntax-repeating-patterns",
+    "href": "w05/index.html#regex-syntax-repeating-patterns",
+    "title": "Week 5: Data Cleaning",
+    "section": "RegEx Syntax: Repeating Patterns",
+    "text": "RegEx Syntax: Repeating Patterns\n\nz*: Match lowercase z zero or more times\nz+: Match lowercase z one or more times\nz?: Match zero or one lowercase zs\n\n\n\n\n\n\n\n\n\n\n\n\n\nz*\nz+\nz?\nz{3}\n\n\n\n\n\"\"\n✅\n\n✅\n\n\n\n\"z\"\n✅\n✅\n✅\n\n\n\n\"zzz\"\n✅\n✅\n\n✅"
+  },
+  {
+    "objectID": "w05/index.html#example-us-phone-numbers",
+    "href": "w05/index.html#example-us-phone-numbers",
+    "title": "Week 5: Data Cleaning",
+    "section": "Example: US Phone Numbers",
+    "text": "Example: US Phone Numbers\n\nArea code sometimes surrounded by parentheses:\n\n202-687-1587 and (202) 687-1587 both valid!\n\nWhich repeating pattern syntax (from the previous slide) helps us here?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRegEx\n[(]?\n[0-9]{3}\n[)]?\n[ -]\n[0-9]{3}-[0-9]{4}\nResult\n\n\n\"202-687-1587\"\n\\(\\varepsilon\\)\n202\n\\(\\varepsilon\\)\n-\n687-1587\nAccept\n\n\n\"(202) 687-1587\"\n(\n202\n)\n \n687-1587\nAccept\n\n\n\"2020687-1587\"\n\\(\\varepsilon\\)\n202\n\\(\\varepsilon\\)\n0\n687-1587\nReject"
+  },
+  {
+    "objectID": "w05/index.html#building-and-testing-regex-strings",
+    "href": "w05/index.html#building-and-testing-regex-strings",
+    "title": "Week 5: Data Cleaning",
+    "section": "Building and Testing RegEx Strings",
+    "text": "Building and Testing RegEx Strings\n\nRegExr.com →"
+  },
+  {
+    "objectID": "w05/index.html#tidy-data",
+    "href": "w05/index.html#tidy-data",
+    "title": "Week 5: Data Cleaning",
+    "section": "Tidy Data",
+    "text": "Tidy Data\n\n\n\nOverview | In-Depth\n\nEvery column is a variable\nEvery row is an observation\nEvery cell is a value\n\n\n\n\n\n\n\n\nVar1\nVar 2\n\n\n\n\nObs 1\nVal 1\nVal 2\n\n\nObs 2\nVal 3\nVal 4\n\n\n\nFigure 6: A template for tidy data, with observations in blue, variables in orange, and values in green\n\n\n\n\n\n\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.2     ✔ stringr   1.5.0\n✔ forcats   1.0.0     ✔ tibble    3.2.1\n✔ lubridate 1.9.2     ✔ tidyr     1.3.0\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ntable1\n\n# A tibble: 6 × 4\n  country      year  cases population\n  &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;\n1 Afghanistan  1999    745   19987071\n2 Afghanistan  2000   2666   20595360\n3 Brazil       1999  37737  172006362\n4 Brazil       2000  80488  174504898\n5 China        1999 212258 1272915272\n6 China        2000 213766 1280428583\n\n\nFigure 7: An example panel dataset in tidy format\n\n\n\n\n\ntable2 %&gt;% head(6)\n\n# A tibble: 6 × 4\n  country      year type           count\n  &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;\n1 Afghanistan  1999 cases            745\n2 Afghanistan  1999 population  19987071\n3 Afghanistan  2000 cases           2666\n4 Afghanistan  2000 population  20595360\n5 Brazil       1999 cases          37737\n6 Brazil       1999 population 172006362\n\n\nFigure 8: An example panel dataset in non-tidy format"
+  },
+  {
+    "objectID": "w05/index.html#how-do-we-get-our-data-into-tidy-form",
+    "href": "w05/index.html#how-do-we-get-our-data-into-tidy-form",
+    "title": "Week 5: Data Cleaning",
+    "section": "How Do We Get Our Data Into Tidy Form?",
+    "text": "How Do We Get Our Data Into Tidy Form?\n\nR: The Tidyverse\nPython: Pandas + Regular Expressions (lab demo!)"
+  },
+  {
+    "objectID": "w05/index.html#the-tidyverse",
+    "href": "w05/index.html#the-tidyverse",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Tidyverse",
+    "text": "The Tidyverse\n\n\nhttps://www.tidyverse.org/\n\n\n\ndplyr →\nggplot2 →\nforcats →\ntibble →\nreadr →\nstringr →\ntidyr →\npurrr →"
+  },
+  {
+    "objectID": "w05/index.html#tibble",
+    "href": "w05/index.html#tibble",
+    "title": "Week 5: Data Cleaning",
+    "section": "tibble",
+    "text": "tibble\nHomepage | Overview | Cheatsheet\n\n\n\n\nReplaces R’s built-in data.frame objects, but retains syntax for backwards compatibility:\n\n\nlibrary(tibble)\ndata &lt;- c(3.4,1.1,9.6)\nlabels &lt;- c(0,1,0)\nsupervised_df &lt;- tibble(x=data, y=labels)\nsupervised_df\n\n# A tibble: 3 × 2\n      x     y\n  &lt;dbl&gt; &lt;dbl&gt;\n1   3.4     0\n2   1.1     1\n3   9.6     0\n\n\n\n\n\nProvides a surprisingly useful function: tribble() (tibble defined row-by-row)\n\n\nlibrary(tibble)\ndsan_df &lt;- tibble::tribble(\n    ~code, ~topic, ~credits,\n    \"dsan5000\", \"Data Science\", 3,\n    \"dsan5100\", \"Probabilistic Modeling\", 3\n)\ndsan_df\n\n# A tibble: 2 × 3\n  code     topic                  credits\n  &lt;chr&gt;    &lt;chr&gt;                    &lt;dbl&gt;\n1 dsan5000 Data Science                 3\n2 dsan5100 Probabilistic Modeling       3"
+  },
+  {
+    "objectID": "w05/index.html#dplyr",
+    "href": "w05/index.html#dplyr",
+    "title": "Week 5: Data Cleaning",
+    "section": "dplyr",
+    "text": "dplyr\nHomepage | Overview | Cheatsheet\n\n\nGrammar of data manipulation (think verbs):\n\nfilter()\nselect()\narrange()\nmutate()\nsummarize()\n\n\nfilter():\n\n\nCode\ntable1 |&gt; filter(year == 2000)\n\n\n# A tibble: 3 × 4\n  country      year  cases population\n  &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;\n1 Afghanistan  2000   2666   20595360\n2 Brazil       2000  80488  174504898\n3 China        2000 213766 1280428583"
+  },
+  {
+    "objectID": "w05/index.html#section",
+    "href": "w05/index.html#section",
+    "title": "Week 5: Data Cleaning",
+    "section": "",
+    "text": "select():\n\n\nCode\ntable1 |&gt; select(country)\n\n\n# A tibble: 6 × 1\n  country    \n  &lt;chr&gt;      \n1 Afghanistan\n2 Afghanistan\n3 Brazil     \n4 Brazil     \n5 China      \n6 China      \n\n\n\narrange():\n\n\nCode\ntable1 |&gt; arrange(population)\n\n\n# A tibble: 6 × 4\n  country      year  cases population\n  &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;\n1 Afghanistan  1999    745   19987071\n2 Afghanistan  2000   2666   20595360\n3 Brazil       1999  37737  172006362\n4 Brazil       2000  80488  174504898\n5 China        1999 212258 1272915272\n6 China        2000 213766 1280428583"
+  },
+  {
+    "objectID": "w05/index.html#section-1",
+    "href": "w05/index.html#section-1",
+    "title": "Week 5: Data Cleaning",
+    "section": "",
+    "text": "mutate():\n\n\nCode\ntable1 |&gt; mutate(newvar = 300)\n\n\n# A tibble: 6 × 5\n  country      year  cases population newvar\n  &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;\n1 Afghanistan  1999    745   19987071    300\n2 Afghanistan  2000   2666   20595360    300\n3 Brazil       1999  37737  172006362    300\n4 Brazil       2000  80488  174504898    300\n5 China        1999 212258 1272915272    300\n6 China        2000 213766 1280428583    300"
+  },
+  {
+    "objectID": "w05/index.html#section-2",
+    "href": "w05/index.html#section-2",
+    "title": "Week 5: Data Cleaning",
+    "section": "",
+    "text": "summarize():\n\n\nCode\ntable1 |&gt; \n  summarize(\n    avg_cases = mean(cases),\n    avg_pop = mean(population)\n  )\n\n\n# A tibble: 1 × 2\n  avg_cases    avg_pop\n      &lt;dbl&gt;      &lt;dbl&gt;\n1    91277. 490072924.\n\n\n\nsummarize() with grouping:\n\n\nCode\ntable1 |&gt;\n  group_by(country) |&gt;\n  summarize(\n    avg_cases = mean(cases),\n    avg_pop = mean(population)\n  )\n\n\n# A tibble: 3 × 3\n  country     avg_cases     avg_pop\n  &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt;\n1 Afghanistan     1706.   20291216.\n2 Brazil         59112.  173255630 \n3 China         213012  1276671928."
+  },
+  {
+    "objectID": "w05/index.html#the-rest-of-the-tidyverse",
+    "href": "w05/index.html#the-rest-of-the-tidyverse",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Rest of the Tidyverse",
+    "text": "The Rest of the Tidyverse\n\nforcats\nreadr\nstringr\ntidyr\npurrr\nlubridate*"
+  },
+  {
+    "objectID": "w05/index.html#forcats",
+    "href": "w05/index.html#forcats",
+    "title": "Week 5: Data Cleaning",
+    "section": "forcats",
+    "text": "forcats\nHomepage | Overview | Cheatsheet\n\nUtilities for working with factor variables (R’s data structure for categorical variables)\nfactors = data + levels:\n\n\n\n\n\nCode\nmonth_levels &lt;- c(\n    \"Jan\", \"Feb\", \"Mar\", \"Apr\",\n    \"May\", \"Jun\", \"Jul\", \"Aug\",\n    \"Sep\", \"Oct\", \"Nov\", \"Dec\"\n)\nd &lt;- c(\"Jan\",\"Jan\",\"Feb\",\"Dec\")\nprint(d)\n\n\n[1] \"Jan\" \"Jan\" \"Feb\" \"Dec\"\n\n\n\n\nCode\ndataf &lt;- parse_factor(\n    d,\n    levels=month_levels\n)\nprint(dataf)\n\n\n[1] Jan Jan Feb Dec\nLevels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"
+  },
+  {
+    "objectID": "w05/index.html#factors-for-ordering-plot-elements",
+    "href": "w05/index.html#factors-for-ordering-plot-elements",
+    "title": "Week 5: Data Cleaning",
+    "section": "Factors for Ordering Plot Elements",
+    "text": "Factors for Ordering Plot Elements\n\n\n\nrelig_summary &lt;- gss_cat %&gt;%\n  group_by(relig) %&gt;%\n  summarise(\n    age = mean(age, na.rm = TRUE),\n    tvhours = mean(tvhours, na.rm = TRUE),\n    n = n()\n  )\nrelig_labs &lt;- labs(\n  x = \"TV Hours / Day\",\n  y = \"Religion\"\n)\n\nWithout forcats:\n\n\nCode\nrelig_summary |&gt;\n  ggplot(aes(tvhours, relig)) +\n  geom_point(size=g_pointsize) +\n  geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n  dsan_theme(\"half\") +\n  relig_labs\n\n\n\n\n\n\n\n\n\n\nWith forcats:\n\n\nCode\nrelig_summary |&gt;\n  mutate(relig = fct_reorder(relig, tvhours)) |&gt;\n  ggplot(aes(x=tvhours, y=relig)) +\n    geom_point(size=g_pointsize) +\n    geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n    dsan_theme(\"half\") +\n    relig_labs"
+  },
+  {
+    "objectID": "w05/index.html#sorting-barplots-with-fct_infreq",
+    "href": "w05/index.html#sorting-barplots-with-fct_infreq",
+    "title": "Week 5: Data Cleaning",
+    "section": "Sorting Barplots with fct_infreq()",
+    "text": "Sorting Barplots with fct_infreq()\n\nbarplot_labs &lt;- labs(\n  title = \"Respondents by Marital Status\",\n  x = \"Marital Status\",\n  y = \"Count\"\n)\n\n\n\nCode\ngss_cat |&gt;\n  mutate(marital = marital |&gt; fct_infreq() |&gt; fct_rev()) |&gt;\n  ggplot(aes(marital)) + geom_bar() + barplot_labs +\n  dsan_theme(\"full\")"
+  },
+  {
+    "objectID": "w05/index.html#recodingcombining-categories",
+    "href": "w05/index.html#recodingcombining-categories",
+    "title": "Week 5: Data Cleaning",
+    "section": "Recoding/Combining Categories",
+    "text": "Recoding/Combining Categories\n\n\nAutomatically combining using fct_lump():\n\n\nCode\ngss_cat |&gt;\n    mutate(relig = fct_lump(relig)) |&gt;\n    count(relig)\n\n\n# A tibble: 2 × 2\n  relig          n\n  &lt;fct&gt;      &lt;int&gt;\n1 Protestant 10846\n2 Other      10637\n\n\n\nManually Combining using fct_recode():\n\n\nCode\ngss_cat |&gt;\n    mutate(partyid = fct_recode(partyid,\n    \"Republican\"  = \"Strong republican\",\n    \"Republican\"  = \"Not str republican\",\n    \"Independent\" = \"Ind,near rep\",\n    \"Independent\" = \"Ind,near dem\",\n    \"Democrat\"    = \"Not str democrat\",\n    \"Democrat\"    = \"Strong democrat\",\n    \"Other\"       = \"No answer\",\n    \"Other\"       = \"Don't know\",\n    \"Other\"       = \"Other party\"\n  )) |&gt;\n  count(partyid)\n\n\n# A tibble: 4 × 2\n  partyid         n\n  &lt;fct&gt;       &lt;int&gt;\n1 Other         548\n2 Republican   5346\n3 Independent  8409\n4 Democrat     7180"
+  },
+  {
+    "objectID": "w05/index.html#readr",
+    "href": "w05/index.html#readr",
+    "title": "Week 5: Data Cleaning",
+    "section": "readr",
+    "text": "readr\nHomepage | Overview | Cheatsheet\n\nTwo key functions: read_csv(), write_csv()2\n\n\n\n\n\n\nWarning! read_csv() vs. read.csv()\n\n\n\nNote that these are not the same as R’s built-in read.csv() and write.csv()! The built-in R functions will produce a plain data.frame object, not a tibble\n\n\n\n\n\n\n\nCan handle URLs as well!\nShare data+code in seconds by using in combination with GitHub Gist\n(No more read_csv() path issues either…)\nGist dataset →\n\n\n\ngdp_df &lt;- read_csv(\"https://gist.githubusercontent.com/jpowerj/fecd437b96d0954893de727383f2eaf2/raw/fec58507f7095cb8341b229d6eb74ce53232d663/gdp_2010.csv\")\n\nRows: 204 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): name, code\ndbl (2): year, value\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ngdp_df |&gt; head(6)\n\n# A tibble: 6 × 4\n  name           code   year         value\n  &lt;chr&gt;          &lt;chr&gt; &lt;dbl&gt;         &lt;dbl&gt;\n1 Afghanistan    AFG    2010  15936800636.\n2 Albania        ALB    2010  11926953259.\n3 Algeria        DZA    2010 161207268655.\n4 American Samoa ASM    2010    576000000 \n5 Andorra        AND    2010   3355695364.\n6 Angola         AGO    2010  82470913121."
+  },
+  {
+    "objectID": "w05/index.html#purrr-functional-programming",
+    "href": "w05/index.html#purrr-functional-programming",
+    "title": "Week 5: Data Cleaning",
+    "section": "purrr: Functional Programming",
+    "text": "purrr: Functional Programming\nHomepage | Overview | Cheatsheet | Tutorials, with Applications\n\n\nProvides an anonymous function operator ~, arguments get named .x, .y:\n\n\nCode\nmy_points &lt;- c(\"Midterm\"=18, \"Final\"=300)\ntotal_points &lt;- c(\"Midterm\"=20, \"Final\"=400)\n(avg_score &lt;- map2(my_points, total_points,\n  ~ list(frac=.x / .y, pct=(.x/.y)*100)))\n\n\n$Midterm\n$Midterm$frac\n[1] 0.9\n\n$Midterm$pct\n[1] 90\n\n\n$Final\n$Final$frac\n[1] 0.75\n\n$Final$pct\n[1] 75\n\n\n\nAlong with helpful functions for transforming the output\n\n\nCode\nlist_flatten(avg_score)\n\n\n$Midterm_frac\n[1] 0.9\n\n$Midterm_pct\n[1] 90\n\n$Final_frac\n[1] 0.75\n\n$Final_pct\n[1] 75\n\n\n\n\nCode\nevery(avg_score, ~ .x$frac &gt; 0.5)\n\n\n[1] TRUE"
+  },
+  {
+    "objectID": "w05/index.html#lubridate",
+    "href": "w05/index.html#lubridate",
+    "title": "Week 5: Data Cleaning",
+    "section": "lubridate*",
+    "text": "lubridate*\nHomepage | Overview | Cheatsheet\n\n\n\n\n\n\nCaution: Importing lubridate\n\n\n\nNote that lubridate does not get loaded with the other packages in the tidyverse when you call library(tidyverse). It needs to be imported explicitly:\nlibrary(tidyverse)\nlibrary(lubridate)"
+  },
+  {
+    "objectID": "w05/index.html#one-of-the-scariest-papers-of-all-time",
+    "href": "w05/index.html#one-of-the-scariest-papers-of-all-time",
+    "title": "Week 5: Data Cleaning",
+    "section": "One of the Scariest Papers of All Time",
+    "text": "One of the Scariest Papers of All Time\n\nText Preprocessing For Unsupervised Learning: Why It Matters, When It Misleads, And What To Do About It (Denny and Spirling 2018) (PDF Link)\n\n\n\n\n\nFigure 9: A plot where \\(x\\)-axis represents UK party manifestos (arranged on left-right ideology dimension, \\(y\\)-axis slots represent an ordering of preprocessing steps, and a filled bar means the manifesto was placed incorrectly on the ideological dimension when that preprocessing combination was used.\n\n\n\n\n\n\nFigure 10: An ancient hieroglyph"
+  },
+  {
+    "objectID": "w05/index.html#the-secret-behind-all-text-analysis",
+    "href": "w05/index.html#the-secret-behind-all-text-analysis",
+    "title": "Week 5: Data Cleaning",
+    "section": "The Secret Behind All Text Analysis",
+    "text": "The Secret Behind All Text Analysis\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 11: Excerpts from two data science textbooks, plus another book\n\n\n\n\n\n\n\n\n\n\ndoc_id\ntext\ntexts\nKékkek\nvoice\n\n\n\n\n\n0\n0\n6\n0\n1\n\n\n\n1\n0\n0\n3\n1\n\n\n\n2\n6\n0\n0\n0\n\n\n\n\nFigure 12: The Document-Term Matrix (DTM)\n\n\n\n\n\n\n\n\n\n \n\n\n\ndoc_id\ntext\nkekkek\nvoice\n\n\n\n\n\n\n0\n6\n0\n1\n\n\n\n\n1\n0\n3\n1\n\n\n\n\n2\n6\n0\n0\n\n\n\n\n\nFigure 13: The cleaned DTM, after lowercasing, lemmatization, and unicode standardization"
+  },
+  {
+    "objectID": "w05/index.html#lab-assignment-overview",
+    "href": "w05/index.html#lab-assignment-overview",
+    "title": "Week 5: Data Cleaning",
+    "section": "Lab Assignment Overview",
+    "text": "Lab Assignment Overview\nLab-2.2: Cleaning Record Data in R and Python"
+  },
+  {
+    "objectID": "w05/index.html#references",
+    "href": "w05/index.html#references",
+    "title": "Week 5: Data Cleaning",
+    "section": "References",
+    "text": "References\n\n\nDenny, Matthew J., and Arthur Spirling. 2018. “Text Preprocessing For Unsupervised Learning: Why It Matters, When It Misleads, And What To Do About It.” Political Analysis 26 (2): 168–89. https://doi.org/10.1017/pan.2017.44.\n\n\nImmerwahr, Daniel. 2019. How to Hide an Empire: A History of the Greater United States. Farrar, Straus and Giroux."
+  },
+  {
+    "objectID": "w05/index.html#footnotes",
+    "href": "w05/index.html#footnotes",
+    "title": "Week 5: Data Cleaning",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nTo fully appreciate the importance of standards in the modern industrial/technology-driven world, see Chapter 18: “The Empire of the Red Octagon” (referring to the US’s octagonal stop sign), in Immerwahr (2019).↩︎\nPlus a bonus read_delim() if read_csv() fails↩︎"
   },
   {
     "objectID": "w03/slides.html#intranet-vs.-internet",
