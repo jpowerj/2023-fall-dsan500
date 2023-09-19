@@ -15,6 +15,7 @@ format:
   revealjs:
     html-math-method: mathjax
     #cache: false
+    cache: true
     scrollable: false
     slide-number: true
     output-file: slides.html
@@ -30,6 +31,7 @@ format:
   html:
     output-file: index.html
     html-math-method: mathjax
+    cache: true
 metadata-files: 
   - "../_slide-meta.yml"
 ---

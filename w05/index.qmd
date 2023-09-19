@@ -7,7 +7,7 @@ author: "Jeff Jacobs"
 institute: "<a href=\"mailto:jj1088@georgetown.edu\" target=\"_blank\">jj1088@georgetown.edu</a>"
 #date: last-modified
 #date-format: "dddd MMM D, YYYY, HH:mm:ss"
-lecnum: 4
+lecnum: 5
 categories:
   - "Class Sessions"
 bibliography: "../_DSAN5000.bib"
