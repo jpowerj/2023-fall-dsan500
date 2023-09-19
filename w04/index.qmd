@@ -14,8 +14,8 @@ bibliography: "../_DSAN5000.bib"
 format:
   revealjs:
     html-math-method: mathjax
-    #cache: false
-    cache: true
+    # sadly, caching breaks this one -__-
+    # cache: true
     scrollable: false
     slide-number: true
     output-file: slides.html

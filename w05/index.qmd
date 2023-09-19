@@ -230,7 +230,7 @@ Key Principle: **CRUD**
 
 * You find the **perfect dataset** for your project, only to open it and find...
 
-{{< video images/nathan1.mp4 width="100%" height="75%" >}}
+{{< video images/nathan3.mp4 width="100%" height="75%" >}}
 
 # Cleaning Text Data {data-stack-name="Text Data"}
 
