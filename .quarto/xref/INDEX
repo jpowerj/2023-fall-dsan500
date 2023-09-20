@@ -62,5 +62,8 @@
   },
   "writeups/data-cleaning/clean_data.ipynb": {
     "clean_data.html": "2e5c8bfd"
+  },
+  "writeups/regex/index.qmd": {
+    "index.html": "0f5d46b2"
   }
 }

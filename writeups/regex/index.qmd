@@ -1,0 +1,12 @@
+---
+title: "Regular Expressions for Data Cleaning"
+metadata-files: 
+  - "../../_doc-meta.yml"
+format: html
+date: last-modified
+categories:
+  - "Extra Writeups"
+---
+
+## Python's `re` Library
+
