@@ -220,7 +220,7 @@ match_result.groupdict()
 We can also directly use the captured groups within the `sub()` method, like
 
 ```{python}
-area_code_reg.sub(r'County code \1', my_num)
+area_code_reg.sub(r'Country code \1', my_num)
 ```
 
 By applying this same logic to the abbreviation matches above, therefore, we 

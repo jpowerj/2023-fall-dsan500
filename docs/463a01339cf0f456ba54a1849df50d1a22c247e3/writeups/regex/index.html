@@ -698,9 +698,9 @@ Hello\tWorld</code></pre>
 </div>
 <p>We can also directly use the captured groups within the <code>sub()</code> method, like</p>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>area_code_reg.sub(<span class="vs">r'County code \1'</span>, my_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>area_code_reg.sub(<span class="vs">r'Country code \1'</span>, my_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
-<pre><code>'County code +970'</code></pre>
+<pre><code>'Country code +970'</code></pre>
 </div>
 </div>
 <p>By applying this same logic to the abbreviation matches above, therefore, we</p>
