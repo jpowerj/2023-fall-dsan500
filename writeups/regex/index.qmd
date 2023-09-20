@@ -8,6 +8,16 @@ categories:
   - "Extra Writeups"
 ---
 
+::: {.callout-note title="Link to Colab Version"}
+
+<center>
+[**Open in Colab**](https://colab.research.google.com/github/jpowerj/dsan5000/blob/main/writeups/regex/regex.ipynb?authuser=1){target="_blank"}
+</center>
+
+to follow along and edit interactively!
+
+:::
+
 Since my [Data Cleaning with Python](../data-cleaning/clean_data.ipynb){target="_blank"} video did not end up using regular expressions as part of the data cleaning process, in this writeup I want to quickly show you examples of how learning regular expressions can make your life 1000x easier when cleaning any data involving **string** variables.
 
 ## Python's `re` Library
