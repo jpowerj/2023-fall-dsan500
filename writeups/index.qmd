@@ -14,7 +14,7 @@ listing:
     categories: "Category"
   sort: "date desc"
   table-hover: true
-  #date-format: full
-  date-format: "dddd MMM D, YYYY, HH:mm:ss"
+  date-format: full
+  #date-format: "dddd MMM D, YYYY, HH:mm:ss"
 ---
 

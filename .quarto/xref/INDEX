@@ -59,5 +59,8 @@
   },
   "writeups/empty-files-error/index.qmd": {
     "index.html": "7910d3ba"
+  },
+  "writeups/data-cleaning/clean_data.ipynb": {
+    "clean_data.html": "2e5c8bfd"
   }
 }

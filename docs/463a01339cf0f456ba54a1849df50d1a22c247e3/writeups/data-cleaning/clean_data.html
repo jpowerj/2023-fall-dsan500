@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jeff Jacobs">
+<meta name="dcterms.date" content="2023-09-20">
+
+<title>DSAN 5000 - Data Cleaning with Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../../jjcustom.js"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      DSAN 5000 &lt;br&gt;
+&lt;span class='subtitle'&gt;Fall 2023, Georgetown, Prof. Jacobs &lt;a href='mailto:jj1088@georgetown.edu' target='_blank'&gt;&lt;i class='bi bi-envelope-at ps-1'&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;span class="btn-group section-toggle" role="group" aria-label="Basic radio toggle button group" style="display: inline-flex !important; margin-top: 4px !important; width: 100% !important;"&gt;
+&lt;input type="radio" class="btn-check pt-5" name="btnradio" id="btn-radio-02" autocomplete="off" onclick="window.toggleSectionClicked('02');"&gt; &lt;label class="btn btn-outline-secondary btn-sm" for="btn-radio-02" id='btn-label-02'&gt;Sec 02&lt;/label&gt;
+&lt;input type="radio" class="btn-check" name="btnradio" id="btn-radio-03" autocomplete="off" onclick="window.toggleSectionClicked('03');"&gt; &lt;label class="btn btn-outline-secondary btn-sm" for="btn-radio-03" id="btn-label-03"&gt;Sec 03&lt;/label&gt; &lt;/span&gt; &lt;br&gt;
+&lt;span class='section-info subsubtitle'&gt;
+  &lt;span class='sec-day'&gt;Tue&lt;/span&gt; &lt;span class='sec-time'&gt;12:30pm-3pm&lt;/span&gt;
+  &lt;br&gt;
+  &lt;span class='sec-room'&gt;ICC 219&lt;/span&gt;
+&lt;/span&gt;
+      </li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">DSAN 5000 <br> <span class="subtitle">Fall 2023, Georgetown, Prof.&nbsp;Jacobs <a href="mailto:jj1088@georgetown.edu" target="_blank"><i class="bi bi-envelope-at ps-1"></i></a> <span class="btn-group section-toggle" role="group" aria-label="Basic radio toggle button group" style="display: inline-flex !important; margin-top: 4px !important; width: 100% !important;"> <input type="radio" class="btn-check pt-5" name="btnradio" id="btn-radio-02" autocomplete="off" onclick="window.toggleSectionClicked('02');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-02" id="btn-label-02">Sec 02</label> <input type="radio" class="btn-check" name="btnradio" id="btn-radio-03" autocomplete="off" onclick="window.toggleSectionClicked('03');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-03" id="btn-label-03">Sec 03</label> </span> <br> <span class="section-info subsubtitle"> <span class="sec-day">Tue</span> <span class="sec-time">12:30pm-3pm</span> <br> <span class="sec-room">ICC 219</span> </span></span> <span class="hidden" data-render-id="quarto-int-navbar-title">DSAN 5000</span> <span class="hidden" data-render-id="quarto-int-sidebar:https://jfh.georgetown.domains/dsan5000/"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span> <span class="hidden" data-render-id="quarto-int-sidebar:undefined">—</span> <span class="hidden" data-render-id="quarto-int-sidebar:/index.html"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span> <span class="hidden" data-render-id="quarto-int-sidebar:/w01/index.html">Week 1: <span class="sec-w01-date">Aug 23</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w02/index.html">Week 2: <span class="sec-w02-date">Aug 29</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w03/index.html">Week 3: <span class="sec-w03-date">Sep 6</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w04/index.html">Week 4: <span class="sec-w04-date">Sep 12</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w05/index.html">Week 5: <span class="sec-w05-date">Sep 19</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/recordings/index.html">Lecture Recordings</span> <span class="hidden" data-render-id="quarto-int-sidebar:/extra-videos/index.html">Extra Videos</span> <span class="hidden" data-render-id="quarto-int-sidebar:/writeups/index.html">Extra Writeups</span> <span class="hidden" data-render-id="quarto-int-sidebar:https://georgetown.instructure.com/courses/173310">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://calendar.app.google/yMnESMtMNPdKEaPz5">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://forms.gle/TH1yLitU9dTfB4sg8">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://jfh.georgetown.domains/dsan5000/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w01/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1: <span class="sec-w01-date">Aug 23</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w02/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: <span class="sec-w02-date">Aug 29</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w03/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3: <span class="sec-w03-date">Sep 6</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w04/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4: <span class="sec-w04-date">Sep 12</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w05/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: <span class="sec-w05-date">Sep 19</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../recordings/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture Recordings</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../extra-videos/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Videos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../writeups/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Writeups</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://georgetown.instructure.com/courses/173310" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://calendar.app.google/yMnESMtMNPdKEaPz5" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://forms.gle/TH1yLitU9dTfB4sg8" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Cleaning with Python</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Extra Writeups</div>
+  </div>
+  </div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jeff Jacobs </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 20, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>First, since the <code>.csv</code> filename is super long, let’s just use one of my favorite Python libraries, <code>glob</code>, to automatically get a list of all the <code>.csv</code> files within the same folder as this notebook</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>glob.glob(<span class="st">"*.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>['SHIP_Emergency_Department_Visits_Related_To_Mental_Health_Conditions_2008-2017.csv',
+ 'PLACES__Local_Data_for_Better_Health__Place_Data_2022_release.csv',
+ 'DASH_-_Youth_Risk_Behavior_Surveillance_System__YRBSS___High_School_-_Excluding_Sexual_Identity.csv']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>all_data_fnames <span class="op">=</span> glob.glob(<span class="st">"*.csv"</span>) <span class="op">+</span> glob.glob(<span class="st">"*.xlsx"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for fname in all_data_fnames:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(fname)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fname_index, fname <span class="kw">in</span> <span class="bu">enumerate</span>(all_data_fnames):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(fname_index, fname)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0 SHIP_Emergency_Department_Visits_Related_To_Mental_Health_Conditions_2008-2017.csv
+1 PLACES__Local_Data_for_Better_Health__Place_Data_2022_release.csv
+2 DASH_-_Youth_Risk_Behavior_Surveillance_System__YRBSS___High_School_-_Excluding_Sexual_Identity.csv
+3 MD_CountyLevelSummary_2017.xlsx</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>all_data_fnames[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>'SHIP_Emergency_Department_Visits_Related_To_Mental_Health_Conditions_2008-2017.csv'</code></pre>
+</div>
+</div>
+<p>SHIP data: https://catalog.data.gov/dataset/ship-emergency-department-visits-related-to-mental-health-conditions-2008-2017</p>
+<div class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ship_fname <span class="op">=</span> glob.glob(<span class="st">"SHIP*.csv"</span>)[<span class="dv">0</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ship_df <span class="op">=</span> pd.read_csv(ship_fname)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ship_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Jurisdiction</th>
+<th data-quarto-table-cell-role="th">Value</th>
+<th data-quarto-table-cell-role="th">Race/ ethnicity</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>State</td>
+<td>4291.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Allegany</td>
+<td>3309.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Anne Arundel</td>
+<td>5734.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Baltimore City</td>
+<td>10093.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Baltimore County</td>
+<td>4210.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install openpyxl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Collecting openpyxl
+  Downloading openpyxl-3.1.2-py2.py3-none-any.whl (249 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 250.0/250.0 kB 4.2 MB/s eta 0:00:00a 0:00:01
+Collecting et-xmlfile (from openpyxl)
+  Downloading et_xmlfile-1.1.0-py3-none-any.whl (4.7 kB)
+Installing collected packages: et-xmlfile, openpyxl
+Successfully installed et-xmlfile-1.1.0 openpyxl-3.1.2</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>places_df <span class="op">=</span> pd.read_excel(<span class="st">"MD_CountyLevelSummary_2017.xlsx"</span>, skiprows<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>rename_map <span class="op">=</span> {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Unnamed: 0'</span>: <span class="st">'fips'</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Unnamed: 1'</span>: <span class="st">'county'</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Unnamed: 2'</span>: <span class="st">'child_pop'</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Percent'</span>: <span class="st">'pct_lead'</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>places_df.rename(columns<span class="op">=</span>rename_map, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cols_to_keep <span class="op">=</span> <span class="bu">list</span>(rename_map.values())</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>places_df <span class="op">=</span> places_df[cols_to_keep]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>places_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fips</th>
+<th data-quarto-table-cell-role="th">county</th>
+<th data-quarto-table-cell-role="th">child_pop</th>
+<th data-quarto-table-cell-role="th">pct_lead</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>001</td>
+<td>Allegany County</td>
+<td>3986.0</td>
+<td>0.020888</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>003</td>
+<td>Anne Arundel County</td>
+<td>42211.0</td>
+<td>0.003220</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>005</td>
+<td>Baltimore County</td>
+<td>59089.0</td>
+<td>0.009980</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>009</td>
+<td>Calvert County</td>
+<td>6099.0</td>
+<td>0.006550</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>011</td>
+<td>Caroline County</td>
+<td>2428.0</td>
+<td>0.019973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>013</td>
+<td>Carroll County</td>
+<td>10860.0</td>
+<td>0.006377</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>015</td>
+<td>Cecil County</td>
+<td>7085.0</td>
+<td>0.006893</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>017</td>
+<td>Charles County</td>
+<td>11834.0</td>
+<td>0.002288</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>019</td>
+<td>Dorchester County</td>
+<td>2215.0</td>
+<td>0.027439</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>021</td>
+<td>Frederick County</td>
+<td>18017.0</td>
+<td>0.003054</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>023</td>
+<td>Garrett County</td>
+<td>1717.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>025</td>
+<td>Harford County</td>
+<td>17236.0</td>
+<td>0.003109</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>027</td>
+<td>Howard County</td>
+<td>23609.0</td>
+<td>0.008291</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>029</td>
+<td>Kent County</td>
+<td>973.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>031</td>
+<td>Montgomery County</td>
+<td>80503.0</td>
+<td>0.003826</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>033</td>
+<td>Prince George's County</td>
+<td>70775.0</td>
+<td>0.012376</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>035</td>
+<td>Queen Anne's County</td>
+<td>3034.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>037</td>
+<td>St. Mary's County</td>
+<td>8825.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>039</td>
+<td>Somerset County</td>
+<td>1511.0</td>
+<td>0.015837</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>041</td>
+<td>Talbot County</td>
+<td>2068.0</td>
+<td>0.012442</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>043</td>
+<td>Washington County</td>
+<td>10569.0</td>
+<td>0.008881</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>045</td>
+<td>Wicomico County</td>
+<td>7469.0</td>
+<td>0.013187</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>047</td>
+<td>Worcester County</td>
+<td>2762.0</td>
+<td>0.012959</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>510</td>
+<td>Baltimore (city) County</td>
+<td>46273.0</td>
+<td>0.041661</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>NaN</td>
+<td>Unknown</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>Notes: 'N/A' indicates data are supressed when...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>Population estimates calculated as population ...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>Data received and processed by CDC as of April...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>places_df <span class="op">=</span> places_df.iloc[<span class="dv">0</span>:<span class="dv">24</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>places_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="72">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fips</th>
+<th data-quarto-table-cell-role="th">county</th>
+<th data-quarto-table-cell-role="th">child_pop</th>
+<th data-quarto-table-cell-role="th">pct_lead</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>001</td>
+<td>Allegany</td>
+<td>3986.0</td>
+<td>0.020888</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>003</td>
+<td>Anne Arundel</td>
+<td>42211.0</td>
+<td>0.003220</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>005</td>
+<td>Baltimore</td>
+<td>59089.0</td>
+<td>0.009980</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>009</td>
+<td>Calvert</td>
+<td>6099.0</td>
+<td>0.006550</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>011</td>
+<td>Caroline</td>
+<td>2428.0</td>
+<td>0.019973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>013</td>
+<td>Carroll</td>
+<td>10860.0</td>
+<td>0.006377</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>015</td>
+<td>Cecil</td>
+<td>7085.0</td>
+<td>0.006893</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>017</td>
+<td>Charles</td>
+<td>11834.0</td>
+<td>0.002288</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>019</td>
+<td>Dorchester</td>
+<td>2215.0</td>
+<td>0.027439</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>021</td>
+<td>Frederick</td>
+<td>18017.0</td>
+<td>0.003054</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>023</td>
+<td>Garrett</td>
+<td>1717.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>025</td>
+<td>Harford</td>
+<td>17236.0</td>
+<td>0.003109</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>027</td>
+<td>Howard</td>
+<td>23609.0</td>
+<td>0.008291</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>029</td>
+<td>Kent</td>
+<td>973.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>031</td>
+<td>Montgomery</td>
+<td>80503.0</td>
+<td>0.003826</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>033</td>
+<td>Prince George's</td>
+<td>70775.0</td>
+<td>0.012376</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>035</td>
+<td>Queen Anne's</td>
+<td>3034.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>037</td>
+<td>St. Mary's</td>
+<td>8825.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>039</td>
+<td>Somerset</td>
+<td>1511.0</td>
+<td>0.015837</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>041</td>
+<td>Talbot</td>
+<td>2068.0</td>
+<td>0.012442</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>043</td>
+<td>Washington</td>
+<td>10569.0</td>
+<td>0.008881</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>045</td>
+<td>Wicomico</td>
+<td>7469.0</td>
+<td>0.013187</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>047</td>
+<td>Worcester</td>
+<td>2762.0</td>
+<td>0.012959</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>510</td>
+<td>Baltimore (city)</td>
+<td>46273.0</td>
+<td>0.041661</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="73">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>places_df[<span class="st">'county'</span>] <span class="op">=</span> places_df[<span class="st">'county'</span>].<span class="bu">str</span>.replace(<span class="st">" County"</span>,<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="74">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>places_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="74">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fips</th>
+<th data-quarto-table-cell-role="th">county</th>
+<th data-quarto-table-cell-role="th">child_pop</th>
+<th data-quarto-table-cell-role="th">pct_lead</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>001</td>
+<td>Allegany</td>
+<td>3986.0</td>
+<td>0.020888</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>003</td>
+<td>Anne Arundel</td>
+<td>42211.0</td>
+<td>0.003220</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>005</td>
+<td>Baltimore</td>
+<td>59089.0</td>
+<td>0.009980</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>009</td>
+<td>Calvert</td>
+<td>6099.0</td>
+<td>0.006550</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>011</td>
+<td>Caroline</td>
+<td>2428.0</td>
+<td>0.019973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>013</td>
+<td>Carroll</td>
+<td>10860.0</td>
+<td>0.006377</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>015</td>
+<td>Cecil</td>
+<td>7085.0</td>
+<td>0.006893</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>017</td>
+<td>Charles</td>
+<td>11834.0</td>
+<td>0.002288</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>019</td>
+<td>Dorchester</td>
+<td>2215.0</td>
+<td>0.027439</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>021</td>
+<td>Frederick</td>
+<td>18017.0</td>
+<td>0.003054</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>023</td>
+<td>Garrett</td>
+<td>1717.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>025</td>
+<td>Harford</td>
+<td>17236.0</td>
+<td>0.003109</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>027</td>
+<td>Howard</td>
+<td>23609.0</td>
+<td>0.008291</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>029</td>
+<td>Kent</td>
+<td>973.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>031</td>
+<td>Montgomery</td>
+<td>80503.0</td>
+<td>0.003826</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>033</td>
+<td>Prince George's</td>
+<td>70775.0</td>
+<td>0.012376</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>035</td>
+<td>Queen Anne's</td>
+<td>3034.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>037</td>
+<td>St. Mary's</td>
+<td>8825.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>039</td>
+<td>Somerset</td>
+<td>1511.0</td>
+<td>0.015837</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>041</td>
+<td>Talbot</td>
+<td>2068.0</td>
+<td>0.012442</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>043</td>
+<td>Washington</td>
+<td>10569.0</td>
+<td>0.008881</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>045</td>
+<td>Wicomico</td>
+<td>7469.0</td>
+<td>0.013187</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>047</td>
+<td>Worcester</td>
+<td>2762.0</td>
+<td>0.012959</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>510</td>
+<td>Baltimore (city)</td>
+<td>46273.0</td>
+<td>0.041661</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="75">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>places_df[<span class="st">'county'</span>] <span class="op">=</span> places_df[<span class="st">'county'</span>].<span class="bu">str</span>.replace(<span class="st">'(city)'</span>, <span class="st">'City'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>places_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="76">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fips</th>
+<th data-quarto-table-cell-role="th">county</th>
+<th data-quarto-table-cell-role="th">child_pop</th>
+<th data-quarto-table-cell-role="th">pct_lead</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>001</td>
+<td>Allegany</td>
+<td>3986.0</td>
+<td>0.020888</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>003</td>
+<td>Anne Arundel</td>
+<td>42211.0</td>
+<td>0.003220</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>005</td>
+<td>Baltimore</td>
+<td>59089.0</td>
+<td>0.009980</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>009</td>
+<td>Calvert</td>
+<td>6099.0</td>
+<td>0.006550</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>011</td>
+<td>Caroline</td>
+<td>2428.0</td>
+<td>0.019973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>013</td>
+<td>Carroll</td>
+<td>10860.0</td>
+<td>0.006377</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>015</td>
+<td>Cecil</td>
+<td>7085.0</td>
+<td>0.006893</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>017</td>
+<td>Charles</td>
+<td>11834.0</td>
+<td>0.002288</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>019</td>
+<td>Dorchester</td>
+<td>2215.0</td>
+<td>0.027439</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>021</td>
+<td>Frederick</td>
+<td>18017.0</td>
+<td>0.003054</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>023</td>
+<td>Garrett</td>
+<td>1717.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>025</td>
+<td>Harford</td>
+<td>17236.0</td>
+<td>0.003109</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>027</td>
+<td>Howard</td>
+<td>23609.0</td>
+<td>0.008291</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>029</td>
+<td>Kent</td>
+<td>973.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>031</td>
+<td>Montgomery</td>
+<td>80503.0</td>
+<td>0.003826</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>033</td>
+<td>Prince George's</td>
+<td>70775.0</td>
+<td>0.012376</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>035</td>
+<td>Queen Anne's</td>
+<td>3034.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>037</td>
+<td>St. Mary's</td>
+<td>8825.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>039</td>
+<td>Somerset</td>
+<td>1511.0</td>
+<td>0.015837</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>041</td>
+<td>Talbot</td>
+<td>2068.0</td>
+<td>0.012442</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>043</td>
+<td>Washington</td>
+<td>10569.0</td>
+<td>0.008881</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>045</td>
+<td>Wicomico</td>
+<td>7469.0</td>
+<td>0.013187</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>047</td>
+<td>Worcester</td>
+<td>2762.0</td>
+<td>0.012959</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>510</td>
+<td>Baltimore City</td>
+<td>46273.0</td>
+<td>0.041661</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ship_df[<span class="st">'Year'</span>] <span class="op">==</span> <span class="dv">2017</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="59">
+<pre><code>0        True
+1        True
+2        True
+3        True
+4        True
+        ...  
+1245    False
+1246    False
+1247    False
+1248    False
+1249    False
+Name: Year, Length: 1250, dtype: bool</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ship_df <span class="op">=</span> ship_df.loc[ship_df[<span class="st">'Year'</span>] <span class="op">==</span> <span class="dv">2017</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ship_df <span class="op">=</span> ship_df[ship_df[<span class="st">'Jurisdiction'</span>] <span class="op">!=</span> <span class="st">"State"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ship_df <span class="op">=</span> ship_df[ship_df[<span class="st">'Race/ ethnicity'</span>] <span class="op">==</span> <span class="st">"All races/ ethnicities (aggregated)"</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ship_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Jurisdiction</th>
+<th data-quarto-table-cell-role="th">Value</th>
+<th data-quarto-table-cell-role="th">Race/ ethnicity</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>State</td>
+<td>4291.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Allegany</td>
+<td>3309.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Anne Arundel</td>
+<td>5734.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Baltimore City</td>
+<td>10093.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Baltimore County</td>
+<td>4210.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Calvert</td>
+<td>2999.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Caroline</td>
+<td>7556.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Carroll</td>
+<td>4216.0</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Cecil</td>
+<td>9584.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Charles</td>
+<td>2817.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Dorchester</td>
+<td>11251.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Frederick</td>
+<td>3064.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>Garrett</td>
+<td>7967.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Harford</td>
+<td>3020.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Howard</td>
+<td>3082.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Kent</td>
+<td>13662.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>Montgomery</td>
+<td>2312.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>Prince George's</td>
+<td>1955.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Queen Anne's</td>
+<td>6119.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>Saint Mary's</td>
+<td>6173.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>Somerset</td>
+<td>2696.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>Talbot</td>
+<td>7661.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>Washington</td>
+<td>5410.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>Wicomico</td>
+<td>2897.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>Worcester</td>
+<td>3502.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ship_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Jurisdiction</th>
+<th data-quarto-table-cell-role="th">Value</th>
+<th data-quarto-table-cell-role="th">Race/ ethnicity</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Allegany</td>
+<td>3309.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Anne Arundel</td>
+<td>5734.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Baltimore City</td>
+<td>10093.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Baltimore County</td>
+<td>4210.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Calvert</td>
+<td>2999.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Caroline</td>
+<td>7556.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Carroll</td>
+<td>4216.0</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Cecil</td>
+<td>9584.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Charles</td>
+<td>2817.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Dorchester</td>
+<td>11251.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Frederick</td>
+<td>3064.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12</td>
+<td>Garrett</td>
+<td>7967.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Harford</td>
+<td>3020.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Howard</td>
+<td>3082.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Kent</td>
+<td>13662.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">16</td>
+<td>Montgomery</td>
+<td>2312.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">17</td>
+<td>Prince George's</td>
+<td>1955.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Queen Anne's</td>
+<td>6119.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">19</td>
+<td>Saint Mary's</td>
+<td>6173.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">20</td>
+<td>Somerset</td>
+<td>2696.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21</td>
+<td>Talbot</td>
+<td>7661.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">22</td>
+<td>Washington</td>
+<td>5410.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">23</td>
+<td>Wicomico</td>
+<td>2897.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">24</td>
+<td>Worcester</td>
+<td>3502.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ship_df[<span class="st">'Jurisdiction'</span>] <span class="op">=</span> ship_df[<span class="st">'Jurisdiction'</span>].<span class="bu">str</span>.replace(<span class="st">"Baltimore County"</span>, <span class="st">"Baltimore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/n2/m7_fj5vx6c50_yj7g23mwmq00000gn/T/ipykernel_76467/211774966.py:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  ship_df['Jurisdiction'] = ship_df['Jurisdiction'].str.replace("Baltimore County", "Baltimore")</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="80">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ship_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="80">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Jurisdiction</th>
+<th data-quarto-table-cell-role="th">Value</th>
+<th data-quarto-table-cell-role="th">Race/ ethnicity</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Allegany</td>
+<td>3309.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Anne Arundel</td>
+<td>5734.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Baltimore City</td>
+<td>10093.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Baltimore</td>
+<td>4210.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Calvert</td>
+<td>2999.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Caroline</td>
+<td>7556.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Carroll</td>
+<td>4216.0</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Cecil</td>
+<td>9584.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Charles</td>
+<td>2817.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Dorchester</td>
+<td>11251.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Frederick</td>
+<td>3064.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12</td>
+<td>Garrett</td>
+<td>7967.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Harford</td>
+<td>3020.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Howard</td>
+<td>3082.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Kent</td>
+<td>13662.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">16</td>
+<td>Montgomery</td>
+<td>2312.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">17</td>
+<td>Prince George's</td>
+<td>1955.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Queen Anne's</td>
+<td>6119.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">19</td>
+<td>Saint Mary's</td>
+<td>6173.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">20</td>
+<td>Somerset</td>
+<td>2696.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21</td>
+<td>Talbot</td>
+<td>7661.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">22</td>
+<td>Washington</td>
+<td>5410.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">23</td>
+<td>Wicomico</td>
+<td>2897.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">24</td>
+<td>Worcester</td>
+<td>3502.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="83">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ship_df[<span class="st">'Jurisdiction'</span>] <span class="op">=</span> ship_df[<span class="st">'Jurisdiction'</span>].<span class="bu">str</span>.replace(<span class="st">"Saint"</span>, <span class="st">"St."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/n2/m7_fj5vx6c50_yj7g23mwmq00000gn/T/ipykernel_76467/2748728514.py:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  ship_df['Jurisdiction'] = ship_df['Jurisdiction'].str.replace("Saint", "St.")</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="84">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ship_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="84">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Jurisdiction</th>
+<th data-quarto-table-cell-role="th">Value</th>
+<th data-quarto-table-cell-role="th">Race/ ethnicity</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Allegany</td>
+<td>3309.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Anne Arundel</td>
+<td>5734.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Baltimore City</td>
+<td>10093.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Baltimore</td>
+<td>4210.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Calvert</td>
+<td>2999.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Caroline</td>
+<td>7556.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Carroll</td>
+<td>4216.0</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Cecil</td>
+<td>9584.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Charles</td>
+<td>2817.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Dorchester</td>
+<td>11251.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Frederick</td>
+<td>3064.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12</td>
+<td>Garrett</td>
+<td>7967.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Harford</td>
+<td>3020.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Howard</td>
+<td>3082.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Kent</td>
+<td>13662.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">16</td>
+<td>Montgomery</td>
+<td>2312.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">17</td>
+<td>Prince George's</td>
+<td>1955.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Queen Anne's</td>
+<td>6119.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">19</td>
+<td>St. Mary's</td>
+<td>6173.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">20</td>
+<td>Somerset</td>
+<td>2696.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21</td>
+<td>Talbot</td>
+<td>7661.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">22</td>
+<td>Washington</td>
+<td>5410.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">23</td>
+<td>Wicomico</td>
+<td>2897.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">24</td>
+<td>Worcester</td>
+<td>3502.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="87">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> places_df.merge(ship_df, left_on<span class="op">=</span><span class="st">'county'</span>, right_on<span class="op">=</span><span class="st">'Jurisdiction'</span>, how<span class="op">=</span><span class="st">'left'</span>, indicator<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="88">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>merged_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="88">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fips</th>
+<th data-quarto-table-cell-role="th">county</th>
+<th data-quarto-table-cell-role="th">child_pop</th>
+<th data-quarto-table-cell-role="th">pct_lead</th>
+<th data-quarto-table-cell-role="th">Jurisdiction</th>
+<th data-quarto-table-cell-role="th">Value</th>
+<th data-quarto-table-cell-role="th">Race/ ethnicity</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>001</td>
+<td>Allegany</td>
+<td>3986.0</td>
+<td>0.020888</td>
+<td>Allegany</td>
+<td>3309.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>003</td>
+<td>Anne Arundel</td>
+<td>42211.0</td>
+<td>0.003220</td>
+<td>Anne Arundel</td>
+<td>5734.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>005</td>
+<td>Baltimore</td>
+<td>59089.0</td>
+<td>0.009980</td>
+<td>Baltimore</td>
+<td>4210.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>009</td>
+<td>Calvert</td>
+<td>6099.0</td>
+<td>0.006550</td>
+<td>Calvert</td>
+<td>2999.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>011</td>
+<td>Caroline</td>
+<td>2428.0</td>
+<td>0.019973</td>
+<td>Caroline</td>
+<td>7556.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>013</td>
+<td>Carroll</td>
+<td>10860.0</td>
+<td>0.006377</td>
+<td>Carroll</td>
+<td>4216.0</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>015</td>
+<td>Cecil</td>
+<td>7085.0</td>
+<td>0.006893</td>
+<td>Cecil</td>
+<td>9584.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>017</td>
+<td>Charles</td>
+<td>11834.0</td>
+<td>0.002288</td>
+<td>Charles</td>
+<td>2817.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>019</td>
+<td>Dorchester</td>
+<td>2215.0</td>
+<td>0.027439</td>
+<td>Dorchester</td>
+<td>11251.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>021</td>
+<td>Frederick</td>
+<td>18017.0</td>
+<td>0.003054</td>
+<td>Frederick</td>
+<td>3064.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>023</td>
+<td>Garrett</td>
+<td>1717.0</td>
+<td>NaN</td>
+<td>Garrett</td>
+<td>7967.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>025</td>
+<td>Harford</td>
+<td>17236.0</td>
+<td>0.003109</td>
+<td>Harford</td>
+<td>3020.2</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>027</td>
+<td>Howard</td>
+<td>23609.0</td>
+<td>0.008291</td>
+<td>Howard</td>
+<td>3082.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>029</td>
+<td>Kent</td>
+<td>973.0</td>
+<td>NaN</td>
+<td>Kent</td>
+<td>13662.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>031</td>
+<td>Montgomery</td>
+<td>80503.0</td>
+<td>0.003826</td>
+<td>Montgomery</td>
+<td>2312.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>033</td>
+<td>Prince George's</td>
+<td>70775.0</td>
+<td>0.012376</td>
+<td>Prince George's</td>
+<td>1955.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>035</td>
+<td>Queen Anne's</td>
+<td>3034.0</td>
+<td>NaN</td>
+<td>Queen Anne's</td>
+<td>6119.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>037</td>
+<td>St. Mary's</td>
+<td>8825.0</td>
+<td>NaN</td>
+<td>St. Mary's</td>
+<td>6173.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>039</td>
+<td>Somerset</td>
+<td>1511.0</td>
+<td>0.015837</td>
+<td>Somerset</td>
+<td>2696.1</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>041</td>
+<td>Talbot</td>
+<td>2068.0</td>
+<td>0.012442</td>
+<td>Talbot</td>
+<td>7661.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>043</td>
+<td>Washington</td>
+<td>10569.0</td>
+<td>0.008881</td>
+<td>Washington</td>
+<td>5410.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>045</td>
+<td>Wicomico</td>
+<td>7469.0</td>
+<td>0.013187</td>
+<td>Wicomico</td>
+<td>2897.6</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>047</td>
+<td>Worcester</td>
+<td>2762.0</td>
+<td>0.012959</td>
+<td>Worcester</td>
+<td>3502.8</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>510</td>
+<td>Baltimore City</td>
+<td>46273.0</td>
+<td>0.041661</td>
+<td>Baltimore City</td>
+<td>10093.5</td>
+<td>All races/ ethnicities (aggregated)</td>
+<td>2017</td>
+<td>Mental Health ED visits</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="89">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>merged_df[[<span class="st">'pct_lead'</span>,<span class="st">'Value'</span>]].corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="89">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">pct_lead</th>
+<th data-quarto-table-cell-role="th">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">pct_lead</td>
+<td>1.00000</td>
+<td>0.59498</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Value</td>
+<td>0.59498</td>
+<td>1.00000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
