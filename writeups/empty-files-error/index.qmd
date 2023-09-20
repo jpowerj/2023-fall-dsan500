@@ -1,0 +1,57 @@
+---
+title: "The Final Boss of Quarto Errors"
+author: "Jeff Jacobs"
+institute: "<a href='mailto:jj1088@georgetown.edu' target='_blank'>jj1088@georgetown.edu</a>"
+date: last-modified
+categories:
+  - "Extra Writeups"
+format: html
+---
+
+While working on the DSAN 5000 homework, more than one student has run into an extremely opaque issue with Quarto producing the following error:
+
+```bash
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at Object.target (file:///Applications/quarto/bin/quarto.js:55201:27)
+    at fileExecutionEngineAndTarget (file:///Applications/quarto/bin/quarto.is:58033:33)
+    at renderContexts (file:///Applications/quarto/bin/quarto.js:82635:40)
+    at Obiect.renderFormats (file:///Applications/quarto/bin/quarto.is: 82688:32)
+    at inputTargetIndex (file:///Applications/quarto/bin/quarto.js: 83504:35)
+    at resolveInputTarget (file:///Applications/quarto/bin/quarto.is:83583:25)
+    at resolveItem (file:///Applications/quarto/bin/quarto.is:93627:32)
+    at navigationItem (file:///Applications/quarto/bin/quarto.js:93598:22)
+    at navbarEisData (file:///Applications/quarto/bin/quarto.is: 93517:34)
+```
+
+After spending kind of a long time bashing my head against this, and eventually giving up for the day, I discovered that some absolute champion GitHub user had already traced the reason for this error on a thread within Quarto's GitHub page:
+
+[https://github.com/quarto-dev/quarto-cli/issues/6392#issuecomment-1660262686](https://github.com/quarto-dev/quarto-cli/issues/6392#issuecomment-1660262686){target="_blank"}
+
+And, their writeup is immensely helpful in general, but I can also provide a quick summary here:
+
+::: {.callout-note title="Fixing the `Unexpected end of JSON input` Error"}
+
+If you encounter this error or an error that looks like this (`SyntaxError: Unexpected end of JSON input`), and it's not due to actual JSON code that you're writing, **it's quite likely that you have an**
+
+<center style="margin-bottom: 16px;">
+**⚠️ Empty `.ipynb` file somewhere within your project ⚠️**
+</center>
+
+So, to fix this, make sure you go through **every `.ipynb` file anywhere in your project** and make sure it has at least one cell with some content inside it.
+
+:::
+
+For example, you can go through and make sure that every `.ipynb` file at least has a first cell that is either a **Markdown** or **Raw** cell type, with some YAML-formatted metadata inside this cell, like
+
+```yaml {filename="my-page.ipynb"}
+---
+title: "My Page"
+format: html
+---
+```
+
+Quarto needs this information anyways, to know what to title the file and what format to render it to, so it's worth doing this even if you're not seeing the `Unexpected end of JSON input` error.
+
+Also note that this error seems to only happen because of empty `.ipynb`-format files: empty `.qmd` files seem to be fine. So, if you have a lot of files in your project and don't want to go through all of them, you can just focus on the `.ipynb` files. Note that this error occurs **even if you are not referencing or using the `ipynb` files anywhere in your project!** I pulled my non-existent hair out for a long, long time before finding out (thanks to the GitHub post) that the `.ipynb` files were the issue, despite the fact that I had removed/commented out all references to any `.ipynb` file (in my `_quarto.yml` file, for example) anywhere in the project.
+

@@ -24,10 +24,9 @@ listing:
     categories: "Category"
     section: "Section"
   sort:
-    - "week desc"
-    - "section"
-    - "category desc"
-    - "title desc"
+    - "date desc"
+    #- "category desc"
+    #- "title desc"
   table-hover: true
   #date-format: full
   #date-format: "dddd MMM D, YYYY, HH:mm:ss"

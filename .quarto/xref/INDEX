@@ -56,5 +56,8 @@
   "w05/index.qmd": {
     "slides.html": "3326544a",
     "index.html": "70b63d25"
+  },
+  "writeups/empty-files-error/index.qmd": {
+    "index.html": "7910d3ba"
   }
 }
