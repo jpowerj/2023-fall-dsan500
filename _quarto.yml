@@ -11,6 +11,7 @@ project:
 website:
   favicon: "favicon.png"
   title: "DSAN 5000"
+  google-analytics: "G-ETYTX4E16L"
   #sidebar:
   #  title: "DSAN 5000<br><span class='subtitle'>Fall 2023, Georgetown, Prof. Jacobs <a href='mailto:jj1088@georgetown.edu' target='_blank'><i class='bi bi-envelope-at ps-1 pe-1'></i></a><span class='section-info'><span class='subtitle'>Section 02 (Tue 12:30pm-3pm)</span><br><span class='subsubtitle'>Intercultural Center 219</span></span><br><span class='subsubtitle'>Sec 02 <a href='#' onclick='window.quartoToggleSection(); return false;'><i class='bi dsan-section-toggle ps-1 pe-1'></i></a> Sec 03</span><br><span class='subtitle'><i class='bi bi-sun'></i>/<i class='bi bi-moon'></i></span>"
   
