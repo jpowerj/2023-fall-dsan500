@@ -68,5 +68,8 @@
   },
   "writeups/regex/regex.ipynb": {
     "regex.html": "164381a6"
+  },
+  "writeups/python-install/index.qmd": {
+    "index.html": "40ebe38e"
   }
 }

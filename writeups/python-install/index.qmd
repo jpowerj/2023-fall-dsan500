@@ -1,0 +1,56 @@
+---
+title: "Managing Python Installations"
+date: last-modified
+categories:
+  - "Extra Writeups"
+metadata-files: 
+  - "../../_doc-meta.yml"
+---
+
+![](images/spiderman-crop.jpeg)
+
+This writeup is intended to help students who are having issues with **multiple Python installations** existing on their computer at the same time. This can give rise to issues when trying to install and use third-party libraries (meaning, libraries which are not built into Python).
+
+For example, you might encounter the following issue:
+
+1. You execute `pip install numpy` in your terminal, and it shows that the library has successfully been installed.
+2. You open a Jupyter notebook to begin using `numpy`, for a homework assignment for example, and run a cell containing the code `import numpy as np`
+3. The output from this Jupyter cell tells you that `numpy` is not installed:
+
+```bash
+ModuleNotFoundError      Traceback (most recent call last)
+
+<ipython-input-1-c177332b26a4> in <cell line: 1>()
+----> 1 import numpy as np
+
+ModuleNotFoundError: No module named 'numpy'
+```
+
+4. So, you say, that's weird, maybe it didn't install after all? And you go back to your terminal and retry `pip install numpy`, only to get a message saying it's already installed:
+
+```bash
+Requirement already satisfied: numpy in /usr/local/lib/python3.10/dist-packages (1.23.5)
+```
+
+5. And yet, you return to your Jupyter notebook, try executing the cell containing `import numpy as np` again, and once again get the same error:
+
+```bash
+ModuleNotFoundError      Traceback (most recent call last)
+
+<ipython-input-1-c177332b26a4> in <cell line: 1>()
+----> 1 import numpy as np
+
+ModuleNotFoundError: No module named 'numpy'
+```
+
+If you have encountered this issue, there is a **short-term solution** which can sometimes fix it temporarily (if you really need to run the Python code *right now*), but it indicates that something is wrong with the way Python, Conda, and/or Jupyter are set up on your system^[It doesn't mean **you** did something wrong! It's just a result of the way that programs/apps get installed on a computer: despite the fact that computers have now existed for many decades, there is still no easy way for operating systems to keep track of (e.g.) **which** version/type of Python you're hoping to run when you type `python` in your terminal, or when you run a command in Jupyter.], and you should really take the time to run through the **sustainable solution** later on in the writeup.
+
+## The Short-Term, Temporary Solution
+
+If you are panicking about this issue, and you really need to run the Python code right now, the following approach will temporarily "fix" the issue maybe 95% of the time:
+
+Add a cell to your **notebook** (as in, don't run this command in the terminal) containing the following line, above the cell where you are trying to import `numpy` for example, and execute this cell. In 95% of cases, this will allow you to `import numpy as np` and continue with your work:
+
+```python
+!pip install numpy
+```
