@@ -65,6 +65,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       p100: '2:10pm',
       p140: '2:50pm',
       end: '3:00pm',
+      recLinkW05: '../recordings/recording-w05s02-1.html'
     },
     '03': {
       day: 'Wed',
@@ -86,6 +87,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       p100: '5:10pm',
       p140: '5:50pm',
       end: '6:00pm',
+      recLinkW05: '../recordings/recording-w05s03-1.html'
     }
   }
 
@@ -111,6 +113,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     $('.sec-p100').text(sData.p100);
     $('.sec-p140').text(sData.p140);
     $('.sec-end').text(sData.end);
+    // The recording links
+    $('.rec-link-w05').attr('href',sData.recLinkW05);
     // And the weekly dates
     $('.sec-w01-date').text(sData.w01Date);
     $('.sec-w02-date').text(sData.w02Date);

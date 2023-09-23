@@ -1,10 +1,7 @@
 ---
 title: "Week 5: Data Cleaning"
-subtitle: "*DSAN 5100: Data Science and Analytics*<br>Section <span class='sec-num'>02</span>"
 date: "Tuesday, September 19, 2023"
 date-format: full
-author: "Jeff Jacobs"
-institute: "<a href=\"mailto:jj1088@georgetown.edu\" target=\"_blank\">jj1088@georgetown.edu</a>"
 #date: last-modified
 #date-format: "dddd MMM D, YYYY, HH:mm:ss"
 lecnum: 5
@@ -13,30 +10,8 @@ categories:
 bibliography: "../_DSAN5000.bib"
 format:
   revealjs:
-    html-math-method: mathjax
-    cache: false
-    scrollable: false
-    slide-number: true
-    output-file: slides.html
-    section-divs: false
-    simplemenu:
-      flat: true
-      barhtml:
-        header: >
-          <div class='menubar'>
-            <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>
-            
-            <span style='position: absolute; right: 0; padding-right: 8px; z-index: 10; display: inline-flex !important;'>
-              <a id='toggle-02-label' href='#' onclick="window.toggleSectionClicked('02'); return(false);" class='no-decoration'>02 </a>
-              <a href='#' onclick="window.toggleIconClicked(); return(false);" class='no-decoration'><i id='section-toggle-icon' class='bi bi-toggle-off pt-0 ps-1 pe-1'></i></a>
-              <a id='toggle-03-label' href='#' onclick="window.toggleSectionClicked('03'); return(false);" class='no-decoration'> 03</a>
-            </span>
-            <ul class='menu'></ul>
-          </div>
-      scale: 0.5
-    theme: [default, "../_jjslides.scss"]
-    revealjs-plugins:
-      - simplemenu
+    cache: true
+    footer: "DSAN 5000 Week 5: Data Cleaning"
   html:
     output-file: index.html
     html-math-method: mathjax
@@ -67,14 +42,14 @@ Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
 | | Start | End | Topic | Recording |
 |:- |:- |:- |:- |:-:|
-| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p10'>12:40pm</a> | <a href="#week-04-recap">Week 04 Recap &rarr;</a> | <a href="../recordings/recording-w05-1.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
+| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p10'>12:40pm</a> | <a href="#week-04-recap">Week 04 Recap &rarr;</a> | <a id="rec-link-w05-1" href="../recordings/recording-w05-1.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
 | | <span class='sec-p10'>12:40pm</span> | <span class='sec-p30'>1:00pm</a> | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201963" target="_blank">Quiz 2.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a> | |
-| | <span class='sec-p30'>1:00pm</span> | <span class='sec-p40'>1:10pm</span> | <a href="#apis-part-2">More on APIs &rarr;</a> | <a href="../recordings/recording-w05-2.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p40'>1:10pm</span> | <span class='sec-p70'>1:40pm</span> | <a href="#cleaning-tabular-data">Cleaning Tabular Data &rarr;</a> | <a href="../recordings/recording-w05-3.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p70'>1:40pm</span> | <span class='sec-p90'>2:00pm</span> | <a href="#cleaning-text-data">Cleaning Text Data &rarr;</a> | <a href="../recordings/recording-w04-4.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p30'>1:00pm</span> | <span class='sec-p40'>1:10pm</span> | <a href="#apis-part-2">More on APIs &rarr;</a> | <a id="rec-link-w05-2" href="../recordings/recording-w05-2.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p40'>1:10pm</span> | <span class='sec-p70'>1:40pm</span> | <a href="#cleaning-tabular-data">Cleaning Tabular Data &rarr;</a> | <a id="rec-link-w05-3" href="../recordings/recording-w05-3.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p70'>1:40pm</span> | <span class='sec-p90'>2:00pm</span> | <a href="#cleaning-text-data">Cleaning Text Data &rarr;</a> | <a id="rec-link-w05-4" href="../recordings/recording-w04-4.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
 | **Break!** | <span class='sec-p90'>2:00pm</span> | <span class='sec-p100'>2:10pm</span> | | |
-| **Lab** | <span class='sec-p100'>2:10pm</span> | <span class='sec-p140'>2:50pm</span> | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a href="../recordings/recording-w05-5.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p140'>2:50pm</span> | <span class='sec-end'>3:00pm</span> | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a href="../recordings/recording-w05-6.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a> |
+| **Lab** | <span class='sec-p100'>2:10pm</span> | <span class='sec-p140'>2:50pm</span> | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a id="rec-link-w05-5" href="../recordings/recording-w05-5.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p140'>2:50pm</span> | <span class='sec-end'>3:00pm</span> | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a id="rec-link-w05-6" href="../recordings/recording-w05-6.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
 
 : {tbl-colwidths="[14,12,12,50,12]"} 
 

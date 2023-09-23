@@ -338,6 +338,7 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
+      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -1995,7 +1996,7 @@ Menczer, Filippo, Santo Fortunato, and Clayton A. Davis. 2020. <em>A <span>First
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'simplemenu': {"menubarclass":"menubar","menuclass":"menu","activeclass":"active","activeelement":"li","flat":true,"barhtml":{"header":"<div class='menubar'><span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span><ul class='menu'></ul></div>","footer":""},"scale":0.5},
+'simplemenu': {"menubarclass":"menubar","menuclass":"menu","activeclass":"active","activeelement":"li","flat":true,"barhtml":{"header":"<div class='menubar'>\n  <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>\n  \n  <span style='position: absolute; right: 0; padding-right: 8px; z-index: 10; display: inline-flex !important;'>\n    <a id='toggle-02-label' href='#' onclick=\"window.toggleSectionClicked('02'); return(false);\" class='no-decoration'>02 </a>\n    <a href='#' onclick=\"window.toggleIconClicked(); return(false);\" class='no-decoration'><i id='section-toggle-icon' class='bi bi-toggle-off pt-0 ps-1 pe-1'></i></a>\n    <a id='toggle-03-label' href='#' onclick=\"window.toggleSectionClicked('03'); return(false);\" class='no-decoration'> 03</a>\n  </span>\n  <ul class='menu'></ul>\n</div>\n","footer":""},"scale":0.5},
 'smaller': false,
  
         // Display controls in the bottom right corner

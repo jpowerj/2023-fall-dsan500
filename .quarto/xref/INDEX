@@ -71,5 +71,9 @@
   },
   "writeups/python-install/index.qmd": {
     "index.html": "40ebe38e"
+  },
+  "w06/index.qmd": {
+    "slides.html": "af277e79",
+    "index.html": "6ce40b84"
   }
 }

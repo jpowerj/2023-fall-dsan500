@@ -1,0 +1,94 @@
+---
+title: "Week 6: Exploratory Data Analysis (EDA)"
+date: "Tuesday, September 26, 2023"
+date-format: full
+#date: last-modified
+#date-format: "dddd MMM D, YYYY, HH:mm:ss"
+lecnum: 6
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    cache: true
+    footer: "DSAN 5000 Week 6: Exploratory Data Analysis"
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-stack-name="Schedule"}
+
+::: {.hidden}
+
+```{r}
+#| label: r-source-globals
+source("../_globals.r")
+```
+
+:::
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+| | Start | End | Topic | Recording |
+|:- |:- |:- |:- |:-:|
+| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p10'>12:40pm</a> | <a href="#week-04-recap">Week 04 Recap &rarr;</a> | <a id="rec-link-w05-1" href="../recordings/recording-w05-1.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p10'>12:40pm</span> | <span class='sec-p30'>1:00pm</a> | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201963" target="_blank">Quiz 2.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a> | |
+| | <span class='sec-p30'>1:00pm</span> | <span class='sec-p40'>1:10pm</span> | <a href="#apis-part-2">More on APIs &rarr;</a> | <a id="rec-link-w05-2" href="../recordings/recording-w05-2.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p40'>1:10pm</span> | <span class='sec-p70'>1:40pm</span> | <a href="#cleaning-tabular-data">Cleaning Tabular Data &rarr;</a> | <a id="rec-link-w05-3" href="../recordings/recording-w05-3.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p70'>1:40pm</span> | <span class='sec-p90'>2:00pm</span> | <a href="#cleaning-text-data">Cleaning Text Data &rarr;</a> | <a id="rec-link-w05-4" href="../recordings/recording-w04-4.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| **Break!** | <span class='sec-p90'>2:00pm</span> | <span class='sec-p100'>2:10pm</span> | | |
+| **Lab** | <span class='sec-p100'>2:10pm</span> | <span class='sec-p140'>2:50pm</span> | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a id="rec-link-w05-5" href="../recordings/recording-w05-5.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p140'>2:50pm</span> | <span class='sec-end'>3:00pm</span> | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a id="rec-link-w05-6" href="../recordings/recording-w05-6.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+
+: {tbl-colwidths="[14,12,12,50,12]"}
+
+## Exploratory Data Analysis (EDA)
+
+* In contrast to **confirmatory** data analysis
+
+```{dot}
+digraph G {
+  rankdir=LR;
+  nodedir=LR;
+  nodesep=0.5;
+  ranksep=0.5;
+  overlap=false;
+  forcelabels=true;
+  Import -> Tidy;
+	
+  subgraph cluster_2 {
+    label = "Understand";
+    subgraph cluster_0 {
+      label = "Exploratory";
+      margin = 18;
+      labeljust="center";
+      V[label="Visualize"];
+      gg[label="ggplot",fontname="Courier New",penwidth=0]
+    }
+    subgraph cluster_1 {
+      Model;
+      label = "Confirmatory";
+      margin = 18;
+      e10[label="e1071",penwidth=0,fontname="Courier New"]
+    }
+  }
+  
+  Tidy -> V;
+  V -> Model;
+  Model -> V;
+  Model -> Communicate;
+}
+```
+
