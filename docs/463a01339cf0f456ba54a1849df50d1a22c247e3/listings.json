@@ -1,0 +1,37 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/w01/index.html",
+      "/w02/index.html",
+      "/w03/index.html",
+      "/w04/index.html",
+      "/w05/index.html",
+      "/w06/index.html"
+    ]
+  },
+  {
+    "listing": "/recordings/index.html",
+    "items": []
+  },
+  {
+    "listing": "/writeups/index.html",
+    "items": [
+      "/writeups/python-install/index.html",
+      "/writeups/regex/index.html",
+      "/writeups/regex/regex.html",
+      "/writeups/data-cleaning/clean_data.html",
+      "/writeups/empty-files-error/index.html",
+      "/writeups/lab-1-2-clarifications/index.html",
+      "/writeups/zotero/index.html",
+      "/writeups/domains-ssh/index.html",
+      "/writeups/columns/index.html",
+      "/writeups/hw1-clarifications/index.html",
+      "/writeups/refs-and-citations/index.html"
+    ]
+  },
+  {
+    "listing": "/extra-videos/index.html",
+    "items": []
+  }
+]

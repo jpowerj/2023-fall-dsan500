@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DSAN 5000 - Lab 1.2 Clarifications</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/kbd/kbd.js"></script>
+<link href="../../site_libs/quarto-contrib/kbd/kbd.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-ETYTX4E16L"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../../jjcustom.js"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      DSAN 5000 &lt;br&gt;
+&lt;span class='subtitle'&gt;Fall 2023, Georgetown, Prof. Jacobs &lt;a href='mailto:jj1088@georgetown.edu' target='_blank'&gt;&lt;i class='bi bi-envelope-at ps-1'&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;span class="btn-group section-toggle" role="group" aria-label="Basic radio toggle button group" style="display: inline-flex !important; margin-top: 4px !important; width: 100% !important;"&gt;
+&lt;input type="radio" class="btn-check pt-5" name="btnradio" id="btn-radio-02" autocomplete="off" onclick="window.toggleSectionClicked('02');"&gt; &lt;label class="btn btn-outline-secondary btn-sm" for="btn-radio-02" id='btn-label-02'&gt;Sec 02&lt;/label&gt;
+&lt;input type="radio" class="btn-check" name="btnradio" id="btn-radio-03" autocomplete="off" onclick="window.toggleSectionClicked('03');"&gt; &lt;label class="btn btn-outline-secondary btn-sm" for="btn-radio-03" id="btn-label-03"&gt;Sec 03&lt;/label&gt; &lt;/span&gt; &lt;br&gt;
+&lt;span class='section-info subsubtitle'&gt;
+  &lt;span class='sec-day'&gt;Tue&lt;/span&gt; &lt;span class='sec-time'&gt;12:30pm-3pm&lt;/span&gt;
+  &lt;br&gt;
+  &lt;span class='sec-room'&gt;ICC 219&lt;/span&gt;
+&lt;/span&gt;
+      </li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">DSAN 5000 <br> <span class="subtitle">Fall 2023, Georgetown, Prof.&nbsp;Jacobs <a href="mailto:jj1088@georgetown.edu" target="_blank"><i class="bi bi-envelope-at ps-1"></i></a> <span class="btn-group section-toggle" role="group" aria-label="Basic radio toggle button group" style="display: inline-flex !important; margin-top: 4px !important; width: 100% !important;"> <input type="radio" class="btn-check pt-5" name="btnradio" id="btn-radio-02" autocomplete="off" onclick="window.toggleSectionClicked('02');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-02" id="btn-label-02">Sec 02</label> <input type="radio" class="btn-check" name="btnradio" id="btn-radio-03" autocomplete="off" onclick="window.toggleSectionClicked('03');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-03" id="btn-label-03">Sec 03</label> </span> <br> <span class="section-info subsubtitle"> <span class="sec-day">Tue</span> <span class="sec-time">12:30pm-3pm</span> <br> <span class="sec-room">ICC 219</span> </span></span> <span class="hidden" data-render-id="quarto-int-navbar-title">DSAN 5000</span> <span class="hidden" data-render-id="quarto-int-sidebar:https://jfh.georgetown.domains/dsan5000/"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span> <span class="hidden" data-render-id="quarto-int-sidebar:undefined">—</span> <span class="hidden" data-render-id="quarto-int-sidebar:/index.html"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span> <span class="hidden" data-render-id="quarto-int-sidebar:/w01/index.html">Week 1: <span class="sec-w01-date">Aug 23</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w02/index.html">Week 2: <span class="sec-w02-date">Aug 29</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w03/index.html">Week 3: <span class="sec-w03-date">Sep 6</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w04/index.html">Week 4: <span class="sec-w04-date">Sep 12</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w05/index.html">Week 5: <span class="sec-w05-date">Sep 19</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/recordings/index.html">Lecture Recordings</span> <span class="hidden" data-render-id="quarto-int-sidebar:/extra-videos/index.html">Extra Videos</span> <span class="hidden" data-render-id="quarto-int-sidebar:/writeups/index.html">Extra Writeups</span> <span class="hidden" data-render-id="quarto-int-sidebar:https://georgetown.instructure.com/courses/173310">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://calendar.app.google/yMnESMtMNPdKEaPz5">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://forms.gle/TH1yLitU9dTfB4sg8">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://jfh.georgetown.domains/dsan5000/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w01/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1: <span class="sec-w01-date">Aug 23</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w02/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: <span class="sec-w02-date">Aug 29</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w03/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3: <span class="sec-w03-date">Sep 6</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w04/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4: <span class="sec-w04-date">Sep 12</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w05/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: <span class="sec-w05-date">Sep 19</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../recordings/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture Recordings</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../extra-videos/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Videos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../writeups/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Writeups</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://georgetown.instructure.com/courses/173310" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://calendar.app.google/yMnESMtMNPdKEaPz5" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://forms.gle/TH1yLitU9dTfB4sg8" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#component-3" id="toc-component-3" class="nav-link active" data-scroll-target="#component-3">Component-3</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-quarto-website-in-vscode" id="toc-creating-a-quarto-website-in-vscode" class="nav-link" data-scroll-target="#creating-a-quarto-website-in-vscode">Creating a Quarto Website in VSCode</a></li>
+  <li><a href="#multiple-versions-of-the-about-page" id="toc-multiple-versions-of-the-about-page" class="nav-link" data-scroll-target="#multiple-versions-of-the-about-page">Multiple Versions of the About Page</a></li>
+  <li><a href="#making-sure-you-have-added-both-href-and-text-data-when-updating-_quarto.yml" id="toc-making-sure-you-have-added-both-href-and-text-data-when-updating-_quarto.yml" class="nav-link" data-scroll-target="#making-sure-you-have-added-both-href-and-text-data-when-updating-_quarto.yml">Making sure you have added both <code>href</code> and <code>text</code> data when updating <code>_quarto.yml</code></a></li>
+  <li><a href="#specifying-the-output-format-for-about.ipynb" id="toc-specifying-the-output-format-for-about.ipynb" class="nav-link" data-scroll-target="#specifying-the-output-format-for-about.ipynb">Specifying the output format for <code>about.ipynb</code></a></li>
+  <li><a href="#removing-the-about.qmd-file" id="toc-removing-the-about.qmd-file" class="nav-link" data-scroll-target="#removing-the-about.qmd-file">Removing the <code>about.qmd</code> file</a></li>
+  </ul></li>
+  <li><a href="#component-4-and-component-5-lorem-ipsum-text" id="toc-component-4-and-component-5-lorem-ipsum-text" class="nav-link" data-scroll-target="#component-4-and-component-5-lorem-ipsum-text">Component-4 and Component-5: Lorem Ipsum Text</a></li>
+  <li><a href="#component-6" id="toc-component-6" class="nav-link" data-scroll-target="#component-6">Component-6</a>
+  <ul class="collapse">
+  <li><a href="#linking-to-the-slideshow-from-your-main-page" id="toc-linking-to-the-slideshow-from-your-main-page" class="nav-link" data-scroll-target="#linking-to-the-slideshow-from-your-main-page">Linking to the Slideshow From Your Main Page</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 1.2 Clarifications</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Clarifications</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Saturday Sep 16, 2023, 21:53:19</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-tip callout-titled" title="Links">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Links
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-1.2/assignment.html" target="_blank">Lab 1.2 Link</a></p>
+</div>
+</div>
+<section id="component-3" class="level2">
+<h2 class="anchored" data-anchor-id="component-3">Component-3</h2>
+<section id="creating-a-quarto-website-in-vscode" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-quarto-website-in-vscode">Creating a Quarto Website in VSCode</h3>
+<p>The beginning of the Component-3 description states that you should:</p>
+<ul>
+<li>Make sure the Quarto extension is installed in VS-Code.</li>
+<li>Using VS-Code –&gt; New file –&gt; “Quarto project” –&gt; create a blank Quarto “Website” project in your 5000-lab-1.2 repo call simple_quarto_website</li>
+</ul>
+<p>To clarify this portion: you can install the Quarto extension for VSCode by clicking on the “Extensions” panel on the left side of the VSCode interface (or pressing <code>Cmd</code>+<code>Shift</code>+<code>X</code>) and searching for “Quarto” in the extensions search box. The Quarto extension should be the first result:</p>
+<p><img src="images/quarto-extension.jpeg" class="img-fluid"></p>
+<p>Once you have this extension installed, there is a bit of a typo in the assignment description about how to create a Quarto <strong>project</strong> (specifically, a <strong>website</strong> project) within VSCode.</p>
+<p>Rather than using VS-Code-&gt;New file-&gt;“Quarto project”, in the most recent version of the Quarto extension you should instead do the following:</p>
+<ol type="1">
+<li>Use the keyboard shortcut <kbd>Shift-Cmd-P</kbd> (<kbd>Shift-Ctrl-P</kbd> on Windows) to open what’s called the <strong>Command Palette</strong> in VSCode. It is a box with a text field in it that should pop up near the top of your screen:</li>
+</ol>
+<p><img src="images/command-palette.jpeg" class="img-fluid"></p>
+<ol start="2" type="1">
+<li>Within this Command Palette, start typing the word “Quarto”. As you type, it should filter out the irrelevant commands and just show the <strong>Quarto-related</strong> commands.</li>
+<li>The first command in the list should now be <strong>Quarto: Create Project</strong>:</li>
+</ol>
+<p><img src="images/create-project.jpeg" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>Click this command, to begin the process of creating a Quarto project</li>
+<li>Choose “Quarto Website” on the next screen:</li>
+</ol>
+<p><img src="images/website-project.jpeg" class="img-fluid"></p>
+<ol start="6" type="1">
+<li>Choose the folder on your computer where you would like Quarto to create the website (for the lab, for example, you could create a folder called <code>simple_quarto_website</code>, and tell Quarto that you’d like to create the website within that folder):</li>
+</ol>
+<p><img src="images/choose-directory.jpeg" class="img-fluid"></p>
+<ol start="7" type="1">
+<li>VSCode will now create the website and display the created files “_quarto.yml”, “index.qmd”, “about.qmd”, and “style.css” in the “Explorer” pane on the left side of the VSCode interface:</li>
+</ol>
+<p><img src="images/quarto-website-vscode.jpeg" class="img-fluid"></p>
+<p>You should now be able to proceed with the lab, by modifying and adding files to this newly-created Quarto website project.</p>
+<div id="quarto-doesnt-appear" class="callout callout-style-default callout-note callout-titled" title="If &quot;Quarto: Create Project&quot; Does Not Appear">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+If “Quarto: Create Project” Does Not Appear
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some students are experiencing a bug where the “Quarto: Create Project” option does not appear in their Command Palette, after pressing <kbd>Cmd+Shift+P</kbd>. In this case, no need to worry: just create a new folder (called <code>simple_quarto_website</code>, for example), and within this folder you’ll need to create four files, which are the same four files that the “Quarto: Create Project” command creates:</p>
+<section id="quarto.yml" class="level3">
+<h3 class="anchored" data-anchor-id="quarto.yml">1. <code>_quarto.yml</code></h3>
+<p>Create a file called <code>_quarto.yml</code> with the following contents:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>_quarto.yml</strong></pre>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"simple_quarto_website"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> about.qmd</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">css</span><span class="kw">:</span><span class="at"> styles.css</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="styles.css" class="level3">
+<h3 class="anchored" data-anchor-id="styles.css">2. <code>styles.css</code></h3>
+<p>Then create a file called <code>styles.css</code> that can be empty for now.</p>
+</section>
+<section id="index.qmd" class="level3">
+<h3 class="anchored" data-anchor-id="index.qmd">3. <code>index.qmd</code></h3>
+<p>This file should have the following contents:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "simple_quarto_website"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>This is a Quarto website.</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>To learn more about Quarto websites visit <span class="ot">&lt;https://quarto.org/docs/websites&gt;</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="about.qmd" class="level3">
+<h3 class="anchored" data-anchor-id="about.qmd">4. <code>about.qmd</code></h3>
+<p>This file should have the following contents:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "About"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>About this site</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These are the default website contents that the “Quarto: New Project” command creates in this <code>_quarto.yml</code> file, so for the most part you should be ready to work on the rest of the project even if this command did not appear when you typed “Quarto” into the Command Palette.</p>
+</section>
+</div>
+</div>
+</section>
+<section id="multiple-versions-of-the-about-page" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-versions-of-the-about-page">Multiple Versions of the About Page</h3>
+<p>There is a step in Component-3 which asks you to:</p>
+<ul>
+<li>Convert <code>about.qmd</code> to <code>about.ipynb</code> with <code>quarto convert about.qmd</code>.</li>
+</ul>
+<p>After which (the last bullet in the section) it also asks you to</p>
+<ul>
+<li>modify <code>_quarto.yml</code> accordingly <code>- about.qmd</code> -&gt; <code>about.ipynb</code></li>
+</ul>
+<p>Please note the following points about these two steps:</p>
+</section>
+<section id="making-sure-you-have-added-both-href-and-text-data-when-updating-_quarto.yml" class="level3">
+<h3 class="anchored" data-anchor-id="making-sure-you-have-added-both-href-and-text-data-when-updating-_quarto.yml">Making sure you have added both <code>href</code> and <code>text</code> data when updating <code>_quarto.yml</code></h3>
+<ul>
+<li>When you go to modify <code>_quarto.yml</code>, you’ll notice that the <strong>Home</strong> link is specified using two pieces of information, <code>href</code> and <code>text</code>:</li>
+</ul>
+<pre><code>      - href: index.qmd
+        text: Home</code></pre>
+<ul>
+<li>However, the <strong>About</strong> link is specified using a single bullet point, just indicating the name of the file:</li>
+</ul>
+<pre><code>      - about.qmd</code></pre>
+<ul>
+<li>So, when you go to update <code>_quarto.yml</code> to change <code>about.qmd</code> to <code>about.ipynb</code>, make sure that you include <strong>both</strong> pieces of information given for the <strong>Home</strong> link, so that your new link information should now be:</li>
+</ul>
+<pre><code>      - href: index.qmd
+        text: Home
+      - href: about.ipynb
+        text: About</code></pre>
+</section>
+<section id="specifying-the-output-format-for-about.ipynb" class="level3">
+<h3 class="anchored" data-anchor-id="specifying-the-output-format-for-about.ipynb">Specifying the output format for <code>about.ipynb</code></h3>
+<ul>
+<li>After running <code>quarto convert about.qmd</code>, you can open the generated <code>about.ipynb</code> file to view the result.</li>
+<li>However, you’ll see that the <strong>metadata block</strong> at the top of the file (the block which starts and ends with <code>---</code>) only contains the <code>title</code> attribute. That is, the top of the file will look like the following:</li>
+</ul>
+<pre><code>---
+title: "About"
+---</code></pre>
+<ul>
+<li>But, for your website to correctly render this <code>.ipynb</code> file, you’ll need to also add information to this metadata block telling Quarto that you’d like it to output <strong>HTML code</strong> when it renders <code>about.ipynb</code> for your website.</li>
+<li>To achieve this, add an additional line within the metadata block (i.e., between the starting <code>---</code> and the ending <code>---</code>), after the <code>title: "About"</code> line, specifying <code>format: html</code>. If you’ve done this correctly, your metadata block will now look like the following:</li>
+</ul>
+<pre><code>---
+title: "About"
+format: html
+---</code></pre>
+<ul>
+<li>Once you have added this additional piece of metadata, and saved your changes to the <code>about.ipynb</code> file, you will be halfway to successfully rendering this file as a page within your website. For the second half, see the next point.</li>
+</ul>
+</section>
+<section id="removing-the-about.qmd-file" class="level3">
+<h3 class="anchored" data-anchor-id="removing-the-about.qmd-file">Removing the <code>about.qmd</code> file</h3>
+<ul>
+<li>If you try to <code>quarto render</code> and/or <code>quarto preview</code> the website now, you may find that clicking the “About” link at the top of the page will show just the raw text content of the <code>about.ipynb</code> file, rather than the <strong>rendered</strong>, nicely-formatted and human-readable version. That is, when you click the “About” link, you may just see a plaintext file with the following contents:</li>
+</ul>
+<pre><code>{
+  "cells": [
+    {
+      "cell_type": "raw",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"About\"\n",
+        "format: html\n",
+        "---"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "About this site"
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3 (ipykernel)",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+}</code></pre>
+<ul>
+<li>If you encounter this issue, you can fix it by resolving the ambiguity that Quarto faces in having both <code>about.qmd</code> and <code>about.ipynb</code> files, and not knowing which one to choose as the file that should be rendered to create the final <code>about.html</code> file, the file that will be placed in the <code>_site</code> directory that <code>quarto render</code> creates.</li>
+<li>To resolve this ambiguity,
+<ul>
+<li>First, if you’re paranoid about losing the information in <code>about.qmd</code>, you can back this file up to another folder on your computer.</li>
+<li>Then (or, you can start here if you’re not worried about losing <code>about.qmd</code>), delete the original <code>about.qmd</code> file.</li>
+</ul></li>
+<li>Deleting the original <code>about.qmd</code> file will thus ensure that Quarto has a single <code>about</code> file (in this case, <code>about.ipynb</code>) that it knows is the file you want Quarto to render and show when a user clicks the “About” link.</li>
+</ul>
+</section>
+</section>
+<section id="component-4-and-component-5-lorem-ipsum-text" class="level2">
+<h2 class="anchored" data-anchor-id="component-4-and-component-5-lorem-ipsum-text">Component-4 and Component-5: Lorem Ipsum Text</h2>
+<p>In one of the bullets in both the Component-4 section and Component-5 section of the lab, it mentions the following:</p>
+<ul>
+<li><strong>Note</strong>: Use of <code>ipsum lorem</code> place-holder text is allowed</li>
+</ul>
+<p>What this means is just: If you would like “filler text” for your <code>index.qmd</code> page, to show what it will look like once it’s filled with content (but without having to write hundreds of words of content yourself), you can use a <a href="https://loremipsum.io/" target="_blank">“Lorem Ipsum text generator”</a> to auto-generate some number of paragraphs (filled with random Latin words), and place this auto-generated text in your <code>index.qmd</code> file.</p>
+<p>To see why you might want to do this, consider the difference between the following structure with no filler text:</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Section Headers *Without* Filler Content">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Section Headers <em>Without</em> Filler Content
+</div>
+</div>
+<section id="my-heading" class="level3 callout-body-container callout-body">
+<h3 class="anchored" data-anchor-id="my-heading">My Heading</h3>
+<section id="my-subheading" class="level4">
+<h4 class="anchored" data-anchor-id="my-subheading">My Subheading</h4>
+</section>
+<section id="another-subheading" class="level4">
+<h4 class="anchored" data-anchor-id="another-subheading">Another Subheading</h4>
+</section>
+<section id="third-subheading" class="level4">
+<h4 class="anchored" data-anchor-id="third-subheading">Third Subheading</h4>
+</section>
+</section>
+</div>
+<p>And the same structure but “filled out” with paragraphs of randomly-generated text:</p>
+<div class="callout callout-style-simple callout-note callout-titled" title="Section Headers *With* Filler Content">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Section Headers <em>With</em> Filler Content
+</div>
+</div>
+<section id="my-heading-1" class="level3 callout-body-container callout-body">
+<h3 class="anchored" data-anchor-id="my-heading-1">My Heading</h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed cras ornare arcu dui vivamus arcu felis. Dis parturient montes nascetur ridiculus mus. Tincidunt ornare massa eget egestas purus viverra. Porttitor massa id neque aliquam vestibulum morbi. Fringilla phasellus faucibus scelerisque eleifend. Faucibus nisl tincidunt eget nullam non nisi est sit amet. Urna id volutpat lacus laoreet non. Sed pulvinar proin gravida hendrerit lectus a. Sed odio morbi quis commodo odio aenean sed adipiscing. Bibendum at varius vel pharetra vel turpis nunc. Nec dui nunc mattis enim ut tellus elementum sagittis. Nisl rhoncus mattis rhoncus urna neque viverra. Elit at imperdiet dui accumsan.</p>
+<section id="my-subheading-1" class="level4">
+<h4 class="anchored" data-anchor-id="my-subheading-1">My Subheading</h4>
+<p>Porta non pulvinar neque laoreet suspendisse interdum consectetur libero id. Laoreet sit amet cursus sit amet dictum sit amet justo. Vitae semper quis lectus nulla at volutpat. Aliquet eget sit amet tellus cras adipiscing enim eu turpis. Tellus elementum sagittis vitae et leo duis ut. Neque vitae tempus quam pellentesque. Cursus eget nunc scelerisque viverra mauris. Morbi leo urna molestie at. Convallis posuere morbi leo urna molestie at elementum. Non consectetur a erat nam. Sagittis nisl rhoncus mattis rhoncus urna neque viverra. Lorem sed risus ultricies tristique.</p>
+</section>
+<section id="another-subheading-1" class="level4">
+<h4 class="anchored" data-anchor-id="another-subheading-1">Another Subheading</h4>
+<p>Turpis massa sed elementum tempus egestas. Et netus et malesuada fames ac turpis. Diam maecenas ultricies mi eget mauris pharetra et ultrices neque. Felis imperdiet proin fermentum leo vel orci porta non pulvinar. Vulputate dignissim suspendisse in est. Ultricies mi quis hendrerit dolor magna eget est. Senectus et netus et malesuada fames. Aliquet porttitor lacus luctus accumsan tortor posuere ac. Et ligula ullamcorper malesuada proin libero nunc consequat. Nibh mauris cursus mattis molestie a iaculis. Sit amet commodo nulla facilisi nullam. Mollis nunc sed id semper risus in hendrerit. Sit amet massa vitae tortor condimentum lacinia. Ante in nibh mauris cursus. Aliquam purus sit amet luctus. Tincidunt arcu non sodales neque.</p>
+</section>
+<section id="third-subheading-1" class="level4">
+<h4 class="anchored" data-anchor-id="third-subheading-1">Third Subheading</h4>
+<p>Lorem ipsum dolor sit amet consectetur adipiscing. Tortor pretium viverra suspendisse potenti. Felis eget nunc lobortis mattis aliquam faucibus. Morbi tincidunt ornare massa eget egestas purus viverra. Et netus et malesuada fames ac turpis. Nunc id cursus metus aliquam eleifend. Imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada. Dignissim diam quis enim lobortis scelerisque. Vel pretium lectus quam id leo in vitae turpis. Venenatis cras sed felis eget velit aliquet. Eu feugiat pretium nibh ipsum. Eu tincidunt tortor aliquam nulla facilisi.</p>
+</section>
+</section>
+</div>
+<p>If you think this second version looks nicer than the first, and shows more clearly how the headers <strong>separate out</strong> different pieces of content, you can use this “lorem ipsum” text as filler (until you replace it with your own original writing!).</p>
+</section>
+<section id="component-6" class="level2">
+<h2 class="anchored" data-anchor-id="component-6">Component-6</h2>
+<section id="linking-to-the-slideshow-from-your-main-page" class="level3">
+<h3 class="anchored" data-anchor-id="linking-to-the-slideshow-from-your-main-page">Linking to the Slideshow From Your Main Page</h3>
+<p>In Component-6, the assignment asks you to create a slideshow, with the first two steps being:</p>
+<ol type="1">
+<li>Create a <code>slides</code> subfolder, within <code>simple_quarto_website</code></li>
+<li>Create a file within the <code>slides</code> subfolder called <code>slides.ipynb</code></li>
+</ol>
+<p>And then it asks you to modify the <code>yaml</code>-format metadata block—this is the block of specially-formatted key-value pairs at the <strong>top</strong> of the <strong>first cell</strong> within the <code>slides.ipynb</code> file, that looks like the following (for example):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My Slideshow"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To specify to <strong>Quarto</strong> that you’d like it to <strong>render</strong> this <code>slides.ipynb</code> file specifically as a <strong>Reveal.js slideshow</strong>, you’ll need to add the following additional key-value pair to this metadata block (which, again, should be at the top of the first cell within <code>slides.ipynb</code>):</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span><span class="at"> revealjs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Meaning that, if your original metadata block just had the title, like in the example above, now it will have two pieces of information for Quarto:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My Slideshow"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span><span class="at"> revealjs</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once you’ve specified this format, though, it is still a bit tricky to <strong>preview</strong> the slideshow (to make sure that modifications you make are actually appearing in the slideshow, for example), since the Quarto extension for VSCode does <strong>not</strong> provide a nice “Render” button for <code>.ipynb</code>-format files like it does for <code>.qmd</code>-format files.</p>
+<p>So, you can make your life slightly easier by <strong>adding a link to the slideshow</strong> from your website’s <strong>main</strong> navigation bar. To do that, you’ll need to modify your website’s <code>_quarto.yml</code> file, which contains the global settings for the website. If you open this file at this point in the project, it should look something like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>_quarto.yml</strong></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"simple_quarto_website"</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> about.ipynb</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice the portion within the value of <code>website</code> (the indented portions under <code>website:</code>) with the key <code>navbar</code>, and within that value, the key <code>left</code>. Every bullet point underneath this <code>left</code> key will correspond to a <strong>link</strong> on the <strong>top navbar</strong> of your website, where the <code>left</code> key indicates that these links will be <strong>left-aligned</strong> (you could add a new key <code>right:</code>, and some links underneath that key, and those links would be right-aligned on the top navbar).</p>
+<p>So, to add a link to the slideshow you are creating in <code>slides/slides.ipynb</code>, we’ll need to modify two things in this <code>_quarto.yml</code> file. First, since Quarto will sometimes complain and/or get confused if some links have <code>href</code> and <code>text</code> tags while others do not have this tag, let’s change the link that just contains <code>about.ipynb</code> to have an <code>href</code> and <code>label</code>, like:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> about.ipynb</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">text</span><span class="kw">:</span><span class="at"> About</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The YAML format requires that elements of a list (like the list of left-aligned links under the <code>left</code> key) line up in terms of indentation, so make sure that the full <code>_quarto.yml</code> file now looks something like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>_quarto.yml</strong></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"simple_quarto_website"</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> about.ipynb</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> About</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we should be able to add another, third link to this list, allowing us to go directly to the slideshow we’re making in <code>slides/slides.ipynb</code>. To do this, add a new element to the <code>left</code> list by adding another “bullet point” (another <code>-</code> character), then set the <code>href</code> value to be exactly that path (<code>slides/slides.ipynb</code>) and the <code>text</code> value to be “My Slides” (or, any title you’d like). Your <code>_quarto.yml</code> file should now look something like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>_quarto.yml</strong></pre>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"simple_quarto_website"</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> about.ipynb</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> About</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> slides/slides.ipynb</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Slides</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and now when you <strong>preview your website</strong> by running the <code>quarto preview</code> command in the <strong>terminal</strong> (from within the root directory of your website, which should be named <code>simple_quarto_website</code>), you should see three links in the top navbar: one to “Home”, one to the “About” page, and a third to “Slides”.</p>
+<p>Now, when you actually <strong>click</strong> the “Slides” link, it may not show anything, or it may show a bunch of non-human-readable raw code (which is actually the <code>.json</code> structure underlying a <code>.ipynb</code> file). This, however, is a separate issue, that you’ll need to tackle: how to get Quarto to know that it should show the <strong>Reveal.js presentation</strong> as the <strong>rendered form</strong> of the <code>slides/slides.ipynb</code> file. And that is part of the challenge of the assignment. As a hint, though, you should break it down into steps, to check exactly <strong>where</strong> this rendering is going wrong (if the slideshow doesn’t render as intended when you click the new “Slides” link):</p>
+<ol type="1">
+<li>If you run the <code>quarto preview</code> command from <strong>within</strong> the <code>slides</code> folder (rather than the <strong>root</strong> folder of your website, <code>simple_quarto_website</code>), does it display correctly as a slideshow?</li>
+<li>Is the <strong>first cell</strong> in your <code>slides.ipynb</code> file in the correct format for containing file metadata? (File metadata can only be entered in “raw” or “markdown” cell types. If the first cell is, for example, a “Python” cell type, Quarto will be unable to read your metadata block, as it will think it’s Python code rather than YAML code).</li>
+<li>Does the <strong>file metadata</strong> actually <strong>exist in a block</strong> at the top of the first cell? As mentioned above, the top of the first cell in your <code>.ipynb</code> file (which should be a “raw” or “markdown” type cell) should look something like</li>
+</ol>
+<div class="sourceCode" id="cb17"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Slides"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span><span class="at"> revealjs</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you don’t see text that looks like this at the top of the first cell in your <code>slides.ipynb</code> file, please add it and try to preview the file again (both from the root folder of your website and, for debugging purposes, also from the <code>slides</code> subfolder, as mentioned in step #1 above)</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
