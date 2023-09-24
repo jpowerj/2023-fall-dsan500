@@ -1,0 +1,87 @@
+<svg width="960" height="384" viewBox="0.00 0.00 1266.28 299.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 295)">
+<title>
+G
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-295 1262.28,-295 1262.28,4 -4,4"></polygon> <g id="clust1" class="cluster">
+<title>
+cluster_clean
+</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-283 525.68,-283 525.68,-8 8,-8"></polygon> <text text-anchor="start" x="239.35" y="-253.4" font-family="Times,serif" font-size="24.00">Clean</text> </g> <g id="clust3" class="cluster">
+<title>
+cluster_tidy
+</title>
+<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust2" class="cluster">
+<title>
+cluster_import
+</title>
+<polygon fill="none" stroke="black" stroke-width="0" points="36,-36 36,-211 290.56,-211 290.56,-36 36,-36"></polygon> <text text-anchor="middle" x="163.28" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust4" class="cluster">
+<title>
+cluster_understand
+</title>
+<polygon fill="none" stroke="black" points="533.68,-8 533.68,-283 1057.94,-283 1057.94,-8 533.68,-8"></polygon> <text text-anchor="start" x="740.49" y="-253.4" font-family="Times,serif" font-size="24.00">Understand</text> </g> <g id="clust5" class="cluster">
+<title>
+cluster_expl
+</title>
+<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust6" class="cluster">
+<title>
+cluster_conf
+</title>
+<polygon fill="none" stroke="black" points="770.11,-18 770.11,-229 1047.94,-229 1047.94,-18 770.11,-18"></polygon> <text text-anchor="middle" x="909.03" y="-212.4" font-family="Times,serif" font-size="14.00">Confirmatory</text> </g> <!-- Import --> <g id="node1" class="node">
+<title>
+Import
+</title>
+<ellipse fill="none" stroke="black" cx="163.28" cy="-158" rx="55.31" ry="28.07"></ellipse> <text text-anchor="start" x="136.06" y="-152" font-family="Times,serif" font-size="20.00">Import</text> </g> <!-- Tidy --> <g id="node3" class="node">
+<title>
+Tidy
+</title>
+<ellipse fill="none" stroke="black" cx="412.12" cy="-158" rx="43.27" ry="28.07"></ellipse> <text text-anchor="start" x="393.73" y="-152" font-family="Times,serif" font-size="20.00">Tidy</text> </g> <!-- Import&#45;&gt;Tidy --> <g id="edge1" class="edge">
+<title>
+Import-&gt;Tidy
+</title>
+<path fill="none" stroke="black" d="M218.45,-158C260.18,-158 317.54,-158 358.8,-158"></path> <polygon fill="black" stroke="black" points="358.93,-161.5 368.93,-158 358.93,-154.5 358.93,-161.5"></polygon> </g> <!-- importLibs --> <g id="node2" class="node">
+<title>
+importLibs
+</title>
+<ellipse fill="none" stroke="black" stroke-width="0" cx="163.28" cy="-74" rx="127.06" ry="38.37"></ellipse> <text text-anchor="start" x="112.91" y="-81.4" font-family="Times,serif" font-size="14.00">R: </text> <text text-anchor="start" x="129.64" y="-81.4" font-family="Courier New" font-size="14.00">read_csv()</text> <text text-anchor="start" x="85.14" y="-59.4" font-family="Times,serif" font-size="14.00">Python: </text> <text text-anchor="start" x="132.2" y="-59.4" font-family="Courier New" font-size="14.00">pd.read_csv()</text> </g> <!-- V --> <g id="node5" class="node">
+<title>
+V
+</title>
+<ellipse fill="none" stroke="black" cx="652.9" cy="-158" rx="70.01" ry="28.07"></ellipse> <text text-anchor="start" x="615.63" y="-152" font-family="Times,serif" font-size="20.00">Visualize</text> </g> <!-- Tidy&#45;&gt;V --> <g id="edge2" class="edge">
+<title>
+Tidy-&gt;V
+</title>
+<path fill="none" stroke="black" d="M455.26,-158C487.58,-158 533.14,-158 572.27,-158"></path> <polygon fill="black" stroke="black" points="572.59,-161.5 582.59,-158 572.59,-154.5 572.59,-161.5"></polygon> </g> <!-- tidyLibraries --> <g id="node4" class="node">
+<title>
+tidyLibraries
+</title>
+<ellipse fill="none" stroke="black" stroke-width="0" cx="412.12" cy="-74" rx="85.62" ry="38.37"></ellipse> <text text-anchor="start" x="366.45" y="-81.4" font-family="Times,serif" font-size="14.00">R: </text> <text text-anchor="start" x="383.18" y="-81.4" font-family="Courier New" font-size="14.00">tidyverse</text> <text text-anchor="start" x="363.88" y="-59.4" font-family="Times,serif" font-size="14.00">Python: </text> <text text-anchor="start" x="410.95" y="-59.4" font-family="Courier New" font-size="14.00">Pandas</text> </g> <!-- Model --> <g id="node7" class="node">
+<title>
+Model
+</title>
+<ellipse fill="none" stroke="black" cx="909.03" cy="-158" rx="53.98" ry="28.07"></ellipse> <text text-anchor="start" x="882.92" y="-152" font-family="Times,serif" font-size="20.00">Model</text> </g> <!-- V&#45;&gt;Model --> <g id="edge3" class="edge">
+<title>
+V-&gt;Model
+</title>
+<path fill="none" stroke="black" d="M721.33,-164.04C759.91,-165.03 807.96,-164.98 845.66,-163.9"></path> <polygon fill="black" stroke="black" points="846.12,-167.39 856,-163.57 845.89,-160.39 846.12,-167.39"></polygon> </g> <!-- vizLibraries --> <g id="node6" class="node">
+<title>
+vizLibraries
+</title>
+<ellipse fill="none" stroke="black" stroke-width="0" cx="652.9" cy="-74" rx="91.43" ry="38.37"></ellipse> <text text-anchor="start" x="615.63" y="-81.4" font-family="Times,serif" font-size="14.00">R: </text> <text text-anchor="start" x="632.35" y="-81.4" font-family="Courier New" font-size="14.00">ggplot2</text> <text text-anchor="start" x="600.46" y="-59.4" font-family="Times,serif" font-size="14.00">Python: </text> <text text-anchor="start" x="647.52" y="-59.4" font-family="Courier New" font-size="14.00">seaborn</text> </g> <!-- Model&#45;&gt;V --> <g id="edge4" class="edge">
+<title>
+Model-&gt;V
+</title>
+<path fill="none" stroke="black" d="M856,-152.43C820.13,-151.14 771.81,-150.91 731.42,-151.73"></path> <polygon fill="black" stroke="black" points="731.25,-148.23 721.33,-151.96 731.41,-155.23 731.25,-148.23"></polygon> </g> <!-- Communicate --> <g id="node9" class="node">
+<title>
+Communicate
+</title>
+<ellipse fill="none" stroke="black" cx="1162.11" cy="-158" rx="96.33" ry="28.07"></ellipse> <text text-anchor="start" x="1106.01" y="-152" font-family="Times,serif" font-size="20.00">Communicate</text> </g> <!-- Model&#45;&gt;Communicate --> <g id="edge5" class="edge">
+<title>
+Model-&gt;Communicate
+</title>
+<path fill="none" stroke="black" d="M962.97,-158C989.91,-158 1023.64,-158 1055.6,-158"></path> <polygon fill="black" stroke="black" points="1055.9,-161.5 1065.9,-158 1055.9,-154.5 1055.9,-161.5"></polygon> </g> <!-- confLibraries --> <g id="node8" class="node">
+<title>
+confLibraries
+</title>
+<ellipse fill="none" stroke="black" stroke-width="0" cx="909.03" cy="-74" rx="120.83" ry="38.37"></ellipse> <text text-anchor="start" x="880.16" y="-81.4" font-family="Times,serif" font-size="14.00">R: </text> <text text-anchor="start" x="896.89" y="-81.4" font-family="Courier New" font-size="14.00">e1071</text> <text text-anchor="start" x="835.59" y="-59.4" font-family="Times,serif" font-size="14.00">Python: </text> <text text-anchor="start" x="882.65" y="-59.4" font-family="Courier New" font-size="14.00">scikit-learn</text> </g> </g>
+</svg>

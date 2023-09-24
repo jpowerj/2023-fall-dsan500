@@ -10,8 +10,8 @@ categories:
 bibliography: "../_DSAN5000.bib"
 format:
   revealjs:
-    cache: true
-    footer: "DSAN 5000 Week 6: Exploratory Data Analysis"
+    cache: false
+    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 6: Exploratory Data Analysis"
   html:
     output-file: index.html
     html-math-method: mathjax
@@ -28,7 +28,7 @@ metadata-files:
 
 :::
 
-# Schedule {.smaller .small-title .crunch-title .crunch-callout data-stack-name="Schedule"}
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
 
 ::: {.hidden}
 
@@ -37,53 +37,535 @@ metadata-files:
 source("../_globals.r")
 ```
 
+```{python}
+#| label: python-globals
+from IPython.display import Markdown
+def disp(df):
+  return Markdown(df.to_markdown())
+```
+
 :::
 
 Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
-| | Start | End | Topic | Recording |
-|:- |:- |:- |:- |:-:|
-| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p10'>12:40pm</a> | <a href="#week-04-recap">Week 04 Recap &rarr;</a> | <a id="rec-link-w05-1" href="../recordings/recording-w05-1.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p10'>12:40pm</span> | <span class='sec-p30'>1:00pm</a> | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201963" target="_blank">Quiz 2.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a> | |
-| | <span class='sec-p30'>1:00pm</span> | <span class='sec-p40'>1:10pm</span> | <a href="#apis-part-2">More on APIs &rarr;</a> | <a id="rec-link-w05-2" href="../recordings/recording-w05-2.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p40'>1:10pm</span> | <span class='sec-p70'>1:40pm</span> | <a href="#cleaning-tabular-data">Cleaning Tabular Data &rarr;</a> | <a id="rec-link-w05-3" href="../recordings/recording-w05-3.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p70'>1:40pm</span> | <span class='sec-p90'>2:00pm</span> | <a href="#cleaning-text-data">Cleaning Text Data &rarr;</a> | <a id="rec-link-w05-4" href="../recordings/recording-w04-4.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
-| **Break!** | <span class='sec-p90'>2:00pm</span> | <span class='sec-p100'>2:10pm</span> | | |
-| **Lab** | <span class='sec-p100'>2:10pm</span> | <span class='sec-p140'>2:50pm</span> | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a id="rec-link-w05-5" href="../recordings/recording-w05-5.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
-| | <span class='sec-p140'>2:50pm</span> | <span class='sec-end'>3:00pm</span> | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a id="rec-link-w05-6" href="../recordings/recording-w05-6.html" target="_blank" class="rec-link-w05"><i class="bi bi-film"></i></a> |
+{{< include ../_components/sched-w06.qmd >}}
 
-: {tbl-colwidths="[14,12,12,50,12]"}
+# Week 05 Recap {data-stack-name="Recap"}
+
+* NLP
+* Tidyverse
+* Merging, Reshaping Data
+
+## NLP Recap {.smaller .small-title .crunch-title .crunch-figures}
+
+{{< include ../_components/doc-term-matrix.qmd >}}
+
+## Your NLP Toolbox {.smaller .crunch-title}
+
+* Processes like **lowercasing** and **stemming** allowed the computer to recognize that `text` and `texts` should be counted together in this context, since they refer to the same semantic concept.
+* As we learn NLP, we'll develop a "toolbox" of ideas, algorithms, and tasks allowing us to **quantify, clean, and analyzing text data**, where each tool will help us at some level/stage of this analysis:
+  * Gathering texts
+  * Preprocessing
+  * Learning (e.g., estimating parameters for a model) about the texts
+  * Applying what we learned to **downstream tasks** we'd like to solve
+
+## The Items In Our Toolbox {.smaller .crunch-title .crunch-ul .crunch-ul-left}
+
+::: {layout="[20,54,26]" layout-valign="top"}
+
+::: {#gathering-text}
+
+<div style="border: 1px solid black !important; padding: 8px !important;">
+<center>
+**Corpus Construction**
+</center>
+
+&bull; **Corpus**: The collection of documents you're hoping to analyze
+
+&bull; Books, articles, posts, emails, tweets, etc.
+</div>
+
+:::
+::: {#nlp}
+
+<center>
+**Corpus/Document Level NLP**
+</center>
+
+&bull; **Vocabulary**: The collection of **unique tokens** across **all documents** in your corpus
+
+&bull; **Segmentation**: Breaking a document into parts (paragraphs and/or sentences)
+
+<center>
+&darr;<br>**Sentence/Word Level NLP**
+</center>
+
+&bull; **Tokenization**: Break sentence into **tokens**
+
+&bull; **Stopword Removal**: Removing non-**semantic** (syntactic) tokens like "the", "and"
+
+&bull; **Stemming**: Naïvely (but quickly) "chopping off" ends of tokens (e.g., plural &rarr; singular)
+
+&bull; **Lemmatization**: Algorithmically map tokens to linguistic roots (slower than stemming)
+
+
+
+:::
+::: {#downstream}
+
+<div style="border: 1px solid black !important; padding: 8px !important; margin-bottom: 3px;" class="crunch-p">
+<center>
+**Vectorization**
+</center>
+
+Transform textual representation into numeric representation, like the **DTM**
+</div>
+
+<center>
+&darr;
+</center>
+
+<div class="crunch-p" style="border: 1px solid black !important; padding: 8px !important; margin-top: 3px !important;">
+<center>
+**Downstream Tasks**
+</center>
+
+&bull; **Text classification**
+
+&bull; **Named entity recognition**
+
+&bull; **Sentiment analysis**
+
+</div>
+
+:::
+
+:::
+
+## Tidyverse {.smaller}
+
+* Think of data science tasks as involving **pipelines**:
+
+```{dot}
+//| fig-height: 1.5
+//| echo: false
+digraph G {
+  rankdir=LR;
+  node[label="Raw Data"] raw;
+  subgraph cluster_00 {
+    label="Data-Processing Pipeline 1"
+    node[label="Transformation A\n(select(), filter())"] tr1;
+    node[label="Transformation B\n(mutate(), summarize())"] tr2;
+    tr1 -> tr2;
+  }
+  raw -> tr1;
+  node [label="Visualization"] viz;
+  tr2 -> viz;
+}
+```
+
+```{dot}
+//| fig-height: 1.5
+//| echo: false
+digraph G {
+  rankdir=LR;
+  node[label="Raw Data"] raw;
+  subgraph cluster_00 {
+    label="Data-Processing Pipeline 2"
+    node[label="Transformation C\n(select(), filter())"] tr1;
+    node[label="Transformation D\n(mutate(), summarize())"] tr2;
+    tr1 -> tr2;
+  }
+  raw -> tr1;
+  node [label="      Result     "] viz;
+  tr2 -> viz;
+}
+```
+
+* Tidyverse lets you **pipe output** from one transformation as the **input** to another:
+
+```r
+raw_data |> select() |> mutate() |> visualize()
+raw_data |> filter() |> summarize() |> check_result()
+```
+
+## *Select*ing Columns {.smaller}
+
+`select()` lets you keep only the **columns** you care about in your current analysis:
+
+::: {layout-ncol=2}
+
+```{r}
+#| label: tidyverse-select-load-data
+library(tidyverse)
+table1
+```
+
+```{r}
+#| label: tidyverse-select
+#| code-fold: show
+table1 |> select(country, year, population)
+```
+
+:::
+
+## *Filter*ing Rows {.smaller}
+
+`filter()` lets you keep only the **rows** you care about in your current analysis:
+
+::: {layout-ncol=2}
+
+```{r}
+#| label: tidyverse-filter-year
+#| code-fold: show
+table1 |> filter(year == 2000)
+```
+
+```{r}
+#| label: tidyverse-filter-country
+#| code-fold: show
+table1 |> filter(country == "Afghanistan")
+```
+
+:::
+
+## Merging Data {.smaller .crunch-title}
+
+* The task: Analyze relationship between population and GDP (in 2000)
+* The data: One dataset on population in 2000, another on GDP in 2000
+* Let's get the data **ready for merging** using R
+
+::: columns
+::: {.column width="40%"}
+
+```{r}
+#| label: tidyverse-filter-select
+#| code-fold: show
+df <- table1 |>
+  select(country, year, population) |>
+  filter(year == 2000)
+df |> write_csv("assets/pop_2000.csv")
+df
+```
+
+:::
+
+::: {.column width="60%"}
+
+```{r}
+#| label: load-gdp-data
+#| code-fold: show
+gdp_df <- read_csv("https://gist.githubusercontent.com/jpowerj/c83e87f61c166dea8ba7e4453f08a404/raw/29b03e6320bc3ffc9f528c2ac497a21f2d801c00/gdp_2000_2010.csv")
+gdp_df |> head(5)
+```
+
+:::
+
+:::
+
+## Selecting/Filtering in Action {.smaller}
+
+```{r}
+#| label: clean-gdp-data
+#| code-fold: show
+gdp_2000_df <- gdp_df |>
+  select(`Country Name`,Year,Value) |>
+  filter(Year == "2000") |>
+  rename(country=`Country Name`, year=`Year`, gdp=`Value`)
+gdp_2000_df |> write_csv("assets/gdp_2000.csv")
+gdp_2000_df |> head()
+```
+
+## Recommended Language: Python {.smaller .crunch-title .crunch-ul}
+
+Pandas provides an easy-to-use `df.merge(other_df)`!
+
+::: columns
+::: {.column width="50%"}
+
+```{python}
+#| label: py-load-pop-data
+#| echo: false
+#| output: false
+import pandas as pd
+from IPython.display import Markdown
+pop_df = pd.read_csv("assets/pop_2000.csv")
+```
+
+```{python}
+#| label: py-load-gdp-data
+#| echo: false
+gdp_df = pd.read_csv("assets/gdp_2000.csv")
+```
+
+<center>
+**Left Join**
+</center>
+
+```{python}
+#| label: py-merge
+#| code-fold: show
+merged_df = pop_df.merge(gdp_df,
+  on='country', how='left', indicator=True
+)
+Markdown(merged_df.to_markdown())
+```
+
+:::
+::: {.column width="50%"}
+
+<center>
+**Inner join** (&asymp; Intersection ($\cap$))
+</center>
+
+```{python}
+#| label: py-merge-right
+#| code-fold: show
+merged_df = pop_df.merge(gdp_df,
+  on='country', how='inner', indicator=True
+)
+Markdown(merged_df.to_markdown())
+```
+
+:::
+:::
+
+## Reshaping Data {.smaller}
+
+Sometimes you can't merge because one of the datasets looks like the table on the left, but we want it to look like the table on the right
+
+::: columns
+::: {.column width="55%"}
+
+In data-cleaning jargon, this dataset is **long** (more than one row per observation)
+
+```{r}
+#| label: r-long-data
+table2 |> write_csv("assets/long_data.csv")
+table2 |> head()
+```
+
+:::
+::: {.column width="45%"}
+
+In data-cleaning jargon, this dataset is **wide** (one row per obs; usually **tidy**)
+
+```{r}
+#| label: r-wide-data
+table1 |> write_csv("assets/wide_data.csv")
+table1 |> head()
+```
+
+:::
+:::
+
+## Reshaping Long-to-Wide in Python: `pd.pivot()` {.smaller}
+
+::: columns
+::: {.column width="45%"}
+
+```{python}
+#| label: py-load-long-data
+#| echo: false
+#| output: false
+long_df = pd.read_csv("assets/long_data.csv")
+```
+
+Create unique ID for **wide** version:
+
+```{python}
+#| label: py-create-wide-id
+#| code-fold: show
+long_df['id'] = long_df['country'] + '_' + long_df['year'].apply(str)
+# Reorder the columns, so it shows the id first
+long_df = long_df[['id','country','year','type','count']]
+disp(long_df.head(6))
+```
+
+:::
+::: {.column width="55%"}
+
+```{python}
+#| label: py-long-to-wide
+#| code-fold: show
+reshaped_df = pd.pivot(long_df,
+  index='id',
+  columns='type',
+  values='count'
+)
+disp(reshaped_df)
+```
+
+:::
+:::
+
+## The Other Direction (Wide-to-Long): `pd.melt()` {.smaller}
+
+::: columns
+::: {.column width="40%"}
+
+```{python}
+#| label: py-read-wide
+#| code-fold: show
+wide_df = pd.read_csv("assets/wide_data.csv")
+disp(wide_df)
+```
+
+:::
+::: {.column width="60%"}
+
+```{python}
+#| label: py-wide-to-long
+#| code-fold: show
+long_df = pd.melt(wide_df,
+  id_vars=['country','year'],
+  value_vars=['cases','population']
+)
+disp(long_df.head(6))
+```
+
+:::
+:::
+
+## Wide-to-Long in R: `gather()` {.smaller}
+
+::: columns
+::: {.column width="40%"}
+
+```{r}
+#| label: r-display-wide-for-reshape
+#| code-fold: show
+table1
+```
+
+:::
+::: {.column width="60%"}
+
+```{r}
+#| label: r-reshape
+#| code-fold: show
+long_df <- gather(table1,
+  key = "variable",
+  value = cases,
+  -c(country, year)
+)
+long_df |> head()
+```
+
+:::
+:::
+
+# Quiz Time!
+
+* [Quiz 3.1 Link <i class='bi bi-box-arrow-up-right ps-1'></i>](https://georgetown.instructure.com/courses/173310/quizzes/201583){target="_blank"}
+
+# Introduction to EDA {data-stack-name="EDA"}
 
 ## Exploratory Data Analysis (EDA)
 
 * In contrast to **confirmatory** data analysis
 
 ```{dot}
+//| echo: false
+//| fig-height: 4
 digraph G {
   rankdir=LR;
   nodedir=LR;
-  nodesep=0.5;
+  //nodesep=0.5;
   ranksep=0.5;
-  overlap=false;
-  forcelabels=true;
-  Import -> Tidy;
+  //overlap=false;
+  //forcelabels=true;
+
+  subgraph cluster_clean {
+    margin=28
+    label=<
+      <table border="0">
+        <tr><td><font point-size="24">Clean</font></td></tr>
+      </table>
+    >
+
+    subgraph cluster_import {
+      label="&nbsp;"
+      penwidth=0
+      margin=0
+      node[label=<
+        <table border="0">
+          <tr><td><font point-size="20">Import</font></td></tr>
+        </table>
+      >] Import;
+      node[label=<
+        <table border="0">
+          <tr><td>R: <font face="Courier New">read_csv()</font></td></tr>
+          <tr><td>Python: <font face="Courier New">pd.read_csv()</font></td></tr>
+        </table>
+      >,penwidth=0] importLibs;
+    }
+
+    subgraph cluster_tidy {
+      label="&nbsp;"
+      penwidth=0
+      margin=0
+      node[label=<
+        <table border="0">
+          <tr><td><font point-size="20">Tidy</font></td></tr>
+        </table>
+      >] Tidy;
+      tidyLibraries[label=<
+        <table border="0">
+          <tr><td>R: <font face="Courier New">tidyverse</font></td></tr>
+          <tr><td>Python: <font face="Courier New">Pandas</font></td></tr>
+        </table>
+      >,penwidth=0]
+    }
+
+    Import -> Tidy
+  }
+  
 	
-  subgraph cluster_2 {
-    label = "Understand";
-    subgraph cluster_0 {
+  subgraph cluster_understand {
+    label = <
+      <table border="0">
+        <tr><td><font point-size="24">Understand</font></td></tr>
+      </table>
+    >
+    margin=10
+    subgraph cluster_expl {
       label = "Exploratory";
       margin = 18;
       labeljust="center";
-      V[label="Visualize"];
-      gg[label="ggplot",fontname="Courier New",penwidth=0]
+      V[label=<
+        <table border="0">
+          <tr><td><font point-size="20">Visualize</font></td></tr>
+        </table>
+      >]
+      vizLibraries[label=<
+        <table border="0">
+          <tr><td>R: <font face="Courier New">ggplot2</font></td></tr>
+          <tr><td>Python: <font face="Courier New">seaborn</font></td></tr>
+        </table>
+      >,penwidth=0]
     }
-    subgraph cluster_1 {
-      Model;
+    subgraph cluster_conf {
+      node [label=<
+        <table border="0">
+          <tr><td><font point-size="20">Model</font></td></tr>
+        </table>
+      >] Model;
       label = "Confirmatory";
       margin = 18;
-      e10[label="e1071",penwidth=0,fontname="Courier New"]
+      confLibraries[label=<
+        <table border="0">
+          <tr><td>R: <font face="Courier New">e1071</font></td></tr>
+          <tr><td>Python: <font face="Courier New">scikit-learn</font></td></tr>
+        </table>
+      >,penwidth=0]
     }
   }
+  node [label=<
+    <table border="0">
+      <tr><td><font point-size="20">Communicate</font></td></tr>
+    </table>
+  >] Communicate;
   
   Tidy -> V;
   V -> Model;
@@ -91,4 +573,223 @@ digraph G {
   Model -> Communicate;
 }
 ```
+
+## Normalization {.smaller}
+
+::: columns
+::: {.column width="42%"}
+
+<center>
+**Unnormalized World**
+</center>
+
+```{r}
+#| label: r-gen-test-scores
+#| code-fold: true
+num_students <- 30
+student_ids <- seq(from = 1, to = num_students)
+# Test 1
+t1_min_pts <- 0
+t1_max_pts <- 268.3
+t1_score_vals <- round(runif(num_students, t1_min_pts, t1_max_pts), 2)
+t1_mean <- mean(t1_score_vals)
+t1_sd <- sd(t1_score_vals)
+get_t1_pctile <- function(s) round(100 * ecdf(t1_score_vals)(s), 1)
+# Test 2
+t2_min_pts <- -1
+t2_max_pts <- 1.2
+t2_score_vals <- round(runif(num_students, t2_min_pts, t2_max_pts), 2)
+t2_mean <- mean(t2_score_vals)
+t2_sd <- sd(t2_score_vals)
+get_t2_pctile <- function(s) round(100 * ecdf(t2_score_vals)(s), 2)
+score_df <- tibble(
+  id=student_ids,
+  t1_score=t1_score_vals,
+  t2_score=t2_score_vals
+)
+score_df <- score_df |> arrange(desc(t1_score))
+```
+
+*"I got a 254.47 on the first test!"* 🤩
+
+*"But only a 0.79 on the second"* 😭
+
+```{r}
+#| label: r-test-scores-unnormalized
+#| echo: false
+score_df |> head()
+```
+
+:::
+::: {.column width="58%"}
+
+<center>
+**Normalized World**
+</center>
+
+```{r}
+#| label: r-normalize-test-scores
+score_df <- score_df |>
+  mutate(
+    t1_z_score = round((t1_score - t1_mean) / t1_sd, 2),
+    t2_z_score = round((t2_score - t2_mean) / t2_sd, 2),
+    t1_pctile = get_t1_pctile(t1_score),
+    t2_pctile = get_t2_pctile(t2_score)
+  ) |>
+  relocate(t1_pctile, .after = t1_score) |>
+  relocate(t2_pctile, .after = t2_score)
+```
+
+*"I scored higher than 96.7% of students on the first test!* 🤩
+
+*"And higher than 90% on the second!"* 😎
+
+```{r}
+#| label: r-normalized-scores
+#| echo: false
+score_df |> head()
+```
+
+:::
+:::
+
+## Scaling {.smaller .crunch-title .crunch-figures .crunch-images .crunch-code .crunch-p}
+
+The percentile places everyone at **evenly-spaced intervals** from 0 to 100:
+
+```{r}
+#| label: pctile-numberline
+#| fig-height: 2.5
+# https://community.rstudio.com/t/number-line-in-ggplot/162894/4
+# Add a binary indicator to track "me" (student #8)
+score_df <- score_df |>
+  mutate(is_me = as.numeric(id == 8))
+library(ggplot2)
+t1_line_data <- tibble(
+  x = score_df$t1_pctile,
+  y = 0,
+  me = score_df$is_me
+)
+ggplot(t1_line_data, aes(x,y,col=factor(me))) +
+  geom_point(aes(size=g_pointsize)) +
+  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +
+  scale_color_discrete(c(0,1)) +
+  dsan_theme("half") +
+  theme(
+    legend.position="none", 
+    #rect = element_blank(),
+    #panel.grid = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.line.y = element_blank(),
+    axis.ticks.y=element_blank(),
+    panel.spacing = unit(0, "mm"),
+    plot.margin = margin(-35, 0, 0, 0, "pt"),
+  ) +
+  labs(
+    x = "Test 1 Percentile"
+  ) +
+  coord_fixed(ratio = 100)
+```
+
+But what if we want to see their **absolute** performance, on a 0 to 100 scale?
+
+```{r}
+#| label: scaled-score-numberline
+#| fig-height: 2.5
+library(scales)
+score_df <- score_df |>
+  mutate(
+    t1_rescaled = rescale(
+      t1_score,
+      from = c(t1_min_pts, t1_max_pts),
+      to = c(0, 100)
+    ),
+    t2_rescaled = rescale(
+      t2_score,
+      from = c(t2_min_pts, t2_max_pts),
+      to = c(0, 100)
+    )
+  )
+t1_rescaled_line_data <- tibble(
+  x = score_df$t1_rescaled,
+  y = 0,
+  me = score_df$is_me
+)
+ggplot(t1_rescaled_line_data, aes(x,y,col=factor(me))) +
+  geom_point(aes(size=g_pointsize)) +
+  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +
+  dsan_theme("half") +
+  theme(
+    legend.position="none", 
+    #rect = element_blank(),
+    #panel.grid = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.line.y = element_blank(),
+    axis.ticks.y=element_blank(),
+    panel.spacing = unit(0, "mm"),
+    plot.margin = margin(-40, 0, 0, 0, "pt"),
+  ) +
+  labs(
+    x = "Test 1 Score (Rescaled to 0-100)"
+  ) +
+  coord_fixed(ratio = 100)
+```
+
+## Shifting / Recentering  {.crunch-title .crunch-math}
+
+* Percentiles tell us how the students did **in terms of relative rankings**
+* Rescaling lets us reinterpret the **boundary points**
+* What about with respect to some **absolute baseline**? For example, how well they did **relative to the mean $\mu$**?
+
+$$
+x'_i = x_i - \mu
+$$
+
+* But we're still "stuck" in units of the test: is $x'_i = 0.3$ (0.3 points above the mean) "good"? What about $x'_j = -2568$ (2568 points below the mean)? How "bad" is this case?
+
+## Shifting and Scaling: The $z$-Score {.crunch-title .crunch-math .crunch-code .crunch-ul .crunch-images .nostretch}
+
+* Enter the $z$-score!
+
+$$
+z_i = \frac{x_i - \mu}{\sigma}
+$$
+
+* Unit of original $x_i$ values: ?
+* Unit of $z$-score: **standard deviations from the mean**!
+
+```{r}
+#| label: z-score-numberline
+#| fig-height: 2.5
+#| fig-width: 10
+t1_z_score_line_data <- tibble(
+  x = score_df$t1_z_score,
+  y = 0,
+  me = score_df$is_me
+)
+ggplot(t1_z_score_line_data, aes(x,y,col=factor(me))) +
+  geom_point(aes(size=g_pointsize)) +
+  scale_x_continuous(breaks=c(-2,-1,0,1,2)) +
+  dsan_theme("half") +
+  theme(
+    legend.position="none", 
+    #rect = element_blank(),
+    #panel.grid = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.line.y = element_blank(),
+    axis.ticks.y=element_blank(),
+    plot.margin = margin(-20,0,0,0,"pt")
+  ) +
+  expand_limits(x=c(-2,2)) +
+  labs(
+    x = "Test 1 Z-Score"
+  ) +
+  coord_fixed(ratio = 3)
+```
+
+# Lab 5 {data-stack-name="Lab 5"}
+
 

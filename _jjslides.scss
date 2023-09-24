@@ -34,9 +34,14 @@ figcaption {
 .cb4 {
   color: #F0E442 !important;
 }
+
 .crunch-callout .callout {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
+}
+.crunch-code details {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 .crunch-figcaption figcaption {
   margin-top: 2px !important;
@@ -79,6 +84,11 @@ figcaption {
   margin-top: 2px !important;
   margin-bottom: 2px !important;
 }
+
+.crunch-p p {
+  margin-top: 3px !important;
+  margin-bottom: 3px !important;
+}
 .crunch-title h1 {
   margin-bottom: 1px !important;
 }
@@ -87,6 +97,10 @@ figcaption {
 }
 .crunch-ul ul {
   margin-bottom: 0px !important;
+}
+
+.fix-scroll .sourceCode {
+  overflow-x: scroll !important;
 }
 
 .no-decoration {

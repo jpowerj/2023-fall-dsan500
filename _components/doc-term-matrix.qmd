@@ -1,0 +1,52 @@
+::: {layout="[[45],[45,10,45]]" layout-valign="center"}
+
+::: {#fig-corpus}
+::: {layout-ncol=3 layout-valign="center"}
+
+![](/_components/images/text_as_data.jpeg){fig-align="center"}
+
+![](/_components/images/finnegans_wake_morecrop.jpeg){fig-align="center" width="390"}
+
+![](/_components/images/tidytext.jpeg){fig-align="center"}
+
+:::
+
+Excerpts from two data science textbooks, plus another book
+:::
+
+::: {#fig-dtm}
+
+<i class="bi bi-arrow-down" style="padding-top: 10px !important;"></i>
+
+
+| doc_id | `text` | `texts` | `Kékkek` | `voice` |
+| - | - | - | - | - | - |
+| 0 | 0 | 6 | 0 | 1 |
+| 1 | 0 | 0 | 3 | 1 |
+| 2 | 6 | 0 | 0 | 0 |
+
+The **Document-Term Matrix** (**DTM**)
+:::
+
+::: {#cleaning-arrow}
+
+<center>
+<i class="bi bi-arrow-right ps-3"></i>
+</center>
+
+:::
+
+::: {#fig-cleaned-dtm}
+
+<i class="" style="padding-top: 10px !important;">&nbsp;</i>
+
+| doc_id | `text` | `kekkek` | `voice` |
+| - | - | - | - | - | - |
+| 0 | 6 | 0 | 1 |
+| 1 | 0 | 3 | 1 |
+| 2 | 6 | 0 | 0 |
+
+The **cleaned** DTM, after **lowercasing**, **lemmatization**, and **unicode standardization**
+:::
+
+:::

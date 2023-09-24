@@ -46,48 +46,60 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
   const sectionData = {
     '02': {
-      day: 'Tue',
-      dayFull: 'Tuesday',
-      time: '12:30pm-3pm',
-      room: 'ICC 219',
-      w01Date: 'Aug 23',
-      w02Date: 'Aug 29',
-      w03Date: 'Sep 6',
-      w04Date: 'Sep 12',
-      w05Date: 'Sep 19',
-      w05DateFull: 'Tuesday, September 19, 2023',
-      start: '12:30pm',
-      p10: '12:40pm',
-      p30: '1:00pm',
-      p40: '1:10pm',
-      p70: '1:40pm',
-      p90: '2:00pm',
-      p100: '2:10pm',
-      p140: '2:50pm',
-      end: '3:00pm',
-      recLinkW05: '../recordings/recording-w05s02-1.html'
+      '.sec-num': '02',
+      '.sec-day': 'Tue',
+      '.sec-day-full': 'Tuesday',
+      '.sec-time': '12:30pm-3pm',
+      '.sec-room': 'ICC 219',
+      '.sec-w01-date': 'Aug 23',
+      '.sec-w02-date': 'Aug 29',
+      '.sec-w03-date': 'Sep 6',
+      '.sec-w04-date': 'Sep 12',
+      '.sec-w05-date': 'Sep 19',
+      '.sec-w06-date': 'Sep 26',
+      '.sec-start': '12:30pm',
+      '.sec-p10': '12:40pm',
+      '.sec-p30': '1:00pm',
+      '.sec-p40': '1:10pm',
+      '.sec-p45': '1:15pm',
+      '.sec-p50': '1:20pm',
+      '.sec-p55': '1:25pm',
+      '.sec-p60': '1:30pm',
+      '.sec-p70': '1:40pm',
+      '.sec-p90': '2:00pm',
+      '.sec-p100': '2:10pm',
+      '.sec-p130': '2:40pm',
+      '.sec-p140': '2:50pm',
+      '.sec-end': '3:00pm',
+      '.rec-link-w05': '../recordings/recording-w05s02-1.html'
     },
     '03': {
-      day: 'Wed',
-      dayFull: 'Wednesday',
-      time: '3:30pm-6pm',
-      room: 'Car Barn 203',
-      w01Date: 'Aug 23',
-      w02Date: 'Aug 30',
-      w03Date: 'Sep 6',
-      w04Date: 'Sep 13',
-      w05Date: 'Sep 20',
-      w05DateFull: 'Wednesday, September 20, 2023',
-      start: '3:30pm',
-      p10: '3:40pm',
-      p30: '4:00pm',
-      p40: '4:10pm',
-      p70: '4:40pm',
-      p90: '5:00pm',
-      p100: '5:10pm',
-      p140: '5:50pm',
-      end: '6:00pm',
-      recLinkW05: '../recordings/recording-w05s03-1.html'
+      '.sec-num': '03',
+      '.sec-day': 'Wed',
+      '.sec-day-full': 'Wednesday',
+      '.sec-time': '3:30pm-6pm',
+      '.sec-room': 'Car Barn 203',
+      '.sec-w01-date': 'Aug 23',
+      '.sec-w02-date': 'Aug 30',
+      '.sec-w03-date': 'Sep 6',
+      '.sec-w04-date': 'Sep 13',
+      '.sec-w05-date': 'Sep 20',
+      '.sec-w06-date': 'Sep 27',
+      '.sec-start': '3:30pm',
+      '.sec-p10': '3:40pm',
+      '.sec-p30': '4:00pm',
+      '.sec-p40': '4:10pm',
+      '.sec-p45': '4:15pm',
+      '.sec-p50': '4:20pm',
+      '.sec-p55': '4:25pm',
+      '.sec-p60': '4:30pm',
+      '.sec-p70': '4:40pm',
+      '.sec-p90': '5:00pm',
+      '.sec-p100': '5:10pm',
+      '.sec-p130': '5:40pm',
+      '.sec-p140': '5:50pm',
+      '.sec-end': '6:00pm',
+      '.rec-link-w05': '../recordings/recording-w05s03-1.html'
     }
   }
 
@@ -97,38 +109,25 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // First, if we're on slides, change the toggle
     // icon accordingly
     updateToggleIcon(newStr);
-    $('.sec-num').text(newStr);
     let sData = sectionData[newStr];
-    $('.sec-day').text(sData.day);
-    $('.sec-day-full').text(sData.dayFull);
-    $('.sec-time').text(sData.time);
-    $('.sec-room').text(sData.room);
-    // Times
-    $('.sec-start').text(sData.start);
-    $('.sec-p10').text(sData.p10);
-    $('.sec-p30').text(sData.p30);
-    $('.sec-p40').text(sData.p40);
-    $('.sec-p70').text(sData.p70);
-    $('.sec-p90').text(sData.p90);
-    $('.sec-p100').text(sData.p100);
-    $('.sec-p140').text(sData.p140);
-    $('.sec-end').text(sData.end);
-    // The recording links
-    $('.rec-link-w05').attr('href',sData.recLinkW05);
-    // And the weekly dates
-    $('.sec-w01-date').text(sData.w01Date);
-    $('.sec-w02-date').text(sData.w02Date);
-    $('.sec-w03-date').text(sData.w03Date);
-    $('.sec-w04-date').text(sData.w04Date);
-    $('.sec-w05-date').text(sData.w05Date);
+    for (const [sKey, sVal] of Object.entries(sData)) {
+      if (sKey.startsWith(".rec-link")) {
+        $(sKey).attr('href', sVal);
+      } else {
+        $(sKey).text(sVal);
+      }
+      //console.log(`${key}: ${value}`);
+    }
     // A special one for the slides... Very janky
     const s02Replace = {
       'Wednesday, September 13, 2023': 'Tuesday, September 12, 2023',
-      'Wednesday, September 20, 2023': 'Tuesday, September 19, 2023'
+      'Wednesday, September 20, 2023': 'Tuesday, September 19, 2023',
+      'Wednesday, September 27, 2023': 'Tuesday, September 26, 2023',
     };
     const s03Replace = {
       'Tuesday, September 12, 2023': 'Wednesday, September 13, 2023',
-      'Tuesday, September 19, 2023': 'Wednesday, September 20, 2023'
+      'Tuesday, September 19, 2023': 'Wednesday, September 20, 2023',
+      'Tuesday, September 26, 2023': 'Wednesday, September 27, 2023',
     };
     let shownDate = $('p.date').text();
     //console.log(shownDate);
