@@ -1,0 +1,75 @@
+---
+title: "DSAN5000 W06 scratch"
+format: html
+editor: visual
+---
+
+```{r}
+source("../../_globals.r")
+```
+
+```{r}
+#| label: boxplot-outliers
+#| fig-height: 3
+library(ggplot2)
+library(tibble)
+library(dplyr)
+# Generate normal data
+dist_df <- tibble(score=rnorm(95), dist="N(0,1)")
+# Add outliers
+outlier_dist_sd <- 6
+outlier_df <- tibble(score=rnorm(5, 0, outlier_dist_sd), dist=paste0("N(0,",outlier_dist_sd,")"))
+data_df <- bind_rows(dist_df, outlier_df)
+# Compute iqr and outlier range
+q1 <- quantile(data_df$score, 0.25)
+q3 <- quantile(data_df$score, 0.75)
+iqr <- q3 - q1
+iqr_cutoff_lower <- q1 - 1.5 * iqr
+iqr_cutoff_higher <- q3 + 1.5 * iqr
+is_outlier <- function(x) (x < iqr_cutoff_lower) || (x > iqr_cutoff_higher)
+data_df['outlier'] <- sapply(data_df$score, is_outlier)
+data_df
+ggplot(data_df, aes(x=score, y=factor(0))) + 
+  geom_boxplot(outlier.color = NULL, linewidth = g_linewidth, outlier.size = g_pointsize / 1.5) +
+  geom_jitter(data=data_df, aes(col = dist, shape=outlier), size = g_pointsize / 1.5, height=0.15, alpha = 0.666) +
+  geom_vline(xintercept = iqr_cutoff_lower, linetype = "dashed") +
+  geom_vline(xintercept = iqr_cutoff_higher, linetype = "dashed") +
+  #coord_flip() +
+  dsan_theme("half") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank()
+  ) +
+  scale_x_continuous(breaks=seq(from=-3, to=3, by=1)) +
+  scale_shape_manual(values=c(16, 4))
+```
+
+```{r}
+mean_score <- mean(data_df$score)
+sd_score <- sd(data_df$score)
+lower_cutoff <- mean_score - 3 * sd_score
+upper_cutoff <- mean_score + 3 * sd_score
+```
+
+```{r}
+# Basic box plot
+ggplot(data_df, aes(x=score)) + 
+  geom_density(linewidth = g_linewidth) +
+  #geom_boxplot(outlier.color = NULL, linewidth = g_linewidth, outlier.size = g_pointsize / 1.5) +
+  #geom_jitter(data=data_df, aes(y = factor(0), col = dist), size = g_pointsize / 1.5, height=0.25) +
+  #coord_flip() +
+  dsan_theme("half") +
+  theme(
+    axis.title.y = element_blank(),
+    #axis.ticks.y = element_blank(),
+    #axis.text.y = element_blank()
+  ) +
+  #geom_boxplot() +
+  geom_vline(xintercept = mean_score, linetype = "dashed") +
+  geom_vline(xintercept = lower_cutoff, linetype = "dashed") +
+  geom_vline(xintercept = upper_cutoff, linetype = "dashed") +
+  geom_jitter(data=data_df, aes(x = score, y = 0, col = dist),
+              size = g_pointsize / 1.5, height=0.25, alpha=0.5)
+  #dsan_theme("half")
+```

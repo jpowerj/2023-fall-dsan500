@@ -1255,7 +1255,7 @@ To go beyond this, and explore how $L^p$ "quasi-norms" can be extremely useful, 
 
 :::
 
-# Missing Values
+# Missing Values {data-stack-name="DGPs"}
 
 ## The Value of Studying {.smaller .nostretch}
 
@@ -1279,7 +1279,9 @@ $$
 
 ![](images/pgm_hw_missing_at_random.svg){fig-align="center"}
 
-## My Dog Ate My Homework Because of Reasons {.smaller .nostretch}
+## My Dog Ate My Homework Because of Reasons {.smaller .small-title .nostretch}
+
+![](images/reasons_crop.jpeg){.absolute top="-15" right="10%"}
 
 There are scarier alternatives, though! What if...
 
@@ -1289,7 +1291,7 @@ There are scarier alternatives, though! What if...
 
 Dogs eat homework because their owner studied so much that the dog got ignored?
 
-![](images/pgm_hw_missing_study.svg){fig-align="center" width="100%"}
+![](images/pgm_hw_missing_study.svg){fig-align="center" width="280"}
 
 :::
 
@@ -1297,23 +1299,145 @@ Dogs eat homework because their owner studied so much that the dog got ignored?
 
 Dogs hate sloppy work, and eat bad homework that would have gotten a low score
 
-![](images/pgm_hw_missing_badhw.svg){fig-align="center"}
+![](images/pgm_hw_missing_badhw.svg){fig-align="center" width="280"}
 
 :::
 
 ::: {#dog-noisy}
 
-In noisy homes ($Z = 1$), dogs get agitated and eat homework more often, plus students students do work on homework
+Noisy homes ($Z = 1$) cause dogs to get agitated and eat homework more often, **and** students do worse
 
-![](images/pgm_hw_missing_noisy.svg){fig-align="center"}
+![](images/pgm_hw_missing_noisy.svg){fig-align="center" width="280"}
+
+:::
+
+:::
+
+# Outlier Detection
+
+## Tukey's Rule {.smaller .crunch-title .crunch-ul}
+
+* Given the **first quartile** (25th percentile) $Q_1$, and the **third quartile** (75th percentile) $Q_2$, define the **Inter-Quartile Range** as
+
+$$
+\iqr = Q_3 - Q_1
+$$
+
+* Then an **outlier** is a point more than $1.5 \cdot \iqr$ away from $Q_1$ or $Q_3$; outside of
+
+$$
+[Q_1 - 1.5 \cdot \iqr, \; Q_3 + 1.5 \cdot \iqr]
+$$
+
+* This is the outlier rule used for **box-and-whisker plots**:
+
+```{r}
+#| label: boxplot-outliers
+#| fig-height: 3
+library(ggplot2)
+library(tibble)
+library(dplyr)
+# Generate normal data
+dist_df <- tibble(Score=rnorm(95), Distribution="N(0,1)")
+# Add outliers
+outlier_dist_sd <- 6
+outlier_df <- tibble(Score=rnorm(5, 0, outlier_dist_sd), Distribution=paste0("N(0,",outlier_dist_sd,")"))
+data_df <- bind_rows(dist_df, outlier_df)
+# Compute iqr and outlier range
+q1 <- quantile(data_df$Score, 0.25)
+q3 <- quantile(data_df$Score, 0.75)
+iqr <- q3 - q1
+iqr_cutoff_lower <- q1 - 1.5 * iqr
+iqr_cutoff_higher <- q3 + 1.5 * iqr
+is_outlier <- function(x) (x < iqr_cutoff_lower) || (x > iqr_cutoff_higher)
+data_df['Outlier'] <- sapply(data_df$Score, is_outlier)
+#data_df
+ggplot(data_df, aes(x=Score, y=factor(0))) + 
+  geom_boxplot(outlier.color = NULL, linewidth = g_linewidth, outlier.size = g_pointsize / 1.5) +
+  geom_jitter(data=data_df, aes(col = Distribution, shape=Outlier), size = g_pointsize / 1.5, height=0.15, alpha = 0.8, stroke = 1.5) +
+  geom_vline(xintercept = iqr_cutoff_lower, linetype = "dashed") +
+  geom_vline(xintercept = iqr_cutoff_higher, linetype = "dashed") +
+  #coord_flip() +
+  dsan_theme("half") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank()
+  ) +
+  scale_x_continuous(breaks=seq(from=-3, to=3, by=1)) +
+  scale_shape_manual(values=c(16, 4))
+```
+
+## 3-Sigma Rule {.smaller}
+
+* Recall the [**68-95-99.7 Rule**](https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule){target="_blank"}
+* The **3-Sigma Rule** says simply: throw away anything more than **3 standard deviations** away from the mean (beyond range that should contain 99.7% of data)
+
+```{r}
+mean_score <- mean(data_df$Score)
+sd_score <- sd(data_df$Score)
+lower_cutoff <- mean_score - 3 * sd_score
+upper_cutoff <- mean_score + 3 * sd_score
+# For printing / displaying
+mean_score_str <- sprintf(mean_score, fmt='%.2f')
+sd_score_str <- sprintf(sd_score, fmt='%.2f')
+ggplot(data_df, aes(x=Score)) + 
+  geom_density(linewidth = g_linewidth) +
+  #geom_boxplot(outlier.color = NULL, linewidth = g_linewidth, outlier.size = g_pointsize / 1.5) +
+  #geom_jitter(data=data_df, aes(y = factor(0), col = dist), size = g_pointsize / 1.5, height=0.25) +
+  #coord_flip() +
+  dsan_theme("half") +
+  theme(
+    axis.title.y = element_blank(),
+    #axis.ticks.y = element_blank(),
+    #axis.text.y = element_blank()
+  ) +
+  #geom_boxplot() +
+  geom_vline(xintercept = mean_score, linetype = "dashed") +
+  geom_vline(xintercept = lower_cutoff, linetype = "dashed") +
+  geom_vline(xintercept = upper_cutoff, linetype = "dashed") +
+  geom_jitter(data=data_df, aes(x = Score, y = 0, col = Distribution, shape = Outlier),
+    size = g_pointsize / 1.5, height=0.025, alpha=0.8, stroke=1.5) +
+  scale_x_continuous(breaks=seq(from=-3, to=3, by=1)) +
+  scale_shape_manual(values=c(16, 4)) +
+  labs(
+    title = paste0("Six-Sigma Rule, mu = ",mean_score_str,", sd = ",sd_score_str),
+    y = "Density"
+  )
+```
+
+## Missing Data + Outliers: Most Important Takeaway!
+
+* Always have a working hypothesis about the **Data-Generating Process**!
+* Literally the solution to... 75% of all data-related headaches
+* What **variables** explain **why** this data point is missing?
+* What **variables** explain **why** this data point is an outlier?
+
+## Driving the Point Home {.nostretch}
+
+::: {layout-ncol=2}
+
+![Figure (and DGP analysis) from @dignazio_numbers_2020](images/kidnappings.jpg){fig-align="center"}
+
+::: {#kidnapping-dgp}
+
+Presumed DGP:
+
+![$K$ = Kidnappings, $C$ = Counts](images/dgp_kidnappings.svg){fig-align="center" width="300"}
+
+Actual DGP:
+
+![$K$ = Kidnappings, $R$ = **News reports** about kidnappings, $C$ = Counts](images/dgp_kidnappings_true.svg){fig-align="center" width="300"}
 
 :::
 
 :::
 
-## Intro to Outlier Detection
+# Lab 5 {.not-title-slide .small-title data-stack-name="Lab 5"}
 
-# Lab 5 {data-stack-name="Lab 5"}
+[Lab 5 Demo: Seaborn Link <i class='bi bi-box-arrow-up-right ps-1'></i>](https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/seaborn-introduction/notes.html){target="_blank"}
+
+[Lab 5 Assignment: EDA with Seaborn <i class='bi bi-box-arrow-up-right ps-1'></i>](https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-3.1-EDA/lab-3.1.html){target="_blank"}
 
 ## References
 

@@ -494,6 +494,7 @@ Jeff Jacobs
 \newcommand{\given}{\mid}
 \newcommand{\green}[1]{\color{green}{#1}}
 \newcommand{\heads}{\outcome{heads}}
+\newcommand{\iqr}{\text{IQR}}
 \newcommand{\kl}{\text{KL}}
 \newcommand{\lik}{\mathcal{L}}
 \newcommand{\mle}{\textsf{ML}}
@@ -3147,7 +3148,7 @@ y &amp; \green{1} &amp; \green{1} &amp; \red{1} &amp; \red{0} &amp; 1 \\
 <p>To go beyond this, and explore how <span class="math inline">\(L^p\)</span> “quasi-norms” can be extremely useful, take DSAN 6100: Optimization!<br>One place they can be useful? You guessed it: <strong>facial recognition algorithms</strong> <span class="citation" data-cites="guo_enhancing_2013">(<a href="#/references" role="doc-biblioref" onclick="">Guo, Wang, and Ruan 2013</a>)</span></p>
 </div></aside></section></section>
 <section>
-<section id="missing-values" class="title-slide slide level1 center">
+<section id="missing-values" class="title-slide slide level1 center" data-stack-name="DGPs">
 <h1>Missing Values</h1>
 
 </section>
@@ -3179,8 +3180,9 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </ul>
 
 <img data-src="images/pgm_hw_missing_at_random.svg" class="r-stretch quarto-figure-center"></section>
-<section id="my-dog-ate-my-homework-because-of-reasons" class="slide level2 smaller nostretch">
+<section id="my-dog-ate-my-homework-because-of-reasons" class="slide level2 smaller small-title nostretch">
 <h2>My Dog Ate My Homework Because of Reasons</h2>
+<p><img data-src="images/reasons_crop.jpeg" class="absolute" style="top: -15px; right: 10%; "></p>
 <p>There are scarier alternatives, though! What if…</p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -3188,7 +3190,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <p>Dogs eat homework because their owner studied so much that the dog got ignored?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/pgm_hw_missing_study.svg"></p>
+<p><img data-src="images/pgm_hw_missing_study.svg" width="280"></p>
 </figure>
 </div>
 </div>
@@ -3196,34 +3198,179 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <p>Dogs hate sloppy work, and eat bad homework that would have gotten a low score</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/pgm_hw_missing_badhw.svg"></p>
+<p><img data-src="images/pgm_hw_missing_badhw.svg" width="280"></p>
 </figure>
 </div>
 </div>
 <div id="dog-noisy" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p>In noisy homes (<span class="math inline">\(Z = 1\)</span>), dogs get agitated and eat homework more often, plus students students do work on homework</p>
+<p>Noisy homes (<span class="math inline">\(Z = 1\)</span>) cause dogs to get agitated and eat homework more often, <strong>and</strong> students do worse</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/pgm_hw_missing_noisy.svg"></p>
+<p><img data-src="images/pgm_hw_missing_noisy.svg" width="280"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-</section>
-<section id="intro-to-outlier-detection" class="slide level2">
-<h2>Intro to Outlier Detection</h2>
 </section></section>
 <section>
-<section id="lab-5" class="title-slide slide level1 center" data-stack-name="Lab 5">
-<h1>Lab 5</h1>
+<section id="outlier-detection" class="title-slide slide level1 center">
+<h1>Outlier Detection</h1>
 
+</section>
+<section id="tukeys-rule" class="slide level2 smaller crunch-title crunch-ul">
+<h2>Tukey’s Rule</h2>
+<ul>
+<li>Given the <strong>first quartile</strong> (25th percentile) <span class="math inline">\(Q_1\)</span>, and the <strong>third quartile</strong> (75th percentile) <span class="math inline">\(Q_2\)</span>, define the <strong>Inter-Quartile Range</strong> as</li>
+</ul>
+<p><span class="math display">\[
+\iqr = Q_3 - Q_1
+\]</span></p>
+<ul>
+<li>Then an <strong>outlier</strong> is a point more than <span class="math inline">\(1.5 \cdot \iqr\)</span> away from <span class="math inline">\(Q_1\)</span> or <span class="math inline">\(Q_3\)</span>; outside of</li>
+</ul>
+<p><span class="math display">\[
+[Q_1 - 1.5 \cdot \iqr, \; Q_3 + 1.5 \cdot \iqr]
+\]</span></p>
+<ul>
+<li>This is the outlier rule used for <strong>box-and-whisker plots</strong>:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb35-2"><a href="#cb35-2"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb35-3"><a href="#cb35-3"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb35-4"><a href="#cb35-4"></a><span class="co"># Generate normal data</span></span>
+<span id="cb35-5"><a href="#cb35-5"></a>dist_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Score=</span><span class="fu">rnorm</span>(<span class="dv">95</span>), <span class="at">Distribution=</span><span class="st">"N(0,1)"</span>)</span>
+<span id="cb35-6"><a href="#cb35-6"></a><span class="co"># Add outliers</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a>outlier_dist_sd <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb35-8"><a href="#cb35-8"></a>outlier_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Score=</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, outlier_dist_sd), <span class="at">Distribution=</span><span class="fu">paste0</span>(<span class="st">"N(0,"</span>,outlier_dist_sd,<span class="st">")"</span>))</span>
+<span id="cb35-9"><a href="#cb35-9"></a>data_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(dist_df, outlier_df)</span>
+<span id="cb35-10"><a href="#cb35-10"></a><span class="co"># Compute iqr and outlier range</span></span>
+<span id="cb35-11"><a href="#cb35-11"></a>q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(data_df<span class="sc">$</span>Score, <span class="fl">0.25</span>)</span>
+<span id="cb35-12"><a href="#cb35-12"></a>q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(data_df<span class="sc">$</span>Score, <span class="fl">0.75</span>)</span>
+<span id="cb35-13"><a href="#cb35-13"></a>iqr <span class="ot">&lt;-</span> q3 <span class="sc">-</span> q1</span>
+<span id="cb35-14"><a href="#cb35-14"></a>iqr_cutoff_lower <span class="ot">&lt;-</span> q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr</span>
+<span id="cb35-15"><a href="#cb35-15"></a>iqr_cutoff_higher <span class="ot">&lt;-</span> q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr</span>
+<span id="cb35-16"><a href="#cb35-16"></a>is_outlier <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (x <span class="sc">&lt;</span> iqr_cutoff_lower) <span class="sc">||</span> (x <span class="sc">&gt;</span> iqr_cutoff_higher)</span>
+<span id="cb35-17"><a href="#cb35-17"></a>data_df[<span class="st">'Outlier'</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data_df<span class="sc">$</span>Score, is_outlier)</span>
+<span id="cb35-18"><a href="#cb35-18"></a><span class="co">#data_df</span></span>
+<span id="cb35-19"><a href="#cb35-19"></a><span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>Score, <span class="at">y=</span><span class="fu">factor</span>(<span class="dv">0</span>))) <span class="sc">+</span> </span>
+<span id="cb35-20"><a href="#cb35-20"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.color =</span> <span class="cn">NULL</span>, <span class="at">linewidth =</span> g_linewidth, <span class="at">outlier.size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb35-21"><a href="#cb35-21"></a>  <span class="fu">geom_jitter</span>(<span class="at">data=</span>data_df, <span class="fu">aes</span>(<span class="at">col =</span> Distribution, <span class="at">shape=</span>Outlier), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>, <span class="at">height=</span><span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">stroke =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb35-22"><a href="#cb35-22"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> iqr_cutoff_lower, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb35-23"><a href="#cb35-23"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> iqr_cutoff_higher, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb35-24"><a href="#cb35-24"></a>  <span class="co">#coord_flip() +</span></span>
+<span id="cb35-25"><a href="#cb35-25"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb35-26"><a href="#cb35-26"></a>  <span class="fu">theme</span>(</span>
+<span id="cb35-27"><a href="#cb35-27"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb35-28"><a href="#cb35-28"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb35-29"><a href="#cb35-29"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb35-30"><a href="#cb35-30"></a>  ) <span class="sc">+</span></span>
+<span id="cb35-31"><a href="#cb35-31"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="sc">-</span><span class="dv">3</span>, <span class="at">to=</span><span class="dv">3</span>, <span class="at">by=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb35-32"><a href="#cb35-32"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="index_files/figure-revealjs/boxplot-outliers-3.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="sigma-rule" class="slide level2 smaller">
+<h2>3-Sigma Rule</h2>
+<ul>
+<li>Recall the <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule" target="_blank"><strong>68-95-99.7 Rule</strong></a></li>
+<li>The <strong>3-Sigma Rule</strong> says simply: throw away anything more than <strong>3 standard deviations</strong> away from the mean (beyond range that should contain 99.7% of data)</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>mean_score <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>Score)</span>
+<span id="cb36-2"><a href="#cb36-2"></a>sd_score <span class="ot">&lt;-</span> <span class="fu">sd</span>(data_df<span class="sc">$</span>Score)</span>
+<span id="cb36-3"><a href="#cb36-3"></a>lower_cutoff <span class="ot">&lt;-</span> mean_score <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> sd_score</span>
+<span id="cb36-4"><a href="#cb36-4"></a>upper_cutoff <span class="ot">&lt;-</span> mean_score <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> sd_score</span>
+<span id="cb36-5"><a href="#cb36-5"></a><span class="co"># For printing / displaying</span></span>
+<span id="cb36-6"><a href="#cb36-6"></a>mean_score_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(mean_score, <span class="at">fmt=</span><span class="st">'%.2f'</span>)</span>
+<span id="cb36-7"><a href="#cb36-7"></a>sd_score_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(sd_score, <span class="at">fmt=</span><span class="st">'%.2f'</span>)</span>
+<span id="cb36-8"><a href="#cb36-8"></a><span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>Score)) <span class="sc">+</span> </span>
+<span id="cb36-9"><a href="#cb36-9"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> g_linewidth) <span class="sc">+</span></span>
+<span id="cb36-10"><a href="#cb36-10"></a>  <span class="co">#geom_boxplot(outlier.color = NULL, linewidth = g_linewidth, outlier.size = g_pointsize / 1.5) +</span></span>
+<span id="cb36-11"><a href="#cb36-11"></a>  <span class="co">#geom_jitter(data=data_df, aes(y = factor(0), col = dist), size = g_pointsize / 1.5, height=0.25) +</span></span>
+<span id="cb36-12"><a href="#cb36-12"></a>  <span class="co">#coord_flip() +</span></span>
+<span id="cb36-13"><a href="#cb36-13"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb36-14"><a href="#cb36-14"></a>  <span class="fu">theme</span>(</span>
+<span id="cb36-15"><a href="#cb36-15"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb36-16"><a href="#cb36-16"></a>    <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb36-17"><a href="#cb36-17"></a>    <span class="co">#axis.text.y = element_blank()</span></span>
+<span id="cb36-18"><a href="#cb36-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-19"><a href="#cb36-19"></a>  <span class="co">#geom_boxplot() +</span></span>
+<span id="cb36-20"><a href="#cb36-20"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mean_score, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb36-21"><a href="#cb36-21"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> lower_cutoff, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb36-22"><a href="#cb36-22"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> upper_cutoff, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb36-23"><a href="#cb36-23"></a>  <span class="fu">geom_jitter</span>(<span class="at">data=</span>data_df, <span class="fu">aes</span>(<span class="at">x =</span> Score, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">col =</span> Distribution, <span class="at">shape =</span> Outlier),</span>
+<span id="cb36-24"><a href="#cb36-24"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>, <span class="at">height=</span><span class="fl">0.025</span>, <span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">stroke=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb36-25"><a href="#cb36-25"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="sc">-</span><span class="dv">3</span>, <span class="at">to=</span><span class="dv">3</span>, <span class="at">by=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb36-26"><a href="#cb36-26"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb36-27"><a href="#cb36-27"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-28"><a href="#cb36-28"></a>    <span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Six-Sigma Rule, mu = "</span>,mean_score_str,<span class="st">", sd = "</span>,sd_score_str),</span>
+<span id="cb36-29"><a href="#cb36-29"></a>    <span class="at">y =</span> <span class="st">"Density"</span></span>
+<span id="cb36-30"><a href="#cb36-30"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-46-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="missing-data-outliers-most-important-takeaway" class="slide level2">
+<h2>Missing Data + Outliers: Most Important Takeaway!</h2>
+<ul>
+<li>Always have a working hypothesis about the <strong>Data-Generating Process</strong>!</li>
+<li>Literally the solution to… 75% of all data-related headaches</li>
+<li>What <strong>variables</strong> explain <strong>why</strong> this data point is missing?</li>
+<li>What <strong>variables</strong> explain <strong>why</strong> this data point is an outlier?</li>
+</ul>
+</section>
+<section id="driving-the-point-home" class="slide level2 nostretch">
+<h2>Driving the Point Home</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/kidnappings.jpg"></p>
+<figcaption>Figure (and DGP analysis) from <span class="citation" data-cites="dignazio_numbers_2020">D’Ignazio and Klein (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+<div id="kidnapping-dgp" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p>Presumed DGP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/dgp_kidnappings.svg" width="300"></p>
+<figcaption><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+</figure>
+</div>
+<p>Actual DGP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/dgp_kidnappings_true.svg" width="300"></p>
+<figcaption><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(R\)</span> = <strong>News reports</strong> about kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="lab-5" class="title-slide slide level1 not-title-slide small-title center" data-stack-name="Lab 5">
+<h1>Lab 5</h1>
+<p><a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/seaborn-introduction/notes.html" target="_blank">Lab 5 Demo: Seaborn Link <i class="bi bi-box-arrow-up-right ps-1"></i></a></p>
+<p><a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-3.1-EDA/lab-3.1.html" target="_blank">Lab 5 Assignment: EDA with Seaborn <i class="bi bi-box-arrow-up-right ps-1"></i></a></p>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-boyd_theory_2021" class="csl-entry" role="listitem">
 Boyd, Nora Mills, and James Bogen. 2021. <span>“Theory and <span>Observation</span> in <span>Science</span>.”</span> In <em>The <span>Stanford Encyclopedia</span> of <span>Philosophy</span></em>, edited by Edward N. Zalta, Winter 2021. <span>Metaphysics Research Lab, Stanford University</span>.
+</div>
+<div id="ref-dignazio_numbers_2020" class="csl-entry" role="listitem">
+D’Ignazio, Catherine, and Lauren Klein. 2020. <span>“6. <span>The Numbers Don</span>’t <span>Speak</span> for <span>Themselves</span>.”</span> <em>Data Feminism</em>, March.
 </div>
 <div id="ref-galton_inquiries_1919" class="csl-entry" role="listitem">
 Galton, Francis. 1919. <em>Inquiries <span>Into Human Faculty</span> and <span>Its Development</span></em>. <span>J.M. Dent &amp; Company</span>.

@@ -308,7 +308,13 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#the-value-of-studying" id="toc-the-value-of-studying" class="nav-link" data-scroll-target="#the-value-of-studying">The Value of Studying</a></li>
   <li><a href="#my-dog-ate-my-homework" id="toc-my-dog-ate-my-homework" class="nav-link" data-scroll-target="#my-dog-ate-my-homework">My Dog Ate My Homework</a></li>
   <li><a href="#my-dog-ate-my-homework-because-of-reasons" id="toc-my-dog-ate-my-homework-because-of-reasons" class="nav-link" data-scroll-target="#my-dog-ate-my-homework-because-of-reasons">My Dog Ate My Homework Because of Reasons</a></li>
-  <li><a href="#intro-to-outlier-detection" id="toc-intro-to-outlier-detection" class="nav-link" data-scroll-target="#intro-to-outlier-detection">Intro to Outlier Detection</a></li>
+  </ul></li>
+  <li><a href="#outlier-detection" id="toc-outlier-detection" class="nav-link" data-scroll-target="#outlier-detection">Outlier Detection</a>
+  <ul class="collapse">
+  <li><a href="#tukeys-rule" id="toc-tukeys-rule" class="nav-link" data-scroll-target="#tukeys-rule">Tukey’s Rule</a></li>
+  <li><a href="#sigma-rule" id="toc-sigma-rule" class="nav-link" data-scroll-target="#sigma-rule">3-Sigma Rule</a></li>
+  <li><a href="#missing-data-outliers-most-important-takeaway" id="toc-missing-data-outliers-most-important-takeaway" class="nav-link" data-scroll-target="#missing-data-outliers-most-important-takeaway">Missing Data + Outliers: Most Important Takeaway!</a></li>
+  <li><a href="#driving-the-point-home" id="toc-driving-the-point-home" class="nav-link" data-scroll-target="#driving-the-point-home">Driving the Point Home</a></li>
   </ul></li>
   <li><a href="#lab-5" id="toc-lab-5" class="nav-link" data-scroll-target="#lab-5">Lab 5</a>
   <ul class="collapse">
@@ -413,6 +419,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 \newcommand{\given}{\mid}
 \newcommand{\green}[1]{\color{green}{#1}}
 \newcommand{\heads}{\outcome{heads}}
+\newcommand{\iqr}{\text{IQR}}
 \newcommand{\kl}{\text{KL}}
 \newcommand{\lik}{\mathcal{L}}
 \newcommand{\mle}{\textsf{ML}}
@@ -1515,27 +1522,27 @@ G
 <title>
 cluster_understand
 </title>
-<polygon fill="none" stroke="black" points="533.68,-8 533.68,-283 1057.94,-283 1057.94,-8 533.68,-8"></polygon> <text text-anchor="start" x="740.49" y="-253.4" font-family="Times,serif" font-size="24.00">Understand</text> </g> <g id="clust6" class="cluster">
-<title>
-cluster_conf
-</title>
-<polygon fill="none" stroke="black" points="770.11,-18 770.11,-229 1047.94,-229 1047.94,-18 770.11,-18"></polygon> <text text-anchor="middle" x="909.03" y="-212.4" font-family="Times,serif" font-size="14.00">Confirmatory</text> </g> <g id="clust5" class="cluster">
+<polygon fill="none" stroke="black" points="533.68,-8 533.68,-283 1057.94,-283 1057.94,-8 533.68,-8"></polygon> <text text-anchor="start" x="740.49" y="-253.4" font-family="Times,serif" font-size="24.00">Understand</text> </g> <g id="clust5" class="cluster">
 <title>
 cluster_expl
 </title>
-<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust1" class="cluster">
+<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust6" class="cluster">
+<title>
+cluster_conf
+</title>
+<polygon fill="none" stroke="black" points="770.11,-18 770.11,-229 1047.94,-229 1047.94,-18 770.11,-18"></polygon> <text text-anchor="middle" x="909.03" y="-212.4" font-family="Times,serif" font-size="14.00">Confirmatory</text> </g> <g id="clust1" class="cluster">
 <title>
 cluster_clean
 </title>
-<polygon fill="none" stroke="black" points="8,-8 8,-283 525.68,-283 525.68,-8 8,-8"></polygon> <text text-anchor="start" x="239.35" y="-253.4" font-family="Times,serif" font-size="24.00">Clean</text> </g> <g id="clust2" class="cluster">
-<title>
-cluster_import
-</title>
-<polygon fill="none" stroke="black" stroke-width="0" points="36,-36 36,-211 290.56,-211 290.56,-36 36,-36"></polygon> <text text-anchor="middle" x="163.28" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust3" class="cluster">
+<polygon fill="none" stroke="black" points="8,-8 8,-283 525.68,-283 525.68,-8 8,-8"></polygon> <text text-anchor="start" x="239.35" y="-253.4" font-family="Times,serif" font-size="24.00">Clean</text> </g> <g id="clust3" class="cluster">
 <title>
 cluster_tidy
 </title>
-<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <!-- Import --> <g id="node1" class="node">
+<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust2" class="cluster">
+<title>
+cluster_import
+</title>
+<polygon fill="none" stroke="black" stroke-width="0" points="36,-36 36,-211 290.56,-211 290.56,-36 36,-36"></polygon> <text text-anchor="middle" x="163.28" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <!-- Import --> <g id="node1" class="node">
 <title>
 Import
 </title>
@@ -1571,7 +1578,7 @@ Model
 <title>
 V-&gt;Model
 </title>
-<path fill="none" stroke="black" d="M721.33,-151.96C759.91,-150.97 807.96,-151.02 845.66,-152.1"></path> <polygon fill="black" stroke="black" points="845.89,-155.61 856,-152.43 846.12,-148.61 845.89,-155.61"></polygon> </g> <!-- vizLibraries --> <g id="node6" class="node">
+<path fill="none" stroke="black" d="M721.33,-164.04C759.91,-165.03 807.96,-164.98 845.66,-163.9"></path> <polygon fill="black" stroke="black" points="846.12,-167.39 856,-163.57 845.89,-160.39 846.12,-167.39"></polygon> </g> <!-- vizLibraries --> <g id="node6" class="node">
 <title>
 vizLibraries
 </title>
@@ -1579,7 +1586,7 @@ vizLibraries
 <title>
 Model-&gt;V
 </title>
-<path fill="none" stroke="black" d="M856,-163.57C820.13,-164.86 771.81,-165.09 731.42,-164.27"></path> <polygon fill="black" stroke="black" points="731.41,-160.77 721.33,-164.04 731.25,-167.77 731.41,-160.77"></polygon> </g> <!-- Communicate --> <g id="node9" class="node">
+<path fill="none" stroke="black" d="M856,-152.43C820.13,-151.14 771.81,-150.91 731.42,-151.73"></path> <polygon fill="black" stroke="black" points="731.25,-148.23 721.33,-151.96 731.41,-155.23 731.25,-148.23"></polygon> </g> <!-- Communicate --> <g id="node9" class="node">
 <title>
 Communicate
 </title>
@@ -1728,8 +1735,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.mean)</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1105cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
-&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1105cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
+<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x124c29120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
+&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x124c29120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>disp(data_means, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1778,8 +1785,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.std),</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1105cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
-&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1105cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
+<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x124c29260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
+&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x124c29260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>disp(data_sds, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -2620,8 +2627,8 @@ y &amp; \green{1} &amp; \green{1} &amp; \red{1} &amp; \red{0} &amp; 1 \\
 <p>To go beyond this, and explore how <span class="math inline">\(L^p\)</span> “quasi-norms” can be extremely useful, take DSAN 6100: Optimization!<br>One place they can be useful? You guessed it: <strong>facial recognition algorithms</strong> <span class="citation" data-cites="guo_enhancing_2013">(<a href="#ref-guo_enhancing_2013" role="doc-biblioref">Guo, Wang, and Ruan 2013</a>)</span></p>
 </div></div></section>
 </section>
-<section id="missing-values" class="level1">
-<h1>Missing Values</h1>
+<section id="missing-values" class="level1" data-stack-name="DGPs">
+<h1 data-stack-name="DGPs">Missing Values</h1>
 <section id="the-value-of-studying" class="level2 smaller nostretch">
 <h2 class="smaller nostretch anchored" data-anchor-id="the-value-of-studying">The Value of Studying</h2>
 <ul>
@@ -2654,8 +2661,9 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </figure>
 </div>
 </section>
-<section id="my-dog-ate-my-homework-because-of-reasons" class="level2 smaller nostretch">
-<h2 class="smaller nostretch anchored" data-anchor-id="my-dog-ate-my-homework-because-of-reasons">My Dog Ate My Homework Because of Reasons</h2>
+<section id="my-dog-ate-my-homework-because-of-reasons" class="level2 smaller small-title nostretch">
+<h2 class="smaller small-title nostretch anchored" data-anchor-id="my-dog-ate-my-homework-because-of-reasons">My Dog Ate My Homework Because of Reasons</h2>
+<p><img src="images/reasons_crop.jpeg" class="absolute img-fluid" data-top="-15" data-right="10%"></p>
 <p>There are scarier alternatives, though! What if…</p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -2663,7 +2671,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <p>Dogs eat homework because their owner studied so much that the dog got ignored?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_hw_missing_study.svg" class="img-fluid figure-img"></p>
+<p><img src="images/pgm_hw_missing_study.svg" class="img-fluid figure-img" width="280"></p>
 </figure>
 </div>
 </div>
@@ -2671,32 +2679,182 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <p>Dogs hate sloppy work, and eat bad homework that would have gotten a low score</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_hw_missing_badhw.svg" class="img-fluid figure-img"></p>
+<p><img src="images/pgm_hw_missing_badhw.svg" class="img-fluid figure-img" width="280"></p>
 </figure>
 </div>
 </div>
 <div id="dog-noisy" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p>In noisy homes (<span class="math inline">\(Z = 1\)</span>), dogs get agitated and eat homework more often, plus students students do work on homework</p>
+<p>Noisy homes (<span class="math inline">\(Z = 1\)</span>) cause dogs to get agitated and eat homework more often, <strong>and</strong> students do worse</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_hw_missing_noisy.svg" class="img-fluid figure-img"></p>
+<p><img src="images/pgm_hw_missing_noisy.svg" class="img-fluid figure-img" width="280"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="intro-to-outlier-detection" class="level2">
-<h2 class="anchored" data-anchor-id="intro-to-outlier-detection">Intro to Outlier Detection</h2>
+</section>
+<section id="outlier-detection" class="level1">
+<h1>Outlier Detection</h1>
+<section id="tukeys-rule" class="level2 smaller crunch-title crunch-ul">
+<h2 class="smaller crunch-title crunch-ul anchored" data-anchor-id="tukeys-rule">Tukey’s Rule</h2>
+<ul>
+<li>Given the <strong>first quartile</strong> (25th percentile) <span class="math inline">\(Q_1\)</span>, and the <strong>third quartile</strong> (75th percentile) <span class="math inline">\(Q_2\)</span>, define the <strong>Inter-Quartile Range</strong> as</li>
+</ul>
+<p><span class="math display">\[
+\iqr = Q_3 - Q_1
+\]</span></p>
+<ul>
+<li>Then an <strong>outlier</strong> is a point more than <span class="math inline">\(1.5 \cdot \iqr\)</span> away from <span class="math inline">\(Q_1\)</span> or <span class="math inline">\(Q_3\)</span>; outside of</li>
+</ul>
+<p><span class="math display">\[
+[Q_1 - 1.5 \cdot \iqr, \; Q_3 + 1.5 \cdot \iqr]
+\]</span></p>
+<ul>
+<li>This is the outlier rule used for <strong>box-and-whisker plots</strong>:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate normal data</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>dist_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Score=</span><span class="fu">rnorm</span>(<span class="dv">95</span>), <span class="at">Distribution=</span><span class="st">"N(0,1)"</span>)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Add outliers</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>outlier_dist_sd <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>outlier_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Score=</span><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="dv">0</span>, outlier_dist_sd), <span class="at">Distribution=</span><span class="fu">paste0</span>(<span class="st">"N(0,"</span>,outlier_dist_sd,<span class="st">")"</span>))</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>data_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(dist_df, outlier_df)</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute iqr and outlier range</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(data_df<span class="sc">$</span>Score, <span class="fl">0.25</span>)</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(data_df<span class="sc">$</span>Score, <span class="fl">0.75</span>)</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>iqr <span class="ot">&lt;-</span> q3 <span class="sc">-</span> q1</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>iqr_cutoff_lower <span class="ot">&lt;-</span> q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>iqr_cutoff_higher <span class="ot">&lt;-</span> q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> iqr</span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>is_outlier <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (x <span class="sc">&lt;</span> iqr_cutoff_lower) <span class="sc">||</span> (x <span class="sc">&gt;</span> iqr_cutoff_higher)</span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>data_df[<span class="st">'Outlier'</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data_df<span class="sc">$</span>Score, is_outlier)</span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a><span class="co">#data_df</span></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>Score, <span class="at">y=</span><span class="fu">factor</span>(<span class="dv">0</span>))) <span class="sc">+</span> </span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.color =</span> <span class="cn">NULL</span>, <span class="at">linewidth =</span> g_linewidth, <span class="at">outlier.size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data=</span>data_df, <span class="fu">aes</span>(<span class="at">col =</span> Distribution, <span class="at">shape=</span>Outlier), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>, <span class="at">height=</span><span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">stroke =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> iqr_cutoff_lower, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> iqr_cutoff_higher, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#coord_flip() +</span></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="sc">-</span><span class="dv">3</span>, <span class="at">to=</span><span class="dv">3</span>, <span class="at">by=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/boxplot-outliers-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sigma-rule" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="sigma-rule">3-Sigma Rule</h2>
+<ul>
+<li>Recall the <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule" target="_blank"><strong>68-95-99.7 Rule</strong></a></li>
+<li>The <strong>3-Sigma Rule</strong> says simply: throw away anything more than <strong>3 standard deviations</strong> away from the mean (beyond range that should contain 99.7% of data)</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>mean_score <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>Score)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>sd_score <span class="ot">&lt;-</span> <span class="fu">sd</span>(data_df<span class="sc">$</span>Score)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>lower_cutoff <span class="ot">&lt;-</span> mean_score <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> sd_score</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>upper_cutoff <span class="ot">&lt;-</span> mean_score <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> sd_score</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="co"># For printing / displaying</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>mean_score_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(mean_score, <span class="at">fmt=</span><span class="st">'%.2f'</span>)</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>sd_score_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(sd_score, <span class="at">fmt=</span><span class="st">'%.2f'</span>)</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>Score)) <span class="sc">+</span> </span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> g_linewidth) <span class="sc">+</span></span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_boxplot(outlier.color = NULL, linewidth = g_linewidth, outlier.size = g_pointsize / 1.5) +</span></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_jitter(data=data_df, aes(y = factor(0), col = dist), size = g_pointsize / 1.5, height=0.25) +</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#coord_flip() +</span></span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">#axis.text.y = element_blank()</span></span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_boxplot() +</span></span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mean_score, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> lower_cutoff, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> upper_cutoff, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data=</span>data_df, <span class="fu">aes</span>(<span class="at">x =</span> Score, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">col =</span> Distribution, <span class="at">shape =</span> Outlier),</span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>, <span class="at">height=</span><span class="fl">0.025</span>, <span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">stroke=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb66-25"><a href="#cb66-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="sc">-</span><span class="dv">3</span>, <span class="at">to=</span><span class="dv">3</span>, <span class="at">by=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb66-26"><a href="#cb66-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb66-27"><a href="#cb66-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb66-28"><a href="#cb66-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Six-Sigma Rule, mu = "</span>,mean_score_str,<span class="st">", sd = "</span>,sd_score_str),</span>
+<span id="cb66-29"><a href="#cb66-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Density"</span></span>
+<span id="cb66-30"><a href="#cb66-30" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="missing-data-outliers-most-important-takeaway" class="level2">
+<h2 class="anchored" data-anchor-id="missing-data-outliers-most-important-takeaway">Missing Data + Outliers: Most Important Takeaway!</h2>
+<ul>
+<li>Always have a working hypothesis about the <strong>Data-Generating Process</strong>!</li>
+<li>Literally the solution to… 75% of all data-related headaches</li>
+<li>What <strong>variables</strong> explain <strong>why</strong> this data point is missing?</li>
+<li>What <strong>variables</strong> explain <strong>why</strong> this data point is an outlier?</li>
+</ul>
+</section>
+<section id="driving-the-point-home" class="level2 nostretch">
+<h2 class="nostretch anchored" data-anchor-id="driving-the-point-home">Driving the Point Home</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kidnappings.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure (and DGP analysis) from <span class="citation" data-cites="dignazio_numbers_2020">D’Ignazio and Klein (<a href="#ref-dignazio_numbers_2020" role="doc-biblioref">2020</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+<div id="kidnapping-dgp" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p>Presumed DGP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/dgp_kidnappings.svg" class="img-fluid figure-img" width="300"></p>
+<figcaption class="figure-caption"><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+</figure>
+</div>
+<p>Actual DGP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/dgp_kidnappings_true.svg" class="img-fluid figure-img" width="300"></p>
+<figcaption class="figure-caption"><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(R\)</span> = <strong>News reports</strong> about kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section>
 </section>
-<section id="lab-5" class="level1" data-stack-name="Lab 5">
-<h1 data-stack-name="Lab 5">Lab 5</h1>
+<section id="lab-5" class="level1 not-title-slide small-title" data-stack-name="Lab 5">
+<h1 class="not-title-slide small-title" data-stack-name="Lab 5">Lab 5</h1>
+<p><a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/seaborn-introduction/notes.html" target="_blank">Lab 5 Demo: Seaborn Link <i class="bi bi-box-arrow-up-right ps-1"></i></a></p>
+<p><a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-3.1-EDA/lab-3.1.html" target="_blank">Lab 5 Assignment: EDA with Seaborn <i class="bi bi-box-arrow-up-right ps-1"></i></a></p>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-boyd_theory_2021" class="csl-entry" role="listitem">
 Boyd, Nora Mills, and James Bogen. 2021. <span>“Theory and <span>Observation</span> in <span>Science</span>.”</span> In <em>The <span>Stanford Encyclopedia</span> of <span>Philosophy</span></em>, edited by Edward N. Zalta, Winter 2021. <span>Metaphysics Research Lab, Stanford University</span>.
+</div>
+<div id="ref-dignazio_numbers_2020" class="csl-entry" role="listitem">
+D’Ignazio, Catherine, and Lauren Klein. 2020. <span>“6. <span>The Numbers Don</span>’t <span>Speak</span> for <span>Themselves</span>.”</span> <em>Data Feminism</em>, March.
 </div>
 <div id="ref-galton_inquiries_1919" class="csl-entry" role="listitem">
 Galton, Francis. 1919. <em>Inquiries <span>Into Human Faculty</span> and <span>Its Development</span></em>. <span>J.M. Dent &amp; Company</span>.

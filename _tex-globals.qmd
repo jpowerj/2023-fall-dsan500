@@ -13,6 +13,7 @@ $$
 \newcommand{\given}{\mid}
 \newcommand{\green}[1]{\color{green}{#1}}
 \newcommand{\heads}{\outcome{heads}}
+\newcommand{\iqr}{\text{IQR}}
 \newcommand{\kl}{\text{KL}}
 \newcommand{\lik}{\mathcal{L}}
 \newcommand{\mle}{\textsf{ML}}
