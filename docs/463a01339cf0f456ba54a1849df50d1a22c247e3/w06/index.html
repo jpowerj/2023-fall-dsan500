@@ -55,7 +55,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -112,7 +131,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -121,18 +140,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      DSAN 5000 &lt;br&gt;
-&lt;span class='subtitle'&gt;Fall 2023, Georgetown, Prof. Jacobs &lt;a href='mailto:jj1088@georgetown.edu' target='_blank'&gt;&lt;i class='bi bi-envelope-at ps-1'&gt;&lt;/i&gt;&lt;/a&gt;
-&lt;span class="btn-group section-toggle" role="group" aria-label="Basic radio toggle button group" style="display: inline-flex !important; margin-top: 4px !important; width: 100% !important;"&gt;
-&lt;input type="radio" class="btn-check pt-5" name="btnradio" id="btn-radio-02" autocomplete="off" onclick="window.toggleSectionClicked('02');"&gt; &lt;label class="btn btn-outline-secondary btn-sm" for="btn-radio-02" id='btn-label-02'&gt;Sec 02&lt;/label&gt;
-&lt;input type="radio" class="btn-check" name="btnradio" id="btn-radio-03" autocomplete="off" onclick="window.toggleSectionClicked('03');"&gt; &lt;label class="btn btn-outline-secondary btn-sm" for="btn-radio-03" id="btn-label-03"&gt;Sec 03&lt;/label&gt; &lt;/span&gt; &lt;br&gt;
-&lt;span class='section-info subsubtitle'&gt;
-  &lt;span class='sec-day'&gt;Tue&lt;/span&gt; &lt;span class='sec-time'&gt;12:30pm-3pm&lt;/span&gt;
-  &lt;br&gt;
-  &lt;span class='sec-room'&gt;ICC 219&lt;/span&gt;
-&lt;/span&gt;
-      </li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w06/index.html">Week 6: <span class="sec-w06-date">Sep 26</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -147,7 +155,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">DSAN 5000 <br> <span class="subtitle">Fall 2023, Georgetown, Prof.&nbsp;Jacobs <a href="mailto:jj1088@georgetown.edu" target="_blank"><i class="bi bi-envelope-at ps-1"></i></a> <span class="btn-group section-toggle" role="group" aria-label="Basic radio toggle button group" style="display: inline-flex !important; margin-top: 4px !important; width: 100% !important;"> <input type="radio" class="btn-check pt-5" name="btnradio" id="btn-radio-02" autocomplete="off" onclick="window.toggleSectionClicked('02');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-02" id="btn-label-02">Sec 02</label> <input type="radio" class="btn-check" name="btnradio" id="btn-radio-03" autocomplete="off" onclick="window.toggleSectionClicked('03');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-03" id="btn-label-03">Sec 03</label> </span> <br> <span class="section-info subsubtitle"> <span class="sec-day">Tue</span> <span class="sec-time">12:30pm-3pm</span> <br> <span class="sec-room">ICC 219</span> </span></span> <span class="hidden" data-render-id="quarto-int-navbar-title">DSAN 5000</span> <span class="hidden" data-render-id="quarto-int-sidebar:https://jfh.georgetown.domains/dsan5000/"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span> <span class="hidden" data-render-id="quarto-int-sidebar:undefined">—</span> <span class="hidden" data-render-id="quarto-int-sidebar:/index.html"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span> <span class="hidden" data-render-id="quarto-int-sidebar:/w01/index.html">Week 1: <span class="sec-w01-date">Aug 23</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w02/index.html">Week 2: <span class="sec-w02-date">Aug 29</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w03/index.html">Week 3: <span class="sec-w03-date">Sep 6</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w04/index.html">Week 4: <span class="sec-w04-date">Sep 12</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w05/index.html">Week 5: <span class="sec-w05-date">Sep 19</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/recordings/index.html">Lecture Recordings</span> <span class="hidden" data-render-id="quarto-int-sidebar:/extra-videos/index.html">Extra Videos</span> <span class="hidden" data-render-id="quarto-int-sidebar:/writeups/index.html">Extra Writeups</span> <span class="hidden" data-render-id="quarto-int-sidebar:https://georgetown.instructure.com/courses/173310">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://calendar.app.google/yMnESMtMNPdKEaPz5">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://forms.gle/TH1yLitU9dTfB4sg8">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a> 
+      <a href="../">DSAN 5000 <br> <span class="subtitle">Fall 2023, Georgetown, Prof.&nbsp;Jacobs <a href="mailto:jj1088@georgetown.edu" target="_blank"><i class="bi bi-envelope-at ps-1"></i></a> <span class="btn-group section-toggle" role="group" aria-label="Basic radio toggle button group" style="display: inline-flex !important; margin-top: 4px !important; width: 100% !important;"> <input type="radio" class="btn-check pt-5" name="btnradio" id="btn-radio-02" autocomplete="off" onclick="window.toggleSectionClicked('02');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-02" id="btn-label-02">Sec 02</label> <input type="radio" class="btn-check" name="btnradio" id="btn-radio-03" autocomplete="off" onclick="window.toggleSectionClicked('03');"> <label class="btn btn-outline-secondary btn-sm" for="btn-radio-03" id="btn-label-03">Sec 03</label> </span> <br> <span class="section-info subsubtitle"> <span class="sec-day">Tue</span> <span class="sec-time">12:30pm-3pm</span> <br> <span class="sec-room">ICC 219</span> </span></span> <span class="hidden" data-render-id="quarto-int-navbar-title">DSAN 5000</span> <span class="hidden" data-render-id="quarto-int-next">Lecture Recordings</span> <span class="hidden" data-render-id="quarto-int-prev">Week 5: <span class="sec-w05-date">Sep 19</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://jfh.georgetown.domains/dsan5000/"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span> <span class="hidden" data-render-id="quarto-int-sidebar:undefined">—</span> <span class="hidden" data-render-id="quarto-int-sidebar:/index.html"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span> <span class="hidden" data-render-id="quarto-int-sidebar:/w01/index.html">Week 1: <span class="sec-w01-date">Aug 23</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w02/index.html">Week 2: <span class="sec-w02-date">Aug 29</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w03/index.html">Week 3: <span class="sec-w03-date">Sep 6</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w04/index.html">Week 4: <span class="sec-w04-date">Sep 12</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w05/index.html">Week 5: <span class="sec-w05-date">Sep 19</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/w06/index.html">Week 6: <span class="sec-w06-date">Sep 26</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/recordings/index.html">Lecture Recordings</span> <span class="hidden" data-render-id="quarto-int-sidebar:/extra-videos/index.html">Extra Videos</span> <span class="hidden" data-render-id="quarto-int-sidebar:/writeups/index.html">Extra Writeups</span> <span class="hidden" data-render-id="quarto-int-sidebar:https://georgetown.instructure.com/courses/173310">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://calendar.app.google/yMnESMtMNPdKEaPz5">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-int-sidebar:https://forms.gle/TH1yLitU9dTfB4sg8">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span> <span class="hidden" data-render-id="quarto-breadcrumbs-78880f53f8efed36d40bc84bc920cb1c">Week 6: <span class="sec-w06-date">Sep 26</span></span></a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -198,6 +206,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <div class="sidebar-item-container"> 
   <a href="../w05/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 5: <span class="sec-w05-date">Sep 19</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../w06/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 6: <span class="sec-w06-date">Sep 26</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -269,17 +283,37 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#introduction-to-eda" id="toc-introduction-to-eda" class="nav-link" data-scroll-target="#introduction-to-eda">Introduction to EDA</a>
   <ul class="collapse">
   <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">Exploratory Data Analysis (EDA)</a></li>
+  <li><a href="#exploratory-data-analysis-eda-1" id="toc-exploratory-data-analysis-eda-1" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda-1">Exploratory Data Analysis (EDA)</a></li>
+  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link" data-scroll-target="#what-is-eda">What is EDA?</a></li>
+  <li><a href="#assumption-free-analysis" id="toc-assumption-free-analysis" class="nav-link" data-scroll-target="#assumption-free-analysis">Assumption-Free Analysis?</a></li>
+  <li><a href="#statistical-eda" id="toc-statistical-eda" class="nav-link" data-scroll-target="#statistical-eda">Statistical EDA</a></li>
+  <li><a href="#the-scariest-dataset-of-all-time" id="toc-the-scariest-dataset-of-all-time" class="nav-link" data-scroll-target="#the-scariest-dataset-of-all-time">The Scariest Dataset of All Time</a></li>
+  <li><a href="#it-doesnt-end-there" id="toc-it-doesnt-end-there" class="nav-link" data-scroll-target="#it-doesnt-end-there">It Doesn’t End There…</a></li>
   <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization">Normalization</a></li>
   <li><a href="#scaling" id="toc-scaling" class="nav-link" data-scroll-target="#scaling">Scaling</a></li>
   <li><a href="#shifting-recentering" id="toc-shifting-recentering" class="nav-link" data-scroll-target="#shifting-recentering">Shifting / Recentering</a></li>
   <li><a href="#shifting-and-scaling-the-z-score" id="toc-shifting-and-scaling-the-z-score" class="nav-link" data-scroll-target="#shifting-and-scaling-the-z-score">Shifting and Scaling: The <span class="math inline">\(z\)</span>-Score</a></li>
   </ul></li>
-  <li><a href="#lab-5" id="toc-lab-5" class="nav-link" data-scroll-target="#lab-5">Lab 5</a></li>
+  <li><a href="#distance-metrics" id="toc-distance-metrics" class="nav-link" data-scroll-target="#distance-metrics">Distance Metrics</a>
+  <ul class="collapse">
+  <li><a href="#why-all-the-worry-about-units" id="toc-why-all-the-worry-about-units" class="nav-link" data-scroll-target="#why-all-the-worry-about-units">Why All The Worry About Units?</a></li>
+  <li><a href="#why-should-we-worry-about-this" id="toc-why-should-we-worry-about-this" class="nav-link" data-scroll-target="#why-should-we-worry-about-this">Why Should We Worry About This?</a></li>
+  <li><a href="#distances-are-metaphors-we-use-to-accomplish-something" id="toc-distances-are-metaphors-we-use-to-accomplish-something" class="nav-link" data-scroll-target="#distances-are-metaphors-we-use-to-accomplish-something">Distances Are <em>Metaphors</em> We Use To <em>Accomplish Something</em></a></li>
+  <li><a href="#which-metrics-should-we-use" id="toc-which-metrics-should-we-use" class="nav-link" data-scroll-target="#which-metrics-should-we-use">Which Metric(s) Should We Use?</a></li>
+  <li><a href="#onto-the-math-lp-norms" id="toc-onto-the-math-lp-norms" class="nav-link" data-scroll-target="#onto-the-math-lp-norms">Onto the Math! <span class="math inline">\(L^p\)</span>-Norms</a></li>
+  <li><a href="#top-secret-non-well-defined-yet-useful-norms" id="toc-top-secret-non-well-defined-yet-useful-norms" class="nav-link" data-scroll-target="#top-secret-non-well-defined-yet-useful-norms">Top Secret Non-Well-Defined Yet Useful Norms</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing Values</a></li>
+  <li><a href="#intro-to-outlier-detection" id="toc-intro-to-outlier-detection" class="nav-link" data-scroll-target="#intro-to-outlier-detection">Intro to Outlier Detection</a></li>
+  </ul></li>
+  <li><a href="#lab-5" id="toc-lab-5" class="nav-link" data-scroll-target="#lab-5">Lab 5</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -331,9 +365,34 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> disp(df):</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> Markdown(df.to_markdown())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> disp(df, floatfmt<span class="op">=</span><span class="st">'g'</span>, include_index<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> Markdown(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    df.to_markdown(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      floatfmt<span class="op">=</span>floatfmt,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      index<span class="op">=</span>include_index</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summary_to_df(summary_obj, corner_col <span class="op">=</span> <span class="st">''</span>):</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    reg_df <span class="op">=</span> pd.DataFrame(summary_obj.tables[<span class="dv">1</span>].data)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    reg_df.columns <span class="op">=</span> reg_df.iloc[<span class="dv">0</span>]</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    reg_df <span class="op">=</span> reg_df.iloc[<span class="dv">1</span>:].copy()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save index col</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    index_col <span class="op">=</span> reg_df[<span class="st">''</span>]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Drop for now, so it's all numeric</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    reg_df.drop(columns<span class="op">=</span>[<span class="st">''</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(pd.to_numeric)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x, <span class="dv">2</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(my_round)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    numeric_cols <span class="op">=</span> reg_df.columns</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add index col back in</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    reg_df.insert(loc<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span>corner_col, value<span class="op">=</span>index_col)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sigh. Have to escape | characters?</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">"|"</span>,<span class="st">"\|"</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>Today’s Planned Schedule (Section <span class="sec-num">02</span>):</p>
@@ -373,7 +432,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p45">1:15pm</span></td>
 <td style="text-align: left;"><span class="sec-p55">1:25pm</span></td>
-<td style="text-align: left;"><a href="#apis-part-2">Introduction to EDA →</a></td>
+<td style="text-align: left;"><a href="#exploratory-data-analysis-eda">Introduction to EDA →</a></td>
 <td style="text-align: center;"><a id="rec-link-w06-2" href="../recordings/recording-w06s02-2.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
@@ -1416,19 +1475,7 @@ dbl (2): Year, Value
 <title>
 G
 </title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-295 1262.28,-295 1262.28,4 -4,4"></polygon> <g id="clust4" class="cluster">
-<title>
-cluster_understand
-</title>
-<polygon fill="none" stroke="black" points="533.68,-8 533.68,-283 1057.94,-283 1057.94,-8 533.68,-8"></polygon> <text text-anchor="start" x="740.49" y="-253.4" font-family="Times,serif" font-size="24.00">Understand</text> </g> <g id="clust5" class="cluster">
-<title>
-cluster_expl
-</title>
-<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust6" class="cluster">
-<title>
-cluster_conf
-</title>
-<polygon fill="none" stroke="black" points="770.11,-18 770.11,-229 1047.94,-229 1047.94,-18 770.11,-18"></polygon> <text text-anchor="middle" x="909.03" y="-212.4" font-family="Times,serif" font-size="14.00">Confirmatory</text> </g> <g id="clust1" class="cluster">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-295 1262.28,-295 1262.28,4 -4,4"></polygon> <g id="clust1" class="cluster">
 <title>
 cluster_clean
 </title>
@@ -1440,7 +1487,19 @@ cluster_import
 <title>
 cluster_tidy
 </title>
-<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <!-- Import --> <g id="node1" class="node">
+<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust4" class="cluster">
+<title>
+cluster_understand
+</title>
+<polygon fill="none" stroke="black" points="533.68,-8 533.68,-283 1057.94,-283 1057.94,-8 533.68,-8"></polygon> <text text-anchor="start" x="740.49" y="-253.4" font-family="Times,serif" font-size="24.00">Understand</text> </g> <g id="clust5" class="cluster">
+<title>
+cluster_expl
+</title>
+<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust6" class="cluster">
+<title>
+cluster_conf
+</title>
+<polygon fill="none" stroke="black" points="770.11,-18 770.11,-229 1047.94,-229 1047.94,-18 770.11,-18"></polygon> <text text-anchor="middle" x="909.03" y="-212.4" font-family="Times,serif" font-size="14.00">Confirmatory</text> </g> <!-- Import --> <g id="node1" class="node">
 <title>
 Import
 </title>
@@ -1503,6 +1562,549 @@ confLibraries
 </div>
 </div>
 </section>
+<section id="exploratory-data-analysis-eda-1" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis-eda-1">Exploratory Data Analysis (EDA)</h2>
+<ul>
+<li>So you have reasonably clean data… now what?</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/eda_books.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">(Image source: <a href="https://www.sumsar.net/blog/2014/03/oldies-but-goldies-statistical-graphics-books/" target="_blank"><em>Oldies but Goldies: Statistical Graphics Books</em></a>)</figcaption>
+</figure>
+</div>
+</section>
+<section id="what-is-eda" class="level2 crunch-title crunch-ul small-footnotes">
+<h2 class="crunch-title crunch-ul small-footnotes anchored" data-anchor-id="what-is-eda">What is EDA?</h2>
+<p>From <a href="https://www.ibm.com/topics/exploratory-data-analysis" target="_blank">IBM</a>:</p>
+<ul>
+<li>Look at data <strong>before making any assumptions</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+<li>Screen data and identify obvious <strong>errors</strong></li>
+<li>Better understand <strong>patterns</strong> within the data</li>
+<li>Detect <strong>outliers</strong> or anomalous events</li>
+<li>Find <strong>interesting relations</strong> among the variables.</li>
+</ul>
+<p>Overarching goal to keep in mind: <strong>does this data have what I need to address my research question?</strong></p>
+</section>
+<section id="assumption-free-analysis" class="level2 crunch-title crunch-ul small-footnotes small-captions">
+<h2 class="crunch-title crunch-ul small-footnotes small-captions anchored" data-anchor-id="assumption-free-analysis">Assumption-Free Analysis?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Important question for EDA: Is it actually possible to analyze data without assumptions?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<blockquote class="blockquote">
+<p><strong>Empirical results</strong> are laden with <strong>values</strong> and <strong>theoretical commitments</strong>.<br><span style="font-size: 0.5em !important;"><span class="citation" data-cites="boyd_theory_2021">(<a href="#ref-boyd_theory_2021" role="doc-biblioref">Boyd and Bogen 2021</a>)</span></span></p>
+</blockquote>
+</div><div class="column" style="width:50%;">
+<p>Ex: Estimates of optimal tax rates in Econ journals vs.&nbsp;Economist ideology scores</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 21 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (4): id, ideology, elast, tr_est
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/political-lang-in-econ-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Computed based on <span class="citation" data-cites="jelveh_political_2023">Jelveh, Kogut, and Naidu (<a href="#ref-jelveh_political_2023" role="doc-biblioref">2023</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="statistical-eda" class="level2 smaller crunch-title crunch-figures crunch-ul nostretch">
+<h2 class="smaller crunch-title crunch-figures crunch-ul nostretch anchored" data-anchor-id="statistical-eda">Statistical EDA</h2>
+<ul>
+<li><strong>Iterative process</strong>: Ask questions of the data, find answers, generate more questions</li>
+<li>You’re probably already used to <strong>Mean</strong> and <strong>Variance</strong>: Fancier EDA/robustness methods build upon these two!</li>
+<li>Why do we need to visualize? Can’t we just use mean, <span class="math inline">\(R^2\)</span>?</li>
+<li>…Enter <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" target="_blank">Anscombe’s Quartet</a></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"ticks"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># https://towardsdatascience.com/how-to-use-your-own-color-palettes-with-seaborn-a45bf5175146</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>sns.set_palette(sns.color_palette(cb_palette))</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the example dataset for Anscombe's quartet</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>anscombe_df <span class="op">=</span> sns.load_dataset(<span class="st">"anscombe"</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">#print(anscombe_df)</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the results of a linear regression within each dataset</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>anscombe_plot <span class="op">=</span> sns.lmplot(</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>anscombe_df, x<span class="op">=</span><span class="st">"x"</span>, y<span class="op">=</span><span class="st">"y"</span>, col<span class="op">=</span><span class="st">"dataset"</span>, hue<span class="op">=</span><span class="st">"dataset"</span>,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    col_wrap<span class="op">=</span><span class="dv">4</span>, palette<span class="op">=</span><span class="st">"muted"</span>, ci<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    scatter_kws<span class="op">=</span>{<span class="st">"s"</span>: <span class="dv">50</span>, <span class="st">"alpha"</span>: <span class="dv">1</span>},</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">3</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>anscombe_plot<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/anscombe-quartet-1.png" class="img-fluid figure-img" width="1152"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-scariest-dataset-of-all-time" class="level2 smaller smaller-table-text crunch-title crunch-code small-captions crunch-images nostretch">
+<h2 class="smaller smaller-table-text crunch-title crunch-code small-captions crunch-images nostretch anchored" data-anchor-id="the-scariest-dataset-of-all-time">The Scariest Dataset of All Time</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/anscombe-again-3.png" class="img-fluid figure-img" width="592"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<center>
+<strong>Summary statistics</strong>
+</center>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="fig-anscombe-means" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
+<figure class="figure">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute dataset means</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x,<span class="dv">2</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>data_means <span class="op">=</span> anscombe_df.groupby(<span class="st">'dataset'</span>).agg(</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  x_mean <span class="op">=</span> (<span class="st">'x'</span>, np.mean),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.mean)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10f2cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
+&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10f2cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>disp(data_means, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">dataset</th>
+<th style="text-align: right;">x_mean</th>
+<th style="text-align: right;">y_mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">I</td>
+<td style="text-align: right;">9.00</td>
+<td style="text-align: right;">7.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">II</td>
+<td style="text-align: right;">9.00</td>
+<td style="text-align: right;">7.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">III</td>
+<td style="text-align: right;">9.00</td>
+<td style="text-align: right;">7.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IV</td>
+<td style="text-align: right;">9.00</td>
+<td style="text-align: right;">7.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;4: Column means for each dataset</figcaption>
+</figure>
+</div>
+<div id="fig-anscombe-sds" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
+<figure class="figure">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute dataset SDs</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>data_sds <span class="op">=</span> anscombe_df.groupby(<span class="st">'dataset'</span>).agg(</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  x_mean <span class="op">=</span> (<span class="st">'x'</span>, np.std),</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.std),</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10f2cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
+&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10f2cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>disp(data_sds, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">dataset</th>
+<th style="text-align: right;">x_mean</th>
+<th style="text-align: right;">y_mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">I</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">2.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">II</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">2.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">III</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">2.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IV</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">2.03</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;5: Column SDs for each dataset</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<!-- end anscombe SDs -->
+</div>
+</div>
+</div>
+<!-- end layout-ncol=2 -->
+</div><!-- end sumstats column --><div class="column" style="width:40%;">
+<center>
+<strong>Correlations</strong>
+</center>
+<div id="fig-anscombe-corrs" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div class="cell corr-table" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tabulate</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="op">=</span> anscombe_df.groupby(<span class="st">'dataset'</span>).corr().<span class="bu">apply</span>(my_round)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Markdown(tabulate.tabulate(corr_matrix))</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>HTML(corr_matrix.to_html())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">x</th>
+<th data-quarto-table-cell-role="th">y</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">dataset</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">I</td>
+<td data-quarto-table-cell-role="th">x</td>
+<td>1.00</td>
+<td>0.82</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">y</td>
+<td>0.82</td>
+<td>1.00</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">II</td>
+<td data-quarto-table-cell-role="th">x</td>
+<td>1.00</td>
+<td>0.82</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">y</td>
+<td>0.82</td>
+<td>1.00</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">III</td>
+<td data-quarto-table-cell-role="th">x</td>
+<td>1.00</td>
+<td>0.82</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">y</td>
+<td>0.82</td>
+<td>1.00</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">IV</td>
+<td data-quarto-table-cell-role="th">x</td>
+<td>1.00</td>
+<td>0.82</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">y</td>
+<td>0.82</td>
+<td>1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;6: Correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> for each dataset</figcaption>
+</figure>
+</div>
+<!-- end anscombe corrs fig -->
+</div><!-- end corr column -->
+</div>
+<!-- end columns -->
+</section>
+<section id="it-doesnt-end-there" class="level2 smaller smaller-table-text nostretch">
+<h2 class="smaller smaller-table-text nostretch anchored" data-anchor-id="it-doesnt-end-there">It Doesn’t End There…</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/anscombe-yet-again-5.png" class="img-fluid figure-img" width="592"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell corr-table quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>summary_dfs <span class="op">=</span> []</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cur_ds <span class="kw">in</span> [<span class="st">'I'</span>,<span class="st">'II'</span>,<span class="st">'III'</span>,<span class="st">'IV'</span>]:</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  ds1_df <span class="op">=</span> anscombe_df.loc[anscombe_df[<span class="st">'dataset'</span>] <span class="op">==</span> <span class="st">"I"</span>].copy()</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Fit regression model (using the natural log of one of the regressors)</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  results <span class="op">=</span> smf.ols(<span class="st">'y ~ x'</span>, data<span class="op">=</span>ds1_df).fit()</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get R^2</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  rsq <span class="op">=</span> <span class="bu">round</span>(results.rsquared, <span class="dv">2</span>)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Inspect the results</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  summary <span class="op">=</span> results.summary()</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  summary.extra_txt <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  summary_df <span class="op">=</span> summary_to_df(summary, corner_col <span class="op">=</span> <span class="ss">f'Dataset </span><span class="sc">{</span>cur_ds<span class="sc">}</span><span class="ss">&lt;br&gt;R^2 = </span><span class="sc">{</span>rsq<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>  summary_dfs.append(summary_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11
+  warnings.warn("kurtosistest only valid for n&gt;=20 ... continuing "
+/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11
+  warnings.warn("kurtosistest only valid for n&gt;=20 ... continuing "
+/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11
+  warnings.warn("kurtosistest only valid for n&gt;=20 ... continuing "
+/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11
+  warnings.warn("kurtosistest only valid for n&gt;=20 ... continuing "</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">0</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dataset I<br>R^2 = 0.67</th>
+<th style="text-align: right;">coef</th>
+<th style="text-align: right;">std err</th>
+<th style="text-align: right;">t</th>
+<th style="text-align: right;">P&gt;|t|</th>
+<th style="text-align: right;">[0.025</th>
+<th style="text-align: right;">0.975]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">2.67</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">5.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">x</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">4.24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">1</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dataset II<br>R^2 = 0.67</th>
+<th style="text-align: right;">coef</th>
+<th style="text-align: right;">std err</th>
+<th style="text-align: right;">t</th>
+<th style="text-align: right;">P&gt;|t|</th>
+<th style="text-align: right;">[0.025</th>
+<th style="text-align: right;">0.975]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">2.67</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">5.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">x</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">4.24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">2</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dataset III<br>R^2 = 0.67</th>
+<th style="text-align: right;">coef</th>
+<th style="text-align: right;">std err</th>
+<th style="text-align: right;">t</th>
+<th style="text-align: right;">P&gt;|t|</th>
+<th style="text-align: right;">[0.025</th>
+<th style="text-align: right;">0.975]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">2.67</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">5.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">x</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">4.24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">3</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dataset IV<br>R^2 = 0.67</th>
+<th style="text-align: right;">coef</th>
+<th style="text-align: right;">std err</th>
+<th style="text-align: right;">t</th>
+<th style="text-align: right;">P&gt;|t|</th>
+<th style="text-align: right;">[0.025</th>
+<th style="text-align: right;">0.975]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">2.67</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">5.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">x</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">4.24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section>
 <section id="normalization" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="normalization">Normalization</h2>
 <div class="columns">
@@ -1513,43 +2115,53 @@ confLibraries
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>num_students <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>student_ids <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> num_students)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 1</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>t1_min_pts <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>t1_max_pts <span class="ot">&lt;-</span> <span class="fl">268.3</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>t1_score_vals <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">runif</span>(num_students, t1_min_pts, t1_max_pts), <span class="dv">2</span>)</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>t1_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(t1_score_vals)</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>t1_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(t1_score_vals)</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>get_t1_pctile <span class="ot">&lt;-</span> <span class="cf">function</span>(s) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">ecdf</span>(t1_score_vals)(s), <span class="dv">1</span>)</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 2</span></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>t2_min_pts <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>t2_max_pts <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>t2_score_vals <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">runif</span>(num_students, t2_min_pts, t2_max_pts), <span class="dv">2</span>)</span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>t2_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(t2_score_vals)</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>t2_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(t2_score_vals)</span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>get_t2_pctile <span class="ot">&lt;-</span> <span class="cf">function</span>(s) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">ecdf</span>(t2_score_vals)(s), <span class="dv">2</span>)</span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">id=</span>student_ids,</span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">t1_score=</span>t1_score_vals,</span>
-<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">t2_score=</span>t2_score_vals</span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(t1_score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>num_students <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>student_ids <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> num_students)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># So we have the censored Normal pdf/cdf</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crch)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>gen_test_scores <span class="ot">&lt;-</span> <span class="cf">function</span>(min_pts, max_pts) {</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  score_vals_unif <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_students, min_pts, max_pts)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  unif_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(score_vals_unif)</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  unif_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(score_vals_unif)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Resample, this time censored normal dist</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  score_vals <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rcnorm</span>(num_students, <span class="at">mean=</span>unif_mean, <span class="at">sd=</span>unif_sd, <span class="at">left=</span>min_pts, <span class="at">right=</span>max_pts), <span class="dv">2</span>)</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(score_vals)</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 1</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>t1_min <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>t1_max <span class="ot">&lt;-</span> <span class="fl">268.3</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>t1_score_vals <span class="ot">&lt;-</span> <span class="fu">gen_test_scores</span>(t1_min, t1_max)</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>t1_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(t1_score_vals)</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>t1_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(t1_score_vals)</span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>get_t1_pctile <span class="ot">&lt;-</span> <span class="cf">function</span>(s) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">ecdf</span>(t1_score_vals)(s), <span class="dv">1</span>)</span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 2</span></span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>t2_min <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>t2_max <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>t2_score_vals <span class="ot">&lt;-</span> <span class="fu">gen_test_scores</span>(t2_min, t2_max)</span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>t2_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(t2_score_vals)</span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>t2_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(t2_score_vals)</span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>get_t2_pctile <span class="ot">&lt;-</span> <span class="cf">function</span>(s) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">ecdf</span>(t2_score_vals)(s), <span class="dv">1</span>)</span>
+<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">id=</span>student_ids,</span>
+<span id="cb53-29"><a href="#cb53-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">t1_score=</span>t1_score_vals,</span>
+<span id="cb53-30"><a href="#cb53-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">t2_score=</span>t2_score_vals</span>
+<span id="cb53-31"><a href="#cb53-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-32"><a href="#cb53-32" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(t1_score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><em>“I got a 254.47 on the first test!”</em> 🤩</p>
-<p><em>“But only a 0.79 on the second”</em> 😭</p>
+<p><em>“I got a <strong>238.25</strong> on the first test!”</em> 🤩</p>
+<p><em>“But only a <strong>0.31</strong> on the second”</em> 😭</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
      id t1_score t2_score
   &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-1     3     264.     0.66
-2     8     254.     0.79
-3    25     247.     0.71
-4    29     242.    -0.75
-5     6     241.     0.39
-6    10     226.     0.73</code></pre>
+1    17     268.    -0.54
+2    27     258.    -0.33
+3    26     246.    -0.55
+4     5     238.     0.31
+5    11     207.    -0.02
+6    16     205.    -0.06</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:58%;">
@@ -1557,29 +2169,29 @@ confLibraries
 <strong>Normalized World</strong>
 </center>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">t1_z_score =</span> <span class="fu">round</span>((t1_score <span class="sc">-</span> t1_mean) <span class="sc">/</span> t1_sd, <span class="dv">2</span>),</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">t2_z_score =</span> <span class="fu">round</span>((t2_score <span class="sc">-</span> t2_mean) <span class="sc">/</span> t2_sd, <span class="dv">2</span>),</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">t1_pctile =</span> <span class="fu">get_t1_pctile</span>(t1_score),</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">t2_pctile =</span> <span class="fu">get_t2_pctile</span>(t2_score)</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(t1_pctile, <span class="at">.after =</span> t1_score) <span class="sc">|&gt;</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(t2_pctile, <span class="at">.after =</span> t2_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">t1_z_score =</span> <span class="fu">round</span>((t1_score <span class="sc">-</span> t1_mean) <span class="sc">/</span> t1_sd, <span class="dv">2</span>),</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">t2_z_score =</span> <span class="fu">round</span>((t2_score <span class="sc">-</span> t2_mean) <span class="sc">/</span> t2_sd, <span class="dv">2</span>),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">t1_pctile =</span> <span class="fu">get_t1_pctile</span>(t1_score),</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">t2_pctile =</span> <span class="fu">get_t2_pctile</span>(t2_score)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(t1_pctile, <span class="at">.after =</span> t1_score) <span class="sc">|&gt;</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(t2_pctile, <span class="at">.after =</span> t2_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><em>“I scored higher than 96.7% of students on the first test!</em> 🤩</p>
-<p><em>“And higher than 90% on the second!”</em> 😎</p>
+<p><em>“I scored higher than <strong>90%</strong> of students on the first test!</em> 🤩</p>
+<p><em>“And higher than <strong>60%</strong> on the second!”</em> 😎</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 7
      id t1_score t1_pctile t2_score t2_pctile t1_z_score t2_z_score
   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
-1     3     264.     100       0.66     70          1.55       0.74
-2     8     254.      96.7     0.79     90          1.42       0.97
-3    25     247.      93.3     0.71     73.3        1.32       0.83
-4    29     242.      90      -0.75      6.67       1.25      -1.76
-5     6     241.      86.7     0.39     53.3        1.25       0.27
-6    10     226.      83.3     0.73     83.3        1.05       0.87</code></pre>
+1    17     268.     100      -0.54      30         1.87      -0.82
+2    27     258.      96.7    -0.33      46.7       1.73      -0.52
+3    26     246.      93.3    -0.55      26.7       1.54      -0.83
+4     5     238.      90       0.31      60         1.44       0.39
+5    11     207.      86.7    -0.02      56.7       0.98      -0.08
+6    16     205.      83.3    -0.06      50         0.96      -0.14</code></pre>
 </div>
 </div>
 </div>
@@ -1589,36 +2201,37 @@ confLibraries
 <h2 class="smaller crunch-title crunch-figures crunch-images crunch-code crunch-p anchored" data-anchor-id="scaling">Scaling</h2>
 <p>The percentile places everyone at <strong>evenly-spaced intervals</strong> from 0 to 100:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://community.rstudio.com/t/number-line-in-ggplot/162894/4</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a binary indicator to track "me" (student #8)</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_me =</span> <span class="fu">as.numeric</span>(id <span class="sc">==</span> <span class="dv">8</span>))</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>t1_line_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> score_df<span class="sc">$</span>t1_pctile,</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">0</span>,</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">me =</span> score_df<span class="sc">$</span>is_me</span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(t1_line_data, <span class="fu">aes</span>(x,y,<span class="at">col=</span><span class="fu">factor</span>(me))) <span class="sc">+</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>g_pointsize)) <span class="sc">+</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position=</span><span class="st">"none"</span>, </span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rect = element_blank(),</span></span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#panel.grid = element_blank(),</span></span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>),</span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="sc">-</span><span class="dv">35</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="st">"pt"</span>),</span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Test 1 Percentile"</span></span>
-<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://community.rstudio.com/t/number-line-in-ggplot/162894/4</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a binary indicator to track "me" (student #8)</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>whoami <span class="ot">&lt;-</span> <span class="dv">29</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_me =</span> <span class="fu">as.numeric</span>(id <span class="sc">==</span> whoami))</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>t1_line_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> score_df<span class="sc">$</span>t1_pctile,</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">me =</span> score_df<span class="sc">$</span>is_me</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(t1_line_data, <span class="fu">aes</span>(x, y, <span class="at">col=</span><span class="fu">factor</span>(me), <span class="at">shape=</span><span class="fu">factor</span>(me))) <span class="sc">+</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>g_pointsize)) <span class="sc">+</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position=</span><span class="st">"none"</span>, </span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rect = element_blank(),</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">#panel.grid = element_blank(),</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>),</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="sc">-</span><span class="dv">35</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="st">"pt"</span>),</span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Test 1 Percentile"</span></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1627,9 +2240,10 @@ confLibraries
 </div>
 </div>
 </div>
+<p><img src="images/foucault_mirror.jpg" class="absolute img-fluid" style="width:15.0%" data-top="2%" data-right="0"></p>
 <p>But what if we want to see their <strong>absolute</strong> performance, on a 0 to 100 scale?</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'scales'</code></pre>
@@ -1644,43 +2258,45 @@ Attaching package: 'scales'</code></pre>
 
     col_factor</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">t1_rescaled =</span> <span class="fu">rescale</span>(</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>      t1_score,</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="fu">c</span>(t1_min_pts, t1_max_pts),</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">t2_rescaled =</span> <span class="fu">rescale</span>(</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>      t2_score,</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="fu">c</span>(t2_min_pts, t2_max_pts),</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>t1_rescaled_line_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> score_df<span class="sc">$</span>t1_rescaled,</span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">0</span>,</span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">me =</span> score_df<span class="sc">$</span>is_me</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(t1_rescaled_line_data, <span class="fu">aes</span>(x,y,<span class="at">col=</span><span class="fu">factor</span>(me))) <span class="sc">+</span></span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>g_pointsize)) <span class="sc">+</span></span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position=</span><span class="st">"none"</span>, </span>
-<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rect = element_blank(),</span></span>
-<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#panel.grid = element_blank(),</span></span>
-<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>),</span>
-<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="sc">-</span><span class="dv">40</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="st">"pt"</span>),</span>
-<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Test 1 Score (Rescaled to 0-100)"</span></span>
-<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">t1_rescaled =</span> <span class="fu">rescale</span>(</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>      t1_score,</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="fu">c</span>(t1_min, t1_max),</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">t2_rescaled =</span> <span class="fu">rescale</span>(</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>      t2_score,</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="fu">c</span>(t2_min, t2_max),</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Place "me" last so that it gets plotted last</span></span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>t1_rescaled_line_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> score_df<span class="sc">$</span>t1_rescaled,</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">me =</span> score_df<span class="sc">$</span>is_me</span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(me)</span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(t1_rescaled_line_data, <span class="fu">aes</span>(x,y,<span class="at">col=</span><span class="fu">factor</span>(me), <span class="at">shape=</span><span class="fu">factor</span>(me))) <span class="sc">+</span></span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="dv">0</span>, <span class="at">to=</span><span class="dv">100</span>, <span class="at">by=</span><span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position=</span><span class="st">"none"</span>, </span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rect = element_blank(),</span></span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">#panel.grid = element_blank(),</span></span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">#panel.spacing = unit(0, "mm"),</span></span>
+<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">#plot.margin = margin(-40, 0, 0, 0, "pt"),</span></span>
+<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Test 1 Score (Rescaled to 0-100)"</span></span>
+<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1689,6 +2305,7 @@ Attaching package: 'scales'</code></pre>
 </div>
 </div>
 </div>
+<p><img src="images/foucault_happy.jpeg" class="absolute img-fluid" style="width:15.0%" data-top="56%" data-right="0"></p>
 </section>
 <section id="shifting-recentering" class="level2 crunch-title crunch-math">
 <h2 class="crunch-title crunch-math anchored" data-anchor-id="shifting-recentering">Shifting / Recentering</h2>
@@ -1717,30 +2334,30 @@ z_i = \frac{x_i - \mu}{\sigma}
 <li>Unit of <span class="math inline">\(z\)</span>-score: <strong>standard deviations from the mean</strong>!</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>t1_z_score_line_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> score_df<span class="sc">$</span>t1_z_score,</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">0</span>,</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">me =</span> score_df<span class="sc">$</span>is_me</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(t1_z_score_line_data, <span class="fu">aes</span>(x,y,<span class="at">col=</span><span class="fu">factor</span>(me))) <span class="sc">+</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>g_pointsize)) <span class="sc">+</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position=</span><span class="st">"none"</span>, </span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rect = element_blank(),</span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#panel.grid = element_blank(),</span></span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="sc">-</span><span class="dv">20</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="st">"pt"</span>)</span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Test 1 Z-Score"</span></span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>t1_z_score_line_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> score_df<span class="sc">$</span>t1_z_score,</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">me =</span> score_df<span class="sc">$</span>is_me</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(me)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(t1_z_score_line_data, <span class="fu">aes</span>(x, y, <span class="at">col=</span><span class="fu">factor</span>(me), <span class="at">shape=</span><span class="fu">factor</span>(me))) <span class="sc">+</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>g_pointsize)) <span class="sc">+</span></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position=</span><span class="st">"none"</span>, </span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#rect = element_blank(),</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#panel.grid = element_blank(),</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="sc">-</span><span class="dv">20</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="st">"pt"</span>)</span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Test 1 Z-Score"</span></span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1751,13 +2368,200 @@ z_i = \frac{x_i - \mu}{\sigma}
 </div>
 </section>
 </section>
+<section id="distance-metrics" class="level1 smaller small-title not-title-slide crunch-title crunch-figures crunch-images page-columns page-full" data-stack-name="Distances">
+<h1 class="smaller small-title not-title-slide crunch-title crunch-figures crunch-images" data-stack-name="Distances">Distance Metrics</h1>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/line_vs_sphere.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/kozlowski_crop.jpeg" class="img-fluid figure-img" width="550"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/culture_vs_geography.jpeg" class="img-fluid figure-img" width="450"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/riemann_sphere.svg" class="img-fluid figure-img" width="350"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<section id="why-all-the-worry-about-units" class="level2">
+<h2 class="anchored" data-anchor-id="why-all-the-worry-about-units">Why All The Worry About Units?</h2>
+<ul>
+<li>Euclidean Distance</li>
+<li>Manhattan Distance</li>
+<li>Spherical Distance vs.&nbsp;Straight-Line Distance</li>
+</ul>
+</section>
+<section id="why-should-we-worry-about-this" class="level2 smaller small-math crunch-ul crunch-math crunch-images crunch-figures-less small-footnotes nostretch">
+<h2 class="smaller small-math crunch-ul crunch-math crunch-images crunch-figures-less small-footnotes nostretch anchored" data-anchor-id="why-should-we-worry-about-this">Why Should We Worry About This?</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div id="plz">
+<p>Say you’re training a <strong>facial recognition</strong> algorithm to detect criminals/terrorists</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\Pr(\text{criminal}) \\
+&amp;= \textsf{dist}(\text{face}, \text{model of criminal face})
+\end{align*}
+\]</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/wellcome_jewish_type_crop.jpeg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption"><span class="citation" data-cites="pearson_life_1924">Pearson (<a href="#ref-pearson_life_1924" role="doc-biblioref">1924, 294</a>)</span><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:55%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/galton_criminality.jpeg" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption"><span class="citation" data-cites="galton_inquiries_1919">Galton (<a href="#ref-galton_inquiries_1919" role="doc-biblioref">1919</a>)</span>, p.&nbsp;8 (inset)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/deep_learning_gay_detection_crop.jpeg" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption class="figure-caption"><span class="citation" data-cites="wang_deep_2018">Wang and Kosinski (<a href="#ref-wang_deep_2018" role="doc-biblioref">2018</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="distances-are-metaphors-we-use-to-accomplish-something" class="level2 smaller small-captions">
+<h2 class="smaller small-captions anchored" data-anchor-id="distances-are-metaphors-we-use-to-accomplish-something">Distances Are <em>Metaphors</em> We Use To <em>Accomplish Something</em></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/dc_map_scaled_unscaled.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Image Credit: <a href="https://www.behance.net/gallery/10965947/Washington-Metro-Map-to-Scale" target="_blank">Peter Dovak</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="which-metrics-should-we-use" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="which-metrics-should-we-use">Which Metric(s) Should We Use?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<strong>Ambulance Driver?</strong>
+</center>
+<p><img src="images/medical_distances.jpg" class="img-fluid"></p>
+</div><div class="column" style="width:50%;">
+<center>
+<strong>Data Scientist?</strong>
+</center>
+<p><span class="math inline">\(L^p\)</span>-norm:</p>
+<p><span class="math display">\[
+|| \mathbf{x} - \mathbf{y} ||_p = \left(\sum_{i=1}^n |x_i - y_i|^p \right)^{1/p}
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="onto-the-math-lp-norms" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="onto-the-math-lp-norms">Onto the Math! <span class="math inline">\(L^p\)</span>-Norms</h2>
+<ul>
+<li>Euclidean distance = <span class="math inline">\(L^2\)</span>-norm:</li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x} - \mathbf{y} ||_2 = \sqrt{\sum_{i=1}^n(x_i-y_i)^2}
+\]</span></p>
+<ul>
+<li>Manhattan distance = <span class="math inline">\(L^1\)</span>-norm:</li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x} - \mathbf{y} ||_1 = \sum_{i=1}^n |x_i - y_i|
+\]</span></p>
+<ul>
+<li>The <strong>maximum</strong>(!) = <span class="math inline">\(L^\infty\)</span>-norm:</li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x} - \mathbf{y} ||_{\infty} = \lim_{p \rightarrow \infty}\left[|| \mathbf{x} - \mathbf{y} ||_p\right] = \max\{|x_1-y_1|, \ldots, |x_n - y_n|\}
+\]</span></p>
+</section>
+<section id="top-secret-non-well-defined-yet-useful-norms" class="level2 smaller small-title page-columns page-full">
+<h2 class="smaller small-title anchored" data-anchor-id="top-secret-non-well-defined-yet-useful-norms">Top Secret Non-Well-Defined Yet Useful Norms</h2>
+<ul>
+<li>The “<span class="math inline">\(L^0\)</span>-norm”</li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x} - \mathbf{y} ||_0 = \mathbf{1}\left[x_i \neq y_i\right]
+\]</span></p>
+<ul>
+<li>The “<span class="math inline">\(L^{1/2}\)</span>-norm”</li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x} - \mathbf{y} ||_{1/2} = \left(\sum_{i=1}^n \sqrt{x_i - y_i} \right)^2
+\]</span></p>
+<ul>
+<li>What’s wrong with these norms? (Re-)enter: the <strong>Triangle Inequality</strong>:</li>
+</ul>
+<p><span class="math display">\[
+d\text{ defines a norm } \iff \forall a, b, c \left[ d(a,c) \leq d(a,b) + d(b,c) \right]
+\]</span></p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>To go beyond this, and explore how <span class="math inline">\(L^p\)</span> “quasi-norms” can be extremely useful, for example, take Optimization!</p>
+</div></div></section>
+<section id="missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="missing-values">Missing Values</h2>
+</section>
+<section id="intro-to-outlier-detection" class="level2">
+<h2 class="anchored" data-anchor-id="intro-to-outlier-detection">Intro to Outlier Detection</h2>
+</section>
+</section>
 <section id="lab-5" class="level1" data-stack-name="Lab 5">
 <h1 data-stack-name="Lab 5">Lab 5</h1>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-boyd_theory_2021" class="csl-entry" role="listitem">
+Boyd, Nora Mills, and James Bogen. 2021. <span>“Theory and <span>Observation</span> in <span>Science</span>.”</span> In <em>The <span>Stanford Encyclopedia</span> of <span>Philosophy</span></em>, edited by Edward N. Zalta, Winter 2021. <span>Metaphysics Research Lab, Stanford University</span>.
+</div>
+<div id="ref-galton_inquiries_1919" class="csl-entry" role="listitem">
+Galton, Francis. 1919. <em>Inquiries <span>Into Human Faculty</span> and <span>Its Development</span></em>. <span>J.M. Dent &amp; Company</span>.
+</div>
+<div id="ref-jelveh_political_2023" class="csl-entry" role="listitem">
+Jelveh, Zubin, Bruce Kogut, and Suresh Naidu. 2023. <span>“Political <span>Language</span> in <span>Economics</span>.”</span> <em>Economic Journal</em> (Forthcoming). <a href="https://doi.org/10.2139/ssrn.2535453">https://doi.org/10.2139/ssrn.2535453</a>.
+</div>
+<div id="ref-pearson_life_1924" class="csl-entry" role="listitem">
+Pearson, Karl. 1924. <em>The <span>Life</span>, <span>Letters</span> and <span>Labours</span> of <span>Francis Galton</span></em>. <span>University Press</span>.
+</div>
+<div id="ref-wang_deep_2018" class="csl-entry" role="listitem">
+Wang, Yilun, and Michal Kosinski. 2018. <span>“Deep Neural Networks Are More Accurate Than Humans at Detecting Sexual Orientation from Facial Images.”</span> <em>Journal of Personality and Social Psychology</em> 114 (2): 246–57. <a href="https://doi.org/10.1037/pspa0000098">https://doi.org/10.1037/pspa0000098</a>.
+</div>
+</div>
 
 
 </section>
+</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>(See next slide)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>(When I started as a PhD student in Computer Science, I would have answered “yes”. Now that my brain has been warped by social science, I’m not so sure.)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Good thing this guy isn’t the father of modern statistics or anything like that 😮‍💨<br><br>(For more historical scariness take my Data Ethics course next semester!)<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

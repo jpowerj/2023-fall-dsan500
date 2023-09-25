@@ -98,18 +98,60 @@
     "text": "Exploratory Data Analysis (EDA)\n\nIn contrast to confirmatory data analysis\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_understand\n\n Understand  \n\ncluster_expl\n\n Exploratory  \n\ncluster_conf\n\n Confirmatory  \n\ncluster_clean\n\n Clean  \n\ncluster_tidy\n\n    \n\ncluster_import\n\n     \n\nImport\n\n Import   \n\nTidy\n\n Tidy   \n\nImport-&gt;Tidy\n\n    \n\nimportLibs\n\n R:  read_csv() Python:  pd.read_csv()   \n\nV\n\n Visualize   \n\nTidy-&gt;V\n\n    \n\ntidyLibraries\n\n R:  tidyverse Python:  Pandas   \n\nModel\n\n Model   \n\nV-&gt;Model\n\n    \n\nvizLibraries\n\n R:  ggplot2 Python:  seaborn   \n\nModel-&gt;V\n\n    \n\nCommunicate\n\n Communicate   \n\nModel-&gt;Communicate\n\n    \n\nconfLibraries\n\n R:  e1071 Python:  scikit-learn"
   },
   {
+    "objectID": "w06/slides.html#exploratory-data-analysis-eda-1",
+    "href": "w06/slides.html#exploratory-data-analysis-eda-1",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Exploratory Data Analysis (EDA)",
+    "text": "Exploratory Data Analysis (EDA)\n\nSo you have reasonably clean data… now what?\n\n\n(Image source: Oldies but Goldies: Statistical Graphics Books)"
+  },
+  {
+    "objectID": "w06/slides.html#what-is-eda",
+    "href": "w06/slides.html#what-is-eda",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "What is EDA?",
+    "text": "What is EDA?\nFrom IBM:\n\nLook at data before making any assumptions1\nScreen data and identify obvious errors\nBetter understand patterns within the data\nDetect outliers or anomalous events\nFind interesting relations among the variables.\n\nOverarching goal to keep in mind: does this data have what I need to address my research question?\n(See next slide)"
+  },
+  {
+    "objectID": "w06/slides.html#assumption-free-analysis",
+    "href": "w06/slides.html#assumption-free-analysis",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Assumption-Free Analysis?",
+    "text": "Assumption-Free Analysis?\n\n\nImportant question for EDA: Is it actually possible to analyze data without assumptions?1\n\nEmpirical results are laden with values and theoretical commitments.(Boyd and Bogen 2021)\n\n\nEx: Estimates of optimal tax rates in Econ journals vs. Economist ideology scores\n\n\n\n\n\nComputed based on Jelveh, Kogut, and Naidu (2023)\n\n\n\n\n\n\n(When I started as a PhD student in Computer Science, I would have answered “yes”. Now that my brain has been warped by social science, I’m not so sure.)"
+  },
+  {
+    "objectID": "w06/slides.html#statistical-eda",
+    "href": "w06/slides.html#statistical-eda",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Statistical EDA",
+    "text": "Statistical EDA\n\nIterative process: Ask questions of the data, find answers, generate more questions\nYou’re probably already used to Mean and Variance: Fancier EDA/robustness methods build upon these two!\nWhy do we need to visualize? Can’t we just use mean, \\(R^2\\)?\n…Enter Anscombe’s Quartet\n\n\n\nCode\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nsns.set_theme(style=\"ticks\")\n# https://towardsdatascience.com/how-to-use-your-own-color-palettes-with-seaborn-a45bf5175146\nsns.set_palette(sns.color_palette(cb_palette))\n\n# Load the example dataset for Anscombe's quartet\nanscombe_df = sns.load_dataset(\"anscombe\")\n#print(anscombe_df)\n\n# Show the results of a linear regression within each dataset\nanscombe_plot = sns.lmplot(\n    data=anscombe_df, x=\"x\", y=\"y\", col=\"dataset\", hue=\"dataset\",\n    col_wrap=4, palette=\"muted\", ci=None,\n    scatter_kws={\"s\": 50, \"alpha\": 1},\n    height=3\n);\nanscombe_plot;"
+  },
+  {
+    "objectID": "w06/slides.html#the-scariest-dataset-of-all-time",
+    "href": "w06/slides.html#the-scariest-dataset-of-all-time",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "The Scariest Dataset of All Time",
+    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n\nCode\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\ndisp(data_means, floatfmt='.2f')\n\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n\nCode\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\n\nCode\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
+  },
+  {
+    "objectID": "w06/slides.html#it-doesnt-end-there",
+    "href": "w06/slides.html#it-doesnt-end-there",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "It Doesn’t End There…",
+    "text": "It Doesn’t End There…\n\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nimport statsmodels.formula.api as smf\nsummary_dfs = []\nfor cur_ds in ['I','II','III','IV']:\n  ds1_df = anscombe_df.loc[anscombe_df['dataset'] == \"I\"].copy()\n  # Fit regression model (using the natural log of one of the regressors)\n  results = smf.ols('y ~ x', data=ds1_df).fit()\n  # Get R^2\n  rsq = round(results.rsquared, 2)\n  # Inspect the results\n  summary = results.summary()\n  summary.extra_txt = None\n  summary_df = summary_to_df(summary, corner_col = f'Dataset {cur_ds}&lt;br&gt;R^2 = {rsq}')\n  summary_dfs.append(summary_df)\ndisp(summary_dfs[0], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77\n\n\n\n\n\n\n\nCode\ndisp(summary_dfs[1], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IIR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77\n\n\n\n\n\n\n\n\n\nCode\ndisp(summary_dfs[2], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IIIR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77\n\n\n\n\n\n\n\nCode\ndisp(summary_dfs[3], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IVR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77"
+  },
+  {
     "objectID": "w06/slides.html#normalization",
     "href": "w06/slides.html#normalization",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Normalization",
-    "text": "Normalization\n\n\n\nUnnormalized World\n\n\n\nCode\nnum_students &lt;- 30\nstudent_ids &lt;- seq(from = 1, to = num_students)\n# Test 1\nt1_min_pts &lt;- 0\nt1_max_pts &lt;- 268.3\nt1_score_vals &lt;- round(runif(num_students, t1_min_pts, t1_max_pts), 2)\nt1_mean &lt;- mean(t1_score_vals)\nt1_sd &lt;- sd(t1_score_vals)\nget_t1_pctile &lt;- function(s) round(100 * ecdf(t1_score_vals)(s), 1)\n# Test 2\nt2_min_pts &lt;- -1\nt2_max_pts &lt;- 1.2\nt2_score_vals &lt;- round(runif(num_students, t2_min_pts, t2_max_pts), 2)\nt2_mean &lt;- mean(t2_score_vals)\nt2_sd &lt;- sd(t2_score_vals)\nget_t2_pctile &lt;- function(s) round(100 * ecdf(t2_score_vals)(s), 2)\nscore_df &lt;- tibble(\n  id=student_ids,\n  t1_score=t1_score_vals,\n  t2_score=t2_score_vals\n)\nscore_df &lt;- score_df |&gt; arrange(desc(t1_score))\n\n\n“I got a 254.47 on the first test!” 🤩\n“But only a 0.79 on the second” 😭\n\n\n\n\n\n\nid\nt1_score\nt2_score\n\n\n\n\n3\n264.12\n0.66\n\n\n8\n254.47\n0.79\n\n\n25\n246.96\n0.71\n\n\n29\n241.80\n-0.75\n\n\n6\n241.34\n0.39\n\n\n10\n226.39\n0.73\n\n\n\n\n\n\n\n\nNormalized World\n\n\n\nCode\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_z_score = round((t1_score - t1_mean) / t1_sd, 2),\n    t2_z_score = round((t2_score - t2_mean) / t2_sd, 2),\n    t1_pctile = get_t1_pctile(t1_score),\n    t2_pctile = get_t2_pctile(t2_score)\n  ) |&gt;\n  relocate(t1_pctile, .after = t1_score) |&gt;\n  relocate(t2_pctile, .after = t2_score)\n\n\n“I scored higher than 96.7% of students on the first test! 🤩\n“And higher than 90% on the second!” 😎\n\n\n\n\n\n\nid\nt1_score\nt1_pctile\nt2_score\nt2_pctile\nt1_z_score\nt2_z_score\n\n\n\n\n3\n264.12\n100.0\n0.66\n70.00\n1.55\n0.74\n\n\n8\n254.47\n96.7\n0.79\n90.00\n1.42\n0.97\n\n\n25\n246.96\n93.3\n0.71\n73.33\n1.32\n0.83\n\n\n29\n241.80\n90.0\n-0.75\n6.67\n1.25\n-1.76\n\n\n6\n241.34\n86.7\n0.39\n53.33\n1.25\n0.27\n\n\n10\n226.39\n83.3\n0.73\n83.33\n1.05\n0.87"
+    "text": "Normalization\n\n\n\nUnnormalized World\n\n\n\nCode\nnum_students &lt;- 30\nstudent_ids &lt;- seq(from = 1, to = num_students)\n# So we have the censored Normal pdf/cdf\nlibrary(crch)\ngen_test_scores &lt;- function(min_pts, max_pts) {\n  score_vals_unif &lt;- runif(num_students, min_pts, max_pts)\n  unif_mean &lt;- mean(score_vals_unif)\n  unif_sd &lt;- sd(score_vals_unif)\n  # Resample, this time censored normal dist\n  score_vals &lt;- round(rcnorm(num_students, mean=unif_mean, sd=unif_sd, left=min_pts, right=max_pts), 2)\n  return(score_vals)\n}\n# Test 1\nt1_min &lt;- 0\nt1_max &lt;- 268.3\nt1_score_vals &lt;- gen_test_scores(t1_min, t1_max)\nt1_mean &lt;- mean(t1_score_vals)\nt1_sd &lt;- sd(t1_score_vals)\nget_t1_pctile &lt;- function(s) round(100 * ecdf(t1_score_vals)(s), 1)\n# Test 2\nt2_min &lt;- -1\nt2_max &lt;- 1.2\nt2_score_vals &lt;- gen_test_scores(t2_min, t2_max)\nt2_mean &lt;- mean(t2_score_vals)\nt2_sd &lt;- sd(t2_score_vals)\nget_t2_pctile &lt;- function(s) round(100 * ecdf(t2_score_vals)(s), 1)\nscore_df &lt;- tibble(\n  id=student_ids,\n  t1_score=t1_score_vals,\n  t2_score=t2_score_vals\n)\nscore_df &lt;- score_df |&gt; arrange(desc(t1_score))\n\n\n“I got a 238.25 on the first test!” 🤩\n“But only a 0.31 on the second” 😭\n\n\n\n\n\n\nid\nt1_score\nt2_score\n\n\n\n\n17\n268.30\n-0.54\n\n\n27\n258.44\n-0.33\n\n\n26\n245.86\n-0.55\n\n\n5\n238.25\n0.31\n\n\n11\n206.54\n-0.02\n\n\n16\n205.49\n-0.06\n\n\n\n\n\n\n\n\nNormalized World\n\n\n\nCode\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_z_score = round((t1_score - t1_mean) / t1_sd, 2),\n    t2_z_score = round((t2_score - t2_mean) / t2_sd, 2),\n    t1_pctile = get_t1_pctile(t1_score),\n    t2_pctile = get_t2_pctile(t2_score)\n  ) |&gt;\n  relocate(t1_pctile, .after = t1_score) |&gt;\n  relocate(t2_pctile, .after = t2_score)\n\n\n“I scored higher than 90% of students on the first test! 🤩\n“And higher than 60% on the second!” 😎\n\n\n\n\n\n\nid\nt1_score\nt1_pctile\nt2_score\nt2_pctile\nt1_z_score\nt2_z_score\n\n\n\n\n17\n268.30\n100.0\n-0.54\n30.0\n1.87\n-0.82\n\n\n27\n258.44\n96.7\n-0.33\n46.7\n1.73\n-0.52\n\n\n26\n245.86\n93.3\n-0.55\n26.7\n1.54\n-0.83\n\n\n5\n238.25\n90.0\n0.31\n60.0\n1.44\n0.39\n\n\n11\n206.54\n86.7\n-0.02\n56.7\n0.98\n-0.08\n\n\n16\n205.49\n83.3\n-0.06\n50.0\n0.96\n-0.14"
   },
   {
     "objectID": "w06/slides.html#scaling",
     "href": "w06/slides.html#scaling",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Scaling",
-    "text": "Scaling\nThe percentile places everyone at evenly-spaced intervals from 0 to 100:\n\n\nCode\n# https://community.rstudio.com/t/number-line-in-ggplot/162894/4\n# Add a binary indicator to track \"me\" (student #8)\nscore_df &lt;- score_df |&gt;\n  mutate(is_me = as.numeric(id == 8))\nlibrary(ggplot2)\nt1_line_data &lt;- tibble(\n  x = score_df$t1_pctile,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_line_data, aes(x,y,col=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  scale_color_discrete(c(0,1)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    panel.spacing = unit(0, \"mm\"),\n    plot.margin = margin(-35, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Percentile\"\n  ) +\n  coord_fixed(ratio = 100)\n\n\n\n\n\n\n\n\n\nBut what if we want to see their absolute performance, on a 0 to 100 scale?\n\n\nCode\nlibrary(scales)\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_rescaled = rescale(\n      t1_score,\n      from = c(t1_min_pts, t1_max_pts),\n      to = c(0, 100)\n    ),\n    t2_rescaled = rescale(\n      t2_score,\n      from = c(t2_min_pts, t2_max_pts),\n      to = c(0, 100)\n    )\n  )\nt1_rescaled_line_data &lt;- tibble(\n  x = score_df$t1_rescaled,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_rescaled_line_data, aes(x,y,col=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    panel.spacing = unit(0, \"mm\"),\n    plot.margin = margin(-40, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Score (Rescaled to 0-100)\"\n  ) +\n  coord_fixed(ratio = 100)"
+    "text": "Scaling\nThe percentile places everyone at evenly-spaced intervals from 0 to 100:\n\n\nCode\n# https://community.rstudio.com/t/number-line-in-ggplot/162894/4\n# Add a binary indicator to track \"me\" (student #8)\nwhoami &lt;- 29\nscore_df &lt;- score_df |&gt;\n  mutate(is_me = as.numeric(id == whoami))\nlibrary(ggplot2)\nt1_line_data &lt;- tibble(\n  x = score_df$t1_pctile,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_line_data, aes(x, y, col=factor(me), shape=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  scale_color_discrete(c(0,1)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    panel.spacing = unit(0, \"mm\"),\n    plot.margin = margin(-35, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Percentile\"\n  ) +\n  coord_fixed(ratio = 100)\n\n\n\n\n\n\n\n\n\n\nBut what if we want to see their absolute performance, on a 0 to 100 scale?\n\n\nCode\nlibrary(scales)\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_rescaled = rescale(\n      t1_score,\n      from = c(t1_min, t1_max),\n      to = c(0, 100)\n    ),\n    t2_rescaled = rescale(\n      t2_score,\n      from = c(t2_min, t2_max),\n      to = c(0, 100)\n    )\n  )\n# Place \"me\" last so that it gets plotted last\nt1_rescaled_line_data &lt;- tibble(\n  x = score_df$t1_rescaled,\n  y = 0,\n  me = score_df$is_me\n) |&gt; arrange(me)\nggplot(t1_rescaled_line_data, aes(x,y,col=factor(me), shape=factor(me))) +\n  geom_point(size=g_pointsize) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(0, 100)) +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    #panel.spacing = unit(0, \"mm\"),\n    #plot.margin = margin(-40, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Score (Rescaled to 0-100)\"\n  ) +\n  coord_fixed(ratio = 100)"
   },
   {
     "objectID": "w06/slides.html#shifting-recentering",
@@ -123,7 +165,70 @@
     "href": "w06/slides.html#shifting-and-scaling-the-z-score",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Shifting and Scaling: The \\(z\\)-Score",
-    "text": "Shifting and Scaling: The \\(z\\)-Score\n\nEnter the \\(z\\)-score!\n\n\\[\nz_i = \\frac{x_i - \\mu}{\\sigma}\n\\]\n\nUnit of original \\(x_i\\) values: ?\nUnit of \\(z\\)-score: standard deviations from the mean!\n\n\n\nCode\nt1_z_score_line_data &lt;- tibble(\n  x = score_df$t1_z_score,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_z_score_line_data, aes(x,y,col=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=c(-2,-1,0,1,2)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    plot.margin = margin(-20,0,0,0,\"pt\")\n  ) +\n  expand_limits(x=c(-2,2)) +\n  labs(\n    x = \"Test 1 Z-Score\"\n  ) +\n  coord_fixed(ratio = 3)"
+    "text": "Shifting and Scaling: The \\(z\\)-Score\n\nEnter the \\(z\\)-score!\n\n\\[\nz_i = \\frac{x_i - \\mu}{\\sigma}\n\\]\n\nUnit of original \\(x_i\\) values: ?\nUnit of \\(z\\)-score: standard deviations from the mean!\n\n\n\nCode\nt1_z_score_line_data &lt;- tibble(\n  x = score_df$t1_z_score,\n  y = 0,\n  me = score_df$is_me\n) |&gt; arrange(me)\nggplot(t1_z_score_line_data, aes(x, y, col=factor(me), shape=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=c(-2,-1,0,1,2)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    plot.margin = margin(-20,0,0,0,\"pt\")\n  ) +\n  expand_limits(x=c(-2,2)) +\n  labs(\n    x = \"Test 1 Z-Score\"\n  ) +\n  coord_fixed(ratio = 3)"
+  },
+  {
+    "objectID": "w06/slides.html#why-all-the-worry-about-units",
+    "href": "w06/slides.html#why-all-the-worry-about-units",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Why All The Worry About Units?",
+    "text": "Why All The Worry About Units?\n\nEuclidean Distance\nManhattan Distance\nSpherical Distance vs. Straight-Line Distance"
+  },
+  {
+    "objectID": "w06/slides.html#why-should-we-worry-about-this",
+    "href": "w06/slides.html#why-should-we-worry-about-this",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Why Should We Worry About This?",
+    "text": "Why Should We Worry About This?\n\n\n\nSay you’re training a facial recognition algorithm to detect criminals/terrorists\n\\[\n\\begin{align*}\n&\\Pr(\\text{criminal}) \\\\\n&= \\textsf{dist}(\\text{face}, \\text{model of criminal face})\n\\end{align*}\n\\]\n\n\n\n\nPearson (1924, 294)1\n\n\n\n\n\n\nGalton (1919), p. 8 (inset)\n\n\n\n\n\nWang and Kosinski (2018)\n\n\n\n\nGood thing this guy isn’t the father of modern statistics or anything like that 😮‍💨(For more historical scariness take my Data Ethics course next semester!)"
+  },
+  {
+    "objectID": "w06/slides.html#distances-are-metaphors-we-use-to-accomplish-something",
+    "href": "w06/slides.html#distances-are-metaphors-we-use-to-accomplish-something",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Distances Are Metaphors We Use To Accomplish Something",
+    "text": "Distances Are Metaphors We Use To Accomplish Something\n\nImage Credit: Peter Dovak"
+  },
+  {
+    "objectID": "w06/slides.html#which-metrics-should-we-use",
+    "href": "w06/slides.html#which-metrics-should-we-use",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Which Metric(s) Should We Use?",
+    "text": "Which Metric(s) Should We Use?\n\n\n\nAmbulance Driver?\n\n\n\n\nData Scientist?\n\n\\(L^p\\)-norm:\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_p = \\left(\\sum_{i=1}^n |x_i - y_i|^p \\right)^{1/p}\n\\]"
+  },
+  {
+    "objectID": "w06/slides.html#onto-the-math-lp-norms",
+    "href": "w06/slides.html#onto-the-math-lp-norms",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Onto the Math! \\(L^p\\)-Norms",
+    "text": "Onto the Math! \\(L^p\\)-Norms\n\nEuclidean distance = \\(L^2\\)-norm:\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_2 = \\sqrt{\\sum_{i=1}^n(x_i-y_i)^2}\n\\]\n\nManhattan distance = \\(L^1\\)-norm:\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_1 = \\sum_{i=1}^n |x_i - y_i|\n\\]\n\nThe maximum(!) = \\(L^\\infty\\)-norm:\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_{\\infty} = \\lim_{p \\rightarrow \\infty}\\left[|| \\mathbf{x} - \\mathbf{y} ||_p\\right] = \\max\\{|x_1-y_1|, \\ldots, |x_n - y_n|\\}\n\\]"
+  },
+  {
+    "objectID": "w06/slides.html#top-secret-non-well-defined-yet-useful-norms",
+    "href": "w06/slides.html#top-secret-non-well-defined-yet-useful-norms",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Top Secret Non-Well-Defined Yet Useful Norms",
+    "text": "Top Secret Non-Well-Defined Yet Useful Norms\n\nThe “\\(L^0\\)-norm”\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_0 = \\mathbf{1}\\left[x_i \\neq y_i\\right]\n\\]\n\nThe “\\(L^{1/2}\\)-norm”\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_{1/2} = \\left(\\sum_{i=1}^n \\sqrt{x_i - y_i} \\right)^2\n\\]\n\nWhat’s wrong with these norms? (Re-)enter: the Triangle Inequality:\n\n\\[\nd\\text{ defines a norm } \\iff \\forall a, b, c \\left[ d(a,c) \\leq d(a,b) + d(b,c) \\right]\n\\]\n\n\nTo go beyond this, and explore how \\(L^p\\) “quasi-norms” can be extremely useful, for example, take Optimization!"
+  },
+  {
+    "objectID": "w06/slides.html#missing-values",
+    "href": "w06/slides.html#missing-values",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Missing Values",
+    "text": "Missing Values"
+  },
+  {
+    "objectID": "w06/slides.html#intro-to-outlier-detection",
+    "href": "w06/slides.html#intro-to-outlier-detection",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Intro to Outlier Detection",
+    "text": "Intro to Outlier Detection"
+  },
+  {
+    "objectID": "w06/slides.html#references",
+    "href": "w06/slides.html#references",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "References",
+    "text": "References\n\n\nBoyd, Nora Mills, and James Bogen. 2021. “Theory and Observation in Science.” In The Stanford Encyclopedia of Philosophy, edited by Edward N. Zalta, Winter 2021. Metaphysics Research Lab, Stanford University.\n\n\nGalton, Francis. 1919. Inquiries Into Human Faculty and Its Development. J.M. Dent & Company.\n\n\nJelveh, Zubin, Bruce Kogut, and Suresh Naidu. 2023. “Political Language in Economics.” Economic Journal (Forthcoming). https://doi.org/10.2139/ssrn.2535453.\n\n\nPearson, Karl. 1924. The Life, Letters and Labours of Francis Galton. University Press.\n\n\nWang, Yilun, and Michal Kosinski. 2018. “Deep Neural Networks Are More Accurate Than Humans at Detecting Sexual Orientation from Facial Images.” Journal of Personality and Social Psychology 114 (2): 246–57. https://doi.org/10.1037/pspa0000098.\n\n\n\n\nDSAN 5000-02 Week 6: Exploratory Data Analysis"
   },
   {
     "objectID": "w06/index.html",
@@ -228,21 +333,63 @@
     "href": "w06/index.html#exploratory-data-analysis-eda",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Exploratory Data Analysis (EDA)",
-    "text": "Exploratory Data Analysis (EDA)\n\nIn contrast to confirmatory data analysis\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_understand\n\n Understand  \n\ncluster_expl\n\n Exploratory  \n\ncluster_conf\n\n Confirmatory  \n\ncluster_clean\n\n Clean  \n\ncluster_import\n\n    \n\ncluster_tidy\n\n     \n\nImport\n\n Import   \n\nTidy\n\n Tidy   \n\nImport-&gt;Tidy\n\n    \n\nimportLibs\n\n R:  read_csv() Python:  pd.read_csv()   \n\nV\n\n Visualize   \n\nTidy-&gt;V\n\n    \n\ntidyLibraries\n\n R:  tidyverse Python:  Pandas   \n\nModel\n\n Model   \n\nV-&gt;Model\n\n    \n\nvizLibraries\n\n R:  ggplot2 Python:  seaborn   \n\nModel-&gt;V\n\n    \n\nCommunicate\n\n Communicate   \n\nModel-&gt;Communicate\n\n    \n\nconfLibraries\n\n R:  e1071 Python:  scikit-learn"
+    "text": "Exploratory Data Analysis (EDA)\n\nIn contrast to confirmatory data analysis\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_clean\n\n Clean  \n\ncluster_import\n\n    \n\ncluster_tidy\n\n    \n\ncluster_understand\n\n Understand  \n\ncluster_expl\n\n Exploratory  \n\ncluster_conf\n\n Confirmatory   \n\nImport\n\n Import   \n\nTidy\n\n Tidy   \n\nImport-&gt;Tidy\n\n    \n\nimportLibs\n\n R:  read_csv() Python:  pd.read_csv()   \n\nV\n\n Visualize   \n\nTidy-&gt;V\n\n    \n\ntidyLibraries\n\n R:  tidyverse Python:  Pandas   \n\nModel\n\n Model   \n\nV-&gt;Model\n\n    \n\nvizLibraries\n\n R:  ggplot2 Python:  seaborn   \n\nModel-&gt;V\n\n    \n\nCommunicate\n\n Communicate   \n\nModel-&gt;Communicate\n\n    \n\nconfLibraries\n\n R:  e1071 Python:  scikit-learn"
+  },
+  {
+    "objectID": "w06/index.html#exploratory-data-analysis-eda-1",
+    "href": "w06/index.html#exploratory-data-analysis-eda-1",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Exploratory Data Analysis (EDA)",
+    "text": "Exploratory Data Analysis (EDA)\n\nSo you have reasonably clean data… now what?\n\n\n\n\n(Image source: Oldies but Goldies: Statistical Graphics Books)"
+  },
+  {
+    "objectID": "w06/index.html#what-is-eda",
+    "href": "w06/index.html#what-is-eda",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "What is EDA?",
+    "text": "What is EDA?\nFrom IBM:\n\nLook at data before making any assumptions1\nScreen data and identify obvious errors\nBetter understand patterns within the data\nDetect outliers or anomalous events\nFind interesting relations among the variables.\n\nOverarching goal to keep in mind: does this data have what I need to address my research question?"
+  },
+  {
+    "objectID": "w06/index.html#assumption-free-analysis",
+    "href": "w06/index.html#assumption-free-analysis",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Assumption-Free Analysis?",
+    "text": "Assumption-Free Analysis?\n\n\nImportant question for EDA: Is it actually possible to analyze data without assumptions?2\n\nEmpirical results are laden with values and theoretical commitments.(Boyd and Bogen 2021)\n\n\nEx: Estimates of optimal tax rates in Econ journals vs. Economist ideology scores\n\n\nRows: 21 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\ndbl (4): id, ideology, elast, tr_est\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n\nComputed based on Jelveh, Kogut, and Naidu (2023)"
+  },
+  {
+    "objectID": "w06/index.html#statistical-eda",
+    "href": "w06/index.html#statistical-eda",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Statistical EDA",
+    "text": "Statistical EDA\n\nIterative process: Ask questions of the data, find answers, generate more questions\nYou’re probably already used to Mean and Variance: Fancier EDA/robustness methods build upon these two!\nWhy do we need to visualize? Can’t we just use mean, \\(R^2\\)?\n…Enter Anscombe’s Quartet\n\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nsns.set_theme(style=\"ticks\")\n# https://towardsdatascience.com/how-to-use-your-own-color-palettes-with-seaborn-a45bf5175146\nsns.set_palette(sns.color_palette(cb_palette))\n\n# Load the example dataset for Anscombe's quartet\nanscombe_df = sns.load_dataset(\"anscombe\")\n#print(anscombe_df)\n\n# Show the results of a linear regression within each dataset\nanscombe_plot = sns.lmplot(\n    data=anscombe_df, x=\"x\", y=\"y\", col=\"dataset\", hue=\"dataset\",\n    col_wrap=4, palette=\"muted\", ci=None,\n    scatter_kws={\"s\": 50, \"alpha\": 1},\n    height=3\n);\n\n/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead\n  if pd.api.types.is_categorical_dtype(vector):\n/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead\n  if pd.api.types.is_categorical_dtype(vector):\n/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead\n  if pd.api.types.is_categorical_dtype(vector):\n\nanscombe_plot;"
+  },
+  {
+    "objectID": "w06/index.html#the-scariest-dataset-of-all-time",
+    "href": "w06/index.html#the-scariest-dataset-of-all-time",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "The Scariest Dataset of All Time",
+    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10f2cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10f2cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10f2cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10f2cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
+  },
+  {
+    "objectID": "w06/index.html#it-doesnt-end-there",
+    "href": "w06/index.html#it-doesnt-end-there",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "It Doesn’t End There…",
+    "text": "It Doesn’t End There…\n\n\n\n\n\n\n\n\n\n\n\n\nimport statsmodels.formula.api as smf\nsummary_dfs = []\nfor cur_ds in ['I','II','III','IV']:\n  ds1_df = anscombe_df.loc[anscombe_df['dataset'] == \"I\"].copy()\n  # Fit regression model (using the natural log of one of the regressors)\n  results = smf.ols('y ~ x', data=ds1_df).fit()\n  # Get R^2\n  rsq = round(results.rsquared, 2)\n  # Inspect the results\n  summary = results.summary()\n  summary.extra_txt = None\n  summary_df = summary_to_df(summary, corner_col = f'Dataset {cur_ds}&lt;br&gt;R^2 = {rsq}')\n  summary_dfs.append(summary_df)\n\n/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11\n  warnings.warn(\"kurtosistest only valid for n&gt;=20 ... continuing \"\n/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11\n  warnings.warn(\"kurtosistest only valid for n&gt;=20 ... continuing \"\n/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11\n  warnings.warn(\"kurtosistest only valid for n&gt;=20 ... continuing \"\n/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/scipy/stats/_stats_py.py:1806: UserWarning: kurtosistest only valid for n&gt;=20 ... continuing anyway, n=11\n  warnings.warn(\"kurtosistest only valid for n&gt;=20 ... continuing \"\n\ndisp(summary_dfs[0], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77\n\n\n\n\n\n\ndisp(summary_dfs[1], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IIR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77\n\n\n\n\n\n\n\n\ndisp(summary_dfs[2], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IIIR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77\n\n\n\n\n\n\ndisp(summary_dfs[3], include_index=False)\n\n\n\n\n\n\n\n\n\n\n\n\n\nDataset IVR^2 = 0.67\ncoef\nstd err\nt\nP&gt;|t|\n[0.025\n0.975]\n\n\n\n\nIntercept\n3\n1.12\n2.67\n0.03\n0.46\n5.54\n\n\nx\n0.5\n0.12\n4.24\n0\n0.23\n0.77"
   },
   {
     "objectID": "w06/index.html#normalization",
     "href": "w06/index.html#normalization",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Normalization",
-    "text": "Normalization\n\n\n\nUnnormalized World\n\n\n\nCode\nnum_students &lt;- 30\nstudent_ids &lt;- seq(from = 1, to = num_students)\n# Test 1\nt1_min_pts &lt;- 0\nt1_max_pts &lt;- 268.3\nt1_score_vals &lt;- round(runif(num_students, t1_min_pts, t1_max_pts), 2)\nt1_mean &lt;- mean(t1_score_vals)\nt1_sd &lt;- sd(t1_score_vals)\nget_t1_pctile &lt;- function(s) round(100 * ecdf(t1_score_vals)(s), 1)\n# Test 2\nt2_min_pts &lt;- -1\nt2_max_pts &lt;- 1.2\nt2_score_vals &lt;- round(runif(num_students, t2_min_pts, t2_max_pts), 2)\nt2_mean &lt;- mean(t2_score_vals)\nt2_sd &lt;- sd(t2_score_vals)\nget_t2_pctile &lt;- function(s) round(100 * ecdf(t2_score_vals)(s), 2)\nscore_df &lt;- tibble(\n  id=student_ids,\n  t1_score=t1_score_vals,\n  t2_score=t2_score_vals\n)\nscore_df &lt;- score_df |&gt; arrange(desc(t1_score))\n\n\n“I got a 254.47 on the first test!” 🤩\n“But only a 0.79 on the second” 😭\n\n\n# A tibble: 6 × 3\n     id t1_score t2_score\n  &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n1     3     264.     0.66\n2     8     254.     0.79\n3    25     247.     0.71\n4    29     242.    -0.75\n5     6     241.     0.39\n6    10     226.     0.73\n\n\n\n\nNormalized World\n\n\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_z_score = round((t1_score - t1_mean) / t1_sd, 2),\n    t2_z_score = round((t2_score - t2_mean) / t2_sd, 2),\n    t1_pctile = get_t1_pctile(t1_score),\n    t2_pctile = get_t2_pctile(t2_score)\n  ) |&gt;\n  relocate(t1_pctile, .after = t1_score) |&gt;\n  relocate(t2_pctile, .after = t2_score)\n\n“I scored higher than 96.7% of students on the first test! 🤩\n“And higher than 90% on the second!” 😎\n\n\n# A tibble: 6 × 7\n     id t1_score t1_pctile t2_score t2_pctile t1_z_score t2_z_score\n  &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;\n1     3     264.     100       0.66     70          1.55       0.74\n2     8     254.      96.7     0.79     90          1.42       0.97\n3    25     247.      93.3     0.71     73.3        1.32       0.83\n4    29     242.      90      -0.75      6.67       1.25      -1.76\n5     6     241.      86.7     0.39     53.3        1.25       0.27\n6    10     226.      83.3     0.73     83.3        1.05       0.87"
+    "text": "Normalization\n\n\n\nUnnormalized World\n\n\n\nCode\nnum_students &lt;- 30\nstudent_ids &lt;- seq(from = 1, to = num_students)\n# So we have the censored Normal pdf/cdf\nlibrary(crch)\ngen_test_scores &lt;- function(min_pts, max_pts) {\n  score_vals_unif &lt;- runif(num_students, min_pts, max_pts)\n  unif_mean &lt;- mean(score_vals_unif)\n  unif_sd &lt;- sd(score_vals_unif)\n  # Resample, this time censored normal dist\n  score_vals &lt;- round(rcnorm(num_students, mean=unif_mean, sd=unif_sd, left=min_pts, right=max_pts), 2)\n  return(score_vals)\n}\n# Test 1\nt1_min &lt;- 0\nt1_max &lt;- 268.3\nt1_score_vals &lt;- gen_test_scores(t1_min, t1_max)\nt1_mean &lt;- mean(t1_score_vals)\nt1_sd &lt;- sd(t1_score_vals)\nget_t1_pctile &lt;- function(s) round(100 * ecdf(t1_score_vals)(s), 1)\n# Test 2\nt2_min &lt;- -1\nt2_max &lt;- 1.2\nt2_score_vals &lt;- gen_test_scores(t2_min, t2_max)\nt2_mean &lt;- mean(t2_score_vals)\nt2_sd &lt;- sd(t2_score_vals)\nget_t2_pctile &lt;- function(s) round(100 * ecdf(t2_score_vals)(s), 1)\nscore_df &lt;- tibble(\n  id=student_ids,\n  t1_score=t1_score_vals,\n  t2_score=t2_score_vals\n)\nscore_df &lt;- score_df |&gt; arrange(desc(t1_score))\n\n\n“I got a 238.25 on the first test!” 🤩\n“But only a 0.31 on the second” 😭\n\n\n# A tibble: 6 × 3\n     id t1_score t2_score\n  &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n1    17     268.    -0.54\n2    27     258.    -0.33\n3    26     246.    -0.55\n4     5     238.     0.31\n5    11     207.    -0.02\n6    16     205.    -0.06\n\n\n\n\nNormalized World\n\n\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_z_score = round((t1_score - t1_mean) / t1_sd, 2),\n    t2_z_score = round((t2_score - t2_mean) / t2_sd, 2),\n    t1_pctile = get_t1_pctile(t1_score),\n    t2_pctile = get_t2_pctile(t2_score)\n  ) |&gt;\n  relocate(t1_pctile, .after = t1_score) |&gt;\n  relocate(t2_pctile, .after = t2_score)\n\n“I scored higher than 90% of students on the first test! 🤩\n“And higher than 60% on the second!” 😎\n\n\n# A tibble: 6 × 7\n     id t1_score t1_pctile t2_score t2_pctile t1_z_score t2_z_score\n  &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;\n1    17     268.     100      -0.54      30         1.87      -0.82\n2    27     258.      96.7    -0.33      46.7       1.73      -0.52\n3    26     246.      93.3    -0.55      26.7       1.54      -0.83\n4     5     238.      90       0.31      60         1.44       0.39\n5    11     207.      86.7    -0.02      56.7       0.98      -0.08\n6    16     205.      83.3    -0.06      50         0.96      -0.14"
   },
   {
     "objectID": "w06/index.html#scaling",
     "href": "w06/index.html#scaling",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Scaling",
-    "text": "Scaling\nThe percentile places everyone at evenly-spaced intervals from 0 to 100:\n\n# https://community.rstudio.com/t/number-line-in-ggplot/162894/4\n# Add a binary indicator to track \"me\" (student #8)\nscore_df &lt;- score_df |&gt;\n  mutate(is_me = as.numeric(id == 8))\nlibrary(ggplot2)\nt1_line_data &lt;- tibble(\n  x = score_df$t1_pctile,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_line_data, aes(x,y,col=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  scale_color_discrete(c(0,1)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    panel.spacing = unit(0, \"mm\"),\n    plot.margin = margin(-35, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Percentile\"\n  ) +\n  coord_fixed(ratio = 100)\n\n\n\n\n\n\n\n\nBut what if we want to see their absolute performance, on a 0 to 100 scale?\n\nlibrary(scales)\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_rescaled = rescale(\n      t1_score,\n      from = c(t1_min_pts, t1_max_pts),\n      to = c(0, 100)\n    ),\n    t2_rescaled = rescale(\n      t2_score,\n      from = c(t2_min_pts, t2_max_pts),\n      to = c(0, 100)\n    )\n  )\nt1_rescaled_line_data &lt;- tibble(\n  x = score_df$t1_rescaled,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_rescaled_line_data, aes(x,y,col=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    panel.spacing = unit(0, \"mm\"),\n    plot.margin = margin(-40, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Score (Rescaled to 0-100)\"\n  ) +\n  coord_fixed(ratio = 100)"
+    "text": "Scaling\nThe percentile places everyone at evenly-spaced intervals from 0 to 100:\n\n# https://community.rstudio.com/t/number-line-in-ggplot/162894/4\n# Add a binary indicator to track \"me\" (student #8)\nwhoami &lt;- 29\nscore_df &lt;- score_df |&gt;\n  mutate(is_me = as.numeric(id == whoami))\nlibrary(ggplot2)\nt1_line_data &lt;- tibble(\n  x = score_df$t1_pctile,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_line_data, aes(x, y, col=factor(me), shape=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  scale_color_discrete(c(0,1)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    panel.spacing = unit(0, \"mm\"),\n    plot.margin = margin(-35, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Percentile\"\n  ) +\n  coord_fixed(ratio = 100)\n\n\n\n\n\n\n\n\n\nBut what if we want to see their absolute performance, on a 0 to 100 scale?\n\nlibrary(scales)\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\nscore_df &lt;- score_df |&gt;\n  mutate(\n    t1_rescaled = rescale(\n      t1_score,\n      from = c(t1_min, t1_max),\n      to = c(0, 100)\n    ),\n    t2_rescaled = rescale(\n      t2_score,\n      from = c(t2_min, t2_max),\n      to = c(0, 100)\n    )\n  )\n# Place \"me\" last so that it gets plotted last\nt1_rescaled_line_data &lt;- tibble(\n  x = score_df$t1_rescaled,\n  y = 0,\n  me = score_df$is_me\n) |&gt; arrange(me)\nggplot(t1_rescaled_line_data, aes(x,y,col=factor(me), shape=factor(me))) +\n  geom_point(size=g_pointsize) +\n  scale_x_continuous(breaks=seq(from=0, to=100, by=10)) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(0, 100)) +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    #panel.spacing = unit(0, \"mm\"),\n    #plot.margin = margin(-40, 0, 0, 0, \"pt\"),\n  ) +\n  labs(\n    x = \"Test 1 Score (Rescaled to 0-100)\"\n  ) +\n  coord_fixed(ratio = 100)"
   },
   {
     "objectID": "w06/index.html#shifting-recentering",
@@ -256,7 +403,77 @@
     "href": "w06/index.html#shifting-and-scaling-the-z-score",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Shifting and Scaling: The \\(z\\)-Score",
-    "text": "Shifting and Scaling: The \\(z\\)-Score\n\nEnter the \\(z\\)-score!\n\n\\[\nz_i = \\frac{x_i - \\mu}{\\sigma}\n\\]\n\nUnit of original \\(x_i\\) values: ?\nUnit of \\(z\\)-score: standard deviations from the mean!\n\n\nt1_z_score_line_data &lt;- tibble(\n  x = score_df$t1_z_score,\n  y = 0,\n  me = score_df$is_me\n)\nggplot(t1_z_score_line_data, aes(x,y,col=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=c(-2,-1,0,1,2)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    plot.margin = margin(-20,0,0,0,\"pt\")\n  ) +\n  expand_limits(x=c(-2,2)) +\n  labs(\n    x = \"Test 1 Z-Score\"\n  ) +\n  coord_fixed(ratio = 3)"
+    "text": "Shifting and Scaling: The \\(z\\)-Score\n\nEnter the \\(z\\)-score!\n\n\\[\nz_i = \\frac{x_i - \\mu}{\\sigma}\n\\]\n\nUnit of original \\(x_i\\) values: ?\nUnit of \\(z\\)-score: standard deviations from the mean!\n\n\nt1_z_score_line_data &lt;- tibble(\n  x = score_df$t1_z_score,\n  y = 0,\n  me = score_df$is_me\n) |&gt; arrange(me)\nggplot(t1_z_score_line_data, aes(x, y, col=factor(me), shape=factor(me))) +\n  geom_point(aes(size=g_pointsize)) +\n  scale_x_continuous(breaks=c(-2,-1,0,1,2)) +\n  dsan_theme(\"half\") +\n  theme(\n    legend.position=\"none\", \n    #rect = element_blank(),\n    #panel.grid = element_blank(),\n    axis.title.y = element_blank(),\n    axis.text.y = element_blank(),\n    axis.line.y = element_blank(),\n    axis.ticks.y=element_blank(),\n    plot.margin = margin(-20,0,0,0,\"pt\")\n  ) +\n  expand_limits(x=c(-2,2)) +\n  labs(\n    x = \"Test 1 Z-Score\"\n  ) +\n  coord_fixed(ratio = 3)"
+  },
+  {
+    "objectID": "w06/index.html#why-all-the-worry-about-units",
+    "href": "w06/index.html#why-all-the-worry-about-units",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Why All The Worry About Units?",
+    "text": "Why All The Worry About Units?\n\nEuclidean Distance\nManhattan Distance\nSpherical Distance vs. Straight-Line Distance"
+  },
+  {
+    "objectID": "w06/index.html#why-should-we-worry-about-this",
+    "href": "w06/index.html#why-should-we-worry-about-this",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Why Should We Worry About This?",
+    "text": "Why Should We Worry About This?\n\n\n\nSay you’re training a facial recognition algorithm to detect criminals/terrorists\n\\[\n\\begin{align*}\n&\\Pr(\\text{criminal}) \\\\\n&= \\textsf{dist}(\\text{face}, \\text{model of criminal face})\n\\end{align*}\n\\]\n\n\n\n\nPearson (1924, 294)3\n\n\n\n\n\n\nGalton (1919), p. 8 (inset)\n\n\n\n\n\nWang and Kosinski (2018)"
+  },
+  {
+    "objectID": "w06/index.html#distances-are-metaphors-we-use-to-accomplish-something",
+    "href": "w06/index.html#distances-are-metaphors-we-use-to-accomplish-something",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Distances Are Metaphors We Use To Accomplish Something",
+    "text": "Distances Are Metaphors We Use To Accomplish Something\n\n\n\nImage Credit: Peter Dovak"
+  },
+  {
+    "objectID": "w06/index.html#which-metrics-should-we-use",
+    "href": "w06/index.html#which-metrics-should-we-use",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Which Metric(s) Should We Use?",
+    "text": "Which Metric(s) Should We Use?\n\n\n\nAmbulance Driver?\n\n\n\n\nData Scientist?\n\n\\(L^p\\)-norm:\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_p = \\left(\\sum_{i=1}^n |x_i - y_i|^p \\right)^{1/p}\n\\]"
+  },
+  {
+    "objectID": "w06/index.html#onto-the-math-lp-norms",
+    "href": "w06/index.html#onto-the-math-lp-norms",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Onto the Math! \\(L^p\\)-Norms",
+    "text": "Onto the Math! \\(L^p\\)-Norms\n\nEuclidean distance = \\(L^2\\)-norm:\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_2 = \\sqrt{\\sum_{i=1}^n(x_i-y_i)^2}\n\\]\n\nManhattan distance = \\(L^1\\)-norm:\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_1 = \\sum_{i=1}^n |x_i - y_i|\n\\]\n\nThe maximum(!) = \\(L^\\infty\\)-norm:\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_{\\infty} = \\lim_{p \\rightarrow \\infty}\\left[|| \\mathbf{x} - \\mathbf{y} ||_p\\right] = \\max\\{|x_1-y_1|, \\ldots, |x_n - y_n|\\}\n\\]"
+  },
+  {
+    "objectID": "w06/index.html#top-secret-non-well-defined-yet-useful-norms",
+    "href": "w06/index.html#top-secret-non-well-defined-yet-useful-norms",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Top Secret Non-Well-Defined Yet Useful Norms",
+    "text": "Top Secret Non-Well-Defined Yet Useful Norms\n\nThe “\\(L^0\\)-norm”\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_0 = \\mathbf{1}\\left[x_i \\neq y_i\\right]\n\\]\n\nThe “\\(L^{1/2}\\)-norm”\n\n\\[\n|| \\mathbf{x} - \\mathbf{y} ||_{1/2} = \\left(\\sum_{i=1}^n \\sqrt{x_i - y_i} \\right)^2\n\\]\n\nWhat’s wrong with these norms? (Re-)enter: the Triangle Inequality:\n\n\\[\nd\\text{ defines a norm } \\iff \\forall a, b, c \\left[ d(a,c) \\leq d(a,b) + d(b,c) \\right]\n\\]\n\n\nTo go beyond this, and explore how \\(L^p\\) “quasi-norms” can be extremely useful, for example, take Optimization!"
+  },
+  {
+    "objectID": "w06/index.html#missing-values",
+    "href": "w06/index.html#missing-values",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Missing Values",
+    "text": "Missing Values"
+  },
+  {
+    "objectID": "w06/index.html#intro-to-outlier-detection",
+    "href": "w06/index.html#intro-to-outlier-detection",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Intro to Outlier Detection",
+    "text": "Intro to Outlier Detection"
+  },
+  {
+    "objectID": "w06/index.html#references",
+    "href": "w06/index.html#references",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "References",
+    "text": "References\n\n\nBoyd, Nora Mills, and James Bogen. 2021. “Theory and Observation in Science.” In The Stanford Encyclopedia of Philosophy, edited by Edward N. Zalta, Winter 2021. Metaphysics Research Lab, Stanford University.\n\n\nGalton, Francis. 1919. Inquiries Into Human Faculty and Its Development. J.M. Dent & Company.\n\n\nJelveh, Zubin, Bruce Kogut, and Suresh Naidu. 2023. “Political Language in Economics.” Economic Journal (Forthcoming). https://doi.org/10.2139/ssrn.2535453.\n\n\nPearson, Karl. 1924. The Life, Letters and Labours of Francis Galton. University Press.\n\n\nWang, Yilun, and Michal Kosinski. 2018. “Deep Neural Networks Are More Accurate Than Humans at Detecting Sexual Orientation from Facial Images.” Journal of Personality and Social Psychology 114 (2): 246–57. https://doi.org/10.1037/pspa0000098."
+  },
+  {
+    "objectID": "w06/index.html#footnotes",
+    "href": "w06/index.html#footnotes",
+    "title": "Week 6: Exploratory Data Analysis (EDA)",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\n(See next slide)↩︎\n(When I started as a PhD student in Computer Science, I would have answered “yes”. Now that my brain has been warped by social science, I’m not so sure.)↩︎\nGood thing this guy isn’t the father of modern statistics or anything like that 😮‍💨(For more historical scariness take my Data Ethics course next semester!)↩︎"
   },
   {
     "objectID": "extra-videos/recording-w03-ssh-windows.html",
@@ -599,7 +816,7 @@
     "href": "w05/slides.html#factors-for-ordering-plot-elements",
     "title": "Week 5: Data Cleaning",
     "section": "Factors for Ordering Plot Elements",
-    "text": "Factors for Ordering Plot Elements\n\n\n\n\nCode\nrelig_summary &lt;- gss_cat %&gt;%\n  group_by(relig) %&gt;%\n  summarise(\n    age = mean(age, na.rm = TRUE),\n    tvhours = mean(tvhours, na.rm = TRUE),\n    n = n()\n  )\nrelig_labs &lt;- labs(\n  x = \"TV Hours / Day\",\n  y = \"Religion\"\n)\n\n\nWithout forcats:\n\n\nCode\nrelig_summary |&gt;\n  ggplot(aes(tvhours, relig)) +\n  geom_point(size=g_pointsize) +\n  geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n  dsan_theme(\"half\") +\n  relig_labs\n\n\n\n\n\n\n\n\n\n\nWith forcats:\n\n\nCode\nrelig_summary |&gt;\n  mutate(relig = fct_reorder(relig, tvhours)) |&gt;\n  ggplot(aes(x=tvhours, y=relig)) +\n    geom_point(size=g_pointsize) +\n    geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n    dsan_theme(\"half\") +\n    relig_labs"
+    "text": "Factors for Ordering Plot Elements\n\n\n\n\nCode\nrelig_summary &lt;- gss_cat %&gt;%\n  group_by(relig) %&gt;%\n  summarise(\n    age = mean(age, na.rm = TRUE),\n    tvhours = mean(tvhours, na.rm = TRUE),\n    n = n()\n  )\nrelig_labs &lt;- labs(\n  x = \"TV Hours / Day\",\n  y = \"Religion\"\n)\n\n\nWithout forcats:\n\n\nCode\nrelig_summary |&gt;\n  ggplot(aes(tvhours, relig)) +\n  geom_point(size=g_pointsize) +\n  geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n  dsan_theme(\"half\") +\n  relig_labs\n\n\n\n\n\n\nWith forcats:\n\n\nCode\nrelig_summary |&gt;\n  mutate(relig = fct_reorder(relig, tvhours)) |&gt;\n  ggplot(aes(x=tvhours, y=relig)) +\n    geom_point(size=g_pointsize) +\n    geom_segment(aes(yend = relig, x=0, xend = tvhours)) +\n    dsan_theme(\"half\") +\n    relig_labs"
   },
   {
     "objectID": "w05/slides.html#sorting-barplots-with-fct_infreq",

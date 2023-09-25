@@ -35,6 +35,15 @@ figcaption {
   color: #F0E442 !important;
 }
 
+// Fix the quarto table <-> python tabular thing
+// https://stackoverflow.com/questions/359821/styling-the-last-td-in-a-table-with-css
+.corr-table tbody > tr:last-of-type {
+    /* styling here */
+    // background-color: green;
+    border-bottom: 1px solid black !important;
+}
+
+
 .crunch-callout .callout {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
@@ -55,8 +64,11 @@ figcaption {
 .crunch-figures-left .quarto-figure {
   margin-left: 0px !important;
 }
-.crunch-figures-less div.quarto_figure {
+.crunch-figures-less .quarto_figure {
   margin-bottom: 0 !important;
+}
+.crunch-figures-less figcaption {
+  margin-top: 4px !important;
 }
 .crunch-iframe iframe {
   margin-bottom: 0px !important;
@@ -117,17 +129,26 @@ figcaption {
 .shift-footnotes aside {
   transform: translateY(45px) !important;
 }
+.shift-footnotes-moreish aside {
+  transform: translateY(50px) !important;
+}
 .shift-footnotes-more aside {
   transform: translateY(60px) !important;
 }
 .small-captions figcaption {
-  font-size: 70% !important;
+  font-size: 0.5em !important;
+}
+.small-footnotes aside {
+  font-size: 0.5em !important;
 }
 .smallish {
   font-size: 2.1rem !important;
 }
 .small-table-text table > * {
   font-size: 80% !important;
+}
+.smaller-table-text table > * {
+  font-size: 70% !important;
 }
 .small-title h1 {
   // font-size: var(--r-heading2-size) !important;
@@ -144,4 +165,9 @@ figcaption {
 }
 .some-right-margin {
   margin-right: 5px !important;
+}
+
+summary {
+  font-size: 0.75em !important;
+  text-align: left !important;
 }

@@ -1,0 +1,37 @@
+
+```{r}
+#| label: political-lang-in-econ
+#| echo: false
+#| fig-cap: Computed based on @jelveh_political_2022
+compute_optimal_tr <- function(x) 1/(1 + (1.5)*x)
+theor_min_est <- 0.028
+mean_est <- 0.31
+min_est <- 0.127
+max_est <- 0.483
+theor_max_est <- 0.615
+tr_data <- tribble(
+  ~id, ~ideology, ~elast,
+  0, -1, theor_min_est,
+  1, -0.66, min_est,
+  2, -0.22, mean_est,
+  3, 0.55, max_est,
+  4, 1, theor_max_est
+)
+tr_data <- tr_data |>
+  mutate(tr_est = compute_optimal_tr(elast))
+my_dexp <- function(x) 0.322 + 0.633 * exp(-0.633 * (x+1))
+ggplot(tr_data, aes(x=ideology, y=tr_est)) +
+  geom_point(size = g_pointsize) +
+  geom_line(linewidth = g_linewidth) +
+  stat_function(fun=my_dexp, linewidth = g_linewidth, linetype = "dashed") +
+  labs(
+    title = "Ideology vs. Optimal Tax Rate Estimates",
+    x = "Ideology Score (Campaign Contributions)",
+    y = "Published Estimate"
+  ) +
+  dsan_theme("half") +
+  scale_y_continuous(labels = scales::percent) +
+  expand_limits(x=c(-1,1))
+
+tr_data
+```

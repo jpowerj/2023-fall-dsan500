@@ -114,3 +114,78 @@ ggplot(t1_line_data, aes(x,y,col=factor(me))) +
   ) +
   coord_fixed(ratio = 100)
 ```
+
+```{r}
+library(vcd)
+library(MASS)
+library(tibble)
+library(dplyr)
+library(ggplot2)
+compute_optimal_tr <- function(x) 1/(1 + (1.5)*x)
+mean_est <- 0.31
+min_est <- 0.127
+max_est <- 0.483
+tr_data <- tribble(
+  ~id, ~ideology, ~elast,
+  0, -0.66, min_est,
+  1, -0.22, mean_est,
+  2, 0.55, max_est
+)
+tr_data <- tr_data |>
+  mutate(
+    tr_est = compute_optimal_tr(elast),
+    ideology_rescaled = ideology + 1
+)
+tr_data
+ggplot(tr_data, aes(x=ideology_rescaled, y = tr_est)) +
+  geom_point()
+#fit1 <- fitdistr(data, "exponential") 
+mod <- nls(tr_est ~ l * exp(-l * ideology_rescaled), data = tr_data, start = list(l=1))
+mod
+```
+
+```{r}
+my_exp <- function(x) dexp(x, rate = 1.1)
+ggplot(tr_data, aes(x=ideology_rescaled, y = tr_est)) +
+  geom_point() +
+  stat_function(fun = my_exp)
+```
+
+Interpolate based on SE
+
+```{r}
+library(tidyverse)
+compute_optimal_tr <- function(x) 1/(1 + (1.5)*x)
+theor_min_est <- 0.028
+mean_est <- 0.31
+min_est <- 0.127
+max_est <- 0.483
+theor_max_est <- 0.615
+tr_data <- tribble(
+  ~id, ~ideology, ~elast,
+  0, -1, theor_min_est,
+  1, -0.66, min_est,
+  2, -0.22, mean_est,
+  3, 0.55, max_est,
+  4, 1, theor_max_est
+)
+tr_data <- tr_data |>
+  mutate(tr_est = compute_optimal_tr(elast))
+my_dexp <- function(x) 0.322 + 0.633 * exp(-0.633 * (x+1))
+ggplot(tr_data, aes(x = ideology, y = tr_est)) +
+  geom_point() +
+  stat_function(fun = my_dexp)
+# Interp
+interp_ideology <- runif(16, -1, 1)
+interp_exp_vals <- my_dexp(interp_ideology)
+interp_noise <- rnorm(16, 0, 0.08)
+interp_est <- interp_exp_vals + interp_noise
+interp_df <- tibble(ideology=interp_ideology, tr_est=interp_est)
+ggplot(interp_df, aes(x = ideology, y=tr_est)) +
+  geom_point() +
+  stat_function(fun = my_dexp)
+# And combine
+final_df <- bind_rows(tr_data, interp_df)
+final_df |> write_csv("political_lang_estimates.csv")
+getwd()
+```
