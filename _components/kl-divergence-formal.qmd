@@ -1,0 +1,8 @@
+Formal version:
+
+$$
+\begin{align*}
+\text{KL}(\mathcal{P} \parallel \mathcal{Q}) &= \sum_{v \in \mathcal{R}_X} \Pr_{X \sim \mathcal{P}}(X = v \mid X \sim \mathcal{P})\log\left[ \frac{p_{X \sim Q}(v)}{p_X(v)} \right] \\
+&\neq \text{KL}(Q \parallel P)(!)
+\end{align*}
+$$

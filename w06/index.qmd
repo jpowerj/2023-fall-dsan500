@@ -69,6 +69,8 @@ def summary_to_df(summary_obj, corner_col = ''):
     return reg_df
 ```
 
+{{< include ../_tex-globals.qmd >}}
+
 :::
 
 Today's Planned Schedule (Section <span class='sec-num'>02</span>):
@@ -1100,7 +1102,7 @@ $$
 
 :::
 
-![@pearson_life_1924[294]^[Good thing this guy isn't the father of modern statistics or anything like that 😮‍💨<br><br>(For more historical scariness take my Data Ethics course next semester!)]](images/wellcome_jewish_type_crop.jpeg){fig-align="center" width="100%"}
+![@pearson_life_1924[294]^[Good thing this guy isn't the father of modern statistics or anything like that 😮‍💨<br><br>(For more historical scariness take my DSAN 5450: Data Ethics and Policy course next semester! 😉)]](images/wellcome_jewish_type_crop.jpeg){fig-align="center" width="100%"}
 
 
 
@@ -1114,23 +1116,23 @@ $$
 :::
 :::
 
-## Distances Are *Metaphors* We Use To *Accomplish Something* {.smaller .small-captions}
+## Distances Are *Metaphors* We Use To *Accomplish Something* {.smaller .small-captions .small-title}
 
 ![Image Credit: [Peter Dovak](https://www.behance.net/gallery/10965947/Washington-Metro-Map-to-Scale){target="_blank"}](images/dc_map_scaled_unscaled.png){fig-align="center"}
 
-## Which Metric(s) Should We Use? {.smaller}
+## Which Metric(s) Should We Use? {.smaller .crunch-title .crunch-math}
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="40%"}
 
 <center>
 **Ambulance Driver?**
 </center>
 
-![](images/medical_distances.jpg)
+![From @shahid_comparison_2009](images/medical_distances.jpg){fig-align="center" width="90%"}
 
 :::
-::: {.column width="50%"}
+::: {.column width="60%"}
 
 <center>
 **Data Scientist?**
@@ -1142,10 +1144,29 @@ $$
 || \mathbf{x} - \mathbf{y} ||_p = \left(\sum_{i=1}^n |x_i - y_i|^p \right)^{1/p}
 $$
 
+Edit Distance, e.g., Hamming distance:
+
+$$
+\begin{array}{c|c|c|c|c|c}
+x & \green{1} & \green{1} & \red{0} & \red{1} & 1 \\ \hline
+ & ✅ & ✅ & ❌ & ❌ & ✅ \\\hline
+y & \green{1} & \green{1} & \red{1} & \red{0} & 1 \\
+\end{array} \; \leadsto d(x,y) = 2
+$$
+
+KL Divergence (Probability distributions):
+
+$$
+\begin{align*}
+\kl(P \parallel Q) &= \sum_{x \in \mathcal{R}_X}P(x)\log\left[ \frac{P(x)}{Q(x)} \right] \\
+&\neq \kl(Q \parallel P) \; (!)
+\end{align*}
+$$
+
 :::
 :::
 
-## Onto the Math! $L^p$-Norms {.smaller}
+## Onto the Math! $L^p$-Norms {.smaller .crunch-title .crunch-ul}
 
 * Euclidean distance = $L^2$-norm:
 
@@ -1165,7 +1186,11 @@ $$
 || \mathbf{x} - \mathbf{y} ||_{\infty} = \lim_{p \rightarrow \infty}\left[|| \mathbf{x} - \mathbf{y} ||_p\right] = \max\{|x_1-y_1|, \ldots, |x_n - y_n|\}
 $$
 
-## Top Secret Non-Well-Defined Yet Useful Norms {.smaller .small-title}
+## Top Secret Non-Well-Defined Yet Useful Norms {.smaller .small-title .crunch-ul .crunch-code .crunch-images .crunch-figures .crunch-title .nostretch}
+
+::: {layout-ncol=2}
+
+::: {#quasi-norms}
 
 * The "$L^0$-norm"
 
@@ -1179,19 +1204,112 @@ $$
 || \mathbf{x} - \mathbf{y} ||_{1/2} = \left(\sum_{i=1}^n \sqrt{x_i - y_i} \right)^2
 $$
 
-* What's wrong with these norms? (Re-)enter: the **Triangle Inequality**:
+::: {#triangle-ineq .crunch-math}
+
+* What's wrong with these norms? (Re-)enter the **Triangle Inequality**! $d$ defines a norm iff
 
 $$
-d\text{ defines a norm } \iff \forall a, b, c \left[ d(a,c) \leq d(a,b) + d(b,c) \right]
+\forall a, b, c \left[ d(a,c) \leq d(a,b) + d(b,c) \right]
 $$
-
-::: {.aside}
-
-To go beyond this, and explore how $L^p$ "quasi-norms" can be extremely useful, for example, take Optimization!
 
 :::
 
-## Missing Values
+:::
+
+::: {#fig-lp-plots}
+
+Visualizing "circles" in $L^p$ space:
+
+```{python}
+#| label: lp-norms
+import matplotlib.pyplot as plt
+import numpy as np
+
+#p_values = [0., 0.5, 1, 1.5, 2, np.inf]
+p_values = [0.5, 1, 2, np.inf]
+x, y = np.meshgrid(np.linspace(-3, 3, num=101), np.linspace(-3, 3, num=101))
+fig, axes = plt.subplots(ncols=(len(p_values) + 1)// 2,
+                     nrows=2, figsize=(5, 5))
+for p, ax in zip(p_values, axes.flat):
+  if np.isinf(p):
+    z = np.maximum(np.abs(x),np.abs(y))
+  else:
+    z = ((np.abs((x))**p) + (np.abs((y))**p))**(1./p)
+  ax.contourf(x, y, z, 30, cmap='bwr')
+  ax.contour(x, y, z, [1], colors='red', linewidths = 2)
+  ax.title.set_text(f'p = {p}')
+  ax.set_aspect('equal', 'box')
+plt.tight_layout()
+#plt.subplots_adjust(hspace=0.35, wspace=0.25)
+plt.show()
+```
+
+Plots adapted from [this StackOverflow post](https://stackoverflow.com/questions/48723466/l0-and-inf-norms-plotting-with-contour-contourf){target='blank'}
+:::
+
+:::
+
+::: {.aside}
+
+To go beyond this, and explore how $L^p$ "quasi-norms" can be extremely useful, take DSAN 6100: Optimization!<br>One place they can be useful? You guessed it: **facial recognition algorithms** [@guo_enhancing_2013]
+
+:::
+
+# Missing Values
+
+## The Value of Studying {.smaller .nostretch}
+
+* You are a teacher trying to assess the **causal impact** of **studying** on **homework scores**
+* Let $S$ = hours of studying, $H$ = homework score
+
+![](images/pgm_homework.svg){fig-align="center" width="300"}
+
+* So far so good: we could estimate the relationship via (e.g.) regression
+
+$$
+h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
+$$
+
+## My Dog Ate My Homework {.smaller}
+
+* The issue: for some students $h_i$ is **missing**, since **their dog ate their homework**
+* Let $D = \begin{cases}1 &\text{if dog ate homework} \\ 0 &\text{otherwise}\end{cases}$
+* This means we don't observe $H$ but $H^* = \begin{cases} H &\text{if }D = 0 \\ \texttt{NA} &\text{otherwise}\end{cases}$
+* In the **easy case**, let's say that dogs eat homework **at random** (i.e., without reference to $S$ or $H$). Then we say $H$ is "missing at random".  Our PGM now looks like:
+
+![](images/pgm_hw_missing_at_random.svg){fig-align="center"}
+
+## My Dog Ate My Homework Because of Reasons {.smaller .nostretch}
+
+There are scarier alternatives, though! What if...
+
+::: {layout-ncol=3}
+
+::: {#dog-study}
+
+Dogs eat homework because their owner studied so much that the dog got ignored?
+
+![](images/pgm_hw_missing_study.svg){fig-align="center" width="100%"}
+
+:::
+
+::: {#dog-bad-hw}
+
+Dogs hate sloppy work, and eat bad homework that would have gotten a low score
+
+![](images/pgm_hw_missing_badhw.svg){fig-align="center"}
+
+:::
+
+::: {#dog-noisy}
+
+In noisy homes ($Z = 1$), dogs get agitated and eat homework more often, plus students students do work on homework
+
+![](images/pgm_hw_missing_noisy.svg){fig-align="center"}
+
+:::
+
+:::
 
 ## Intro to Outlier Detection
 

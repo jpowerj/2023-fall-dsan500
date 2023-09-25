@@ -302,7 +302,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#which-metrics-should-we-use" id="toc-which-metrics-should-we-use" class="nav-link" data-scroll-target="#which-metrics-should-we-use">Which Metric(s) Should We Use?</a></li>
   <li><a href="#onto-the-math-lp-norms" id="toc-onto-the-math-lp-norms" class="nav-link" data-scroll-target="#onto-the-math-lp-norms">Onto the Math! <span class="math inline">\(L^p\)</span>-Norms</a></li>
   <li><a href="#top-secret-non-well-defined-yet-useful-norms" id="toc-top-secret-non-well-defined-yet-useful-norms" class="nav-link" data-scroll-target="#top-secret-non-well-defined-yet-useful-norms">Top Secret Non-Well-Defined Yet Useful Norms</a></li>
-  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing Values</a></li>
+  </ul></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing Values</a>
+  <ul class="collapse">
+  <li><a href="#the-value-of-studying" id="toc-the-value-of-studying" class="nav-link" data-scroll-target="#the-value-of-studying">The Value of Studying</a></li>
+  <li><a href="#my-dog-ate-my-homework" id="toc-my-dog-ate-my-homework" class="nav-link" data-scroll-target="#my-dog-ate-my-homework">My Dog Ate My Homework</a></li>
+  <li><a href="#my-dog-ate-my-homework-because-of-reasons" id="toc-my-dog-ate-my-homework-because-of-reasons" class="nav-link" data-scroll-target="#my-dog-ate-my-homework-because-of-reasons">My Dog Ate My Homework Because of Reasons</a></li>
   <li><a href="#intro-to-outlier-detection" id="toc-intro-to-outlier-detection" class="nav-link" data-scroll-target="#intro-to-outlier-detection">Intro to Outlier Detection</a></li>
   </ul></li>
   <li><a href="#lab-5" id="toc-lab-5" class="nav-link" data-scroll-target="#lab-5">Lab 5</a>
@@ -393,6 +398,37 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sigh. Have to escape | characters?</span></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">"|"</span>,<span class="st">"\|"</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="hidden">
+<p><span class="math display">\[
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\newcommand{\bigexpect}[1]{\mathbb{E}\mkern-4mu \left[ #1 \right]}
+\newcommand{\definedas}{\overset{\text{defn}}{=}}
+\newcommand{\definedalign}{\overset{\phantom{\text{defn}}}{=}}
+\newcommand{\eqeventual}{\overset{\text{eventually}}{=}}
+\newcommand{\expect}[1]{\mathbb{E}[#1]}
+\newcommand{\expectsq}[1]{\mathbb{E}^2[#1]}
+\newcommand{\fw}[1]{\texttt{#1}}
+\newcommand{\given}{\mid}
+\newcommand{\green}[1]{\color{green}{#1}}
+\newcommand{\heads}{\outcome{heads}}
+\newcommand{\kl}{\text{KL}}
+\newcommand{\lik}{\mathcal{L}}
+\newcommand{\mle}{\textsf{ML}}
+\newcommand{\orange}[1]{\color{orange}{#1}}
+\newcommand{\outcome}[1]{\textsf{#1}}
+\newcommand{\param}[1]{{\color{purple} #1}}
+\newcommand{\pgsamplespace}{\{\green{1},\green{2},\green{3},\purp{4},\purp{5},\purp{6}\}}
+\newcommand{\prob}[1]{P\left( #1 \right)}
+\newcommand{\purp}[1]{\color{purple}{#1}}
+\newcommand{\red}[1]{\color{red}#1}
+\newcommand{\spacecap}{\; \cap \;}
+\newcommand{\spacewedge}{\; \wedge \;}
+\newcommand{\tails}{\outcome{tails}}
+\newcommand{\Var}[1]{\text{Var}[#1]}
+\newcommand{\bigVar}[1]{\text{Var}\mkern-4mu \left[ #1 \right]}
+\]</span></p>
 </div>
 </div>
 <p>Today’s Planned Schedule (Section <span class="sec-num">02</span>):</p>
@@ -1475,7 +1511,19 @@ dbl (2): Year, Value
 <title>
 G
 </title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-295 1262.28,-295 1262.28,4 -4,4"></polygon> <g id="clust1" class="cluster">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-295 1262.28,-295 1262.28,4 -4,4"></polygon> <g id="clust4" class="cluster">
+<title>
+cluster_understand
+</title>
+<polygon fill="none" stroke="black" points="533.68,-8 533.68,-283 1057.94,-283 1057.94,-8 533.68,-8"></polygon> <text text-anchor="start" x="740.49" y="-253.4" font-family="Times,serif" font-size="24.00">Understand</text> </g> <g id="clust6" class="cluster">
+<title>
+cluster_conf
+</title>
+<polygon fill="none" stroke="black" points="770.11,-18 770.11,-229 1047.94,-229 1047.94,-18 770.11,-18"></polygon> <text text-anchor="middle" x="909.03" y="-212.4" font-family="Times,serif" font-size="14.00">Confirmatory</text> </g> <g id="clust5" class="cluster">
+<title>
+cluster_expl
+</title>
+<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust1" class="cluster">
 <title>
 cluster_clean
 </title>
@@ -1487,19 +1535,7 @@ cluster_import
 <title>
 cluster_tidy
 </title>
-<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust4" class="cluster">
-<title>
-cluster_understand
-</title>
-<polygon fill="none" stroke="black" points="533.68,-8 533.68,-283 1057.94,-283 1057.94,-8 533.68,-8"></polygon> <text text-anchor="start" x="740.49" y="-253.4" font-family="Times,serif" font-size="24.00">Understand</text> </g> <g id="clust5" class="cluster">
-<title>
-cluster_expl
-</title>
-<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust6" class="cluster">
-<title>
-cluster_conf
-</title>
-<polygon fill="none" stroke="black" points="770.11,-18 770.11,-229 1047.94,-229 1047.94,-18 770.11,-18"></polygon> <text text-anchor="middle" x="909.03" y="-212.4" font-family="Times,serif" font-size="14.00">Confirmatory</text> </g> <!-- Import --> <g id="node1" class="node">
+<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <!-- Import --> <g id="node1" class="node">
 <title>
 Import
 </title>
@@ -1535,7 +1571,7 @@ Model
 <title>
 V-&gt;Model
 </title>
-<path fill="none" stroke="black" d="M721.33,-164.04C759.91,-165.03 807.96,-164.98 845.66,-163.9"></path> <polygon fill="black" stroke="black" points="846.12,-167.39 856,-163.57 845.89,-160.39 846.12,-167.39"></polygon> </g> <!-- vizLibraries --> <g id="node6" class="node">
+<path fill="none" stroke="black" d="M721.33,-151.96C759.91,-150.97 807.96,-151.02 845.66,-152.1"></path> <polygon fill="black" stroke="black" points="845.89,-155.61 856,-152.43 846.12,-148.61 845.89,-155.61"></polygon> </g> <!-- vizLibraries --> <g id="node6" class="node">
 <title>
 vizLibraries
 </title>
@@ -1543,7 +1579,7 @@ vizLibraries
 <title>
 Model-&gt;V
 </title>
-<path fill="none" stroke="black" d="M856,-152.43C820.13,-151.14 771.81,-150.91 731.42,-151.73"></path> <polygon fill="black" stroke="black" points="731.25,-148.23 721.33,-151.96 731.41,-155.23 731.25,-148.23"></polygon> </g> <!-- Communicate --> <g id="node9" class="node">
+<path fill="none" stroke="black" d="M856,-163.57C820.13,-164.86 771.81,-165.09 731.42,-164.27"></path> <polygon fill="black" stroke="black" points="731.41,-160.77 721.33,-164.04 731.25,-167.77 731.41,-160.77"></polygon> </g> <!-- Communicate --> <g id="node9" class="node">
 <title>
 Communicate
 </title>
@@ -1692,8 +1728,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.mean)</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10f2cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
-&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10f2cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
+<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1105cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
+&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1105cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>disp(data_means, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1742,8 +1778,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.std),</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10f2cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
-&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10f2cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
+<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1105cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
+&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1105cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>disp(data_sds, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -2447,8 +2483,8 @@ z_i = \frac{x_i - \mu}{\sigma}
 </div>
 </div>
 </section>
-<section id="distances-are-metaphors-we-use-to-accomplish-something" class="level2 smaller small-captions">
-<h2 class="smaller small-captions anchored" data-anchor-id="distances-are-metaphors-we-use-to-accomplish-something">Distances Are <em>Metaphors</em> We Use To <em>Accomplish Something</em></h2>
+<section id="distances-are-metaphors-we-use-to-accomplish-something" class="level2 smaller small-captions small-title">
+<h2 class="smaller small-captions small-title anchored" data-anchor-id="distances-are-metaphors-we-use-to-accomplish-something">Distances Are <em>Metaphors</em> We Use To <em>Accomplish Something</em></h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/dc_map_scaled_unscaled.png" class="img-fluid figure-img"></p>
@@ -2456,15 +2492,20 @@ z_i = \frac{x_i - \mu}{\sigma}
 </figure>
 </div>
 </section>
-<section id="which-metrics-should-we-use" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="which-metrics-should-we-use">Which Metric(s) Should We Use?</h2>
+<section id="which-metrics-should-we-use" class="level2 smaller crunch-title crunch-math">
+<h2 class="smaller crunch-title crunch-math anchored" data-anchor-id="which-metrics-should-we-use">Which Metric(s) Should We Use?</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:40%;">
 <center>
 <strong>Ambulance Driver?</strong>
 </center>
-<p><img src="images/medical_distances.jpg" class="img-fluid"></p>
-</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/medical_distances.jpg" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption class="figure-caption">From <span class="citation" data-cites="shahid_comparison_2009">Shahid et al. (<a href="#ref-shahid_comparison_2009" role="doc-biblioref">2009</a>)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:60%;">
 <center>
 <strong>Data Scientist?</strong>
 </center>
@@ -2472,11 +2513,26 @@ z_i = \frac{x_i - \mu}{\sigma}
 <p><span class="math display">\[
 || \mathbf{x} - \mathbf{y} ||_p = \left(\sum_{i=1}^n |x_i - y_i|^p \right)^{1/p}
 \]</span></p>
+<p>Edit Distance, e.g., Hamming distance:</p>
+<p><span class="math display">\[
+\begin{array}{c|c|c|c|c|c}
+x &amp; \green{1} &amp; \green{1} &amp; \red{0} &amp; \red{1} &amp; 1 \\ \hline
+&amp; ✅ &amp; ✅ &amp; ❌ &amp; ❌ &amp; ✅ \\\hline
+y &amp; \green{1} &amp; \green{1} &amp; \red{1} &amp; \red{0} &amp; 1 \\
+\end{array} \; \leadsto d(x,y) = 2
+\]</span></p>
+<p>KL Divergence (Probability distributions):</p>
+<p><span class="math display">\[
+\begin{align*}
+\kl(P \parallel Q) &amp;= \sum_{x \in \mathcal{R}_X}P(x)\log\left[ \frac{P(x)}{Q(x)} \right] \\
+&amp;\neq \kl(Q \parallel P) \; (!)
+\end{align*}
+\]</span></p>
 </div>
 </div>
 </section>
-<section id="onto-the-math-lp-norms" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="onto-the-math-lp-norms">Onto the Math! <span class="math inline">\(L^p\)</span>-Norms</h2>
+<section id="onto-the-math-lp-norms" class="level2 smaller crunch-title crunch-ul">
+<h2 class="smaller crunch-title crunch-ul anchored" data-anchor-id="onto-the-math-lp-norms">Onto the Math! <span class="math inline">\(L^p\)</span>-Norms</h2>
 <ul>
 <li>Euclidean distance = <span class="math inline">\(L^2\)</span>-norm:</li>
 </ul>
@@ -2496,8 +2552,11 @@ z_i = \frac{x_i - \mu}{\sigma}
 || \mathbf{x} - \mathbf{y} ||_{\infty} = \lim_{p \rightarrow \infty}\left[|| \mathbf{x} - \mathbf{y} ||_p\right] = \max\{|x_1-y_1|, \ldots, |x_n - y_n|\}
 \]</span></p>
 </section>
-<section id="top-secret-non-well-defined-yet-useful-norms" class="level2 smaller small-title page-columns page-full">
-<h2 class="smaller small-title anchored" data-anchor-id="top-secret-non-well-defined-yet-useful-norms">Top Secret Non-Well-Defined Yet Useful Norms</h2>
+<section id="top-secret-non-well-defined-yet-useful-norms" class="level2 smaller small-title crunch-ul crunch-code crunch-images crunch-figures crunch-title nostretch page-columns page-full">
+<h2 class="smaller small-title crunch-ul crunch-code crunch-images crunch-figures crunch-title nostretch anchored" data-anchor-id="top-secret-non-well-defined-yet-useful-norms">Top Secret Non-Well-Defined Yet Useful Norms</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="quasi-norms" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <ul>
 <li>The “<span class="math inline">\(L^0\)</span>-norm”</li>
 </ul>
@@ -2510,18 +2569,122 @@ z_i = \frac{x_i - \mu}{\sigma}
 <p><span class="math display">\[
 || \mathbf{x} - \mathbf{y} ||_{1/2} = \left(\sum_{i=1}^n \sqrt{x_i - y_i} \right)^2
 \]</span></p>
+<div id="triangle-ineq" class="crunch-math">
 <ul>
-<li>What’s wrong with these norms? (Re-)enter: the <strong>Triangle Inequality</strong>:</li>
+<li>What’s wrong with these norms? (Re-)enter the <strong>Triangle Inequality</strong>! <span class="math inline">\(d\)</span> defines a norm iff</li>
 </ul>
 <p><span class="math display">\[
-d\text{ defines a norm } \iff \forall a, b, c \left[ d(a,c) \leq d(a,b) + d(b,c) \right]
+\forall a, b, c \left[ d(a,c) \leq d(a,b) + d(b,c) \right]
 \]</span></p>
+</div>
+</div>
+<div id="fig-lp-plots" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
+<figure class="figure">
+<p>Visualizing “circles” in <span class="math inline">\(L^p\)</span> space:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="co">#p_values = [0., 0.5, 1, 1.5, 2, np.inf]</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>p_values <span class="op">=</span> [<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, np.inf]</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, num<span class="op">=</span><span class="dv">101</span>), np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, num<span class="op">=</span><span class="dv">101</span>))</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(ncols<span class="op">=</span>(<span class="bu">len</span>(p_values) <span class="op">+</span> <span class="dv">1</span>)<span class="op">//</span> <span class="dv">2</span>,</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>                     nrows<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p, ax <span class="kw">in</span> <span class="bu">zip</span>(p_values, axes.flat):</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> np.isinf(p):</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> np.maximum(np.<span class="bu">abs</span>(x),np.<span class="bu">abs</span>(y))</span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> ((np.<span class="bu">abs</span>((x))<span class="op">**</span>p) <span class="op">+</span> (np.<span class="bu">abs</span>((y))<span class="op">**</span>p))<span class="op">**</span>(<span class="fl">1.</span><span class="op">/</span>p)</span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a>  ax.contourf(x, y, z, <span class="dv">30</span>, cmap<span class="op">=</span><span class="st">'bwr'</span>)</span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>  ax.contour(x, y, z, [<span class="dv">1</span>], colors<span class="op">=</span><span class="st">'red'</span>, linewidths <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a>  ax.title.set_text(<span class="ss">f'p = </span><span class="sc">{</span>p<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a>  ax.set_aspect(<span class="st">'equal'</span>, <span class="st">'box'</span>)</span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.subplots_adjust(hspace=0.35, wspace=0.25)</span></span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/lp-norms-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;7: Plots adapted from <a href="https://stackoverflow.com/questions/48723466/l0-and-inf-norms-plotting-with-contour-contourf" target="blank">this StackOverflow post</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>To go beyond this, and explore how <span class="math inline">\(L^p\)</span> “quasi-norms” can be extremely useful, for example, take Optimization!</p>
+<p>To go beyond this, and explore how <span class="math inline">\(L^p\)</span> “quasi-norms” can be extremely useful, take DSAN 6100: Optimization!<br>One place they can be useful? You guessed it: <strong>facial recognition algorithms</strong> <span class="citation" data-cites="guo_enhancing_2013">(<a href="#ref-guo_enhancing_2013" role="doc-biblioref">Guo, Wang, and Ruan 2013</a>)</span></p>
 </div></div></section>
-<section id="missing-values" class="level2">
-<h2 class="anchored" data-anchor-id="missing-values">Missing Values</h2>
+</section>
+<section id="missing-values" class="level1">
+<h1>Missing Values</h1>
+<section id="the-value-of-studying" class="level2 smaller nostretch">
+<h2 class="smaller nostretch anchored" data-anchor-id="the-value-of-studying">The Value of Studying</h2>
+<ul>
+<li>You are a teacher trying to assess the <strong>causal impact</strong> of <strong>studying</strong> on <strong>homework scores</strong></li>
+<li>Let <span class="math inline">\(S\)</span> = hours of studying, <span class="math inline">\(H\)</span> = homework score</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pgm_homework.svg" class="img-fluid figure-img" width="300"></p>
+</figure>
+</div>
+<ul>
+<li>So far so good: we could estimate the relationship via (e.g.) regression</li>
+</ul>
+<p><span class="math display">\[
+h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
+\]</span></p>
+</section>
+<section id="my-dog-ate-my-homework" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="my-dog-ate-my-homework">My Dog Ate My Homework</h2>
+<ul>
+<li>The issue: for some students <span class="math inline">\(h_i\)</span> is <strong>missing</strong>, since <strong>their dog ate their homework</strong></li>
+<li>Let <span class="math inline">\(D = \begin{cases}1 &amp;\text{if dog ate homework} \\ 0 &amp;\text{otherwise}\end{cases}\)</span></li>
+<li>This means we don’t observe <span class="math inline">\(H\)</span> but <span class="math inline">\(H^* = \begin{cases} H &amp;\text{if }D = 0 \\ \texttt{NA} &amp;\text{otherwise}\end{cases}\)</span></li>
+<li>In the <strong>easy case</strong>, let’s say that dogs eat homework <strong>at random</strong> (i.e., without reference to <span class="math inline">\(S\)</span> or <span class="math inline">\(H\)</span>). Then we say <span class="math inline">\(H\)</span> is “missing at random”. Our PGM now looks like:</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pgm_hw_missing_at_random.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="my-dog-ate-my-homework-because-of-reasons" class="level2 smaller nostretch">
+<h2 class="smaller nostretch anchored" data-anchor-id="my-dog-ate-my-homework-because-of-reasons">My Dog Ate My Homework Because of Reasons</h2>
+<p>There are scarier alternatives, though! What if…</p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="dog-study" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p>Dogs eat homework because their owner studied so much that the dog got ignored?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pgm_hw_missing_study.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div id="dog-bad-hw" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p>Dogs hate sloppy work, and eat bad homework that would have gotten a low score</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pgm_hw_missing_badhw.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div id="dog-noisy" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p>In noisy homes (<span class="math inline">\(Z = 1\)</span>), dogs get agitated and eat homework more often, plus students students do work on homework</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pgm_hw_missing_noisy.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="intro-to-outlier-detection" class="level2">
 <h2 class="anchored" data-anchor-id="intro-to-outlier-detection">Intro to Outlier Detection</h2>
@@ -2538,11 +2701,17 @@ Boyd, Nora Mills, and James Bogen. 2021. <span>“Theory and <span>Observation</
 <div id="ref-galton_inquiries_1919" class="csl-entry" role="listitem">
 Galton, Francis. 1919. <em>Inquiries <span>Into Human Faculty</span> and <span>Its Development</span></em>. <span>J.M. Dent &amp; Company</span>.
 </div>
+<div id="ref-guo_enhancing_2013" class="csl-entry" role="listitem">
+Guo, Song, Zhan Wang, and Qiuqi Ruan. 2013. <span>“Enhancing Sparsity via <span><span class="math inline">\(\mathscr{l}\)</span></span>p (0.”</span> <em>Neurocomputing</em> 99 (January): 592–602. <a href="https://doi.org/10.1016/j.neucom.2012.05.028">https://doi.org/10.1016/j.neucom.2012.05.028</a>.
+</div>
 <div id="ref-jelveh_political_2023" class="csl-entry" role="listitem">
 Jelveh, Zubin, Bruce Kogut, and Suresh Naidu. 2023. <span>“Political <span>Language</span> in <span>Economics</span>.”</span> <em>Economic Journal</em> (Forthcoming). <a href="https://doi.org/10.2139/ssrn.2535453">https://doi.org/10.2139/ssrn.2535453</a>.
 </div>
 <div id="ref-pearson_life_1924" class="csl-entry" role="listitem">
 Pearson, Karl. 1924. <em>The <span>Life</span>, <span>Letters</span> and <span>Labours</span> of <span>Francis Galton</span></em>. <span>University Press</span>.
+</div>
+<div id="ref-shahid_comparison_2009" class="csl-entry" role="listitem">
+Shahid, Rizwan, Stefania Bertazzon, Merril L. Knudtson, and William A. Ghali. 2009. <span>“Comparison of Distance Measures in Spatial Analytical Modeling for Health Service Planning.”</span> <em>BMC Health Services Research</em> 9 (1): 200. <a href="https://doi.org/10.1186/1472-6963-9-200">https://doi.org/10.1186/1472-6963-9-200</a>.
 </div>
 <div id="ref-wang_deep_2018" class="csl-entry" role="listitem">
 Wang, Yilun, and Michal Kosinski. 2018. <span>“Deep Neural Networks Are More Accurate Than Humans at Detecting Sexual Orientation from Facial Images.”</span> <em>Journal of Personality and Social Psychology</em> 114 (2): 246–57. <a href="https://doi.org/10.1037/pspa0000098">https://doi.org/10.1037/pspa0000098</a>.
@@ -2559,7 +2728,7 @@ Wang, Yilun, and Michal Kosinski. 2018. <span>“Deep Neural Networks Are More A
 <ol>
 <li id="fn1"><p>(See next slide)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>(When I started as a PhD student in Computer Science, I would have answered “yes”. Now that my brain has been warped by social science, I’m not so sure.)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Good thing this guy isn’t the father of modern statistics or anything like that 😮‍💨<br><br>(For more historical scariness take my Data Ethics course next semester!)<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Good thing this guy isn’t the father of modern statistics or anything like that 😮‍💨<br><br>(For more historical scariness take my DSAN 5450: Data Ethics and Policy course next semester! 😉)<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
