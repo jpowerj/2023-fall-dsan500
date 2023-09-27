@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
-<meta name="dcterms.date" content="2023-09-20">
+<meta name="dcterms.date" content="2023-09-26">
 
 <title>DSAN 5000 - Regular Expressions for Data Cleaning</title>
 <style>
@@ -296,7 +296,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 20, 2023</p>
+      <p class="date">September 26, 2023</p>
     </div>
   </div>
   
@@ -310,7 +310,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <section id="pythons-re-library" class="level2">
 <h2 class="anchored" data-anchor-id="pythons-re-library">Python’s <code>re</code> Library</h2>
 <p>Since regular expressions are the key building block for how programming language compilers/interpreters actually figure out what your code is telling it to do, most languages have a regular expression library built-in, and Python is no exception! To load Python’s regular expression library, you can add the following line of code to the top of your Python file/notebook:</p>
-<div id="import-re" class="cell">
+<div id="import-re" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -318,17 +318,17 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="pythons-r-syntax">Python’s <code>r''</code> Syntax</h2>
 <p>Although regular expressions are ordinary <strong>string</strong> objects in Python, we’re using them in a different way from how we use ordinary strings: While you’ve seen ordinary <em>non</em>-RegEx strings like <code>s = "Hello"</code>, <code>x = "abc123"</code>, regular expressions are a bit confusing relative to these types of strings, since we’re using them as a sort of “meta-language” to search for <strong>patterns within other strings</strong>.</p>
 <p>This means, for example, that if we include the special character <code>\t</code> in a <strong>RegEx string</strong>, Python knows to interpret this as “I am looking for a tab character” rather than “Place four spaces here” as it would be interpreted in an ordinary non-RegEx string. To accomplish this separation, Python allows you to prefix regular expression strings with the letter <code>r</code>, like</p>
-<div id="regex-prefix" class="cell">
+<div id="regex-prefix" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ordinary_string <span class="op">=</span> <span class="st">"Hello</span><span class="ch">\t</span><span class="st">World"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>regex_string <span class="op">=</span> <span class="vs">r'Hello\tWorld'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So that now if we print the two strings we can see the difference:</p>
-<div id="regex-string-printing" class="cell">
+<div id="regex-string-printing" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ordinary_string)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(regex_string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will become important as you start to use regular expressions to clean data: for example, if you happen to come across a dataset in <code>.tsv</code> format, and you want to convert it into <code>.csv</code> so it is more consistently read and displayed across different Operating Systems, you can use the following RegEx pattern to find all of the <code>\t</code> characters and replace them with a comma (we will learn about each of the functions I’m using here in the sections below, so don’t worry if you don’t understand what’s happening here for the moment):</p>
-<div id="regex-tsv-example" class="cell">
+<div id="regex-tsv-example" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>original_file <span class="op">=</span> <span class="st">"""id</span><span class="ch">\t</span><span class="st">var1</span><span class="ch">\t</span><span class="st">var2</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">0</span><span class="ch">\t</span><span class="st">Jeff</span><span class="ch">\t</span><span class="st">5</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">1</span><span class="ch">\t</span><span class="st">James</span><span class="ch">\t</span><span class="st">6</span></span>
@@ -343,7 +343,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h3 class="anchored" data-anchor-id="re.compile"><code>re.compile()</code></h3>
 <p>Long story short, although you could <em>technically</em> get away with using all the features of the <code>re</code> library without <strong>compiling</strong> your regular expression strings, I <strong>highly recommend</strong> always converting a “raw” regular expression string into a compiled <code>re</code> object, since compiling your RegEx string into a compiled object will make all the remaining functions run much faster.</p>
 <p>In the above <code>.tsv</code>-to-<code>.csv</code> example, we took the raw RegEx string <code>tab_regex_str</code> and <strong>compiled it</strong> using <code>tab_regex = re.compile(tab_regex_str)</code>, so that we could then use <code>tab_regex</code> as a regular expression <strong>object</strong> with all of the RegEx-related Pythons callable using the <code>.</code> operator:</p>
-<div id="compiled-regex-functions" class="cell">
+<div id="compiled-regex-functions" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>match_result <span class="op">=</span> tab_regex.match(original_file)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(match_result)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>search_result <span class="op">=</span> tab_regex.search(original_file)</span>
@@ -352,13 +352,16 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(findall_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If, for whatever reason, you don’t want to compile your RegEx strings, you can still call all of these functions by using the <code>re</code> module directly and providing a RegEx string as the first argument to the function, like</p>
-<div id="non-compiled-regex-functions" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>match_result_nocompile <span class="op">=</span> re.match(tab_regex_str, original_file)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(match_result)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>search_result_nocompile <span class="op">=</span> re.search(tab_regex_str, original_file)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(search_result)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>findall_result_nocompile <span class="op">=</span> re.findall(tab_regex_str, original_file)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(findall_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="non-compiled-regex-functions" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>match_result_nocompile <span class="op">=</span> re.match(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    tab_regex_str,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    original_file</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(match_result)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>search_result_nocompile <span class="op">=</span> re.search(tab_regex_str, original_file)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(search_result)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>findall_result_nocompile <span class="op">=</span> re.findall(tab_regex_str, original_file)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(findall_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Since I want you to get in the habit of <strong>compiling</strong> your regular expression strings, I’m going to use the object-specific syntax (e.g., <code>my_compiled_regex.match()</code>) rather than the global syntax (<code>re.match()</code>), for this and all remaining functions.</p>
 <p>Now let’s look at what each of these three functions does!</p>
@@ -368,17 +371,17 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="binary-accept-vs.-reject-match">Binary Accept vs.&nbsp;Reject: <code>match()</code></h2>
 <p>You can think of <code>match()</code> as associated with the <strong>original</strong> purpose of regular expressions: to take in a string and <strong>accept</strong> or <strong>reject</strong> that string based on whether or not it matches the pattern described by the regular expression (see <a href="../../w05/index.html" target="_blank">Week 05</a> for examples). This function will return <strong>information on the match</strong> if the match was <strong>successful</strong>, or the Python “null” value <code>None</code> otherwise<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <p>In the above examples, we saw that in fact our RegEx string did <strong>not</strong> match the provided string <code>original_file</code>: this is the expected behavior, and makes sense, since <code>.match()</code> will only be successful if <strong>the provided string EXACTLY matches the provided regular expression</strong>. Since <code>original_file</code> was a whole file, with lots of different characters, the regular expression <code>r'\t'</code> (which matches only a <strong>single</strong> <code>\t</code> character) will not match the file. The only string that our RegEx pattern <code>r'\t'</code> would actually perfectly match would be the string <code>"\t"</code>:</p>
-<div id="match-tab-character" class="cell">
+<div id="match-tab-character" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>single_tab_character <span class="op">=</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tab_regex.match(single_tab_character))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>But, even adding a single additional character before the <code>\t</code> will cause this RegEx string to no longer match<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
-<div id="match-two-characters" class="cell">
+<div id="match-two-characters" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>two_characters <span class="op">=</span> <span class="st">"s</span><span class="ch">\t</span><span class="st">"</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tab_regex.match(two_characters))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This can be extremely helpful when you want to (for example) validate a column in a dataset, like a phone number column: if you write a phone number RegEx string, you can use it in conjunction with <code>match()</code> and Pandas to check that <strong>every string in the column is a match</strong>:</p>
-<div id="match-phone-numbers" class="cell">
+<div id="match-phone-numbers" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>phone_reg_str <span class="op">=</span> <span class="vs">r'[0-9]</span><span class="sc">{3}</span><span class="vs">-[0-9]</span><span class="sc">{3}</span><span class="vs">-[0-9]</span><span class="sc">{4}</span><span class="vs">'</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>phone_reg <span class="op">=</span> re.<span class="bu">compile</span>(phone_reg_str)</span>
@@ -388,7 +391,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>phone_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Although I do tend to just store the <code>.match()</code> result in a column like this, while cleaning, if you’re going to <strong>export</strong> the dataset it’s a bit sloppy to just put the <code>re.match</code> object itself into a column like this (it may cause issues if you try to save it as <code>.csv</code> and load it on a different operating system, for example). So, a cleaner version safe for export could look like:</p>
-<div id="match-column" class="cell">
+<div id="match-column" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>phone_df[<span class="st">'match'</span>] <span class="op">=</span> phone_df[<span class="st">'phone_num'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: phone_reg.match(x) <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>phone_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -397,18 +400,20 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="searching-a-string-for-matches">Searching a String for Matches</h2>
 <p>The <code>findall()</code> function, unlike <code>match()</code>, does <strong>not</strong> require that the entire string is matched by the RegEx pattern. Instead, it finds <strong>all substrings within the bigger string</strong> that match the pattern (put another way: all the substrings for which <code>re.match()</code> would return a match).</p>
 <p>This is helpful in a different data cleaning case, where for example you may have <strong>freeform text</strong> and you want to <strong>extract</strong> all of the phone numbers written in this freeform text. For example: Imagine a dataset containing the results from a <strong>survey</strong> with a freeform text field like “Introduce Yourself!”, and you want to go through this field and extract all of the phone numbers that have been entered in this field:</p>
-<div id="extract-phone-numbers" class="cell">
+<div id="extract-phone-numbers" class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> [</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hello my number is 202-123-4567"</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hi thanks for the survey call me at 301-111-1111 or 925-123-1111"</span>,</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"I hate this survey don't ever call 240-999-9999"</span>,</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"I don't have a phone number sorry"</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>survey_df <span class="op">=</span> pd.DataFrame({<span class="st">'response'</span>: responses})</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>survey_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>survey_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'response'</span>: responses</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>survey_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can run the the <code>findall()</code> function on each entry in the <code>response</code> column here, to extract just the phone numbers:</p>
-<div class="cell">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>survey_df[<span class="st">'matches'</span>] <span class="op">=</span> survey_df[<span class="st">'response'</span>].<span class="bu">apply</span>(phone_reg.findall)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>survey_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -420,7 +425,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <p>For example, in the <a href="../../writeups/data-cleaning/clean_data.html" target="_blank">Data Cleaning with Python</a> video/writeup, I found that one of the counties in one dataset did not match with the same county in the other dataset, because in one the county name was abbreviate to <code>St. Mary's</code> while in the other the name was fully written out as <code>Saint Mary's</code>.</p>
 <p>In that case, I was able to just use <code>.replace()</code>, since there was only one instance and I knew exactly what I wanted to replace with what. But, for a trickier case that regular expressions can handle while <code>.replace()</code> can’t, image merging one dataset where two-character abbreviations like this are followed by a period like <code>St. Marys</code>, with another dataset where two-character abbreviations are <strong>not</strong> followed by a period, like <code>St Marys</code> (this is actually fairly common, as sometimes names like this are entered into old database systems used by government agencies that don’t allow entering commas and/or apostrophes).</p>
 <p>To handle this, we can write code using regular expressions that finds <strong>all two-letter abbreviations</strong>—portions of a string starting with a capital letter, followed by a lowercase letter, followed by a period—and replaces them with the same string but without the period at the end.</p>
-<div class="cell">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>abbrev_reg_str <span class="op">=</span> <span class="vs">r'[A-Z][a-z]\.'</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>abbrev_reg <span class="op">=</span> re.<span class="bu">compile</span>(abbrev_reg_str)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>county_list <span class="op">=</span> [</span>
@@ -434,12 +439,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>county_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Like before, we can use <code>abbrev_reg.findall()</code> to find instances of this type of abbreviation across the dataset:</p>
-<div class="cell">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>county_df[<span class="st">'matches'</span>] <span class="op">=</span> county_df[<span class="st">'name'</span>].<span class="bu">apply</span>(abbrev_reg.findall)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>county_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>However, to be able to <strong>automatically replace</strong> the matches with a given replacement, we’ll have to dive one level deeper into regular expressions. I will talk about this more in lecture, but it boils down to: you can use <strong>parentheses</strong> within your regular expression to indicate <strong>match groups</strong>: subsets of the regular expression that you would like <code>re</code> to keep track of when it finds a match, and then provide a <strong>replacement string</strong> that utilizes these match groups. It is easier to explain through example than through text. In the following code, we use <strong>match groups</strong> to indicate to Python that we want to extract just the <strong>country code</strong> from an entire phone number:</p>
-<div class="cell">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>area_code_reg_str <span class="op">=</span> <span class="vs">r'(?P&lt;county_code&gt;[+][0-9]{1,3})-[0-9]</span><span class="sc">{3}</span><span class="vs">-[0-9]</span><span class="sc">{3}</span><span class="vs">-[0-9]</span><span class="sc">{4}</span><span class="vs">'</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>area_code_reg <span class="op">=</span> re.<span class="bu">compile</span>(area_code_reg_str)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>my_num <span class="op">=</span> <span class="st">'+970-202-111-1111'</span></span>
@@ -447,11 +452,11 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(match_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So, we see that we have a match, but we took the extra step of putting <strong>parentheses</strong> around the part of the match that we specifically wanted, and telling Python to call this part <code>county_code</code>, so now we can use the <code>.groupdict()</code> function of the <code>re.match</code> object to specifically extract just this <strong>subset</strong> of the full match:</p>
-<div class="cell">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>match_result.groupdict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also directly use the captured groups within the <code>sub()</code> method, like</p>
-<div class="cell">
+<div class="cell" data-vscode="{&quot;languageId&quot;:&quot;python&quot;}">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>area_code_reg.sub(<span class="vs">r'Country code \1'</span>, my_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>By applying this same logic to the abbreviation matches above, therefore, we</p>

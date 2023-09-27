@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
-<meta name="dcterms.date" content="2023-09-22">
+<meta name="dcterms.date" content="2023-09-27">
 
 <title>DSAN 5000 - Managing Python Installations</title>
 <style>
@@ -254,6 +254,17 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#the-short-term-temporary-solution" id="toc-the-short-term-temporary-solution" class="nav-link active" data-scroll-target="#the-short-term-temporary-solution">The Short-Term, Temporary Solution</a></li>
+  <li><a href="#crawling-towards-a-longer-term-sustainable-solution" id="toc-crawling-towards-a-longer-term-sustainable-solution" class="nav-link" data-scroll-target="#crawling-towards-a-longer-term-sustainable-solution">Crawling Towards a Longer-Term, Sustainable Solution</a></li>
+  <li><a href="#windows-specifics" id="toc-windows-specifics" class="nav-link" data-scroll-target="#windows-specifics">Windows Specifics</a></li>
+  <li><a href="#so-what-are-all-these-different-moving-parts" id="toc-so-what-are-all-these-different-moving-parts" class="nav-link" data-scroll-target="#so-what-are-all-these-different-moving-parts">So What Are All These Different Moving Parts?</a>
+  <ul class="collapse">
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  <li><a href="#pip" id="toc-pip" class="nav-link" data-scroll-target="#pip"><code>pip</code></a></li>
+  <li><a href="#anaconda" id="toc-anaconda" class="nav-link" data-scroll-target="#anaconda">Anaconda</a></li>
+  <li><a href="#jupyter" id="toc-jupyter" class="nav-link" data-scroll-target="#jupyter">Jupyter</a></li>
+  <li><a href="#vscode" id="toc-vscode" class="nav-link" data-scroll-target="#vscode">VSCode</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -289,7 +300,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 22, 2023</p>
+      <p class="date">September 27, 2023</p>
     </div>
   </div>
   
@@ -332,6 +343,81 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <p>If you are panicking about this issue, and you really need to run the Python code right now, the following approach will temporarily “fix” the issue maybe 95% of the time:</p>
 <p>Add a cell to your <strong>notebook</strong> (as in, don’t run this command in the terminal) containing the following line, above the cell where you are trying to import <code>numpy</code> for example, and execute this cell. In 95% of cases, this will allow you to <code>import numpy as np</code> and continue with your work:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install numpy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="crawling-towards-a-longer-term-sustainable-solution" class="level2">
+<h2 class="anchored" data-anchor-id="crawling-towards-a-longer-term-sustainable-solution">Crawling Towards a Longer-Term, Sustainable Solution</h2>
+<p>This type of issue can be pretty tough to fix <strong>completely</strong>, so that it never happens again, but in most cases I think we can minimize the likelihood of it happening and affecting our work if we understand <strong>why</strong> it happens.</p>
+<p>In general, the issue comes from some number of “mismatches” between <strong>versions of the Python interpreter</strong>, on the one hand (on Windows, for example, this is a program literally just called <code>python.exe</code>), and <strong>things that <em>use</em> versions of Python</strong> on the other (Jupyter, for example, and/or VSCode). Ensuring that all of the different versions of Python are “synced up” correctly with these things that use Python (Jupyter, VSCode) gets even exponentially trickier when you create <strong>environments</strong> within a given Python installation, since now you have to ensure that Jupyter is running the commands you type into a cell within the correct <strong>environment</strong> of the correct <strong>version</strong> of Python that you want it to use.</p>
+<p>So, if you are just starting with Python, I highly recommend starting from the following barebones setup (we will learn what a lot of these terms mean, and how to “revert” to this setup if you already have a different one, in the next section):</p>
+<ul>
+<li><p>A <strong>single version of Python</strong> installed to a particular <strong>path</strong> on your computer that you <strong>write down</strong> somewhere, so that you know exactly <strong>which</strong> Python interpreter is being called when you type the <code>python</code> command in your terminal, for example.</p>
+<ul>
+<li>On Unix/Linux/MacOS, you can find out what executable at what path the <strong>terminal</strong> is running when you issue the command <code>python</code> by issuing the following command:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or (if that produces the output <code>python not found</code>)</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> python3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should output a <strong>filepath</strong> which tells you the full pathway to the particular <code>python</code> executable that your terminal runs whenever you type <code>python</code> (or <code>python3</code>). When I use UTM to create a brand-new Mac OSX installation without changing any settings, for example, it says <code>python not found</code> if I execute <code>which python</code> in the Terminal, but produces the following output if I excute <code>which python3</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/bin/python3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This says, literally, that whenever I type <code>python3</code> into the Terminal, it immediately goes into the root directory of my computer (<code>/</code>), then goes into a subfolder called <code>usr</code>, then a subfolder of <code>/usr</code> called <code>bin</code>, within which there is an executable (program) called just <code>python</code> (without the <code>.exe</code>, which is what the program would be named on Windows).</p></li>
+<li><p>Don’t install <code>conda</code> until you are comfortable with the basics of (a) how to run <code>.py</code> files, (b) how to issue commands in an <strong>python shell</strong> (which is the program you see running, with a prompt at the bottom of your Terminal screen starting with <code>&gt;&gt;&gt;</code> into which you can type Python commands, if you just open the Terminal and execute the command <code>python</code> or <code>python3</code> without any additional arguments—see <a href="#fig-python-shell">Figure&nbsp;1</a>), and (c) how to <strong>link</strong> your Jupyter notebooks with the <strong>particular</strong> version of Python you have installed</p>
+<ul>
+<li>I know that this goes against what most data science courses/teachers suggest, and I’m happy to have my mind changed, but I suggest this because <strong>Installing <code>conda</code> means installing a <em>second</em> Python installation onto your computer</strong>: if you have a Mac this is for sure the case, since Macs actually come with Python pre-installed, and if you have Windows it is not always true but might be true, since some versions of Windows also come with Python pre-installed. For many of the students who I worked with on the above issues it turned out (after lots of digging) that their Jupyter or VSCode setup was using the <strong>Anaconda version</strong> of Python, while executing the <code>python</code> or <code>pip</code> command in their Terminal led OSX to run a completely different (non-<code>conda</code>) version of Python (usually the one that comes shipped with OSX).</li>
+</ul></li>
+</ul>
+<div id="fig-python-shell" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/python_shell.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: The <strong>python shell</strong>, which runs if you open a Terminal window and execute the command <code>python</code> or <code>python3</code> without any additional arugments. To exit this shell and return to the “normal” Terminal prompt, execute the Python command <code>quit()</code> within this Python shell, as shown in <a href="#fig-python-shell-quit">Figure&nbsp;2</a></figcaption>
+</figure>
+</div>
+<div id="fig-python-shell-quit" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/python_shell_quit.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: The same Terminal session as shown in <a href="#fig-python-shell">Figure&nbsp;1</a>, but where I have now executed a Python command (<code>1+1</code>) and quit the Python shell using <code>quit()</code>, returning me back to my Terminal (shell), where I can issue Unix commands at the prompt (after the <code>%</code> portion at the bottom) like <code>ls</code> or <code>cd</code>.</figcaption>
+</figure>
+</div>
+</section>
+<section id="windows-specifics" class="level2">
+<h2 class="anchored" data-anchor-id="windows-specifics">Windows Specifics</h2>
+<p>Opening my Windows 11 Virtual Machine, I find that Python does <strong>not</strong> seem to be pre-installed (again, it can differ based on what specific version of Windows you have, or what company you buy your PC from, in my experience), since neither the <code>python</code> or <code>python3</code> commands work when I open PowerShell. So, I went ahead and <a href="" target="_blank">installed Python directly from the Python website</a> (rather than the Anaconda version, for example), and it installed Python in the following location (my username on the VM is <code>dsanstudent</code>, so on your installation wherever you see <code>dsanstudent</code> replace that with your Windows username):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">C:\Users\dsanstudent\AppData\Local\Programs\Python\Python311\python.exe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Which is pretty long and difficult to remember, plus by default it did <strong>not</strong> add this to my Windows <code>PATH</code> Environment Variable, so I had to do it manually (tldr: press start, type “Environment Variables”, and use the UI that pops up to edit the <code>PATH</code> string, adding <code>C:\Users\dsanstudent\AppData\Local\Programs\Python\Python311</code> to the end of it). See <a href="#fig-windows-location">Figure&nbsp;3</a> for a screenshot of the contents of this location when I browse to this path using Windows Explorer.</p>
+<div id="fig-windows-location" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/python_windows_path.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: The path to which, by default, the Python installer installed the <code>python.exe</code> executable, when I downloaded and installed Python version 3.11 on a brand new Windows 11 Virtual Machine.</figcaption>
+</figure>
+</div>
+</section>
+<section id="so-what-are-all-these-different-moving-parts" class="level2">
+<h2 class="anchored" data-anchor-id="so-what-are-all-these-different-moving-parts">So What Are All These Different Moving Parts?</h2>
+<p>A lot of confusion can also be avoided if we always keep in mind the basics of <strong>what each “piece” of the Python development environment actually is/actually does</strong>:</p>
+<section id="python" class="level3">
+<h3 class="anchored" data-anchor-id="python">Python</h3>
+<p>At its core, Python is just an <strong>executable program</strong> (hence the <code>python.exe</code> filename in Windows) that takes in Python files (<code>.py</code> files) and <strong>runs them</strong>. Anything beyond this can be thought of as an <strong>extension</strong> that is built <strong>on top of</strong> this core functionality.</p>
+</section>
+<section id="pip" class="level3">
+<h3 class="anchored" data-anchor-id="pip"><code>pip</code></h3>
+<p>As external, third-party libraries like NumPy, Pandas, Jupyter, and so on became more and more central to the Python development process, the people who created Python also created <code>pip</code>, which stands for “<strong><code>pip</code> Installs Packages”</strong><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p><code>pip</code>, sadly, can also become “delinked” from the version of Python you want to use: if you have both Python 3.9 and Python 3.11 installed on your computer, for example, you need to be careful about <strong>which</strong> of these installations is having packages installed into it when you run <code>pip install</code> (and similarly for <code>pip3</code>).</p>
+</section>
+<section id="anaconda" class="level3">
+<h3 class="anchored" data-anchor-id="anaconda">Anaconda</h3>
+<p>Anaconda is a third-party package manager for Python, which works a lot better than <code>pip</code> in many ways, and comes with lots of nice data science packages built-in, but has the drawback that it <strong>exists somewhere on your computer separately from the “standard” Python installation</strong> if (a) you bought a Mac/PC with Python pre-installed, or (b) you downloaded Python from the <a href="https://python.org" data-taret="_blank">python.org</a> website.</p>
+</section>
+<section id="jupyter" class="level3">
+<h3 class="anchored" data-anchor-id="jupyter">Jupyter</h3>
+<p>Jupyter is essentially a <strong>wrapper</strong> around Python (whether “normal” Python or the Anaconda version of Python, or both), which takes the Python code that you enter into <strong>code cells</strong> and runs them within a Python <strong>kernel</strong>—basically an instance of the Python executable that sits and waits for commands to come in from Jupyter, runs them, and sends the output of the commands back to Jupyter so that Jupyter can show that output in your notebook, underneath the code cell.</p>
+</section>
+<section id="vscode" class="level3">
+<h3 class="anchored" data-anchor-id="vscode">VSCode</h3>
+<p><strong>VSCode</strong>: Just like how <strong>Python</strong> is just a <code>.py</code>-file-runner at its core, with fancy stuff built on top of it, <strong>VSCode</strong> is just a text editor at its core, with fancy stuff built on top of it (especially once you add extensions, like the <strong>Python</strong> or <strong>Jupyter</strong> or <strong>Quarto</strong> extensions we’re using in this class).</p>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>There is no deterministic fix-all algorithm for making sure that (e.g.) the version of Python <em>used as a kernel in Jupyter</em> is the same as the version of Python <em>used when you click the “run file” button at the top of a <code>.py</code> file in VSCode</em>, or that either of these are the same as the version of Python <em>used when you execute the <code>python</code> command in your Terminal</em>, for example, but I hope that maybe something I’ve included here can help you navigate this undeniably awful, headache-inducing, messy setup 🥴 Really, the best thing you can do if you keep running into these issues is to <a href="mailto:jj1088@georgetown.edu" target="_blank"><strong>email me</strong></a> or <a href="https://calendar.app.google/yMnESMtMNPdKEaPz5" target="_blank"><strong>schedule an office hours appointment</strong></a>, and we can work through the issue together 😸</p>
 
 
 </section>
@@ -341,6 +427,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 <ol>
 <li id="fn1"><p>It doesn’t mean <strong>you</strong> did something wrong! It’s just a result of the way that programs/apps get installed on a computer: despite the fact that computers have now existed for many decades, there is still no easy way for operating systems to keep track of (e.g.) <strong>which</strong> version/type of Python you’re hoping to run when you type <code>python</code> in your terminal, or when you run a command in Jupyter.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Computer scientists love recursive acronyms like this: if you’ve heard of the language <strong>PHP</strong>, that stands for <strong>P</strong>HP: <strong>H</strong>ypertext <strong>P</strong>reprocessor 🤓<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

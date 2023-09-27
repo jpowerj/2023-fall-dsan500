@@ -18,8 +18,8 @@
     "listing": "/writeups/index.html",
     "items": [
       "/writeups/python-install/index.html",
-      "/writeups/regex/index.html",
       "/writeups/regex/regex.html",
+      "/writeups/regex/index.html",
       "/writeups/data-cleaning/clean_data.html",
       "/writeups/empty-files-error/index.html",
       "/writeups/lab-1-2-clarifications/index.html",
