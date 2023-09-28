@@ -75,5 +75,8 @@
   "w06/index.qmd": {
     "slides.html": "af277e79",
     "index.html": "6ce40b84"
+  },
+  "writeups/eda-seaborn/index.qmd": {
+    "index.html": "bc7a53ce"
   }
 }
