@@ -13,6 +13,8 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/tidyverse-split-column/index.html",
+      "/writeups/columns/index.html",
       "/writeups/quiz-status/index.html",
       "/writeups/python-install/index.html",
       "/writeups/regex/index.html",
@@ -21,17 +23,16 @@
       "/writeups/lab-1-2-clarifications/index.html",
       "/writeups/zotero/index.html",
       "/writeups/domains-ssh/index.html",
-      "/writeups/columns/index.html",
       "/writeups/hw1-clarifications/index.html",
       "/writeups/refs-and-citations/index.html"
     ]
   },
   {
-    "listing": "/writeups/quiz-status/index.html",
+    "listing": "/recordings/index.html",
     "items": []
   },
   {
-    "listing": "/recordings/index.html",
+    "listing": "/writeups/quiz-status/index.html",
     "items": []
   },
   {

@@ -1,0 +1,76 @@
+---
+title: "Splitting a String Column in Tidyverse"
+format:
+  html:
+    df-print: kable
+categories:
+  - "Extra Writeups"
+metadata-files: 
+  - "../../_doc-meta.yml"
+---
+
+In this quick writeup, I will show you how to take a **string-format column** in R and split each of this single column's values into multiple columns, using the [`separate_wider_*()` functions](https://tidyr.tidyverse.org/reference/separate_wider_delim.html){target="_blank"} in `tidyverse`.
+
+Say we start out with a dataset that looks like the following (where I'm using the `tibble` library's ultra-helpful `tribble()` function, to quickly make a "fake" dataset to demonstrate the approach here):
+
+```{r}
+#| label: str-col-tibble
+library(tibble)
+df <- tribble(
+    ~id, ~name,
+    0, "Gamage, Purna",
+    1, "Hickman, James",
+    2, "Jacobs, Jeff",
+    3, "Padalkar, Nakul"
+)
+df
+```
+
+We see that, although the `name` column really contains **two** pieces of information (**given name** and **family name**) that we'd like to consider separately, these two pieces of information are "trapped" within a single string-format column called `name`.
+
+So, our goal is to **separate** these two pieces of information within the `name` column, ideally into two columns called `given_name` and `family_name`.
+
+The `tidyverse` library called `tidyr` provides us with three functions that can help us with precisely this task:
+
+1. `separate_wider_delim()`
+2. `separate_wider_position()`
+3. `separate_wider_regex()`
+
+We've seen in other writeups how to use Regular Expressions, so we could use the `separate_wider_regex()` function, but for this task we don't even really need to get that fancy: we don't need a whole language (regular expressions) to split the string in this case, since it boils down to a simple character-matching task, where we just want to tell R to split into two columns wherever it sees the character `,` followed by a space ` `.
+
+We **don't** want to use `separate_wider_position()` here, since that function is for cases where you know the string contains one piece of information from the start of the string to some **index** `i` within the string, then a second piece of information from index `i+1` up to the end of the string (if I knew, for example, that everyone in the dataset had a 5-letter given name and a 7-letter family name, then `separate_wider_position()` would work).
+
+So, the function which remains is `separate_wider_delim()`, which we'll use for our task.
+
+As you can infer from the first example provided on the [documentation page](https://tidyr.tidyverse.org/reference/separate_wider_delim.html){target="_blank"} for the three functions, `separate_wider_delim()` has the following syntax:
+
+```txt
+separate_wider_delim(
+    <data frame object>,
+    <name of column you want to split>,
+    delim = <character(s) you'd like to split on>,
+    names = <vector of new column names>
+)
+```
+
+So, in our case, we know that we want to plug in the following values:
+
+* Data frame object: `df`
+* Name of column we want to split: `name`
+* Character(s) we'd like to split on: `, `
+* Vector of new column names: `c("family_name","given_name")`
+
+So, let's plug these parameters into the function, and check the result (remember that the **pipe operator** `|>` in R takes whatever comes before it and plugs that in as the **first argument** to whatever comes after it: meaning that, here, we don't explicitly include `df` as the first argument to `separate_wider_delim()`; `tidyverse` handles the first argument for us)
+
+```{r}
+#| label: apply-separate
+library(tidyr)
+df |> separate_wider_delim(
+    `name`,
+    delim = ", ",
+    names = c("family_name", "given_name")
+)
+```
+
+And now we have what we want! Hopefully this function from `tidyverse` can help you with data cleaning, merging, etc., since I find it much more intuitive to use than e.g. the `gsub()` function from base-R (though that function is fine to use as well, if you are used to how `gsub()` works!)
+

@@ -84,5 +84,8 @@
   },
   "writeups/regex/index.ipynb": {
     "index.html": "7330dbb7"
+  },
+  "writeups/tidyverse-split-column/index.qmd": {
+    "index.html": "3f191409"
   }
 }

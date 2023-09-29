@@ -1,9 +1,10 @@
 ---
-title: "Making Multiple Columns"
+title: "Multiple-Column Layout in Quarto"
 date: last-modified
 format: html
 categories:
   - "Extra Writeups"
+  #- "Short Writeups"
 ---
 
 The following Quarto code:

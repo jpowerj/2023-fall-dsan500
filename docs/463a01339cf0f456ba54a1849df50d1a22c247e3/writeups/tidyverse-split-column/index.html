@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-09-28">
+<meta name="author" content="Jeff Jacobs">
 
-<title>DSAN 5000 - Multiple-Column Layout in Quarto</title>
+<title>DSAN 5000 - Splitting a String Column in Tidyverse</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -221,23 +255,30 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Multiple-Column Layout in Quarto</h1>
+<h1 class="title">Splitting a String Column in Tidyverse</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Extra Writeups</div>
   </div>
   </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jeff Jacobs </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
+          </p>
+      </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">September 28, 2023</p>
-    </div>
-  </div>
+      
   
     
   </div>
@@ -245,57 +286,119 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 </header>
 
-<p>The following Quarto code:</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Quarto Code Using `::: columns`">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Quarto Code Using <code>::: columns</code>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<pre>Hello this is my document
-
-::: columns
-
-::: {.column width="50%"}
-
-Here is column 1
-
-:::
-::: {.column width="50%"}
-
-Here is column 2
-
-:::
-
-:::
-</pre>
-</div>
-</div>
-<p>Produces the following rendered output:</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Rendered Output Using `::: columns`">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Rendered Output Using <code>::: columns</code>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Hello this is my document</p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Here is column 1</p>
-</div><div class="column" style="width:50%;">
-<p>Here is column 2</p>
+<p>In this quick writeup, I will show you how to take a <strong>string-format column</strong> in R and split each of this single column’s values into multiple columns, using the <a href="https://tidyr.tidyverse.org/reference/separate_wider_delim.html" target="_blank"><code>separate_wider_*()</code> functions</a> in <code>tidyverse</code>.</p>
+<p>Say we start out with a dataset that looks like the following (where I’m using the <code>tibble</code> library’s ultra-helpful <code>tribble()</code> function, to quickly make a “fake” dataset to demonstrate the approach here):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>id, <span class="sc">~</span>name,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>, <span class="st">"Gamage, Purna"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="st">"Hickman, James"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>, <span class="st">"Jacobs, Jeff"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>, <span class="st">"Padalkar, Nakul"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">Gamage, Purna</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Hickman, James</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Jacobs, Jeff</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Padalkar, Nakul</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
+<p>We see that, although the <code>name</code> column really contains <strong>two</strong> pieces of information (<strong>given name</strong> and <strong>family name</strong>) that we’d like to consider separately, these two pieces of information are “trapped” within a single string-format column called <code>name</code>.</p>
+<p>So, our goal is to <strong>separate</strong> these two pieces of information within the <code>name</code> column, ideally into two columns called <code>given_name</code> and <code>family_name</code>.</p>
+<p>The <code>tidyverse</code> library called <code>tidyr</code> provides us with three functions that can help us with precisely this task:</p>
+<ol type="1">
+<li><code>separate_wider_delim()</code></li>
+<li><code>separate_wider_position()</code></li>
+<li><code>separate_wider_regex()</code></li>
+</ol>
+<p>We’ve seen in other writeups how to use Regular Expressions, so we could use the <code>separate_wider_regex()</code> function, but for this task we don’t even really need to get that fancy: we don’t need a whole language (regular expressions) to split the string in this case, since it boils down to a simple character-matching task, where we just want to tell R to split into two columns wherever it sees the character <code>,</code> followed by a space <code></code>.</p>
+<p>We <strong>don’t</strong> want to use <code>separate_wider_position()</code> here, since that function is for cases where you know the string contains one piece of information from the start of the string to some <strong>index</strong> <code>i</code> within the string, then a second piece of information from index <code>i+1</code> up to the end of the string (if I knew, for example, that everyone in the dataset had a 5-letter given name and a 7-letter family name, then <code>separate_wider_position()</code> would work).</p>
+<p>So, the function which remains is <code>separate_wider_delim()</code>, which we’ll use for our task.</p>
+<p>As you can infer from the first example provided on the <a href="https://tidyr.tidyverse.org/reference/separate_wider_delim.html" target="_blank">documentation page</a> for the three functions, <code>separate_wider_delim()</code> has the following syntax:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>separate_wider_delim(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;data frame object&gt;,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;name of column you want to split&gt;,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    delim = &lt;character(s) you'd like to split on&gt;,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    names = &lt;vector of new column names&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So, in our case, we know that we want to plug in the following values:</p>
+<ul>
+<li>Data frame object: <code>df</code></li>
+<li>Name of column we want to split: <code>name</code></li>
+<li>Character(s) we’d like to split on: <code>,</code></li>
+<li>Vector of new column names: <code>c("family_name","given_name")</code></li>
+</ul>
+<p>So, let’s plug these parameters into the function, and check the result (remember that the <strong>pipe operator</strong> <code>|&gt;</code> in R takes whatever comes before it and plugs that in as the <strong>first argument</strong> to whatever comes after it: meaning that, here, we don’t explicitly include <code>df</code> as the first argument to <code>separate_wider_delim()</code>; <code>tidyverse</code> handles the first argument for us)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">separate_wider_delim</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">name</span><span class="st">`</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">", "</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"family_name"</span>, <span class="st">"given_name"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">family_name</th>
+<th style="text-align: left;">given_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">Gamage</td>
+<td style="text-align: left;">Purna</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Hickman</td>
+<td style="text-align: left;">James</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Jacobs</td>
+<td style="text-align: left;">Jeff</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Padalkar</td>
+<td style="text-align: left;">Nakul</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+</div>
+<p>And now we have what we want! Hopefully this function from <code>tidyverse</code> can help you with data cleaning, merging, etc., since I find it much more intuitive to use than e.g.&nbsp;the <code>gsub()</code> function from base-R (though that function is fine to use as well, if you are used to how <code>gsub()</code> works!)</p>
 
 
 
