@@ -10,12 +10,13 @@ categories:
 bibliography: "../_DSAN5000.bib"
 format:
   revealjs:
-    cache: true
+    output-file: slides.html
+    cache: false
     footer: "DSAN 5000-<span class='sec-num'>02</span> Week 6: Exploratory Data Analysis"
   html:
     output-file: index.html
     html-math-method: mathjax
-    cache: true
+    cache: false
 metadata-files: 
   - "../_slide-meta.yml"
 ---

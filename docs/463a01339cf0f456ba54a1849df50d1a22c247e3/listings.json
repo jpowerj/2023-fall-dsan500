@@ -11,18 +11,10 @@
     ]
   },
   {
-    "listing": "/recordings/index.html",
-    "items": []
-  },
-  {
-    "listing": "/writeups/quiz-status/index.html",
-    "items": []
-  },
-  {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/quiz-status/index.html",
       "/writeups/python-install/index.html",
-      "/writeups/regex/regex.html",
       "/writeups/regex/index.html",
       "/writeups/data-cleaning/clean_data.html",
       "/writeups/empty-files-error/index.html",
@@ -33,6 +25,14 @@
       "/writeups/hw1-clarifications/index.html",
       "/writeups/refs-and-citations/index.html"
     ]
+  },
+  {
+    "listing": "/writeups/quiz-status/index.html",
+    "items": []
+  },
+  {
+    "listing": "/recordings/index.html",
+    "items": []
   },
   {
     "listing": "/extra-videos/index.html",

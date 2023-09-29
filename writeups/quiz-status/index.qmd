@@ -3,6 +3,8 @@ title: "DSAN 5000 Quiz Status Sheet"
 author: "DSAN 5000 Staff"
 date: last-modified
 format: html
+categories:
+  - "Extra Writeups"
 listing:
   contents:
     - quizzes.yml
