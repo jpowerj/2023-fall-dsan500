@@ -1,5 +1,6 @@
 ---
 title: "Splitting a String Column in Tidyverse"
+date: last-modified
 format:
   html:
     df-print: kable
