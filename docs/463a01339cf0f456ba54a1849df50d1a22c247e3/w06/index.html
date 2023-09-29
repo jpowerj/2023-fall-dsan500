@@ -372,10 +372,10 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <section id="schedule" class="level1 smaller small-title crunch-title crunch-callout" data-name="Schedule">
 <h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
 <div class="hidden">
-<div class="cell">
+<div class="cell" data-hash="index_cache/html/r-source-globals_fe92f3f10cd48b5a39c149291d71cc91">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/python-globals_837b4bc95491a95b7c3227ee4f263b4c">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
@@ -827,7 +827,7 @@ tr2-&gt;viz
 <p><code>select()</code> lets you keep only the <strong>columns</strong> you care about in your current analysis:</p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="index_cache/html/tidyverse-select-load-data_51fca295a64bd27ad6b3b4aa29ef0bca" style="flex-basis: 50.0%;justify-content: center;">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -853,7 +853,7 @@ tr2-&gt;viz
 6 China        2000 213766 1280428583</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="index_cache/html/tidyverse-select_42091b7d6892f21f61d7a2a169fb624e" style="flex-basis: 50.0%;justify-content: center;">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">select</span>(country, year, population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -878,7 +878,7 @@ tr2-&gt;viz
 <p><code>filter()</code> lets you keep only the <strong>rows</strong> you care about in your current analysis:</p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="index_cache/html/tidyverse-filter-year_c7a33e45a227c68aa5ffdfb1b11db04f" style="flex-basis: 50.0%;justify-content: center;">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -892,7 +892,7 @@ tr2-&gt;viz
 3 China        2000 213766 1280428583</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="index_cache/html/tidyverse-filter-country_514adb9f993453c0147e029ec98aaf58" style="flex-basis: 50.0%;justify-content: center;">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"Afghanistan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -917,7 +917,7 @@ tr2-&gt;viz
 </ul>
 <div class="columns">
 <div class="column" style="width:40%;">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/tidyverse-filter-select_b408655da996ecab705d4180b8e15627">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> table1 <span class="sc">|&gt;</span></span>
@@ -936,7 +936,7 @@ tr2-&gt;viz
 </div>
 </div>
 </div><div class="column" style="width:60%;">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/load-gdp-data_2088919bf958af75d085db61d1e8c45c">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gdp_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://gist.githubusercontent.com/jpowerj/c83e87f61c166dea8ba7e4453f08a404/raw/29b03e6320bc3ffc9f528c2ac497a21f2d801c00/gdp_2000_2010.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -971,7 +971,7 @@ dbl (2): Year, Value
 </section>
 <section id="selectingfiltering-in-action" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="selectingfiltering-in-action">Selecting/Filtering in Action</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/clean-gdp-data_5eafc5582ea586a8cd3191772e125d34">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gdp_2000_df <span class="ot">&lt;-</span> gdp_df <span class="sc">|&gt;</span></span>
@@ -1002,7 +1002,7 @@ dbl (2): Year, Value
 <center>
 <strong>Left Join</strong>
 </center>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/py-merge_e291d3d4a8c6a97b0566aeecf11c1309">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pop_df.merge(gdp_df,</span>
@@ -1068,7 +1068,7 @@ dbl (2): Year, Value
 <center>
 <strong>Inner join</strong> (≈ Intersection (<span class="math inline">\(\cap\)</span>))
 </center>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/py-merge-right_d21d926d9b2290b1198e9376fb18fd2b">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> pop_df.merge(gdp_df,</span>
@@ -1130,7 +1130,7 @@ dbl (2): Year, Value
 <div class="columns">
 <div class="column" style="width:55%;">
 <p>In data-cleaning jargon, this dataset is <strong>long</strong> (more than one row per observation)</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-long-data_d075b0b79418faa23a9db2be61bfc699">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>table2 <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/long_data.csv"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>table2 <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1147,7 +1147,7 @@ dbl (2): Year, Value
 </div>
 </div><div class="column" style="width:45%;">
 <p>In data-cleaning jargon, this dataset is <strong>wide</strong> (one row per obs; usually <strong>tidy</strong>)</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-wide-data_29e821cfacb85be64322d3b7dc2b9d48">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/wide_data.csv"</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1170,7 +1170,7 @@ dbl (2): Year, Value
 <div class="columns">
 <div class="column" style="width:45%;">
 <p>Create unique ID for <strong>wide</strong> version:</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/py-create-wide-id_4cd5e2a0c1b6a56d4fbe436717105569">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>long_df[<span class="st">'id'</span>] <span class="op">=</span> long_df[<span class="st">'country'</span>] <span class="op">+</span> <span class="st">'_'</span> <span class="op">+</span> long_df[<span class="st">'year'</span>].<span class="bu">apply</span>(<span class="bu">str</span>)</span>
@@ -1252,7 +1252,7 @@ dbl (2): Year, Value
 </div>
 </div>
 </div><div class="column" style="width:55%;">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/py-long-to-wide_9ed22d42c31f902ac8b3bd95cb4dd17b">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>reshaped_df <span class="op">=</span> pd.pivot(long_df,</span>
@@ -1313,7 +1313,7 @@ dbl (2): Year, Value
 <h2 class="smaller anchored" data-anchor-id="the-other-direction-wide-to-long-pd.melt">The Other Direction (Wide-to-Long): <code>pd.melt()</code></h2>
 <div class="columns">
 <div class="column" style="width:40%;">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/py-read-wide_add3458db4552c7ff2faa2cf5903c547">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>wide_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/wide_data.csv"</span>)</span>
@@ -1378,7 +1378,7 @@ dbl (2): Year, Value
 </div>
 </div>
 </div><div class="column" style="width:60%;">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/py-wide-to-long_a06ee24cc558f1f9ee2756b29235e78c">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>long_df <span class="op">=</span> pd.melt(wide_df,</span>
@@ -1452,7 +1452,7 @@ dbl (2): Year, Value
 <h2 class="smaller anchored" data-anchor-id="wide-to-long-in-r-gather">Wide-to-Long in R: <code>gather()</code></h2>
 <div class="columns">
 <div class="column" style="width:40%;">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-display-wide-for-reshape_957dfcfe0ccc62596dd5340e584fe1d8">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>table1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1470,7 +1470,7 @@ dbl (2): Year, Value
 </div>
 </div>
 </div><div class="column" style="width:60%;">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-reshape_33c06b45177ee0a1480f003dc891a59d">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>long_df <span class="ot">&lt;-</span> <span class="fu">gather</span>(table1,</span>
@@ -1639,7 +1639,7 @@ confLibraries
 </blockquote>
 </div><div class="column" style="width:50%;">
 <p>Ex: Estimates of optimal tax rates in Econ journals vs.&nbsp;Economist ideology scores</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/political-lang-in-econ_1ee7a7a9483aac1dc812cb0d53d47b40">
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 21 Columns: 4
 ── Column specification ────────────────────────────────────────────────────────
@@ -1669,7 +1669,7 @@ dbl (4): id, ideology, elast, tr_est
 <li>Why do we need to visualize? Can’t we just use mean, <span class="math inline">\(R^2\)</span>?</li>
 <li>…Enter <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" target="_blank">Anscombe’s Quartet</a></li>
 </ul>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/anscombe-quartet_ee6bf58eeaadf98f6bdfd9f137230eab">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1709,7 +1709,7 @@ dbl (4): id, ideology, elast, tr_est
 </section>
 <section id="the-scariest-dataset-of-all-time" class="level2 smaller smaller-table-text crunch-title crunch-code small-captions crunch-images nostretch">
 <h2 class="smaller smaller-table-text crunch-title crunch-code small-captions crunch-images nostretch anchored" data-anchor-id="the-scariest-dataset-of-all-time">The Scariest Dataset of All Time</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/anscombe-again_53a3cb7e413bf84d15f1f4620fe6a855">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1727,7 +1727,7 @@ dbl (4): id, ideology, elast, tr_est
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div id="fig-anscombe-means" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/anscombe-means_8986d570eef66479d48ac8a038d7d39d">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute dataset means</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x,<span class="dv">2</span>)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>data_means <span class="op">=</span> anscombe_df.groupby(<span class="st">'dataset'</span>).agg(</span>
@@ -1735,8 +1735,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.mean)</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10becd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
-&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10becd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
+<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x11afb9120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
+&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x11afb9120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>disp(data_means, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1778,15 +1778,15 @@ dbl (4): id, ideology, elast, tr_est
 </div>
 <div id="fig-anscombe-sds" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
 <figure class="figure">
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/anscombe-sds_5c6e5472a7f21652c975d0e1ca6edc9a">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute dataset SDs</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>data_sds <span class="op">=</span> anscombe_df.groupby(<span class="st">'dataset'</span>).agg(</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  x_mean <span class="op">=</span> (<span class="st">'x'</span>, np.std),</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.std),</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10becd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
-&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10becd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
+<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x11afb9260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
+&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x11afb9260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>disp(data_sds, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1840,7 +1840,7 @@ dbl (4): id, ideology, elast, tr_est
 </center>
 <div id="fig-anscombe-corrs" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<div class="cell corr-table" data-layout-align="center">
+<div class="cell corr-table" data-layout-align="center" data-hash="index_cache/html/anscombe-corrs_58fff128b85a84218e24c503c7a4ca18">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tabulate</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="op">=</span> anscombe_df.groupby(<span class="st">'dataset'</span>).corr().<span class="bu">apply</span>(my_round)</span>
@@ -1921,7 +1921,7 @@ dbl (4): id, ideology, elast, tr_est
 </section>
 <section id="it-doesnt-end-there" class="level2 smaller smaller-table-text nostretch">
 <h2 class="smaller smaller-table-text nostretch anchored" data-anchor-id="it-doesnt-end-there">It Doesn’t End There…</h2>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/anscombe-yet-again_2f8d5bdebc6c55dc7e7e749be5668b6f">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1932,7 +1932,7 @@ dbl (4): id, ideology, elast, tr_est
 </div>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell corr-table quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell corr-table quarto-layout-cell" data-hash="index_cache/html/anscombe-reg-0_3c05d1eeb622e7a87179db3567b5d3ff" style="flex-basis: 50.0%;justify-content: center;">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>summary_dfs <span class="op">=</span> []</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cur_ds <span class="kw">in</span> [<span class="st">'I'</span>,<span class="st">'II'</span>,<span class="st">'III'</span>,<span class="st">'IV'</span>]:</span>
@@ -2002,7 +2002,7 @@ dbl (4): id, ideology, elast, tr_est
 </table>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="index_cache/html/anscombe-reg-1_08c2640c04aa8c71438aecba50cab898" style="flex-basis: 50.0%;justify-content: center;">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">1</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -2051,7 +2051,7 @@ dbl (4): id, ideology, elast, tr_est
 </div>
 </div>
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="index_cache/html/anscombe-reg-2_5ab7e65e48da4563a33949273e0e7e03" style="flex-basis: 50.0%;justify-content: center;">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">2</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -2098,7 +2098,7 @@ dbl (4): id, ideology, elast, tr_est
 </table>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" data-hash="index_cache/html/anscombe-reg-3_a7b3d18f359a0d36556146448f2017b3" style="flex-basis: 50.0%;justify-content: center;">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">3</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -2155,7 +2155,7 @@ dbl (4): id, ideology, elast, tr_est
 <center>
 <strong>Unnormalized World</strong>
 </center>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-gen-test-scores_28c4424a589c25bc90858fb1ded5dcf3">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>num_students <span class="ot">&lt;-</span> <span class="dv">30</span></span>
@@ -2194,7 +2194,7 @@ dbl (4): id, ideology, elast, tr_est
 </div>
 <p><em>“I got a <strong>238.25</strong> on the first test!”</em> 🤩</p>
 <p><em>“But only a <strong>0.31</strong> on the second”</em> 😭</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-test-scores-unnormalized_abda6be42b240fe2e68eebe96747e0fd">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
      id t1_score t2_score
@@ -2211,7 +2211,7 @@ dbl (4): id, ideology, elast, tr_est
 <center>
 <strong>Normalized World</strong>
 </center>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-normalize-test-scores_dfdf8b79c85ec32cb67198f2bf787f25">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>score_df <span class="ot">&lt;-</span> score_df <span class="sc">|&gt;</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">t1_z_score =</span> <span class="fu">round</span>((t1_score <span class="sc">-</span> t1_mean) <span class="sc">/</span> t1_sd, <span class="dv">2</span>),</span>
@@ -2224,7 +2224,7 @@ dbl (4): id, ideology, elast, tr_est
 </div>
 <p><em>“I scored higher than <strong>90%</strong> of students on the first test!</em> 🤩</p>
 <p><em>“And higher than <strong>60%</strong> on the second!”</em> 😎</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/r-normalized-scores_5e569f2bfb0f983653c9b02d41be9849">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 7
      id t1_score t1_pctile t2_score t2_pctile t1_z_score t2_z_score
@@ -2243,7 +2243,7 @@ dbl (4): id, ideology, elast, tr_est
 <section id="scaling" class="level2 smaller crunch-title crunch-figures crunch-images crunch-code crunch-p">
 <h2 class="smaller crunch-title crunch-figures crunch-images crunch-code crunch-p anchored" data-anchor-id="scaling">Scaling</h2>
 <p>The percentile places everyone at <strong>evenly-spaced intervals</strong> from 0 to 100:</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/pctile-numberline_8e745daba19decc375a964ff6abb7946">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://community.rstudio.com/t/number-line-in-ggplot/162894/4</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a binary indicator to track "me" (student #8)</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>whoami <span class="ot">&lt;-</span> <span class="dv">29</span></span>
@@ -2285,7 +2285,7 @@ dbl (4): id, ideology, elast, tr_est
 </div>
 <p><img src="images/foucault_mirror.jpg" class="absolute img-fluid" style="width:15.0%" data-top="2%" data-right="0"></p>
 <p>But what if we want to see their <strong>absolute</strong> performance, on a 0 to 100 scale?</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/scaled-score-numberline_6b5c56dd5b282432d95cdb65a363a00c">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -2376,7 +2376,7 @@ z_i = \frac{x_i - \mu}{\sigma}
 <li>Unit of original <span class="math inline">\(x_i\)</span> values: ?</li>
 <li>Unit of <span class="math inline">\(z\)</span>-score: <strong>standard deviations from the mean</strong>!</li>
 </ul>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/z-score-numberline_6d86ebc089aad3a907612393f5be78db">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>t1_z_score_line_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> score_df<span class="sc">$</span>t1_z_score,</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="dv">0</span>,</span>
@@ -2588,7 +2588,7 @@ y &amp; \green{1} &amp; \green{1} &amp; \red{1} &amp; \red{0} &amp; 1 \\
 <div id="fig-lp-plots" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
 <figure class="figure">
 <p>Visualizing “circles” in <span class="math inline">\(L^p\)</span> space:</p>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/lp-norms_2bae4d64bc68b36b5fdec3bb4fb98c34">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2714,7 +2714,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <ul>
 <li>This is the outlier rule used for <strong>box-and-whisker plots</strong>:</li>
 </ul>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/boxplot-outliers_4e55ee256766a4aa0119a0604001a8fb">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -2762,7 +2762,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <li>Recall the <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule" target="_blank"><strong>68-95-99.7 Rule</strong></a></li>
 <li>The <strong>3-Sigma Rule</strong> says simply: throw away anything more than <strong>3 standard deviations</strong> away from the mean (beyond range that should contain 99.7% of data)</li>
 </ul>
-<div class="cell" data-layout-align="center">
+<div class="cell" data-layout-align="center" data-hash="index_cache/html/unnamed-chunk-46_f60fef6b07f33890356a95ee78ab6a1b">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>mean_score <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>Score)</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>sd_score <span class="ot">&lt;-</span> <span class="fu">sd</span>(data_df<span class="sc">$</span>Score)</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>lower_cutoff <span class="ot">&lt;-</span> mean_score <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> sd_score</span>

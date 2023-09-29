@@ -78,5 +78,8 @@
   },
   "writeups/eda-seaborn/index.qmd": {
     "index.html": "bc7a53ce"
+  },
+  "writeups/quiz-status/index.qmd": {
+    "index.html": "3772baca"
   }
 }

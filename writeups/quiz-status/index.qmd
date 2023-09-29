@@ -1,0 +1,18 @@
+---
+title: "DSAN 5000 Quiz Status Sheet"
+author: "DSAN 5000 Staff"
+date: last-modified
+format: html
+listing:
+  contents:
+    - quizzes.yml
+  type: table
+  fields: [title,solns]
+  field-display-names:
+    title: "Quiz Link"
+    solns: "Solutions Available (Canvas)"
+  sort:
+    - "quiz-num desc"
+  table-hover: true
+---
+
