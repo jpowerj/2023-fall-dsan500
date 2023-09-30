@@ -87,5 +87,8 @@
   },
   "writeups/tidyverse-split-column/index.qmd": {
     "index.html": "3f191409"
+  },
+  "writeups/eda-seaborn/THOR_EDA_with_Seaborn.ipynb": {
+    "THOR_EDA_with_Seaborn.html": "eb3fba3a"
   }
 }

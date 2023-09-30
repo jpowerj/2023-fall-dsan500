@@ -13,6 +13,7 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/eda-seaborn/THOR_EDA_with_Seaborn.html",
       "/writeups/tidyverse-split-column/index.html",
       "/writeups/columns/index.html",
       "/writeups/quiz-status/index.html",
