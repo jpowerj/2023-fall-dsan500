@@ -51,6 +51,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-day-full': 'Tuesday',
       '.sec-time': '12:30pm-3pm',
       '.sec-room': 'ICC 219',
+      '.sec-zoom-link': 'https://georgetown.zoom.us/j/93896372980',
       '.sec-w01-date': 'Aug 23',
       '.sec-w02-date': 'Aug 29',
       '.sec-w03-date': 'Sep 6',
@@ -79,6 +80,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-day-full': 'Wednesday',
       '.sec-time': '3:30pm-6pm',
       '.sec-room': 'Car Barn 203',
+      '.sec-zoom-link': 'https://georgetown.zoom.us/j/99159827749',
       '.sec-w01-date': 'Aug 23',
       '.sec-w02-date': 'Aug 30',
       '.sec-w03-date': 'Sep 6',
@@ -112,6 +114,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     let sData = sectionData[newStr];
     for (const [sKey, sVal] of Object.entries(sData)) {
       if (sKey.startsWith(".rec-link")) {
+        $(sKey).attr('href', sVal);
+      } else if (sKey == ".sec-zoom-link") {
         $(sKey).attr('href', sVal);
       } else {
         $(sKey).text(sVal);
