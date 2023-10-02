@@ -1,93 +1,93 @@
----
-title: "Week 7: Unsupervised Learning"
-date: "Tuesday, October 3, 2023"
-date-format: full
-#date: last-modified
-#date-format: "dddd MMM D, YYYY, HH:mm:ss"
-lecnum: 7
-categories:
-  - "Class Sessions"
-bibliography: "../_DSAN5000.bib"
-format:
-  revealjs:
-    output-file: slides.html
-    cache: false
-    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 7: Unsupervised Learning"
-  html:
-    output-file: index.html
-    html-math-method: mathjax
-    cache: false
-metadata-files: 
-  - "../_slide-meta.yml"
----
-
-
-
-::: {.content-visible unless-format="revealjs"}
-
-<center>
-<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
-</center>
-
-:::
-
-# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
-
-{{< include ../_r-globals.qmd >}}
-
-{{< include ../_py-globals.qmd >}}
-
-{{< include ../_tex-globals.qmd >}}
-
-Today's Planned Schedule (Section <span class='sec-num'>02</span>):
-
-{{< include ../_components/sched-w07.qmd >}}
-
-# Week 06 Recap {data-stack-name="Recap"}
-
-* Normalization
-* Correlation and Covariance
-* Distance Metrics
-
-## Normalization
-
-* Recall from last week's slides:
-* IQR Rule (Tukey), suitable for general data
-* Three-Sigma Rule, suitable for **Normally-distributed** data
-* In either case: when we **remove outliers** using one of these methods, in the context of machine learning we call this **feature clipping**
-
-## One More: Log-Scaling
-
-* In math (I wish I had learned it like this), the $\log()$ function is a magic function that "reduces" complicated operations to less-complicated operations:
-* **Exponentiation $\rightarrow$ Multiplication**:
-
-  $$
-  \log(a^b) = b\cdot \log(a)
-  $$
-
-* **Multiplication $\rightarrow$ Addition**:
-
-  $$
-  \log(a\cdot b) = \log(a) + \log(b)
-  $$
-
-## Why Does This Help Us?
-
-* Tl;dr Humans have superpowers for identifying **linear relationships**: $y = mx + b$
-* $\implies$ if we can use $\log()$, we also get superpowers for identifying **exponential relationships** for free, since
-
-$$
-y = e^{mx + b} \iff \log(y) = mx + b
-$$
-
-* If we see $mx + b$ in a **log-scale** plot, we can immediately infer the functional relationship!
-
-## In Pictures {.crunch-title .crunch-images .crunch-math}
-
-::: columns
-::: {.column width="50%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #| label: linear-plot
 #| fig-width: 6
 #| fig-height: 5
@@ -107,12 +107,12 @@ ggplot(exp_df) +
   labs(
     title="y = exp(3x + 1), Linear Scale"
   )
-```
-
-:::
-::: {.column width="50%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
 #| label: exp-plot
 #| fig-width: 6
 #| fig-height: 5
@@ -127,25 +127,25 @@ ggplot(exp_df) +
   labs(
     title="y = exp(3x + 1), Log Scale"
   )
-```
-
-:::
-
-:::
-
-$$
-y = e^{mx + b} \iff \log(y) = mx + b
-$$
-
-## Covariance: Intuition 1.0 {.smaller .crunch-title .crunch-code .crunch-images .crunch-figures .crunch-ul}
-
-* If we are **at the mean** $(\mu_x,\mu_y)$, what is **likelihood points to the right are also above?**
-* Similarly,what is the **likelihood that points to the left are also below?**
-
-::: columns
-::: {.column width="33%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #| label: collinear-cov-plot
 #| fig-width: 3.8
 #| fig-height: 3.8
@@ -233,55 +233,55 @@ gen_cov_table <- function(df, print_matches = FALSE) {
   }
 }
 gen_cov_plot(df_collinear)
-```
-
-::: {layout-ncol=2}
-
-```{r}
+#
+#
+#
+#
+#
 #| label: collinear-cov-table
 #| echo: false
 gen_cov_table(df_collinear)
-```
-
-```{r}
+#
+#
+#
 #| label: collinear-cov-matches
 #| echo: false
 gen_cov_table(df_collinear, print_matches = TRUE)
-```
-
-:::
-
-:::
-::: {.column width="33%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
 #| label: noisy-cov-plot
 #| fig-align: center
 #| fig-width: 3.8
 #| fig-height: 3.8
 gen_cov_plot(df_noisy)
-```
-
-::: {layout-ncol=2}
-
-```{r}
+#
+#
+#
+#
+#
 #| label: cov-table-noisy
 #| echo: false
 gen_cov_table(df_noisy)
-```
-
-```{r}
+#
+#
+#
 #| label: cov-matches-noisy
 #| echo: false
 gen_cov_table(df_noisy, print_matches = TRUE)
-```
-
-:::
-
-:::
-::: {.column width="33%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
 #| label: neg-cov-plot
 #| fig-align: center
 #| fig-width: 3.8
@@ -296,35 +296,35 @@ y_noisy_neg_mean <- mean(y_noisy_neg, na.rm = TRUE)
 #print(y_noisy_mean)
 df_noisy_neg <- tibble(x = x_vals, y = y_noisy_neg, rel="noise")
 gen_cov_plot(df_noisy_neg)
-```
-
-::: {layout-ncol=2}
-
-```{r}
+#
+#
+#
+#
+#
 #| label: neg-cov-table
 #| echo: false
 gen_cov_table(df_noisy_neg)
-```
-
-```{r}
+#
+#
+#
 #| label: neg-cov-matches
 #| echo: false
 gen_cov_table(df_noisy_neg, print_matches = TRUE)
-```
-
-:::
-
-:::
-:::
-
-## Covariance: Intuition 2.0 {.smaller .crunch-title .crunch-code .crunch-images .crunch-figures}
-
-* Now, rather than just **is this point above-right?** (binary), let's compute **how above-right** it is!:
-
-::: columns
-::: {.column width="33%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 #| label: collinear-rect-plot
 #| fig-width: 3.8
 #| fig-height: 3.8
@@ -366,159 +366,160 @@ gen_rect_plot <- function(df, col_order=c("red","darkgreen")) {
     scale_y_continuous(breaks=c(y_mean), labels=c(TeX(r"($\mu_y$)")))
 }
 gen_rect_plot(df_collinear, col_order=c("darkgreen","red"))
-```
-
-::: {layout-ncol=2}
-
-```{r}
+#
+#
+#
+#
+#
 #| label: collinear-rect-table
 #| echo: false
 gen_cov_table(df_collinear)
-```
-
-```{r}
+#
+#
+#
 #| label: collinear-rect-matches
 #| echo: false
 gen_cov_table(df_collinear, print_matches = TRUE)
-```
-
-:::
-
-:::
-::: {.column width="33%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
 #| label: noisy-rect-plot
 #| fig-align: center
 #| fig-width: 3.8
 #| fig-height: 3.8
 gen_rect_plot(df_noisy)
-```
-
-::: {layout-ncol=2}
-
-```{r}
+#
+#
+#
+#
+#
 #| label: noisy-rect-table
 #| echo: false
 gen_cov_table(df_noisy)
-```
-
-```{r}
+#
+#
+#
 #| label: noisy-rect-matches
 #| echo: false
 gen_cov_table(df_noisy, print_matches = TRUE)
-```
-
-:::
-
-:::
-::: {.column width="33%"}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
 #| label: neg-rect-plot
 #| fig-align: center
 #| fig-width: 3.8
 #| fig-height: 3.8
 gen_rect_plot(df_noisy_neg)
-```
-
-::: {layout-ncol=2}
-
-```{r}
+#
+#
+#
+#
+#
 #| label: neg-rect-table
 #| echo: false
 gen_cov_table(df_noisy_neg)
-```
-
-```{r}
+#
+#
+#
 #| label: neg-rect-matches
 #| echo: false
 gen_cov_table(df_noisy_neg, print_matches = TRUE)
-```
-
-:::
-
-:::
-:::
-
-## Distance Metrics {.crunch-title .crunch-ul .crunch-images .crunch-figures}
-
-::: {layout-ncol=2}
-
-::: {#cosine-dist}
-
-* One More Important Metric! **Cosine Distance**
-
-![$A = (5,0), B = (3,4) \implies \cos(A,B) = \frac{3}{5}$](images/cosine_dist_projection.svg){fig-align="center" width="360"}
-
-
-
-:::
-
-::: {#new-names}
-
-* Plus **new names** for ones you already know!
-
-* "Levenshtein Distance": Edit distance
-* "Minkowski Distance": $L^p$-norm (Generalizes Euclidean, Manhattan, Min, and Max)
-
-:::
-
-:::
-
-# Quiz Time!
-
-* <a href='https://georgetown.instructure.com/courses/173310/quizzes/201583?module_item_id=3421671' target='_blank'>Quiz 3.2 <i class='bi bi-box-arrow-up-right ps-1'></i></a>
-
-# Unsupervised Learning {data-stack-name="Unsupervised Learning"}
-
-## What is Unsupervised Learning?
-
-* Getting the computer to **do EDA for us!**
-
-::: columns
-::: {.column width="50%"}
-
-Where we'll start:
-
-
-
-:::
-::: {.column width="50%"}
-
-Where we'll end up:
-
-:::
-:::
-
-
-## Supervised vs. Unsupervised Learning {.smaller}
-
-::: columns
-::: {.column width="50%"}
--   **Supervised** Learning: You want the computer to learn the pattern of how *you* are classifying[^1] observations in a dataset
-    -   Discovering the relationship between *properties* of data and *outcomes*
-    -   Example (*Binary Classification*): I look at homes on Zillow, saving those I like to folder A and don't like to folder B
-    -   Example (*Regression*): I assign a rating of 0-100 to each home
-    -   In both cases: I ask the computer to *learn* my preferences (how I classify/assign ratings to homes)
-:::
-
-::: {.column width="50%"}
--   **Unsupervised** Learning: You want the computer to *find* patterns in a dataset, without any classification info
-    -   Typically: grouping or clustering observations based on shared properties
-    -   Example (*Clustering*): I save all the used car listings I can find, and ask the computer to "find a pattern" in this data, by clustering similar cars together
-:::
-:::
-
-[^1]: *Whether standard **classification** (sorting each observation into a bin) or **regression** (assigning a real number to each observation)*
-
-## Dataset Structures {.smaller}
-
-::: columns
-::: {.column width="50%"}
--   **Supervised** Learning: Dataset has both [*explanatory* variables ("features")]{.colA} and [*response* variables ("labels")]{.colB}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 sup_data <- tibble::tribble(
   ~home_id, ~sqft, ~bedrooms, ~rating,
   0, 1000, 1, "Disliked",
@@ -527,19 +528,19 @@ sup_data <- tibble::tribble(
   3, 1500, 2, "Disliked",
   4, 2200, 1, "Liked"
 )
-```
-
-::: suptable
-```{r}
+#
+#
+#
+#
 sup_data
 ```
-:::
-:::
-
-::: {.column width="50%"}
--   **Unsupervised** Learning: Dataset has only [*explanatory* variables]{.colA}
-
-```{r}
+#
+#
+#
+#
+#
+#
+#
 unsup_data <- tibble::tribble(
   ~home_id, ~sqft, ~bedrooms,
   0, 1000, 1,
@@ -548,21 +549,21 @@ unsup_data <- tibble::tribble(
   3, 1500, 2,
   4, 2200, 1
 )
-```
-
-::: unsuptable
-```{r}
+#
+#
+#
+#
 unsup_data
 ```
-:::
-:::
-:::
-
-## Dataset Structures: Visualized
-
-::: columns
-::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
+#
+#
+#
+#
+#
+#
+#
+#
+#
 ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + 
   geom_point(size=g_pointsize) +
   labs(
@@ -572,12 +573,12 @@ ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) +
     color = "Outcome"
   ) +
   expand_limits(x=c(800,2700), y=c(0.8,2.2)) +
-  dsan_theme("half")
+  global_theme
 ```
-:::
-
-::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
+#
+#
+#
+#
 # To force a legend
 unsup_grouped <- unsup_data %>% mutate(big=bedrooms > 1)
 unsup_grouped[['big']] <- factor(unsup_grouped[['big']], labels=c("?1","?2"))
@@ -588,7 +589,7 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) +
     y = "Number of Bedrooms",
     fill = "?"
   ) +
-  dsan_theme("half") +
+  global_theme +
   expand_limits(x=c(800,2700), y=c(0.8,2.2)) +
   ggtitle("Unsupervised Data: House Listings") +
   theme(legend.background = element_rect(fill="white", color="white"), legend.box.background = element_rect(fill="white"), legend.text = element_text(color="white"), legend.title = element_text(color="white"), legend.position = "right") +
@@ -598,14 +599,14 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) +
   #scale_color_manual(values=c("?1"="white","?2"="white"))
   guides(fill = guide_legend(override.aes = list(shape = NA)))
 ```
-:::
-:::
-
-## Different Goals
-
-::: columns
-::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
+#
+#
+#
+#
+#
+#
+#
+#
 ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + 
   geom_point(size=g_pointsize) +
   labs(
@@ -614,18 +615,17 @@ ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) +
     y = "Number of Bedrooms",
     color = "Outcome"
   ) +
-  dsan_theme("half") +
+  global_theme +
   expand_limits(x=c(800,2700), y=c(0.8,2.2)) +
   geom_vline(xintercept = 1750, linetype="dashed", color = "black", size=1) +
   annotate('rect', xmin=-Inf, xmax=1750, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[1]) +
   annotate('rect', xmin=1750, xmax=Inf, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[2])
   #geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))
 ```
-:::
-
-::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
-library(ggforce)
+#
+#
+#
+#
 ggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +
   #scale_color_brewer(palette = "PuOr") +
   geom_mark_ellipse(expand=0.1, aes(fill=big), size = 1) +
@@ -635,7 +635,7 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +
     y = "Number of Bedrooms",
     fill = "?"
   ) +
-  dsan_theme("half") +
+  global_theme +
   ggtitle("Unsupervised Data: House Listings") +
   #theme(legend.position = "none") +
   #theme(legend.title = text_element("?"))
@@ -643,46 +643,23 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +
   scale_fill_manual(values=c(cbPalette[3],cbPalette[4]), labels=c("?","?"))
   #scale_fill_manual(labels=c("?","?"))
 ```
-:::
-:::
-
-# K-Nearest Neighbors (KNN) {data-stack-name="KNN"}
-
-## The KNN Algorithm
-
-# Naïve Bayes Classifiers {data-stack-name="Naïve Bayes"}
-
-## What is "Naïve" About It? {.smaller}
-
-::: {layout-ncol=2}
-::: {#naive-bayes-info}
-
-**Guessing House Prices**:
-
-* If I tell you there's a house, what is your guess for number of bathrooms it has?
-* If I tell you the house is **50,000 sqft**, **does your guess go up?**
-
-**Guessing Word Frequencies**:
-
-* If I tell you there's a book, how often do you think the word "University" appears?
-* Now if I tell you that the word "Stanford" appears **2,000 times**, **does your guess go up?**
-
-:::
-::: {#naive-bayes-pic}
-
-<center>
-Naïve Bayes' Answer?
-</center>
-
-![](images/chief_keef_nah_full.jpg){fig-align="center" width="80%"}
-
-:::
-:::
-
-# Lab: Feature Selection in Scikit-Learn
-
-## Scikit-Learn
-
-# Lab Assignment Overview {data-stack-name="Lab"}
-
-## References
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

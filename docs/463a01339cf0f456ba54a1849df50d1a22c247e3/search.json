@@ -403,7 +403,7 @@
     "href": "w06/index.html#the-scariest-dataset-of-all-time",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "The Scariest Dataset of All Time",
-    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10e3cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10e3cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10e3cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10e3cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
+    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x108591120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x108591120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x108591260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x108591260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
   },
   {
     "objectID": "w06/index.html#it-doesnt-end-there",
@@ -606,7 +606,35 @@
     "href": "w07/slides.html#what-is-unsupervised-learning",
     "title": "Week 7: Unsupervised Learning",
     "section": "What is Unsupervised Learning?",
-    "text": "What is Unsupervised Learning?"
+    "text": "What is Unsupervised Learning?\n\nGetting the computer to do EDA for us!\n\n\n\nWhere we’ll start:\n\nWhere we’ll end up:"
+  },
+  {
+    "objectID": "w07/slides.html#supervised-vs.-unsupervised-learning",
+    "href": "w07/slides.html#supervised-vs.-unsupervised-learning",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Supervised vs. Unsupervised Learning",
+    "text": "Supervised vs. Unsupervised Learning\n\n\n\nSupervised Learning: You want the computer to learn the pattern of how you are classifying1 observations in a dataset\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my preferences (how I classify/assign ratings to homes)\n\n\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together\n\n\n\n\nWhether standard classification (sorting each observation into a bin) or regression (assigning a real number to each observation)"
+  },
+  {
+    "objectID": "w07/slides.html#dataset-structures",
+    "href": "w07/slides.html#dataset-structures",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Dataset Structures",
+    "text": "Dataset Structures\n\n\n\nSupervised Learning: Dataset has both explanatory variables (“features”) and response variables (“labels”)\n\n\n\nCode\nsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms, ~rating,\n  0, 1000, 1, \"Disliked\",\n  1, 2000, 2, \"Liked\",\n  2, 2500, 1, \"Liked\",\n  3, 1500, 2, \"Disliked\",\n  4, 2200, 1, \"Liked\"\n)\n\n\n\n\n\nCode\nsup_data\n\n\n\n\n\n\nhome_id\nsqft\nbedrooms\nrating\n\n\n\n\n0\n1000\n1\nDisliked\n\n\n1\n2000\n2\nLiked\n\n\n2\n2500\n1\nLiked\n\n\n3\n1500\n2\nDisliked\n\n\n4\n2200\n1\nLiked\n\n\n\n\n\n\n\n\n\nUnsupervised Learning: Dataset has only explanatory variables\n\n\n\nCode\nunsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms,\n  0, 1000, 1,\n  1, 2000, 2,\n  2, 2500, 1,\n  3, 1500, 2,\n  4, 2200, 1\n)\n\n\n\n\n\nCode\nunsup_data\n\n\n\n\n\n\nhome_id\nsqft\nbedrooms\n\n\n\n\n0\n1000\n1\n\n\n1\n2000\n2\n\n\n2\n2500\n1\n\n\n3\n1500\n2\n\n\n4\n2200\n1"
+  },
+  {
+    "objectID": "w07/slides.html#dataset-structures-visualized",
+    "href": "w07/slides.html#dataset-structures-visualized",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Dataset Structures: Visualized",
+    "text": "Dataset Structures: Visualized\n\n\n\n\nCode\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  dsan_theme(\"half\")\n\n\n\n\n\n\n\n\n\n\n\n\nCode\n# To force a legend\nunsup_grouped &lt;- unsup_data %&gt;% mutate(big=bedrooms &gt; 1)\nunsup_grouped[['big']] &lt;- factor(unsup_grouped[['big']], labels=c(\"?1\",\"?2\"))\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  theme(legend.background = element_rect(fill=\"white\", color=\"white\"), legend.box.background = element_rect(fill=\"white\"), legend.text = element_text(color=\"white\"), legend.title = element_text(color=\"white\"), legend.position = \"right\") +\n  scale_fill_discrete(labels=c(\"?\",\"?\")) +\n  #scale_color_discrete(values=c(\"white\",\"white\"))\n  scale_color_manual(name=NULL, values=c(\"white\",\"white\")) +\n  #scale_color_manual(values=c(\"?1\"=\"white\",\"?2\"=\"white\"))\n  guides(fill = guide_legend(override.aes = list(shape = NA)))"
+  },
+  {
+    "objectID": "w07/slides.html#different-goals",
+    "href": "w07/slides.html#different-goals",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Different Goals",
+    "text": "Different Goals\n\n\n\n\nCode\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  geom_vline(xintercept = 1750, linetype=\"dashed\", color = \"black\", size=1) +\n  annotate('rect', xmin=-Inf, xmax=1750, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[1]) +\n  annotate('rect', xmin=1750, xmax=Inf, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[2])\n\n\n\n\n\n\n\n\n\nCode\n  #geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))\n\n\n\n\n\nCode\nlibrary(ggforce)\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +\n  #scale_color_brewer(palette = \"PuOr\") +\n  geom_mark_ellipse(expand=0.1, aes(fill=big), size = 1) +\n  geom_point(size=g_pointsize) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  #theme(legend.position = \"none\") +\n  #theme(legend.title = text_element(\"?\"))\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(cbPalette[3],cbPalette[4]), labels=c(\"?\",\"?\"))\n\n\n\n\n\n\n\n\n\nCode\n  #scale_fill_manual(labels=c(\"?\",\"?\"))"
   },
   {
     "objectID": "w07/slides.html#the-knn-algorithm",
@@ -620,7 +648,7 @@
     "href": "w07/slides.html#what-is-naïve-about-it",
     "title": "Week 7: Unsupervised Learning",
     "section": "What is “Naïve” About It?",
-    "text": "What is “Naïve” About It?"
+    "text": "What is “Naïve” About It?\n\n\n\nGuessing House Prices:\n\nIf I tell you there’s a house, what is your guess for number of bathrooms it has?\nIf I tell you the house is 50,000 sqft, does your guess go up?\n\nGuessing Word Frequencies:\n\nIf I tell you there’s a book, how often do you think the word “University” appears?\nNow if I tell you that the word “Stanford” appears 2,000 times, does your guess go up?\n\n\n\n\nNaïve Bayes’ Answer?"
   },
   {
     "objectID": "w07/slides.html#scikit-learn",
@@ -697,7 +725,35 @@
     "href": "w07/index.html#what-is-unsupervised-learning",
     "title": "Week 7: Unsupervised Learning",
     "section": "What is Unsupervised Learning?",
-    "text": "What is Unsupervised Learning?"
+    "text": "What is Unsupervised Learning?\n\nGetting the computer to do EDA for us!\n\n\n\nWhere we’ll start:\n\nWhere we’ll end up:"
+  },
+  {
+    "objectID": "w07/index.html#supervised-vs.-unsupervised-learning",
+    "href": "w07/index.html#supervised-vs.-unsupervised-learning",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Supervised vs. Unsupervised Learning",
+    "text": "Supervised vs. Unsupervised Learning\n\n\n\nSupervised Learning: You want the computer to learn the pattern of how you are classifying1 observations in a dataset\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my preferences (how I classify/assign ratings to homes)\n\n\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together"
+  },
+  {
+    "objectID": "w07/index.html#dataset-structures",
+    "href": "w07/index.html#dataset-structures",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Dataset Structures",
+    "text": "Dataset Structures\n\n\n\nSupervised Learning: Dataset has both explanatory variables (“features”) and response variables (“labels”)\n\n\nsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms, ~rating,\n  0, 1000, 1, \"Disliked\",\n  1, 2000, 2, \"Liked\",\n  2, 2500, 1, \"Liked\",\n  3, 1500, 2, \"Disliked\",\n  4, 2200, 1, \"Liked\"\n)\n\n\n\nsup_data\n\n# A tibble: 5 × 4\n  home_id  sqft bedrooms rating  \n    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   \n1       0  1000        1 Disliked\n2       1  2000        2 Liked   \n3       2  2500        1 Liked   \n4       3  1500        2 Disliked\n5       4  2200        1 Liked   \n\n\n\n\n\nUnsupervised Learning: Dataset has only explanatory variables\n\n\nunsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms,\n  0, 1000, 1,\n  1, 2000, 2,\n  2, 2500, 1,\n  3, 1500, 2,\n  4, 2200, 1\n)\n\n\n\nunsup_data\n\n# A tibble: 5 × 3\n  home_id  sqft bedrooms\n    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;\n1       0  1000        1\n2       1  2000        2\n3       2  2500        1\n4       3  1500        2\n5       4  2200        1"
+  },
+  {
+    "objectID": "w07/index.html#dataset-structures-visualized",
+    "href": "w07/index.html#dataset-structures-visualized",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Dataset Structures: Visualized",
+    "text": "Dataset Structures: Visualized\n\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  dsan_theme(\"half\")\n\n\n\n\n\n\n\n\n\n\n# To force a legend\nunsup_grouped &lt;- unsup_data %&gt;% mutate(big=bedrooms &gt; 1)\nunsup_grouped[['big']] &lt;- factor(unsup_grouped[['big']], labels=c(\"?1\",\"?2\"))\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  theme(legend.background = element_rect(fill=\"white\", color=\"white\"), legend.box.background = element_rect(fill=\"white\"), legend.text = element_text(color=\"white\"), legend.title = element_text(color=\"white\"), legend.position = \"right\") +\n  scale_fill_discrete(labels=c(\"?\",\"?\")) +\n  #scale_color_discrete(values=c(\"white\",\"white\"))\n  scale_color_manual(name=NULL, values=c(\"white\",\"white\")) +\n  #scale_color_manual(values=c(\"?1\"=\"white\",\"?2\"=\"white\"))\n  guides(fill = guide_legend(override.aes = list(shape = NA)))"
+  },
+  {
+    "objectID": "w07/index.html#different-goals",
+    "href": "w07/index.html#different-goals",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Different Goals",
+    "text": "Different Goals\n\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  geom_vline(xintercept = 1750, linetype=\"dashed\", color = \"black\", size=1) +\n  annotate('rect', xmin=-Inf, xmax=1750, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[1]) +\n  annotate('rect', xmin=1750, xmax=Inf, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[2])\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n\n\n\n\n\n\n  #geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))\n\n\n\nlibrary(ggforce)\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +\n  #scale_color_brewer(palette = \"PuOr\") +\n  geom_mark_ellipse(expand=0.1, aes(fill=big), size = 1) +\n  geom_point(size=g_pointsize) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  #theme(legend.position = \"none\") +\n  #theme(legend.title = text_element(\"?\"))\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(cbPalette[3],cbPalette[4]), labels=c(\"?\",\"?\"))\n\n\n\n\n\n\n\n  #scale_fill_manual(labels=c(\"?\",\"?\"))"
   },
   {
     "objectID": "w07/index.html#the-knn-algorithm",
@@ -711,7 +767,7 @@
     "href": "w07/index.html#what-is-naïve-about-it",
     "title": "Week 7: Unsupervised Learning",
     "section": "What is “Naïve” About It?",
-    "text": "What is “Naïve” About It?"
+    "text": "What is “Naïve” About It?\n\n\n\nGuessing House Prices:\n\nIf I tell you there’s a house, what is your guess for number of bathrooms it has?\nIf I tell you the house is 50,000 sqft, does your guess go up?\n\nGuessing Word Frequencies:\n\nIf I tell you there’s a book, how often do you think the word “University” appears?\nNow if I tell you that the word “Stanford” appears 2,000 times, does your guess go up?\n\n\n\n\nNaïve Bayes’ Answer?"
   },
   {
     "objectID": "w07/index.html#scikit-learn",
@@ -726,6 +782,13 @@
     "title": "Week 7: Unsupervised Learning",
     "section": "References",
     "text": "References"
+  },
+  {
+    "objectID": "w07/index.html#footnotes",
+    "href": "w07/index.html#footnotes",
+    "title": "Week 7: Unsupervised Learning",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nWhether standard classification (sorting each observation into a bin) or regression (assigning a real number to each observation)↩︎"
   },
   {
     "objectID": "about/index.html",

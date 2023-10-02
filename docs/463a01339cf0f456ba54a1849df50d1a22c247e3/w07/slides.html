@@ -1072,6 +1072,312 @@ Covariance:
 </section>
 <section id="what-is-unsupervised-learning" class="slide level2">
 <h2>What is Unsupervised Learning?</h2>
+<ul>
+<li>Getting the computer to <strong>do EDA for us!</strong></li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Where we’ll start:</p>
+</div><div class="column" style="width:50%;">
+<p>Where we’ll end up:</p>
+</div>
+</div>
+</section>
+<section id="supervised-vs.-unsupervised-learning" class="slide level2 smaller">
+<h2>Supervised vs.&nbsp;Unsupervised Learning</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>Supervised</strong> Learning: You want the computer to learn the pattern of how <em>you</em> are classifying<sup>1</sup> observations in a dataset
+<ul>
+<li>Discovering the relationship between <em>properties</em> of data and <em>outcomes</em></li>
+<li>Example (<em>Binary Classification</em>): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B</li>
+<li>Example (<em>Regression</em>): I assign a rating of 0-100 to each home</li>
+<li>In both cases: I ask the computer to <em>learn</em> my preferences (how I classify/assign ratings to homes)</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>Unsupervised</strong> Learning: You want the computer to <em>find</em> patterns in a dataset, without any classification info
+<ul>
+<li>Typically: grouping or clustering observations based on shared properties</li>
+<li>Example (<em>Clustering</em>): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p><em>Whether standard <strong>classification</strong> (sorting each observation into a bin) or <strong>regression</strong> (assigning a real number to each observation)</em></p></li></ol></aside></section>
+<section id="dataset-structures" class="slide level2 smaller">
+<h2>Dataset Structures</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>Supervised</strong> Learning: Dataset has both <span class="colA"><em>explanatory</em> variables (“features”)</span> and <span class="colB"><em>response</em> variables (“labels”)</span></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>sup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms, <span class="sc">~</span>rating,</span>
+<span id="cb23-3"><a href="#cb23-3"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="st">"Disliked"</span>,</span>
+<span id="cb23-4"><a href="#cb23-4"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>, <span class="st">"Liked"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>, <span class="st">"Liked"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>, <span class="st">"Disliked"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span>, <span class="st">"Liked"</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="suptable">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>sup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">home_id</th>
+<th style="text-align: right;">sqft</th>
+<th style="text-align: right;">bedrooms</th>
+<th style="text-align: left;">rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Disliked</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Liked</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Liked</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Disliked</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2200</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Liked</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>Unsupervised</strong> Learning: Dataset has only <span class="colA"><em>explanatory</em> variables</span></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>unsup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms,</span>
+<span id="cb25-3"><a href="#cb25-3"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>,</span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>,</span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>,</span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>,</span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="unsuptable">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>unsup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">home_id</th>
+<th style="text-align: right;">sqft</th>
+<th style="text-align: right;">bedrooms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2500</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2200</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="dataset-structures-visualized" class="slide level2">
+<h2>Dataset Structures: Visualized</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-4"><a href="#cb27-4"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb27-6"><a href="#cb27-6"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb27-7"><a href="#cb27-7"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
+<span id="cb27-8"><a href="#cb27-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-27-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># To force a legend</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>unsup_grouped <span class="ot">&lt;-</span> unsup_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">big=</span>bedrooms <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb28-3"><a href="#cb28-3"></a>unsup_grouped[[<span class="st">'big'</span>]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(unsup_grouped[[<span class="st">'big'</span>]], <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?1"</span>,<span class="st">"?2"</span>))</span>
+<span id="cb28-4"><a href="#cb28-4"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">fill=</span>big)) <span class="sc">+</span> </span>
+<span id="cb28-5"><a href="#cb28-5"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-7"><a href="#cb28-7"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb28-8"><a href="#cb28-8"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb28-9"><a href="#cb28-9"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
+<span id="cb28-10"><a href="#cb28-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14"></a>  <span class="fu">theme</span>(<span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>, <span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>), <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb28-15"><a href="#cb28-15"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>)) <span class="sc">+</span></span>
+<span id="cb28-16"><a href="#cb28-16"></a>  <span class="co">#scale_color_discrete(values=c("white","white"))</span></span>
+<span id="cb28-17"><a href="#cb28-17"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="cn">NULL</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"white"</span>)) <span class="sc">+</span></span>
+<span id="cb28-18"><a href="#cb28-18"></a>  <span class="co">#scale_color_manual(values=c("?1"="white","?2"="white"))</span></span>
+<span id="cb28-19"><a href="#cb28-19"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-28-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="different-goals" class="slide level2">
+<h2>Different Goals</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
+<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-4"><a href="#cb29-4"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
+<span id="cb29-8"><a href="#cb29-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1750</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax=</span><span class="dv">1750</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="dv">1750</span>, <span class="at">xmax=</span><span class="cn">Inf</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-29-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>  <span class="co">#geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms)) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a>  <span class="co">#scale_color_brewer(palette = "PuOr") +</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a>  <span class="fu">geom_mark_ellipse</span>(<span class="at">expand=</span><span class="fl">0.1</span>, <span class="fu">aes</span>(<span class="at">fill=</span>big), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-7"><a href="#cb31-7"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb31-8"><a href="#cb31-8"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb31-9"><a href="#cb31-9"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
+<span id="cb31-10"><a href="#cb31-10"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-11"><a href="#cb31-11"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb31-12"><a href="#cb31-12"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
+<span id="cb31-13"><a href="#cb31-13"></a>  <span class="co">#theme(legend.position = "none") +</span></span>
+<span id="cb31-14"><a href="#cb31-14"></a>  <span class="co">#theme(legend.title = text_element("?"))</span></span>
+<span id="cb31-15"><a href="#cb31-15"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb31-16"><a href="#cb31-16"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>],cbPalette[<span class="dv">4</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-30-1.png" width="480"></p>
+</figure>
+</div>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>  <span class="co">#scale_fill_manual(labels=c("?","?"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="k-nearest-neighbors-knn" class="title-slide slide level1 center" data-stack-name="KNN">
@@ -1086,8 +1392,34 @@ Covariance:
 <h1>Naïve Bayes Classifiers</h1>
 
 </section>
-<section id="what-is-naïve-about-it" class="slide level2">
+<section id="what-is-naïve-about-it" class="slide level2 smaller">
 <h2>What is “Naïve” About It?</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="naive-bayes-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><strong>Guessing House Prices</strong>:</p>
+<ul>
+<li>If I tell you there’s a house, what is your guess for number of bathrooms it has?</li>
+<li>If I tell you the house is <strong>50,000 sqft</strong>, <strong>does your guess go up?</strong></li>
+</ul>
+<p><strong>Guessing Word Frequencies</strong>:</p>
+<ul>
+<li>If I tell you there’s a book, how often do you think the word “University” appears?</li>
+<li>Now if I tell you that the word “Stanford” appears <strong>2,000 times</strong>, <strong>does your guess go up?</strong></li>
+</ul>
+</div>
+<div id="naive-bayes-pic" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<center>
+Naïve Bayes’ Answer?
+</center>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/chief_keef_nah_full.jpg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="lab-feature-selection-in-scikit-learn" class="title-slide slide level1 center">
@@ -1109,6 +1441,7 @@ Covariance:
 <p>DSAN 5000-<span class="sec-num">02</span> Week 7: Unsupervised Learning</p>
 </div>
 </section></section>
+
     </div>
   </div>
 
