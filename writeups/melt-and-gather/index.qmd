@@ -1,0 +1,150 @@
+---
+title: "Melting Data in Python and R"
+date: last-modified
+categories:
+  - "Extra Writeups"
+format:
+  html:
+    df-print: kable
+metadata-files: 
+  - ../../_doc-meta.yml
+---
+
+{{< include ../../_py-globals.qmd >}}
+
+The first two parts of <a href='https://jfh.georgetown.domains/dsan5000/homeworks/HW-02/HW-2.html' target='_blank'>Homework 2</a> require you to transform some datasets from **wide** to **long** format, so in this writeup I quickly wanted to show some straightforward ways to perform this operation, in both Python (with Pandas) and R (with `tidyverse`).
+
+## Which Variables Should Be "ID Variables"?
+
+Whether you're using Python or R, the key thing you should be thinking about when trying to figure out how to use `melt()` (in Pandas) or `pivot_longer()` (in Tidyverse) is **how to "sort" the columns of your data into**:
+
+* Variables you **don't** want to melt (so they **stay the same** before and after the operation) and
+* Variables you **do** want to melt (variable names which will become **values** in the melted version of the dataset).
+
+The term **"ID variables"** can be very confusing, since usually (like in HW2) you have "true" ID variables like `account_id`, which exist specifically to uniquely identify observations, but then you have **properties** of these variables like `date` or `amount`, which are not **ID variables** in a general sense.
+
+However (confusingly, imo), when using the `melt()` function in Pandas, one of the arguments is `id_vars`. So, this might lead you to think that you should only include the "true" ID variables like `loan_id` when providing this parameter to `melt()`. Unfortunately, the `melt()` syntax is a bit weird, and really you should be thinking in terms of the two bullet points above: variables you want to **keep intact** vs. variables you want to **melt**. If you can sort your variables into just these two categories, then you can make a call to `melt()` that looks like:
+
+```python
+long_df = wide_df.melt(
+    id_vars = <vars you want to keep intact>,
+    value_vars = <vars you want to melt>
+)
+```
+
+And the output should be what you expected: in the new **long-format** `DataFrame` called `long_df`, the columns you passed in for the `id_vars` argument should **still be columns** in `long_df`, while the columns you passed in for the `value_vars` should be **gone**, and in their place there should be two new columns `variable` and `value`, where each entry in `variable` is the name of a column that was included in `value_vars` and `value` is the value that this column contained in your orignal **wide-format** `DataFrame` (`wide_df`).
+
+## Python Example
+
+As an example, let's pretend we work at a car dealership and we're deciding to start a campaign to try and persuade people to **upgrade** certain feature of their cars. The issue is, you only have data on each customer in the following format:
+
+```{r}
+#| label: car-data
+library(tidyverse)
+car_df <- tribble(
+    ~customer_id, ~car_sold, ~price, ~ac, ~tinted_windows, ~cupholders, ~heated_seats, ~power_steering,
+    0, "Toyota", 10000, 0, 1, 1, 0, 1,
+    1, "Honda", 5000, 1, 1, 1, 0, 1,
+    2, "Audi", 7500, 1, 0, 0, 1, 0,
+    3, "Ferrari", 2000, 0, 0, 0, 0, 1,
+    4, "Kia", 15000, 1, 1, 0, 0, 1
+)
+car_df |> write_csv("assets/car_sales.csv")
+getwd()
+car_df |> head()
+```
+
+That is, each feature is listed in a **separate column**, with a 1 in that column if the customer already has that feature and a 0 otherwise.
+
+The idea is that you want a list of **all of the features** which a customer does not yet have: meaning, a list of all (`customer`, `feature`) pairs where the value of feature is 0. How can we accomplish this?
+
+Your first instinct may be to write a big loop, which loops over each customer, then loops over each feature, creating a new dataset as you go along where you record only the loop iterations where you find a 0 in the column for each feature. We can do better though, using `melt()`!
+
+Here, even though `customer_id` is the only "true" ID variable, we're going to **include `car_sold` and `price` as well** when we tell Pandas what to treat as `id_vars`, so that **the values in these columns are not affected by the melting**. Then, we'll give a list of all the **binary feature columns** as the `value_vars` argument to `melt()`, and the resulting **long-format** dataset will now have just two columns representing **all** of the information on features. Rather than having to keep track of 5 separate columns, each one containing a single feature, we'll now have a single column called `value` that will have an entry of 1 wherever a customer has a certain feature (which we can check by looking over at the corresponding value in the `variable` column), and 0 otherwise:
+
+```{python}
+#| label: melt-cars-data
+import pandas as pd
+car_df = pd.read_csv("./assets/car_sales.csv")
+vars_to_keep = ['customer_id','car_sold','price']
+vars_to_melt = ['ac','tinted_windows','cupholders','heated_seats','power_steering']
+melted_df = car_df.melt(
+    id_vars = vars_to_keep,
+    value_vars = vars_to_melt
+)
+disp(melted_df)
+```
+
+And **now that we have the melted, *long-format* version of this dataset**, our job as car sellers becomes much much easier! Now we can just filter this **melted** version of the dataset to only contain the (`customer`,`feature`) pairs corresponding to **features that the customer does not already have**, and use this dataset as a "checklist" as we go through each customer trying to sell them each feature:
+
+```{python}
+#| label: missing-features-only
+missing_features_df = melted_df.loc[melted_df['value'] == 0,]
+disp(missing_features_df)
+```
+
+Before we move on to how to do the same thing in R, I wanted to note that `variable` and `value` are not very descriptive names for columns: they are just the default values that Pandas assigns as the names for these two columns if we don't assign more specific names. Since we know what `variable` and `value` actually **mean** in terms of the dataset here, let's re-do the call to `melt()` but supply additional arguments telling Pandas what to call the (by default) `variable` and `value` columns it creates:
+
+```{python}
+#| label: melt-with-rename
+car_df = pd.read_csv("./assets/car_sales.csv")
+vars_to_keep = ['customer_id','car_sold','price']
+vars_to_melt = ['ac','tinted_windows','cupholders','heated_seats','power_steering']
+melted_df = car_df.melt(
+    id_vars = vars_to_keep,
+    value_vars = vars_to_melt,
+    var_name = 'feature_name',
+    value_name = 'customer_has_feature'
+)
+disp(melted_df)
+```
+
+And we see that this gives us the same resulting `DataFrame` as before, but now with the more descriptive names for the final two columns, `feature_name` and `customer_has_feature`.
+
+## Tidyverse Example
+
+Let's take the same example data and look at how we can melt it from wide to long format using functions from the **tidyverse**.
+
+One thing to note is that, although on an earlier quiz we did talk about how to use `gather()` (and that is a totally fine way to do the homework), there is a somewhat easier function provided by Tidyverse that will accomplish the same thing: <a href='https://tidyr.tidyverse.org/reference/pivot_longer.html' target='_blank'>pivot_longer()</a>.
+
+The reason I suggest using this is because, in particular, it uses very similar syntax to that of the `melt()` function from Pandas. Whereas in Pandas, as we just saw, the syntax looks like
+
+```python
+melted_df = df.melt(
+    id_vars = <vars you want to keep intact>,
+    value_vars = <vars you want to melt>,
+    var_name = <what to call the created variable-name column>,
+    value_name = <what to call the created variable-value column>
+)
+```
+
+the syntax for `pivot_longer()` looks like
+
+```r
+melted_df <- df |> pivot_longer(
+  -c(<vars you want to keep intact),
+  names_to = <what to call the created variable-name column>,
+  values_to = <what to call the created variable-value column>
+)
+```
+
+at first it may seem different, but all that's happening here is: **rather than specifying *two* separate pieces of information**, `id_vars` and `value_vars`, here we can just provide **one or the other**. As in, by placing the minus sign `-` before the list of variables you want to keep intact, you're telling the function **"Melt all of the variables except for these"**. Let's see it in action:
+
+```{r}
+#| label: melt-pivot-longer
+melted_df <- car_df |> pivot_longer(
+    -c(customer_id, car_sold, price),
+    names_to = "feature_name",
+    values_to = "customer_has_feature"
+)
+melted_df
+```
+
+and we see that we obtain the exact same dataset as before, while only having to provide one set of variables (the **keep intact** variables), since R figures out the list of variables `value_vars` that we had to explicitly provide to Pandas. And, just like how we used `.loc[]` above to filter our dataset and keep only the columns representing features that the customer did **not** yet have, we can do the same thing using Tidyverse's `filter()` function here:
+
+```{r}
+#| label: tidyverse-filter
+melted_df |> filter(customer_has_feature == 0)
+```
+
+I hope this can help a bit, especially in terms of understanding the weirdness of how Pandas calls the argument `id_vars` despite the fact that we will usually be providing it with several variables that are **not** "true" unique-identifier variables.

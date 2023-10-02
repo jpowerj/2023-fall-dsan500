@@ -90,5 +90,8 @@
   },
   "writeups/eda-seaborn/THOR_EDA_with_Seaborn.ipynb": {
     "THOR_EDA_with_Seaborn.html": "eb3fba3a"
+  },
+  "writeups/melt-and-gather/index.qmd": {
+    "index.html": "549fb0bf"
   }
 }

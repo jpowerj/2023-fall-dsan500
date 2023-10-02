@@ -13,6 +13,7 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/melt-and-gather/index.html",
       "/writeups/eda-seaborn/THOR_EDA_with_Seaborn.html",
       "/writeups/tidyverse-split-column/index.html",
       "/writeups/columns/index.html",
@@ -29,11 +30,11 @@
     ]
   },
   {
-    "listing": "/recordings/index.html",
+    "listing": "/writeups/quiz-status/index.html",
     "items": []
   },
   {
-    "listing": "/writeups/quiz-status/index.html",
+    "listing": "/recordings/index.html",
     "items": []
   },
   {

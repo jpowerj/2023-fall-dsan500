@@ -1,0 +1,6 @@
+customer_id,car_sold,price,ac,tinted_windows,cupholders,heated_seats,power_steering
+0,Toyota,10000,0,1,1,0,1
+1,Honda,5000,1,1,1,0,1
+2,Audi,7500,1,0,0,1,0
+3,Ferrari,2000,0,0,0,0,1
+4,Kia,15000,1,1,0,0,1
