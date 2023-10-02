@@ -93,5 +93,8 @@
   },
   "writeups/melt-and-gather/index.qmd": {
     "index.html": "549fb0bf"
+  },
+  "writeups/melt-and-pivot/index.qmd": {
+    "index.html": "fd265e95"
   }
 }
