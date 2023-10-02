@@ -586,16 +586,483 @@ Jeff Jacobs
 </section>
 <section id="normalization" class="slide level2">
 <h2>Normalization</h2>
+<ul>
+<li>Recall from last week’s slides:</li>
+<li>IQR Rule (Tukey), suitable for general data</li>
+<li>Three-Sigma Rule, suitable for <strong>Normally-distributed</strong> data</li>
+<li>In either case: when we <strong>remove outliers</strong> using one of these methods, in the context of machine learning we call this <strong>feature clipping</strong></li>
+</ul>
 </section>
-<section id="correlation-and-covariance" class="slide level2">
-<h2>Correlation and Covariance’</h2>
+<section id="one-more-log-scaling" class="slide level2">
+<h2>One More: Log-Scaling</h2>
+<ul>
+<li><p>In math (I wish I had learned it like this), the <span class="math inline">\(\log()\)</span> function is a magic function that “reduces” complicated operations to less-complicated operations:</p></li>
+<li><p><strong>Exponentiation <span class="math inline">\(\rightarrow\)</span> Multiplication</strong>:</p>
+<p><span class="math display">\[
+\log(a^b) = b\cdot \log(a)
+\]</span></p></li>
+<li><p><strong>Multiplication <span class="math inline">\(\rightarrow\)</span> Addition</strong>:</p>
+<p><span class="math display">\[
+\log(a\cdot b) = \log(a) + \log(b)
+\]</span></p></li>
+</ul>
 </section>
-<section id="distance-metrics" class="slide level2">
+<section id="why-does-this-help-us" class="slide level2">
+<h2>Why Does This Help Us?</h2>
+<ul>
+<li>Tl;dr Humans have superpowers for identifying <strong>linear relationships</strong>: <span class="math inline">\(y = mx + b\)</span></li>
+<li><span class="math inline">\(\implies\)</span> if we can use <span class="math inline">\(\log()\)</span>, we also get superpowers for identifying <strong>exponential relationships</strong> for free, since</li>
+</ul>
+<p><span class="math display">\[
+y = e^{mx + b} \iff \log(y) = mx + b
+\]</span></p>
+<ul>
+<li>If we see <span class="math inline">\(mx + b\)</span> in a <strong>log-scale</strong> plot, we can immediately infer the functional relationship!</li>
+</ul>
+</section>
+<section id="in-pictures" class="slide level2 crunch-title crunch-images crunch-math">
+<h2>In Pictures</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>x_min <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>x_max <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, x_min, x_max)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>noise_vals <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fu">exp</span>(<span class="dv">5</span>))</span>
+<span id="cb3-7"><a href="#cb3-7"></a>my_exp <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="dv">3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>y_exp <span class="ot">&lt;-</span> <span class="fu">my_exp</span>(x_vals) <span class="sc">+</span> noise_vals</span>
+<span id="cb3-9"><a href="#cb3-9"></a>exp_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_exp)</span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-15"><a href="#cb3-15"></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Linear Scale"</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/linear-plot-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Log2 scaling of the y axis (with visually-equal spacing)</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(scales)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="fu">log_trans</span>(),</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    <span class="at">breaks =</span> <span class="fu">log_breaks</span>()) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-10"><a href="#cb4-10"></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Log Scale"</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/exp-plot-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><span class="math display">\[
+y = e^{mx + b} \iff \log(y) = mx + b
+\]</span></p>
+</section>
+<section id="covariance-intuition-1.0" class="slide level2 smaller crunch-title crunch-code crunch-images crunch-figures crunch-ul">
+<h2>Covariance: Intuition 1.0</h2>
+<ul>
+<li>If we are <strong>at the mean</strong> <span class="math inline">\((\mu_x,\mu_y)\)</span>, what is <strong>likelihood points to the right are also above?</strong></li>
+<li>Similarly,what is the <strong>likelihood that points to the left are also below?</strong></li>
+</ul>
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>gen_y_noisy <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, eps) {</span>
+<span id="cb5-4"><a href="#cb5-4"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="sc">-</span><span class="dv">1</span>, x_val <span class="sc">-</span> eps)</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, x_val <span class="sc">+</span> eps)</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
+<span id="cb5-7"><a href="#cb5-7"></a>  <span class="fu">return</span>(y_noisy)</span>
+<span id="cb5-8"><a href="#cb5-8"></a>}</span>
+<span id="cb5-9"><a href="#cb5-9"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-11"><a href="#cb5-11"></a>x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x_vals)</span>
+<span id="cb5-12"><a href="#cb5-12"></a>y_collinear <span class="ot">&lt;-</span> x_vals</span>
+<span id="cb5-13"><a href="#cb5-13"></a>y_coll_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_collinear, <span class="at">drop.na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-14"><a href="#cb5-14"></a>df_collinear <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_collinear, <span class="at">rel=</span><span class="st">"collinear"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co"># Force the points to be inside [-1,1]</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a>y_noisy <span class="ot">&lt;-</span> x_vals</span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy)) {</span>
+<span id="cb5-18"><a href="#cb5-18"></a>  cur_x_val <span class="ot">&lt;-</span> x_vals[i]</span>
+<span id="cb5-19"><a href="#cb5-19"></a>  y_noisy[i] <span class="ot">&lt;-</span> <span class="fu">gen_y_noisy</span>(cur_x_val, <span class="fl">0.75</span>)</span>
+<span id="cb5-20"><a href="#cb5-20"></a>}</span>
+<span id="cb5-21"><a href="#cb5-21"></a>y_noisy_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a>df_noisy <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals, <span class="at">y =</span> y_noisy, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb5-24"><a href="#cb5-24"></a><span class="co"># Label vals above and below mean</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a>label_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb5-26"><a href="#cb5-26"></a>  <span class="sc">~</span>x, <span class="sc">~</span>y, <span class="sc">~</span>label,</span>
+<span id="cb5-27"><a href="#cb5-27"></a>  <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">"+"</span>,</span>
+<span id="cb5-28"><a href="#cb5-28"></a>  <span class="sc">-</span><span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="st">"+"</span>,</span>
+<span id="cb5-29"><a href="#cb5-29"></a>  <span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="st">"\u2212"</span>,</span>
+<span id="cb5-30"><a href="#cb5-30"></a>  <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">"\u2212"</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a>)</span>
+<span id="cb5-32"><a href="#cb5-32"></a>gen_cov_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb5-33"><a href="#cb5-33"></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
+<span id="cb5-34"><a href="#cb5-34"></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
+<span id="cb5-35"><a href="#cb5-35"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
+<span id="cb5-38"><a href="#cb5-38"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
+<span id="cb5-39"><a href="#cb5-39"></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
+<span id="cb5-40"><a href="#cb5-40"></a>    <span class="fu">geom_label</span>(</span>
+<span id="cb5-41"><a href="#cb5-41"></a>      <span class="at">data=</span>label_df,</span>
+<span id="cb5-42"><a href="#cb5-42"></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
+<span id="cb5-43"><a href="#cb5-43"></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
+<span id="cb5-44"><a href="#cb5-44"></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
+<span id="cb5-45"><a href="#cb5-45"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-46"><a href="#cb5-46"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb5-47"><a href="#cb5-47"></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb5-48"><a href="#cb5-48"></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
+<span id="cb5-49"><a href="#cb5-49"></a>    <span class="fu">theme</span>(</span>
+<span id="cb5-50"><a href="#cb5-50"></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb5-51"><a href="#cb5-51"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-52"><a href="#cb5-52"></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
+<span id="cb5-53"><a href="#cb5-53"></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
+<span id="cb5-54"><a href="#cb5-54"></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb5-55"><a href="#cb5-55"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb5-56"><a href="#cb5-56"></a>    ) <span class="sc">+</span></span>
+<span id="cb5-57"><a href="#cb5-57"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-58"><a href="#cb5-58"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-59"><a href="#cb5-59"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>))) <span class="sc">+</span></span>
+<span id="cb5-60"><a href="#cb5-60"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(y_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>)))</span>
+<span id="cb5-61"><a href="#cb5-61"></a>}</span>
+<span id="cb5-62"><a href="#cb5-62"></a>gen_cov_table <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">print_matches =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb5-63"><a href="#cb5-63"></a>  x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-64"><a href="#cb5-64"></a>  y_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-65"><a href="#cb5-65"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb5-66"><a href="#cb5-66"></a>    <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb5-67"><a href="#cb5-67"></a>    <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb5-68"><a href="#cb5-68"></a>    <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
+<span id="cb5-69"><a href="#cb5-69"></a>  )</span>
+<span id="cb5-70"><a href="#cb5-70"></a>  contrib_crosstab <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>y_contrib, df<span class="sc">$</span>x_contrib)</span>
+<span id="cb5-71"><a href="#cb5-71"></a>  <span class="fu">colnames</span>(contrib_crosstab) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x-"</span>, <span class="st">"x+"</span>)</span>
+<span id="cb5-72"><a href="#cb5-72"></a>  <span class="fu">rownames</span>(contrib_crosstab) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"y-"</span>, <span class="st">"y+"</span>)</span>
+<span id="cb5-73"><a href="#cb5-73"></a>  <span class="cf">if</span> (<span class="sc">!</span>print_matches) {</span>
+<span id="cb5-74"><a href="#cb5-74"></a>    <span class="fu">print</span>(contrib_crosstab)</span>
+<span id="cb5-75"><a href="#cb5-75"></a>  } <span class="cf">else</span> {</span>
+<span id="cb5-76"><a href="#cb5-76"></a>    <span class="co"># Num matches</span></span>
+<span id="cb5-77"><a href="#cb5-77"></a>    num_matches <span class="ot">&lt;-</span> <span class="fu">sum</span>(df<span class="sc">$</span>match)</span>
+<span id="cb5-78"><a href="#cb5-78"></a>    num_mismatch <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df) <span class="sc">-</span> num_matches</span>
+<span id="cb5-79"><a href="#cb5-79"></a>    <span class="fu">writeLines</span>(<span class="fu">paste0</span>(num_matches, <span class="st">" matches, "</span>,num_mismatch,<span class="st">" mismatches"</span>))</span>
+<span id="cb5-80"><a href="#cb5-80"></a>    <span class="fu">writeLines</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Covariance:"</span>)</span>
+<span id="cb5-81"><a href="#cb5-81"></a>    <span class="fu">writeLines</span>(<span class="fu">paste0</span>(<span class="fu">cov</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)))</span>
+<span id="cb5-82"><a href="#cb5-82"></a>  }</span>
+<span id="cb5-83"><a href="#cb5-83"></a>}</span>
+<span id="cb5-84"><a href="#cb5-84"></a><span class="fu">gen_cov_plot</span>(df_collinear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/collinear-cov-plot-1.png" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 52  0
+  y+  0 48</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>100 matches, 0 mismatches
+
+Covariance:
+0.362863392533641</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">gen_cov_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/noisy-cov-plot-1.png" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 47  7
+  y+  5 41</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>88 matches, 12 mismatches
+
+Covariance:
+0.245448747040713</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>y_noisy_neg <span class="ot">&lt;-</span> x_vals</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg)) {</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  cur_x_val <span class="ot">&lt;-</span> x_vals[i]</span>
+<span id="cb11-4"><a href="#cb11-4"></a>  y_noisy_neg[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">gen_y_noisy</span>(cur_x_val, <span class="fl">0.75</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a>}</span>
+<span id="cb11-6"><a href="#cb11-6"></a>y_noisy_neg_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_neg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>df_noisy_neg <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals, <span class="at">y =</span> y_noisy_neg, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="fu">gen_cov_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/neg-cov-plot-1.png" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 12 37
+  y+ 40 11</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>23 matches, 77 mismatches
+
+Covariance:
+-0.223037477183319</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="covariance-intuition-2.0" class="slide level2 smaller crunch-title crunch-code crunch-images crunch-figures">
+<h2>Covariance: Intuition 2.0</h2>
+<ul>
+<li>Now, rather than just <strong>is this point above-right?</strong> (binary), let’s compute <strong>how above-right</strong> it is!:</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>gen_rect_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
+<span id="cb14-4"><a href="#cb14-4"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb14-5"><a href="#cb14-5"></a>      <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb14-6"><a href="#cb14-6"></a>      <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7"></a>      <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
+<span id="cb14-8"><a href="#cb14-8"></a>  )</span>
+<span id="cb14-9"><a href="#cb14-9"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>x_mean, <span class="at">xmax=</span>x, <span class="at">ymin=</span>y_mean, <span class="at">ymax=</span>y, <span class="at">fill=</span>match), <span class="at">color=</span><span class="st">'black'</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>, <span class="at">alpha=</span><span class="fl">0.075</span>) <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>col_order) <span class="sc">+</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a>    <span class="fu">geom_label</span>(</span>
+<span id="cb14-18"><a href="#cb14-18"></a>      <span class="at">data=</span>label_df,</span>
+<span id="cb14-19"><a href="#cb14-19"></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
+<span id="cb14-20"><a href="#cb14-20"></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
+<span id="cb14-21"><a href="#cb14-21"></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
+<span id="cb14-22"><a href="#cb14-22"></a>    ) <span class="sc">+</span></span>
+<span id="cb14-23"><a href="#cb14-23"></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb14-24"><a href="#cb14-24"></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
+<span id="cb14-25"><a href="#cb14-25"></a>    <span class="fu">theme</span>(</span>
+<span id="cb14-26"><a href="#cb14-26"></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb14-27"><a href="#cb14-27"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb14-28"><a href="#cb14-28"></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
+<span id="cb14-29"><a href="#cb14-29"></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
+<span id="cb14-30"><a href="#cb14-30"></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb14-31"><a href="#cb14-31"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb14-32"><a href="#cb14-32"></a>    ) <span class="sc">+</span></span>
+<span id="cb14-33"><a href="#cb14-33"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb14-34"><a href="#cb14-34"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb14-35"><a href="#cb14-35"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>))) <span class="sc">+</span></span>
+<span id="cb14-36"><a href="#cb14-36"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(y_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>)))</span>
+<span id="cb14-37"><a href="#cb14-37"></a>}</span>
+<span id="cb14-38"><a href="#cb14-38"></a><span class="fu">gen_rect_plot</span>(df_collinear, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/collinear-rect-plot-1.png" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 52  0
+  y+  0 48</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>100 matches, 0 mismatches
+
+Covariance:
+0.362863392533641</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">gen_rect_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/noisy-rect-plot-1.png" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 47  7
+  y+  5 41</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>88 matches, 12 mismatches
+
+Covariance:
+0.245448747040713</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">gen_rect_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/neg-rect-plot-1.png" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 12 37
+  y+ 40 11</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>23 matches, 77 mismatches
+
+Covariance:
+-0.223037477183319</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="distance-metrics" class="slide level2 crunch-title crunch-ul crunch-images crunch-figures">
 <h2>Distance Metrics</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="cosine-dist" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li>One More Important Metric! <strong>Cosine Distance</strong></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/cosine_dist_projection.svg" width="360"></p>
+<figcaption><span class="math inline">\(A = (5,0), B = (3,4) \implies \cos(A,B) = \frac{3}{5}\)</span></figcaption>
+</figure>
+</div>
+</div>
+<div id="new-names" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li><p>Plus <strong>new names</strong> for ones you already know!</p></li>
+<li><p>“Levenshtein Distance”: Edit distance</p></li>
+<li><p>“Minkowski Distance”: <span class="math inline">\(L^p\)</span>-norm (Generalizes Euclidean, Manhattan, Min, and Max)</p></li>
+</ul>
+</div>
+</div>
+</div>
 </section></section>
 <section id="quiz-time" class="title-slide slide level1 center">
 <h1>Quiz Time!</h1>
-
+<ul>
+<li><a href="https://georgetown.instructure.com/courses/173310/quizzes/201583?module_item_id=3421671" target="_blank">Quiz 3.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a></li>
+</ul>
 </section>
 
 <section>
