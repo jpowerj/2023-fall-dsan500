@@ -1,0 +1,8 @@
+::: {.hidden}
+
+```{r}
+#| label: r-source-globals
+source("../_globals.r")
+```
+
+:::

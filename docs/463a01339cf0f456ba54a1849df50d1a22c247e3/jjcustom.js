@@ -66,13 +66,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w06-date': 'Sep 26',
       '.sec-start': '12:30pm',
       '.sec-p10': '12:40pm',
+      '.sec-p15': '12:45pm',
       '.sec-p30': '1:00pm',
+      '.sec-p35': '1:05pm',
       '.sec-p40': '1:10pm',
       '.sec-p45': '1:15pm',
       '.sec-p50': '1:20pm',
       '.sec-p55': '1:25pm',
       '.sec-p60': '1:30pm',
+      '.sec-p65': '1:35pm',
       '.sec-p70': '1:40pm',
+      '.sec-p80': '1:50pm',
       '.sec-p90': '2:00pm',
       '.sec-p100': '2:10pm',
       '.sec-p130': '2:40pm',
@@ -95,13 +99,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w06-date': 'Sep 27',
       '.sec-start': '3:30pm',
       '.sec-p10': '3:40pm',
+      '.sec-p15': '3:45pm',
       '.sec-p30': '4:00pm',
+      '.sec-p35': '4:05pm',
       '.sec-p40': '4:10pm',
       '.sec-p45': '4:15pm',
       '.sec-p50': '4:20pm',
       '.sec-p55': '4:25pm',
       '.sec-p60': '4:30pm',
+      '.sec-p65': '4:35pm',
       '.sec-p70': '4:40pm',
+      '.sec-p80': '4:50pm',
       '.sec-p90': '5:00pm',
       '.sec-p100': '5:10pm',
       '.sec-p130': '5:40pm',
@@ -133,11 +141,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       'Wednesday, September 13, 2023': 'Tuesday, September 12, 2023',
       'Wednesday, September 20, 2023': 'Tuesday, September 19, 2023',
       'Wednesday, September 27, 2023': 'Tuesday, September 26, 2023',
+      // w07
+      'Wednesday, October 4, 2023': 'Tuesday, October 3, 2023'
     };
     const s03Replace = {
       'Tuesday, September 12, 2023': 'Wednesday, September 13, 2023',
       'Tuesday, September 19, 2023': 'Wednesday, September 20, 2023',
       'Tuesday, September 26, 2023': 'Wednesday, September 27, 2023',
+      // w07
+      'Tuesday, October 3, 2023': 'Wednesday, October 4, 2023'
     };
     let shownDate = $('p.date').text();
     //console.log(shownDate);

@@ -1,0 +1,78 @@
+---
+title: "Week 7: Unsupervised Learning"
+date: "Tuesday, October 3, 2023"
+date-format: full
+#date: last-modified
+#date-format: "dddd MMM D, YYYY, HH:mm:ss"
+lecnum: 7
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    output-file: slides.html
+    cache: false
+    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 7: Unsupervised Learning"
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+    cache: false
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
+
+{{< include ../_r-globals.qmd >}}
+
+{{< include ../_py-globals.qmd >}}
+
+{{< include ../_tex-globals.qmd >}}
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+{{< include ../_components/sched-w07.qmd >}}
+
+# Week 06 Recap {data-stack-name="Recap"}
+
+* Normalization
+* Correlation and Covariance
+* Distance Metrics
+
+## Normalization
+
+## Correlation and Covariance'
+
+## Distance Metrics
+
+# Quiz Time!
+
+# Unsupervised Learning {data-stack-name="Unsupervised Learning"}
+
+## What is Unsupervised Learning?
+
+# K-Nearest Neighbors (KNN) {data-stack-name="KNN"}
+
+## The KNN Algorithm
+
+# Naïve Bayes Classifiers {data-stack-name="Naïve Bayes"}
+
+## What is "Naïve" About It?
+
+# Lab: Feature Selection in Scikit-Learn
+
+## Scikit-Learn
+
+# Lab Assignment Overview {data-stack-name="Lab"}
+
+## References

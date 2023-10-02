@@ -96,5 +96,9 @@
   },
   "writeups/melt-and-pivot/index.qmd": {
     "index.html": "fd265e95"
+  },
+  "w07/index.qmd": {
+    "slides.html": "3b939ae2",
+    "index.html": "c1813e2d"
   }
 }
