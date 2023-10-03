@@ -1,3 +1,14 @@
+/*-- scss:variables --*/
+
+//$cb1: #E69F00;
+$cb1: rgb(230, 159, 0);
+//$cb1-alpha: #E69F007F;
+$cb1-alpha: rgba(230, 159, 0, 0.333);
+//$cb2: #56B4E9;
+$cb2: rgb(86, 180, 233);
+$cb2-alpha: rgba(86, 180, 233, 0.333);
+//$cb2-alpha: #56B4E97F;
+
 /*-- scss:rules --*/
 
 a.disabled {
@@ -132,6 +143,9 @@ figcaption {
 .shift-footnotes-less aside {
   transform: translateY(30px) !important;
 }
+.shift-footnotes-lesser aside {
+  transform: translateY(15px) !important;
+}
 .shift-footnotes-moreish aside {
   transform: translateY(50px) !important;
 }
@@ -143,6 +157,12 @@ figcaption {
 }
 .small-footnotes aside {
   font-size: 0.5em !important;
+}
+.small-inline .math.inline {
+  font-size: 85% !important;
+}
+.smaller-math .math.display {
+  font-size: 80% !important;
 }
 .smallish {
   font-size: 2.1rem !important;
@@ -173,4 +193,33 @@ figcaption {
 summary {
   font-size: 0.75em !important;
   text-align: left !important;
+}
+
+
+.suptable th:last-child {
+  color: $cb2 !important;
+  border-bottom: 1px solid black !important;
+}
+.suptable td:last-child {
+  background-color: $cb2-alpha !important;
+  border-bottom: 1px solid black !important;
+}
+
+.suptable th:not(:last-child):not(:first-child) {
+  color: $cb1 !important;
+  border-bottom: 1px solid black !important;
+}
+.suptable td:not(:last-child):not(:first-child) {
+  background-color: $cb1-alpha !important;
+  border-bottom: 1px solid black !important;
+}
+
+.unsuptable th:not(:first-child) {
+  color: $cb1 !important;
+  border-bottom: 1px solid black !important;
+}
+
+.unsuptable td:not(:first-child) {
+  background-color: $cb1-alpha !important;
+  border-bottom: 1px solid black !important;
 }

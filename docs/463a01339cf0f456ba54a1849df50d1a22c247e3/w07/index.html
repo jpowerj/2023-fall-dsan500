@@ -8,7 +8,7 @@
 
 <meta name="author" content="Jeff Jacobs">
 
-<title>DSAN 5000 - Week 7: Unsupervised Learning</title>
+<title>DSAN 5000 - Week 7: Supervised Learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -254,12 +254,14 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#in-pictures" id="toc-in-pictures" class="nav-link" data-scroll-target="#in-pictures">In Pictures</a></li>
   <li><a href="#covariance-intuition-1.0" id="toc-covariance-intuition-1.0" class="nav-link" data-scroll-target="#covariance-intuition-1.0">Covariance: Intuition 1.0</a></li>
   <li><a href="#covariance-intuition-2.0" id="toc-covariance-intuition-2.0" class="nav-link" data-scroll-target="#covariance-intuition-2.0">Covariance: Intuition 2.0</a></li>
+  <li><a href="#covariance-intuition-3.0" id="toc-covariance-intuition-3.0" class="nav-link" data-scroll-target="#covariance-intuition-3.0">Covariance: Intuition 3.0</a></li>
   <li><a href="#distance-metrics" id="toc-distance-metrics" class="nav-link" data-scroll-target="#distance-metrics">Distance Metrics</a></li>
+  <li><a href="#entropy-rightarrow-distance" id="toc-entropy-rightarrow-distance" class="nav-link" data-scroll-target="#entropy-rightarrow-distance">Entropy <span class="math inline">\(\rightarrow\)</span> Distance</a></li>
+  <li><a href="#distance-metrics-on-distributions" id="toc-distance-metrics-on-distributions" class="nav-link" data-scroll-target="#distance-metrics-on-distributions">“Distance” Metrics on <em>Distributions</em></a></li>
   </ul></li>
   <li><a href="#quiz-time" id="toc-quiz-time" class="nav-link" data-scroll-target="#quiz-time">Quiz Time!</a></li>
-  <li><a href="#unsupervised-learning" id="toc-unsupervised-learning" class="nav-link" data-scroll-target="#unsupervised-learning">Unsupervised Learning</a>
+  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning">Machine Learning</a>
   <ul class="collapse">
-  <li><a href="#what-is-unsupervised-learning" id="toc-what-is-unsupervised-learning" class="nav-link" data-scroll-target="#what-is-unsupervised-learning">What is Unsupervised Learning?</a></li>
   <li><a href="#supervised-vs.-unsupervised-learning" id="toc-supervised-vs.-unsupervised-learning" class="nav-link" data-scroll-target="#supervised-vs.-unsupervised-learning">Supervised vs.&nbsp;Unsupervised Learning</a></li>
   <li><a href="#dataset-structures" id="toc-dataset-structures" class="nav-link" data-scroll-target="#dataset-structures">Dataset Structures</a></li>
   <li><a href="#dataset-structures-visualized" id="toc-dataset-structures-visualized" class="nav-link" data-scroll-target="#dataset-structures-visualized">Dataset Structures: Visualized</a></li>
@@ -268,19 +270,20 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#k-nearest-neighbors-knn" id="toc-k-nearest-neighbors-knn" class="nav-link" data-scroll-target="#k-nearest-neighbors-knn">K-Nearest Neighbors (KNN)</a>
   <ul class="collapse">
   <li><a href="#the-knn-algorithm" id="toc-the-knn-algorithm" class="nav-link" data-scroll-target="#the-knn-algorithm">The KNN Algorithm</a></li>
+  <li><a href="#knn-example" id="toc-knn-example" class="nav-link" data-scroll-target="#knn-example">KNN Example</a></li>
+  <li><a href="#knn-in-pictures" id="toc-knn-in-pictures" class="nav-link" data-scroll-target="#knn-in-pictures">KNN In Pictures</a></li>
   </ul></li>
   <li><a href="#naïve-bayes-classifiers" id="toc-naïve-bayes-classifiers" class="nav-link" data-scroll-target="#naïve-bayes-classifiers">Naïve Bayes Classifiers</a>
   <ul class="collapse">
   <li><a href="#what-is-naïve-about-it" id="toc-what-is-naïve-about-it" class="nav-link" data-scroll-target="#what-is-naïve-about-it">What is “Naïve” About It?</a></li>
+  <li><a href="#in-math" id="toc-in-math" class="nav-link" data-scroll-target="#in-math">In Math</a></li>
+  <li><a href="#unreasonable-effectiveness" id="toc-unreasonable-effectiveness" class="nav-link" data-scroll-target="#unreasonable-effectiveness">“Unreasonable Effectiveness”</a></li>
   </ul></li>
   <li><a href="#lab-feature-selection-in-scikit-learn" id="toc-lab-feature-selection-in-scikit-learn" class="nav-link" data-scroll-target="#lab-feature-selection-in-scikit-learn">Lab: Feature Selection in Scikit-Learn</a>
   <ul class="collapse">
   <li><a href="#scikit-learn" id="toc-scikit-learn" class="nav-link" data-scroll-target="#scikit-learn">Scikit-Learn</a></li>
   </ul></li>
-  <li><a href="#lab-assignment-overview" id="toc-lab-assignment-overview" class="nav-link" data-scroll-target="#lab-assignment-overview">Lab Assignment Overview</a>
-  <ul class="collapse">
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
+  <li><a href="#lab-assignment-overview" id="toc-lab-assignment-overview" class="nav-link" data-scroll-target="#lab-assignment-overview">Lab Assignment Overview</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
@@ -289,7 +292,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 7: Unsupervised Learning</h1>
+<h1 class="title">Week 7: Supervised Learning</h1>
 <p class="subtitle lead"><em>DSAN 5100: Data Science and Analytics</em><br>Section <span class="sec-num">02</span></p>
   <div class="quarto-categories">
     <div class="quarto-category">Class Sessions</div>
@@ -424,7 +427,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"><strong>Lecture</strong></td>
 <td style="text-align: left;"><span class="sec-start">12:30pm</span></td>
 <td style="text-align: left;"><span class="sec-p15">12:45pm</span></td>
-<td style="text-align: left;"><a href="#week-05-recap">Week 06 Recap →</a></td>
+<td style="text-align: left;"><a href="#week-06-recap">Week 06 Recap →</a></td>
 <td style="text-align: center;"><a id="rec-link-w06-1" href="../recordings/recording-w06s02-1.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
@@ -438,7 +441,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p35">1:05pm</span></td>
 <td style="text-align: left;"><span class="sec-p50">1:20pm</span></td>
-<td style="text-align: left;"><a href="#exploratory-data-analysis-eda">Intro to Unsupervised Learning →</a></td>
+<td style="text-align: left;"><a href="#supervised-learning">Intro to Supervised Learning →</a></td>
 <td style="text-align: center;"><a id="rec-link-w06-2" href="../recordings/recording-w06s02-2.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
@@ -679,8 +682,8 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
 <span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>))) <span class="sc">+</span></span>
-<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(y_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>)))</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, x_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>),<span class="st">"1"</span>)) <span class="sc">+</span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, y_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>),<span class="st">"1"</span>))</span>
 <span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>gen_cov_table <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">print_matches =</span> <span class="cn">FALSE</span>) {</span>
 <span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>  x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
@@ -866,8 +869,8 @@ Covariance:
 <span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
 <span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>))) <span class="sc">+</span></span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(y_mean), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>)))</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, x_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>),<span class="st">"1"</span>)) <span class="sc">+</span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, y_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>),<span class="st">"1"</span>))</span>
 <span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot</span>(df_collinear, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -981,8 +984,218 @@ Covariance:
 </div>
 </div>
 </section>
-<section id="distance-metrics" class="level2 crunch-title crunch-ul crunch-images crunch-figures">
-<h2 class="crunch-title crunch-ul crunch-images crunch-figures anchored" data-anchor-id="distance-metrics">Distance Metrics</h2>
+<section id="covariance-intuition-3.0" class="level2 smaller crunch-title crunch-code crunch-images crunch-figures">
+<h2 class="smaller crunch-title crunch-code crunch-images crunch-figures anchored" data-anchor-id="covariance-intuition-3.0">Covariance: Intuition 3.0</h2>
+<ul>
+<li>This means that if we <strong>break out of <span class="math inline">\([-1,1]\)</span></strong>, covariance will grow even larger:</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Label vals above and below mean</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>x_min_expanded <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>x_max_expanded <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>gen_y_noisy_expanded <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(x_max, x_val <span class="sc">+</span> eps)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(y_noisy)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>x_vals_expanded <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, x_min_expanded, x_max_expanded)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>x_mean_expanded <span class="ot">&lt;-</span> <span class="fu">mean</span>(x_vals_expanded)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>y_collinear_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>y_mean_collinear_expanded <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_collinear_expanded)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>df_collinear_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals_expanded, <span class="at">y=</span>y_collinear_expanded, <span class="at">rel=</span><span class="st">"collinear"</span>)</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>gen_rect_plot_expanded <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>  x_mean_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, x_mean)</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>  x_mean_tex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"($</span><span class="sc">\\</span><span class="st">mu_x = "</span>,x_mean_str,<span class="st">"$)"</span>)</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>  y_mean_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, y_mean)</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  y_mean_tex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"($</span><span class="sc">\\</span><span class="st">mu_y = "</span>,y_mean_str,<span class="st">"$)"</span>)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  label_df_expanded <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>x, <span class="sc">~</span>y, <span class="sc">~</span>label,</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Upper right</span></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>    (x_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, (y_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"+"</span>,</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>    (x_min_expanded <span class="sc">+</span> x_mean) <span class="sc">/</span> <span class="dv">2</span>, (x_min_expanded <span class="sc">+</span> y_mean) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"+"</span>,</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>    (x_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, (x_min_expanded <span class="sc">+</span> y_mean) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"\u2212"</span>,</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>    (x_min_expanded <span class="sc">+</span> x_mean) <span class="sc">/</span> <span class="dv">2</span>, (y_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"\u2212"</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>x_mean, <span class="at">xmax=</span>x, <span class="at">ymin=</span>y_mean, <span class="at">ymax=</span>y, <span class="at">fill=</span>match), <span class="at">color=</span><span class="st">'black'</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>, <span class="at">alpha=</span><span class="fl">0.075</span>) <span class="sc">+</span></span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>col_order) <span class="sc">+</span></span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label</span>(</span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">data=</span>label_df_expanded,</span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
+<span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
+<span id="cb38-52"><a href="#cb38-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb38-53"><a href="#cb38-53" aria-hidden="true" tabindex="-1"></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb38-54"><a href="#cb38-54" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb38-55"><a href="#cb38-55" aria-hidden="true" tabindex="-1"></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
+<span id="cb38-56"><a href="#cb38-56" aria-hidden="true" tabindex="-1"></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
+<span id="cb38-57"><a href="#cb38-57" aria-hidden="true" tabindex="-1"></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb38-58"><a href="#cb38-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb38-59"><a href="#cb38-59" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb38-60"><a href="#cb38-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb38-61"><a href="#cb38-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(x_min_expanded,x_max_expanded)) <span class="sc">+</span></span>
+<span id="cb38-62"><a href="#cb38-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylim</span>(<span class="fu">c</span>(x_min_expanded,x_max_expanded)) <span class="sc">+</span></span>
+<span id="cb38-63"><a href="#cb38-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_min_expanded, x_mean, x_max_expanded), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-5"</span>,<span class="fu">TeX</span>(x_mean_tex),<span class="st">"15"</span>)) <span class="sc">+</span></span>
+<span id="cb38-64"><a href="#cb38-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_min_expanded, y_mean, x_max_expanded), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-5"</span>,<span class="fu">TeX</span>(y_mean_tex),<span class="st">"15"</span>))</span>
+<span id="cb38-65"><a href="#cb38-65" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-66"><a href="#cb38-66" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot_expanded</span>(df_collinear_expanded, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/collinear-rect-plot-expanded-1.png" class="img-fluid figure-img" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 52  0
+  y+  0 48</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>100 matches, 0 mismatches
+
+Covariance:
+29.7997084176711</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Force the points to be inside [-1,1]</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>y_noisy_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_expanded)) {</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  cur_x_val_expanded <span class="ot">&lt;-</span> x_vals_expanded[i]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  y_noisy_expanded[i] <span class="ot">&lt;-</span> <span class="fu">gen_y_noisy_expanded</span>(cur_x_val_expanded, x_min_expanded, x_max_expanded, <span class="dv">5</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>y_noisy_expanded_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_expanded, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>df_noisy_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/noisy-rect-plot-expanded-1.png" class="img-fluid figure-img" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y- 44  5
+  y+  8 43</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>87 matches, 13 mismatches
+
+Covariance:
+23.927335626913</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>gen_y_noisy_neg <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(x_max, x_val <span class="sc">+</span> eps)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(y_noisy)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>y_noisy_neg_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg_expanded)) {</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  cur_x_val_expanded <span class="ot">&lt;-</span> x_vals_expanded[i]</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#y_noisy_neg_expanded[i] &lt;- x_mean_expanded - (gen_y_noisy_expanded(cur_x_val_expanded, x_min_expanded, x_max_expanded, 5) - x_mean_expanded)</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  y_noisy_neg_expanded[i] <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">-</span> <span class="fu">gen_y_noisy_expanded</span>(cur_x_val_expanded, x_min_expanded, x_max_expanded, <span class="dv">5</span>)</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#y_noisy_neg_expanded[i] &lt;- x_mean_expanded - (y_noisy_neg_expanded[i] - x_mean_expanded)</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>y_noisy_neg_expanded_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_neg_expanded, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>df_noisy_neg_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_neg_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_neg_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/neg-rect-plot-expanded-1.png" class="img-fluid figure-img" width="364"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     x- x+
+  y-  5 40
+  y+ 47  8</code></pre>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output cell-output-stdout">
+<pre><code>13 matches, 87 mismatches
+
+Covariance:
+-27.3808379253597</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="distance-metrics" class="level2 crunch-title crunch-ul crunch-images crunch-figures smaller">
+<h2 class="crunch-title crunch-ul crunch-images crunch-figures smaller anchored" data-anchor-id="distance-metrics">Distance Metrics</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div id="cosine-dist" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -992,16 +1205,105 @@ Covariance:
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/cosine_dist_projection.svg" class="img-fluid figure-img" width="360"></p>
-<figcaption class="figure-caption"><span class="math inline">\(A = (5,0), B = (3,4) \implies \cos(A,B) = \frac{3}{5}\)</span></figcaption>
 </figure>
 </div>
+<p><span class="math display">\[
+\begin{align*}
+&amp;A = (5,0), B = (3,4) \\
+&amp;\implies \cos(A,B) = \frac{3}{5}
+\end{align*}
+\]</span></p>
 </div>
 <div id="new-names" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <ul>
 <li><p>Plus <strong>new names</strong> for ones you already know!</p></li>
-<li><p>“Levenshtein Distance”: Edit distance</p></li>
-<li><p>“Minkowski Distance”: <span class="math inline">\(L^p\)</span>-norm (Generalizes Euclidean, Manhattan, Min, and Max)</p></li>
+<li><p><strong>“Levenshtein Distance”</strong>: Edit distance</p></li>
+<li><p><strong>“Chebyshev Distance”</strong>: <span class="math inline">\(L^{\infty}\)</span>-norm, meaning, <strong>maximum absolute distance</strong>. In <span class="math inline">\(\mathbb{R}^2\)</span>:</p></li>
 </ul>
+<p><span class="math display">\[
+\begin{align*}
+&amp;D((x_1,y_1),(x_2,y_2)) \\
+&amp;= \max\{ |x_2 - x_1|, |y_2 - y_1| \}
+\end{align*}
+\]</span></p>
+<ul>
+<li><strong>“Minkowski Distance”</strong>: <span class="math inline">\(L^p\)</span>-norm (Generalizes Euclidean, Manhattan, Min, and Max)</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="entropy-rightarrow-distance" class="level2 crunch-title crunch-ul crunch-figures crunch-images crunch-lists">
+<h2 class="crunch-title crunch-ul crunch-figures crunch-images crunch-lists anchored" data-anchor-id="entropy-rightarrow-distance">Entropy <span class="math inline">\(\rightarrow\)</span> Distance</h2>
+<ul>
+<li><strong>Entropy</strong> (of <strong>one</strong> distribution): How uncertain are we about what we’re going to pull out of the bag?</li>
+</ul>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/entropy.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div id="entropy-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li>Think about:</li>
+<li><em>What exactly makes a boring {song,movie,book} boring?</em></li>
+<li><em>What makes an overwhelming/stressful {song,movie,book} overwhelming/stressful?</em></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="distance-metrics-on-distributions" class="level2 smaller crunch-title shift-footnotes-less crunch-figures small-inline crunch-ul crunch-math nostretch">
+<h2 class="smaller crunch-title shift-footnotes-less crunch-figures small-inline crunch-ul crunch-math nostretch anchored" data-anchor-id="distance-metrics-on-distributions">“Distance” Metrics on <em>Distributions</em></h2>
+<ul>
+<li><strong>KL-Divergence</strong> (<strong>Non-symmetric</strong>!): <span class="math inline">\(\kl(P \parallel Q) \neq \kl(Q \parallel P)\)</span></li>
+<li>Not <strong>distance</strong> but <strong>relative entropy</strong>: how <strong>surprised</strong> were we to see <span class="math inline">\(P\)</span> when we expected <span class="math inline">\(Q\)</span>? How much <strong>information is lost</strong> when we <strong>approximate</strong> <span class="math inline">\(P\)</span> with <span class="math inline">\(Q\)</span>?</li>
+</ul>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="column quarto-layout-cell" style="flex-basis: 36.4%;justify-content: center;">
+<div id="fig-empirical-dist" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/empirical-distribution-teeth.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: We can only communicate <strong>two numbers</strong> back to our space comrades, to warn them of the impending space worms w/tooth distribution <span class="math inline">\(\mathcal{O}\)</span><br>(Example from <a href="https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained" target="_blank"><em>Count Bayesie</em> Blog</a>)</figcaption>
+</figure>
+</div>
+</div>
+<div class="column quarto-layout-cell" style="flex-basis: 18.2%;justify-content: center;">
+<center>
+<div style="padding-bottom: 40px !important;">
+<i class="bi bi-arrow-up-right"></i> Uniform approximation
+</div>
+<div>
+<i class="bi bi-arrow-down-right"></i> Binomial approximation
+</div>
+</center>
+</div>
+<div class="column quarto-layout-cell" style="flex-basis: 45.5%;justify-content: center;">
+<p><span class="math inline">\(\mathcal{A} = \mathcal{U}\{0,10\}\)</span>? <span class="math inline">\(\kl​​(\mathcal{O} \parallel \mathcal{A})=0.338\)</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/worms-unif-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(\text{Binom}(10,0.57)\)</span>? <span class="math inline">\(\kl(\mathcal{O} \parallel \mathcal{B})=0.477\)</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/worms-binom-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1013,41 +1315,24 @@ Covariance:
 <li><a href="https://georgetown.instructure.com/courses/173310/quizzes/201583?module_item_id=3421671" target="_blank">Quiz 3.2 <i class="bi bi-box-arrow-up-right ps-1"></i></a></li>
 </ul>
 </section>
-<section id="unsupervised-learning" class="level1" data-stack-name="Unsupervised Learning">
-<h1 data-stack-name="Unsupervised Learning">Unsupervised Learning</h1>
-<section id="what-is-unsupervised-learning" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-unsupervised-learning">What is Unsupervised Learning?</h2>
-<ul>
-<li>Getting the computer to <strong>do EDA for us!</strong></li>
-</ul>
+<section id="machine-learning" class="level1" data-stack-name="Supervised Learning">
+<h1 data-stack-name="Supervised Learning">Machine Learning</h1>
+<section id="supervised-vs.-unsupervised-learning" class="level2 smaller shift-footnotes-lesser crunch-title crunch-ul">
+<h2 class="smaller shift-footnotes-lesser crunch-title crunch-ul anchored" data-anchor-id="supervised-vs.-unsupervised-learning">Supervised vs.&nbsp;Unsupervised Learning</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Where we’ll start:</p>
-</div><div class="column" style="width:50%;">
-<p>Where we’ll end up:</p>
-</div>
-</div>
-</section>
-<section id="supervised-vs.-unsupervised-learning" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="supervised-vs.-unsupervised-learning">Supervised vs.&nbsp;Unsupervised Learning</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
+<p><em><strong>Supervised</strong> Learning</em>: You want the computer to learn the <strong>existing pattern</strong> of <strong>how <em>you</em> are classifying<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> observations</strong></p>
 <ul>
-<li><strong>Supervised</strong> Learning: You want the computer to learn the pattern of how <em>you</em> are classifying<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> observations in a dataset
-<ul>
-<li>Discovering the relationship between <em>properties</em> of data and <em>outcomes</em></li>
+<li>Discovering the relationship between <strong>properties</strong> of data and <strong>outcomes</strong></li>
 <li>Example (<em>Binary Classification</em>): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B</li>
 <li>Example (<em>Regression</em>): I assign a rating of 0-100 to each home</li>
-<li>In both cases: I ask the computer to <em>learn</em> my preferences (how I classify/assign ratings to homes)</li>
-</ul></li>
+<li>In both cases: I ask the computer to <strong>learn my schema</strong> (how I classify)</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<ul>
-<li><strong>Unsupervised</strong> Learning: You want the computer to <em>find</em> patterns in a dataset, without any classification info
+<p><em><strong>Unsupervised</strong> Learning</em>: You want the computer to <strong><em>find</em> patterns in a dataset</strong>, without any prior classification info</p>
 <ul>
 <li>Typically: grouping or clustering observations based on shared properties</li>
 <li>Example (<em>Clustering</em>): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together</li>
-</ul></li>
 </ul>
 </div>
 </div>
@@ -1056,22 +1341,18 @@ Covariance:
 <h2 class="smaller anchored" data-anchor-id="dataset-structures">Dataset Structures</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<ul>
-<li><strong>Supervised</strong> Learning: Dataset has both <span class="colA"><em>explanatory</em> variables (“features”)</span> and <span class="colB"><em>response</em> variables (“labels”)</span></li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>sup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms, <span class="sc">~</span>rating,</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="st">"Disliked"</span>,</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>, <span class="st">"Liked"</span>,</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>, <span class="st">"Liked"</span>,</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>, <span class="st">"Disliked"</span>,</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span>, <span class="st">"Liked"</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p><strong>Supervised</strong> Learning: Dataset has both <span class="cb1"><em>explanatory</em> variables (“features”)</span> and <span class="cb2"><em>response</em> variables (“labels”)</span></p>
 <div class="suptable">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>sup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>sup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms, <span class="sc">~</span>rating,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="st">"Disliked"</span>,</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>, <span class="st">"Liked"</span>,</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>, <span class="st">"Liked"</span>,</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>, <span class="st">"Disliked"</span>,</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span>, <span class="st">"Liked"</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>sup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 4
   home_id  sqft bedrooms rating  
@@ -1085,22 +1366,18 @@ Covariance:
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<ul>
-<li><strong>Unsupervised</strong> Learning: Dataset has only <span class="colA"><em>explanatory</em> variables</span></li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>unsup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>,</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>,</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>,</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>,</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p><strong>Unsupervised</strong> Learning: Dataset has only <span class="cb1"><em>explanatory</em> variables (“features”)</span></p>
 <div class="unsuptable">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>unsup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>unsup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>unsup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 3
   home_id  sqft bedrooms
@@ -1116,54 +1393,54 @@ Covariance:
 </div>
 </div>
 </section>
-<section id="dataset-structures-visualized" class="level2">
-<h2 class="anchored" data-anchor-id="dataset-structures-visualized">Dataset Structures: Visualized</h2>
+<section id="dataset-structures-visualized" class="level2 nostretch smaller crunch-code">
+<h2 class="nostretch smaller crunch-code anchored" data-anchor-id="dataset-structures-visualized">Dataset Structures: Visualized</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="480"></p>
+<p><img src="index_files/figure-html/sup-data-plot-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To force a legend</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>unsup_grouped <span class="ot">&lt;-</span> unsup_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">big=</span>bedrooms <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>unsup_grouped[[<span class="st">'big'</span>]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(unsup_grouped[[<span class="st">'big'</span>]], <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?1"</span>,<span class="st">"?2"</span>))</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">fill=</span>big)) <span class="sc">+</span> </span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>, <span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>), <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>)) <span class="sc">+</span></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_discrete(values=c("white","white"))</span></span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="cn">NULL</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"white"</span>)) <span class="sc">+</span></span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_manual(values=c("?1"="white","?2"="white"))</span></span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To force a legend</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>unsup_grouped <span class="ot">&lt;-</span> unsup_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">big=</span>bedrooms <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>unsup_grouped[[<span class="st">'big'</span>]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(unsup_grouped[[<span class="st">'big'</span>]], <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?1"</span>,<span class="st">"?2"</span>))</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">fill=</span>big)) <span class="sc">+</span> </span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>, <span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>), <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>)) <span class="sc">+</span></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_discrete(values=c("white","white"))</span></span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="cn">NULL</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"white"</span>)) <span class="sc">+</span></span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_manual(values=c("?1"="white","?2"="white"))</span></span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="480"></p>
+<p><img src="index_files/figure-html/unsup-data-plot-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1171,24 +1448,24 @@ Covariance:
 </div>
 </div>
 </section>
-<section id="different-goals" class="level2">
-<h2 class="anchored" data-anchor-id="different-goals">Different Goals</h2>
+<section id="different-goals" class="level2 smaller crunch-code">
+<h2 class="smaller crunch-code anchored" data-anchor-id="different-goals">Different Goals</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1750</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax=</span><span class="dv">1750</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="dv">1750</span>, <span class="at">xmax=</span><span class="cn">Inf</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1750</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax=</span><span class="dv">1750</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="dv">1750</span>, <span class="at">xmax=</span><span class="cn">Inf</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ℹ Please use `linewidth` instead.</code></pre>
@@ -1196,38 +1473,38 @@ Covariance:
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="480"></p>
+<p><img src="index_files/figure-html/sup-data-outcomes-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms)) <span class="sc">+</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_brewer(palette = "PuOr") +</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mark_ellipse</span>(<span class="at">expand=</span><span class="fl">0.1</span>, <span class="fu">aes</span>(<span class="at">fill=</span>big), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme(legend.position = "none") +</span></span>
-<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme(legend.title = text_element("?"))</span></span>
-<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>],cbPalette[<span class="dv">4</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms)) <span class="sc">+</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_brewer(palette = "PuOr") +</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mark_ellipse</span>(<span class="at">expand=</span><span class="fl">0.1</span>, <span class="fu">aes</span>(<span class="at">fill=</span>big), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme(legend.position = "none") +</span></span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme(legend.title = text_element("?"))</span></span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>],cbPalette[<span class="dv">4</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="480"></p>
+<p><img src="index_files/figure-html/unsup-data-clustered-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_manual(labels=c("?","?"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_manual(labels=c("?","?"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1237,6 +1514,33 @@ Covariance:
 <h1 data-stack-name="KNN">K-Nearest Neighbors (KNN)</h1>
 <section id="the-knn-algorithm" class="level2">
 <h2 class="anchored" data-anchor-id="the-knn-algorithm">The KNN Algorithm</h2>
+<ul>
+<li><strong>Binary Classification</strong>: Given a set of information (“features”) about an observation (<span class="math inline">\(X\)</span>), predict a yes/no outcome (<span class="math inline">\(y \in \{0, 1\}\)</span>) for this observation
+<ul>
+<li><em>Example</em>: Given a <strong>count</strong> of <strong>words</strong> in an email, classify it as <strong>spam</strong> (<span class="math inline">\(y=1\)</span>) or <strong>not spam</strong> (<span class="math inline">\(y = 0\)</span>)</li>
+</ul></li>
+<li><strong>Multiclass classification</strong>: Classify the observation into one of <span class="math inline">\(N\)</span> categories (<span class="math inline">\(y \in \{0, 1, \ldots, N\}\)</span>)
+<ul>
+<li>Example: Given a <strong>handwritten symbol</strong>, classify it as a <strong>digit</strong> (<span class="math inline">\(y = \{0, 1, \ldots, 9\}\)</span>)</li>
+</ul></li>
+<li>K-Nearest Neighbors Intuition: Find the <strong><span class="math inline">\(K\)</span> most similar</strong> observations that we’ve seen before, and have them <strong>“majority vote”</strong> on the outcome.</li>
+</ul>
+</section>
+<section id="knn-example" class="level2">
+<h2 class="anchored" data-anchor-id="knn-example">KNN Example</h2>
+<ul>
+<li><strong>The problem</strong>: Given a student’s <strong>GPA</strong>, predict whether or not they will graduate Many different potential approaches! K-Nearest Neighbor Approach: Get a dataset of previous years, students’ GPAs and whether or not they graduated Find the 𝐾=5</li>
+</ul>
+<p>students with GPA closest to the student of interest If a majority of them graduated, predict that the student will graduate. Otherwise, predict that they will not.</p>
+</section>
+<section id="knn-in-pictures" class="level2">
+<h2 class="anchored" data-anchor-id="knn-in-pictures">KNN In Pictures</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/knn.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Image credit: <a href="http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn" target="_blank">DataCamp tutorial</a></figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="naïve-bayes-classifiers" class="level1" data-stack-name="Naïve Bayes">
@@ -1270,27 +1574,91 @@ Naïve Bayes’ Answer?
 </div>
 </div>
 </section>
+<section id="in-math" class="level2 smaller smaller-math shift-footnotes-lesser">
+<h2 class="smaller smaller-math shift-footnotes-lesser anchored" data-anchor-id="in-math">In Math</h2>
+<ul>
+<li>Assume some email <span class="math inline">\(E\)</span> with <span class="math inline">\(N = 5\)</span> words, <span class="math inline">\(E = (w_1, w_2, w_3, w_4, w_5)\)</span>. Say <span class="math inline">\(E = (\texttt{you},\texttt{win},\texttt{a},\texttt{million},\texttt{dollars})\)</span>.</li>
+<li>We’re trying to <strong>classify</strong> <span class="math inline">\(S = \begin{cases}1 &amp;\text{if spam} \\ 0 &amp;\text{otherwise}\end{cases}\)</span> given <span class="math inline">\(E\)</span></li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Normal person (marine biologist?)<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\Pr(S = 1 \mid w_5 = \texttt{dollars}, w_4 = \texttt{million}) \\
+&amp;&gt; \Pr(S = 1 \mid w_5 = \texttt{dollars}, w_4 = \texttt{octopus})
+\end{align*}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/naive_bayes_langmodel.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Naïve Bayes classifier:</li>
+</ul>
+<p><span class="math display">\[
+\Pr(S = 1 \mid w_5) \perp \Pr(S = 1 \mid w_4)
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/naive_bayes.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="unreasonable-effectiveness" class="level2 crunch-title crunch-images crunch-ul">
+<h2 class="crunch-title crunch-images crunch-ul anchored" data-anchor-id="unreasonable-effectiveness">“Unreasonable Effectiveness”</h2>
+<ul>
+<li>This must absolutely suck in practice, right?</li>
+</ul>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/huh_how.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/naive_bayes_performance.png" class="img-fluid figure-img" width="580"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="lab-feature-selection-in-scikit-learn" class="level1">
 <h1>Lab: Feature Selection in Scikit-Learn</h1>
 <section id="scikit-learn" class="level2">
 <h2 class="anchored" data-anchor-id="scikit-learn">Scikit-Learn</h2>
+<ul>
+<li><a href="https://scikit-learn.org/stable/" target="_blank">Scikit-Learn Homepage <i class="bi bi-box-arrow-up-right ps-1"></i></a></li>
+<li><a href="https://www.datacamp.com/tutorial/feature-selection-python" target="_blank">DataCamp Tutorial: Feature Selection <i class="bi bi-box-arrow-up-right ps-1"></i></a></li>
+</ul>
 </section>
 </section>
-<section id="lab-assignment-overview" class="level1" data-stack-name="Lab">
-<h1 data-stack-name="Lab">Lab Assignment Overview</h1>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+<section id="lab-assignment-overview" class="level1" data-name="Lab">
+<h1 data-name="Lab">Lab Assignment Overview</h1>
+<p><a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-3.2-NB-and-feature-selection/assignment.html" target="_blank">Lab 3.2: Feature Selection <i class="bi bi-box-arrow-up-right ps-1"></i></a></p>
 
 
-</section>
 </section>
 
 
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p><em>Whether standard <strong>classification</strong> (sorting each observation into a bin) or <strong>regression</strong> (assigning a real number to each observation)</em><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><em>Whether standard <strong>classification</strong> (sorting observations into bins) or <strong>regression</strong> (assigning a real number to each observation)</em><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>(But we might have the <strong>opposite</strong> result for a marine <strong>economist</strong>… rly makes u think <img src="images/thinking.png" class="img-fluid" width="35">)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

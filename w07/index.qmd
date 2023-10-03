@@ -1,5 +1,5 @@
 ---
-title: "Week 7: Unsupervised Learning"
+title: "Week 7: Supervised Learning"
 date: "Tuesday, October 3, 2023"
 date-format: full
 #date: last-modified
@@ -12,7 +12,7 @@ format:
   revealjs:
     output-file: slides.html
     cache: false
-    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 7: Unsupervised Learning"
+    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 7: Supervised Learning"
   html:
     output-file: index.html
     html-math-method: mathjax
@@ -207,8 +207,8 @@ gen_cov_plot <- function(df) {
     ) +
     xlim(c(-1,1)) + ylim(c(-1,1)) +
     coord_fixed(ratio=1) +
-    scale_x_continuous(breaks=c(x_mean), labels=c(TeX(r"($\mu_x$)"))) +
-    scale_y_continuous(breaks=c(y_mean), labels=c(TeX(r"($\mu_y$)")))
+    scale_x_continuous(breaks=c(-1, x_mean, 1), labels=c("-1",TeX(r"($\mu_x$)"),"1")) +
+    scale_y_continuous(breaks=c(-1, y_mean, 1), labels=c("-1",TeX(r"($\mu_y$)"),"1"))
 }
 gen_cov_table <- function(df, print_matches = FALSE) {
   x_mean <- mean(df$x, na.rm = TRUE)
@@ -362,8 +362,8 @@ gen_rect_plot <- function(df, col_order=c("red","darkgreen")) {
     ) +
     xlim(c(-1,1)) + ylim(c(-1,1)) +
     coord_fixed(ratio=1) +
-    scale_x_continuous(breaks=c(x_mean), labels=c(TeX(r"($\mu_x$)"))) +
-    scale_y_continuous(breaks=c(y_mean), labels=c(TeX(r"($\mu_y$)")))
+    scale_x_continuous(breaks=c(-1, x_mean, 1), labels=c("-1",TeX(r"($\mu_x$)"),"1")) +
+    scale_y_continuous(breaks=c(-1, y_mean, 1), labels=c("-1",TeX(r"($\mu_y$)"),"1"))
 }
 gen_rect_plot(df_collinear, col_order=c("darkgreen","red"))
 ```
@@ -441,7 +441,185 @@ gen_cov_table(df_noisy_neg, print_matches = TRUE)
 :::
 :::
 
-## Distance Metrics {.crunch-title .crunch-ul .crunch-images .crunch-figures}
+
+## Covariance: Intuition 3.0 {.smaller .crunch-title .crunch-code .crunch-images .crunch-figures}
+
+* This means that if we **break out of $[-1,1]$**, covariance will grow even larger:
+
+::: columns
+::: {.column width="33%"}
+
+```{r}
+#| label: collinear-rect-plot-expanded
+#| fig-width: 3.8
+#| fig-height: 3.8
+# Label vals above and below mean
+N <- 100
+x_min_expanded <- -5
+x_max_expanded <- 15
+gen_y_noisy_expanded <- function(x_val, x_min, x_max, eps) {
+  lower <- max(x_min, x_val - eps)
+  upper <- min(x_max, x_val + eps)
+  y_noisy <- runif(1, lower, upper)
+  return(y_noisy)
+}
+x_vals_expanded <- runif(N, x_min_expanded, x_max_expanded)
+x_mean_expanded <- mean(x_vals_expanded)
+y_collinear_expanded <- x_vals_expanded
+y_mean_collinear_expanded <- mean(y_collinear_expanded)
+df_collinear_expanded <- tibble(x=x_vals_expanded, y=y_collinear_expanded, rel="collinear")
+gen_rect_plot_expanded <- function(df, col_order=c("red","darkgreen")) {
+  x_mean <- mean(df$x)
+  x_mean_str <- sprintf("%.2f", x_mean)
+  x_mean_tex <- paste0("($\\mu_x = ",x_mean_str,"$)")
+  y_mean = mean(df$y)
+  y_mean_str <- sprintf("%.2f", y_mean)
+  y_mean_tex <- paste0("($\\mu_y = ",y_mean_str,"$)")
+  label_df_expanded <- tribble(
+    ~x, ~y, ~label,
+    # Upper right
+    (x_mean + x_max_expanded) / 2, (y_mean + x_max_expanded) / 2, "+",
+    (x_min_expanded + x_mean) / 2, (x_min_expanded + y_mean) / 2, "+",
+    (x_mean + x_max_expanded) / 2, (x_min_expanded + y_mean) / 2, "\u2212",
+    (x_min_expanded + x_mean) / 2, (y_mean + x_max_expanded) / 2, "\u2212"
+  )
+  df <- df |> mutate(
+      x_contrib = ifelse(x > x_mean, "+", "-"),
+      y_contrib = ifelse(y > y_mean, "+", "-"),
+      match = x_contrib == y_contrib
+  )
+  ggplot(df, aes(x=x, y=y)) +
+    geom_point() +
+    geom_vline(xintercept = x_mean) +
+    geom_hline(yintercept = y_mean) +
+    #facet_grid(. ~ rel) + 
+    geom_rect(aes(xmin=x_mean, xmax=x, ymin=y_mean, ymax=y, fill=match), color='black', linewidth=0.1, alpha=0.075) +
+    scale_color_manual(values=c("darkgreen","red")) +
+    scale_fill_manual(values=col_order) +
+    geom_label(
+      data=label_df_expanded,
+      aes(x=x, y=y, label=label, color=label),
+      alpha=0.75,
+      size = g_pointsize * 1.5
+    ) +
+    dsan_theme() +
+    remove_legend() +
+    theme(
+      #axis.text.x = element_blank(),
+      axis.title.x = element_blank(),
+      #axis.ticks.x = element_blank(),
+      #axis.text.y = element_blank(),
+      #axis.ticks.y = element_blank(),
+      axis.title.y = element_blank()
+    ) +
+    coord_fixed(ratio=1) +
+    xlim(c(x_min_expanded,x_max_expanded)) +
+    ylim(c(x_min_expanded,x_max_expanded)) +
+    scale_x_continuous(breaks=c(x_min_expanded, x_mean, x_max_expanded), labels=c("-5",TeX(x_mean_tex),"15")) +
+    scale_y_continuous(breaks=c(x_min_expanded, y_mean, x_max_expanded), labels=c("-5",TeX(y_mean_tex),"15"))
+}
+gen_rect_plot_expanded(df_collinear_expanded, col_order=c("darkgreen","red"))
+```
+
+::: {layout-ncol=2}
+
+```{r}
+#| label: collinear-rect-table-expanded
+#| echo: false
+gen_cov_table(df_collinear_expanded)
+```
+
+```{r}
+#| label: collinear-rect-matches-expanded
+#| echo: false
+gen_cov_table(df_collinear_expanded, print_matches = TRUE)
+```
+
+:::
+
+:::
+::: {.column width="33%"}
+
+```{r}
+#| label: noisy-rect-plot-expanded
+#| fig-align: center
+#| fig-width: 3.8
+#| fig-height: 3.8
+# Force the points to be inside [-1,1]
+y_noisy_expanded <- x_vals_expanded
+for (i in 1:length(y_noisy_expanded)) {
+  cur_x_val_expanded <- x_vals_expanded[i]
+  y_noisy_expanded[i] <- gen_y_noisy_expanded(cur_x_val_expanded, x_min_expanded, x_max_expanded, 5)
+}
+y_noisy_expanded_mean <- mean(y_noisy_expanded, na.rm = TRUE)
+#print(y_noisy_mean)
+df_noisy_expanded <- tibble(x = x_vals_expanded, y = y_noisy_expanded, rel="noise")
+gen_rect_plot_expanded(df_noisy_expanded)
+```
+
+::: {layout-ncol=2}
+
+```{r}
+#| label: noisy-rect-table-expanded
+#| echo: false
+gen_cov_table(df_noisy_expanded)
+```
+
+```{r}
+#| label: noisy-rect-matches-expanded
+#| echo: false
+gen_cov_table(df_noisy_expanded, print_matches = TRUE)
+```
+
+:::
+
+:::
+::: {.column width="33%"}
+
+```{r}
+#| label: neg-rect-plot-expanded
+#| fig-align: center
+#| fig-width: 3.8
+#| fig-height: 3.8
+gen_y_noisy_neg <- function(x_val, x_min, x_max, eps) {
+  lower <- max(x_min, x_val - eps)
+  upper <- min(x_max, x_val + eps)
+  y_noisy <- runif(1, lower, upper)
+  return(y_noisy)
+}
+y_noisy_neg_expanded <- x_vals_expanded
+for (i in 1:length(y_noisy_neg_expanded)) {
+  cur_x_val_expanded <- x_vals_expanded[i]
+  #y_noisy_neg_expanded[i] <- x_mean_expanded - (gen_y_noisy_expanded(cur_x_val_expanded, x_min_expanded, x_max_expanded, 5) - x_mean_expanded)
+  y_noisy_neg_expanded[i] <- 10 - gen_y_noisy_expanded(cur_x_val_expanded, x_min_expanded, x_max_expanded, 5)
+  #y_noisy_neg_expanded[i] <- x_mean_expanded - (y_noisy_neg_expanded[i] - x_mean_expanded)
+}
+y_noisy_neg_expanded_mean <- mean(y_noisy_neg_expanded, na.rm = TRUE)
+#print(y_noisy_mean)
+df_noisy_neg_expanded <- tibble(x = x_vals_expanded, y = y_noisy_neg_expanded, rel="noise")
+gen_rect_plot_expanded(df_noisy_neg_expanded)
+```
+
+::: {layout-ncol=2}
+
+```{r}
+#| label: neg-rect-table-expanded
+#| echo: false
+gen_cov_table(df_noisy_neg_expanded)
+```
+
+```{r}
+#| label: neg-rect-matches-expanded
+#| echo: false
+gen_cov_table(df_noisy_neg_expanded, print_matches = TRUE)
+```
+
+:::
+
+:::
+:::
+
+## Distance Metrics {.crunch-title .crunch-ul .crunch-images .crunch-figures .smaller}
 
 ::: {layout-ncol=2}
 
@@ -449,9 +627,14 @@ gen_cov_table(df_noisy_neg, print_matches = TRUE)
 
 * One More Important Metric! **Cosine Distance**
 
-![$A = (5,0), B = (3,4) \implies \cos(A,B) = \frac{3}{5}$](images/cosine_dist_projection.svg){fig-align="center" width="360"}
+![](images/cosine_dist_projection.svg){fig-align="center" width="360"}
 
-
+$$
+\begin{align*}
+&A = (5,0), B = (3,4) \\
+&\implies \cos(A,B) = \frac{3}{5}
+\end{align*}
+$$
 
 :::
 
@@ -459,64 +642,149 @@ gen_cov_table(df_noisy_neg, print_matches = TRUE)
 
 * Plus **new names** for ones you already know!
 
-* "Levenshtein Distance": Edit distance
-* "Minkowski Distance": $L^p$-norm (Generalizes Euclidean, Manhattan, Min, and Max)
+* **"Levenshtein Distance"**: Edit distance
+* **"Chebyshev Distance"**: $L^{\infty}$-norm, meaning, **maximum absolute distance**. In $\mathbb{R}^2$:
+
+$$
+\begin{align*}
+&D((x_1,y_1),(x_2,y_2)) \\
+&= \max\{ |x_2 - x_1|, |y_2 - y_1| \}
+\end{align*}
+$$
+
+* **"Minkowski Distance"**: $L^p$-norm (Generalizes Euclidean, Manhattan, Min, and Max)
 
 :::
 
+:::
+
+## Entropy $\rightarrow$ Distance {.crunch-title .crunch-ul .crunch-figures .crunch-images .crunch-lists}
+
+* **Entropy** (of **one** distribution): How uncertain are we about what we're going to pull out of the bag?
+
+::: {layout-ncol=2 layout-valign="center"}
+
+![](images/entropy.png){fig-align="center"}
+
+::: {#entropy-text}
+
+* Think about:
+* *What exactly makes a boring {song,movie,book} boring?*
+* *What makes an overwhelming/stressful {song,movie,book} overwhelming/stressful?*
+
+:::
+
+:::
+
+## "Distance" Metrics on *Distributions* {.smaller .crunch-title .shift-footnotes-less .crunch-figures .small-inline .crunch-ul .crunch-math .nostretch}
+
+* **KL-Divergence** (**Non-symmetric**!): $\kl(P \parallel Q) \neq \kl(Q \parallel P)$
+* Not **distance** but **relative entropy**: how **surprised** were we to see $P$ when we expected $Q$? How much **information is lost** when we **approximate** $P$ with $Q$?
+
+::: {layout="[2,1,2.5]" layout-valign="center"}
+
+::: {.column width="40%"}
+
+![We can only communicate **two numbers** back to our space comrades, to warn them of the impending space worms w/tooth distribution $\mathcal{O}$<br>(Example from <a href='https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained' target='_blank'>*Count Bayesie* Blog</a>)](images/empirical-distribution-teeth.png){#fig-empirical-dist width="80%"}
+
+:::
+
+::: {.column width="20%"}
+
+<center>
+<div style='padding-bottom: 40px !important;'><i class='bi bi-arrow-up-right'></i> Uniform approximation</div>
+
+<div><i class='bi bi-arrow-down-right'></i> Binomial approximation</div>
+</center>
+
+:::
+
+::: {.column width="40%"}
+
+$\mathcal{A} = \mathcal{U}\{0,10\}$? $\kl​​(\mathcal{O} \parallel \mathcal{A})=0.338$
+
+```{r}
+#| label: worms-unif
+#| fig-width: 6
+#| fig-height: 2
+#| echo: false
+x_vals <- seq(from=0, to=10, by=1)
+df <- tibble(x=x_vals, y=1/11)
+ggplot(df, aes(x=x, y=y)) +
+  geom_bar(stat='identity') +
+  dsan_theme("quarter") +
+  scale_x_continuous(breaks=seq(from=0,to=10,by=1)) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank()
+  )
+  #scale_y_continuous(breaks=c(1/11), labels=c("1/11"))
+```
+
+$\text{Binom}(10,0.57)$? $\kl(\mathcal{O} \parallel \mathcal{B})=0.477$
+
+```{r}
+#| label: worms-binom
+#| fig-width: 6
+#| fig-height: 2
+#| echo: false
+x_vals <- seq(from=0, to=10, by=1)
+df <- tibble(x=x_vals, y=dbinom(x_vals, 10, 0.57))
+ggplot(df, aes(x=x, y=y)) +
+  geom_bar(stat='identity') +
+  dsan_theme("quarter") +
+  scale_x_continuous(breaks=seq(from=0,to=10,by=1)) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank()
+  )
+  #scale_y_continuous(breaks=c(1/11), labels=c("1/11"))
+```
+
+:::
 :::
 
 # Quiz Time!
 
 * <a href='https://georgetown.instructure.com/courses/173310/quizzes/201583?module_item_id=3421671' target='_blank'>Quiz 3.2 <i class='bi bi-box-arrow-up-right ps-1'></i></a>
 
-# Unsupervised Learning {data-stack-name="Unsupervised Learning"}
+# Machine Learning {data-stack-name="Supervised Learning"}
 
-## What is Unsupervised Learning?
-
-* Getting the computer to **do EDA for us!**
+## Supervised vs. Unsupervised Learning {.smaller .shift-footnotes-lesser .crunch-title .crunch-ul}
 
 ::: columns
 ::: {.column width="50%"}
 
-Where we'll start:
+***Supervised** Learning*: You want the computer to learn the **existing pattern** of **how *you* are classifying[^1] observations**
 
-
-
-:::
-::: {.column width="50%"}
-
-Where we'll end up:
-
-:::
-:::
-
-
-## Supervised vs. Unsupervised Learning {.smaller}
-
-::: columns
-::: {.column width="50%"}
--   **Supervised** Learning: You want the computer to learn the pattern of how *you* are classifying[^1] observations in a dataset
-    -   Discovering the relationship between *properties* of data and *outcomes*
-    -   Example (*Binary Classification*): I look at homes on Zillow, saving those I like to folder A and don't like to folder B
-    -   Example (*Regression*): I assign a rating of 0-100 to each home
-    -   In both cases: I ask the computer to *learn* my preferences (how I classify/assign ratings to homes)
+-   Discovering the relationship between **properties** of data and **outcomes**
+-   Example (*Binary Classification*): I look at homes on Zillow, saving those I like to folder A and don't like to folder B
+-   Example (*Regression*): I assign a rating of 0-100 to each home
+-   In both cases: I ask the computer to **learn my schema** (how I classify)
 :::
 
 ::: {.column width="50%"}
--   **Unsupervised** Learning: You want the computer to *find* patterns in a dataset, without any classification info
-    -   Typically: grouping or clustering observations based on shared properties
-    -   Example (*Clustering*): I save all the used car listings I can find, and ask the computer to "find a pattern" in this data, by clustering similar cars together
+
+***Unsupervised** Learning*: You want the computer to ***find* patterns in a dataset**, without any prior classification info
+
+-   Typically: grouping or clustering observations based on shared properties
+-   Example (*Clustering*): I save all the used car listings I can find, and ask the computer to "find a pattern" in this data, by clustering similar cars together
+
 :::
 :::
 
-[^1]: *Whether standard **classification** (sorting each observation into a bin) or **regression** (assigning a real number to each observation)*
+[^1]: *Whether standard **classification** (sorting observations into bins) or **regression** (assigning a real number to each observation)*
 
 ## Dataset Structures {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
--   **Supervised** Learning: Dataset has both [*explanatory* variables ("features")]{.colA} and [*response* variables ("labels")]{.colB}
+
+**Supervised** Learning: Dataset has both [*explanatory* variables ("features")]{.cb1} and [*response* variables ("labels")]{.cb2}
+
+::: {.suptable}
 
 ```{r}
 sup_data <- tibble::tribble(
@@ -527,17 +795,18 @@ sup_data <- tibble::tribble(
   3, 1500, 2, "Disliked",
   4, 2200, 1, "Liked"
 )
-```
-
-::: suptable
-```{r}
 sup_data
 ```
+
 :::
+
 :::
 
 ::: {.column width="50%"}
--   **Unsupervised** Learning: Dataset has only [*explanatory* variables]{.colA}
+
+**Unsupervised** Learning: Dataset has only [*explanatory* variables ("features")]{.cb1}
+
+::: {.unsuptable}
 
 ```{r}
 unsup_data <- tibble::tribble(
@@ -548,23 +817,25 @@ unsup_data <- tibble::tribble(
   3, 1500, 2,
   4, 2200, 1
 )
-```
-
-::: unsuptable
-```{r}
 unsup_data
 ```
+
 :::
+
 :::
 :::
 
-## Dataset Structures: Visualized
+## Dataset Structures: Visualized {.nostretch .smaller .crunch-code}
 
 ::: columns
 ::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
+
+```{r}
+#| label: sup-data-plot
+#| fig-width: 8
+#| fig-height: 8
 ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + 
-  geom_point(size=g_pointsize) +
+  geom_point(size = g_pointsize * 2) +
   labs(
     title = "Supervised Data: House Listings",
     x = "Square Footage",
@@ -577,12 +848,16 @@ ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) +
 :::
 
 ::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
+
+```{r}
+#| label: unsup-data-plot
+#| fig-width: 8
+#| fig-height: 8
 # To force a legend
 unsup_grouped <- unsup_data %>% mutate(big=bedrooms > 1)
 unsup_grouped[['big']] <- factor(unsup_grouped[['big']], labels=c("?1","?2"))
 ggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) + 
-  geom_point(size=g_pointsize) +
+  geom_point(size = g_pointsize * 2) +
   labs(
     x = "Square Footage",
     y = "Number of Bedrooms",
@@ -598,16 +873,21 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) +
   #scale_color_manual(values=c("?1"="white","?2"="white"))
   guides(fill = guide_legend(override.aes = list(shape = NA)))
 ```
+
 :::
 :::
 
-## Different Goals
+## Different Goals {.smaller .crunch-code}
 
 ::: columns
 ::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
+
+```{r}
+#| label: sup-data-outcomes
+#| fig-width: 8
+#| fig-height: 8
 ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + 
-  geom_point(size=g_pointsize) +
+  geom_point(size = g_pointsize * 2) +
   labs(
     title = "Supervised Data: House Listings",
     x = "Square Footage",
@@ -624,7 +904,10 @@ ggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) +
 :::
 
 ::: {.column width="50%"}
-```{r, fig.width=5, fig.height=5.5}
+```{r}
+#| label: unsup-data-clustered
+#| fig-width: 8
+#| fig-height: 8
 library(ggforce)
 ggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +
   #scale_color_brewer(palette = "PuOr") +
@@ -649,6 +932,28 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +
 # K-Nearest Neighbors (KNN) {data-stack-name="KNN"}
 
 ## The KNN Algorithm
+
+* **Binary Classification**: Given a set of information ("features") about an observation ($X$), predict a yes/no outcome ($y \in \{0, 1\}$) for this observation
+  * *Example*: Given a **count** of **words** in an email, classify it as **spam** ($y=1$) or **not spam** ($y = 0$)
+* **Multiclass classification**: Classify the observation into one of $N$ categories ($y \in \{0, 1, \ldots, N\}$)
+  * Example: Given a **handwritten symbol**, classify it as a **digit** ($y = \{0, 1, \ldots, 9\}$)
+* K-Nearest Neighbors Intuition: Find the **$K$
+most similar** observations that we've seen before, and have them **"majority vote"** on the outcome.
+
+## KNN Example
+
+* **The problem**: Given a student's **GPA**, predict whether or not they will graduate
+    Many different potential approaches!
+    K-Nearest Neighbor Approach:
+        Get a dataset of previous years, students' GPAs and whether or not they graduated
+        Find the 𝐾=5
+
+students with GPA closest to the student of interest
+If a majority of them graduated, predict that the student will graduate. Otherwise, predict that they will not.
+
+## KNN In Pictures
+
+![Image credit: <a href='http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn' target='_blank'>DataCamp tutorial</a>](images/knn.png)
 
 # Naïve Bayes Classifiers {data-stack-name="Naïve Bayes"}
 
@@ -679,10 +984,61 @@ Naïve Bayes' Answer?
 :::
 :::
 
+## In Math {.smaller .smaller-math .shift-footnotes-lesser}
+
+* Assume some email $E$ with $N = 5$ words, $E = (w_1, w_2, w_3, w_4, w_5)$. Say $E = (\texttt{you},\texttt{win},\texttt{a},\texttt{million},\texttt{dollars})$.
+* We're trying to **classify** $S = \begin{cases}1 &\text{if spam} \\ 0 &\text{otherwise}\end{cases}$ given $E$
+
+::: columns
+::: {.column width="50%"}
+
+* Normal person (marine biologist?)[^marine-economist]:
+
+$$
+\begin{align*}
+&\Pr(S = 1 \mid w_5 = \texttt{dollars}, w_4 = \texttt{million}) \\
+&> \Pr(S = 1 \mid w_5 = \texttt{dollars}, w_4 = \texttt{octopus})
+\end{align*}
+$$
+
+![](images/naive_bayes_langmodel.svg){fig-align="center"}
+
+:::
+::: {.column width="50%"}
+
+* Naïve Bayes classifier:
+
+$$
+\Pr(S = 1 \mid w_5) \perp \Pr(S = 1 \mid w_4)
+$$
+
+![](images/naive_bayes.svg){fig-align="center"}
+
+:::
+
+:::
+
+[^marine-economist]: (But we might have the **opposite** result for a marine **economist**... rly makes u think ![](images/thinking.png){width="35"})
+
+## "Unreasonable Effectiveness" {.crunch-title .crunch-images .crunch-ul}
+
+* This must absolutely suck in practice, right?
+
+::: {layout="[2,3]" layout-valign="center"}
+
+![](images/huh_how.png){fig-align="center"}
+
+![](images/naive_bayes_performance.png){fig-align="center" width="580"}
+
+:::
+
 # Lab: Feature Selection in Scikit-Learn
 
 ## Scikit-Learn
 
-# Lab Assignment Overview {data-stack-name="Lab"}
+* <a href='https://scikit-learn.org/stable/' target='_blank'>Scikit-Learn Homepage <i class='bi bi-box-arrow-up-right ps-1'></i></a>
+* <a href='https://www.datacamp.com/tutorial/feature-selection-python' target='_blank'>DataCamp Tutorial: Feature Selection <i class='bi bi-box-arrow-up-right ps-1'></i></a>
 
-## References
+# Lab Assignment Overview {data-name="Lab"}
+
+<a href='https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-3.2-NB-and-feature-selection/assignment.html' target='_blank'>Lab 3.2: Feature Selection <i class='bi bi-box-arrow-up-right ps-1'></i></a>

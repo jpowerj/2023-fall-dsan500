@@ -1,0 +1,27 @@
+## EDA $\leftrightarrow$ Unsupervised Learning
+
+* Getting the computer to **do EDA for us!**
+
+::: columns
+::: {.column width="50%"}
+
+Where we'll start:
+
+
+
+:::
+::: {.column width="50%"}
+
+Where we'll end up:
+
+:::
+:::
+
+
+$\mathcal{A} = \mathcal{U}\{0,10\}$? $\kl​​(\mathcal{O} \parallel \mathcal{A})=0.338$
+
+![](images/uniform-approximation.png){fig-align="left" width="250"}
+
+$\text{Binom}(10,0.57)$? $\kl(\mathcal{O} \parallel \mathcal{B})=0.477$
+
+![](images/binomial-approximation.png){fig-align="left" width="250"}
