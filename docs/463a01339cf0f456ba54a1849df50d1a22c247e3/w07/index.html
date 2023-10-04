@@ -55,7 +55,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -121,9 +140,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      DSAN 5000
-      </li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w07/index.html">Week 7: <span class="sec-w07-date">Oct 3</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -199,6 +216,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../w07/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 7: <span class="sec-w07-date">Oct 3</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../recordings/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture Recordings</span></a>
   </div>
@@ -270,6 +293,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#k-nearest-neighbors-knn" id="toc-k-nearest-neighbors-knn" class="nav-link" data-scroll-target="#k-nearest-neighbors-knn">K-Nearest Neighbors (KNN)</a>
   <ul class="collapse">
   <li><a href="#the-knn-algorithm" id="toc-the-knn-algorithm" class="nav-link" data-scroll-target="#the-knn-algorithm">The KNN Algorithm</a></li>
+  <li><a href="#mnist-digits-example" id="toc-mnist-digits-example" class="nav-link" data-scroll-target="#mnist-digits-example">MNIST Digits Example</a></li>
   <li><a href="#knn-example" id="toc-knn-example" class="nav-link" data-scroll-target="#knn-example">KNN Example</a></li>
   <li><a href="#knn-in-pictures" id="toc-knn-in-pictures" class="nav-link" data-scroll-target="#knn-in-pictures">KNN In Pictures</a></li>
   </ul></li>
@@ -281,9 +305,11 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#lab-feature-selection-in-scikit-learn" id="toc-lab-feature-selection-in-scikit-learn" class="nav-link" data-scroll-target="#lab-feature-selection-in-scikit-learn">Lab: Feature Selection in Scikit-Learn</a>
   <ul class="collapse">
-  <li><a href="#scikit-learn" id="toc-scikit-learn" class="nav-link" data-scroll-target="#scikit-learn">Scikit-Learn</a></li>
-  </ul></li>
+  <li><a href="#feature-selection-in-scikit-learn" id="toc-feature-selection-in-scikit-learn" class="nav-link" data-scroll-target="#feature-selection-in-scikit-learn">Feature Selection in Scikit-Learn</a></li>
+  <li><a href="#lab-demo-task-overview" id="toc-lab-demo-task-overview" class="nav-link" data-scroll-target="#lab-demo-task-overview">Lab Demo Task Overview</a></li>
   <li><a href="#lab-assignment-overview" id="toc-lab-assignment-overview" class="nav-link" data-scroll-target="#lab-assignment-overview">Lab Assignment Overview</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
@@ -428,7 +454,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"><span class="sec-start">12:30pm</span></td>
 <td style="text-align: left;"><span class="sec-p15">12:45pm</span></td>
 <td style="text-align: left;"><a href="#week-06-recap">Week 06 Recap →</a></td>
-<td style="text-align: center;"><a id="rec-link-w06-1" href="../recordings/recording-w06s02-1.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: center;"><a id="rec-link-w07-1" href="../recordings/recording-w07s02-1.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -441,22 +467,22 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p35">1:05pm</span></td>
 <td style="text-align: left;"><span class="sec-p50">1:20pm</span></td>
-<td style="text-align: left;"><a href="#supervised-learning">Intro to Supervised Learning →</a></td>
+<td style="text-align: left;"><a href="#machine-learning">Intro to Supervised Learning →</a></td>
 <td style="text-align: center;"><a id="rec-link-w06-2" href="../recordings/recording-w06s02-2.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p50">1:20pm</span></td>
 <td style="text-align: left;"><span class="sec-p65">1:35pm</span></td>
-<td style="text-align: left;"><a href="#distance-metrics">K-Nearest Neighbors (KNN) →</a></td>
-<td style="text-align: center;"><a id="rec-link-w06-3" href="../recordings/recording-w06s02-3.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: left;"><a href="#k-nearest-neighbors-knn">K-Nearest Neighbors (KNN) →</a></td>
+<td style="text-align: center;"><a id="rec-link-w07-3" href="../recordings/recording-w07s02-3.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p65">1:35pm</span></td>
 <td style="text-align: left;"><span class="sec-p80">1:50pm</span></td>
-<td style="text-align: left;"><a href="#missing-data">Naïve Bayes Classifiers →</a></td>
-<td style="text-align: center;"><a href="../recordings/recording-w06s02-4.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: left;"><a href="#na%C3%AFve-bayes-classifiers">Naïve Bayes Classifiers →</a></td>
+<td style="text-align: center;"><a href="../recordings/recording-w07s02-4.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Break!</strong></td>
@@ -469,8 +495,8 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"><strong>Lab</strong></td>
 <td style="text-align: left;"><span class="sec-p90">2:00pm</span></td>
 <td style="text-align: left;"><span class="sec-p130">2:40pm</span></td>
-<td style="text-align: left;"><a href="#lab-demonstrations">Lab: Feature Selection →</a></td>
-<td style="text-align: center;"><a id="rec-link-w06-5" href="../recordings/recording-w06s02-5.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: left;"><a href="#lab-feature-selection-in-scikit-learn">Lab: Feature Selection →</a></td>
+<td style="text-align: center;"><a id="rec-link-w07-5" href="../recordings/recording-w06s02-5.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1512,8 +1538,8 @@ Covariance:
 </section>
 <section id="k-nearest-neighbors-knn" class="level1" data-stack-name="KNN">
 <h1 data-stack-name="KNN">K-Nearest Neighbors (KNN)</h1>
-<section id="the-knn-algorithm" class="level2">
-<h2 class="anchored" data-anchor-id="the-knn-algorithm">The KNN Algorithm</h2>
+<section id="the-knn-algorithm" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="the-knn-algorithm">The KNN Algorithm</h2>
 <ul>
 <li><strong>Binary Classification</strong>: Given a set of information (“features”) about an observation (<span class="math inline">\(X\)</span>), predict a yes/no outcome (<span class="math inline">\(y \in \{0, 1\}\)</span>) for this observation
 <ul>
@@ -1526,12 +1552,21 @@ Covariance:
 <li>K-Nearest Neighbors Intuition: Find the <strong><span class="math inline">\(K\)</span> most similar</strong> observations that we’ve seen before, and have them <strong>“majority vote”</strong> on the outcome.</li>
 </ul>
 </section>
+<section id="mnist-digits-example" class="level2">
+<h2 class="anchored" data-anchor-id="mnist-digits-example">MNIST Digits Example</h2>
+<iframe src="https://n8python.github.io/mnistLatentSpace/" width="100%" height="80%"></iframe>
+</section>
 <section id="knn-example" class="level2">
 <h2 class="anchored" data-anchor-id="knn-example">KNN Example</h2>
 <ul>
-<li><strong>The problem</strong>: Given a student’s <strong>GPA</strong>, predict whether or not they will graduate Many different potential approaches! K-Nearest Neighbor Approach: Get a dataset of previous years, students’ GPAs and whether or not they graduated Find the 𝐾=5</li>
+<li><strong>The problem</strong>: Given a student’s <strong>GPA</strong>, predict whether or not they will graduate</li>
+<li>K-Nearest Neighbor Approach:
+<ul>
+<li>Get a dataset of previous years, students’ GPAs and whether or not they graduated</li>
+<li>Find the <span class="math inline">\(K = 5\)</span> students with GPA closest to the student of interest</li>
+<li>If a majority of these 5 students graduated, predict that the student will graduate. Otherwise, predict that they will not.</li>
+</ul></li>
 </ul>
-<p>students with GPA closest to the student of interest If a majority of them graduated, predict that the student will graduate. Otherwise, predict that they will not.</p>
 </section>
 <section id="knn-in-pictures" class="level2">
 <h2 class="anchored" data-anchor-id="knn-in-pictures">KNN In Pictures</h2>
@@ -1611,8 +1646,8 @@ Naïve Bayes’ Answer?
 </div>
 </div>
 </section>
-<section id="unreasonable-effectiveness" class="level2 crunch-title crunch-images crunch-ul">
-<h2 class="crunch-title crunch-images crunch-ul anchored" data-anchor-id="unreasonable-effectiveness">“Unreasonable Effectiveness”</h2>
+<section id="unreasonable-effectiveness" class="level2 crunch-title crunch-images crunch-ul crunch-figures">
+<h2 class="crunch-title crunch-images crunch-ul crunch-figures anchored" data-anchor-id="unreasonable-effectiveness">“Unreasonable Effectiveness”</h2>
 <ul>
 <li>This must absolutely suck in practice, right?</li>
 </ul>
@@ -1622,13 +1657,15 @@ Naïve Bayes’ Answer?
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/huh_how.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">“But… how?”</figcaption>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/naive_bayes_performance.png" class="img-fluid figure-img" width="580"></p>
+<p><img src="images/naive_bayes_performance.png" class="img-fluid figure-img" width="520"></p>
+<figcaption class="figure-caption">Image Source: <span class="citation" data-cites="banko_scaling_2001">Banko and Brill (<a href="#ref-banko_scaling_2001" role="doc-biblioref">2001</a>)</span></figcaption>
 </figure>
 </div>
 </div>
@@ -1636,21 +1673,34 @@ Naïve Bayes’ Answer?
 </div>
 </section>
 </section>
-<section id="lab-feature-selection-in-scikit-learn" class="level1">
-<h1>Lab: Feature Selection in Scikit-Learn</h1>
-<section id="scikit-learn" class="level2">
-<h2 class="anchored" data-anchor-id="scikit-learn">Scikit-Learn</h2>
+<section id="lab-feature-selection-in-scikit-learn" class="level1" data-stack-name="Lab">
+<h1 data-stack-name="Lab">Lab: Feature Selection in Scikit-Learn</h1>
+<section id="feature-selection-in-scikit-learn" class="level2">
+<h2 class="anchored" data-anchor-id="feature-selection-in-scikit-learn">Feature Selection in Scikit-Learn</h2>
 <ul>
 <li><a href="https://scikit-learn.org/stable/" target="_blank">Scikit-Learn Homepage <i class="bi bi-box-arrow-up-right ps-1"></i></a></li>
 <li><a href="https://www.datacamp.com/tutorial/feature-selection-python" target="_blank">DataCamp Tutorial: Feature Selection <i class="bi bi-box-arrow-up-right ps-1"></i></a></li>
 </ul>
 </section>
+<section id="lab-demo-task-overview" class="level2">
+<h2 class="anchored" data-anchor-id="lab-demo-task-overview">Lab Demo Task Overview</h2>
+<p>What are the keys to success in the NBA?</p>
+<p><a href="../writeups/feature-selection/index.html" target="_blank">Lab 6 Demo <i class="bi bi-box-arrow-up-right ps-1"></i></a></p>
 </section>
-<section id="lab-assignment-overview" class="level1" data-name="Lab">
-<h1 data-name="Lab">Lab Assignment Overview</h1>
+<section id="lab-assignment-overview" class="level2">
+<h2 class="anchored" data-anchor-id="lab-assignment-overview">Lab Assignment Overview</h2>
 <p><a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-3.2-NB-and-feature-selection/assignment.html" target="_blank">Lab 3.2: Feature Selection <i class="bi bi-box-arrow-up-right ps-1"></i></a></p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-banko_scaling_2001" class="csl-entry" role="listitem">
+Banko, Michele, and Eric Brill. 2001. <span>“Scaling to Very Very Large Corpora for Natural Language Disambiguation.”</span> In <em>Proceedings of the 39th <span>Annual Meeting</span> on <span>Association</span> for <span>Computational Linguistics</span></em>, 26–33. <span>ACL</span> ’01. <span>USA</span>: <span>Association for Computational Linguistics</span>. <a href="https://doi.org/10.3115/1073012.1073017">https://doi.org/10.3115/1073012.1073017</a>.
+</div>
+</div>
 
 
+</section>
 </section>
 
 

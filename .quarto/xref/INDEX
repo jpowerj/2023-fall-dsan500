@@ -100,5 +100,8 @@
   "w07/index.qmd": {
     "slides.html": "3b939ae2",
     "index.html": "c1813e2d"
+  },
+  "writeups/feature-selection/index.qmd": {
+    "index.html": "11d02410"
   }
 }

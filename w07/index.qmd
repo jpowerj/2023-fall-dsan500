@@ -931,7 +931,7 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +
 
 # K-Nearest Neighbors (KNN) {data-stack-name="KNN"}
 
-## The KNN Algorithm
+## The KNN Algorithm {.smaller}
 
 * **Binary Classification**: Given a set of information ("features") about an observation ($X$), predict a yes/no outcome ($y \in \{0, 1\}$) for this observation
   * *Example*: Given a **count** of **words** in an email, classify it as **spam** ($y=1$) or **not spam** ($y = 0$)
@@ -940,16 +940,19 @@ ggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +
 * K-Nearest Neighbors Intuition: Find the **$K$
 most similar** observations that we've seen before, and have them **"majority vote"** on the outcome.
 
+## MNIST Digits Example
+
+```{=html}
+<iframe src="https://n8python.github.io/mnistLatentSpace/" width="100%" height="80%"></iframe>
+```
+
 ## KNN Example
 
 * **The problem**: Given a student's **GPA**, predict whether or not they will graduate
-    Many different potential approaches!
-    K-Nearest Neighbor Approach:
-        Get a dataset of previous years, students' GPAs and whether or not they graduated
-        Find the 𝐾=5
-
-students with GPA closest to the student of interest
-If a majority of them graduated, predict that the student will graduate. Otherwise, predict that they will not.
+* K-Nearest Neighbor Approach:
+  * Get a dataset of previous years, students' GPAs and whether or not they graduated
+  * Find the $K = 5$ students with GPA closest to the student of interest
+  * If a majority of these 5 students graduated, predict that the student will graduate. Otherwise, predict that they will not.
 
 ## KNN In Pictures
 
@@ -1020,25 +1023,36 @@ $$
 
 [^marine-economist]: (But we might have the **opposite** result for a marine **economist**... rly makes u think ![](images/thinking.png){width="35"})
 
-## "Unreasonable Effectiveness" {.crunch-title .crunch-images .crunch-ul}
+## "Unreasonable Effectiveness" {.crunch-title .crunch-images .crunch-ul .crunch-figures}
 
 * This must absolutely suck in practice, right?
 
 ::: {layout="[2,3]" layout-valign="center"}
 
-![](images/huh_how.png){fig-align="center"}
+!["But... how?"](images/huh_how.png){fig-align="center"}
 
-![](images/naive_bayes_performance.png){fig-align="center" width="580"}
+![Image Source: @banko_scaling_2001](images/naive_bayes_performance.png){fig-align="center" width="520"}
 
 :::
 
-# Lab: Feature Selection in Scikit-Learn
+# Lab: Feature Selection in Scikit-Learn {data-stack-name="Lab"}
 
-## Scikit-Learn
+## Feature Selection in Scikit-Learn
 
 * <a href='https://scikit-learn.org/stable/' target='_blank'>Scikit-Learn Homepage <i class='bi bi-box-arrow-up-right ps-1'></i></a>
 * <a href='https://www.datacamp.com/tutorial/feature-selection-python' target='_blank'>DataCamp Tutorial: Feature Selection <i class='bi bi-box-arrow-up-right ps-1'></i></a>
 
-# Lab Assignment Overview {data-name="Lab"}
+## Lab Demo Task Overview
+
+What are the keys to success in the NBA?
+
+[Lab 6 Demo <i class='bi bi-box-arrow-up-right ps-1'></i>](../writeups/feature-selection/index.qmd){target="_blank"}
+
+## Lab Assignment Overview
 
 <a href='https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/labs/assignments/lab-3.2-NB-and-feature-selection/assignment.html' target='_blank'>Lab 3.2: Feature Selection <i class='bi bi-box-arrow-up-right ps-1'></i></a>
+
+## References
+
+::: {#refs}
+:::
