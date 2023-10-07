@@ -4,6 +4,8 @@ subtitle: "*DSAN5000: Data Science and Analytics*<br>(Addendum to Week 07)"
 author: Jeff Jacobs
 institute: "<a href='mailto:jj1088@georgetown.edu' target='_blank'>`jj1088@georgetown.edu`</a>"
 date: last-modified
+categories:
+  - "Extra Writeups"
 format:
   revealjs:
     scrollable: true

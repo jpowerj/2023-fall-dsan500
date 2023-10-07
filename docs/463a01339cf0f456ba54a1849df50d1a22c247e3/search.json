@@ -368,7 +368,7 @@
     "href": "w06/index.html#exploratory-data-analysis-eda",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Exploratory Data Analysis (EDA)",
-    "text": "Exploratory Data Analysis (EDA)\n\nIn contrast to confirmatory data analysis\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_clean\n\n Clean  \n\ncluster_import\n\n    \n\ncluster_tidy\n\n    \n\ncluster_understand\n\n Understand  \n\ncluster_conf\n\n Confirmatory  \n\ncluster_expl\n\n Exploratory   \n\nImport\n\n Import   \n\nTidy\n\n Tidy   \n\nImport-&gt;Tidy\n\n    \n\nimportLibs\n\n R:  read_csv() Python:  pd.read_csv()   \n\nV\n\n Visualize   \n\nTidy-&gt;V\n\n    \n\ntidyLibraries\n\n R:  tidyverse Python:  Pandas   \n\nModel\n\n Model   \n\nV-&gt;Model\n\n    \n\nvizLibraries\n\n R:  ggplot2 Python:  seaborn   \n\nModel-&gt;V\n\n    \n\nCommunicate\n\n Communicate   \n\nModel-&gt;Communicate\n\n    \n\nconfLibraries\n\n R:  e1071 Python:  scikit-learn"
+    "text": "Exploratory Data Analysis (EDA)\n\nIn contrast to confirmatory data analysis\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_clean\n\n Clean  \n\ncluster_tidy\n\n    \n\ncluster_import\n\n    \n\ncluster_understand\n\n Understand  \n\ncluster_expl\n\n Exploratory  \n\ncluster_conf\n\n Confirmatory   \n\nImport\n\n Import   \n\nTidy\n\n Tidy   \n\nImport-&gt;Tidy\n\n    \n\nimportLibs\n\n R:  read_csv() Python:  pd.read_csv()   \n\nV\n\n Visualize   \n\nTidy-&gt;V\n\n    \n\ntidyLibraries\n\n R:  tidyverse Python:  Pandas   \n\nModel\n\n Model   \n\nV-&gt;Model\n\n    \n\nvizLibraries\n\n R:  ggplot2 Python:  seaborn   \n\nModel-&gt;V\n\n    \n\nCommunicate\n\n Communicate   \n\nModel-&gt;Communicate\n\n    \n\nconfLibraries\n\n R:  e1071 Python:  scikit-learn"
   },
   {
     "objectID": "w06/index.html#exploratory-data-analysis-eda-1",
@@ -403,7 +403,7 @@
     "href": "w06/index.html#the-scariest-dataset-of-all-time",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "The Scariest Dataset of All Time",
-    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x11e4cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x11e4cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x11e4cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x11e4cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
+    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x116d4d120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x116d4d120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x116d4d260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x116d4d260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
   },
   {
     "objectID": "w06/index.html#it-doesnt-end-there",
@@ -917,18 +917,431 @@
     "text": "Footnotes\n\n\nWhether standard classification (sorting observations into bins) or regression (assigning a real number to each observation)↩︎\n(But we might have the opposite result for a marine economist… rly makes u think )↩︎"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "DSAN 5000, Section 02",
+    "objectID": "about/index.html",
+    "href": "about/index.html",
+    "title": "About Me",
     "section": "",
-    "text": "This is a “hub” collecting relevant links for each week, for students in the Tuesday section (Section 02) of DSAN 5000: Data Science and Analytics, Fall 2023 at Georgetown University.\nIt is not a replacement for the Main Course Page or the Canvas Page, which are shared across all sections!\nUse the menu on the left, or the table below, to view the resources for a specific week.\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nDate\n\n\n\n\n\n\nWeek 1: Welcome to DSAN 5000!\n\n\nWednesday, August 23, 2023\n\n\n\n\nWeek 2: Data Science Fundamentals and Workflow\n\n\nTuesday, August 29, 2023\n\n\n\n\nWeek 3: Data Science Workflow\n\n\nWednesday, September 6, 2023\n\n\n\n\nWeek 4: Data Gathering and APIs\n\n\nTuesday, September 12, 2023\n\n\n\n\nWeek 5: Data Cleaning\n\n\nTuesday, September 19, 2023\n\n\n\n\nWeek 6: Exploratory Data Analysis (EDA)\n\n\nTuesday, September 26, 2023\n\n\n\n\nWeek 7: Supervised Learning\n\n\nTuesday, October 3, 2023\n\n\n\n\n\n\nNo matching items"
+    "text": "Born and raised in NW DC → high school in Rockville, MD\nUniversity of Maryland: Computer Science, Math, Economics (2008-2012)"
   },
   {
-    "objectID": "writeups/empty-files-error/index.html",
-    "href": "writeups/empty-files-error/index.html",
-    "title": "The Final Boss of Quarto Errors",
+    "objectID": "about/index.html#prof.-jeff-introduction",
+    "href": "about/index.html#prof.-jeff-introduction",
+    "title": "About Me",
     "section": "",
-    "text": "While working on the DSAN 5000 homework, more than one student has run into an extremely opaque issue with Quarto producing the following error:\nSyntaxError: Unexpected end of JSON input\n    at JSON.parse (&lt;anonymous&gt;)\n    at Object.target (file:///Applications/quarto/bin/quarto.js:55201:27)\n    at fileExecutionEngineAndTarget (file:///Applications/quarto/bin/quarto.is:58033:33)\n    at renderContexts (file:///Applications/quarto/bin/quarto.js:82635:40)\n    at Obiect.renderFormats (file:///Applications/quarto/bin/quarto.is: 82688:32)\n    at inputTargetIndex (file:///Applications/quarto/bin/quarto.js: 83504:35)\n    at resolveInputTarget (file:///Applications/quarto/bin/quarto.is:83583:25)\n    at resolveItem (file:///Applications/quarto/bin/quarto.is:93627:32)\n    at navigationItem (file:///Applications/quarto/bin/quarto.js:93598:22)\n    at navbarEisData (file:///Applications/quarto/bin/quarto.is: 93517:34)\nAfter spending kind of a long time bashing my head against this, and eventually giving up for the day, I discovered that some absolute champion GitHub user had already traced the reason for this error on a thread within Quarto’s GitHub page:\nhttps://github.com/quarto-dev/quarto-cli/issues/6392#issuecomment-1660262686\nAnd, their writeup is immensely helpful in general, but I can also provide a quick summary here:\n\n\n\n\n\n\nFixing the Unexpected end of JSON input Error\n\n\n\nIf you encounter this error or an error that looks like this (SyntaxError: Unexpected end of JSON input), and it’s not due to actual JSON code that you’re writing, it’s quite likely that you have an\n\n⚠️ Empty .ipynb file somewhere within your project ⚠️\n\nSo, to fix this, make sure you go through every .ipynb file anywhere in your project and make sure it has at least one cell with some content inside it.\n\n\nFor example, you can go through and make sure that every .ipynb file at least has a first cell that is either a Markdown or Raw cell type, with some YAML-formatted metadata inside this cell, like\n\n\nmy-page.ipynb\n\n---\ntitle: \"My Page\"\nformat: html\n---\n\nQuarto needs this information anyways, to know what to title the file and what format to render it to, so it’s worth doing this even if you’re not seeing the Unexpected end of JSON input error.\nAlso note that this error seems to only happen because of empty .ipynb-format files: empty .qmd files seem to be fine. So, if you have a lot of files in your project and don’t want to go through all of them, you can just focus on the .ipynb files. Note that this error occurs even if you are not referencing or using the ipynb files anywhere in your project! I pulled my non-existent hair out for a long, long time before finding out (thanks to the GitHub post) that the .ipynb files were the issue, despite the fact that I had removed/commented out all references to any .ipynb file (in my _quarto.yml file, for example) anywhere in the project."
+    "text": "Born and raised in NW DC → high school in Rockville, MD\nUniversity of Maryland: Computer Science, Math, Economics (2008-2012)"
+  },
+  {
+    "objectID": "about/index.html#grad-school",
+    "href": "about/index.html#grad-school",
+    "title": "About Me",
+    "section": "Grad School",
+    "text": "Grad School\n\nStudied abroad in Beijing (Peking University/北大) → internship with Huawei in Hong Kong (HKUST)\n\n\n\n\nStanford for MS in Computer Science (2012-2014)\nResearch Economist at UC Berkeley (2014-2015)\n\n\n\n\n\n\nColumbia (NYC) for PhD[+Postdoc] in Political Science (2015-2023)"
+  },
+  {
+    "objectID": "about/index.html#dissertation-political-science-history",
+    "href": "about/index.html#dissertation-political-science-history",
+    "title": "About Me",
+    "section": "Dissertation (Political Science + History)",
+    "text": "Dissertation (Political Science + History)\n“Our Word is Our Weapon”: Text-Analyzing Wars of Ideas from the French Revolution to the First Intifada"
+  },
+  {
+    "objectID": "about/index.html#research-labor-economics",
+    "href": "about/index.html#research-labor-economics",
+    "title": "About Me",
+    "section": "Research (Labor Economics)",
+    "text": "Research (Labor Economics)\n\n\n\n“Monopsony in Online Labor Markets”: Machine Learning to enhance causal estimates of the effect of job description language on uptake rate\n\n\n\n“Freedom as Non-Domination in the Labor Market”: Game-theoretic models of workers’ rights (monopsony vs. labor discipline)\n\n\n\n\n\n“Unsupervised Extraction of Workplace Rights and Duties from Collective Bargaining Agreements”: Linguistic (dependency) parses of contracts → time series of worker vs. employer rights and responsibilities over time"
+  },
+  {
+    "objectID": "about/slides.html#prof.-jeff-introduction",
+    "href": "about/slides.html#prof.-jeff-introduction",
+    "title": "About Me",
+    "section": "Prof. Jeff Introduction!",
+    "text": "Prof. Jeff Introduction!\n\nBorn and raised in NW DC → high school in Rockville, MD\nUniversity of Maryland: Computer Science, Math, Economics (2008-2012)"
+  },
+  {
+    "objectID": "about/slides.html#grad-school",
+    "href": "about/slides.html#grad-school",
+    "title": "About Me",
+    "section": "Grad School",
+    "text": "Grad School\n\nStudied abroad in Beijing (Peking University/北大) → internship with Huawei in Hong Kong (HKUST)\n\n\n\n\nStanford for MS in Computer Science (2012-2014)\nResearch Economist at UC Berkeley (2014-2015)\n\n\n\n\n\n\nColumbia (NYC) for PhD[+Postdoc] in Political Science (2015-2023)"
+  },
+  {
+    "objectID": "about/slides.html#dissertation-political-science-history",
+    "href": "about/slides.html#dissertation-political-science-history",
+    "title": "About Me",
+    "section": "Dissertation (Political Science + History)",
+    "text": "Dissertation (Political Science + History)\n“Our Word is Our Weapon”: Text-Analyzing Wars of Ideas from the French Revolution to the First Intifada"
+  },
+  {
+    "objectID": "about/slides.html#research-labor-economics",
+    "href": "about/slides.html#research-labor-economics",
+    "title": "About Me",
+    "section": "Research (Labor Economics)",
+    "text": "Research (Labor Economics)\n\n\n\n“Monopsony in Online Labor Markets”: Machine Learning to enhance causal estimates of the effect of job description language on uptake rate\n\n\n\n“Freedom as Non-Domination in the Labor Market”: Game-theoretic models of workers’ rights (monopsony vs. labor discipline)\n\n\n\n\n\n“Unsupervised Extraction of Workplace Rights and Duties from Collective Bargaining Agreements”: Linguistic (dependency) parses of contracts → time series of worker vs. employer rights and responsibilities over time"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#supervised-vs.-unsupervised-learning",
+    "href": "writeups/machine-learning/slides.html#supervised-vs.-unsupervised-learning",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Supervised vs. Unsupervised Learning",
+    "text": "Supervised vs. Unsupervised Learning\n\n\n\n\n\nSupervised Learning: You want the computer to learn the existing pattern of how you are classifying1 observations\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my schema (how I classify)\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any prior classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together\n\n\n\nWhether standard classification (sorting observations into bins) or regression (assigning a real number to each observation)"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#dataset-structures",
+    "href": "writeups/machine-learning/slides.html#dataset-structures",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Dataset Structures",
+    "text": "Dataset Structures\n\n\nSupervised Learning: Dataset has both explanatory variables (“features”) and response variables (“labels”)\n\n\n\n\n\n\n\nhome_id\nsqft\nbedrooms\nrating\n\n\n\n\n0\n1000\n1\nDisliked\n\n\n1\n2000\n2\nLiked\n\n\n2\n2500\n1\nLiked\n\n\n3\n1500\n2\nDisliked\n\n\n4\n2200\n1\nLiked\n\n\n\n\n\n\n\n\nUnsupervised Learning: Dataset has only explanatory variables (“features”)\n\n\n\n\n\n\n\nhome_id\nsqft\nbedrooms\n\n\n\n\n0\n1000\n1\n\n\n1\n2000\n2\n\n\n2\n2500\n1\n\n\n3\n1500\n2\n\n\n4\n2200\n1"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#dataset-structures-visualized",
+    "href": "writeups/machine-learning/slides.html#dataset-structures-visualized",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Dataset Structures: Visualized",
+    "text": "Dataset Structures: Visualized"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#different-goals",
+    "href": "writeups/machine-learning/slides.html#different-goals",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Different Goals",
+    "text": "Different Goals"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#the-learning-in-machine-learning",
+    "href": "writeups/machine-learning/slides.html#the-learning-in-machine-learning",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "The “Learning” in Machine Learning",
+    "text": "The “Learning” in Machine Learning\n\nGiven these datasets, how do we learn the patterns?\nNaïve idea: Try random lines (each forming a decision boundary), pick “best” one\n\n\n\nWhat parameters are we choosing when we draw a random line? Random curve?"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#what-makes-a-goodbest-guess",
+    "href": "writeups/machine-learning/slides.html#what-makes-a-goodbest-guess",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "What Makes a “Good”/“Best” Guess?",
+    "text": "What Makes a “Good”/“Best” Guess?\n\nWhat’s your intuition? How about accuracy… 🤔\n\n\nSo… what’s wrong here?"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#whats-wrong-with-accuracy",
+    "href": "writeups/machine-learning/slides.html#whats-wrong-with-accuracy",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "What’s Wrong with Accuracy?",
+    "text": "What’s Wrong with Accuracy?"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#the-oversimplified-big-picture",
+    "href": "writeups/machine-learning/slides.html#the-oversimplified-big-picture",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "The (Oversimplified) Big Picture",
+    "text": "The (Oversimplified) Big Picture\n\nA model: some representation of something in the world\n\n\n\n\n\nHow well does our model represent the world?1 \\(\\mathsf{Correspondence}(y_{obs}, \\theta)\\)\n\\(P\\left(y_{obs}, \\theta\\right)\\), \\(P\\left(\\theta \\; | \\; y_{obs}\\right)\\), \\(P\\left(y_{obs} \\; | \\; \\theta\\right)\\)2\nMaximum Likelihood Estimation?\n\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_02\n\n “Science”  \n\ncluster_01\n\n “Nature”   \n\nObs\n\n Thing(s) we can see   \n\nUnd\n\n Underlying process   \n\nUnd-&gt;Obs\n\n    \n\nModel\n\n Model   \n\nUnd-&gt;Model\n\n    \n\nModel-&gt;Obs\n\n   \n\n\n\n\n\n\n\n\\[\n\\begin{align*}\n\\mathsf{Correspondence}(y_{obs}, \\theta) &\\equiv P(y = y_{obs}, \\theta) \\\\\nP(y = y_{obs}, \\theta) &= P(y=y_{obs} \\; | \\; \\theta)P(\\theta) \\\\\n&\\propto P\\left(y = y_{obs} \\; | \\; \\theta\\right)\\ldots \\implies \\text{(maximize this!)}  \\\\\n\\end{align*}\n\\]\nComputer scientists implicitly assume a Correspondence Theory of Truth, hence the choice of nameThanks to Bayes’ Rule, mathematically we can always convert between the two: \\(P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\\)"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#measuring-errors-f1-score",
+    "href": "writeups/machine-learning/slides.html#measuring-errors-f1-score",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Measuring Errors: F1 Score",
+    "text": "Measuring Errors: F1 Score\n\nHow can we reward guesses which best discriminate between classes?\n\n\\[\n\\begin{align*}\n\\mathsf{Precision} &= \\frac{\\# \\text{true positives}}{\\# \\text{predicted positive}} = \\frac{tp}{tp+fp} \\\\[1.5em]\n\\mathsf{Recall} &= \\frac{\\# \\text{true positives}}{\\# \\text{positives in data}} = \\frac{tp}{tp+fn} \\\\[1.5em]\nF_1 &= 2\\frac{\\mathsf{Precision} \\cdot \\mathsf{Recall}}{\\mathsf{Precision} + \\mathsf{Recall}} = \\mathsf{HMean}(\\mathsf{Precision}, \\mathsf{Recall})\n\\end{align*}\n\\]\n\nThink about: How does this address/fix issue with accuracy?\n\n\n\nHere \\(\\mathsf{HMean}\\) is the Harmonic Mean function: see appendix slide or Wikipedia."
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#measuring-errors-the-loss-function",
+    "href": "writeups/machine-learning/slides.html#measuring-errors-the-loss-function",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Measuring Errors: The Loss Function",
+    "text": "Measuring Errors: The Loss Function\n\nWhat about regression?\n\nNo longer just “true prediction good, false prediction bad”\n\nWe have to quantify how bad the guess is! Then we can scale the penalty accordingly: \\(\\text{penalty} \\propto \\text{badness}\\)\nEnter Loss Functions! Just distances (using distance metrics you’ve already seen) between the true value and our guess:\n\nSquared Error \\(L^2(y_{obs}, y_{pred}) = (y_{obs} - y_{pred})^2\\)\nKullback-Leibler Divergence if guessing distributions"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#calculus-rears-its-ugly-head",
+    "href": "writeups/machine-learning/slides.html#calculus-rears-its-ugly-head",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Calculus Rears its Ugly Head",
+    "text": "Calculus Rears its Ugly Head\n\nNeural networks use derivatives/gradients to improve their predictions given a particular loss function.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCan we just use the \\(F_1\\) score?\n\n\\[\n\\frac{\\partial F_1(weights)}{\\partial weights} = \\ldots \\; ? \\; \\ldots 💀\n\\]"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#quantifying-discrete-loss",
+    "href": "writeups/machine-learning/slides.html#quantifying-discrete-loss",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Quantifying Discrete Loss",
+    "text": "Quantifying Discrete Loss\n\nWe can quantify a differentiable discrete loss by asking the algorithm how confident it is\n\nCloser to 0 \\(\\implies\\) more confident that the true label is 0\nCloser to 1 \\(\\implies\\) more confident that the true label is 1\n\n\n\\[\n\\mathcal{L}_{CE}(y_{pred}, y_{obs}) = -(y_{obs}\\log(y_{pred}) + (1-y_{obs})\\log(1-y_{pred}))\n\\]"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#loss-function-implies-ready-to-learn",
+    "href": "writeups/machine-learning/slides.html#loss-function-implies-ready-to-learn",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Loss Function \\(\\implies\\) Ready to Learn!",
+    "text": "Loss Function \\(\\implies\\) Ready to Learn!\n\nOnce we’ve chosen a loss function, the learning algorithm has what it needs to proceed with the actual learning\nNotation: Bundle all the model’s parameters together into \\(\\theta\\)\nThe goal: \\[\n\\min_{\\theta} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nWhat would this look like for the random-lines approach?\nIs there a more efficient way?"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#calculus-strikes-again",
+    "href": "writeups/machine-learning/slides.html#calculus-strikes-again",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Calculus Strikes Again",
+    "text": "Calculus Strikes Again\n\ntldr: The slope of a function tells us how to get to a minimum (why a minimum rather than the minimum?)\nDerivative (gradient) = “direction of sharpest decrease”\nThink of hill climbing! Let \\(\\ell_t \\in L\\) be your location at time \\(t\\), and \\(Alt(\\ell)\\) be the altitude at a location \\(\\ell\\)\nGradient descent for \\(\\ell^* = \\max_{\\ell \\in L} Alt(\\ell)\\): \\[\n\\ell_{t+1} = \\ell_t + \\gamma\\nabla Alt(\\ell_t),\\ t\\geq 0.\n\\]\nWhile top of mountain = good, Loss is bad: we want to find the bottom of the “loss crater”\n\n\\(\\implies\\) we do the opposite: subtract \\(\\gamma\\nabla Alt(\\ell_t)\\)"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#good-and-bad-news",
+    "href": "writeups/machine-learning/slides.html#good-and-bad-news",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Good and Bad News",
+    "text": "Good and Bad News\n\n\n\nUniversal Approximation Theorem\nNeural networks can represent any function mapping one Euclidean space to another\n(Neural Turing Machines:)\n\n\n\n\n\n\n\nWeierstrass Approximation Theorem\n(Polynomials could already represent any function)\n\n\\[\nf \\in C([a,b],[a,b])\n\\] \\[\n\\implies \\forall \\epsilon &gt; 0, \\exists p \\in \\mathbb{R}[x] :\n\\] \\[\n\\forall x \\in [a, b] \\; \\left|f(x) − p(x)\\right| &lt; \\epsilon\n\\]\n\nImplications for machine learning?\n\n\n\n\nFigure from @schmidinger_exploring_2019"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#so-whats-the-issue",
+    "href": "writeups/machine-learning/slides.html#so-whats-the-issue",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "So What’s the Issue?",
+    "text": "So What’s the Issue?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHigher \\(R^2\\) = Better Model? Lower \\(RSS\\)?\nLinear Model:\n\n\n\nCode\nsummary(lin_model)$r.squared\n\n\n[1] 0.530839\n\n\nCode\nget_rss(lin_model)\n\n\n[1] 0.538697\n\n\n\nPolynomial Model:\n\n\n\nCode\nsummary(poly_model)$r.squared\n\n\n[1] 1\n\n\nCode\nget_rss(poly_model)\n\n\n[1] 0"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#generalization",
+    "href": "writeups/machine-learning/slides.html#generalization",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Generalization",
+    "text": "Generalization\n\nTraining Accuracy: How well does it fit the data we can see?\nTest Accuracy: How well does it generalize to future data?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLinear Model:\n\n\n\nCode\nlin_r2_test\n\n\n[1] 0.841047\n\n\nCode\nlin_rss_test\n\n\n[1] 0.1857214\n\n\n\nPolynomial Model:\n\n\n\nCode\npoly_r2_test\n\n\n[1] 0.2782714\n\n\nCode\npoly_rss_test\n\n\n[1] 0.8432709"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#how-to-avoid-overfitting",
+    "href": "writeups/machine-learning/slides.html#how-to-avoid-overfitting",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "How to Avoid Overfitting?",
+    "text": "How to Avoid Overfitting?\n\nThe gist: penalize model complexity\n\nOriginal optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nNew optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\left[ \\mathcal{L}(y_{obs}, y_{pred}(\\theta)) + \\mathsf{Complexity}(\\theta) \\right]\n\\]\n\nSo how do we measure, and penalize, “complexity”?"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#regularization-measuring-and-penalizing-complexity",
+    "href": "writeups/machine-learning/slides.html#regularization-measuring-and-penalizing-complexity",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Regularization: Measuring and Penalizing Complexity",
+    "text": "Regularization: Measuring and Penalizing Complexity\n\nIn the case of polynomials, fairly simple complexity measure: degree of polynomial\n\n\\[\n\\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x + \\beta_2 x^2 + \\beta_3 x^3) &gt; \\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x)\n\\]\n\nIn general machine learning, however, we might not be working with polynomials\nIn neural networks, for example, we sometimes toss in millions of features and ask the algorithm to “just figure it out”\nThe gist, in the general case, is thus: try to “amplify” the most important features and shrink the rest, so that\n\n\\[\n\\mathsf{Complexity} \\propto \\frac{|\\text{AmplifiedFeatures}|}{|\\text{ShrunkFeatures}|}\n\\]"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#lasso-and-elastic-net-regularization",
+    "href": "writeups/machine-learning/slides.html#lasso-and-elastic-net-regularization",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "LASSO and Elastic Net Regularization",
+    "text": "LASSO and Elastic Net Regularization\n\nMany ways to translate this intuition into math!\nIn several fields, however (econ, biostatistics), LASSO1 [@tibshirani_regression_1996] is standard:\n\n\\[\n\\beta^*_{LASSO} = {\\underset{\\beta}{\\operatorname{argmin}}}\\left\\{{\\frac {1}{N}}\\left\\|y-X\\beta \\right\\|_{2}^{2}+\\lambda \\|\\beta \\|_{1}\\right\\}\n\\]\n\nWhy does this work to penalize complexity? What does the parameter \\(\\lambda\\) do?\nSome known issues with LASSO fixed in extension of the same intuitions: Elastic Net\n\n\\[\n\\beta^*_{EN} = {\\underset {\\beta }{\\operatorname {argmin} }}\\left\\{ \\|y-X\\beta \\|^{2}_2+\\lambda _{2}\\|\\beta \\|^{2}+\\lambda _{1}\\|\\beta \\|_{1} \\right\\}\n\\]\n\n(Ensures a unique global minimum! Note that \\(\\lambda_2 = 0, \\lambda_1 = 1 \\implies \\beta^*_{LASSO} = \\beta^*_{EN}\\))\n\nLeast Absolute Shrinkage and Selection Operator"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#training-vs.-test-data",
+    "href": "writeups/machine-learning/slides.html#training-vs.-test-data",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Training vs. Test Data",
+    "text": "Training vs. Test Data\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_02\n\n Test Set (20%)  \n\ncluster_01\n\n Training Set (80%)   \n\nN1\n\n 20%   \n\nN2\n\n 20%   \n\nN3\n\n 20%   \n\nN4\n\n 20%   \n\nN5\n\n 20%"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#cross-validation",
+    "href": "writeups/machine-learning/slides.html#cross-validation",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Cross-Validation",
+    "text": "Cross-Validation\n\nThe idea that good models generalize well is crucial!\n\nWhat if we could leverage this insight to optimize over our training data?\nThe key: Validation Sets\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_04\n\n Test Set (20%)  \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_03\n\n Validation Fold (20%)  \n\ncluster_02\n\n Training Fold (80%)   \n\nA1\n\n 16%   \n\nA2\n\n 16%    \n\nA3\n\n 16%    \n\nA4\n\n 16%    \n\nB1\n\n 16%    \n\nC1\n\n 20%"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#hyperparameters",
+    "href": "writeups/machine-learning/slides.html#hyperparameters",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Hyperparameters",
+    "text": "Hyperparameters\n\nThe unspoken (but highly consequential!) “settings” for our learning procedure (that we haven’t optimized via gradient descent)\nThere are several we’ve already seen – can you name them?\n\n\n\nUnsupervised Clustering: The number of clusters we want (\\(K\\))\nGradient Descent: The step size \\(\\gamma\\)\nLASSO/Elastic Net: \\(\\lambda\\)\nThe train/validation/test split!"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#hyperparameter-selection",
+    "href": "writeups/machine-learning/slides.html#hyperparameter-selection",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Hyperparameter Selection",
+    "text": "Hyperparameter Selection\n\nEvery model comes with its own hyperparameters:\n\nNeural Networks: Number of layers, number of nodes per layer\nDecision Trees: Maximum tree depth, max number of features to include\nTopic Models: Number of topics, document/topic priors\n\nSo, how do we choose?\n\nOften more art than science\nPrincipled, universally applicable, but slow: grid search\nSpecific methods for specific algorithms: ADAM [@kingma_adam_2017] for Neural Network learning rates)"
+  },
+  {
+    "objectID": "writeups/machine-learning/slides.html#appendix-harmonic-mean",
+    "href": "writeups/machine-learning/slides.html#appendix-harmonic-mean",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Appendix: Harmonic Mean",
+    "text": "Appendix: Harmonic Mean\n\n\\(\\mathsf{HMean}\\) is the harmonic mean, an alternative to the standard (arithmetic) mean\nPenalizes greater “gaps” between precision and recall: if precision is 0 and recall is 1, for example, their arithmetic mean is 0.5 while their harmonic mean is 0.\nFor the curious: given numbers \\(X = \\{x_1, \\ldots, x_n\\}\\), \\(\\mathsf{HMean}(X) = \\frac{n}{\\sum_{i=1}^nx_i^{-1}}\\)\n\n\n\nDSAN5000 Extra Slides: Machine Learning"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html",
+    "href": "writeups/machine-learning/index.html",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "",
+    "text": "source(\"../../_globals.r\")\n\n\n\n\nSupervised Learning: You want the computer to learn the existing pattern of how you are classifying1 observations\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my schema (how I classify)\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any prior classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#supervised-vs.-unsupervised-learning",
+    "href": "writeups/machine-learning/index.html#supervised-vs.-unsupervised-learning",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "",
+    "text": "source(\"../../_globals.r\")\n\n\n\n\nSupervised Learning: You want the computer to learn the existing pattern of how you are classifying1 observations\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my schema (how I classify)\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any prior classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#dataset-structures",
+    "href": "writeups/machine-learning/index.html#dataset-structures",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Dataset Structures",
+    "text": "Dataset Structures\n\n\nSupervised Learning: Dataset has both explanatory variables (“features”) and response variables (“labels”)\n\n\nsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms, ~rating,\n  0, 1000, 1, \"Disliked\",\n  1, 2000, 2, \"Liked\",\n  2, 2500, 1, \"Liked\",\n  3, 1500, 2, \"Disliked\",\n  4, 2200, 1, \"Liked\"\n)\nsup_data\n\n# A tibble: 5 × 4\n  home_id  sqft bedrooms rating  \n    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   \n1       0  1000        1 Disliked\n2       1  2000        2 Liked   \n3       2  2500        1 Liked   \n4       3  1500        2 Disliked\n5       4  2200        1 Liked   \n\n\n\n\nUnsupervised Learning: Dataset has only explanatory variables (“features”)\n\n\nunsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms,\n  0, 1000, 1,\n  1, 2000, 2,\n  2, 2500, 1,\n  3, 1500, 2,\n  4, 2200, 1\n)\nunsup_data\n\n# A tibble: 5 × 3\n  home_id  sqft bedrooms\n    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;\n1       0  1000        1\n2       1  2000        2\n3       2  2500        1\n4       3  1500        2\n5       4  2200        1"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#dataset-structures-visualized",
+    "href": "writeups/machine-learning/index.html#dataset-structures-visualized",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Dataset Structures: Visualized",
+    "text": "Dataset Structures: Visualized\n\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size = g_pointsize * 2) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  dsan_theme(\"half\")\n\n\n\n\n\n\n\n\n\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n# To force a legend\nunsup_grouped &lt;- unsup_data |&gt; mutate(big=bedrooms &gt; 1)\nunsup_grouped[['big']] &lt;- factor(unsup_grouped[['big']], labels=c(\"?1\",\"?2\"))\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) + \n  geom_point(size = g_pointsize * 2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  theme(legend.background = element_rect(fill=\"white\", color=\"white\"), legend.box.background = element_rect(fill=\"white\"), legend.text = element_text(color=\"white\"), legend.title = element_text(color=\"white\"), legend.position = \"right\") +\n  scale_fill_discrete(labels=c(\"?\",\"?\")) +\n  #scale_color_discrete(values=c(\"white\",\"white\"))\n  scale_color_manual(name=NULL, values=c(\"white\",\"white\")) +\n  #scale_color_manual(values=c(\"?1\"=\"white\",\"?2\"=\"white\"))\n  guides(fill = guide_legend(override.aes = list(shape = NA)))"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#different-goals",
+    "href": "writeups/machine-learning/index.html#different-goals",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Different Goals",
+    "text": "Different Goals\n\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size = g_pointsize * 2) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  geom_vline(xintercept = 1750, linetype=\"dashed\", color = \"black\", size=1) +\n  annotate('rect', xmin=-Inf, xmax=1750, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[1]) +\n  annotate('rect', xmin=1750, xmax=Inf, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[2])\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n\n\n\n\n\n\n  #geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))\n\n\n\nlibrary(ggforce)\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +\n  #scale_color_brewer(palette = \"PuOr\") +\n  geom_mark_ellipse(expand=0.1, aes(fill=big), size = 1) +\n  geom_point(size=g_pointsize * 2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  #theme(legend.position = \"none\") +\n  #theme(legend.title = text_element(\"?\"))\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(cbPalette[3],cbPalette[4]), labels=c(\"?\",\"?\"))\n\n\n\n\n\n\n\n  #scale_fill_manual(labels=c(\"?\",\"?\"))"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#the-learning-in-machine-learning",
+    "href": "writeups/machine-learning/index.html#the-learning-in-machine-learning",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "The “Learning” in Machine Learning",
+    "text": "The “Learning” in Machine Learning\n\nGiven these datasets, how do we learn the patterns?\nNaïve idea: Try random lines (each forming a decision boundary), pick “best” one\n\n\nx_min &lt;- 0\nx_max &lt;- 3000\ny_min &lt;- -1\ny_max &lt;- 3\nrand_y0 &lt;- runif(50, min=y_min, max=y_max)\nrand_y1 &lt;- runif(50, min=y_min, max=y_max)\nrand_slope &lt;- (rand_y1 - rand_y0)/(x_max - x_min)\nrand_intercept &lt;- rand_y0\nrand_lines &lt;- tibble::tibble(id=1:50, slope=rand_slope, intercept=rand_intercept)\n#ggplot() +\n#  geom_abline(data=rand_lines, aes(slope=slope, #intercept=intercept)) +\n#  xlim(0,3000) +\n#  ylim(0,2) +\n#  dsan_theme()\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    title = \"The Like vs. Dislike Boundary: 50 Guesses\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  dsan_theme() +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  geom_abline(data=rand_lines, aes(slope=slope, intercept=intercept), linetype=\"dashed\")\n\n\n\n\n\n\n\n\n\nWhat parameters are we choosing when we draw a random line? Random curve?"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#what-makes-a-goodbest-guess",
+    "href": "writeups/machine-learning/index.html#what-makes-a-goodbest-guess",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "What Makes a “Good”/“Best” Guess?",
+    "text": "What Makes a “Good”/“Best” Guess?\n\nWhat’s your intuition? How about accuracy… 🤔\n\n\nline_data &lt;- tibble::tribble(\n  ~id, ~slope, ~intercept,\n  0, 0, 0.75,\n  1, 0.00065, 0.5\n)\ndata_range &lt;- 800:2700\nribbon_range &lt;- c(-Inf,data_range,Inf)\nf1 &lt;- function(x) { return(0*x + 0.75) }\nf1_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f1(700),f1(data_range),f1(3100)))\ng1_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==0))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 1: 60% Accuracy\") +\n  geom_point(data=sup_data, aes(x=sqft, y=bedrooms, color=rating), size=g_pointsize) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Disliked\"), alpha=0.2) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Liked\"), alpha=0.2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\"\n  ) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\n\nlibrary(patchwork)\nf2 &lt;- function(x) { return(0.00065*x + 0.5) }\nf2_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f2(710),f2(data_range),f2(Inf)))\ng2_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==1))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 2: 60% Accuracy\") +\n  geom_point(data=sup_data, aes(x=sqft, y=bedrooms, color=rating), size=g_pointsize) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\"\n  ) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Liked\"), alpha=0.2) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Disliked\"), alpha=0.2) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\ng1_plot + g2_plot\n\n\n\n\n\n\n\n\nSo… what’s wrong here?"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#whats-wrong-with-accuracy",
+    "href": "writeups/machine-learning/index.html#whats-wrong-with-accuracy",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "What’s Wrong with Accuracy?",
+    "text": "What’s Wrong with Accuracy?\n\ngen_homes &lt;- function(n) {\n  rand_sqft &lt;- runif(n, min=2000, max=3000)\n  rand_bedrooms &lt;- sample(c(1,2), size=n, prob=c(0.5,0.5), replace=TRUE)\n  rand_ids &lt;- 1:n\n  rand_rating &lt;- \"Liked\"\n  rand_tibble &lt;- tibble::tibble(home_id=rand_ids, sqft=rand_sqft, bedrooms=rand_bedrooms, rating=rand_rating)\n  return(rand_tibble)\n}\nfake_homes &lt;- gen_homes(18)\nfake_sup_data &lt;- dplyr::bind_rows(sup_data, fake_homes)\nline_data &lt;- tibble::tribble(\n  ~id, ~slope, ~intercept,\n  0, 0, 0.75,\n  1, 0.00065, 0.5\n)\nf1 &lt;- function(x) { return(0*x + 0.75) }\nf2 &lt;- function(x) { return(0.00065*x + 0.5) }\n# And check accuracy\nfake_sup_data &lt;- fake_sup_data %&gt;% mutate(boundary1=f1(sqft)) %&gt;% mutate(guessDislike1 = bedrooms &lt; boundary1) %&gt;% mutate(correct1 = ((rating==\"Disliked\") & (guessDislike1)) | (rating==\"Liked\") & (!guessDislike1))\nfake_sup_data &lt;- fake_sup_data %&gt;% mutate(boundary2=f2(sqft)) %&gt;% mutate(guessDislike2 = bedrooms &gt; boundary2) %&gt;% mutate(correct2 = ((rating==\"Disliked\") & (guessDislike2)) | (rating==\"Liked\") & (!guessDislike2))\n\ndata_range &lt;- 800:2700\nribbon_range &lt;- c(-Inf,data_range,Inf)\n\nf1_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f1(700),f1(data_range),f1(3200)))\ng1_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==0))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 1: 91.3% Accuracy\") +\n  geom_point(data=fake_sup_data, aes(x=sqft, y=bedrooms, fill=rating, color=rating, shape=factor(correct1, levels=c(TRUE,FALSE))), size=g_pointsize) +\n  scale_shape_manual(values=c(24, 25)) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Disliked\"), alpha=0.2) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Liked\"), alpha=0.2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\",\n    shape = \"Correct Guess\"\n  ) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\n\nf2_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f2(700),f2(data_range),f2(3100)))\ng2_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==1))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 2: 73.9% Accuracy\") +\n  geom_point(data=fake_sup_data, aes(x=sqft, y=bedrooms, fill=rating, color=rating, shape=factor(correct2, levels=c(TRUE,FALSE))), size=g_pointsize) +\n  scale_shape_manual(values=c(24, 25)) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\",\n    shape = \"Correct Guess\"\n  ) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Liked\"), alpha=0.2) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Disliked\"), alpha=0.2) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\ng1_plot + g2_plot"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#the-oversimplified-big-picture",
+    "href": "writeups/machine-learning/index.html#the-oversimplified-big-picture",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "The (Oversimplified) Big Picture",
+    "text": "The (Oversimplified) Big Picture\n\nA model: some representation of something in the world\n\n\n\n\n\nHow well does our model represent the world?2 \\(\\mathsf{Correspondence}(y_{obs}, \\theta)\\)\n\\(P\\left(y_{obs}, \\theta\\right)\\), \\(P\\left(\\theta \\; | \\; y_{obs}\\right)\\), \\(P\\left(y_{obs} \\; | \\; \\theta\\right)\\)3\nMaximum Likelihood Estimation?\n\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_01\n\n “Nature”  \n\ncluster_02\n\n “Science”   \n\nObs\n\n Thing(s) we can see   \n\nUnd\n\n Underlying process   \n\nUnd-&gt;Obs\n\n    \n\nModel\n\n Model   \n\nUnd-&gt;Model\n\n    \n\nModel-&gt;Obs\n\n   \n\n\n\n\n\n\n\n\\[\n\\begin{align*}\n\\mathsf{Correspondence}(y_{obs}, \\theta) &\\equiv P(y = y_{obs}, \\theta) \\\\\nP(y = y_{obs}, \\theta) &= P(y=y_{obs} \\; | \\; \\theta)P(\\theta) \\\\\n&\\propto P\\left(y = y_{obs} \\; | \\; \\theta\\right)\\ldots \\implies \\text{(maximize this!)}  \\\\\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#measuring-errors-f1-score",
+    "href": "writeups/machine-learning/index.html#measuring-errors-f1-score",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Measuring Errors: F1 Score",
+    "text": "Measuring Errors: F1 Score\n\nHow can we reward guesses which best discriminate between classes?\n\n\\[\n\\begin{align*}\n\\mathsf{Precision} &= \\frac{\\# \\text{true positives}}{\\# \\text{predicted positive}} = \\frac{tp}{tp+fp} \\\\[1.5em]\n\\mathsf{Recall} &= \\frac{\\# \\text{true positives}}{\\# \\text{positives in data}} = \\frac{tp}{tp+fn} \\\\[1.5em]\nF_1 &= 2\\frac{\\mathsf{Precision} \\cdot \\mathsf{Recall}}{\\mathsf{Precision} + \\mathsf{Recall}} = \\mathsf{HMean}(\\mathsf{Precision}, \\mathsf{Recall})\n\\end{align*}\n\\]\n\nThink about: How does this address/fix issue with accuracy?\n\n\n\nHere \\(\\mathsf{HMean}\\) is the Harmonic Mean function: see appendix slide or Wikipedia."
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#measuring-errors-the-loss-function",
+    "href": "writeups/machine-learning/index.html#measuring-errors-the-loss-function",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Measuring Errors: The Loss Function",
+    "text": "Measuring Errors: The Loss Function\n\nWhat about regression?\n\nNo longer just “true prediction good, false prediction bad”\n\nWe have to quantify how bad the guess is! Then we can scale the penalty accordingly: \\(\\text{penalty} \\propto \\text{badness}\\)\nEnter Loss Functions! Just distances (using distance metrics you’ve already seen) between the true value and our guess:\n\nSquared Error \\(L^2(y_{obs}, y_{pred}) = (y_{obs} - y_{pred})^2\\)\nKullback-Leibler Divergence if guessing distributions"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#calculus-rears-its-ugly-head",
+    "href": "writeups/machine-learning/index.html#calculus-rears-its-ugly-head",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Calculus Rears its Ugly Head",
+    "text": "Calculus Rears its Ugly Head\n\nNeural networks use derivatives/gradients to improve their predictions given a particular loss function.\n\n\n\n\nbase &lt;-\n  ggplot() +\n  xlim(-5, 5) +\n  ylim(0, 25) +\n  labs(\n    x = \"Y[obs] - Y[pred]\",\n    y = \"Prediction Badness (Loss)\"\n  ) +\n  dsan_theme()\n\nmy_fn &lt;- function(x) { return(x^2) }\nmy_deriv2 &lt;- function(x) { return(4*x - 4) }\nmy_derivN4 &lt;- function(x) { return(-8*x - 16) }\nbase + geom_function(fun = my_fn, color=cbPalette[1], linewidth=1) +\n  geom_point(data=as.data.frame(list(x=2,y=4)), aes(x=x,y=y), color=cbPalette[2], size=g_pointsize/2) + \n  geom_function(fun = my_deriv2, color=cbPalette[2], linewidth=1) +\n  geom_point(data=as.data.frame(list(x=-4,y=16)), aes(x=x,y=y), color=cbPalette[3], size=g_pointsize/2) + \n  geom_function(fun = my_derivN4, color=cbPalette[3], linewidth=1)\n\nWarning: Removed 60 rows containing missing values (`geom_function()`).\n\n\nWarning: Removed 70 rows containing missing values (`geom_function()`).\n\n\n\n\n\n\n\n\n\n\n\nmy_fake_deriv &lt;- function(x) { return(-x) }\nmy_fake_deriv2 &lt;- function(x) { return(-(1/2)*x + 1/2) }\nmy_fake_deriv3 &lt;- function(x) { return(-(1/4)*x + 3/4) }\n\nd=data.frame(x=c(-2,-1,0,1,2), y=c(1,0,0,1,1))\nbase &lt;- ggplot() +\n  xlim(-5,5) +\n  ylim(0,2) +\n  labs(\n    x=\"Y[obs] - Y[pred]\",\n    y=\"Prediction Badness (Loss)\"\n  ) +\n  geom_step(data=d, mapping=aes(x=x, y=y), linewidth=1) +\n  dsan_theme()\n\nbase + geom_point(data=as.data.frame(list(x=2,y=4)), aes(x=x,y=y), color=cbPalette[2], size=g_pointsize/2) + \n  geom_function(fun = my_fake_deriv, color=cbPalette[2], linewidth=1) +\n  geom_function(fun = my_fake_deriv2, color=cbPalette[3], linewidth=1) +\n  geom_function(fun = my_fake_deriv3, color=cbPalette[4], linewidth=1) +\n  geom_point(data=as.data.frame(list(x=-1,y=1)), aes(x=x,y=y), color=cbPalette[2], size=g_pointsize/2) +\n  annotate(\"text\", x = -0.7, y = 1.1, label = \"?\", size=6)\n\nWarning: Removed 1 rows containing missing values (`geom_point()`).\n\n\nWarning: Removed 80 rows containing missing values (`geom_function()`).\n\n\nWarning: Removed 60 rows containing missing values (`geom_function()`).\n\n\nWarning: Removed 20 rows containing missing values (`geom_function()`).\n\n\n\n\n\n\n\n\n\n\n\n\nCan we just use the \\(F_1\\) score?\n\n\\[\n\\frac{\\partial F_1(weights)}{\\partial weights} = \\ldots \\; ? \\; \\ldots 💀\n\\]"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#quantifying-discrete-loss",
+    "href": "writeups/machine-learning/index.html#quantifying-discrete-loss",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Quantifying Discrete Loss",
+    "text": "Quantifying Discrete Loss\n\nWe can quantify a differentiable discrete loss by asking the algorithm how confident it is\n\nCloser to 0 \\(\\implies\\) more confident that the true label is 0\nCloser to 1 \\(\\implies\\) more confident that the true label is 1\n\n\n\\[\n\\mathcal{L}_{CE}(y_{pred}, y_{obs}) = -(y_{obs}\\log(y_{pred}) + (1-y_{obs})\\log(1-y_{pred}))\n\\]\n\ny_pred &lt;- seq(from = 0, to = 1, by = 0.001)\ncompute_ce &lt;- function(y_p, y_o) { return(-(y_o * log(y_p) + (1-y_o)*log(1-y_p))) }\nce0 &lt;- compute_ce(y_pred, 0)\nce1 &lt;- compute_ce(y_pred, 1)\nce0_data &lt;- tibble::tibble(y_pred=y_pred, y_obs=0, ce=ce0)\nce1_data &lt;- tibble::tibble(y_pred=y_pred, y_obs=1, ce=ce1)\nce_data &lt;- dplyr::bind_rows(ce0_data, ce1_data)\nggplot(ce_data, aes(x=y_pred, y=ce, color=factor(y_obs))) +\n  geom_line(linewidth=1) +\n  labs(\n    title=\"Binary Cross-Entropy Loss\",\n    x = \"Predicted Value\",\n    y = \"Loss\",\n    color = \"Actual Value\"\n  ) +\n  dsan_theme() +\n  ylim(0,6)\n\nWarning: Removed 2 rows containing missing values (`geom_line()`)."
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#loss-function-implies-ready-to-learn",
+    "href": "writeups/machine-learning/index.html#loss-function-implies-ready-to-learn",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Loss Function \\(\\implies\\) Ready to Learn!",
+    "text": "Loss Function \\(\\implies\\) Ready to Learn!\n\nOnce we’ve chosen a loss function, the learning algorithm has what it needs to proceed with the actual learning\nNotation: Bundle all the model’s parameters together into \\(\\theta\\)\nThe goal: \\[\n\\min_{\\theta} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nWhat would this look like for the random-lines approach?\nIs there a more efficient way?"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#calculus-strikes-again",
+    "href": "writeups/machine-learning/index.html#calculus-strikes-again",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Calculus Strikes Again",
+    "text": "Calculus Strikes Again\n\ntldr: The slope of a function tells us how to get to a minimum (why a minimum rather than the minimum?)\nDerivative (gradient) = “direction of sharpest decrease”\nThink of hill climbing! Let \\(\\ell_t \\in L\\) be your location at time \\(t\\), and \\(Alt(\\ell)\\) be the altitude at a location \\(\\ell\\)\nGradient descent for \\(\\ell^* = \\max_{\\ell \\in L} Alt(\\ell)\\): \\[\n\\ell_{t+1} = \\ell_t + \\gamma\\nabla Alt(\\ell_t),\\ t\\geq 0.\n\\]\nWhile top of mountain = good, Loss is bad: we want to find the bottom of the “loss crater”\n\n\\(\\implies\\) we do the opposite: subtract \\(\\gamma\\nabla Alt(\\ell_t)\\)"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#good-and-bad-news",
+    "href": "writeups/machine-learning/index.html#good-and-bad-news",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Good and Bad News",
+    "text": "Good and Bad News\n\n\n\nUniversal Approximation Theorem\nNeural networks can represent any function mapping one Euclidean space to another\n(Neural Turing Machines:)\n\n\n\n\n\n\nFigure from @schmidinger_exploring_2019\n\n\nWeierstrass Approximation Theorem\n(Polynomials could already represent any function)\n\n\\[\nf \\in C([a,b],[a,b])\n\\] \\[\n\\implies \\forall \\epsilon &gt; 0, \\exists p \\in \\mathbb{R}[x] :\n\\] \\[\n\\forall x \\in [a, b] \\; \\left|f(x) − p(x)\\right| &lt; \\epsilon\n\\]\n\nImplications for machine learning?"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#so-whats-the-issue",
+    "href": "writeups/machine-learning/index.html#so-whats-the-issue",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "So What’s the Issue?",
+    "text": "So What’s the Issue?\n\n\n\nx &lt;- seq(from = 0, to = 1, by = 0.1)\nn &lt;- length(x)\neps &lt;- rnorm(n, 0, 0.04)\ny &lt;- x + eps\n# But make one big outlier\nmidpoint &lt;- ceiling((3/4)*n)\ny[midpoint] &lt;- 0\nof_data &lt;- tibble::tibble(x=x, y=y)\n# Linear model\nlin_model &lt;- lm(y ~ x)\n# But now polynomial regression\npoly_model &lt;- lm(y ~ poly(x, degree = 10, raw=TRUE))\n#summary(model)\n\n\nggplot(of_data, aes(x=x, y=y)) +\n  geom_point(size=g_pointsize/2) +\n  labs(\n    title = \"Training Data\",\n    color = \"Model\"\n  ) +\n  dsan_theme()\n\n\n\n\n\n\n\n\n\nggplot(of_data, aes(x=x, y=y)) +\n  geom_point(size=g_pointsize/2) +\n  geom_abline(aes(intercept=0, slope=1, color=\"Linear\"), linewidth=1, show.legend = FALSE) +\n  stat_smooth(method = \"lm\",\n              formula = y ~ poly(x, 10, raw=TRUE),\n              se = FALSE, aes(color=\"Polynomial\")) +\n  labs(\n    title = \"A Perfect Model?\",\n    color = \"Model\"\n  ) +\n  dsan_theme()\n\n\n\n\n\n\n\n\n\n\nHigher \\(R^2\\) = Better Model? Lower \\(RSS\\)?\nLinear Model:\n\n\nsummary(lin_model)$r.squared\n\n[1] 0.530839\n\nget_rss(lin_model)\n\n[1] 0.538697\n\n\n\nPolynomial Model:\n\n\nsummary(poly_model)$r.squared\n\n[1] 1\n\nget_rss(poly_model)\n\n[1] 0"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#generalization",
+    "href": "writeups/machine-learning/index.html#generalization",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Generalization",
+    "text": "Generalization\n\nTraining Accuracy: How well does it fit the data we can see?\nTest Accuracy: How well does it generalize to future data?\n\n\n\n\n# Data setup\nx_test &lt;- seq(from = 0, to = 1, by = 0.1)\nn_test &lt;- length(x_test)\neps_test &lt;- rnorm(n_test, 0, 0.04)\ny_test &lt;- x_test + eps_test\nof_data_test &lt;- tibble::tibble(x=x_test, y=y_test)\nlin_y_pred_test &lt;- predict(lin_model, as.data.frame(x_test))\n#lin_y_pred_test\nlin_resids_test &lt;- y_test - lin_y_pred_test\n#lin_resids_test\nlin_rss_test &lt;- sum(lin_resids_test^2)\n#lin_rss_test\n# Lin R2 = 1 - RSS/TSS\ntss_test &lt;- sum((y_test - mean(y_test))^2)\nlin_r2_test &lt;- 1 - (lin_rss_test / tss_test)\n#lin_r2_test\n# Now the poly model\npoly_y_pred_test &lt;- predict(poly_model, as.data.frame(x_test))\npoly_resids_test &lt;- y_test - poly_y_pred_test\npoly_rss_test &lt;- sum(poly_resids_test^2)\n#poly_rss_test\n# RSS\npoly_r2_test &lt;- 1 - (poly_rss_test / tss_test)\n#poly_r2_test\n\n\nggplot(of_data, aes(x=x, y=y)) +\n  stat_smooth(method = \"lm\",\n              formula = y ~ poly(x, 10, raw = TRUE),\n              se = FALSE, aes(color=\"Polynomial\")) +\n  dsan_theme() +\n  geom_point(data=of_data_test, aes(x=x_test, y=y_test), size=g_pointsize/2) +\n  geom_abline(aes(intercept=0, slope=1, color=\"Linear\"), linewidth=1, show.legend = FALSE) +\n  labs(\n    title = \"Getting a Perfect Fit: Unseen Test Data\",\n    color = \"Model\"\n  ) +\n  dsan_theme()\n\n\n\n\n\n\n\n\n\n\nLinear Model:\n\n\nlin_r2_test\n\n[1] 0.841047\n\nlin_rss_test\n\n[1] 0.1857214\n\n\n\nPolynomial Model:\n\n\npoly_r2_test\n\n[1] 0.2782714\n\npoly_rss_test\n\n[1] 0.8432709"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#how-to-avoid-overfitting",
+    "href": "writeups/machine-learning/index.html#how-to-avoid-overfitting",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "How to Avoid Overfitting?",
+    "text": "How to Avoid Overfitting?\n\nThe gist: penalize model complexity\n\nOriginal optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nNew optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\left[ \\mathcal{L}(y_{obs}, y_{pred}(\\theta)) + \\mathsf{Complexity}(\\theta) \\right]\n\\]\n\nSo how do we measure, and penalize, “complexity”?"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#regularization-measuring-and-penalizing-complexity",
+    "href": "writeups/machine-learning/index.html#regularization-measuring-and-penalizing-complexity",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Regularization: Measuring and Penalizing Complexity",
+    "text": "Regularization: Measuring and Penalizing Complexity\n\nIn the case of polynomials, fairly simple complexity measure: degree of polynomial\n\n\\[\n\\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x + \\beta_2 x^2 + \\beta_3 x^3) &gt; \\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x)\n\\]\n\nIn general machine learning, however, we might not be working with polynomials\nIn neural networks, for example, we sometimes toss in millions of features and ask the algorithm to “just figure it out”\nThe gist, in the general case, is thus: try to “amplify” the most important features and shrink the rest, so that\n\n\\[\n\\mathsf{Complexity} \\propto \\frac{|\\text{AmplifiedFeatures}|}{|\\text{ShrunkFeatures}|}\n\\]"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#lasso-and-elastic-net-regularization",
+    "href": "writeups/machine-learning/index.html#lasso-and-elastic-net-regularization",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "LASSO and Elastic Net Regularization",
+    "text": "LASSO and Elastic Net Regularization\n\nMany ways to translate this intuition into math!\nIn several fields, however (econ, biostatistics), LASSO4 [@tibshirani_regression_1996] is standard:\n\n\\[\n\\beta^*_{LASSO} = {\\underset{\\beta}{\\operatorname{argmin}}}\\left\\{{\\frac {1}{N}}\\left\\|y-X\\beta \\right\\|_{2}^{2}+\\lambda \\|\\beta \\|_{1}\\right\\}\n\\]\n\nWhy does this work to penalize complexity? What does the parameter \\(\\lambda\\) do?\nSome known issues with LASSO fixed in extension of the same intuitions: Elastic Net\n\n\\[\n\\beta^*_{EN} = {\\underset {\\beta }{\\operatorname {argmin} }}\\left\\{ \\|y-X\\beta \\|^{2}_2+\\lambda _{2}\\|\\beta \\|^{2}+\\lambda _{1}\\|\\beta \\|_{1} \\right\\}\n\\]\n\n(Ensures a unique global minimum! Note that \\(\\lambda_2 = 0, \\lambda_1 = 1 \\implies \\beta^*_{LASSO} = \\beta^*_{EN}\\))"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#training-vs.-test-data",
+    "href": "writeups/machine-learning/index.html#training-vs.-test-data",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Training vs. Test Data",
+    "text": "Training vs. Test Data\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_02\n\n Test Set (20%)   \n\nN1\n\n 20%   \n\nN2\n\n 20%   \n\nN3\n\n 20%   \n\nN4\n\n 20%   \n\nN5\n\n 20%"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#cross-validation",
+    "href": "writeups/machine-learning/index.html#cross-validation",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Cross-Validation",
+    "text": "Cross-Validation\n\nThe idea that good models generalize well is crucial!\n\nWhat if we could leverage this insight to optimize over our training data?\nThe key: Validation Sets\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_02\n\n Training Fold (80%)  \n\ncluster_03\n\n Validation Fold (20%)  \n\ncluster_04\n\n Test Set (20%)   \n\nA1\n\n 16%   \n\nA2\n\n 16%    \n\nA3\n\n 16%    \n\nA4\n\n 16%    \n\nB1\n\n 16%    \n\nC1\n\n 20%"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#hyperparameters",
+    "href": "writeups/machine-learning/index.html#hyperparameters",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Hyperparameters",
+    "text": "Hyperparameters\n\nThe unspoken (but highly consequential!) “settings” for our learning procedure (that we haven’t optimized via gradient descent)\nThere are several we’ve already seen – can you name them?\n\n\n\nUnsupervised Clustering: The number of clusters we want (\\(K\\))\nGradient Descent: The step size \\(\\gamma\\)\nLASSO/Elastic Net: \\(\\lambda\\)\nThe train/validation/test split!"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#hyperparameter-selection",
+    "href": "writeups/machine-learning/index.html#hyperparameter-selection",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Hyperparameter Selection",
+    "text": "Hyperparameter Selection\n\nEvery model comes with its own hyperparameters:\n\nNeural Networks: Number of layers, number of nodes per layer\nDecision Trees: Maximum tree depth, max number of features to include\nTopic Models: Number of topics, document/topic priors\n\nSo, how do we choose?\n\nOften more art than science\nPrincipled, universally applicable, but slow: grid search\nSpecific methods for specific algorithms: ADAM [@kingma_adam_2017] for Neural Network learning rates)"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#appendix-harmonic-mean",
+    "href": "writeups/machine-learning/index.html#appendix-harmonic-mean",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Appendix: Harmonic Mean",
+    "text": "Appendix: Harmonic Mean\n\n\\(\\mathsf{HMean}\\) is the harmonic mean, an alternative to the standard (arithmetic) mean\nPenalizes greater “gaps” between precision and recall: if precision is 0 and recall is 1, for example, their arithmetic mean is 0.5 while their harmonic mean is 0.\nFor the curious: given numbers \\(X = \\{x_1, \\ldots, x_n\\}\\), \\(\\mathsf{HMean}(X) = \\frac{n}{\\sum_{i=1}^nx_i^{-1}}\\)"
+  },
+  {
+    "objectID": "writeups/machine-learning/index.html#footnotes",
+    "href": "writeups/machine-learning/index.html#footnotes",
+    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nWhether standard classification (sorting observations into bins) or regression (assigning a real number to each observation)↩︎\nComputer scientists implicitly assume a Correspondence Theory of Truth, hence the choice of name↩︎\nThanks to Bayes’ Rule, mathematically we can always convert between the two: \\(P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\\)↩︎\nLeast Absolute Shrinkage and Selection Operator↩︎"
   },
   {
     "objectID": "writeups/refs-and-citations/index.html",
@@ -991,7 +1404,7 @@
     "href": "writeups/index.html",
     "title": "Extra Writeups",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Last Updated - Oldest\n        \n         \n          Last Updated - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\nLast Updated\n\n\nCategory\n\n\n\n\n\n\nMelting Data in Python and R\n\n\nSunday, October 1, 2023\n\n\nExtra Writeups\n\n\n\n\nExploratory Data Analysis of the THOR Dataset in Seaborn\n\n\nSunday, October 1, 2023\n\n\nExtra Writeups\n\n\n\n\nSplitting a String Column in Tidyverse\n\n\nFriday, September 29, 2023\n\n\nExtra Writeups\n\n\n\n\nMultiple-Column Layout in Quarto\n\n\nThursday, September 28, 2023\n\n\nExtra Writeups\n\n\n\n\nDSAN 5000 Quiz Status Sheet\n\n\nThursday, September 28, 2023\n\n\nExtra Writeups\n\n\n\n\nManaging Python Installations\n\n\nWednesday, September 27, 2023\n\n\nExtra Writeups\n\n\n\n\nRegular Expressions for Data Cleaning\n\n\nTuesday, September 26, 2023\n\n\nExtra Writeups\n\n\n\n\nData Cleaning with Python\n\n\nWednesday, September 20, 2023\n\n\nExtra Writeups\n\n\n\n\nThe Final Boss of Quarto Errors\n\n\nTuesday, September 19, 2023\n\n\nExtra Writeups\n\n\n\n\nLab 1.2 Clarifications\n\n\nSaturday, September 16, 2023\n\n\nClarifications\n\n\n\n\nUsing Quarto’s Reference Manager with Zotero\n\n\nFriday, September 15, 2023\n\n\nExtra Writeups\n\n\n\n\nTroubleshooting SSH/SCP/rsync on Georgetown Domains\n\n\nThursday, September 14, 2023\n\n\nExtra Writeups\n\n\n\n\nHomework 1 Clarifications\n\n\nWednesday, September 13, 2023\n\n\nClarifications\n\n\n\n\nUsing Quarto’s Reference Manager with Google Scholar\n\n\nWednesday, September 13, 2023\n\n\nExtra Writeups\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Last Updated - Oldest\n        \n         \n          Last Updated - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\nLast Updated\n\n\nCategory\n\n\n\n\n\n\nExtra Slides: A Slightly Deeper Dive Into Machine Learning\n\n\nFriday, October 6, 2023\n\n\nExtra Writeups\n\n\n\n\nMelting Data in Python and R\n\n\nSunday, October 1, 2023\n\n\nExtra Writeups\n\n\n\n\nExploratory Data Analysis of the THOR Dataset in Seaborn\n\n\nSunday, October 1, 2023\n\n\nExtra Writeups\n\n\n\n\nSplitting a String Column in Tidyverse\n\n\nFriday, September 29, 2023\n\n\nExtra Writeups\n\n\n\n\nMultiple-Column Layout in Quarto\n\n\nThursday, September 28, 2023\n\n\nExtra Writeups\n\n\n\n\nDSAN 5000 Quiz Status Sheet\n\n\nThursday, September 28, 2023\n\n\nExtra Writeups\n\n\n\n\nManaging Python Installations\n\n\nWednesday, September 27, 2023\n\n\nExtra Writeups\n\n\n\n\nRegular Expressions for Data Cleaning\n\n\nTuesday, September 26, 2023\n\n\nExtra Writeups\n\n\n\n\nData Cleaning with Python\n\n\nWednesday, September 20, 2023\n\n\nExtra Writeups\n\n\n\n\nThe Final Boss of Quarto Errors\n\n\nTuesday, September 19, 2023\n\n\nExtra Writeups\n\n\n\n\nLab 1.2 Clarifications\n\n\nSaturday, September 16, 2023\n\n\nClarifications\n\n\n\n\nUsing Quarto’s Reference Manager with Zotero\n\n\nFriday, September 15, 2023\n\n\nExtra Writeups\n\n\n\n\nTroubleshooting SSH/SCP/rsync on Georgetown Domains\n\n\nThursday, September 14, 2023\n\n\nExtra Writeups\n\n\n\n\nHomework 1 Clarifications\n\n\nWednesday, September 13, 2023\n\n\nClarifications\n\n\n\n\nUsing Quarto’s Reference Manager with Google Scholar\n\n\nWednesday, September 13, 2023\n\n\nExtra Writeups\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "writeups/data-cleaning/clean_data.html",
@@ -2919,431 +3332,18 @@
     "text": "The following Quarto code:\n\n\n\n\n\n\nQuarto Code Using ::: columns\n\n\n\nHello this is my document\n\n::: columns\n\n::: {.column width=\"50%\"}\n\nHere is column 1\n\n:::\n::: {.column width=\"50%\"}\n\nHere is column 2\n\n:::\n\n:::\n\n\n\nProduces the following rendered output:\n\n\n\n\n\n\nRendered Output Using ::: columns\n\n\n\nHello this is my document\n\n\nHere is column 1\n\nHere is column 2"
   },
   {
-    "objectID": "about/slides.html#prof.-jeff-introduction",
-    "href": "about/slides.html#prof.-jeff-introduction",
-    "title": "About Me",
-    "section": "Prof. Jeff Introduction!",
-    "text": "Prof. Jeff Introduction!\n\nBorn and raised in NW DC → high school in Rockville, MD\nUniversity of Maryland: Computer Science, Math, Economics (2008-2012)"
-  },
-  {
-    "objectID": "about/slides.html#grad-school",
-    "href": "about/slides.html#grad-school",
-    "title": "About Me",
-    "section": "Grad School",
-    "text": "Grad School\n\nStudied abroad in Beijing (Peking University/北大) → internship with Huawei in Hong Kong (HKUST)\n\n\n\n\nStanford for MS in Computer Science (2012-2014)\nResearch Economist at UC Berkeley (2014-2015)\n\n\n\n\n\n\nColumbia (NYC) for PhD[+Postdoc] in Political Science (2015-2023)"
-  },
-  {
-    "objectID": "about/slides.html#dissertation-political-science-history",
-    "href": "about/slides.html#dissertation-political-science-history",
-    "title": "About Me",
-    "section": "Dissertation (Political Science + History)",
-    "text": "Dissertation (Political Science + History)\n“Our Word is Our Weapon”: Text-Analyzing Wars of Ideas from the French Revolution to the First Intifada"
-  },
-  {
-    "objectID": "about/slides.html#research-labor-economics",
-    "href": "about/slides.html#research-labor-economics",
-    "title": "About Me",
-    "section": "Research (Labor Economics)",
-    "text": "Research (Labor Economics)\n\n\n\n“Monopsony in Online Labor Markets”: Machine Learning to enhance causal estimates of the effect of job description language on uptake rate\n\n\n\n“Freedom as Non-Domination in the Labor Market”: Game-theoretic models of workers’ rights (monopsony vs. labor discipline)\n\n\n\n\n\n“Unsupervised Extraction of Workplace Rights and Duties from Collective Bargaining Agreements”: Linguistic (dependency) parses of contracts → time series of worker vs. employer rights and responsibilities over time"
-  },
-  {
-    "objectID": "about/index.html",
-    "href": "about/index.html",
-    "title": "About Me",
+    "objectID": "writeups/empty-files-error/index.html",
+    "href": "writeups/empty-files-error/index.html",
+    "title": "The Final Boss of Quarto Errors",
     "section": "",
-    "text": "Born and raised in NW DC → high school in Rockville, MD\nUniversity of Maryland: Computer Science, Math, Economics (2008-2012)"
+    "text": "While working on the DSAN 5000 homework, more than one student has run into an extremely opaque issue with Quarto producing the following error:\nSyntaxError: Unexpected end of JSON input\n    at JSON.parse (&lt;anonymous&gt;)\n    at Object.target (file:///Applications/quarto/bin/quarto.js:55201:27)\n    at fileExecutionEngineAndTarget (file:///Applications/quarto/bin/quarto.is:58033:33)\n    at renderContexts (file:///Applications/quarto/bin/quarto.js:82635:40)\n    at Obiect.renderFormats (file:///Applications/quarto/bin/quarto.is: 82688:32)\n    at inputTargetIndex (file:///Applications/quarto/bin/quarto.js: 83504:35)\n    at resolveInputTarget (file:///Applications/quarto/bin/quarto.is:83583:25)\n    at resolveItem (file:///Applications/quarto/bin/quarto.is:93627:32)\n    at navigationItem (file:///Applications/quarto/bin/quarto.js:93598:22)\n    at navbarEisData (file:///Applications/quarto/bin/quarto.is: 93517:34)\nAfter spending kind of a long time bashing my head against this, and eventually giving up for the day, I discovered that some absolute champion GitHub user had already traced the reason for this error on a thread within Quarto’s GitHub page:\nhttps://github.com/quarto-dev/quarto-cli/issues/6392#issuecomment-1660262686\nAnd, their writeup is immensely helpful in general, but I can also provide a quick summary here:\n\n\n\n\n\n\nFixing the Unexpected end of JSON input Error\n\n\n\nIf you encounter this error or an error that looks like this (SyntaxError: Unexpected end of JSON input), and it’s not due to actual JSON code that you’re writing, it’s quite likely that you have an\n\n⚠️ Empty .ipynb file somewhere within your project ⚠️\n\nSo, to fix this, make sure you go through every .ipynb file anywhere in your project and make sure it has at least one cell with some content inside it.\n\n\nFor example, you can go through and make sure that every .ipynb file at least has a first cell that is either a Markdown or Raw cell type, with some YAML-formatted metadata inside this cell, like\n\n\nmy-page.ipynb\n\n---\ntitle: \"My Page\"\nformat: html\n---\n\nQuarto needs this information anyways, to know what to title the file and what format to render it to, so it’s worth doing this even if you’re not seeing the Unexpected end of JSON input error.\nAlso note that this error seems to only happen because of empty .ipynb-format files: empty .qmd files seem to be fine. So, if you have a lot of files in your project and don’t want to go through all of them, you can just focus on the .ipynb files. Note that this error occurs even if you are not referencing or using the ipynb files anywhere in your project! I pulled my non-existent hair out for a long, long time before finding out (thanks to the GitHub post) that the .ipynb files were the issue, despite the fact that I had removed/commented out all references to any .ipynb file (in my _quarto.yml file, for example) anywhere in the project."
   },
   {
-    "objectID": "about/index.html#prof.-jeff-introduction",
-    "href": "about/index.html#prof.-jeff-introduction",
-    "title": "About Me",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "DSAN 5000, Section 02",
     "section": "",
-    "text": "Born and raised in NW DC → high school in Rockville, MD\nUniversity of Maryland: Computer Science, Math, Economics (2008-2012)"
-  },
-  {
-    "objectID": "about/index.html#grad-school",
-    "href": "about/index.html#grad-school",
-    "title": "About Me",
-    "section": "Grad School",
-    "text": "Grad School\n\nStudied abroad in Beijing (Peking University/北大) → internship with Huawei in Hong Kong (HKUST)\n\n\n\n\nStanford for MS in Computer Science (2012-2014)\nResearch Economist at UC Berkeley (2014-2015)\n\n\n\n\n\n\nColumbia (NYC) for PhD[+Postdoc] in Political Science (2015-2023)"
-  },
-  {
-    "objectID": "about/index.html#dissertation-political-science-history",
-    "href": "about/index.html#dissertation-political-science-history",
-    "title": "About Me",
-    "section": "Dissertation (Political Science + History)",
-    "text": "Dissertation (Political Science + History)\n“Our Word is Our Weapon”: Text-Analyzing Wars of Ideas from the French Revolution to the First Intifada"
-  },
-  {
-    "objectID": "about/index.html#research-labor-economics",
-    "href": "about/index.html#research-labor-economics",
-    "title": "About Me",
-    "section": "Research (Labor Economics)",
-    "text": "Research (Labor Economics)\n\n\n\n“Monopsony in Online Labor Markets”: Machine Learning to enhance causal estimates of the effect of job description language on uptake rate\n\n\n\n“Freedom as Non-Domination in the Labor Market”: Game-theoretic models of workers’ rights (monopsony vs. labor discipline)\n\n\n\n\n\n“Unsupervised Extraction of Workplace Rights and Duties from Collective Bargaining Agreements”: Linguistic (dependency) parses of contracts → time series of worker vs. employer rights and responsibilities over time"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html",
-    "href": "extra-slides/machine-learning/index.html",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "",
-    "text": "source(\"../../_globals.r\")\n\n\n\n\nSupervised Learning: You want the computer to learn the existing pattern of how you are classifying1 observations\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my schema (how I classify)\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any prior classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#supervised-vs.-unsupervised-learning",
-    "href": "extra-slides/machine-learning/index.html#supervised-vs.-unsupervised-learning",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "",
-    "text": "source(\"../../_globals.r\")\n\n\n\n\nSupervised Learning: You want the computer to learn the existing pattern of how you are classifying1 observations\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my schema (how I classify)\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any prior classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#dataset-structures",
-    "href": "extra-slides/machine-learning/index.html#dataset-structures",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Dataset Structures",
-    "text": "Dataset Structures\n\n\nSupervised Learning: Dataset has both explanatory variables (“features”) and response variables (“labels”)\n\n\nsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms, ~rating,\n  0, 1000, 1, \"Disliked\",\n  1, 2000, 2, \"Liked\",\n  2, 2500, 1, \"Liked\",\n  3, 1500, 2, \"Disliked\",\n  4, 2200, 1, \"Liked\"\n)\nsup_data\n\n# A tibble: 5 × 4\n  home_id  sqft bedrooms rating  \n    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   \n1       0  1000        1 Disliked\n2       1  2000        2 Liked   \n3       2  2500        1 Liked   \n4       3  1500        2 Disliked\n5       4  2200        1 Liked   \n\n\n\n\nUnsupervised Learning: Dataset has only explanatory variables (“features”)\n\n\nunsup_data &lt;- tibble::tribble(\n  ~home_id, ~sqft, ~bedrooms,\n  0, 1000, 1,\n  1, 2000, 2,\n  2, 2500, 1,\n  3, 1500, 2,\n  4, 2200, 1\n)\nunsup_data\n\n# A tibble: 5 × 3\n  home_id  sqft bedrooms\n    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;\n1       0  1000        1\n2       1  2000        2\n3       2  2500        1\n4       3  1500        2\n5       4  2200        1"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#dataset-structures-visualized",
-    "href": "extra-slides/machine-learning/index.html#dataset-structures-visualized",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Dataset Structures: Visualized",
-    "text": "Dataset Structures: Visualized\n\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size = g_pointsize * 2) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  dsan_theme(\"half\")\n\n\n\n\n\n\n\n\n\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n# To force a legend\nunsup_grouped &lt;- unsup_data |&gt; mutate(big=bedrooms &gt; 1)\nunsup_grouped[['big']] &lt;- factor(unsup_grouped[['big']], labels=c(\"?1\",\"?2\"))\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms, fill=big)) + \n  geom_point(size = g_pointsize * 2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  theme(legend.background = element_rect(fill=\"white\", color=\"white\"), legend.box.background = element_rect(fill=\"white\"), legend.text = element_text(color=\"white\"), legend.title = element_text(color=\"white\"), legend.position = \"right\") +\n  scale_fill_discrete(labels=c(\"?\",\"?\")) +\n  #scale_color_discrete(values=c(\"white\",\"white\"))\n  scale_color_manual(name=NULL, values=c(\"white\",\"white\")) +\n  #scale_color_manual(values=c(\"?1\"=\"white\",\"?2\"=\"white\"))\n  guides(fill = guide_legend(override.aes = list(shape = NA)))"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#different-goals",
-    "href": "extra-slides/machine-learning/index.html#different-goals",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Different Goals",
-    "text": "Different Goals\n\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size = g_pointsize * 2) +\n  labs(\n    title = \"Supervised Data: House Listings\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  dsan_theme(\"half\") +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  geom_vline(xintercept = 1750, linetype=\"dashed\", color = \"black\", size=1) +\n  annotate('rect', xmin=-Inf, xmax=1750, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[1]) +\n  annotate('rect', xmin=1750, xmax=Inf, ymin=-Inf, ymax=Inf, alpha=.2, fill=cbPalette[2])\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n\n\n\n\n\n\n  #geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))\n\n\n\nlibrary(ggforce)\nggplot(unsup_grouped, aes(x=sqft, y=bedrooms)) +\n  #scale_color_brewer(palette = \"PuOr\") +\n  geom_mark_ellipse(expand=0.1, aes(fill=big), size = 1) +\n  geom_point(size=g_pointsize * 2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    fill = \"?\"\n  ) +\n  dsan_theme(\"half\") +\n  ggtitle(\"Unsupervised Data: House Listings\") +\n  #theme(legend.position = \"none\") +\n  #theme(legend.title = text_element(\"?\"))\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(cbPalette[3],cbPalette[4]), labels=c(\"?\",\"?\"))\n\n\n\n\n\n\n\n  #scale_fill_manual(labels=c(\"?\",\"?\"))"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#the-learning-in-machine-learning",
-    "href": "extra-slides/machine-learning/index.html#the-learning-in-machine-learning",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "The “Learning” in Machine Learning",
-    "text": "The “Learning” in Machine Learning\n\nGiven these datasets, how do we learn the patterns?\nNaïve idea: Try random lines (each forming a decision boundary), pick “best” one\n\n\nx_min &lt;- 0\nx_max &lt;- 3000\ny_min &lt;- -1\ny_max &lt;- 3\nrand_y0 &lt;- runif(50, min=y_min, max=y_max)\nrand_y1 &lt;- runif(50, min=y_min, max=y_max)\nrand_slope &lt;- (rand_y1 - rand_y0)/(x_max - x_min)\nrand_intercept &lt;- rand_y0\nrand_lines &lt;- tibble::tibble(id=1:50, slope=rand_slope, intercept=rand_intercept)\n#ggplot() +\n#  geom_abline(data=rand_lines, aes(slope=slope, #intercept=intercept)) +\n#  xlim(0,3000) +\n#  ylim(0,2) +\n#  dsan_theme()\n\n\nggplot(sup_data, aes(x=sqft, y=bedrooms, color=rating)) + \n  geom_point(size=g_pointsize) +\n  labs(\n    title = \"The Like vs. Dislike Boundary: 50 Guesses\",\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"Outcome\"\n  ) +\n  dsan_theme() +\n  expand_limits(x=c(800,2700), y=c(0.8,2.2)) +\n  geom_abline(data=rand_lines, aes(slope=slope, intercept=intercept), linetype=\"dashed\")\n\n\n\n\n\n\n\n\n\nWhat parameters are we choosing when we draw a random line? Random curve?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#what-makes-a-goodbest-guess",
-    "href": "extra-slides/machine-learning/index.html#what-makes-a-goodbest-guess",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "What Makes a “Good”/“Best” Guess?",
-    "text": "What Makes a “Good”/“Best” Guess?\n\nWhat’s your intuition? How about accuracy… 🤔\n\n\nline_data &lt;- tibble::tribble(\n  ~id, ~slope, ~intercept,\n  0, 0, 0.75,\n  1, 0.00065, 0.5\n)\ndata_range &lt;- 800:2700\nribbon_range &lt;- c(-Inf,data_range,Inf)\nf1 &lt;- function(x) { return(0*x + 0.75) }\nf1_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f1(700),f1(data_range),f1(3100)))\ng1_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==0))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 1: 60% Accuracy\") +\n  geom_point(data=sup_data, aes(x=sqft, y=bedrooms, color=rating), size=g_pointsize) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Disliked\"), alpha=0.2) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Liked\"), alpha=0.2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\"\n  ) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\n\nlibrary(patchwork)\nf2 &lt;- function(x) { return(0.00065*x + 0.5) }\nf2_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f2(710),f2(data_range),f2(Inf)))\ng2_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==1))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 2: 60% Accuracy\") +\n  geom_point(data=sup_data, aes(x=sqft, y=bedrooms, color=rating), size=g_pointsize) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\"\n  ) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Liked\"), alpha=0.2) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Disliked\"), alpha=0.2) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\ng1_plot + g2_plot\n\n\n\n\n\n\n\n\nSo… what’s wrong here?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#whats-wrong-with-accuracy",
-    "href": "extra-slides/machine-learning/index.html#whats-wrong-with-accuracy",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "What’s Wrong with Accuracy?",
-    "text": "What’s Wrong with Accuracy?\n\ngen_homes &lt;- function(n) {\n  rand_sqft &lt;- runif(n, min=2000, max=3000)\n  rand_bedrooms &lt;- sample(c(1,2), size=n, prob=c(0.5,0.5), replace=TRUE)\n  rand_ids &lt;- 1:n\n  rand_rating &lt;- \"Liked\"\n  rand_tibble &lt;- tibble::tibble(home_id=rand_ids, sqft=rand_sqft, bedrooms=rand_bedrooms, rating=rand_rating)\n  return(rand_tibble)\n}\nfake_homes &lt;- gen_homes(18)\nfake_sup_data &lt;- dplyr::bind_rows(sup_data, fake_homes)\nline_data &lt;- tibble::tribble(\n  ~id, ~slope, ~intercept,\n  0, 0, 0.75,\n  1, 0.00065, 0.5\n)\nf1 &lt;- function(x) { return(0*x + 0.75) }\nf2 &lt;- function(x) { return(0.00065*x + 0.5) }\n# And check accuracy\nfake_sup_data &lt;- fake_sup_data %&gt;% mutate(boundary1=f1(sqft)) %&gt;% mutate(guessDislike1 = bedrooms &lt; boundary1) %&gt;% mutate(correct1 = ((rating==\"Disliked\") & (guessDislike1)) | (rating==\"Liked\") & (!guessDislike1))\nfake_sup_data &lt;- fake_sup_data %&gt;% mutate(boundary2=f2(sqft)) %&gt;% mutate(guessDislike2 = bedrooms &gt; boundary2) %&gt;% mutate(correct2 = ((rating==\"Disliked\") & (guessDislike2)) | (rating==\"Liked\") & (!guessDislike2))\n\ndata_range &lt;- 800:2700\nribbon_range &lt;- c(-Inf,data_range,Inf)\n\nf1_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f1(700),f1(data_range),f1(3200)))\ng1_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==0))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 1: 91.3% Accuracy\") +\n  geom_point(data=fake_sup_data, aes(x=sqft, y=bedrooms, fill=rating, color=rating, shape=factor(correct1, levels=c(TRUE,FALSE))), size=g_pointsize) +\n  scale_shape_manual(values=c(24, 25)) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Disliked\"), alpha=0.2) +\n  geom_ribbon(data=f1_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Liked\"), alpha=0.2) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\",\n    shape = \"Correct Guess\"\n  ) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\n\nf2_data &lt;- tibble::tibble(line_x=ribbon_range,line_y=c(f2(700),f2(data_range),f2(3100)))\ng2_plot &lt;- ggplot(data=(line_data %&gt;% filter(id==1))) +\n  geom_abline(aes(slope=slope, intercept=intercept), linetype=\"dashed\", size=1) +\n  ggtitle(\"Guess 2: 73.9% Accuracy\") +\n  geom_point(data=fake_sup_data, aes(x=sqft, y=bedrooms, fill=rating, color=rating, shape=factor(correct2, levels=c(TRUE,FALSE))), size=g_pointsize) +\n  scale_shape_manual(values=c(24, 25)) +\n  labs(\n    x = \"Square Footage\",\n    y = \"Number of Bedrooms\",\n    color = \"True Label\",\n    shape = \"Correct Guess\"\n  ) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=-Inf, ymax=line_y, fill=\"Liked\"), alpha=0.2) +\n  geom_ribbon(data=f2_data, aes(x=line_x, ymin=line_y, ymax=Inf, fill=\"Disliked\"), alpha=0.2) +\n  dsan_theme() +\n  expand_limits(x=data_range, y=c(0.8,2.2)) +\n  scale_fill_manual(values=c(\"Liked\"=cbPalette[2],\"Disliked\"=cbPalette[1]), name=\"Guess\")\n\ng1_plot + g2_plot"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#the-oversimplified-big-picture",
-    "href": "extra-slides/machine-learning/index.html#the-oversimplified-big-picture",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "The (Oversimplified) Big Picture",
-    "text": "The (Oversimplified) Big Picture\n\nA model: some representation of something in the world\n\n\n\n\n\nHow well does our model represent the world?2 \\(\\mathsf{Correspondence}(y_{obs}, \\theta)\\)\n\\(P\\left(y_{obs}, \\theta\\right)\\), \\(P\\left(\\theta \\; | \\; y_{obs}\\right)\\), \\(P\\left(y_{obs} \\; | \\; \\theta\\right)\\)3\nMaximum Likelihood Estimation?\n\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_01\n\n “Nature”  \n\ncluster_02\n\n “Science”   \n\nObs\n\n Thing(s) we can see   \n\nUnd\n\n Underlying process   \n\nUnd-&gt;Obs\n\n    \n\nModel\n\n Model   \n\nUnd-&gt;Model\n\n    \n\nModel-&gt;Obs\n\n   \n\n\n\n\n\n\n\n\\[\n\\begin{align*}\n\\mathsf{Correspondence}(y_{obs}, \\theta) &\\equiv P(y = y_{obs}, \\theta) \\\\\nP(y = y_{obs}, \\theta) &= P(y=y_{obs} \\; | \\; \\theta)P(\\theta) \\\\\n&\\propto P\\left(y = y_{obs} \\; | \\; \\theta\\right)\\ldots \\implies \\text{(maximize this!)}  \\\\\n\\end{align*}\n\\]"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#measuring-errors-f1-score",
-    "href": "extra-slides/machine-learning/index.html#measuring-errors-f1-score",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Measuring Errors: F1 Score",
-    "text": "Measuring Errors: F1 Score\n\nHow can we reward guesses which best discriminate between classes?\n\n\\[\n\\begin{align*}\n\\mathsf{Precision} &= \\frac{\\# \\text{true positives}}{\\# \\text{predicted positive}} = \\frac{tp}{tp+fp} \\\\[1.5em]\n\\mathsf{Recall} &= \\frac{\\# \\text{true positives}}{\\# \\text{positives in data}} = \\frac{tp}{tp+fn} \\\\[1.5em]\nF_1 &= 2\\frac{\\mathsf{Precision} \\cdot \\mathsf{Recall}}{\\mathsf{Precision} + \\mathsf{Recall}} = \\mathsf{HMean}(\\mathsf{Precision}, \\mathsf{Recall})\n\\end{align*}\n\\]\n\nThink about: How does this address/fix issue with accuracy?\n\n\n\nHere \\(\\mathsf{HMean}\\) is the Harmonic Mean function: see appendix slide or Wikipedia."
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#measuring-errors-the-loss-function",
-    "href": "extra-slides/machine-learning/index.html#measuring-errors-the-loss-function",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Measuring Errors: The Loss Function",
-    "text": "Measuring Errors: The Loss Function\n\nWhat about regression?\n\nNo longer just “true prediction good, false prediction bad”\n\nWe have to quantify how bad the guess is! Then we can scale the penalty accordingly: \\(\\text{penalty} \\propto \\text{badness}\\)\nEnter Loss Functions! Just distances (using distance metrics you’ve already seen) between the true value and our guess:\n\nSquared Error \\(L^2(y_{obs}, y_{pred}) = (y_{obs} - y_{pred})^2\\)\nKullback-Leibler Divergence if guessing distributions"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#calculus-rears-its-ugly-head",
-    "href": "extra-slides/machine-learning/index.html#calculus-rears-its-ugly-head",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Calculus Rears its Ugly Head",
-    "text": "Calculus Rears its Ugly Head\n\nNeural networks use derivatives/gradients to improve their predictions given a particular loss function.\n\n\n\n\nbase &lt;-\n  ggplot() +\n  xlim(-5, 5) +\n  ylim(0, 25) +\n  labs(\n    x = \"Y[obs] - Y[pred]\",\n    y = \"Prediction Badness (Loss)\"\n  ) +\n  dsan_theme()\n\nmy_fn &lt;- function(x) { return(x^2) }\nmy_deriv2 &lt;- function(x) { return(4*x - 4) }\nmy_derivN4 &lt;- function(x) { return(-8*x - 16) }\nbase + geom_function(fun = my_fn, color=cbPalette[1], linewidth=1) +\n  geom_point(data=as.data.frame(list(x=2,y=4)), aes(x=x,y=y), color=cbPalette[2], size=g_pointsize/2) + \n  geom_function(fun = my_deriv2, color=cbPalette[2], linewidth=1) +\n  geom_point(data=as.data.frame(list(x=-4,y=16)), aes(x=x,y=y), color=cbPalette[3], size=g_pointsize/2) + \n  geom_function(fun = my_derivN4, color=cbPalette[3], linewidth=1)\n\nWarning: Removed 60 rows containing missing values (`geom_function()`).\n\n\nWarning: Removed 70 rows containing missing values (`geom_function()`).\n\n\n\n\n\n\n\n\n\n\n\nmy_fake_deriv &lt;- function(x) { return(-x) }\nmy_fake_deriv2 &lt;- function(x) { return(-(1/2)*x + 1/2) }\nmy_fake_deriv3 &lt;- function(x) { return(-(1/4)*x + 3/4) }\n\nd=data.frame(x=c(-2,-1,0,1,2), y=c(1,0,0,1,1))\nbase &lt;- ggplot() +\n  xlim(-5,5) +\n  ylim(0,2) +\n  labs(\n    x=\"Y[obs] - Y[pred]\",\n    y=\"Prediction Badness (Loss)\"\n  ) +\n  geom_step(data=d, mapping=aes(x=x, y=y), linewidth=1) +\n  dsan_theme()\n\nbase + geom_point(data=as.data.frame(list(x=2,y=4)), aes(x=x,y=y), color=cbPalette[2], size=g_pointsize/2) + \n  geom_function(fun = my_fake_deriv, color=cbPalette[2], linewidth=1) +\n  geom_function(fun = my_fake_deriv2, color=cbPalette[3], linewidth=1) +\n  geom_function(fun = my_fake_deriv3, color=cbPalette[4], linewidth=1) +\n  geom_point(data=as.data.frame(list(x=-1,y=1)), aes(x=x,y=y), color=cbPalette[2], size=g_pointsize/2) +\n  annotate(\"text\", x = -0.7, y = 1.1, label = \"?\", size=6)\n\nWarning: Removed 1 rows containing missing values (`geom_point()`).\n\n\nWarning: Removed 80 rows containing missing values (`geom_function()`).\n\n\nWarning: Removed 60 rows containing missing values (`geom_function()`).\n\n\nWarning: Removed 20 rows containing missing values (`geom_function()`).\n\n\n\n\n\n\n\n\n\n\n\n\nCan we just use the \\(F_1\\) score?\n\n\\[\n\\frac{\\partial F_1(weights)}{\\partial weights} = \\ldots \\; ? \\; \\ldots 💀\n\\]"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#quantifying-discrete-loss",
-    "href": "extra-slides/machine-learning/index.html#quantifying-discrete-loss",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Quantifying Discrete Loss",
-    "text": "Quantifying Discrete Loss\n\nWe can quantify a differentiable discrete loss by asking the algorithm how confident it is\n\nCloser to 0 \\(\\implies\\) more confident that the true label is 0\nCloser to 1 \\(\\implies\\) more confident that the true label is 1\n\n\n\\[\n\\mathcal{L}_{CE}(y_{pred}, y_{obs}) = -(y_{obs}\\log(y_{pred}) + (1-y_{obs})\\log(1-y_{pred}))\n\\]\n\ny_pred &lt;- seq(from = 0, to = 1, by = 0.001)\ncompute_ce &lt;- function(y_p, y_o) { return(-(y_o * log(y_p) + (1-y_o)*log(1-y_p))) }\nce0 &lt;- compute_ce(y_pred, 0)\nce1 &lt;- compute_ce(y_pred, 1)\nce0_data &lt;- tibble::tibble(y_pred=y_pred, y_obs=0, ce=ce0)\nce1_data &lt;- tibble::tibble(y_pred=y_pred, y_obs=1, ce=ce1)\nce_data &lt;- dplyr::bind_rows(ce0_data, ce1_data)\nggplot(ce_data, aes(x=y_pred, y=ce, color=factor(y_obs))) +\n  geom_line(linewidth=1) +\n  labs(\n    title=\"Binary Cross-Entropy Loss\",\n    x = \"Predicted Value\",\n    y = \"Loss\",\n    color = \"Actual Value\"\n  ) +\n  dsan_theme() +\n  ylim(0,6)\n\nWarning: Removed 2 rows containing missing values (`geom_line()`)."
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#loss-function-implies-ready-to-learn",
-    "href": "extra-slides/machine-learning/index.html#loss-function-implies-ready-to-learn",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Loss Function \\(\\implies\\) Ready to Learn!",
-    "text": "Loss Function \\(\\implies\\) Ready to Learn!\n\nOnce we’ve chosen a loss function, the learning algorithm has what it needs to proceed with the actual learning\nNotation: Bundle all the model’s parameters together into \\(\\theta\\)\nThe goal: \\[\n\\min_{\\theta} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nWhat would this look like for the random-lines approach?\nIs there a more efficient way?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#calculus-strikes-again",
-    "href": "extra-slides/machine-learning/index.html#calculus-strikes-again",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Calculus Strikes Again",
-    "text": "Calculus Strikes Again\n\ntldr: The slope of a function tells us how to get to a minimum (why a minimum rather than the minimum?)\nDerivative (gradient) = “direction of sharpest decrease”\nThink of hill climbing! Let \\(\\ell_t \\in L\\) be your location at time \\(t\\), and \\(Alt(\\ell)\\) be the altitude at a location \\(\\ell\\)\nGradient descent for \\(\\ell^* = \\max_{\\ell \\in L} Alt(\\ell)\\): \\[\n\\ell_{t+1} = \\ell_t + \\gamma\\nabla Alt(\\ell_t),\\ t\\geq 0.\n\\]\nWhile top of mountain = good, Loss is bad: we want to find the bottom of the “loss crater”\n\n\\(\\implies\\) we do the opposite: subtract \\(\\gamma\\nabla Alt(\\ell_t)\\)"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#good-and-bad-news",
-    "href": "extra-slides/machine-learning/index.html#good-and-bad-news",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Good and Bad News",
-    "text": "Good and Bad News\n\n\n\nUniversal Approximation Theorem\nNeural networks can represent any function mapping one Euclidean space to another\n(Neural Turing Machines:)\n\n\n\n\n\n\nFigure from @schmidinger_exploring_2019\n\n\nWeierstrass Approximation Theorem\n(Polynomials could already represent any function)\n\n\\[\nf \\in C([a,b],[a,b])\n\\] \\[\n\\implies \\forall \\epsilon &gt; 0, \\exists p \\in \\mathbb{R}[x] :\n\\] \\[\n\\forall x \\in [a, b] \\; \\left|f(x) − p(x)\\right| &lt; \\epsilon\n\\]\n\nImplications for machine learning?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#so-whats-the-issue",
-    "href": "extra-slides/machine-learning/index.html#so-whats-the-issue",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "So What’s the Issue?",
-    "text": "So What’s the Issue?\n\n\n\nx &lt;- seq(from = 0, to = 1, by = 0.1)\nn &lt;- length(x)\neps &lt;- rnorm(n, 0, 0.04)\ny &lt;- x + eps\n# But make one big outlier\nmidpoint &lt;- ceiling((3/4)*n)\ny[midpoint] &lt;- 0\nof_data &lt;- tibble::tibble(x=x, y=y)\n# Linear model\nlin_model &lt;- lm(y ~ x)\n# But now polynomial regression\npoly_model &lt;- lm(y ~ poly(x, degree = 10, raw=TRUE))\n#summary(model)\n\n\nggplot(of_data, aes(x=x, y=y)) +\n  geom_point(size=g_pointsize/2) +\n  labs(\n    title = \"Training Data\",\n    color = \"Model\"\n  ) +\n  dsan_theme()\n\n\n\n\n\n\n\n\n\nggplot(of_data, aes(x=x, y=y)) +\n  geom_point(size=g_pointsize/2) +\n  geom_abline(aes(intercept=0, slope=1, color=\"Linear\"), linewidth=1, show.legend = FALSE) +\n  stat_smooth(method = \"lm\",\n              formula = y ~ poly(x, 10, raw=TRUE),\n              se = FALSE, aes(color=\"Polynomial\")) +\n  labs(\n    title = \"A Perfect Model?\",\n    color = \"Model\"\n  ) +\n  dsan_theme()\n\n\n\n\n\n\n\n\n\n\nHigher \\(R^2\\) = Better Model? Lower \\(RSS\\)?\nLinear Model:\n\n\nsummary(lin_model)$r.squared\n\n[1] 0.530839\n\nget_rss(lin_model)\n\n[1] 0.538697\n\n\n\nPolynomial Model:\n\n\nsummary(poly_model)$r.squared\n\n[1] 1\n\nget_rss(poly_model)\n\n[1] 0"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#generalization",
-    "href": "extra-slides/machine-learning/index.html#generalization",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Generalization",
-    "text": "Generalization\n\nTraining Accuracy: How well does it fit the data we can see?\nTest Accuracy: How well does it generalize to future data?\n\n\n\n\n# Data setup\nx_test &lt;- seq(from = 0, to = 1, by = 0.1)\nn_test &lt;- length(x_test)\neps_test &lt;- rnorm(n_test, 0, 0.04)\ny_test &lt;- x_test + eps_test\nof_data_test &lt;- tibble::tibble(x=x_test, y=y_test)\nlin_y_pred_test &lt;- predict(lin_model, as.data.frame(x_test))\n#lin_y_pred_test\nlin_resids_test &lt;- y_test - lin_y_pred_test\n#lin_resids_test\nlin_rss_test &lt;- sum(lin_resids_test^2)\n#lin_rss_test\n# Lin R2 = 1 - RSS/TSS\ntss_test &lt;- sum((y_test - mean(y_test))^2)\nlin_r2_test &lt;- 1 - (lin_rss_test / tss_test)\n#lin_r2_test\n# Now the poly model\npoly_y_pred_test &lt;- predict(poly_model, as.data.frame(x_test))\npoly_resids_test &lt;- y_test - poly_y_pred_test\npoly_rss_test &lt;- sum(poly_resids_test^2)\n#poly_rss_test\n# RSS\npoly_r2_test &lt;- 1 - (poly_rss_test / tss_test)\n#poly_r2_test\n\n\nggplot(of_data, aes(x=x, y=y)) +\n  stat_smooth(method = \"lm\",\n              formula = y ~ poly(x, 10, raw = TRUE),\n              se = FALSE, aes(color=\"Polynomial\")) +\n  dsan_theme() +\n  geom_point(data=of_data_test, aes(x=x_test, y=y_test), size=g_pointsize/2) +\n  geom_abline(aes(intercept=0, slope=1, color=\"Linear\"), linewidth=1, show.legend = FALSE) +\n  labs(\n    title = \"Getting a Perfect Fit: Unseen Test Data\",\n    color = \"Model\"\n  ) +\n  dsan_theme()\n\n\n\n\n\n\n\n\n\n\nLinear Model:\n\n\nlin_r2_test\n\n[1] 0.841047\n\nlin_rss_test\n\n[1] 0.1857214\n\n\n\nPolynomial Model:\n\n\npoly_r2_test\n\n[1] 0.2782714\n\npoly_rss_test\n\n[1] 0.8432709"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#how-to-avoid-overfitting",
-    "href": "extra-slides/machine-learning/index.html#how-to-avoid-overfitting",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "How to Avoid Overfitting?",
-    "text": "How to Avoid Overfitting?\n\nThe gist: penalize model complexity\n\nOriginal optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nNew optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\left[ \\mathcal{L}(y_{obs}, y_{pred}(\\theta)) + \\mathsf{Complexity}(\\theta) \\right]\n\\]\n\nSo how do we measure, and penalize, “complexity”?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#regularization-measuring-and-penalizing-complexity",
-    "href": "extra-slides/machine-learning/index.html#regularization-measuring-and-penalizing-complexity",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Regularization: Measuring and Penalizing Complexity",
-    "text": "Regularization: Measuring and Penalizing Complexity\n\nIn the case of polynomials, fairly simple complexity measure: degree of polynomial\n\n\\[\n\\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x + \\beta_2 x^2 + \\beta_3 x^3) &gt; \\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x)\n\\]\n\nIn general machine learning, however, we might not be working with polynomials\nIn neural networks, for example, we sometimes toss in millions of features and ask the algorithm to “just figure it out”\nThe gist, in the general case, is thus: try to “amplify” the most important features and shrink the rest, so that\n\n\\[\n\\mathsf{Complexity} \\propto \\frac{|\\text{AmplifiedFeatures}|}{|\\text{ShrunkFeatures}|}\n\\]"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#lasso-and-elastic-net-regularization",
-    "href": "extra-slides/machine-learning/index.html#lasso-and-elastic-net-regularization",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "LASSO and Elastic Net Regularization",
-    "text": "LASSO and Elastic Net Regularization\n\nMany ways to translate this intuition into math!\nIn several fields, however (econ, biostatistics), LASSO4 [@tibshirani_regression_1996] is standard:\n\n\\[\n\\beta^*_{LASSO} = {\\underset{\\beta}{\\operatorname{argmin}}}\\left\\{{\\frac {1}{N}}\\left\\|y-X\\beta \\right\\|_{2}^{2}+\\lambda \\|\\beta \\|_{1}\\right\\}\n\\]\n\nWhy does this work to penalize complexity? What does the parameter \\(\\lambda\\) do?\nSome known issues with LASSO fixed in extension of the same intuitions: Elastic Net\n\n\\[\n\\beta^*_{EN} = {\\underset {\\beta }{\\operatorname {argmin} }}\\left\\{ \\|y-X\\beta \\|^{2}_2+\\lambda _{2}\\|\\beta \\|^{2}+\\lambda _{1}\\|\\beta \\|_{1} \\right\\}\n\\]\n\n(Ensures a unique global minimum! Note that \\(\\lambda_2 = 0, \\lambda_1 = 1 \\implies \\beta^*_{LASSO} = \\beta^*_{EN}\\))"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#training-vs.-test-data",
-    "href": "extra-slides/machine-learning/index.html#training-vs.-test-data",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Training vs. Test Data",
-    "text": "Training vs. Test Data\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_02\n\n Test Set (20%)   \n\nN1\n\n 20%   \n\nN2\n\n 20%   \n\nN3\n\n 20%   \n\nN4\n\n 20%   \n\nN5\n\n 20%"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#cross-validation",
-    "href": "extra-slides/machine-learning/index.html#cross-validation",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Cross-Validation",
-    "text": "Cross-Validation\n\nThe idea that good models generalize well is crucial!\n\nWhat if we could leverage this insight to optimize over our training data?\nThe key: Validation Sets\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_02\n\n Training Fold (80%)  \n\ncluster_03\n\n Validation Fold (20%)  \n\ncluster_04\n\n Test Set (20%)   \n\nA1\n\n 16%   \n\nA2\n\n 16%    \n\nA3\n\n 16%    \n\nA4\n\n 16%    \n\nB1\n\n 16%    \n\nC1\n\n 20%"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#hyperparameters",
-    "href": "extra-slides/machine-learning/index.html#hyperparameters",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Hyperparameters",
-    "text": "Hyperparameters\n\nThe unspoken (but highly consequential!) “settings” for our learning procedure (that we haven’t optimized via gradient descent)\nThere are several we’ve already seen – can you name them?\n\n\n\nUnsupervised Clustering: The number of clusters we want (\\(K\\))\nGradient Descent: The step size \\(\\gamma\\)\nLASSO/Elastic Net: \\(\\lambda\\)\nThe train/validation/test split!"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#hyperparameter-selection",
-    "href": "extra-slides/machine-learning/index.html#hyperparameter-selection",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Hyperparameter Selection",
-    "text": "Hyperparameter Selection\n\nEvery model comes with its own hyperparameters:\n\nNeural Networks: Number of layers, number of nodes per layer\nDecision Trees: Maximum tree depth, max number of features to include\nTopic Models: Number of topics, document/topic priors\n\nSo, how do we choose?\n\nOften more art than science\nPrincipled, universally applicable, but slow: grid search\nSpecific methods for specific algorithms: ADAM [@kingma_adam_2017] for Neural Network learning rates)"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#appendix-harmonic-mean",
-    "href": "extra-slides/machine-learning/index.html#appendix-harmonic-mean",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Appendix: Harmonic Mean",
-    "text": "Appendix: Harmonic Mean\n\n\\(\\mathsf{HMean}\\) is the harmonic mean, an alternative to the standard (arithmetic) mean\nPenalizes greater “gaps” between precision and recall: if precision is 0 and recall is 1, for example, their arithmetic mean is 0.5 while their harmonic mean is 0.\nFor the curious: given numbers \\(X = \\{x_1, \\ldots, x_n\\}\\), \\(\\mathsf{HMean}(X) = \\frac{n}{\\sum_{i=1}^nx_i^{-1}}\\)"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/index.html#footnotes",
-    "href": "extra-slides/machine-learning/index.html#footnotes",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nWhether standard classification (sorting observations into bins) or regression (assigning a real number to each observation)↩︎\nComputer scientists implicitly assume a Correspondence Theory of Truth, hence the choice of name↩︎\nThanks to Bayes’ Rule, mathematically we can always convert between the two: \\(P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\\)↩︎\nLeast Absolute Shrinkage and Selection Operator↩︎"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#supervised-vs.-unsupervised-learning",
-    "href": "extra-slides/machine-learning/slides.html#supervised-vs.-unsupervised-learning",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Supervised vs. Unsupervised Learning",
-    "text": "Supervised vs. Unsupervised Learning\n\n\n\n\n\nSupervised Learning: You want the computer to learn the existing pattern of how you are classifying1 observations\n\nDiscovering the relationship between properties of data and outcomes\nExample (Binary Classification): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B\nExample (Regression): I assign a rating of 0-100 to each home\nIn both cases: I ask the computer to learn my schema (how I classify)\n\n\nUnsupervised Learning: You want the computer to find patterns in a dataset, without any prior classification info\n\nTypically: grouping or clustering observations based on shared properties\nExample (Clustering): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together\n\n\n\nWhether standard classification (sorting observations into bins) or regression (assigning a real number to each observation)"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#dataset-structures",
-    "href": "extra-slides/machine-learning/slides.html#dataset-structures",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Dataset Structures",
-    "text": "Dataset Structures\n\n\nSupervised Learning: Dataset has both explanatory variables (“features”) and response variables (“labels”)\n\n\n\n\n\n\n\nhome_id\nsqft\nbedrooms\nrating\n\n\n\n\n0\n1000\n1\nDisliked\n\n\n1\n2000\n2\nLiked\n\n\n2\n2500\n1\nLiked\n\n\n3\n1500\n2\nDisliked\n\n\n4\n2200\n1\nLiked\n\n\n\n\n\n\n\n\nUnsupervised Learning: Dataset has only explanatory variables (“features”)\n\n\n\n\n\n\n\nhome_id\nsqft\nbedrooms\n\n\n\n\n0\n1000\n1\n\n\n1\n2000\n2\n\n\n2\n2500\n1\n\n\n3\n1500\n2\n\n\n4\n2200\n1"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#dataset-structures-visualized",
-    "href": "extra-slides/machine-learning/slides.html#dataset-structures-visualized",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Dataset Structures: Visualized",
-    "text": "Dataset Structures: Visualized"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#different-goals",
-    "href": "extra-slides/machine-learning/slides.html#different-goals",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Different Goals",
-    "text": "Different Goals"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#the-learning-in-machine-learning",
-    "href": "extra-slides/machine-learning/slides.html#the-learning-in-machine-learning",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "The “Learning” in Machine Learning",
-    "text": "The “Learning” in Machine Learning\n\nGiven these datasets, how do we learn the patterns?\nNaïve idea: Try random lines (each forming a decision boundary), pick “best” one\n\n\n\nWhat parameters are we choosing when we draw a random line? Random curve?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#what-makes-a-goodbest-guess",
-    "href": "extra-slides/machine-learning/slides.html#what-makes-a-goodbest-guess",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "What Makes a “Good”/“Best” Guess?",
-    "text": "What Makes a “Good”/“Best” Guess?\n\nWhat’s your intuition? How about accuracy… 🤔\n\n\nSo… what’s wrong here?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#whats-wrong-with-accuracy",
-    "href": "extra-slides/machine-learning/slides.html#whats-wrong-with-accuracy",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "What’s Wrong with Accuracy?",
-    "text": "What’s Wrong with Accuracy?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#the-oversimplified-big-picture",
-    "href": "extra-slides/machine-learning/slides.html#the-oversimplified-big-picture",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "The (Oversimplified) Big Picture",
-    "text": "The (Oversimplified) Big Picture\n\nA model: some representation of something in the world\n\n\n\n\n\nHow well does our model represent the world?1 \\(\\mathsf{Correspondence}(y_{obs}, \\theta)\\)\n\\(P\\left(y_{obs}, \\theta\\right)\\), \\(P\\left(\\theta \\; | \\; y_{obs}\\right)\\), \\(P\\left(y_{obs} \\; | \\; \\theta\\right)\\)2\nMaximum Likelihood Estimation?\n\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_02\n\n “Science”  \n\ncluster_01\n\n “Nature”   \n\nObs\n\n Thing(s) we can see   \n\nUnd\n\n Underlying process   \n\nUnd-&gt;Obs\n\n    \n\nModel\n\n Model   \n\nUnd-&gt;Model\n\n    \n\nModel-&gt;Obs\n\n   \n\n\n\n\n\n\n\n\\[\n\\begin{align*}\n\\mathsf{Correspondence}(y_{obs}, \\theta) &\\equiv P(y = y_{obs}, \\theta) \\\\\nP(y = y_{obs}, \\theta) &= P(y=y_{obs} \\; | \\; \\theta)P(\\theta) \\\\\n&\\propto P\\left(y = y_{obs} \\; | \\; \\theta\\right)\\ldots \\implies \\text{(maximize this!)}  \\\\\n\\end{align*}\n\\]\nComputer scientists implicitly assume a Correspondence Theory of Truth, hence the choice of nameThanks to Bayes’ Rule, mathematically we can always convert between the two: \\(P(A|B) = \\frac{P(B|A)P(A)}{P(B)}\\)"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#measuring-errors-f1-score",
-    "href": "extra-slides/machine-learning/slides.html#measuring-errors-f1-score",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Measuring Errors: F1 Score",
-    "text": "Measuring Errors: F1 Score\n\nHow can we reward guesses which best discriminate between classes?\n\n\\[\n\\begin{align*}\n\\mathsf{Precision} &= \\frac{\\# \\text{true positives}}{\\# \\text{predicted positive}} = \\frac{tp}{tp+fp} \\\\[1.5em]\n\\mathsf{Recall} &= \\frac{\\# \\text{true positives}}{\\# \\text{positives in data}} = \\frac{tp}{tp+fn} \\\\[1.5em]\nF_1 &= 2\\frac{\\mathsf{Precision} \\cdot \\mathsf{Recall}}{\\mathsf{Precision} + \\mathsf{Recall}} = \\mathsf{HMean}(\\mathsf{Precision}, \\mathsf{Recall})\n\\end{align*}\n\\]\n\nThink about: How does this address/fix issue with accuracy?\n\n\n\nHere \\(\\mathsf{HMean}\\) is the Harmonic Mean function: see appendix slide or Wikipedia."
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#measuring-errors-the-loss-function",
-    "href": "extra-slides/machine-learning/slides.html#measuring-errors-the-loss-function",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Measuring Errors: The Loss Function",
-    "text": "Measuring Errors: The Loss Function\n\nWhat about regression?\n\nNo longer just “true prediction good, false prediction bad”\n\nWe have to quantify how bad the guess is! Then we can scale the penalty accordingly: \\(\\text{penalty} \\propto \\text{badness}\\)\nEnter Loss Functions! Just distances (using distance metrics you’ve already seen) between the true value and our guess:\n\nSquared Error \\(L^2(y_{obs}, y_{pred}) = (y_{obs} - y_{pred})^2\\)\nKullback-Leibler Divergence if guessing distributions"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#calculus-rears-its-ugly-head",
-    "href": "extra-slides/machine-learning/slides.html#calculus-rears-its-ugly-head",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Calculus Rears its Ugly Head",
-    "text": "Calculus Rears its Ugly Head\n\nNeural networks use derivatives/gradients to improve their predictions given a particular loss function.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCan we just use the \\(F_1\\) score?\n\n\\[\n\\frac{\\partial F_1(weights)}{\\partial weights} = \\ldots \\; ? \\; \\ldots 💀\n\\]"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#quantifying-discrete-loss",
-    "href": "extra-slides/machine-learning/slides.html#quantifying-discrete-loss",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Quantifying Discrete Loss",
-    "text": "Quantifying Discrete Loss\n\nWe can quantify a differentiable discrete loss by asking the algorithm how confident it is\n\nCloser to 0 \\(\\implies\\) more confident that the true label is 0\nCloser to 1 \\(\\implies\\) more confident that the true label is 1\n\n\n\\[\n\\mathcal{L}_{CE}(y_{pred}, y_{obs}) = -(y_{obs}\\log(y_{pred}) + (1-y_{obs})\\log(1-y_{pred}))\n\\]"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#loss-function-implies-ready-to-learn",
-    "href": "extra-slides/machine-learning/slides.html#loss-function-implies-ready-to-learn",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Loss Function \\(\\implies\\) Ready to Learn!",
-    "text": "Loss Function \\(\\implies\\) Ready to Learn!\n\nOnce we’ve chosen a loss function, the learning algorithm has what it needs to proceed with the actual learning\nNotation: Bundle all the model’s parameters together into \\(\\theta\\)\nThe goal: \\[\n\\min_{\\theta} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nWhat would this look like for the random-lines approach?\nIs there a more efficient way?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#calculus-strikes-again",
-    "href": "extra-slides/machine-learning/slides.html#calculus-strikes-again",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Calculus Strikes Again",
-    "text": "Calculus Strikes Again\n\ntldr: The slope of a function tells us how to get to a minimum (why a minimum rather than the minimum?)\nDerivative (gradient) = “direction of sharpest decrease”\nThink of hill climbing! Let \\(\\ell_t \\in L\\) be your location at time \\(t\\), and \\(Alt(\\ell)\\) be the altitude at a location \\(\\ell\\)\nGradient descent for \\(\\ell^* = \\max_{\\ell \\in L} Alt(\\ell)\\): \\[\n\\ell_{t+1} = \\ell_t + \\gamma\\nabla Alt(\\ell_t),\\ t\\geq 0.\n\\]\nWhile top of mountain = good, Loss is bad: we want to find the bottom of the “loss crater”\n\n\\(\\implies\\) we do the opposite: subtract \\(\\gamma\\nabla Alt(\\ell_t)\\)"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#good-and-bad-news",
-    "href": "extra-slides/machine-learning/slides.html#good-and-bad-news",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Good and Bad News",
-    "text": "Good and Bad News\n\n\n\nUniversal Approximation Theorem\nNeural networks can represent any function mapping one Euclidean space to another\n(Neural Turing Machines:)\n\n\n\n\n\n\n\nWeierstrass Approximation Theorem\n(Polynomials could already represent any function)\n\n\\[\nf \\in C([a,b],[a,b])\n\\] \\[\n\\implies \\forall \\epsilon &gt; 0, \\exists p \\in \\mathbb{R}[x] :\n\\] \\[\n\\forall x \\in [a, b] \\; \\left|f(x) − p(x)\\right| &lt; \\epsilon\n\\]\n\nImplications for machine learning?\n\n\n\n\nFigure from @schmidinger_exploring_2019"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#so-whats-the-issue",
-    "href": "extra-slides/machine-learning/slides.html#so-whats-the-issue",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "So What’s the Issue?",
-    "text": "So What’s the Issue?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHigher \\(R^2\\) = Better Model? Lower \\(RSS\\)?\nLinear Model:\n\n\n\nCode\nsummary(lin_model)$r.squared\n\n\n[1] 0.530839\n\n\nCode\nget_rss(lin_model)\n\n\n[1] 0.538697\n\n\n\nPolynomial Model:\n\n\n\nCode\nsummary(poly_model)$r.squared\n\n\n[1] 1\n\n\nCode\nget_rss(poly_model)\n\n\n[1] 0"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#generalization",
-    "href": "extra-slides/machine-learning/slides.html#generalization",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Generalization",
-    "text": "Generalization\n\nTraining Accuracy: How well does it fit the data we can see?\nTest Accuracy: How well does it generalize to future data?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLinear Model:\n\n\n\nCode\nlin_r2_test\n\n\n[1] 0.841047\n\n\nCode\nlin_rss_test\n\n\n[1] 0.1857214\n\n\n\nPolynomial Model:\n\n\n\nCode\npoly_r2_test\n\n\n[1] 0.2782714\n\n\nCode\npoly_rss_test\n\n\n[1] 0.8432709"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#how-to-avoid-overfitting",
-    "href": "extra-slides/machine-learning/slides.html#how-to-avoid-overfitting",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "How to Avoid Overfitting?",
-    "text": "How to Avoid Overfitting?\n\nThe gist: penalize model complexity\n\nOriginal optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\mathcal{L}(y_{obs}, y_{pred}(\\theta))\n\\]\nNew optimization: \\[\n\\theta^* = \\underset{\\theta}{\\operatorname{argmin}} \\left[ \\mathcal{L}(y_{obs}, y_{pred}(\\theta)) + \\mathsf{Complexity}(\\theta) \\right]\n\\]\n\nSo how do we measure, and penalize, “complexity”?"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#regularization-measuring-and-penalizing-complexity",
-    "href": "extra-slides/machine-learning/slides.html#regularization-measuring-and-penalizing-complexity",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Regularization: Measuring and Penalizing Complexity",
-    "text": "Regularization: Measuring and Penalizing Complexity\n\nIn the case of polynomials, fairly simple complexity measure: degree of polynomial\n\n\\[\n\\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x + \\beta_2 x^2 + \\beta_3 x^3) &gt; \\mathsf{Complexity}(y_{pred} = \\beta_0 + \\beta_1 x)\n\\]\n\nIn general machine learning, however, we might not be working with polynomials\nIn neural networks, for example, we sometimes toss in millions of features and ask the algorithm to “just figure it out”\nThe gist, in the general case, is thus: try to “amplify” the most important features and shrink the rest, so that\n\n\\[\n\\mathsf{Complexity} \\propto \\frac{|\\text{AmplifiedFeatures}|}{|\\text{ShrunkFeatures}|}\n\\]"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#lasso-and-elastic-net-regularization",
-    "href": "extra-slides/machine-learning/slides.html#lasso-and-elastic-net-regularization",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "LASSO and Elastic Net Regularization",
-    "text": "LASSO and Elastic Net Regularization\n\nMany ways to translate this intuition into math!\nIn several fields, however (econ, biostatistics), LASSO1 [@tibshirani_regression_1996] is standard:\n\n\\[\n\\beta^*_{LASSO} = {\\underset{\\beta}{\\operatorname{argmin}}}\\left\\{{\\frac {1}{N}}\\left\\|y-X\\beta \\right\\|_{2}^{2}+\\lambda \\|\\beta \\|_{1}\\right\\}\n\\]\n\nWhy does this work to penalize complexity? What does the parameter \\(\\lambda\\) do?\nSome known issues with LASSO fixed in extension of the same intuitions: Elastic Net\n\n\\[\n\\beta^*_{EN} = {\\underset {\\beta }{\\operatorname {argmin} }}\\left\\{ \\|y-X\\beta \\|^{2}_2+\\lambda _{2}\\|\\beta \\|^{2}+\\lambda _{1}\\|\\beta \\|_{1} \\right\\}\n\\]\n\n(Ensures a unique global minimum! Note that \\(\\lambda_2 = 0, \\lambda_1 = 1 \\implies \\beta^*_{LASSO} = \\beta^*_{EN}\\))\n\nLeast Absolute Shrinkage and Selection Operator"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#training-vs.-test-data",
-    "href": "extra-slides/machine-learning/slides.html#training-vs.-test-data",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Training vs. Test Data",
-    "text": "Training vs. Test Data\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_02\n\n Test Set (20%)  \n\ncluster_01\n\n Training Set (80%)   \n\nN1\n\n 20%   \n\nN2\n\n 20%   \n\nN3\n\n 20%   \n\nN4\n\n 20%   \n\nN5\n\n 20%"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#cross-validation",
-    "href": "extra-slides/machine-learning/slides.html#cross-validation",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Cross-Validation",
-    "text": "Cross-Validation\n\nThe idea that good models generalize well is crucial!\n\nWhat if we could leverage this insight to optimize over our training data?\nThe key: Validation Sets\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_04\n\n Test Set (20%)  \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_03\n\n Validation Fold (20%)  \n\ncluster_02\n\n Training Fold (80%)   \n\nA1\n\n 16%   \n\nA2\n\n 16%    \n\nA3\n\n 16%    \n\nA4\n\n 16%    \n\nB1\n\n 16%    \n\nC1\n\n 20%"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#hyperparameters",
-    "href": "extra-slides/machine-learning/slides.html#hyperparameters",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Hyperparameters",
-    "text": "Hyperparameters\n\nThe unspoken (but highly consequential!) “settings” for our learning procedure (that we haven’t optimized via gradient descent)\nThere are several we’ve already seen – can you name them?\n\n\n\nUnsupervised Clustering: The number of clusters we want (\\(K\\))\nGradient Descent: The step size \\(\\gamma\\)\nLASSO/Elastic Net: \\(\\lambda\\)\nThe train/validation/test split!"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#hyperparameter-selection",
-    "href": "extra-slides/machine-learning/slides.html#hyperparameter-selection",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Hyperparameter Selection",
-    "text": "Hyperparameter Selection\n\nEvery model comes with its own hyperparameters:\n\nNeural Networks: Number of layers, number of nodes per layer\nDecision Trees: Maximum tree depth, max number of features to include\nTopic Models: Number of topics, document/topic priors\n\nSo, how do we choose?\n\nOften more art than science\nPrincipled, universally applicable, but slow: grid search\nSpecific methods for specific algorithms: ADAM [@kingma_adam_2017] for Neural Network learning rates)"
-  },
-  {
-    "objectID": "extra-slides/machine-learning/slides.html#appendix-harmonic-mean",
-    "href": "extra-slides/machine-learning/slides.html#appendix-harmonic-mean",
-    "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
-    "section": "Appendix: Harmonic Mean",
-    "text": "Appendix: Harmonic Mean\n\n\\(\\mathsf{HMean}\\) is the harmonic mean, an alternative to the standard (arithmetic) mean\nPenalizes greater “gaps” between precision and recall: if precision is 0 and recall is 1, for example, their arithmetic mean is 0.5 while their harmonic mean is 0.\nFor the curious: given numbers \\(X = \\{x_1, \\ldots, x_n\\}\\), \\(\\mathsf{HMean}(X) = \\frac{n}{\\sum_{i=1}^nx_i^{-1}}\\)\n\n\n\nDSAN5000 Extra Slides: Machine Learning"
+    "text": "This is a “hub” collecting relevant links for each week, for students in the Tuesday section (Section 02) of DSAN 5000: Data Science and Analytics, Fall 2023 at Georgetown University.\nIt is not a replacement for the Main Course Page or the Canvas Page, which are shared across all sections!\nUse the menu on the left, or the table below, to view the resources for a specific week.\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nDate\n\n\n\n\n\n\nWeek 1: Welcome to DSAN 5000!\n\n\nWednesday, August 23, 2023\n\n\n\n\nWeek 2: Data Science Fundamentals and Workflow\n\n\nTuesday, August 29, 2023\n\n\n\n\nWeek 3: Data Science Workflow\n\n\nWednesday, September 6, 2023\n\n\n\n\nWeek 4: Data Gathering and APIs\n\n\nTuesday, September 12, 2023\n\n\n\n\nWeek 5: Data Cleaning\n\n\nTuesday, September 19, 2023\n\n\n\n\nWeek 6: Exploratory Data Analysis (EDA)\n\n\nTuesday, September 26, 2023\n\n\n\n\nWeek 7: Supervised Learning\n\n\nTuesday, October 3, 2023\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "extra-videos/index.html",

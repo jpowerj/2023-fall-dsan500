@@ -107,5 +107,9 @@
   "extra-slides/machine-learning/index.qmd": {
     "index.html": "6e48ab4c",
     "slides.html": "47b47518"
+  },
+  "writeups/machine-learning/index.qmd": {
+    "slides.html": "9b1ae8f9",
+    "index.html": "11573806"
   }
 }
