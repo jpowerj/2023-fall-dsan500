@@ -11,6 +11,7 @@ format:
     scrollable: true
     df-print: kable
     code-fold: true
+    slide-number: true
     html-math-method: mathjax
     theme: [default, "../../_jjslides.scss"]
     output-file: slides.html
