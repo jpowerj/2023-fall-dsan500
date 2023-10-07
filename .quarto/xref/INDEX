@@ -103,5 +103,9 @@
   },
   "writeups/feature-selection/index.qmd": {
     "index.html": "11d02410"
+  },
+  "extra-slides/machine-learning/index.qmd": {
+    "index.html": "6e48ab4c",
+    "slides.html": "47b47518"
   }
 }

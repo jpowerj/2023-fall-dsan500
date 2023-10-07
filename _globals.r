@@ -99,3 +99,6 @@ remove_legend <- function() {
     )
   )
 }
+
+# Global functions
+get_rss <- function(model) { return(sum(summary(model)$residuals^2)) }
