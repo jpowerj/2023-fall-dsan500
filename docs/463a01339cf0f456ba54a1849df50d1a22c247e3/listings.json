@@ -2,6 +2,7 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/feature-selection/DSAN5000_Feature_Selection_Full.html",
       "/writeups/machine-learning/index.html",
       "/writeups/melt-and-pivot/index.html",
       "/writeups/eda-seaborn/THOR_EDA_with_Seaborn.html",

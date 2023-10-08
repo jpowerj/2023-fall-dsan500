@@ -1046,7 +1046,7 @@ $$
 
 What are the keys to success in the NBA?
 
-[Lab 6 Demo <i class='bi bi-box-arrow-up-right ps-1'></i>](../writeups/feature-selection/index.qmd){target="_blank"}
+[Lab 6 Demo <i class='bi bi-box-arrow-up-right ps-1'></i>](../writeups/feature-selection/){target="_blank"}
 
 ## Lab Assignment Overview
 

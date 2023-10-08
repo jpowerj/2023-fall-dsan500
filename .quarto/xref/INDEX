@@ -111,5 +111,8 @@
   "writeups/machine-learning/index.qmd": {
     "slides.html": "9b1ae8f9",
     "index.html": "11573806"
+  },
+  "writeups/feature-selection/DSAN5000_Feature_Selection_Full.ipynb": {
+    "DSAN5000_Feature_Selection_Full.html": "c777d002"
   }
 }

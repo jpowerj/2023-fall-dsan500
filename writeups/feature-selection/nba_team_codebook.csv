@@ -1,0 +1,19 @@
+variable,description,type
+year_team,"Unique identifier of the form {po_year}_{team_full} (each row represents one team in a single year)",str
+po_year,The year that the season's playoffs took place (as NBA seasons span two years),int
+team_full,Full name of the team,str
+mean_age,"Mean age of the team's members that year, in years",float
+mean_height,"Mean height of the team's members that year, in cm",float
+mean_weight,"Mean weight of the team's members that year, in kg",float
+PtsSeason,The team's average points per game that year,float
+OppPtsSeason,The average number of points scored by the team's opponents that year,float
+PtsDiff,The difference between PtsSeason and OppPtsSeason,float
+Reb,The team's average number of rebounds per game that year,float
+Ast,The team's average number of assists per game that year,float
+Stl,The team's average number of steals per game that year,float
+Blk,The team's average number of blocks per game that year,float
+To,The team's average number of turnovers per game that year,float
+Pf,The team's average number of personal fouls per game that year,float
+Dreb,The team's average number of defensive rebounds per game that year,float
+Oreb,The team's average number of offensive rebounds per game that year,float
+playoffs,"TRUE if the team made the playoffs that year, FALSE otherwise",bool
