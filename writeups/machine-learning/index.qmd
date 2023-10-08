@@ -733,7 +733,7 @@ ggplot(of_data, aes(x=x, y=y)) +
   geom_point(data=of_data_test, aes(x=x_test, y=y_test), size=g_pointsize/2) +
   geom_abline(aes(intercept=0, slope=1, color="Linear"), linewidth=1, show.legend = FALSE) +
   labs(
-    title = "Getting a Perfect Fit: Unseen Test Data",
+    title = "Performance on Unseen Test Data",
     color = "Model"
   ) +
   dsan_theme()

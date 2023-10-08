@@ -1124,14 +1124,14 @@
     "href": "writeups/machine-learning/slides.html#training-vs.-test-data",
     "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
     "section": "Training vs. Test Data",
-    "text": "Training vs. Test Data\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_02\n\n Test Set (20%)  \n\ncluster_01\n\n Training Set (80%)   \n\nN1\n\n 20%   \n\nN2\n\n 20%   \n\nN3\n\n 20%   \n\nN4\n\n 20%   \n\nN5\n\n 20%"
+    "text": "Training vs. Test Data\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_02\n\n Test Set (20%)   \n\nN1\n\n 20%   \n\nN2\n\n 20%   \n\nN3\n\n 20%   \n\nN4\n\n 20%   \n\nN5\n\n 20%"
   },
   {
     "objectID": "writeups/machine-learning/slides.html#cross-validation",
     "href": "writeups/machine-learning/slides.html#cross-validation",
     "title": "Extra Slides: A Slightly Deeper Dive Into Machine Learning",
     "section": "Cross-Validation",
-    "text": "Cross-Validation\n\nThe idea that good models generalize well is crucial!\n\nWhat if we could leverage this insight to optimize over our training data?\nThe key: Validation Sets\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_04\n\n Test Set (20%)  \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_03\n\n Validation Fold (20%)  \n\ncluster_02\n\n Training Fold (80%)   \n\nA1\n\n 16%   \n\nA2\n\n 16%    \n\nA3\n\n 16%    \n\nA4\n\n 16%    \n\nB1\n\n 16%    \n\nC1\n\n 20%"
+    "text": "Cross-Validation\n\nThe idea that good models generalize well is crucial!\n\nWhat if we could leverage this insight to optimize over our training data?\nThe key: Validation Sets\n\n\n\n\n\n\n\n\n\ngrid\n\n \n\ncluster_04\n\n Test Set (20%)  \n\ncluster_01\n\n Training Set (80%)  \n\ncluster_02\n\n Training Fold (80%)  \n\ncluster_03\n\n Validation Fold (20%)   \n\nA1\n\n 16%   \n\nA2\n\n 16%    \n\nA3\n\n 16%    \n\nA4\n\n 16%    \n\nB1\n\n 16%    \n\nC1\n\n 20%"
   },
   {
     "objectID": "writeups/machine-learning/slides.html#hyperparameters",
