@@ -20,6 +20,14 @@ format:
     output-file: index.html
 ---
 
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
 ## Supervised vs. Unsupervised Learning {.smaller .shift-footnotes-lesser .crunch-title .crunch-ul}
 
 ::: {.hidden}
