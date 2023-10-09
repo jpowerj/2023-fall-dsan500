@@ -1,5 +1,25 @@
 [
   {
+    "listing": "/extra-videos/index.html",
+    "items": []
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/w01/index.html",
+      "/w02/index.html",
+      "/w03/index.html",
+      "/w04/index.html",
+      "/w05/index.html",
+      "/w06/index.html",
+      "/w07/index.html"
+    ]
+  },
+  {
+    "listing": "/cheatsheet-code/index.html",
+    "items": []
+  },
+  {
     "listing": "/writeups/index.html",
     "items": [
       "/writeups/feature-selection/DSAN5000_Feature_Selection_Full.html",
@@ -26,22 +46,6 @@
   },
   {
     "listing": "/writeups/quiz-status/index.html",
-    "items": []
-  },
-  {
-    "listing": "/index.html",
-    "items": [
-      "/w01/index.html",
-      "/w02/index.html",
-      "/w03/index.html",
-      "/w04/index.html",
-      "/w05/index.html",
-      "/w06/index.html",
-      "/w07/index.html"
-    ]
-  },
-  {
-    "listing": "/extra-videos/index.html",
     "items": []
   }
 ]

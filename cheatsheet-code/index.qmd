@@ -1,0 +1,64 @@
+---
+title: "R/Python Coding Cheatsheet"
+date: last-modified
+format:
+  html:
+    code-overflow: scroll
+listing:
+  id: code-cheatsheet
+  sort-ui: true
+  filter-ui: true
+  contents:
+    - coding-cheatsheet.yml
+  type: table
+  #categories: true
+#   include:
+#     categories: "{Lecture Videos,Extra Videos}"
+  fields: [concept,r,python]
+  field-display-names:
+    concept: "Concept"
+    r: "R Code"
+    python: "Python Code"
+  sort:
+    - "concept"
+  table-hover: false
+metadata-files: 
+  - ../_doc-meta.yml
+---
+
+```{=html}
+<style>
+.sourceCode {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+td p {
+  margin-bottom: 4px !important;
+}
+
+table {
+  table-layout: fixed !important;
+  width: 100% !important;
+  /* border-collapse: collapse !important; */
+}
+td:first-of-type {
+  width: 50px !important;
+}
+</style>
+```
+
+::: {.column-page-right}
+
+This cheatsheet is intended as a quick reference you can use to "translate" between **concepts** from the course and the functions/libraries which implement these concepts in both **R** and **Python**. Use the **search box below** (not the one in the page sidebar) to filter all of the rows down to the particular concepts, or the particular functions, that you are looking for.
+
+::: {.callout-note title="Mobile Browsing"}
+
+I strongly recommend viewing this on your **laptop** (that is, in a full-screen-width browser) rather than on mobile, since I've made the page width wider here to make room for the blocks of code within each column!
+
+:::
+
+::: {#code-cheatsheet style="max-width: 100% !important;"}
+:::
+
+:::

@@ -114,5 +114,11 @@
   },
   "writeups/feature-selection/DSAN5000_Feature_Selection_Full.ipynb": {
     "DSAN5000_Feature_Selection_Full.html": "c777d002"
+  },
+  "cheatsheet-code/index.qmd": {
+    "index.html": "5745073c"
+  },
+  "concepts/bernoulli.qmd": {
+    "bernoulli.html": "b7910032"
   }
 }

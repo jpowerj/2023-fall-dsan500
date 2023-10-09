@@ -1,0 +1,167 @@
+- concept: "<a href='https://en.wikipedia.org/wiki/Bernoulli_distribution' target='_blank'>Bernoulli Distribution</a>"
+  r: |
+    Using <a href='https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html' target='_blank'>Base R</a>:
+  
+    ```r
+    rbinom(num_to_generate, 1, p)
+    ```
+
+  python: |
+    Using <a href='https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bernoulli.html' target='_blank'>SciPy</a>:
+
+    ```python
+    from scipy.stats import bernoulli
+    bernoulli.rvs(p, size=num_to_generate)
+    ```
+- concept: "<a href='https://en.wikipedia.org/wiki/Continuous_uniform_distribution' target='_blank'>Continuous Uniform Distribution</a>"
+  r: |
+    Using <a href='https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Uniform.html' target='_blank'>Base R</a>:
+
+    ```r
+    runif(num_to_generate, a, b)
+    ```
+  python: |
+    Using <a href='https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.uniform.html#numpy.random.Generator.uniform' target='_blank'>NumPy</a>:
+
+    ```python
+    rng = np.random.default_rng(seed=5000)
+    rng.uniform(a,b,num_to_generate)
+    ```
+- concept: "<a href='https://en.wikipedia.org/wiki/Discrete_uniform_distribution' target='_blank'>Discrete Uniform Distribution</a>"
+  r: |
+    Using the `sample()` function from Base R:
+    ```r
+    a <- 1; b <- 10;
+    sample(a:b, num_to_generate, replace=TRUE)
+    ```
+  python: |
+    Using <a href='https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.integers.html#numpy.random.Generator.integers' target='_blank'>NumPy</a>:
+    ```python
+    rng = np.random.default_rng(seed=5000)
+    rng.integers(a, b + 1, size=num_to_generate)
+    ```
+- concept: "<a href='https://en.wikipedia.org/wiki/Normal_distribution' target='_blank'>Normal Distribution</a>"
+  r: |
+    Using <a href='https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Normal.html' target='_blank'>Base R</a>:
+
+    ```r
+    rnorm(num_to_generate, mu, sigma)
+    ```
+
+  python: |
+    Using <a href='https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.normal.html#numpy.random.Generator.normal' target='_blank'>NumPy</a>:
+
+    ```python
+    rng = np.random.default_rng(seed=5000)
+    rng.normal(mu, sigma, num_to_generate)
+    ```
+- concept: "Generate sequence from `1` to `N`"
+  r: |
+    In steps of size 1:
+    ```r
+    seq(from = 1, to = N)
+    ```
+    In steps of size `k`:
+    ```r
+    seq(from = 1, to = N, by = k)
+    ```
+  python: |
+    In steps of size 1:
+    ```python
+    range(1, N + 1)
+    ```
+    * The second argument to `range()` is **ex**clusive, meaning that we use `N + 1` here to indicate that we want the numbers from 1 to `N` **in**clusive
+    * Also note that `range()` produces a **generator object** (an object which generates the sequence "on the fly" when used in a loop), meaning that if you need an actual **list** of the numbers from 1 to `N`, you need to explicitly convert the generator object to a list:
+    ```python
+    list(range(1, N + 1))
+    ```
+- concept: "Generate a data table from a set of **columns**"
+  r: |
+    Using <a href='' target='_blank'>Tidyverse</a>:
+    ```r
+    df <- tibble(col1_name=col1_vals, col2_name=col2_vals)
+    ```
+  python: |
+    Using Pandas:
+    ```python
+    df = pd.DataFrame({'col1_name': col1_vals, 'col2_name': col2_vals})
+    ```
+- concept: "Generate a data table quickly by entering values in your code"
+  r: |
+    Using <a href='' target='_blank'>Tidyverse</a>:
+    ```r
+    df <- tribble(
+      ~col1_name, ~col2_name,
+      col1_val1, col2_val1,
+      col1_val2, col2_val2
+    )
+    ```
+  python: |
+    Using Pandas:
+    ```python
+    df = pd.DataFrame({'col1_name': col1_vals, 'col2_name': col2_vals})
+    ```
+- concept: "Subset **rows** of a data table by value"
+  r: |
+    Using Tidyverse:
+    ```r
+    df |> filter(col_name == col_value)
+    ```
+    will select just the rows in `df` for which the value in the column called `col_name` is `col_value`
+  python: |
+    Using Pandas:
+    ```python
+    df.loc[df['col_name'] == col_value,]
+    ```
+    will select just the rows in `df` for which the value in the column called `col_name` is `col_value`
+- concept: "Subset **columns** of a data table by column name"
+  r: |
+    Using Tidyverse:
+    ```r
+    df |> select(col1_name, col2_name)
+    ```
+    will extract just the columns named `col1_name` and `col2_name` within `df`
+  python: |
+    Using Pandas:
+    ```python
+    df[['col1_name', 'col2_name']].copy()
+    ```
+    will extract just the columns named `col1_name` and `col2_name` within `df`. (We use `.copy()` at the end so that this produces a **new `DataFrame` object** containing just these columns. Otherwise, this operation just returns a **pointer to** a subset of the original `DataFrame` object)
+- concept: "Add a **new column** to a data table"
+  r: |
+    Using Tidyverse:
+    ```r
+    df <- df |> mutate(
+      new_col_name = new_col_value
+    )
+    ```
+  python: |
+    Using Pandas:
+    ```python
+    df['new_col_name'] = new_col_value
+    ```
+- concept: "Sample `N` rows from a data table (chosen uniformly at random, without replacement)"
+  r: |
+    Using <a href='https://dplyr.tidyverse.org/reference/slice.html' target='_blank'>Tidyverse</a>:
+    ```r
+    df |> slice_sample(n = N)
+    ```
+  python: |
+    Using <a href='https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sample.html' target='_blank'>Pandas</a>:
+    ```python
+    df.sample(n=N, random_state=5000)
+    ```
+- concept: "Scatterplot"
+  r: |
+    Using `ggplot2`:
+    ```r
+    ggplot(df, aes(x=x_var_name, y=y_var_name)) +
+      geom_point()
+    ```
+    Where `x_var_name` and `y_var_name` are the names of columns within `df`.
+  python: |
+    Using <a href='https://seaborn.pydata.org/generated/seaborn.scatterplot.html' target='_blank'>Seaborn</a>:
+    ```python
+    sns.scatterplot(data=df, x='x_var_name', y='y_var_name')
+    ```
+    Where `x_var_name` and `y_var_name` are the names of columns within `df`.
