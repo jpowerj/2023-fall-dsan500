@@ -20,8 +20,17 @@
     "items": []
   },
   {
+    "listing": "/writeups/quiz-status/index.html",
+    "items": []
+  },
+  {
+    "listing": "/recordings/index.html",
+    "items": []
+  },
+  {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/lab-3-2-clarifications/index.html",
       "/writeups/feature-selection/DSAN5000_Feature_Selection_Full.html",
       "/writeups/machine-learning/index.html",
       "/writeups/melt-and-pivot/index.html",
@@ -39,13 +48,5 @@
       "/writeups/hw1-clarifications/index.html",
       "/writeups/refs-and-citations/index.html"
     ]
-  },
-  {
-    "listing": "/recordings/index.html",
-    "items": []
-  },
-  {
-    "listing": "/writeups/quiz-status/index.html",
-    "items": []
   }
 ]
