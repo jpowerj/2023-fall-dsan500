@@ -259,7 +259,8 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#scraping-amnesty-internationals-countries-page" id="toc-scraping-amnesty-internationals-countries-page" class="nav-link active" data-scroll-target="#scraping-amnesty-internationals-countries-page">Scraping Amnesty International’s Countries Page</a></li>
+  <li><a href="#scraping-dynamically-loaded-data-from-sites-with-infinite-scrolling-effects" id="toc-scraping-dynamically-loaded-data-from-sites-with-infinite-scrolling-effects" class="nav-link active" data-scroll-target="#scraping-dynamically-loaded-data-from-sites-with-infinite-scrolling-effects">Scraping Dynamically-Loaded Data from Sites with Infinite Scrolling Effects</a></li>
+  <li><a href="#scraping-datasets-from-sites-with-multiple-pages-amnesty-internationals-countries-page" id="toc-scraping-datasets-from-sites-with-multiple-pages-amnesty-internationals-countries-page" class="nav-link" data-scroll-target="#scraping-datasets-from-sites-with-multiple-pages-amnesty-internationals-countries-page">Scraping Datasets from Sites with Multiple Pages: Amnesty International’s Countries Page</a></li>
   </ul>
 </nav>
     </div>
@@ -322,6 +323,8 @@ Video and Notebook Links
 </ul>
 </div>
 </div>
+<section id="scraping-dynamically-loaded-data-from-sites-with-infinite-scrolling-effects" class="level2">
+<h2 class="anchored" data-anchor-id="scraping-dynamically-loaded-data-from-sites-with-infinite-scrolling-effects">Scraping Dynamically-Loaded Data from Sites with Infinite Scrolling Effects</h2>
 <p>What happens if we try to scrape data from the Israeli human rights organization B’Tselem (בצלם), by just straightforwardly making a GET request using the <code>requests</code> library in Python?</p>
 <div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-10-11T03:35:05.010569Z&quot;,&quot;start_time&quot;:&quot;2023-10-11T03:35:05.008314Z&quot;}" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python built-in libraries</span></span>
@@ -882,8 +885,9 @@ Badge content:  Military operation: Defensive Shield </code></pre>
 <div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-10-11T04:36:20.915075Z&quot;,&quot;start_time&quot;:&quot;2023-10-11T04:36:20.863105Z&quot;}" data-execution_count="127">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>scraped_data_df.to_csv(<span class="st">"parsed_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="scraping-amnesty-internationals-countries-page" class="level2">
-<h2 class="anchored" data-anchor-id="scraping-amnesty-internationals-countries-page">Scraping Amnesty International’s Countries Page</h2>
+</section>
+<section id="scraping-datasets-from-sites-with-multiple-pages-amnesty-internationals-countries-page" class="level2">
+<h2 class="anchored" data-anchor-id="scraping-datasets-from-sites-with-multiple-pages-amnesty-internationals-countries-page">Scraping Datasets from Sites with Multiple Pages: Amnesty International’s Countries Page</h2>
 <p><a href="https://www.amnesty.org/en/countries/">This page</a> has a bit of a different structure, where we’ll have to interact with the page in a different way from just scrolling. For example, right when we load the page we see an “Accept Cookies” dialog, and then once we’re past that it looks like we’ll need to click each individual letter “A”, “B”, “C”, etc., to get the links to Amnesty’s pages on countries starting with these letters</p>
 <p><em>(We’ll see that, at the end of the day, we actually don’t need to do all this clicking, but I’m including this part so that you know how to <strong>programmatically click things in a page</strong> using Selenium)</em></p>
 <div class="cell" data-executetime="{&quot;end_time&quot;:&quot;2023-10-11T05:19:17.061271Z&quot;,&quot;start_time&quot;:&quot;2023-10-11T05:19:13.168895Z&quot;}" data-execution_count="222">
