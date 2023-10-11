@@ -126,5 +126,8 @@
   },
   "writeups/hw2-clarifications/index.qmd": {
     "index.html": "9989b1b6"
+  },
+  "writeups/selenium/Web_Scraping_With_Selenium.ipynb": {
+    "Web_Scraping_With_Selenium.html": "7b8eff86"
   }
 }
