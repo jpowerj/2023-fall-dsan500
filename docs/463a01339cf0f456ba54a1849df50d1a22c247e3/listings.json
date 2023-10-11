@@ -30,6 +30,7 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/selenium/Web_Scraping_With_Selenium.html",
       "/writeups/hw2-clarifications/index.html",
       "/writeups/lab-3-2-clarifications/index.html",
       "/writeups/feature-selection/DSAN5000_Feature_Selection_Full.html",
