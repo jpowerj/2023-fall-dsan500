@@ -1,3 +1,26 @@
+- concept: "Download a `.csv` file from a URL"
+  r: |
+    Using the <a href='https://httr.r-lib.org/' target='_blank'>`httr` library</a>:
+
+    ```r
+    library(httr)
+    # The URL for the .csv file you want
+    csv_url = "https://example.com/data.csv"
+    # The filename you'd like to save it to, on your local drive
+    local_filename = "downloaded_data.csv"
+    GET(csv_url, write_disk(local_filename), progress())
+    ```
+  python: |
+    Using the `requests` library:
+
+    ```python
+    import requests
+    csv_url = "https://example.com/data.csv"
+    local_filename = "downloaded_data.csv"
+    with open(local_filename, 'wb') as outfile:
+      data_content = requests.get(csv_url, stream=True).content
+      outfile.write(data_content)
+    ```
 - concept: "<a href='https://en.wikipedia.org/wiki/Bernoulli_distribution' target='_blank'>Bernoulli Distribution</a>"
   r: |
     Using <a href='https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Binomial.html' target='_blank'>Base R</a>:

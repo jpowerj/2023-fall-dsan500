@@ -1,0 +1,71 @@
+---
+title: "Homework-2 Clarifications"
+date: last-modified
+format:
+  html:
+    df-print: kable
+categories:
+  - "Clarifications"
+metadata-files:
+  - "../../_doc-meta.yml"
+---
+
+## HW-2.2: Project Checkpoint
+
+On your "Project Checkpoint", the part of Homework 2 labeled **HW-2.2: Project Checkpoint**, there are a few points that I've noticed students really struggling with, that I want to clarify.
+
+### Python APIs and R APIs
+
+The point within this part of the assignment which states that
+
+> "This **MUST** be done using at least one Python API, and at least one R API, along-side other methods."
+
+has probably caused the most confusion on this part. To me, a lot of the confusion comes from what exactly a "Python API" and an "R API" are. I personally could not figure out what this means, as APIs are just instances of public-facing "endpoints" which other developers can use to access data, so I'm not sure how and/or why we would want to differentiate between whether the API we're access is coded in Python or in R.
+
+So, instead, I interpret this part of the assignment as asking yall to use Python **code** as well as R **code** to access an API, regardless of what language the API itself is implemented in. This therefore relates to the next point, about how different projects have different data-gathering "needs" that imply different ways of using APIs.
+
+### Different Types of Data Sources for Different Projects
+
+Another thing that I found a bit constraining about the assignment as written (or, if not constraining, then maybe a bit confusing) was the fact that it requires you to use an API, but it does not specify what exactly "qualifies" as an API.
+
+In my view, then, the question you should focus on is:
+
+**what type(s) of data, from what sources, will best help me answer the question(s) I'm exploring in my project?**
+
+If you keep this question front-and-center, I think that this can help motivate the ways in which you go about satisfying this project requirement:
+
+* **If an API exists** which allows you to access the data you want programmatically, that is the "best case scenario": use the tools available to you in R and Python to **call** this API and obtain the data (as you did, for example, with the Wikipedia and News APIs).
+
+A good number of students, however, are doing projects on topics where there is no obvious way to **use an API** to obtain the data you need. If you are in this group of people, and you have **already searched for APIs which may be helpful, but didn't find any**, then I suggest doing one of the following:
+
+**If the data which best helps you explore your project topic exists as a *single file* (or a *group of files*) on the web:**
+
+Then you can use the **`requests` library in Python** and/or the **`httr` library in R** to **programmatically download the data file(s)** into your project's directory structure. Examples of how to do this, in both Python and R, are now available in the [coding cheatsheet](../../cheatsheet-code/index.qmd) section of this website. The idea is basically that, if there is **no available API** for obtaining the data you need to answer your question, then we fall back on the "API" of the web, in a broad sense: web servers essentially provide an API with an endpoint called "GET" through which you can request files, whether HTML files (which your browser can then render) or `.csv` files in this case, which you can then programmatically save to your local disk.
+
+**If the data which best helps you explore your project topic exists in an *unstructured format* like content on a specific webpage:**
+
+Then you can use the `requests` library in Python and/or the `httr` library in R to programmatically **obtain the HTML code** for the page containing your data, and **parse** this HTML code using (e.g.) `BeautifulSoup`, as we have done in class and in some of the labs.
+
+If the data exists as content on a specific webpage, but this webpage is **not** easily parseable using `BeautifulSoup`---for example, if the data is loaded into the page dynamically using JavaScript---then you'll need to use **Selenium**, which is essentially a programmable web browser you can use to (e.g.) say "load the page, wait for the JavaScript to run and populate the page with content, **then** download that content". I will be posting a walkthrough video showing how to use Selenium shortly.
+
+### Different Types of *Text* Data Sources for Different Projects
+
+As a final note, some projects "naturally" lend themselves to text-as-data analyses, while for others textual data may be very hard to come by. What I want to say for this part is:
+
+**Don't be scared to construct your textual dataset (corpus) manually!**
+
+For example, a few students in my office hours today were examining the **policies of different countries/states** with respect to topics like **immigration** or **climate change**. So, for project topics like this, a natural text corpus could be things like
+
+* Comparable policy documents from each country
+* Centralized "country reports" created by think tanks or government agencies, summarizing those countries' policies on these issues
+* News stories related to each country's policy on topic X
+
+To choose a topic that I didn't go over in office hours today, for example, if the project was related to different countries' **human rights records**, a natural text corpus could simply be Amnesty International's summary of each country's human rights record in their <a href='https://www.amnesty.org/en/documents/pol10/5670/2023/en/' target='_blank'>*2022-2023 State of the World's Human Rights* report</a>.
+
+Since this report (and many other reports like this from government agencies and NGOs) come in PDF format by default, please feel free to reach out to me about how to straightforwardly turn these `.pdf` files into `.json` or `.csv` datasets.
+
+But, if you are pressed for time, then instead of worrying about that you can just **choose a subset of countries which you are particularly interested in** and just copy-and-paste their descriptions into a .csv file.
+
+As with the "true" APIs vs. web-hosted `.csv` files situation above, it would be **optimal**/**preferred** if you could obtain the texts in a systematic, programmatic manner, like by using an API which produces text documents. But, if the textual data you are hoping to use for your project truly only exists in a format where it's (for example) "locked into" a .pdf or across a bunch of webpages, then I don't think this should prevent you from **doing** the project---you should obtain the data however you're able to, in this case, and move on to the steps of **cleaning** and **exploring** the data, in a way which is suitable for the needs of your particular project.
+
+Since the data-gathering needs of each project really differ on a case-by-case basis, if you're unsure about any of this it's probably best if you can email me or schedule an office hour to talk about it, but I hope that this has given you some general guidelines on how you can proceed if you find yourself stuck on a particular part of the data-gathering section!

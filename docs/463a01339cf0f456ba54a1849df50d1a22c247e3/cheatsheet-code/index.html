@@ -153,9 +153,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      DSAN 5000
-      </li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cheatsheet-code/index.html">Coding Cheatsheet</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -252,6 +250,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <div class="sidebar-item-container"> 
   <a href="../writeups/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Extra Writeups</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cheatsheet-code/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Coding Cheatsheet</span></a>
   </div>
 </li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
@@ -478,30 +482,36 @@ Mobile Browsing
 </tr>
 <tr data-index="5">
 <td>
-<span class="listing-concept">Generate a data table from a set of <strong>columns</strong></span>
+<span class="listing-concept">Download a <code>.csv</code> file from a URL</span>
 </td>
 <td>
-<p><span class="listing-r">Using <a href="" target="_blank">Tidyverse</a>:</span></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">col1_name=</span>col1_vals, <span class="at">col2_name=</span>col2_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="listing-r">Using the <a href="https://httr.r-lib.org/" target="_blank"><code>httr</code> library</a>:</span></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The URL for the .csv file you want</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>csv_url <span class="ot">=</span> <span class="st">"https://example.com/data.csv"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The filename you'd like to save it to, on your local drive</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>local_filename <span class="ot">=</span> <span class="st">"downloaded_data.csv"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">GET</span>(csv_url, <span class="fu">write_disk</span>(local_filename), <span class="fu">progress</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </td>
 <td>
-<p><span class="listing-python">Using Pandas:</span></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'col1_name'</span>: col1_vals, <span class="st">'col2_name'</span>: col2_vals})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="listing-python">Using the <code>requests</code> library:</span></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>csv_url <span class="op">=</span> <span class="st">"https://example.com/data.csv"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>local_filename <span class="op">=</span> <span class="st">"downloaded_data.csv"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(local_filename, <span class="st">'wb'</span>) <span class="im">as</span> outfile:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  data_content <span class="op">=</span> requests.get(csv_url, stream<span class="op">=</span><span class="va">True</span>).content</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  outfile.write(data_content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </td>
 </tr>
 <tr data-index="6">
 <td>
-<span class="listing-concept">Generate a data table quickly by entering values in your code</span>
+<span class="listing-concept">Generate a data table from a set of <strong>columns</strong></span>
 </td>
 <td>
 <p><span class="listing-r">Using <a href="" target="_blank">Tidyverse</a>:</span></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>col1_name, <span class="sc">~</span>col2_name,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  col1_val1, col2_val1,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  col1_val2, col2_val2</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">col1_name=</span>col1_vals, <span class="at">col2_name=</span>col2_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </td>
 <td>
@@ -512,84 +522,103 @@ Mobile Browsing
 </tr>
 <tr data-index="7">
 <td>
-<span class="listing-concept">Generate sequence from <code>1</code> to <code>N</code></span>
+<span class="listing-concept">Generate a data table quickly by entering values in your code</span>
 </td>
 <td>
-<p><span class="listing-r">In steps of size 1:</span></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In steps of size <code>k</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> N, <span class="at">by =</span> k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="listing-r">Using <a href="" target="_blank">Tidyverse</a>:</span></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>col1_name, <span class="sc">~</span>col2_name,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  col1_val1, col2_val1,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  col1_val2, col2_val2</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </td>
 <td>
-<p><span class="listing-python">In steps of size 1:</span></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>The second argument to <code>range()</code> is <strong>ex</strong>clusive, meaning that we use <code>N + 1</code> here to indicate that we want the numbers from 1 to <code>N</code> <strong>in</strong>clusive</li>
-<li>Also note that <code>range()</code> produces a <strong>generator object</strong> (an object which generates the sequence “on the fly” when used in a loop), meaning that if you need an actual <strong>list</strong> of the numbers from 1 to <code>N</code>, you need to explicitly convert the generator object to a list:</li>
-</ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="listing-python">Using Pandas:</span></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'col1_name'</span>: col1_vals, <span class="st">'col2_name'</span>: col2_vals})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </td>
 </tr>
 <tr data-index="8">
 <td>
-<span class="listing-concept">Sample <code>N</code> rows from a data table (chosen uniformly at random, without replacement)</span>
+<span class="listing-concept">Generate sequence from <code>1</code> to <code>N</code></span>
 </td>
 <td>
-<p><span class="listing-r">Using <a href="https://dplyr.tidyverse.org/reference/slice.html" target="_blank">Tidyverse</a>:</span></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="listing-r">In steps of size 1:</span></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In steps of size <code>k</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> N, <span class="at">by =</span> k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </td>
 <td>
-<p><span class="listing-python">Using <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sample.html" target="_blank">Pandas</a>:</span></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df.sample(n<span class="op">=</span>N, random_state<span class="op">=</span><span class="dv">5000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="listing-python">In steps of size 1:</span></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The second argument to <code>range()</code> is <strong>ex</strong>clusive, meaning that we use <code>N + 1</code> here to indicate that we want the numbers from 1 to <code>N</code> <strong>in</strong>clusive</li>
+<li>Also note that <code>range()</code> produces a <strong>generator object</strong> (an object which generates the sequence “on the fly” when used in a loop), meaning that if you need an actual <strong>list</strong> of the numbers from 1 to <code>N</code>, you need to explicitly convert the generator object to a list:</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </td>
 </tr>
 <tr data-index="9">
 <td>
+<span class="listing-concept">Sample <code>N</code> rows from a data table (chosen uniformly at random, without replacement)</span>
+</td>
+<td>
+<p><span class="listing-r">Using <a href="https://dplyr.tidyverse.org/reference/slice.html" target="_blank">Tidyverse</a>:</span></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</td>
+<td>
+<p><span class="listing-python">Using <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sample.html" target="_blank">Pandas</a>:</span></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df.sample(n<span class="op">=</span>N, random_state<span class="op">=</span><span class="dv">5000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</td>
+</tr>
+<tr data-index="10">
+<td>
 <span class="listing-concept">Scatterplot</span>
 </td>
 <td>
 <p><span class="listing-r">Using <code>ggplot2</code>:</span></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x_var_name, <span class="at">y=</span>y_var_name)) <span class="sc">+</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x_var_name, <span class="at">y=</span>y_var_name)) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 Where <code>x_var_name</code> and <code>y_var_name</code> are the names of columns within <code>df</code>. 
 </td>
 <td>
 <p><span class="listing-python">Using <a href="https://seaborn.pydata.org/generated/seaborn.scatterplot.html" target="_blank">Seaborn</a>:</span></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'x_var_name'</span>, y<span class="op">=</span><span class="st">'y_var_name'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'x_var_name'</span>, y<span class="op">=</span><span class="st">'y_var_name'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 Where <code>x_var_name</code> and <code>y_var_name</code> are the names of columns within <code>df</code>. 
 </td>
 </tr>
-<tr data-index="10">
+<tr data-index="11">
 <td>
 <span class="listing-concept">Subset <strong>columns</strong> of a data table by column name</span>
 </td>
 <td>
 <p><span class="listing-r">Using Tidyverse:</span></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(col1_name, col2_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(col1_name, col2_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 will extract just the columns named <code>col1_name</code> and <code>col2_name</code> within <code>df</code> 
 </td>
 <td>
 <p><span class="listing-python">Using Pandas:</span></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'col1_name'</span>, <span class="st">'col2_name'</span>]].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'col1_name'</span>, <span class="st">'col2_name'</span>]].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 will extract just the columns named <code>col1_name</code> and <code>col2_name</code> within <code>df</code>. (We use <code>.copy()</code> at the end so that this produces a <strong>new <code>DataFrame</code> object</strong> containing just these columns. Otherwise, this operation just returns a <strong>pointer to</strong> a subset of the original <code>DataFrame</code> object) 
 </td>
 </tr>
-<tr data-index="11">
+<tr data-index="12">
 <td>
 <span class="listing-concept">Subset <strong>rows</strong> of a data table by value</span>
 </td>
 <td>
 <p><span class="listing-r">Using Tidyverse:</span></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(col_name <span class="sc">==</span> col_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(col_name <span class="sc">==</span> col_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 will select just the rows in <code>df</code> for which the value in the column called <code>col_name</code> is <code>col_value</code> 
 </td>
 <td>
 <p><span class="listing-python">Using Pandas:</span></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'col_name'</span>] <span class="op">==</span> col_value,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'col_name'</span>] <span class="op">==</span> col_value,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 will select just the rows in <code>df</code> for which the value in the column called <code>col_name</code> is <code>col_value</code> 
 </td>
 </tr>
