@@ -1,0 +1,50 @@
+---
+title: "Midterm Prep Practice Problems"
+date: last-modified
+categories:
+  - "Extra Writeups"
+format:
+  html:
+    df-print: kable
+metadata-files: 
+  - ../../_doc-meta.yml
+---
+
+## Data Science Fundamentals
+
+### Filepaths
+
+### HTTP
+
+### Git/GitHub
+
+### Python
+
+* OOP
+* Conda
+* Typecasting
+
+## Steps in the Data Science Pipeline
+
+### Data Gathering
+
+### Data Cleaning
+
+* Long to wide, wide to long
+
+### EDA
+
+## Text Analysis
+
+* How to go from corpus -> DTM
+
+## Machine Learning
+
+* Distance metrics
+* Precision, recall, F1-score
+* Loss functions: MSE, RMSE, MAE
+* Supervised, unsupervised, reinforcement learning
+    * Buzzwords: classes, label, binary classification, multiclass classification, scalar regression, vector regressions
+* Confusion matrix
+* Overfitting
+* KNN for classification and/or regression
