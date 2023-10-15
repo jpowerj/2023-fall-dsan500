@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -227,7 +261,10 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#filepaths" id="toc-filepaths" class="nav-link" data-scroll-target="#filepaths">Filepaths</a></li>
   <li><a href="#http" id="toc-http" class="nav-link" data-scroll-target="#http">HTTP</a></li>
   <li><a href="#gitgithub" id="toc-gitgithub" class="nav-link" data-scroll-target="#gitgithub">Git/GitHub</a></li>
-  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  <li><a href="#python-object-oriented-programming-overview" id="toc-python-object-oriented-programming-overview" class="nav-link" data-scroll-target="#python-object-oriented-programming-overview">Python: Object-Oriented Programming (Overview)</a></li>
+  <li><a href="#python-object-oriented-programming-practice-problem" id="toc-python-object-oriented-programming-practice-problem" class="nav-link" data-scroll-target="#python-object-oriented-programming-practice-problem">Python: Object-Oriented Programming (Practice Problem)</a></li>
+  <li><a href="#conda" id="toc-conda" class="nav-link" data-scroll-target="#conda">Conda</a></li>
+  <li><a href="#typecasting" id="toc-typecasting" class="nav-link" data-scroll-target="#typecasting">Typecasting</a></li>
   </ul></li>
   <li><a href="#steps-in-the-data-science-pipeline" id="toc-steps-in-the-data-science-pipeline" class="nav-link" data-scroll-target="#steps-in-the-data-science-pipeline">Steps in the Data Science Pipeline</a>
   <ul class="collapse">
@@ -282,6 +319,22 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 </header>
 
+<div class="callout callout-style-default callout-tip callout-titled" title="Update Log">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Update Log
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><em>2023-10-14, 11pm EST</em>: Added overview of <strong>object-oriented programming in Python</strong>, along with a practice problem on this topic.</li>
+<li><em>2023-10-14, 10pm EST</em>: Initial version of document, emailed out in announcement to students.</li>
+</ul>
+</div>
+</div>
 <p>This writeup is organized so that each section represents a particular topic/subtopic that the exam may cover, such that the example problems within each topic/subtopic will prepare you for questions on that topic/subtopic which may appear on the midterm!</p>
 <section id="data-science-fundamentals" class="level2">
 <h2 class="anchored" data-anchor-id="data-science-fundamentals">Data Science Fundamentals</h2>
@@ -348,26 +401,6 @@ nodeUsers-&gt;nodeJeff
 <pre><code>![Photo caption](jeffImage.jpeg)</code></pre></li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution (Click to expand)
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>True</strong>: Since <code>jeffImage.jpeg</code> is in the same directory as the <code>.qmd</code> file we’re authoring, we can reference it using a relative path to the file which is actually just the name of the file (since the Quarto compiler doesn’t need to navigate to any other folder to retrieve the file).</p>
-</div>
-</div>
-</div>
-<ol start="2" type="1">
-<li><p><strong>True</strong> or <strong>False</strong>: If I am writing the document <code>doc1.qmd</code>, and I want to include the image <code>jeffImage.jpeg</code> from within the same folder, I can use the <strong>absolute path</strong> <code>/Users/jpj/jeffImage.jpeg</code>, like</p>
-<pre><code>![Photo caption](/Users/jpj/jeffImage.jpeg)</code></pre></li>
-</ol>
-<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -379,13 +412,13 @@ Solution (Click to expand)
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>True</strong>: In this case, it actually doesn’t matter where the <code>.qmd</code> file we’re authoring exists on the filesystem, since we’re using an <strong>absolute path</strong>. This means that, no matter where the <code>.qmd</code> file is, the Quarto compiler will be able to find the image file, by starting at the root directory <code>/</code>, navigating to the <code>Users</code> subdirectory, then the <code>jpj</code> subdirectory, and finally locating the <code>jeffImage.jpeg</code> file within this <code>jpj</code> subdirectory.</p>
+<p><strong>True</strong>: Since <code>jeffImage.jpeg</code> is in the same directory as the <code>.qmd</code> file we’re authoring, we can reference it using a relative path to the file which is actually just the name of the file (since the Quarto compiler doesn’t need to navigate to any other folder to retrieve the file).</p>
 </div>
 </div>
 </div>
-<ol start="3" type="1">
-<li><p><strong>True</strong> or <strong>False</strong>: If I am writing the document <code>doc1.qmd</code>, and I want to include the image <code>jeffImage.jpeg</code> from within the same folder, I can use the <strong>relative path</strong> <code>images/jeffImage.jpeg</code>, like</p>
-<pre><code>![Photo caption](images/jeffImage.jpeg)</code></pre></li>
+<ol start="2" type="1">
+<li><p><strong>True</strong> or <strong>False</strong>: If I am writing the document <code>doc1.qmd</code>, and I want to include the image <code>jeffImage.jpeg</code> from within the same folder, I can use the <strong>absolute path</strong> <code>/Users/jpj/jeffImage.jpeg</code>, like</p>
+<pre><code>![Photo caption](/Users/jpj/jeffImage.jpeg)</code></pre></li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -398,6 +431,26 @@ Solution (Click to expand)
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>True</strong>: In this case, it actually doesn’t matter where the <code>.qmd</code> file we’re authoring exists on the filesystem, since we’re using an <strong>absolute path</strong>. This means that, no matter where the <code>.qmd</code> file is, the Quarto compiler will be able to find the image file, by starting at the root directory <code>/</code>, navigating to the <code>Users</code> subdirectory, then the <code>jpj</code> subdirectory, and finally locating the <code>jeffImage.jpeg</code> file within this <code>jpj</code> subdirectory.</p>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p><strong>True</strong> or <strong>False</strong>: If I am writing the document <code>doc1.qmd</code>, and I want to include the image <code>jeffImage.jpeg</code> from within the same folder, I can use the <strong>relative path</strong> <code>images/jeffImage.jpeg</code>, like</p>
+<pre><code>![Photo caption](images/jeffImage.jpeg)</code></pre></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>False</strong>: In this case, the Quarto compiler will crash with an error. It will attempt to look for an <code>images</code> subdirectory within the directory where the <code>.qmd</code> file is located, and it will not find a subdirectory called <code>images</code> (since there are no subdirectories within the <code>jpj</code> folder), producing an error.</p>
 </div>
@@ -480,7 +533,7 @@ Solution (Click to expand)
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -489,7 +542,7 @@ Solution (Click to expand)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><strong>B</strong>. 200 is the HTTP code for a <strong>successful request</strong></li>
@@ -609,14 +662,115 @@ Solution (Click to expand)
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>B</strong>. 200 is the HTTP code for a <strong>successful request</strong></li>
+<li><strong>E</strong>. 301 is the HTTP code for a <strong>redirect</strong></li>
+<li><strong>D</strong>. 403 is the HTTP code for a <strong>non-authorized</strong> request</li>
+<li><strong>A</strong>. 404 is the HTTP code for <strong>file not found</strong></li>
+<li><strong>C</strong>. 500 is the HTTP code for an <strong>unknown/unspecified server error</strong></li>
+</ol>
+</div>
+</div>
+</div>
 </section>
-<section id="python" class="level3">
-<h3 class="anchored" data-anchor-id="python">Python</h3>
-<ul>
-<li>OOP</li>
-<li>Conda</li>
-<li>Typecasting</li>
-</ul>
+<section id="python-object-oriented-programming-overview" class="level3">
+<h3 class="anchored" data-anchor-id="python-object-oriented-programming-overview">Python: Object-Oriented Programming (Overview)</h3>
+<p>We didn’t get to talk about this much in class, so here I will give a quick overview and then a practice problem afterwards.</p>
+<p>The way that <a href="https://en.wikipedia.org/wiki/Object-oriented_programming" target="_blank">Object-Oriented Programming</a> is implemented in Python is as follows:</p>
+<p>Python provides you with a set of “default” object types: starting from the base <a href="https://docs.python.org/3/library/functions.html#object" target="_blank"><code>object</code> class</a>, for example, it provides classes like <code>int</code>, <code>float</code>, <code>string</code>, <code>boolean</code>, and so on.</p>
+<p>However, sometimes these base classes on their own, or combinations of them, cannot serve the purposes that you need for your particular project/application. In these cases, you can create your own <strong>custom classes</strong>, with syntax that looks like the following</p>
+<p><em>(<strong>NOTE</strong>: Despite the fact that we’re not explicitly defining <code>Vehicle</code> here to be a sub-class of any other class, <strong>by default</strong> in Python <strong>all classes are subclasses of the <code>object</code> class mentioned above</strong>)</em></p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_wheels <span class="op">=</span> num_wheels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>By defining the class using the line <code>class Vehicle</code> at the top, and then defining a <strong>constructor function</strong> called <code>__init__()</code>, we can now create new objects with the <strong>type</strong> <code>Vehicle</code> by using syntax like the following:</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_vehicle <span class="op">=</span> Vehicle(<span class="st">"Toyota"</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Which will call the <code>__init__()</code> function defined above, such that now the value <code>"Toyota"</code> will be stored in the <strong>instance variable</strong> called <code>maker</code> within the <code>my_car</code> object, and the value <code>4</code> will be stored in the instance variable called <code>num_wheels</code> within the <code>my_obj</code> object. The <strong>object</strong> <code>my_obj</code> here is therefore an <strong>instance</strong> of the class <code>Vehicle</code>.</p>
+<p>This means that, from this point onwards, we can access this information (the values contained in <code>maker</code> and <code>num_wheels</code>) using the <strong>dot operator</strong> <code>.</code> on the object, like:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_vehicle.maker, my_vehicle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Toyota 4</code></pre>
+</div>
+</div>
+<p>Now that we’ve seen how to define a <strong>class</strong>, providing a <strong>template</strong> for creating objects, and how to <strong>create objects</strong> using the <strong>constructor function</strong> within a <strong>class</strong>, let’s now look at the notion of <strong>inheritance</strong>.</p>
+<p><strong>An issue with OOP in <em>Python</em> (unlike many other languages) is that Python does <em>not</em> allow you to create multiple versions of the same function within the same class</strong>.</p>
+<p>This means, for example, that we could <strong>not</strong> add a <code>start_vehicle()</code> function to our <code>Vehicle</code> class which would behave differently given different input types. The following new version of <code>Vehicle</code> will produce an error:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_wheels <span class="op">=</span> num_wheels</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> start_vehicle(<span class="va">self</span>):</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Version for cars</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Start the car</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> start_vehicle(<span class="va">self</span>):</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Version for motorcycles</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Start the motorcycle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So, if we find ourselves in a case where we want to model a <strong>hierarchy</strong> of more-general to more-specific versions of a class, we can use <strong>inheritance</strong> to define <strong>sub-classes</strong> of a given class which represent a more specific “version” of this class.</p>
+<p>So, using our <code>Vehicle</code> class as our working example, we may find ourselves defining <strong>four-wheeled</strong> vehicles very often, since <strong>cars</strong> are common vehicles which always have four wheels, but also <strong>two-wheeled</strong> vehicles very often, since <strong>motorcycles</strong> are common vehicles which always have two wheels.</p>
+<p>So, to make our lives easier, rather than having to specify the number of wheels each time we want to create an object representing a car or motorcycle, instead we can create <strong>sub-classes</strong> of <code>Vehicle</code> representing cars and motorcycles, as follows:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Car(Vehicle):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">4</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Motorcycle(Vehicle):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker):</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have these two sub-classes, defined in this way, we can create <strong><code>Car</code></strong> and <strong><code>Motorcycle</code></strong> objects, which will have those types (<code>Car</code> and <code>Motorcycle</code>, respectively) but will <strong>also</strong> both have type <code>Vehicle</code>, and will have their <code>num_wheels</code> value set automatically, without us having to provide these values explicitly to the <code>Car</code> and/or <code>Motorcycle</code> constructors:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>my_car <span class="op">=</span> Car(<span class="st">"Toyota"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>my_motorcycle <span class="op">=</span> Motorcycle(<span class="st">"Kawasaki"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And now, despite the fact that <code>my_car</code> and <code>my_motorcycle</code> are of different sub-types, since they are both objects of type <code>Vehicle</code> we know that we can access a field called <code>num_wheels</code> on both:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_car.num_wheels, my_motorcycle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 2</code></pre>
+</div>
+</div>
+<p>So, we can see from this output that <code>num_wheels</code> has been set correctly, automatically, despite the fact that we did not explicitly specify the values <code>4</code> or <code>2</code> when creating our <code>my_car</code> and <code>my_motorcycle</code> objects above.</p>
+</section>
+<section id="python-object-oriented-programming-practice-problem" class="level3">
+<h3 class="anchored" data-anchor-id="python-object-oriented-programming-practice-problem">Python: Object-Oriented Programming (Practice Problem)</h3>
+<p>Given the above overview, hopefully the following practice problem becomes more manageable!</p>
+<p><strong>Fill in the blanks to make the statement correct, by choosing the correct answer from each dropdown menu</strong>:</p>
+Defining a <select name="cars" id="cars" style="display: inline-block">
+  <option value="answer1">class</option>
+  <option value="answer2">string</option>
+</select> in Python (which should include a constructor function with the name <select name="cars2" id="cars2" style="display: inline-block"><option value="answer1">__init__()</option><option value="answer2">__start__()</option><option value="answer3">__letsgooo__()</option></select>), allows us to create <b>objects</b>, each of which is <select><option value="answer1">an instance</option><option value="answer1">a version</option></select> of the class.
+</section>
+<section id="conda" class="level3">
+<h3 class="anchored" data-anchor-id="conda">Conda</h3>
+</section>
+<section id="typecasting" class="level3">
+<h3 class="anchored" data-anchor-id="typecasting">Typecasting</h3>
 </section>
 </section>
 <section id="steps-in-the-data-science-pipeline" class="level2">

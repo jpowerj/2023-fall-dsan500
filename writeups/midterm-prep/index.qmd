@@ -6,9 +6,17 @@ categories:
 format:
   html:
     df-print: kable
+    cache: false
 metadata-files: 
   - ../../_doc-meta.yml
 ---
+
+::: {.callout-tip title="Update Log"}
+
+* *2023-10-14, 11pm EST*: Added overview of **object-oriented programming in Python**, along with a practice problem on this topic.
+* *2023-10-14, 10pm EST*: Initial version of document, emailed out in announcement to students.
+
+:::
 
 This writeup is organized so that each section represents a particular topic/subtopic that the exam may cover, such that the example problems within each topic/subtopic will prepare you for questions on that topic/subtopic which may appear on the midterm!
 
@@ -194,11 +202,120 @@ Please match each of the following **HTTP codes** on the left to their **meaning
 
 :::
 
-### Python
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
 
-* OOP
-* Conda
-* Typecasting
+1. **B**. 200 is the HTTP code for a **successful request**
+2. **E**. 301 is the HTTP code for a **redirect**
+3. **D**. 403 is the HTTP code for a **non-authorized** request
+4. **A**. 404 is the HTTP code for **file not found**
+5. **C**. 500 is the HTTP code for an **unknown/unspecified server error**
+:::
+
+### Python: Object-Oriented Programming (Overview)
+
+We didn't get to talk about this much in class, so here I will give a quick overview and then a practice problem afterwards.
+
+The way that <a href='https://en.wikipedia.org/wiki/Object-oriented_programming' target='_blank'>Object-Oriented Programming</a> is implemented in Python is as follows:
+
+Python provides you with a set of "default" object types: starting from the base <a href='https://docs.python.org/3/library/functions.html#object' target='_blank'>`object` class</a>, for example, it provides classes like `int`, `float`, `string`, `boolean`, and so on.
+
+However, sometimes these base classes on their own, or combinations of them, cannot serve the purposes that you need for your particular project/application. In these cases, you can create your own **custom classes**, with syntax that looks like the following
+
+*(**NOTE**: Despite the fact that we're not explicitly defining `Vehicle` here to be a sub-class of any other class, **by default** in Python **all classes are subclasses of the `object` class mentioned above**)*
+
+```{python}
+class Vehicle:
+    def __init__(self, maker, num_wheels):
+        self.maker = maker
+        self.num_wheels = num_wheels
+```
+
+By defining the class using the line `class Vehicle` at the top, and then defining a **constructor function** called `__init__()`, we can now create new objects with the **type** `Vehicle` by using syntax like the following:
+
+```{python}
+my_vehicle = Vehicle("Toyota", 4)
+```
+
+Which will call the `__init__()` function defined above, such that now the value `"Toyota"` will be stored in the **instance variable** called `maker` within the `my_car` object, and the value `4` will be stored in the instance variable called `num_wheels` within the `my_obj` object. The **object** `my_obj` here is therefore an **instance** of the class `Vehicle`.
+
+This means that, from this point onwards, we can access this information (the values contained in `maker` and `num_wheels`) using the **dot operator** `.` on the object, like:
+
+```{python}
+print(my_vehicle.maker, my_vehicle.num_wheels)
+```
+
+Now that we've seen how to define a **class**, providing a **template** for creating objects, and how to **create objects** using the **constructor function** within a **class**, let's now look at the notion of **inheritance**.
+
+**An issue with OOP in *Python* (unlike many other languages) is that Python does *not* allow you to create multiple versions of the same function within the same class**.
+
+This means, for example, that we could **not** add a `start_vehicle()` function to our `Vehicle` class which would behave differently given different input types. The following new version of `Vehicle` will produce an error:
+
+```{python}
+class Vehicle:
+    def __init__(self, maker, num_wheels):
+        self.maker = maker
+        self.num_wheels = num_wheels
+    
+    def start_vehicle(self):
+        """
+        Version for cars
+        """
+        # Start the car
+
+    def start_vehicle(self):
+        """
+        Version for motorcycles
+        """
+        # Start the motorcycle
+```
+
+So, if we find ourselves in a case where we want to model a **hierarchy** of more-general to more-specific versions of a class, we can use **inheritance** to define **sub-classes** of a given class which represent a more specific "version" of this class.
+
+So, using our `Vehicle` class as our working example, we may find ourselves defining **four-wheeled** vehicles very often, since **cars** are common vehicles which always have four wheels, but also **two-wheeled** vehicles very often, since **motorcycles** are common vehicles which always have two wheels.
+
+So, to make our lives easier, rather than having to specify the number of wheels each time we want to create an object representing a car or motorcycle, instead we can create **sub-classes** of `Vehicle` representing cars and motorcycles, as follows:
+
+```{python}
+class Car(Vehicle):
+    def __init__(self, maker):
+        super().__init__(maker, 4)
+
+class Motorcycle(Vehicle):
+    def __init__(self, maker):
+        super().__init__(maker, 2)
+```
+
+Now that we have these two sub-classes, defined in this way, we can create **`Car`** and **`Motorcycle`** objects, which will have those types (`Car` and `Motorcycle`, respectively) but will **also** both have type `Vehicle`, and will have their `num_wheels` value set automatically, without us having to provide these values explicitly to the `Car` and/or `Motorcycle` constructors:
+
+```{python}
+my_car = Car("Toyota")
+my_motorcycle = Motorcycle("Kawasaki")
+```
+
+And now, despite the fact that `my_car` and `my_motorcycle` are of different sub-types, since they are both objects of type `Vehicle` we know that we can access a field called `num_wheels` on both:
+
+```{python}
+print(my_car.num_wheels, my_motorcycle.num_wheels)
+```
+
+So, we can see from this output that `num_wheels` has been set correctly, automatically, despite the fact that we did not explicitly specify the values `4` or `2` when creating our `my_car` and `my_motorcycle` objects above.
+
+### Python: Object-Oriented Programming (Practice Problem)
+
+Given the above overview, hopefully the following practice problem becomes more manageable!
+
+**Fill in the blanks to make the statement correct, by choosing the correct answer from each dropdown menu**:
+
+```{=html}
+Defining a <select name="cars" id="cars" style="display: inline-block">
+  <option value="answer1">class</option>
+  <option value="answer2">string</option>
+</select> in Python (which should include a constructor function with the name <select name="cars2" id="cars2" style="display: inline-block"><option value="answer1">__init__()</option><option value="answer2">__start__()</option><option value="answer3">__letsgooo__()</option></select>), allows us to create <b>objects</b>, each of which is <select><option value="answer1">an instance</option><option value="answer1">a version</option></select> of the class.
+```
+
+### Conda
+
+### Typecasting
 
 ## Steps in the Data Science Pipeline
 
