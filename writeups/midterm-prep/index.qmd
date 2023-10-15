@@ -10,13 +10,189 @@ metadata-files:
   - ../../_doc-meta.yml
 ---
 
+This writeup is organized so that each section represents a particular topic/subtopic that the exam may cover, such that the example problems within each topic/subtopic will prepare you for questions on that topic/subtopic which may appear on the midterm!
+
 ## Data Science Fundamentals
 
 ### Filepaths
 
+For these practice problems, assume we have a directory structure on our computer that looks as follows, and that **this is the entire directory structure** (that is, there are no additional files or folders on the computer that are not displayed in the diagram).
+
+```{dot}
+digraph G {
+    rankdir="TB"
+    node[shape="plaintext",fontname="Courier New"];
+    "nodeRoot" [
+        label=<<table>
+        <tr>
+          <td border="0"><b>/</b></td>
+        </tr>
+        <tr>
+          <td>file1.txt</td>
+        </tr>
+        <tr>
+          <td>file2.txt</td>
+        </tr>
+        <tr>
+          <td>rootImage.jpg</td>
+        </tr>
+        </table>>
+    ];
+    "nodeUsers" [
+        label=<<table>
+        <tr>
+          <td border="0"><b>Users</b></td>
+        </tr>
+        </table>>
+    ];
+    "nodeApps" [
+        label=<<table>
+        <tr>
+          <td border="0"><b>Applications</b></td>
+        </tr>
+        <tr>
+          <td>App1.app</td>
+        </tr>
+        <tr>
+          <td>App2.app</td>
+        </tr>
+        <tr>
+          <td>appImage.png</td>
+        </tr>
+        </table>>
+    ];
+    "nodeJeff" [
+        label=<<table>
+        <tr>
+          <td border="0"><b>jpj</b></td>
+        </tr>
+        <tr>
+          <td>doc1.qmd</td>
+        </tr>
+        <tr>
+          <td>doc2.qmd</td>
+        </tr>
+        <tr>
+          <td>jeffImage.jpeg</td>
+        </tr>
+        </table>>
+    ];
+    nodeRoot -> nodeUsers;
+    nodeRoot -> nodeApps;
+    nodeUsers -> nodeJeff;
+}
+```
+
+The way this diagram works is:
+
+* The **names of folders** are bolded, and if a **folder** `X` is contained within a folder `Y`, then the diagram has an arrow between folder `X` and folder `Y`.
+    * So, for example, since the **Users** folder here is a subfolder of the **/** folder (the *root folder*), there is an arrow pointing from the box with label **/** to the box with label **Users**.
+* If a **file** `f` is contained within a folder, then the file is displayed as a box within the box representing the folder.
+    * So, for example, since the document `doc1.qmd` is contained within the folder labeled **`jpj`**, there is a smaller box labeled `doc1.qmd` within the box labeled **`jpj`**.
+
+Please answer the following questions, with reference to this directory structure:
+
+1. **True** or **False**: If I am writing the document `doc1.qmd`, and I want to include the image `jeffImage.jpeg` from within the same folder, I can use the **relative path** `jeffImage.jpeg`, like
+
+    ```
+    ![Photo caption](jeffImage.jpeg)
+    ```
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+**True**: Since `jeffImage.jpeg` is in the same directory as the `.qmd` file we're authoring, we can reference it using a relative path to the file which is actually just the name of the file (since the Quarto compiler doesn't need to navigate to any other folder to retrieve the file).
+:::
+
+2. **True** or **False**: If I am writing the document `doc1.qmd`, and I want to include the image `jeffImage.jpeg` from within the same folder, I can use the **absolute path** `/Users/jpj/jeffImage.jpeg`, like
+
+    ```
+    ![Photo caption](/Users/jpj/jeffImage.jpeg)
+    ```
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+**True**: In this case, it actually doesn't matter where the `.qmd` file we're authoring exists on the filesystem, since we're using an **absolute path**. This means that, no matter where the `.qmd` file is, the Quarto compiler will be able to find the image file, by starting at the root directory `/`, navigating to the `Users` subdirectory, then the `jpj` subdirectory, and finally locating the `jeffImage.jpeg` file within this `jpj` subdirectory.
+:::
+
+3. **True** or **False**: If I am writing the document `doc1.qmd`, and I want to include the image `jeffImage.jpeg` from within the same folder, I can use the **relative path** `images/jeffImage.jpeg`, like
+
+    ```
+    ![Photo caption](images/jeffImage.jpeg)
+    ```
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+**False**: In this case, the Quarto compiler will crash with an error. It will attempt to look for an `images` subdirectory within the directory where the `.qmd` file is located, and it will not find a subdirectory called `images` (since there are no subdirectories within the `jpj` folder), producing an error.
+:::
+
 ### HTTP
 
+Please match each of the following **HTTP codes** on the left to their **meanings** on the right (that is, what it means if we receive that code as a response to our call to the server):
+
+::: {layout="[1,2]"}
+
+| | HTTP Code |
+| - | - |
+| 1 | 200 |
+| 2 | 301 |
+| 3 | 403 |
+| 3 | 404 |
+| 4 | 500 |
+
+| | Meaning |
+| - | - |
+| A | Error: the server software could not find the requested file or data |
+| B | Successful request (the body of the request should thus contain the html code, or json data, or whatever else was requested) |
+| C | Server error: the server software crashed or experienced an error while trying to respond to the request |
+| D | Not authorized: the requested file is protected by a password that was not given correctly, for example, or it is restricted only to logged-in users and the user making the request was not logged in. |
+| E | Redirect: A response with this code indicates that the server is going to redirect the user to a different page within the website, or a different website entirely. |
+
+: {tbl-colwidths="[10,90]"}
+
+:::
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+1. **B**. 200 is the HTTP code for a **successful request**
+2. **E**. 301 is the HTTP code for a **redirect**
+3. **D**. 403 is the HTTP code for a **non-authorized** request
+4. **A**. 404 is the HTTP code for **file not found**
+5. **C**. 500 is the HTTP code for an **unknown/unspecified server error**
+:::
+
 ### Git/GitHub
+
+[From [Week 04 Slides](../../w04/index.qmd){target='_blank'}] Please match each of the following `git` commands with the description of what it does:
+
+::: {layout="[1,2]"}
+
+| | Command |
+| - | - |
+| 1 | `git clone` |
+| 2 | `git init` |
+| 3 | `git add` |
+| 4 | `git reset` |
+| 5 | `git status` |
+| 6 | `git commit -m "message"` |
+| 7 | `git push` |
+| 8 | `git pull` |
+| 9 | `git merge` |
+
+| | Description |
+| - | - |
+| A | Downloads a repo from the web to our local computer |
+| B | Creates a new, blank Git repository on our local computer (configuration/change-tracking stored in `.git` subfolder) |
+| C | **Stages** a file(s): Git will now track changes in this file(s) |
+| D | Undoes a `git add` |
+| E | Shows currently staged files and their status (created, modified, deleted) |
+| F | "Saves" the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub |
+| G | Transmits local commits to remote server |
+| H | Downloads commits from remote server to local computer |
+| I | Merges remote versions of files with local versions |
+
+: {tbl-colwidths="[1,2]"}
+
+:::
 
 ### Python
 

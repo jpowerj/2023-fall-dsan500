@@ -1530,19 +1530,7 @@ dbl (2): Year, Value
 <title>
 G
 </title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-295 1262.28,-295 1262.28,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_clean
-</title>
-<polygon fill="none" stroke="black" points="8,-8 8,-283 525.68,-283 525.68,-8 8,-8"></polygon> <text text-anchor="start" x="239.35" y="-253.4" font-family="Times,serif" font-size="24.00">Clean</text> </g> <g id="clust2" class="cluster">
-<title>
-cluster_import
-</title>
-<polygon fill="none" stroke="black" stroke-width="0" points="36,-36 36,-211 290.56,-211 290.56,-36 36,-36"></polygon> <text text-anchor="middle" x="163.28" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust3" class="cluster">
-<title>
-cluster_tidy
-</title>
-<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust4" class="cluster">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-295 1262.28,-295 1262.28,4 -4,4"></polygon> <g id="clust4" class="cluster">
 <title>
 cluster_understand
 </title>
@@ -1554,7 +1542,19 @@ cluster_conf
 <title>
 cluster_expl
 </title>
-<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <!-- Import --> <g id="node1" class="node">
+<polygon fill="none" stroke="black" points="543.68,-18 543.68,-229 762.11,-229 762.11,-18 543.68,-18"></polygon> <text text-anchor="middle" x="652.9" y="-212.4" font-family="Times,serif" font-size="14.00">Exploratory</text> </g> <g id="clust1" class="cluster">
+<title>
+cluster_clean
+</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-283 525.68,-283 525.68,-8 8,-8"></polygon> <text text-anchor="start" x="239.35" y="-253.4" font-family="Times,serif" font-size="24.00">Clean</text> </g> <g id="clust3" class="cluster">
+<title>
+cluster_tidy
+</title>
+<polygon fill="none" stroke="black" stroke-width="0" points="326.56,-36 326.56,-211 497.68,-211 497.68,-36 326.56,-36"></polygon> <text text-anchor="middle" x="412.12" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <g id="clust2" class="cluster">
+<title>
+cluster_import
+</title>
+<polygon fill="none" stroke="black" stroke-width="0" points="36,-36 36,-211 290.56,-211 290.56,-36 36,-36"></polygon> <text text-anchor="middle" x="163.28" y="-194.4" font-family="Times,serif" font-size="14.00">&nbsp;</text> </g> <!-- Import --> <g id="node1" class="node">
 <title>
 Import
 </title>
@@ -1747,8 +1747,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.mean)</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10b4cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
-&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10b4cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
+<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10ad5d120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
+&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x10ad5d120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>disp(data_means, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1797,8 +1797,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.std),</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10b4cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
-&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10b4cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
+<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10ad5d260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
+&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x10ad5d260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>disp(data_sds, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

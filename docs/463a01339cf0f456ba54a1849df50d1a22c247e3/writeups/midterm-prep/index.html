@@ -282,16 +282,333 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 </header>
 
+<p>This writeup is organized so that each section represents a particular topic/subtopic that the exam may cover, such that the example problems within each topic/subtopic will prepare you for questions on that topic/subtopic which may appear on the midterm!</p>
 <section id="data-science-fundamentals" class="level2">
 <h2 class="anchored" data-anchor-id="data-science-fundamentals">Data Science Fundamentals</h2>
 <section id="filepaths" class="level3">
 <h3 class="anchored" data-anchor-id="filepaths">Filepaths</h3>
+<p>For these practice problems, assume we have a directory structure on our computer that looks as follows, and that <strong>this is the entire directory structure</strong> (that is, there are no additional files or folders on the computer that are not displayed in the diagram).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 260.50 398.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 394)">
+<title>
+G
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-394 256.5,-394 256.5,4 -4,4"></polygon> <!-- nodeRoot --> <g id="node1" class="node">
+<title>
+nodeRoot
+</title>
+<text text-anchor="start" x="126.8" y="-369.4" font-family="Courier New" font-weight="bold" font-size="14.00">/</text> <polygon fill="none" stroke="black" points="73.5,-339 73.5,-361 188.5,-361 188.5,-339 73.5,-339"></polygon> <text text-anchor="start" x="93.19" y="-345.4" font-family="Courier New" font-size="14.00">file1.txt</text> <polygon fill="none" stroke="black" points="73.5,-315 73.5,-337 188.5,-337 188.5,-315 73.5,-315"></polygon> <text text-anchor="start" x="93.19" y="-321.4" font-family="Courier New" font-size="14.00">file2.txt</text> <polygon fill="none" stroke="black" points="73.5,-291 73.5,-313 188.5,-313 188.5,-291 73.5,-291"></polygon> <text text-anchor="start" x="76.39" y="-297.4" font-family="Courier New" font-size="14.00">rootImage.jpg</text> <polygon fill="none" stroke="black" points="70,-288 70,-386 191,-386 191,-288 70,-288"></polygon> </g> <!-- nodeUsers --> <g id="node2" class="node">
+<title>
+nodeUsers
+</title>
+<text text-anchor="start" x="51.5" y="-191.4" font-family="Courier New" font-weight="bold" font-size="14.00">Users</text> <polygon fill="none" stroke="black" points="46.5,-182 46.5,-208 98.5,-208 98.5,-182 46.5,-182"></polygon> </g> <!-- nodeRoot&#45;&gt;nodeUsers --> <g id="edge1" class="edge">
+<title>
+nodeRoot-&gt;nodeUsers
+</title>
+<path fill="none" stroke="black" d="M108.9,-283.87C100.29,-263.07 90.74,-240.02 83.58,-222.75"></path> <polygon fill="black" stroke="black" points="86.73,-221.21 79.67,-213.31 80.26,-223.89 86.73,-221.21"></polygon> </g> <!-- nodeApps --> <g id="node3" class="node">
+<title>
+nodeApps
+</title>
+<text text-anchor="start" x="138.09" y="-227.4" font-family="Courier New" font-weight="bold" font-size="14.00">Applications</text> <polygon fill="none" stroke="black" points="135.5,-197 135.5,-219 241.5,-219 241.5,-197 135.5,-197"></polygon> <text text-anchor="start" x="154.89" y="-203.4" font-family="Courier New" font-size="14.00">App1.app</text> <polygon fill="none" stroke="black" points="135.5,-173 135.5,-195 241.5,-195 241.5,-173 135.5,-173"></polygon> <text text-anchor="start" x="154.89" y="-179.4" font-family="Courier New" font-size="14.00">App2.app</text> <polygon fill="none" stroke="black" points="135.5,-149 135.5,-171 241.5,-171 241.5,-149 135.5,-149"></polygon> <text text-anchor="start" x="138.09" y="-155.4" font-family="Courier New" font-size="14.00">appImage.png</text> <polygon fill="none" stroke="black" points="132.5,-146 132.5,-244 244.5,-244 244.5,-146 132.5,-146"></polygon> </g> <!-- nodeRoot&#45;&gt;nodeApps --> <g id="edge2" class="edge">
+<title>
+nodeRoot-&gt;nodeApps
+</title>
+<path fill="none" stroke="black" d="M152.1,-283.87C155.64,-275.31 159.35,-266.36 162.98,-257.59"></path> <polygon fill="black" stroke="black" points="166.29,-258.75 166.88,-248.17 159.82,-256.07 166.29,-258.75"></polygon> </g> <!-- nodeJeff --> <g id="node4" class="node">
+<title>
+nodeJeff
+</title>
+<text text-anchor="start" x="60.4" y="-85.4" font-family="Courier New" font-weight="bold" font-size="14.00">jpj</text> <polygon fill="none" stroke="black" points="11.5,-55 11.5,-77 134.5,-77 134.5,-55 11.5,-55"></polygon> <text text-anchor="start" x="39.39" y="-61.4" font-family="Courier New" font-size="14.00">doc1.qmd</text> <polygon fill="none" stroke="black" points="11.5,-31 11.5,-53 134.5,-53 134.5,-31 11.5,-31"></polygon> <text text-anchor="start" x="39.39" y="-37.4" font-family="Courier New" font-size="14.00">doc2.qmd</text> <polygon fill="none" stroke="black" points="11.5,-7 11.5,-29 134.5,-29 134.5,-7 11.5,-7"></polygon> <text text-anchor="start" x="14.19" y="-13.4" font-family="Courier New" font-size="14.00">jeffImage.jpeg</text> <polygon fill="none" stroke="black" points="8,-4 8,-102 137,-102 137,-4 8,-4"></polygon> </g> <!-- nodeUsers&#45;&gt;nodeJeff --> <g id="edge3" class="edge">
+<title>
+nodeUsers-&gt;nodeJeff
+</title>
+<path fill="none" stroke="black" d="M72.5,-176.83C72.5,-161.57 72.5,-138.31 72.5,-116.11"></path> <polygon fill="black" stroke="black" points="76,-116.02 72.5,-106.02 69,-116.02 76,-116.02"></polygon> </g> </g>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<p>The way this diagram works is:</p>
+<ul>
+<li>The <strong>names of folders</strong> are bolded, and if a <strong>folder</strong> <code>X</code> is contained within a folder <code>Y</code>, then the diagram has an arrow between folder <code>X</code> and folder <code>Y</code>.
+<ul>
+<li>So, for example, since the <strong>Users</strong> folder here is a subfolder of the <strong>/</strong> folder (the <em>root folder</em>), there is an arrow pointing from the box with label <strong>/</strong> to the box with label <strong>Users</strong>.</li>
+</ul></li>
+<li>If a <strong>file</strong> <code>f</code> is contained within a folder, then the file is displayed as a box within the box representing the folder.
+<ul>
+<li>So, for example, since the document <code>doc1.qmd</code> is contained within the folder labeled <strong><code>jpj</code></strong>, there is a smaller box labeled <code>doc1.qmd</code> within the box labeled <strong><code>jpj</code></strong>.</li>
+</ul></li>
+</ul>
+<p>Please answer the following questions, with reference to this directory structure:</p>
+<ol type="1">
+<li><p><strong>True</strong> or <strong>False</strong>: If I am writing the document <code>doc1.qmd</code>, and I want to include the image <code>jeffImage.jpeg</code> from within the same folder, I can use the <strong>relative path</strong> <code>jeffImage.jpeg</code>, like</p>
+<pre><code>![Photo caption](jeffImage.jpeg)</code></pre></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>True</strong>: Since <code>jeffImage.jpeg</code> is in the same directory as the <code>.qmd</code> file we’re authoring, we can reference it using a relative path to the file which is actually just the name of the file (since the Quarto compiler doesn’t need to navigate to any other folder to retrieve the file).</p>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li><p><strong>True</strong> or <strong>False</strong>: If I am writing the document <code>doc1.qmd</code>, and I want to include the image <code>jeffImage.jpeg</code> from within the same folder, I can use the <strong>absolute path</strong> <code>/Users/jpj/jeffImage.jpeg</code>, like</p>
+<pre><code>![Photo caption](/Users/jpj/jeffImage.jpeg)</code></pre></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>True</strong>: In this case, it actually doesn’t matter where the <code>.qmd</code> file we’re authoring exists on the filesystem, since we’re using an <strong>absolute path</strong>. This means that, no matter where the <code>.qmd</code> file is, the Quarto compiler will be able to find the image file, by starting at the root directory <code>/</code>, navigating to the <code>Users</code> subdirectory, then the <code>jpj</code> subdirectory, and finally locating the <code>jeffImage.jpeg</code> file within this <code>jpj</code> subdirectory.</p>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p><strong>True</strong> or <strong>False</strong>: If I am writing the document <code>doc1.qmd</code>, and I want to include the image <code>jeffImage.jpeg</code> from within the same folder, I can use the <strong>relative path</strong> <code>images/jeffImage.jpeg</code>, like</p>
+<pre><code>![Photo caption](images/jeffImage.jpeg)</code></pre></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>False</strong>: In this case, the Quarto compiler will crash with an error. It will attempt to look for an <code>images</code> subdirectory within the directory where the <code>.qmd</code> file is located, and it will not find a subdirectory called <code>images</code> (since there are no subdirectories within the <code>jpj</code> folder), producing an error.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="http" class="level3">
 <h3 class="anchored" data-anchor-id="http">HTTP</h3>
+<p>Please match each of the following <strong>HTTP codes</strong> on the left to their <strong>meanings</strong> on the right (that is, what it means if we receive that code as a response to our call to the server):</p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">HTTP Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">301</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">403</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">404</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">500</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 66.7%;justify-content: center;">
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 90%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">Error: the server software could not find the requested file or data</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">Successful request (the body of the request should thus contain the html code, or json data, or whatever else was requested)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">Server error: the server software crashed or experienced an error while trying to respond to the request</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D</td>
+<td style="text-align: left;">Not authorized: the requested file is protected by a password that was not given correctly, for example, or it is restricted only to logged-in users and the user making the request was not logged in.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E</td>
+<td style="text-align: left;">Redirect: A response with this code indicates that the server is going to redirect the user to a different page within the website, or a different website entirely.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>B</strong>. 200 is the HTTP code for a <strong>successful request</strong></li>
+<li><strong>E</strong>. 301 is the HTTP code for a <strong>redirect</strong></li>
+<li><strong>D</strong>. 403 is the HTTP code for a <strong>non-authorized</strong> request</li>
+<li><strong>A</strong>. 404 is the HTTP code for <strong>file not found</strong></li>
+<li><strong>C</strong>. 500 is the HTTP code for an <strong>unknown/unspecified server error</strong></li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 <section id="gitgithub" class="level3">
 <h3 class="anchored" data-anchor-id="gitgithub">Git/GitHub</h3>
+<p>[From <a href="../../w04/index.html" target="_blank">Week 04 Slides</a>] Please match each of the following <code>git</code> commands with the description of what it does:</p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><code>git clone</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><code>git init</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;"><code>git add</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;"><code>git reset</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;"><code>git status</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;"><code>git commit -m "message"</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;"><code>git push</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;"><code>git pull</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;"><code>git merge</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 66.7%;justify-content: center;">
+<table class="table">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 2%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">Downloads a repo from the web to our local computer</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">Creates a new, blank Git repository on our local computer (configuration/change-tracking stored in <code>.git</code> subfolder)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;"><strong>Stages</strong> a file(s): Git will now track changes in this file(s)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D</td>
+<td style="text-align: left;">Undoes a <code>git add</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E</td>
+<td style="text-align: left;">Shows currently staged files and their status (created, modified, deleted)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">“Saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">G</td>
+<td style="text-align: left;">Transmits local commits to remote server</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H</td>
+<td style="text-align: left;">Downloads commits from remote server to local computer</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">I</td>
+<td style="text-align: left;">Merges remote versions of files with local versions</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </section>
 <section id="python" class="level3">
 <h3 class="anchored" data-anchor-id="python">Python</h3>
