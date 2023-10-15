@@ -365,7 +365,9 @@ Update Log
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><em>2023-10-15, 5pm EST</em>: Added overviews and practice problems on <strong>Conda</strong>, <strong>Typecasting</strong>, and <strong>Wide vs.&nbsp;Long Datasets</strong>.</li>
+<li><em>2023-10-15, 7pm EST</em>: Added example multiple choice and essay questions on <strong>EDA</strong></li>
+<li><em>2023-10-15, 6pm EST</em>: Added R and Python code demonstrating <strong>Wide vs.&nbsp;Long Datasets</strong> and how to transform data between these two formats</li>
+<li><em>2023-10-15, 5pm EST</em>: Added overviews and practice problems on <strong>Conda</strong>, <strong>Typecasting</strong></li>
 <li><em>2023-10-14, 11pm EST</em>: Added overview of <strong>object-oriented programming in Python</strong>, along with a practice problem on this topic.</li>
 <li><em>2023-10-14, 10pm EST</em>: Initial version of document, emailed out in announcement to students.</li>
 </ul>
@@ -1343,9 +1345,81 @@ Solution (Click to expand)
 </div>
 </div>
 </div>
+<p><strong>NOTE:</strong> For more details on the syntax of <code>pd.melt()</code> and other functions used for transforming data, please see my writeup on <a href="../melt-and-pivot/" target="_blank"><code>pd.melt()</code> and <code>pd.pivot()</code> here</a>.</p>
 </section>
 <section id="eda" class="level3">
 <h3 class="anchored" data-anchor-id="eda">EDA</h3>
+<p>Exploratory Data Analysis or “EDA” is a broad term, describing what is essentially a toolkit of methods you can use to start to get an understanding of your data <strong>before</strong> you begin developing and testing hypotheses. Given this, on the midterm you may encounter questions about EDA like:</p>
+<ul>
+<li>Multiple-choice questions asking you whether a given technique would be considered an EDA or CDA (Confirmatory Data Analysis) step,</li>
+<li>An essay question asking you to describe a few different examples of EDA techniques,</li>
+<li>An essay question asking you to describe a single EDA technique in-depth, or</li>
+<li>An essay question asking you to describe the differences between Exploratory Data Analysis and Confirmatory Data Analysis.</li>
+</ul>
+<p>An example multiple choice question would be one like the following question:</p>
+<ol type="1">
+<li>Which of the following techniques would <strong>not</strong> be considered part of the Exploratory Data Analysis (EDA) process:
+<ol type="a">
+<li>Outlier Detection</li>
+<li>Data Transformation</li>
+<li>Hypothesis Testing</li>
+<li>Bivariate Analysis (Bivariate Plots and Cross-Tabulations)</li>
+</ol></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The correct answer is <strong>c</strong>: Hypothesis Testing is very specifically <strong>not</strong> part of the EDA process, since the idea of EDA is that we <strong>“explore”</strong> the data <strong>before</strong> we develop explicit hypotheses. It is on the basis of EDA that we <strong>then</strong> form hypotheses, using techniques from <strong>Confirmatory</strong> Data Analysis to <strong>evaluate</strong> these hypotheses on the basis of the available data.</p>
+</div>
+</div>
+</div>
+<p>Then, an example essay question could be as follows:</p>
+<ol start="2" type="1">
+<li>Explain the process of <strong>Outlier Detection</strong> in-depth, and why it is important with respect to the goals of <strong>Exploratory Data Analysis</strong> (<strong>EDA</strong>).</li>
+</ol>
+<p><em>(Here, just to be safe, I’m placing the solution in a static block, rather than an expand/collapse block, but you should try writing your own essay first before looking at the solution!)</em></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>An example short essay could be as follows:</p>
+<p><strong>Outlier detection</strong> is the process of analyzing a dataset with respect to a hypothesized <strong>data-generating process</strong> (<strong>DGP</strong>) which is assumed to have generated the observed data, then identifying specific data points which are in the observed data yet would be <strong>unlikely to occur</strong> as a result of this data-generating process.</p>
+<p>Although outlier detection is therefore always performed with respect to some model of how the observed data came about (the DGP), there are a set of <strong>widely-used heuristics</strong> which data scientists have found useful to use over the years, as simple “rules of thumb” for identifying these unlikely/extreme values without having to spend too much time worrying about the DGP for every variable.</p>
+<p>The two most widely-used outlier detection methods are as follows:</p>
+<ul>
+<li><p>The <strong>Tukey Rule</strong>: This rule works for a wide range of data distributions and says that, if we have a set of <span class="math inline">\(n\)</span> values for some variable <span class="math inline">\(X\)</span>, <span class="math inline">\(\{x_1, x_2, \ldots, x_n\}\)</span>, then one of the values <span class="math inline">\(x_i\)</span> can be considered an <strong>outlier</strong> relative to the other values if the value of <span class="math inline">\(x_i\)</span> is less than <span class="math inline">\(1.5 \cdot Q_1\)</span> or more than <span class="math inline">\(1.5 \cdot Q_3\)</span>:</p>
+<p><span class="math display">\[
+  x_i \not\in [Q_1 - 1.5 \cdot IQR, \; Q_3 + 1.5 \cdot IQR],
+  \]</span></p>
+<p>where <span class="math inline">\(Q_1\)</span> is the first quartile of the data <span class="math inline">\(X\)</span> (the 25th percentile), <span class="math inline">\(Q_3\)</span> is the third quartile of the data <span class="math inline">\(X\)</span>, and <span class="math inline">\(IQR\)</span> is the <strong>interquartile range</strong>, defined as <span class="math inline">\(IQR = Q_3 - Q_1\)</span>.</p></li>
+<li><p>The <strong>Three-Sigma Rule</strong>: This rule was specifically created as a “rule of thumb” for identifying outliers in <strong>normally-distributed</strong> data, but technically could be used for any set of values <span class="math inline">\(X = \{x_1, x_2, \ldots, x_n\}\)</span> for which we know the mean <span class="math inline">\(\mu_X\)</span> and standard deviation <span class="math inline">\(\sigma_X\)</span>.</p>
+<p>The rule here is that a data point, in this case a particular value <span class="math inline">\(x_i\)</span>, is considered an <strong>outlier</strong> relative to the other values of <span class="math inline">\(X\)</span> if its value is <strong>more than three standard deviations away from the mean</strong>—that is, if</p>
+<p><span class="math display">\[
+  x_i \not\in [\mu_X - 3 \cdot \sigma_X, \; \mu_X + 3 \cdot \sigma_X].
+  \]</span></p></li>
+</ul>
+<p>These two rules, along with other methods for detecting outliers, are important for the EDA process because our eventual <strong>Confirmatory</strong> Data Analysis can be <strong>inaccurate</strong>, skewed, biased, and so on, if there are erroneous values present in the data for a given variable.</p>
+<p>For example, if a dataset represents the digitized version of a dataset of selling prices for a product which was originally compiled by hand, and the digitization failed to detect the hand-written <strong>decimal points</strong> for some of the prices in the data, then prices like $9.99 could be erroneously translated into <code>999</code>, skewing the values of these prices by two orders of magnitude, while prices like $10 or $20 would be unaffected. Outlier detection could thus potentially identify this issue, allowing the researcher to go in and manually fix the errors before moving to the Confirmatory Data Analysis and hypothesis testing stage.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="text-analysis" class="level2">

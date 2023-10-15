@@ -15,7 +15,9 @@ metadata-files:
 
 ::: {.callout-tip title="Update Log"}
 
-* *2023-10-15, 5pm EST*: Added overviews and practice problems on **Conda**, **Typecasting**, and **Wide vs. Long Datasets**.
+* *2023-10-15, 7pm EST*: Added example multiple choice and essay questions on **EDA**
+* *2023-10-15, 6pm EST*: Added R and Python code demonstrating **Wide vs. Long Datasets** and how to transform data between these two formats
+* *2023-10-15, 5pm EST*: Added overviews and practice problems on **Conda**, **Typecasting**
 * *2023-10-14, 11pm EST*: Added overview of **object-oriented programming in Python**, along with a practice problem on this topic.
 * *2023-10-14, 10pm EST*: Initial version of document, emailed out in announcement to students.
 
@@ -533,7 +535,67 @@ This dataset is in **long** format, since the unit of observation is a **person*
 The correct answer is **a**: `pd.melt()` is the function we use to transform wide-format datasets into long-format datasets, where we supply this function with an `id_vars` parameter telling it the column which **uniquely identifies the unit of observation** in the dataset.
 :::
 
+**NOTE:** For more details on the syntax of `pd.melt()` and other functions used for transforming data, please see my writeup on [`pd.melt()` and `pd.pivot()` here](../melt-and-pivot/){target='_blank'}.
+
 ### EDA
+
+Exploratory Data Analysis or "EDA" is a broad term, describing what is essentially a toolkit of methods you can use to start to get an understanding of your data **before** you begin developing and testing hypotheses. Given this, on the midterm you may encounter questions about EDA like:
+
+* Multiple-choice questions asking you whether a given technique would be considered an EDA or CDA (Confirmatory Data Analysis) step,
+* An essay question asking you to describe a few different examples of EDA techniques,
+* An essay question asking you to describe a single EDA technique in-depth, or
+* An essay question asking you to describe the differences between Exploratory Data Analysis and Confirmatory Data Analysis.
+
+An example multiple choice question would be one like the following question:
+
+1. Which of the following techniques would **not** be considered part of the Exploratory Data Analysis (EDA) process:
+    a. Outlier Detection
+    b. Data Transformation
+    c. Hypothesis Testing
+    d. Bivariate Analysis (Bivariate Plots and Cross-Tabulations)
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+The correct answer is **c**: Hypothesis Testing is very specifically **not** part of the EDA process, since the idea of EDA is that we **"explore"** the data **before** we develop explicit hypotheses. It is on the basis of EDA that we **then** form hypotheses, using techniques from **Confirmatory** Data Analysis to **evaluate** these hypotheses on the basis of the available data.
+:::
+
+Then, an example essay question could be as follows:
+
+2. Explain the process of **Outlier Detection** in-depth, and why it is important with respect to the goals of **Exploratory Data Analysis** (**EDA**).
+
+*(Here, just to be safe, I'm placing the solution in a static block, rather than an expand/collapse block, but you should try writing your own essay first before looking at the solution!)*
+
+::: {.callout-note collapse="false" title="Solution"}
+
+An example short essay could be as follows:
+
+**Outlier detection** is the process of analyzing a dataset with respect to a hypothesized **data-generating process** (**DGP**) which is assumed to have generated the observed data, then identifying specific data points which are in the observed data yet would be **unlikely to occur** as a result of this data-generating process.
+
+Although outlier detection is therefore always performed with respect to some model of how the observed data came about (the DGP), there are a set of **widely-used heuristics** which data scientists have found useful to use over the years, as simple "rules of thumb" for identifying these unlikely/extreme values without having to spend too much time worrying about the DGP for every variable.
+
+The two most widely-used outlier detection methods are as follows:
+
+* The **Tukey Rule**: This rule works for a wide range of data distributions and says that, if we have a set of $n$ values for some variable $X$, $\{x_1, x_2, \ldots, x_n\}$, then one of the values $x_i$ can be considered an **outlier** relative to the other values if the value of $x_i$ is less than $1.5 \cdot Q_1$ or more than $1.5 \cdot Q_3$:
+
+    $$
+    x_i \not\in [Q_1 - 1.5 \cdot IQR, \; Q_3 + 1.5 \cdot IQR],
+    $$
+
+    where $Q_1$ is the first quartile of the data $X$ (the 25th percentile), $Q_3$ is the third quartile of the data $X$, and $IQR$ is the **interquartile range**, defined as $IQR = Q_3 - Q_1$.
+
+* The **Three-Sigma Rule**: This rule was specifically created as a "rule of thumb" for identifying outliers in **normally-distributed** data, but technically could be used for any set of values $X = \{x_1, x_2, \ldots, x_n\}$ for which we know the mean $\mu_X$ and standard deviation $\sigma_X$.
+
+    The rule here is that a data point, in this case a particular value $x_i$, is considered an **outlier** relative to the other values of $X$ if its value is **more than three standard deviations away from the mean**---that is, if
+
+    $$
+    x_i \not\in [\mu_X - 3 \cdot \sigma_X, \; \mu_X + 3 \cdot \sigma_X].
+    $$
+
+These two rules, along with other methods for detecting outliers, are important for the EDA process because our eventual **Confirmatory** Data Analysis can be **inaccurate**, skewed, biased, and so on, if there are erroneous values present in the data for a given variable.
+
+For example, if a dataset represents the digitized version of a dataset of selling prices for a product which was originally compiled by hand, and the digitization failed to detect the hand-written **decimal points** for some of the prices in the data, then prices like \$9.99 could be erroneously translated into `999`, skewing the values of these prices by two orders of magnitude, while prices like \$10 or \$20 would be unaffected. Outlier detection could thus potentially identify this issue, allowing the researcher to go in and manually fix the errors before moving to the Confirmatory Data Analysis and hypothesis testing stage.
+
+:::
 
 ## Text Analysis
 
