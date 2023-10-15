@@ -11,6 +11,8 @@ metadata-files:
   - ../../_doc-meta.yml
 ---
 
+{{< include ../../_py-globals.qmd >}}
+
 ::: {.callout-tip title="Update Log"}
 
 * *2023-10-15, 5pm EST*: Added overviews and practice problems on **Conda**, **Typecasting**, and **Wide vs. Long Datasets**.
@@ -455,41 +457,81 @@ long_df |> write_csv("assets/long_df.csv")
 long_df
 ```
 
-We can use the Pandas function `pd.melt()`, however, to **convert this dataset from long to wide format**
+On the other hand, the following dataset (with the same unit of observation) is in **wide** format, since each country's information is contained in one and only one row.
+
+```{r}
+#| label: tidyverse-wide-df
+wide_df <- table1 |> filter(
+    year == 2000
+) |> select(
+    country, cases, population
+)
+wide_df |> write_csv("assets/wide_df.csv")
+wide_df
+```
+
+We can use the Pandas function `pd.melt()`, however, to **convert this second dataset from wide to long format**, so it matches the format of the first dataset, as follows:
+
+```{python}
+#| label: wide-to-long-pandas
+import pandas as pd
+wide_df = pd.read_csv("assets/wide_df.csv")
+long_df = pd.melt(
+    wide_df,
+    id_vars=['country'],
+    value_vars=['cases','population']
+)
+disp(long_df)
+```
 
 ### Data Cleaning: Practice Problems
 
 1. Consider the following dataset, where the unit of observation is a **person** on a mailing list:
 
-| id | name | email | ip_address |
-| - | - | - | - |
-| 0 | Jimmy Fishburn | jfishburn0@ask.com | 10.14.177.175 |
-| 1 | Chadwick Arrowsmith | carrowsmith1@photobucket.com | 186.209.191.254 |
-| 2 | Antony Hartington	| ahartington2@constantcontact.com | 200.241.210.61 |
+    | id | name | email | ip_address |
+    | - | - | - | - |
+    | 0 | Jimmy Fishburn | jfishburn0@ask.com | 10.14.177.175 |
+    | 1 | Chadwick Arrowsmith | carrowsmith1@photobucket.com | 186.209.191.254 |
+    | 2 | Antony Hartington	| ahartington2@constantcontact.com | 200.241.210.61 |
 
-Is this dataset in **long** or **wide** format?
+    Is this dataset in **long** or **wide** format?
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+This dataset is in **wide** format, since the unit of observation is a **person**, and each person is represented as a **single row** in the dataset, so that each column corresponds to a property of a single person.
+:::
 
 2. Consider the following dataset, where the unit of observation is again a **person** on mailing list:
 
-| id | variable | value |
-| - | - | - |
-| 0 | name | Jimmy Fishburn |
-| 0 | email | `jfishburn0@ask.com` |
-| 0 | ip_address | `10.14.177.175` |
-| 1 | name | Chadwick Arrowsmith |
-| 1 | email | `carrowsmith1@photobucket.com` |
-| 1 | ip_address | `186.209.191.254` |
-| 2 | name | Antony Hartington |
-| 2 | email | `ahartington2@constantcontact.com` |
-| 2 | ip_address | 200.241.210.61 |
+    | id | variable | value |
+    | - | - | - |
+    | 0 | name | Jimmy Fishburn |
+    | 0 | email | `jfishburn0@ask.com` |
+    | 0 | ip_address | `10.14.177.175` |
+    | 1 | name | Chadwick Arrowsmith |
+    | 1 | email | `carrowsmith1@photobucket.com` |
+    | 1 | ip_address | `186.209.191.254` |
+    | 2 | name | Antony Hartington |
+    | 2 | email | `ahartington2@constantcontact.com` |
+    | 2 | ip_address | 200.241.210.61 |
 
-Is this dataset in **long** or **wide** format?
+    Is this dataset in **long** or **wide** format?
 
-3. What Pandas function could we use to transform the dataset from the previous problem into the dataset from the first problem?
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+This dataset is in **long** format, since the unit of observation is a **person**, but the information we have about each person is **spread over three rows**.
+:::
+
+3. What Pandas function could we use to transform the dataset from the first problem (the wide-format dataset) into the dataset from the previous problem (the long-format dataset)?
     a. `pd.sort_values()`
     b. `pd.melt()`
     c. `pd.to_numeric()`
     d. `pd.unique()`
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+The correct answer is **a**: `pd.melt()` is the function we use to transform wide-format datasets into long-format datasets, where we supply this function with an `id_vars` parameter telling it the column which **uniquely identifies the unit of observation** in the dataset.
+:::
 
 ### EDA
 
