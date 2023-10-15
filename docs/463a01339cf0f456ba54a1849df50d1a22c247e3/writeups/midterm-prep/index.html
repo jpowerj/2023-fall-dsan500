@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
-<meta name="dcterms.date" content="2023-10-14">
+<meta name="dcterms.date" content="2023-10-15">
 
 <title>DSAN 5000 - Midterm Prep Practice Problems</title>
 <style>
@@ -107,6 +107,8 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </script>
 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../../jjcustom.js"></script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -264,12 +266,13 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#python-object-oriented-programming-overview" id="toc-python-object-oriented-programming-overview" class="nav-link" data-scroll-target="#python-object-oriented-programming-overview">Python: Object-Oriented Programming (Overview)</a></li>
   <li><a href="#python-object-oriented-programming-practice-problem" id="toc-python-object-oriented-programming-practice-problem" class="nav-link" data-scroll-target="#python-object-oriented-programming-practice-problem">Python: Object-Oriented Programming (Practice Problem)</a></li>
   <li><a href="#conda" id="toc-conda" class="nav-link" data-scroll-target="#conda">Conda</a></li>
-  <li><a href="#typecasting" id="toc-typecasting" class="nav-link" data-scroll-target="#typecasting">Typecasting</a></li>
+  <li><a href="#typecasting-overview" id="toc-typecasting-overview" class="nav-link" data-scroll-target="#typecasting-overview">Typecasting: Overview</a></li>
+  <li><a href="#typecasting-practice-problem" id="toc-typecasting-practice-problem" class="nav-link" data-scroll-target="#typecasting-practice-problem">Typecasting: Practice Problem</a></li>
   </ul></li>
   <li><a href="#steps-in-the-data-science-pipeline" id="toc-steps-in-the-data-science-pipeline" class="nav-link" data-scroll-target="#steps-in-the-data-science-pipeline">Steps in the Data Science Pipeline</a>
   <ul class="collapse">
-  <li><a href="#data-gathering" id="toc-data-gathering" class="nav-link" data-scroll-target="#data-gathering">Data Gathering</a></li>
-  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a></li>
+  <li><a href="#data-cleaning-overview" id="toc-data-cleaning-overview" class="nav-link" data-scroll-target="#data-cleaning-overview">Data Cleaning: Overview</a></li>
+  <li><a href="#data-cleaning-practice-problems" id="toc-data-cleaning-practice-problems" class="nav-link" data-scroll-target="#data-cleaning-practice-problems">Data Cleaning: Practice Problems</a></li>
   <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a></li>
   </ul></li>
   <li><a href="#text-analysis" id="toc-text-analysis" class="nav-link" data-scroll-target="#text-analysis">Text Analysis</a></li>
@@ -309,7 +312,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 14, 2023</p>
+      <p class="date">October 15, 2023</p>
     </div>
   </div>
   
@@ -330,6 +333,7 @@ Update Log
 </div>
 <div class="callout-body-container callout-body">
 <ul>
+<li><em>2023-10-15, 5pm EST</em>: Added overviews and practice problems on <strong>Conda</strong>, <strong>Typecasting</strong>, and <strong>Wide vs.&nbsp;Long Datasets</strong>.</li>
 <li><em>2023-10-14, 11pm EST</em>: Added overview of <strong>object-oriented programming in Python</strong>, along with a practice problem on this topic.</li>
 <li><em>2023-10-14, 10pm EST</em>: Initial version of document, emailed out in announcement to students.</li>
 </ul>
@@ -627,27 +631,27 @@ Solution (Click to expand)
 </tr>
 <tr class="even">
 <td style="text-align: left;">B</td>
-<td style="text-align: left;">Creates a new, blank Git repository on our local computer (configuration/change-tracking stored in <code>.git</code> subfolder)</td>
+<td style="text-align: left;">Merges remote versions of files with local versions</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">C</td>
-<td style="text-align: left;"><strong>Stages</strong> a file(s): Git will now track changes in this file(s)</td>
+<td style="text-align: left;">Creates a new, blank Git repository on our local computer (configuration/change-tracking stored in <code>.git</code> subfolder)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">D</td>
-<td style="text-align: left;">Undoes a <code>git add</code></td>
+<td style="text-align: left;">Shows currently staged files and their status (created, modified, deleted)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">E</td>
-<td style="text-align: left;">Shows currently staged files and their status (created, modified, deleted)</td>
+<td style="text-align: left;">“Saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">F</td>
-<td style="text-align: left;">“Saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub</td>
+<td style="text-align: left;">Transmits local commits to remote server</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">G</td>
-<td style="text-align: left;">Transmits local commits to remote server</td>
+<td style="text-align: left;"><strong>Stages</strong> a file(s): Git will now track changes in this file(s)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">H</td>
@@ -655,7 +659,7 @@ Solution (Click to expand)
 </tr>
 <tr class="odd">
 <td style="text-align: left;">I</td>
-<td style="text-align: left;">Merges remote versions of files with local versions</td>
+<td style="text-align: left;">Undoes a <code>git add</code></td>
 </tr>
 </tbody>
 </table>
@@ -675,11 +679,15 @@ Solution (Click to expand)
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><strong>B</strong>. 200 is the HTTP code for a <strong>successful request</strong></li>
-<li><strong>E</strong>. 301 is the HTTP code for a <strong>redirect</strong></li>
-<li><strong>D</strong>. 403 is the HTTP code for a <strong>non-authorized</strong> request</li>
-<li><strong>A</strong>. 404 is the HTTP code for <strong>file not found</strong></li>
-<li><strong>C</strong>. 500 is the HTTP code for an <strong>unknown/unspecified server error</strong></li>
+<li><strong>A</strong>: The <code>git clone</code> command downloads a repo from the web to our local computer</li>
+<li><strong>C</strong>: The <code>git add</code> command creates a new, blank Git repository on our local computer (configuration/change-tracking stored in <code>.git</code> subfolder)</li>
+<li><strong>G</strong>: The <code>git add</code> command <strong>stages</strong> files; Git will now track changes in these files</li>
+<li><strong>I</strong>: The <code>git reset</code> command undoes a previous <code>git add</code> command</li>
+<li><strong>D</strong>: The <code>git status</code> command shows currently staged files and their status (created, modified, deleted)</li>
+<li><strong>E</strong>: The <code>git commit</code> command “saves” the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub</li>
+<li><strong>F</strong>: The <code>git push</code> command transmits local commits to remote server</li>
+<li><strong>H</strong>: The <code>git pull</code> command downloads commits from remote server to local computer</li>
+<li><strong>B</strong>: The <code>git merge</code> command merges remote versions of files with local versions</li>
 </ol>
 </div>
 </div>
@@ -692,19 +700,19 @@ Solution (Click to expand)
 <p>Python provides you with a set of “default” object types: starting from the base <a href="https://docs.python.org/3/library/functions.html#object" target="_blank"><code>object</code> class</a>, for example, it provides classes like <code>int</code>, <code>float</code>, <code>string</code>, <code>boolean</code>, and so on.</p>
 <p>However, sometimes these base classes on their own, or combinations of them, cannot serve the purposes that you need for your particular project/application. In these cases, you can create your own <strong>custom classes</strong>, with syntax that looks like the following</p>
 <p><em>(<strong>NOTE</strong>: Despite the fact that we’re not explicitly defining <code>Vehicle</code> here to be a sub-class of any other class, <strong>by default</strong> in Python <strong>all classes are subclasses of the <code>object</code> class mentioned above</strong>)</em></p>
-<div class="cell" data-execution_count="1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_wheels <span class="op">=</span> num_wheels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>By defining the class using the line <code>class Vehicle</code> at the top, and then defining a <strong>constructor function</strong> called <code>__init__()</code>, we can now create new objects with the <strong>type</strong> <code>Vehicle</code> by using syntax like the following:</p>
-<div class="cell" data-execution_count="2">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_vehicle <span class="op">=</span> Vehicle(<span class="st">"Toyota"</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Which will call the <code>__init__()</code> function defined above, such that now the value <code>"Toyota"</code> will be stored in the <strong>instance variable</strong> called <code>maker</code> within the <code>my_car</code> object, and the value <code>4</code> will be stored in the instance variable called <code>num_wheels</code> within the <code>my_obj</code> object. The <strong>object</strong> <code>my_obj</code> here is therefore an <strong>instance</strong> of the class <code>Vehicle</code>.</p>
 <p>This means that, from this point onwards, we can access this information (the values contained in <code>maker</code> and <code>num_wheels</code>) using the <strong>dot operator</strong> <code>.</code> on the object, like:</p>
-<div class="cell" data-execution_count="3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_vehicle.maker, my_vehicle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Toyota 4</code></pre>
@@ -713,7 +721,7 @@ Solution (Click to expand)
 <p>Now that we’ve seen how to define a <strong>class</strong>, providing a <strong>template</strong> for creating objects, and how to <strong>create objects</strong> using the <strong>constructor function</strong> within a <strong>class</strong>, let’s now look at the notion of <strong>inheritance</strong>.</p>
 <p><strong>An issue with OOP in <em>Python</em> (unlike many other languages) is that Python does <em>not</em> allow you to create multiple versions of the same function within the same class</strong>.</p>
 <p>This means, for example, that we could <strong>not</strong> add a <code>start_vehicle()</code> function to our <code>Vehicle</code> class which would behave differently given different input types. The following new version of <code>Vehicle</code> will produce an error:</p>
-<div class="cell" data-execution_count="4">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
@@ -734,7 +742,7 @@ Solution (Click to expand)
 <p>So, if we find ourselves in a case where we want to model a <strong>hierarchy</strong> of more-general to more-specific versions of a class, we can use <strong>inheritance</strong> to define <strong>sub-classes</strong> of a given class which represent a more specific “version” of this class.</p>
 <p>So, using our <code>Vehicle</code> class as our working example, we may find ourselves defining <strong>four-wheeled</strong> vehicles very often, since <strong>cars</strong> are common vehicles which always have four wheels, but also <strong>two-wheeled</strong> vehicles very often, since <strong>motorcycles</strong> are common vehicles which always have two wheels.</p>
 <p>So, to make our lives easier, rather than having to specify the number of wheels each time we want to create an object representing a car or motorcycle, instead we can create <strong>sub-classes</strong> of <code>Vehicle</code> representing cars and motorcycles, as follows:</p>
-<div class="cell" data-execution_count="5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Car(Vehicle):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">4</span>)</span>
@@ -744,12 +752,12 @@ Solution (Click to expand)
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we have these two sub-classes, defined in this way, we can create <strong><code>Car</code></strong> and <strong><code>Motorcycle</code></strong> objects, which will have those types (<code>Car</code> and <code>Motorcycle</code>, respectively) but will <strong>also</strong> both have type <code>Vehicle</code>, and will have their <code>num_wheels</code> value set automatically, without us having to provide these values explicitly to the <code>Car</code> and/or <code>Motorcycle</code> constructors:</p>
-<div class="cell" data-execution_count="6">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>my_car <span class="op">=</span> Car(<span class="st">"Toyota"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>my_motorcycle <span class="op">=</span> Motorcycle(<span class="st">"Kawasaki"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And now, despite the fact that <code>my_car</code> and <code>my_motorcycle</code> are of different sub-types, since they are both objects of type <code>Vehicle</code> we know that we can access a field called <code>num_wheels</code> on both:</p>
-<div class="cell" data-execution_count="7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_car.num_wheels, my_motorcycle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4 2</code></pre>
@@ -763,26 +771,398 @@ Solution (Click to expand)
 <p><strong>Fill in the blanks to make the statement correct, by choosing the correct answer from each dropdown menu</strong>:</p>
 Defining a <select name="cars" id="cars" style="display: inline-block">
   <option value="answer1">class</option>
-  <option value="answer2">string</option>
+  <option value="answer2">string</option><option value="answer3">struct</option>
 </select> in Python (which should include a constructor function with the name <select name="cars2" id="cars2" style="display: inline-block"><option value="answer1">__init__()</option><option value="answer2">__start__()</option><option value="answer3">__letsgooo__()</option></select>), allows us to create <b>objects</b>, each of which is <select><option value="answer1">an instance</option><option value="answer1">a version</option></select> of the class.
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Defining a <strong>class</strong> in Python (which should include a constructor function with the name <strong><code>__init__()</code></strong>), allows us to create <b>objects</b>, each of which is <strong>an instance</strong> of the class.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="conda" class="level3">
 <h3 class="anchored" data-anchor-id="conda">Conda</h3>
+<p><em>(Material from <a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/coding-methods/notes.html#conda" target="_blank"><strong>Week-02 course notes</strong></a>)</em></p>
+<p>Please match each of the <code>conda</code> <strong>commands</strong> on the left with their corresponding <strong>descriptions</strong> on the right:</p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><code>conda deactivate</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><code>conda activate myenv</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;"><code>conda info --envs</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;"><code>conda remove --name myenv --all</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;"><code>conda rename -n old_name new_name</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 90%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">Remove an environment named “myenv”</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: left;">Deactivate current environment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">Rename an environment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D</td>
+<td style="text-align: left;">List all environments</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E</td>
+<td style="text-align: left;">Activate an environment named <code>myenv</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>B</strong>: The <code>conda deactivate</code> command deactivates the current environment.</li>
+<li><strong>E</strong>: The <code>conda activate myenv</code> command activates an environment named <code>myenv</code></li>
+<li><strong>D</strong>: The <code>conda info --envs</code> command lists all environments</li>
+<li><strong>A</strong>: The command <code>conda remove --name myenv --all</code> removes an environment named <code>myenv</code></li>
+<li><strong>C</strong>: The command <code>conda rename -n old_name new_name</code> renames the environment named <code>old_name</code> to be named <code>new_name</code></li>
+</ol>
+</div>
+</div>
+</div>
 </section>
-<section id="typecasting" class="level3">
-<h3 class="anchored" data-anchor-id="typecasting">Typecasting</h3>
+<section id="typecasting-overview" class="level3">
+<h3 class="anchored" data-anchor-id="typecasting-overview">Typecasting: Overview</h3>
+<p>The concept of <strong>typecasting</strong> is one we didn’t get to discuss much in class, but it’s an operation that we use all the time when writing Python code: for example, every time we <strong>print the value of an <code>int</code> or <code>float</code> variable</strong>, we are implicitly <strong>typecasting</strong> the <code>int</code> or <code>float</code> to a <strong><code>string</code></strong> variable, as in the following example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>one_plus_one <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"One plus one is </span><span class="sc">{</span>one_plus_one<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>One plus one is 2</code></pre>
+</div>
+</div>
+<p>A <strong>crucial concern with typecasting</strong> (the main reason we worry about it as data scientists) is that we need to ensure that <strong>the information we want to retain is indeed retained</strong> when we perform a typecasting operation, whether implicitly or explicitly.</p>
+<p>For example, if we make a variable called <code>my_pi</code> which we’re hoping to use to represent <span class="math inline">\(\pi\)</span> to the maximum precision possible (e.g.&nbsp;for computing areas of circles), then we need to make sure that we never <strong>typecast</strong> its value to a numeric type like <code>int</code> that cannot represent the decimal precision necessary for using <span class="math inline">\(\pi\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>my_pi <span class="op">=</span> math.pi</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3.141592653589793</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my_pi <span class="op">=</span> <span class="bu">int</span>(my_pi)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3</code></pre>
+</div>
+</div>
+<p>This may seem like a silly example, since for values like <code>my_pi</code> we would usually be aware and careful about loss of precision, but it can become more and more easy to make these types of mistakes—where typecasting leads to a <strong>loss of information</strong>—when you are working with a large collection of numeric variables.</p>
+<p>More formally, we can say that <strong>information is lost</strong> when typecasting a variable <code>x</code> into some other type to produce a new variable <code>y</code> if it would not be possible to recover the information contained in <code>x</code> from the new variable <code>y</code>. So, given this definition,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>my_str <span class="op">=</span> <span class="bu">str</span>(my_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Would <strong>not</strong> be a case where information is lost, since we could always recover the original <code>my_int</code> by typecasting <strong>back</strong> to the <code>int</code> type;</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>my_new_int <span class="op">=</span> <span class="bu">int</span>(my_str)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_new_int, my_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>my_new_int <span class="op">==</span> my_int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True</code></pre>
+</div>
+</div>
+<p>However, in the following code block</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">=</span> <span class="fl">3.14</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="bu">int</span>(my_float)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We have performed a typecasting operation which has resulted in a <strong>loss of information</strong>, since unlike in the previous example, we are unable to re-create the original <code>my_float</code> value by typecasting <code>my_int</code> back to the <code>float</code> type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>my_new_float <span class="op">=</span> <span class="bu">float</span>(my_int)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_float, my_new_float)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3.14 3.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">==</span> my_new_float</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>False</code></pre>
+</div>
+</div>
+</section>
+<section id="typecasting-practice-problem" class="level3">
+<h3 class="anchored" data-anchor-id="typecasting-practice-problem">Typecasting: Practice Problem</h3>
+<ol type="1">
+<li>Assume we have just created a variable <code>my_float</code> using the line <code>my_float = 3.14</code>. Which of the following Python expressions represents a <strong>typecasting</strong> operation where <strong>information is lost</strong>?
+<ol type="a">
+<li><code>my_int = int(my_float)</code></li>
+<li><code>my_str = str(my_float)</code></li>
+<li><code>my_float2 = float(my_float)</code></li>
+<li><code>my_float3 = np.float64(my_float)</code></li>
+</ol></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The correct answer is <strong>a</strong>: When we convert from the <code>float</code> type to the <code>int</code> type, the decimal information from the <code>float</code> is <strong>lost</strong>, since the resulting <code>int</code> will contain only the non-decimal information from the <code>float</code>. So, for example, <code>int(3.14)</code> produces the <code>int</code> value <code>3</code>, <code>int(-10.001)</code> produces the <code>int</code> value <code>-10</code>, and so on.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="steps-in-the-data-science-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="steps-in-the-data-science-pipeline">Steps in the Data Science Pipeline</h2>
-<section id="data-gathering" class="level3">
-<h3 class="anchored" data-anchor-id="data-gathering">Data Gathering</h3>
-</section>
-<section id="data-cleaning" class="level3">
-<h3 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h3>
+<section id="data-cleaning-overview" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning-overview">Data Cleaning: Overview</h3>
+<p>When talking about <strong>tabular datasets</strong> (as in, datasets which can be represented as tables, and hence as <code>DataFrame</code>s in Pandas or <code>tibble</code>s in Tidyverse), we call a dataset:</p>
 <ul>
-<li>Long to wide, wide to long</li>
+<li><strong>Long</strong> if the dataset contains <strong>multiple rows</strong> for each <strong>unit of observation</strong> in the data, and</li>
+<li><strong>Wide</strong> if the dataset only contains <strong>one row</strong> for each <strong>unit of observation</strong> in the data.</li>
 </ul>
+<p>For example, if the unit of observation is a <strong>country</strong>, then the following dataset is in <strong>long</strong> format, since it contains <strong>two rows</strong> for each country:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>long_df <span class="ot">&lt;-</span> table2 <span class="sc">|&gt;</span> <span class="fu">filter</span>(</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2000</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">select</span>(</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    country, type, count</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">rename</span>(</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> type,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> count</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>long_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/long_df.csv"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>long_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">2666</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">20595360</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">80488</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">174504898</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">China</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">213766</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">China</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">1280428583</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>We can use the Pandas function <code>pd.melt()</code>, however, to <strong>convert this dataset from long to wide format</strong></p>
+</section>
+<section id="data-cleaning-practice-problems" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning-practice-problems">Data Cleaning: Practice Problems</h3>
+<ol type="1">
+<li>Consider the following dataset, where the unit of observation is a <strong>person</strong> on a mailing list:</li>
+</ol>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>id</th>
+<th>name</th>
+<th>email</th>
+<th>ip_address</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Jimmy Fishburn</td>
+<td>jfishburn0@ask.com</td>
+<td>10.14.177.175</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Chadwick Arrowsmith</td>
+<td>carrowsmith1@photobucket.com</td>
+<td>186.209.191.254</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Antony Hartington</td>
+<td>ahartington2@constantcontact.com</td>
+<td>200.241.210.61</td>
+</tr>
+</tbody>
+</table>
+<p>Is this dataset in <strong>long</strong> or <strong>wide</strong> format?</p>
+<ol start="2" type="1">
+<li>Consider the following dataset, where the unit of observation is again a <strong>person</strong> on mailing list:</li>
+</ol>
+<table class="table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th>variable</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>name</td>
+<td>Jimmy Fishburn</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>email</td>
+<td><code>jfishburn0@ask.com</code></td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>ip_address</td>
+<td><code>10.14.177.175</code></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>name</td>
+<td>Chadwick Arrowsmith</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>email</td>
+<td><code>carrowsmith1@photobucket.com</code></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>ip_address</td>
+<td><code>186.209.191.254</code></td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>name</td>
+<td>Antony Hartington</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>email</td>
+<td><code>ahartington2@constantcontact.com</code></td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>ip_address</td>
+<td>200.241.210.61</td>
+</tr>
+</tbody>
+</table>
+<p>Is this dataset in <strong>long</strong> or <strong>wide</strong> format?</p>
+<ol start="3" type="1">
+<li>What Pandas function could we use to transform the dataset from the previous problem into the dataset from the first problem?
+<ol type="a">
+<li><code>pd.sort_values()</code></li>
+<li><code>pd.melt()</code></li>
+<li><code>pd.to_numeric()</code></li>
+<li><code>pd.unique()</code></li>
+</ol></li>
+</ol>
 </section>
 <section id="eda" class="level3">
 <h3 class="anchored" data-anchor-id="eda">EDA</h3>

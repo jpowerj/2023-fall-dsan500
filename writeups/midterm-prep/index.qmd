@@ -13,6 +13,7 @@ metadata-files:
 
 ::: {.callout-tip title="Update Log"}
 
+* *2023-10-15, 5pm EST*: Added overviews and practice problems on **Conda**, **Typecasting**, and **Wide vs. Long Datasets**.
 * *2023-10-14, 11pm EST*: Added overview of **object-oriented programming in Python**, along with a practice problem on this topic.
 * *2023-10-14, 10pm EST*: Initial version of document, emailed out in announcement to students.
 
@@ -189,14 +190,14 @@ Please match each of the following **HTTP codes** on the left to their **meaning
 | | Description |
 | - | - |
 | A | Downloads a repo from the web to our local computer |
-| B | Creates a new, blank Git repository on our local computer (configuration/change-tracking stored in `.git` subfolder) |
-| C | **Stages** a file(s): Git will now track changes in this file(s) |
-| D | Undoes a `git add` |
-| E | Shows currently staged files and their status (created, modified, deleted) |
-| F | "Saves" the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub |
-| G | Transmits local commits to remote server |
+| B | Merges remote versions of files with local versions |
+| C | Creates a new, blank Git repository on our local computer (configuration/change-tracking stored in `.git` subfolder) |
+| D | Shows currently staged files and their status (created, modified, deleted) |
+| E | "Saves" the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub |
+| F | Transmits local commits to remote server |
+| G | **Stages** a file(s): Git will now track changes in this file(s) |
 | H | Downloads commits from remote server to local computer |
-| I | Merges remote versions of files with local versions |
+| I | Undoes a `git add` |
 
 : {tbl-colwidths="[1,2]"}
 
@@ -204,11 +205,15 @@ Please match each of the following **HTTP codes** on the left to their **meaning
 
 ::: {.callout-note collapse="true" title="Solution (Click to expand)"}
 
-1. **B**. 200 is the HTTP code for a **successful request**
-2. **E**. 301 is the HTTP code for a **redirect**
-3. **D**. 403 is the HTTP code for a **non-authorized** request
-4. **A**. 404 is the HTTP code for **file not found**
-5. **C**. 500 is the HTTP code for an **unknown/unspecified server error**
+1. **A**: The `git clone` command downloads a repo from the web to our local computer
+2. **C**: The `git add` command creates a new, blank Git repository on our local computer (configuration/change-tracking stored in `.git` subfolder) 
+3. **G**: The `git add` command **stages** files; Git will now track changes in these files
+4. **I**: The `git reset` command undoes a previous `git add` command
+5. **D**: The `git status` command shows currently staged files and their status (created, modified, deleted)
+6. **E**: The `git commit` command "saves" the current version of all staged files, ready to be pushed to a backup dir or remote server like GitHub
+7. **F**: The `git push` command transmits local commits to remote server
+8. **H**: The `git pull` command downloads commits from remote server to local computer
+9. **B**: The `git merge` command merges remote versions of files with local versions
 :::
 
 ### Python: Object-Oriented Programming (Overview)
@@ -309,21 +314,182 @@ Given the above overview, hopefully the following practice problem becomes more 
 ```{=html}
 Defining a <select name="cars" id="cars" style="display: inline-block">
   <option value="answer1">class</option>
-  <option value="answer2">string</option>
+  <option value="answer2">string</option><option value="answer3">struct</option>
 </select> in Python (which should include a constructor function with the name <select name="cars2" id="cars2" style="display: inline-block"><option value="answer1">__init__()</option><option value="answer2">__start__()</option><option value="answer3">__letsgooo__()</option></select>), allows us to create <b>objects</b>, each of which is <select><option value="answer1">an instance</option><option value="answer1">a version</option></select> of the class.
 ```
 
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+Defining a **class** in Python (which should include a constructor function with the name **`__init__()`**), allows us to create <b>objects</b>, each of which is **an instance** of the class.
+:::
+
 ### Conda
 
-### Typecasting
+*(Material from [**Week-02 course notes**](https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/coding-methods/notes.html#conda){target='_blank'})*
+
+Please match each of the `conda` **commands** on the left with their corresponding **descriptions** on the right:
+
+::: {layout="[1,1]"}
+
+| | Command |
+| - | - |
+| 1 | `conda deactivate` |
+| 2 | `conda activate myenv` |
+| 3 | `conda info --envs` |
+| 4 | `conda remove --name myenv --all` |
+| 5 | `conda rename -n old_name new_name` |
+
+| | Description |
+| - | - |
+| A | Remove an environment named "myenv" |
+| B | Deactivate current environment |
+| C | Rename an environment |
+| D | List all environments |
+| E | Activate an environment named `myenv` |
+
+: {tbl-colwidths="[10,90]"}
+
+:::
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+1. **B**: The `conda deactivate` command deactivates the current environment.
+2. **E**: The `conda activate myenv` command activates an environment named `myenv`
+3. **D**: The `conda info --envs` command lists all environments
+4. **A**: The command `conda remove --name myenv --all` removes an environment named `myenv`
+5. **C**: The command `conda rename -n old_name new_name` renames the environment named `old_name` to be named `new_name`
+:::
+
+
+### Typecasting: Overview
+
+The concept of **typecasting** is one we didn't get to discuss much in class, but it's an operation that we use all the time when writing Python code: for example, every time we **print the value of an `int` or `float` variable**, we are implicitly **typecasting** the `int` or `float` to a **`string`** variable, as in the following example:
+
+```{python}
+one_plus_one = 1 + 1
+print(f"One plus one is {one_plus_one}")
+```
+
+A **crucial concern with typecasting** (the main reason we worry about it as data scientists) is that we need to ensure that **the information we want to retain is indeed retained** when we perform a typecasting operation, whether implicitly or explicitly.
+
+For example, if we make a variable called `my_pi` which we're hoping to use to represent $\pi$ to the maximum precision possible (e.g. for computing areas of circles), then we need to make sure that we never **typecast** its value to a numeric type like `int` that cannot represent the decimal precision necessary for using $\pi$:
+
+```{python}
+import math
+my_pi = math.pi
+print(my_pi)
+my_pi = int(my_pi)
+print(my_pi)
+```
+
+This may seem like a silly example, since for values like `my_pi` we would usually be aware and careful about loss of precision, but it can become more and more easy to make these types of mistakes---where typecasting leads to a **loss of information**---when you are working with a large collection of numeric variables.
+
+More formally, we can say that **information is lost** when typecasting a variable `x` into some other type to produce a new variable `y` if it would not be possible to recover the information contained in `x` from the new variable `y`. So, given this definition,
+
+```{python}
+my_int = 3
+my_str = str(my_int)
+```
+
+Would **not** be a case where information is lost, since we could always recover the original `my_int` by typecasting **back** to the `int` type;
+
+```{python}
+my_new_int = int(my_str)
+print(my_new_int, my_int)
+my_new_int == my_int
+```
+
+However, in the following code block
+
+```{python}
+my_float = 3.14
+my_int = int(my_float)
+```
+
+We have performed a typecasting operation which has resulted in a **loss of information**, since unlike in the previous example, we are unable to re-create the original `my_float` value by typecasting `my_int` back to the `float` type:
+
+```{python}
+my_new_float = float(my_int)
+print(my_float, my_new_float)
+my_float == my_new_float
+```
+
+### Typecasting: Practice Problem
+
+1. Assume we have just created a variable `my_float` using the line `my_float = 3.14`. Which of the following Python expressions represents a **typecasting** operation where **information is lost**?
+    a. `my_int = int(my_float)`
+    b. `my_str = str(my_float)`
+    c. `my_float2 = float(my_float)`
+    d. `my_float3 = np.float64(my_float)`
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+The correct answer is **a**: When we convert from the `float` type to the `int` type, the decimal information from the `float` is **lost**, since the resulting `int` will contain only the non-decimal information from the `float`. So, for example, `int(3.14)` produces the `int` value `3`, `int(-10.001)` produces the `int` value `-10`, and so on.
+:::
 
 ## Steps in the Data Science Pipeline
 
-### Data Gathering
+### Data Cleaning: Overview
 
-### Data Cleaning
+When talking about **tabular datasets** (as in, datasets which can be represented as tables, and hence as `DataFrame`s in Pandas or `tibble`s in Tidyverse), we call a dataset:
 
-* Long to wide, wide to long
+* **Long** if the dataset contains **multiple rows** for each **unit of observation** in the data, and
+* **Wide** if the dataset only contains **one row** for each **unit of observation** in the data.
+
+For example, if the unit of observation is a **country**, then the following dataset is in **long** format, since it contains **two rows** for each country:
+
+```{r}
+#| label: long-dataset-tidyverse
+#| warning: false
+#| code-fold: true
+library(tidyverse)
+long_df <- table2 |> filter(
+    year == 2000
+) |> select(
+    country, type, count
+) |> rename(
+    variable = type,
+    value = count
+)
+long_df |> write_csv("assets/long_df.csv")
+long_df
+```
+
+We can use the Pandas function `pd.melt()`, however, to **convert this dataset from long to wide format**
+
+### Data Cleaning: Practice Problems
+
+1. Consider the following dataset, where the unit of observation is a **person** on a mailing list:
+
+| id | name | email | ip_address |
+| - | - | - | - |
+| 0 | Jimmy Fishburn | jfishburn0@ask.com | 10.14.177.175 |
+| 1 | Chadwick Arrowsmith | carrowsmith1@photobucket.com | 186.209.191.254 |
+| 2 | Antony Hartington	| ahartington2@constantcontact.com | 200.241.210.61 |
+
+Is this dataset in **long** or **wide** format?
+
+2. Consider the following dataset, where the unit of observation is again a **person** on mailing list:
+
+| id | variable | value |
+| - | - | - |
+| 0 | name | Jimmy Fishburn |
+| 0 | email | `jfishburn0@ask.com` |
+| 0 | ip_address | `10.14.177.175` |
+| 1 | name | Chadwick Arrowsmith |
+| 1 | email | `carrowsmith1@photobucket.com` |
+| 1 | ip_address | `186.209.191.254` |
+| 2 | name | Antony Hartington |
+| 2 | email | `ahartington2@constantcontact.com` |
+| 2 | ip_address | 200.241.210.61 |
+
+Is this dataset in **long** or **wide** format?
+
+3. What Pandas function could we use to transform the dataset from the previous problem into the dataset from the first problem?
+    a. `pd.sort_values()`
+    b. `pd.melt()`
+    c. `pd.to_numeric()`
+    d. `pd.unique()`
 
 ### EDA
 
