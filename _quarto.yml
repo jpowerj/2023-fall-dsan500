@@ -43,6 +43,8 @@ website:
         text: "Extra Writeups"
       - href: cheatsheet-code/index.qmd
         text: "Coding Cheatsheet"
+      - href: presentations/index.qmd
+        text: "Lab Presentations"
       - "---"
       - href: "https://georgetown.instructure.com/courses/173310"
         text: "Course Canvas Page <i class=\"bi bi-box-arrow-up-right ps-1\"></i>"
