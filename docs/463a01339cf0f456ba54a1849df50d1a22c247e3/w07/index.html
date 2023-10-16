@@ -369,11 +369,16 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
 <div class="hidden">
 <div class="cell">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </div>
 <div class="hidden">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
@@ -402,6 +407,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sigh. Have to escape | characters?</span></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">"|"</span>,<span class="st">"\|"</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </div>
 <div class="hidden">
@@ -562,7 +568,10 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.2     ✔ readr     2.1.4
@@ -574,6 +583,8 @@ y = e^{mx + b} \iff \log(y) = mx + b
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x_min <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="dv">5</span></span>
@@ -589,6 +600,7 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Linear Scale"</span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -599,8 +611,11 @@ y = e^{mx + b} \iff \log(y) = mx + b
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log2 scaling of the y axis (with visually-equal spacing)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'scales'</code></pre>
@@ -615,6 +630,8 @@ Attaching package: 'scales'</code></pre>
 
     col_factor</code></pre>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
@@ -624,6 +641,7 @@ Attaching package: 'scales'</code></pre>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Log Scale"</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in self$trans$transform(x): NaNs produced</code></pre>
 </div>
@@ -656,6 +674,8 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>gen_y_noisy <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, eps) {</span>
@@ -740,6 +760,7 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_cov_plot</span>(df_collinear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -776,7 +797,10 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_cov_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -813,6 +837,8 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>y_noisy_neg <span class="ot">&lt;-</span> x_vals</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg)) {</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  cur_x_val <span class="ot">&lt;-</span> x_vals[i]</span>
@@ -822,6 +848,7 @@ Covariance:
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#print(y_noisy_mean)</span></span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>df_noisy_neg <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals, <span class="at">y =</span> y_noisy_neg, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_cov_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -867,6 +894,8 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gen_rect_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
@@ -905,6 +934,7 @@ Covariance:
 <span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, y_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>),<span class="st">"1"</span>))</span>
 <span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot</span>(df_collinear, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -941,7 +971,10 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -978,7 +1011,10 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -1024,6 +1060,8 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Label vals above and below mean</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>x_min_expanded <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span></span>
@@ -1090,6 +1128,7 @@ Covariance:
 <span id="cb38-64"><a href="#cb38-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_min_expanded, y_mean, x_max_expanded), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-5"</span>,<span class="fu">TeX</span>(y_mean_tex),<span class="st">"15"</span>))</span>
 <span id="cb38-65"><a href="#cb38-65" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb38-66"><a href="#cb38-66" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot_expanded</span>(df_collinear_expanded, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -1126,6 +1165,8 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Force the points to be inside [-1,1]</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>y_noisy_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_expanded)) {</span>
@@ -1136,6 +1177,7 @@ Covariance:
 <span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#print(y_noisy_mean)</span></span>
 <span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>df_noisy_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
 <span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -1172,6 +1214,8 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>gen_y_noisy_neg <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(x_max, x_val <span class="sc">+</span> eps)</span>
@@ -1189,6 +1233,7 @@ Covariance:
 <span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="co">#print(y_noisy_mean)</span></span>
 <span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>df_noisy_neg_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_neg_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
 <span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_neg_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Scale for x is already present.
 Adding another scale for x, which will replace the existing scale.
@@ -1376,6 +1421,8 @@ Covariance:
 <p><strong>Supervised</strong> Learning: Dataset has both <span class="cb1"><em>explanatory</em> variables (“features”)</span> and <span class="cb2"><em>response</em> variables (“labels”)</span></p>
 <div class="suptable">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>sup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms, <span class="sc">~</span>rating,</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="st">"Disliked"</span>,</span>
@@ -1385,6 +1432,7 @@ Covariance:
 <span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span>, <span class="st">"Liked"</span></span>
 <span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>sup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 4
   home_id  sqft bedrooms rating  
@@ -1401,6 +1449,8 @@ Covariance:
 <p><strong>Unsupervised</strong> Learning: Dataset has only <span class="cb1"><em>explanatory</em> variables (“features”)</span></p>
 <div class="unsuptable">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>unsup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms,</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>,</span>
@@ -1410,6 +1460,7 @@ Covariance:
 <span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span></span>
 <span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>unsup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 3
   home_id  sqft bedrooms
@@ -1430,6 +1481,8 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
@@ -1440,6 +1493,7 @@ Covariance:
 <span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
 <span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1450,6 +1504,8 @@ Covariance:
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To force a legend</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>unsup_grouped <span class="ot">&lt;-</span> unsup_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">big=</span>bedrooms <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>unsup_grouped[[<span class="st">'big'</span>]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(unsup_grouped[[<span class="st">'big'</span>]], <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?1"</span>,<span class="st">"?2"</span>))</span>
@@ -1469,6 +1525,7 @@ Covariance:
 <span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="cn">NULL</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"white"</span>)) <span class="sc">+</span></span>
 <span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_manual(values=c("?1"="white","?2"="white"))</span></span>
 <span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1485,6 +1542,8 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
@@ -1498,6 +1557,7 @@ Covariance:
 <span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1750</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax=</span><span class="dv">1750</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
 <span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="dv">1750</span>, <span class="at">xmax=</span><span class="cn">Inf</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ℹ Please use `linewidth` instead.</code></pre>
@@ -1509,10 +1569,15 @@ Covariance:
 </figure>
 </div>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms)) <span class="sc">+</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_color_brewer(palette = "PuOr") +</span></span>
@@ -1529,6 +1594,7 @@ Covariance:
 <span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#theme(legend.title = text_element("?"))</span></span>
 <span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
 <span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>],cbPalette[<span class="dv">4</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1536,7 +1602,10 @@ Covariance:
 </figure>
 </div>
 </div>
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_manual(labels=c("?","?"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </div>
 </div>

@@ -15,6 +15,7 @@ metadata-files:
 
 ::: {.callout-tip title="Update Log"}
 
+* *2023-10-15, 9:30pm EST*: Added overviews/review material for **Precision**, **Recall**, **F1 Score**, and **Confusion Matrices**, along with practice multiple choice problems on interpreting confusion matrices.
 * *2023-10-15, 8:30pm EST*: Added example multiple choice problems on **Distance Metrics**
 * *2023-10-15, 8pm EST*: Added example essay question on **Classification vs. Regression**, and how to transform from one to the other
 * *2023-10-15, 7pm EST*: Added example multiple choice and essay questions on **EDA**
@@ -781,12 +782,95 @@ And so we see that, unlike the other distance metric choices, the $L^\infty$ nor
 
 :::
 
-### Precision, Recall, F1 Score
+### Evaluating Classifiers: Precision, Recall, F1 Score, Confusion Matrices
+
+When we are training a Machine Learning algorithm to solve a **binary classification problem**[^multiclass], we may be tempted to **evaluate** the algorithm's predictions on the basis of **accuracy**:
+
+$$
+\textsf{Acc} = \frac{\#\text{ Correct Guesses}}{\#\text{ Total Guesses}}
+$$
+
+However, for reasons that are explained more in-depth in the slides and labs, and in particular the **extra slides on Machine Learning** accessible through the "Extra Writeups" link in the sidebar of this section webpage, machine learning algorithms can essentially "cheat" their way to high accuracy scores, by e.g. just memorizing the most-frequently-occurring label rather than **learning** something more in-depth about the statistical relationships between the features and the labels.
+
+So, to avoid this "cheating" that is made possible by the accuracy score, we instead typically evaluate binary classifiers using the **F1 Score**, which is mathematically just the **harmonic mean** of the **Precision** and **Recall** scores for the classifier.
+
+$$
+\begin{align*}
+\mathsf{Precision} &= \frac{\# \text{true positives}}{\# \text{predicted positive}} = \frac{tp}{tp+fp} \\[1.5em]
+\mathsf{Recall} &= \frac{\# \text{true positives}}{\# \text{positives in data}} = \frac{tp}{tp+fn} \\[1.5em]
+F_1 &= 2\frac{\mathsf{Precision} \cdot \mathsf{Recall}}{\mathsf{Precision} + \mathsf{Recall}} = \mathsf{HMean}(\mathsf{Precision}, \mathsf{Recall})
+\end{align*}
+$$
+
+For **regression** tasks, however, evaluation is no longer as simple as "true prediction good, false prediction bad". For these tasks, we have to quantify **how bad** the guess is! Then we can scale the penalty accordingly, so that $\text{penalty} \propto \text{badness}$
+
+This is the rationale for introducing **loss functions** (like those mentioned above) for evaluating a machine learning algorithm's performance on **regression tasks**. As could be inferred from the fact that we introduced them in the **distance metrics** section above, these loss functions just quantify **distances** (using **distance metrics** you've already seen) between the **true value** of a label and our machine learning algorithm's **guess** for that value. For example, as we saw above, we can use
+
+* **Kullback-Leibler Divergence** if our algorithm is predicting **distributions**, or
+* The **$L^\infty$ norm**, also known as the **Chebyshev distance**, if our algorithm is predicting continuous multi-dimensional **vectors** and we want to penalize guesses on the basis of their maximum distance across all dimensions of the vector space.
+
+[^multiclass]: All of these quantities, including the F1 score, can be straightforwardly extended to the **multiclass classification** case, but for simplicity here we stick with the binary classification setup.
+
+As a final note on **binary** or **multiclass** classification tasks: the **confusion matrix** is an extremely helpful visualization tool you can use to get a sense for **the specific types of errors, in terms of mis-classification**, that your algorithm is committing.
+
+For example, consider the following table containing predictions made by a machine learning algorithm in a **multiclass classification** setting, wherein you are hoping to generate predictions of a label $\ell_i$ which can take on four possible values $\ell_i \in \{\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D}\}$.
+
+Here the **true value** of the label $\ell_i$ for each point $X_i$ is given alongside the **predicted value** $\widehat{\ell_i}$ produced by some machine learning algorithm whose performance you are hoping to improve:
+
+| $\ell_i$ | $\widehat{\ell_i}$ |
+| - | - |
+| `D` | `C` |
+| `D` | `C` |
+| `A` | `A` |
+| `B` | `B` |
+| `C` | `C` |
+| `D` | `D` |
+
+In this case, we may be able to get a better grasp of "what's wrong with" our trained algorithm by looking at the **confusion matrix** rather than the two-column table above. In the following **confusion matrix**, each row represents a **true label** $\ell_i$, each column represents a **predicted label** $\widehat{\ell_i}$, so that the value in a cell in row $i$ column $j$ is the **percentage of all instances of the true label $\ell_i$ where the algorithm predicted $\ell_j$** as the label. This means that, in particular, entries **on the diagonal** of this matrix represent correct predictions, while values **off the diagonal** represent **incorrect** predictions.
+
+| <i class='bi bi-arrow-down'></i> True \\ Predicted <i class='bi bi-arrow-right'></i> | A | B | C | D |
+| - | - | - | - | - |
+| **A** | 100% | 0% | 0% | 0% |
+| **B** | 0% | 100% | 0% | 0% |
+| **C** | 0% | 0% | 100% | 0% |
+| **D** | 0% | 0% | 66.67% | 33.33% |
+
+: {tbl-colwidths="[40,15,15,15,15]"}
+
+This representation, therefore, can make it much easier to see "what's going on" in this case: our algorithm's prediction error is coming solely from instances where the true label was `D` but our algorithm erroneously predicted `C`. This insight can thus allow us to fine-tune our algorithm, and improve its performance, with much more direction than just "something is wrong with it"!
+
+### Evaluating Classifiers: Practice Problems
+
+So, some example practice problems for this topic could be:
+
+1. Given the following **confusion matrix**, choose the option which represents the most accurate diagnosis of "what's wrong with" the machine learning algorithm:
+
+| <i class='bi bi-arrow-down'></i> True \\ Predicted <i class='bi bi-arrow-right'></i> | A | B | C | D |
+| - | - | - | - | - |
+| **A** | 100% | 0% | 0% | 0% |
+| **B** | 100% | 0% | 0% | 0% |
+| **C** | 100% | 0% | 0% | 0% |
+| **D** | 100% | 0% | 0% | 0% |
+
+: {tbl-colwidths="[40,15,15,15,15]"}
+
+a. The algorithm got 100% all down the first column, a perfect score! So, we don't need to change anything about the algorithm.
+b. The algorithm guessed the label `A` for every single datapoint, so that it achieves perfect performance on all datapoints with true label `A` but incorrect guesses for all cases where the true label was not `A`.
+c. The algorithm is able to predict labels `A`, `B`, and `C` perfectly, but sometimes mis-predicts datapoints with true label `D`.
+d. The algorithm got 0% in most of the cells in the table, and is therefore a complete failure. I should abandon it.
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+The correct answer is **b**: Looking at the given confusion matrix and deriving this conclusion, we are therefore able to **guide** our debugging of the algorithm, checking specifically for **why** it is always guessing the label `A`, a more focused starting point than "Something is wrong with it!"
+:::
 
 ### Loss Functions
 
-* Loss functions: MSE, RMSE, MAE
+* **Mean Squared Error** (**MSE**)
+* **Root Mean Squared Error** (**RMSE**)
+* **Maximum Absolute Error** (**MAE**)
 
-* Confusion matrix
-* Overfitting
-* KNN for classification and/or regression
+### Overfitting
+
+### K-Nearest Neighbors, For Classification *And* Regression Tasks
+

@@ -17,6 +17,7 @@ format:
     output-file: index.html
     html-math-method: mathjax
     cache: false
+    code-fold: true
 metadata-files: 
   - "../_slide-meta.yml"
 ---

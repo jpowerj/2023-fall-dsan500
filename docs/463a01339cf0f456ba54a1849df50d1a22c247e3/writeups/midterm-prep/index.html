@@ -280,8 +280,11 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <ul class="collapse">
   <li><a href="#types-of-learning-methods" id="toc-types-of-learning-methods" class="nav-link" data-scroll-target="#types-of-learning-methods">Types of Learning Methods</a></li>
   <li><a href="#distance-metrics" id="toc-distance-metrics" class="nav-link" data-scroll-target="#distance-metrics">Distance Metrics</a></li>
-  <li><a href="#precision-recall-f1-score" id="toc-precision-recall-f1-score" class="nav-link" data-scroll-target="#precision-recall-f1-score">Precision, Recall, F1 Score</a></li>
+  <li><a href="#evaluating-classifiers-precision-recall-f1-score-confusion-matrices" id="toc-evaluating-classifiers-precision-recall-f1-score-confusion-matrices" class="nav-link" data-scroll-target="#evaluating-classifiers-precision-recall-f1-score-confusion-matrices">Evaluating Classifiers: Precision, Recall, F1 Score, Confusion Matrices</a></li>
+  <li><a href="#evaluating-classifiers-practice-problems" id="toc-evaluating-classifiers-practice-problems" class="nav-link" data-scroll-target="#evaluating-classifiers-practice-problems">Evaluating Classifiers: Practice Problems</a></li>
   <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions">Loss Functions</a></li>
+  <li><a href="#overfitting" id="toc-overfitting" class="nav-link" data-scroll-target="#overfitting">Overfitting</a></li>
+  <li><a href="#k-nearest-neighbors-for-classification-and-regression-tasks" id="toc-k-nearest-neighbors-for-classification-and-regression-tasks" class="nav-link" data-scroll-target="#k-nearest-neighbors-for-classification-and-regression-tasks">K-Nearest Neighbors, For Classification <em>And</em> Regression Tasks</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -371,6 +374,7 @@ Update Log
 </div>
 <div class="callout-body-container callout-body">
 <ul>
+<li><em>2023-10-15, 9:30pm EST</em>: Added overviews/review material for <strong>Precision</strong>, <strong>Recall</strong>, <strong>F1 Score</strong>, and <strong>Confusion Matrices</strong>, along with practice multiple choice problems on interpreting confusion matrices.</li>
 <li><em>2023-10-15, 8:30pm EST</em>: Added example multiple choice problems on <strong>Distance Metrics</strong></li>
 <li><em>2023-10-15, 8pm EST</em>: Added example essay question on <strong>Classification vs.&nbsp;Regression</strong>, and how to transform from one to the other</li>
 <li><em>2023-10-15, 7pm EST</em>: Added example multiple choice and essay questions on <strong>EDA</strong></li>
@@ -1936,23 +1940,217 @@ Solution (Click to expand)
 </div>
 </div>
 </section>
-<section id="precision-recall-f1-score" class="level3">
-<h3 class="anchored" data-anchor-id="precision-recall-f1-score">Precision, Recall, F1 Score</h3>
+<section id="evaluating-classifiers-precision-recall-f1-score-confusion-matrices" class="level3">
+<h3 class="anchored" data-anchor-id="evaluating-classifiers-precision-recall-f1-score-confusion-matrices">Evaluating Classifiers: Precision, Recall, F1 Score, Confusion Matrices</h3>
+<p>When we are training a Machine Learning algorithm to solve a <strong>binary classification problem</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, we may be tempted to <strong>evaluate</strong> the algorithm’s predictions on the basis of <strong>accuracy</strong>:</p>
+<p><span class="math display">\[
+\textsf{Acc} = \frac{\#\text{ Correct Guesses}}{\#\text{ Total Guesses}}
+\]</span></p>
+<p>However, for reasons that are explained more in-depth in the slides and labs, and in particular the <strong>extra slides on Machine Learning</strong> accessible through the “Extra Writeups” link in the sidebar of this section webpage, machine learning algorithms can essentially “cheat” their way to high accuracy scores, by e.g.&nbsp;just memorizing the most-frequently-occurring label rather than <strong>learning</strong> something more in-depth about the statistical relationships between the features and the labels.</p>
+<p>So, to avoid this “cheating” that is made possible by the accuracy score, we instead typically evaluate binary classifiers using the <strong>F1 Score</strong>, which is mathematically just the <strong>harmonic mean</strong> of the <strong>Precision</strong> and <strong>Recall</strong> scores for the classifier.</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathsf{Precision} &amp;= \frac{\# \text{true positives}}{\# \text{predicted positive}} = \frac{tp}{tp+fp} \\[1.5em]
+\mathsf{Recall} &amp;= \frac{\# \text{true positives}}{\# \text{positives in data}} = \frac{tp}{tp+fn} \\[1.5em]
+F_1 &amp;= 2\frac{\mathsf{Precision} \cdot \mathsf{Recall}}{\mathsf{Precision} + \mathsf{Recall}} = \mathsf{HMean}(\mathsf{Precision}, \mathsf{Recall})
+\end{align*}
+\]</span></p>
+<p>For <strong>regression</strong> tasks, however, evaluation is no longer as simple as “true prediction good, false prediction bad”. For these tasks, we have to quantify <strong>how bad</strong> the guess is! Then we can scale the penalty accordingly, so that <span class="math inline">\(\text{penalty} \propto \text{badness}\)</span></p>
+<p>This is the rationale for introducing <strong>loss functions</strong> (like those mentioned above) for evaluating a machine learning algorithm’s performance on <strong>regression tasks</strong>. As could be inferred from the fact that we introduced them in the <strong>distance metrics</strong> section above, these loss functions just quantify <strong>distances</strong> (using <strong>distance metrics</strong> you’ve already seen) between the <strong>true value</strong> of a label and our machine learning algorithm’s <strong>guess</strong> for that value. For example, as we saw above, we can use</p>
+<ul>
+<li><strong>Kullback-Leibler Divergence</strong> if our algorithm is predicting <strong>distributions</strong>, or</li>
+<li>The <strong><span class="math inline">\(L^\infty\)</span> norm</strong>, also known as the <strong>Chebyshev distance</strong>, if our algorithm is predicting continuous multi-dimensional <strong>vectors</strong> and we want to penalize guesses on the basis of their maximum distance across all dimensions of the vector space.</li>
+</ul>
+<p>As a final note on <strong>binary</strong> or <strong>multiclass</strong> classification tasks: the <strong>confusion matrix</strong> is an extremely helpful visualization tool you can use to get a sense for <strong>the specific types of errors, in terms of mis-classification</strong>, that your algorithm is committing.</p>
+<p>For example, consider the following table containing predictions made by a machine learning algorithm in a <strong>multiclass classification</strong> setting, wherein you are hoping to generate predictions of a label <span class="math inline">\(\ell_i\)</span> which can take on four possible values <span class="math inline">\(\ell_i \in \{\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D}\}\)</span>.</p>
+<p>Here the <strong>true value</strong> of the label <span class="math inline">\(\ell_i\)</span> for each point <span class="math inline">\(X_i\)</span> is given alongside the <strong>predicted value</strong> <span class="math inline">\(\widehat{\ell_i}\)</span> produced by some machine learning algorithm whose performance you are hoping to improve:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\ell_i\)</span></th>
+<th><span class="math inline">\(\widehat{\ell_i}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>D</code></td>
+<td><code>C</code></td>
+</tr>
+<tr class="even">
+<td><code>D</code></td>
+<td><code>C</code></td>
+</tr>
+<tr class="odd">
+<td><code>A</code></td>
+<td><code>A</code></td>
+</tr>
+<tr class="even">
+<td><code>B</code></td>
+<td><code>B</code></td>
+</tr>
+<tr class="odd">
+<td><code>C</code></td>
+<td><code>C</code></td>
+</tr>
+<tr class="even">
+<td><code>D</code></td>
+<td><code>D</code></td>
+</tr>
+</tbody>
+</table>
+<p>In this case, we may be able to get a better grasp of “what’s wrong with” our trained algorithm by looking at the <strong>confusion matrix</strong> rather than the two-column table above. In the following <strong>confusion matrix</strong>, each row represents a <strong>true label</strong> <span class="math inline">\(\ell_i\)</span>, each column represents a <strong>predicted label</strong> <span class="math inline">\(\widehat{\ell_i}\)</span>, so that the value in a cell in row <span class="math inline">\(i\)</span> column <span class="math inline">\(j\)</span> is the <strong>percentage of all instances of the true label <span class="math inline">\(\ell_i\)</span> where the algorithm predicted <span class="math inline">\(\ell_j\)</span></strong> as the label. This means that, in particular, entries <strong>on the diagonal</strong> of this matrix represent correct predictions, while values <strong>off the diagonal</strong> represent <strong>incorrect</strong> predictions.</p>
+<table class="table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><i class="bi bi-arrow-down"></i> True \ Predicted <i class="bi bi-arrow-right"></i></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A</strong></td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+<tr class="even">
+<td><strong>B</strong></td>
+<td>0%</td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+<tr class="odd">
+<td><strong>C</strong></td>
+<td>0%</td>
+<td>0%</td>
+<td>100%</td>
+<td>0%</td>
+</tr>
+<tr class="even">
+<td><strong>D</strong></td>
+<td>0%</td>
+<td>0%</td>
+<td>66.67%</td>
+<td>33.33%</td>
+</tr>
+</tbody>
+</table>
+<p>This representation, therefore, can make it much easier to see “what’s going on” in this case: our algorithm’s prediction error is coming solely from instances where the true label was <code>D</code> but our algorithm erroneously predicted <code>C</code>. This insight can thus allow us to fine-tune our algorithm, and improve its performance, with much more direction than just “something is wrong with it”!</p>
+</section>
+<section id="evaluating-classifiers-practice-problems" class="level3">
+<h3 class="anchored" data-anchor-id="evaluating-classifiers-practice-problems">Evaluating Classifiers: Practice Problems</h3>
+<p>So, some example practice problems for this topic could be:</p>
+<ol type="1">
+<li>Given the following <strong>confusion matrix</strong>, choose the option which represents the most accurate diagnosis of “what’s wrong with” the machine learning algorithm:</li>
+</ol>
+<table class="table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><i class="bi bi-arrow-down"></i> True \ Predicted <i class="bi bi-arrow-right"></i></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A</strong></td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+<tr class="even">
+<td><strong>B</strong></td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+<tr class="odd">
+<td><strong>C</strong></td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+<tr class="even">
+<td><strong>D</strong></td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>The algorithm got 100% all down the first column, a perfect score! So, we don’t need to change anything about the algorithm.</li>
+<li>The algorithm guessed the label <code>A</code> for every single datapoint, so that it achieves perfect performance on all datapoints with true label <code>A</code> but incorrect guesses for all cases where the true label was not <code>A</code>.</li>
+<li>The algorithm is able to predict labels <code>A</code>, <code>B</code>, and <code>C</code> perfectly, but sometimes mis-predicts datapoints with true label <code>D</code>.</li>
+<li>The algorithm got 0% in most of the cells in the table, and is therefore a complete failure. I should abandon it.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The correct answer is <strong>b</strong>: Looking at the given confusion matrix and deriving this conclusion, we are therefore able to <strong>guide</strong> our debugging of the algorithm, checking specifically for <strong>why</strong> it is always guessing the label <code>A</code>, a more focused starting point than “Something is wrong with it!”</p>
+</div>
+</div>
+</div>
 </section>
 <section id="loss-functions" class="level3">
 <h3 class="anchored" data-anchor-id="loss-functions">Loss Functions</h3>
 <ul>
-<li><p>Loss functions: MSE, RMSE, MAE</p></li>
-<li><p>Confusion matrix</p></li>
-<li><p>Overfitting</p></li>
-<li><p>KNN for classification and/or regression</p></li>
+<li><strong>Mean Squared Error</strong> (<strong>MSE</strong>)</li>
+<li><strong>Root Mean Squared Error</strong> (<strong>RMSE</strong>)</li>
+<li><strong>Maximum Absolute Error</strong> (<strong>MAE</strong>)</li>
 </ul>
+</section>
+<section id="overfitting" class="level3">
+<h3 class="anchored" data-anchor-id="overfitting">Overfitting</h3>
+</section>
+<section id="k-nearest-neighbors-for-classification-and-regression-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="k-nearest-neighbors-for-classification-and-regression-tasks">K-Nearest Neighbors, For Classification <em>And</em> Regression Tasks</h3>
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>All of these quantities, including the F1 score, can be straightforwardly extended to the <strong>multiclass classification</strong> case, but for simplicity here we stick with the binary classification setup.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
