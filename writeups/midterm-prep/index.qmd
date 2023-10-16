@@ -24,6 +24,8 @@ source("../../_globals.r")
 
 ::: {.callout-tip title="Update Log"}
 
+* *2023-10-16, 12:30am EST*: Added overview of **KNN Applied to Classification**, with example code that you can use to test your understanding and create your own practice problems 😉
+* *2023-10-15, 11:30pm EST*: Added practice problems on **Overfitting**
 * *2023-10-15, 11pm EST*: Added review material and practice problems on **Loss Functions**
 * *2023-10-15, 9:30pm EST*: Added overviews/review material for **Precision**, **Recall**, **F1 Score**, and **Confusion Matrices**, along with practice multiple choice problems on interpreting confusion matrices.
 * *2023-10-15, 8:30pm EST*: Added example multiple choice problems on **Distance Metrics**
@@ -987,7 +989,154 @@ Intuitively, one can think of this like: a prediction that is `1` unit away from
 
 ### Overfitting
 
+The key material for understanding overfitting, and why it matters, can be found in the [**extra slides on Machine Learning**](../machine-learning/index.qmd){target='_blank'} and especially in the [**lab writeup on Feature Selection in Python**](../feature-selection/DSAN5000_Feature_Selection_Full.ipynb){target='_blank'}. But the summary is that, given a sufficient number of estimable parameters, any machine learning algorithm will be able to achieve **perfect** performance on any dataset that it is given (any dataset with **features** and **labels** that we'd like to predict on the basis of these features).
 
+Therefore, to ensure that our algorithms are actually **learning**---in the sense that they are learning statistical relationships between the features and label values which **generalize** to additional, unseen data---we split the full dataset into **training data** and **test data**, usually choosing to put 80% of all the data in the **training set** and the remaining 20% in the **test set**.
+
+This setup ensures that, rather than simply memorizing the training data, the algorithm is forced to strike a **balance** between achieving **high performance on the training data** (requiring it to learn **precise** relationships between features and labels) and **high performance on the test data** (requiring it to learn **generalizable** relationships between features and labels).
+
+So, to prepare for the midterm, you can think through the following practice problems:
+
+1. **True** or **False**: The goal of machine learning is to achieve the highest possible **accuracy score** on the training data.
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+This statement is **False**: as we have seen, high accuracy scores can be achieved in a "shallow" manner, by (for example) just always guessing the most-frequently-occurring label in the data.
+
+However, even if accuracy **was** a good metric of performance on predicting **known** labels from **known** feature values, this statement would still be false, since we care not about performance on the training data but about performance on the **test data**.
+
+:::
+
+2. **True** or **False**: The goal of machine learning is to achieve the highest possible **F1 score** on the training data.
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+This statement is still **False**, but closer to the truth than the previous statement. The F1 score is helpful for preventing the issues with the **accuracy score** mentioned in the previous solution, but evaluating your machine learning algorithm only on the F1 score it achieves on the **training data** does **not** give us our goal in machine learning: we want to see how the relationships learned **from** the training data **generalize** to the test data, so that a better way to evaluate the performance of our algorithm would be to evaluate it on the basis of its F1 score on the **test data**.
+
+:::
+
+3. **True** or **False**: The goal of machine learning is to maximize **generalizability**, that is, the ability to discover **parsimonious** statistical relationships within the training data which also allow us to predict labels for **unseen** data.
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+This statement is **True**, and it is a point that is easy to forget (and bad to forget!) when you are working for weeks and weeks trying to achieve small gains in some metric like F1 score. 
+
+You should always keep **generalizability** central in your mind throughout the process of machine learning: if you spend too much time tweaking parameters to achieve a slightly higher F1 score on the test, for example, you are doing something akin to $p$-hacking, where the score no longer reflects the actual generalizability of what your algorithm is learning from the training data.
+
+In fact, technically, once your algorithm has seen a given set of **test data**, this test data should be **thrown out**, never used again in your analysis. The fact that people don't do this in practice is not based on any sort of statistical principle, but is solely due to the fact that it is often **too expensive** to collect new test data each time you re-tweak the parameters of an algorithm. (This is extremely related to the "reproducibility crisis" in many scientific subfields which we discussed in class).
+
+:::
 
 ### K-Nearest Neighbors, For Classification *And* Regression Tasks
 
+In class we learned about the $K$ Nearest Neighbors algorithm in the context of **classification** tasks, which is probably the most important use case of this algorithm. However, you should also be aware of the fact that this algorithm can be used in a **regression** context.
+
+The easiest way to understand how KNN can be used in a regression context is probably through visualization. We saw, in the slides from class, an intuitive visualization of how KNN with $K = 3$ allows us to guess a class for a new, previously-unseen datapoint in a **binary classification** setting:
+
+![Image credit: <a href='http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn' target='_blank'>DataCamp tutorial</a>](images/knn.png)
+
+By finding the 3 nearest datapoints (on the basis of some appropriate distance metric) and having them take a "majority vote" on the label for the unseen datapoint, we obtain a prediction for the unseen datapoint's class:
+
+* Guess **B** as the label if at least 2 of the 3 nearest neighbors have **B** as their label value (the scenario pictured in the bottom portion of the above figure), and
+* Guess **A** as the label otherwise.
+
+When it comes to **regression**, we can perform a somewhat analogous process, the only difference being that instead of taking a **majority vote** of the $K$ neighbors' classes, we now **average** the $K$ neighbors' label values.
+
+For example, to leverage the above figure, imagine that the two green triangles within the dotted circle around the unseen point had label values of **10** and **16**, while the red star within the dotted circle had a label value of **40**. Ignoring the Class A/Class B labels here (since we're now considering a regression scenario), we can instead obtain a predicted label for the unseen point by taking the **mean** of the label values for these three nearest neighbors:
+
+$$
+\widehat{\ell_i} = \frac{10 + 16 + 40}{3} = \frac{66}{3} = 22.
+$$
+
+Note that the reason I'm leveraging the previous figure rather than creating a new one is because it becomes difficult (or at least, much less intuitive) to **visualize** the KNN algorithm in a continuous setting, since now we're now using (for example) the $x$ and $y$ coordinates of an unseen datapoint to find its nearest neighbors, but then taking the mean of the $z$ coordinates of these $K$ neighbors. As long as you understand this distinction (that here, rather than an unknown **discrete class**, which can be represented simply using symbols like red stars or green triangles, we have an unknown **real-valued label**), however, we can visualize the KNN algorithm as used in regression settings in the following way:
+
+Assume we have a set of (feature, label) pairs $(x_i, y_i)$, where $x_i$ is a single scalar value representing the sole **feature value** for observation $i$ (that is, there is only **one feature** in this case) and $y_i$ is a single scalar value representing the **label** for observation $i$. We can plot an observed dataset like this as follows, where we're being careful to distinguish between the **feature value** (plotted using the $x$-axis) and the **labels** (plotted using the $y$-axis):
+
+```{r}
+#| label: knn-regression
+#| code-fold: true
+N <- 25
+x_vals <- runif(N, 0, 1)
+y_vals <- x_vals + rnorm(N, 0, 0.25)
+knn_df <- tibble(x=x_vals, y=y_vals)
+ggplot(knn_df, aes(x=x, y=y)) +
+  geom_point(size = g_pointsize / 2) +
+  dsan_theme() +
+  labs(
+    title="Plot of 1D Features and Label Values",
+    x="Feature Value",
+    y="Label"
+  )
+```
+
+Now, if we encounter a new datapoint $x_i$ in this context (say, $x_i = 0.75$, a datapoint for which we want to predict a label value $y_i$), notice that such a datapoint would **not** be plotted as a point in the above plot but as a **vertical line**, like the following:
+
+```{r}
+#| label: knn-regression-new-point
+#| code-fold: true
+N <- 25
+x_vals <- runif(N, 0, 1)
+y_vals <- x_vals + rnorm(N, 0, 0.25)
+new_x_val <- 0.75
+band_width <- 0.076
+x_band_lower <- new_x_val - band_width
+x_band_upper <- new_x_val + band_width
+knn_df <- tibble(x=x_vals, y=y_vals)
+ggplot(knn_df, aes(x=x, y=y)) +
+  geom_point(size = g_pointsize / 2) +
+  geom_vline(xintercept = 0.75, linewidth = g_linewidth) +
+  geom_vline(xintercept = x_band_lower, linewidth = g_linewidth, linetype='dashed') +
+  geom_vline(xintercept = x_band_upper, linewidth = g_linewidth, linetype='dashed') +
+  annotate("rect", xmin = x_band_lower, xmax = x_band_upper, ymin = -Inf, ymax = Inf, alpha = .2, fill=cbPalette[1]) +
+  geom_rug(sides = 'b', length = unit(0.1, "npc")) +
+  dsan_theme() +
+  labs(
+    title="Plot of 1D Features and Label Values",
+    x="Feature Value",
+    y="Label"
+  )
+```
+
+Here I have also included a **band** around the new $x_i$ value (0.75) to illustrate how **distance on the $x$-axis is the only consideration** when we find the 3 closest points to $x_i = 0.75$: the $y$-values are only taken into consideration **after** we choose our $K = 3$ closest points in this case, at which point we take the **mean of the $y$-values** of these three points as our predicted $y_i$ value![^band-details]
+
+In this case, using some additional code to programmatically identify these 3 nearest neighbors (using the **absolute deviation** metric):
+
+```{r}
+#| label: compute-knn
+#| code-fold: true
+knn_df <- knn_df |>
+  mutate(
+    dist_from_new_point = abs(x - new_x_val)
+  ) |>
+  arrange(dist_from_new_point) |>
+  mutate(
+    within_band = as.numeric(dist_from_new_point <= band_width)
+  )
+ggplot(knn_df, aes(x=x, y=y)) +
+  geom_point(aes(size=within_band)) +
+  geom_vline(xintercept = 0.75, linewidth = g_linewidth) +
+  geom_vline(xintercept = x_band_lower, linewidth = g_linewidth, linetype='dashed') +
+  geom_vline(xintercept = x_band_upper, linewidth = g_linewidth, linetype='dashed') +
+  annotate("rect", xmin = x_band_lower, xmax = x_band_upper, ymin = -Inf, ymax = Inf, alpha = .2, fill=cbPalette[1]) +
+  geom_rug(sides = 'b', length = unit(0.1, "npc")) +
+  dsan_theme() +
+  labs(
+    title="Plot of 1D Features and Label Values",
+    x="Feature Value",
+    y="Label"
+  ) +
+  remove_legend()
+```
+
+We can now take the mean of their **$y$ values** to derive our **KNN-based prediction** for the new datapoint's label $y_i$:
+
+```{r}
+#| label: knn-predicted-labels
+nearest_df <- knn_df |> filter(
+    within_band == 1
+)
+y_pred <- mean(nearest_df$y)
+y_pred
+```
+
+[^band-details]: To understand why a band around the $x_i$ value in this case is the appropriate way to visualize the $K$ nearest neighbors, think about how a naïve but usable **algorithm** for finding the nearest neighbors could just be: incrementally expand the **width** of this band (by small values like 0.01) until $K$ points appear in the band. Those are the $K$ nearest neighbors to the $x_i$ value.

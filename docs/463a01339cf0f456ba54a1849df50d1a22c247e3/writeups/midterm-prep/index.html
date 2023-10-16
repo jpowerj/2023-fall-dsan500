@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
-<meta name="dcterms.date" content="2023-10-15">
+<meta name="dcterms.date" content="2023-10-16">
 
 <title>DSAN 5000 - Midterm Prep Practice Problems</title>
 <style>
@@ -321,7 +321,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 15, 2023</p>
+      <p class="date">October 16, 2023</p>
     </div>
   </div>
   
@@ -379,6 +379,8 @@ Update Log
 </div>
 <div class="callout-body-container callout-body">
 <ul>
+<li><em>2023-10-16, 12:30am EST</em>: Added overview of <strong>KNN Applied to Classification</strong>, with example code that you can use to test your understanding and create your own practice problems 😉</li>
+<li><em>2023-10-15, 11:30pm EST</em>: Added practice problems on <strong>Overfitting</strong></li>
 <li><em>2023-10-15, 11pm EST</em>: Added review material and practice problems on <strong>Loss Functions</strong></li>
 <li><em>2023-10-15, 9:30pm EST</em>: Added overviews/review material for <strong>Precision</strong>, <strong>Recall</strong>, <strong>F1 Score</strong>, and <strong>Confusion Matrices</strong>, along with practice multiple choice problems on interpreting confusion matrices.</li>
 <li><em>2023-10-15, 8:30pm EST</em>: Added example multiple choice problems on <strong>Distance Metrics</strong></li>
@@ -2252,9 +2254,198 @@ Solution (Click to expand)
 </section>
 <section id="overfitting" class="level3">
 <h3 class="anchored" data-anchor-id="overfitting">Overfitting</h3>
+<p>The key material for understanding overfitting, and why it matters, can be found in the <a href="../../writeups/machine-learning/index.html" target="_blank"><strong>extra slides on Machine Learning</strong></a> and especially in the <a href="../../writeups/feature-selection/DSAN5000_Feature_Selection_Full.html" target="_blank"><strong>lab writeup on Feature Selection in Python</strong></a>. But the summary is that, given a sufficient number of estimable parameters, any machine learning algorithm will be able to achieve <strong>perfect</strong> performance on any dataset that it is given (any dataset with <strong>features</strong> and <strong>labels</strong> that we’d like to predict on the basis of these features).</p>
+<p>Therefore, to ensure that our algorithms are actually <strong>learning</strong>—in the sense that they are learning statistical relationships between the features and label values which <strong>generalize</strong> to additional, unseen data—we split the full dataset into <strong>training data</strong> and <strong>test data</strong>, usually choosing to put 80% of all the data in the <strong>training set</strong> and the remaining 20% in the <strong>test set</strong>.</p>
+<p>This setup ensures that, rather than simply memorizing the training data, the algorithm is forced to strike a <strong>balance</strong> between achieving <strong>high performance on the training data</strong> (requiring it to learn <strong>precise</strong> relationships between features and labels) and <strong>high performance on the test data</strong> (requiring it to learn <strong>generalizable</strong> relationships between features and labels).</p>
+<p>So, to prepare for the midterm, you can think through the following practice problems:</p>
+<ol type="1">
+<li><strong>True</strong> or <strong>False</strong>: The goal of machine learning is to achieve the highest possible <strong>accuracy score</strong> on the training data.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This statement is <strong>False</strong>: as we have seen, high accuracy scores can be achieved in a “shallow” manner, by (for example) just always guessing the most-frequently-occurring label in the data.</p>
+<p>However, even if accuracy <strong>was</strong> a good metric of performance on predicting <strong>known</strong> labels from <strong>known</strong> feature values, this statement would still be false, since we care not about performance on the training data but about performance on the <strong>test data</strong>.</p>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li><strong>True</strong> or <strong>False</strong>: The goal of machine learning is to achieve the highest possible <strong>F1 score</strong> on the training data.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This statement is still <strong>False</strong>, but closer to the truth than the previous statement. The F1 score is helpful for preventing the issues with the <strong>accuracy score</strong> mentioned in the previous solution, but evaluating your machine learning algorithm only on the F1 score it achieves on the <strong>training data</strong> does <strong>not</strong> give us our goal in machine learning: we want to see how the relationships learned <strong>from</strong> the training data <strong>generalize</strong> to the test data, so that a better way to evaluate the performance of our algorithm would be to evaluate it on the basis of its F1 score on the <strong>test data</strong>.</p>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li><strong>True</strong> or <strong>False</strong>: The goal of machine learning is to maximize <strong>generalizability</strong>, that is, the ability to discover <strong>parsimonious</strong> statistical relationships within the training data which also allow us to predict labels for <strong>unseen</strong> data.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This statement is <strong>True</strong>, and it is a point that is easy to forget (and bad to forget!) when you are working for weeks and weeks trying to achieve small gains in some metric like F1 score.</p>
+<p>You should always keep <strong>generalizability</strong> central in your mind throughout the process of machine learning: if you spend too much time tweaking parameters to achieve a slightly higher F1 score on the test, for example, you are doing something akin to <span class="math inline">\(p\)</span>-hacking, where the score no longer reflects the actual generalizability of what your algorithm is learning from the training data.</p>
+<p>In fact, technically, once your algorithm has seen a given set of <strong>test data</strong>, this test data should be <strong>thrown out</strong>, never used again in your analysis. The fact that people don’t do this in practice is not based on any sort of statistical principle, but is solely due to the fact that it is often <strong>too expensive</strong> to collect new test data each time you re-tweak the parameters of an algorithm. (This is extremely related to the “reproducibility crisis” in many scientific subfields which we discussed in class).</p>
+</div>
+</div>
+</div>
 </section>
 <section id="k-nearest-neighbors-for-classification-and-regression-tasks" class="level3">
 <h3 class="anchored" data-anchor-id="k-nearest-neighbors-for-classification-and-regression-tasks">K-Nearest Neighbors, For Classification <em>And</em> Regression Tasks</h3>
+<p>In class we learned about the <span class="math inline">\(K\)</span> Nearest Neighbors algorithm in the context of <strong>classification</strong> tasks, which is probably the most important use case of this algorithm. However, you should also be aware of the fact that this algorithm can be used in a <strong>regression</strong> context.</p>
+<p>The easiest way to understand how KNN can be used in a regression context is probably through visualization. We saw, in the slides from class, an intuitive visualization of how KNN with <span class="math inline">\(K = 3\)</span> allows us to guess a class for a new, previously-unseen datapoint in a <strong>binary classification</strong> setting:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/knn.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Image credit: <a href="http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn" target="_blank">DataCamp tutorial</a></figcaption>
+</figure>
+</div>
+<p>By finding the 3 nearest datapoints (on the basis of some appropriate distance metric) and having them take a “majority vote” on the label for the unseen datapoint, we obtain a prediction for the unseen datapoint’s class:</p>
+<ul>
+<li>Guess <strong>B</strong> as the label if at least 2 of the 3 nearest neighbors have <strong>B</strong> as their label value (the scenario pictured in the bottom portion of the above figure), and</li>
+<li>Guess <strong>A</strong> as the label otherwise.</li>
+</ul>
+<p>When it comes to <strong>regression</strong>, we can perform a somewhat analogous process, the only difference being that instead of taking a <strong>majority vote</strong> of the <span class="math inline">\(K\)</span> neighbors’ classes, we now <strong>average</strong> the <span class="math inline">\(K\)</span> neighbors’ label values.</p>
+<p>For example, to leverage the above figure, imagine that the two green triangles within the dotted circle around the unseen point had label values of <strong>10</strong> and <strong>16</strong>, while the red star within the dotted circle had a label value of <strong>40</strong>. Ignoring the Class A/Class B labels here (since we’re now considering a regression scenario), we can instead obtain a predicted label for the unseen point by taking the <strong>mean</strong> of the label values for these three nearest neighbors:</p>
+<p><span class="math display">\[
+\widehat{\ell_i} = \frac{10 + 16 + 40}{3} = \frac{66}{3} = 22.
+\]</span></p>
+<p>Note that the reason I’m leveraging the previous figure rather than creating a new one is because it becomes difficult (or at least, much less intuitive) to <strong>visualize</strong> the KNN algorithm in a continuous setting, since now we’re now using (for example) the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates of an unseen datapoint to find its nearest neighbors, but then taking the mean of the <span class="math inline">\(z\)</span> coordinates of these <span class="math inline">\(K\)</span> neighbors. As long as you understand this distinction (that here, rather than an unknown <strong>discrete class</strong>, which can be represented simply using symbols like red stars or green triangles, we have an unknown <strong>real-valued label</strong>), however, we can visualize the KNN algorithm as used in regression settings in the following way:</p>
+<p>Assume we have a set of (feature, label) pairs <span class="math inline">\((x_i, y_i)\)</span>, where <span class="math inline">\(x_i\)</span> is a single scalar value representing the sole <strong>feature value</strong> for observation <span class="math inline">\(i\)</span> (that is, there is only <strong>one feature</strong> in this case) and <span class="math inline">\(y_i\)</span> is a single scalar value representing the <strong>label</strong> for observation <span class="math inline">\(i\)</span>. We can plot an observed dataset like this as follows, where we’re being careful to distinguish between the <strong>feature value</strong> (plotted using the <span class="math inline">\(x\)</span>-axis) and the <strong>labels</strong> (plotted using the <span class="math inline">\(y\)</span>-axis):</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>y_vals <span class="ot">&lt;-</span> x_vals <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.25</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>knn_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_vals)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(knn_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Plot of 1D Features and Label Values"</span>,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Feature Value"</span>,</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Label"</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/knn-regression-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now, if we encounter a new datapoint <span class="math inline">\(x_i\)</span> in this context (say, <span class="math inline">\(x_i = 0.75\)</span>, a datapoint for which we want to predict a label value <span class="math inline">\(y_i\)</span>), notice that such a datapoint would <strong>not</strong> be plotted as a point in the above plot but as a <strong>vertical line</strong>, like the following:</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>y_vals <span class="ot">&lt;-</span> x_vals <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.25</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>new_x_val <span class="ot">&lt;-</span> <span class="fl">0.75</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>band_width <span class="ot">&lt;-</span> <span class="fl">0.076</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>x_band_lower <span class="ot">&lt;-</span> new_x_val <span class="sc">-</span> band_width</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>x_band_upper <span class="ot">&lt;-</span> new_x_val <span class="sc">+</span> band_width</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>knn_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_vals)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(knn_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.75</span>, <span class="at">linewidth =</span> g_linewidth) <span class="sc">+</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_band_lower, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_band_upper, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"rect"</span>, <span class="at">xmin =</span> x_band_lower, <span class="at">xmax =</span> x_band_upper, <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> .<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">sides =</span> <span class="st">'b'</span>, <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>)) <span class="sc">+</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Plot of 1D Features and Label Values"</span>,</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Feature Value"</span>,</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Label"</span></span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/knn-regression-new-point-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here I have also included a <strong>band</strong> around the new <span class="math inline">\(x_i\)</span> value (0.75) to illustrate how <strong>distance on the <span class="math inline">\(x\)</span>-axis is the only consideration</strong> when we find the 3 closest points to <span class="math inline">\(x_i = 0.75\)</span>: the <span class="math inline">\(y\)</span>-values are only taken into consideration <strong>after</strong> we choose our <span class="math inline">\(K = 3\)</span> closest points in this case, at which point we take the <strong>mean of the <span class="math inline">\(y\)</span>-values</strong> of these three points as our predicted <span class="math inline">\(y_i\)</span> value!<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>In this case, using some additional code to programmatically identify these 3 nearest neighbors (using the <strong>absolute deviation</strong> metric):</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>knn_df <span class="ot">&lt;-</span> knn_df <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dist_from_new_point =</span> <span class="fu">abs</span>(x <span class="sc">-</span> new_x_val)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(dist_from_new_point) <span class="sc">|&gt;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">within_band =</span> <span class="fu">as.numeric</span>(dist_from_new_point <span class="sc">&lt;=</span> band_width)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(knn_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>within_band)) <span class="sc">+</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.75</span>, <span class="at">linewidth =</span> g_linewidth) <span class="sc">+</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_band_lower, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_band_upper, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"rect"</span>, <span class="at">xmin =</span> x_band_lower, <span class="at">xmax =</span> x_band_upper, <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> .<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">sides =</span> <span class="st">'b'</span>, <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>)) <span class="sc">+</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Plot of 1D Features and Label Values"</span>,</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Feature Value"</span>,</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Label"</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_legend</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/compute-knn-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can now take the mean of their <strong><span class="math inline">\(y\)</span> values</strong> to derive our <strong>KNN-based prediction</strong> for the new datapoint’s label <span class="math inline">\(y_i\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>nearest_df <span class="ot">&lt;-</span> knn_df <span class="sc">|&gt;</span> <span class="fu">filter</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    within_band <span class="sc">==</span> <span class="dv">1</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>y_pred <span class="ot">&lt;-</span> <span class="fu">mean</span>(nearest_df<span class="sc">$</span>y)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>y_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8116646</code></pre>
+</div>
+</div>
 
 
 </section>
@@ -2265,6 +2456,7 @@ Solution (Click to expand)
 
 <ol>
 <li id="fn1"><p>All of these quantities, including the F1 score, can be straightforwardly extended to the <strong>multiclass classification</strong> case, but for simplicity here we stick with the binary classification setup.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>To understand why a band around the <span class="math inline">\(x_i\)</span> value in this case is the appropriate way to visualize the <span class="math inline">\(K\)</span> nearest neighbors, think about how a naïve but usable <strong>algorithm</strong> for finding the nearest neighbors could just be: incrementally expand the <strong>width</strong> of this band (by small values like 0.01) until <span class="math inline">\(K\)</span> points appear in the band. Those are the <span class="math inline">\(K\)</span> nearest neighbors to the <span class="math inline">\(x_i\)</span> value.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
