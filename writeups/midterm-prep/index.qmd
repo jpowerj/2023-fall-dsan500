@@ -599,15 +599,142 @@ For example, if a dataset represents the digitized version of a dataset of selli
 
 ## Text Analysis
 
-* How to go from corpus -> DTM
+We also only had a small amount of time to cover text analysis and Natural Language Processing (NLP) techniques in class, but in this case we really only want you all to know some basics, since you can take an entire class after this one which is solely about NLP!
+
+So, given the basic technique we talked about in class, of **taking a corpus of texts and representing it as a *Document-Term Matrix* (DTM)**, you should be able to answer the following multiple-choice question:
+
+1. Assume we have four documents, `A.txt`, `B.txt`, `C.txt`, and `D.txt`, as follows:
+
+    ```txt {filename="A.txt"}
+    Green eggs are sweet.
+    ```
+
+    ```txt {filename="B.txt"}
+    Ham is sour.
+    ```
+
+    ```txt {filename="C.txt"}
+    Cats love sweet food.
+    ```
+
+    ```txt {filename="D.txt"}
+    Dogs love sour food.
+    ```
+
+    Which of the following matrices represents the **document-term matrix** encoding these four documents (assuming that we have performed **lowercasing**, **word tokenization**, and **stopword removal** on each document before vectorizing it)?
+    
+    *(Note: The name for each table is contained in the upper-left-most cell of the table: since (A) appears in the upper-left-most cell of the first table below, for example, this table represents choice (A))*
+
+| (A) | `green` | `eggs` | `sweet` | `ham` | `sour` | `cats` | `love` | `food` | `dogs` |
+| - | - | - | - | - | - | - | - | - | - |
+| `A` | 4 | 1 | 0 | 1 | 0 | 0 | 1 | 1 | 1 |
+| `B` | 3 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 |
+| `C` | 2 | 0 | 1 | 0 | 0 | 1 | 1 | 1 | 1 |
+| `D` | 1 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 1 |
+
+| (B) | `green` | `eggs` | `sweet` | `ham` | `sour` | `cats` | `love` | `food` | `dogs` |
+| - | - | - | - | - | - | - | - | - | - |
+| `A` | 1 | 1 | 1 | 0 | 0 | 2 | 2 | 0 | 0 |
+| `B` | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 |
+| `C` | 0 | 0 | 1 | 0 | 0 | 1 | 1 | 1 | 0 |
+| `D` | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 1 |
+
+| (C) | `green` | `eggs` | `sweet` | `ham` | `sour` | `cats` | `love` | `food` | `dogs` |
+| - | - | - | - | - | - | - | - | - | - |
+| `A` | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `B` | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 |
+| `C` | 0 | 0 | 1 | -1 | -5 | 1 | 1 | 1 | 0 |
+| `D` | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 1 |
+
+| (D) | `green` | `eggs` | `sweet` | `ham` | `sour` | `cats` | `love` | `food` | `dogs` |
+| - | - | - | - | - | - | - | - | - | - |
+| `A` | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `B` | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 |
+| `C` | 0 | 0 | 1 | 0 | 0 | 1 | 1 | 1 | 0 |
+| `D` | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 1 |
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+The correct answer is **(D)**. We can tell that this final table is the correct DTM representation for our four documents by a process of elimination, for example:
+
+* The first table (A) contains a value of `4` in the cell representing the count of the token `green` in document `A`, whereas document `A` in fact only contains the token `green` **one time**.
+* The second table (B) contains a value of `2` in the cell representing the count of the token `love` in document `A`, whereas document `A` in fact does not contain the token `love` at all.
+* The third table (C) contains **negative values**: for example, the cell representing the count of the token `sour` in document `C` has the value `-5`. Since documents cannot contain tokens a negative number of times, we know that this is an invalid DTM in general.
+:::
 
 ## Machine Learning
 
-* Distance metrics
-* Precision, recall, F1-score
+### Types of Learning Methods
+
+At a general level (so, for essay questions for example), we want you to understand the distinction between **supervised**, **unsupervised**, and **reinforcement learning**, as well as how the following terms relate to these three types of learning:
+
+* Classes
+* Labels
+* Binary classification
+* Multiclass classification
+* Scalar regression
+* Vector regression
+
+So, for example, we could ask the following type of essay question to test your understanding of these terms and their interrelationships:
+
+1. Describe how **regression** tasks differ from **classification** tasks in terms of Machine Learning, and then describe how we could **transform** the data we have for our regression task in such a way as to turn it into a **classification** task, and vice-versa. For example, imagine that the codebase at the company you're working for only contains **classification** algorithms, so that you will be unable to learn anything about your data without being able to plug it into a classification algorithm, but all of the variables in the dataset are **continuous**. Then imagine that the codebase instead only contains **regression** algorithms, but that you have features and labels for a **classification** problem that you'd like to solve.
+
+::: {.callout-note collapse="false" title="Solution"}
+
+An example response to this essay question could be as follows:
+
+**Regression** tasks differ from **classification** tasks, in Machine Learning, in that regression tasks involve discovering statistical relationships between a set of features and a **continuous** label variable, while classification tasks involve discovering statistical relationships between a set of features an a **discrete** label variable.
+
+The following two mostly-similar examples illustrate this difference:
+
+* **Classification task**: Predict whether a review for a product will be a **thumbs-up** or **thumbs-down** review, on the basis of the text of the review
+* **Regression task**: Predict the numeric score given to a product by a reviewer (where scores are allowed to be any number in the range $[0,100]$), on the basis of the text of the review.
+
+In the former case, our goal is to take the text of a review and use it to predict a **binary label** $\ell$ for this review from the set $\{\text{thumbs up}, \text{thumbs down}\}$, whereas in the latter case our goal is to take the text of a review and use it to predict a **real-valued score** $s$ from the interval $[0,100]$.
+
+Although both of these Machine Learning tasks present their own difficulties, we can often transform one type into the other type via a set of transformations.
+
+For example, to transform a **binary classification** task into a **regression** task, we could ask the regression algorithm to try and predict a real-valued score $s \in [0,1]$, interpret this number as a "confidence score", and convert the real-valued prediction into a binary prediction $\widehat{\ell}$ of the true label $\ell$ by rounding to the nearest integer:
+
+$$
+\widehat{\ell}(s) = \begin{cases}
+0 &\text{if }s \leq 0.5, \\
+1 &\text{otherwise.}
+\end{cases}
+$$
+
+Conversely, we can transform **regression** tasks into **classification** tasks by **binning** the continuous values into discrete bins.
+
+For example, if we have a dataset with **continuous labels** representing scores $s \in [0,100]$, we could convert these labels into discrete values by **dividing the range $[0,100]$ into three equal bins**, calling values in $\left[0,\frac{1}{3}\right)$ "low" values, values in $\left[ \frac{1}{3}, \frac{2}{3} \right]$ "medium" values, and values in $\left( 2/3, 1 \right]$ "high" values. We could then give all "low" values the label $0$, all "medium" values the label $1$, and all "high" values the label $2$, producing the following mapping from continuous labels (appropriate for regression algorithms) to discrete labels $\ell$ (appropriate for classification algorithms):
+
+$$
+\ell(s) = \begin{cases}
+0 &\text{if }0 \leq x \leq \frac{1}{3}, \\
+1 &\text{if }\frac{1}{3} \leq x \leq \frac{2}{3}, \\
+2 &\text{if }\frac{2}{3} \leq x \leq 1. 
+\end{cases}
+$$
+
+And now we could use a **multi-class classification algorithm** (as opposed to a **binary** classification algorithm, which only works for labels with two possible values) to predict low, medium, or high score values. Then, if we really needed to guess a **continuous** value, we could guess the **midpoint** of each interval, so that the following function could map the predictions $\widehat{\ell}_i$ made by our multi-class classification algorithm back into continuous values $\widehat{s}_i \in [0,100]$:
+
+$$
+\widehat{s}_i = \begin{cases}
+\frac{1}{6} &\text{if }\widehat{\ell}_i = 0, \\
+\frac{1}{2} &\text{if }\widehat{\ell}_i = 1, \\
+\frac{5}{6} &\text{if }\widehat{\ell}_i = 2.
+\end{cases}
+$$
+
+:::
+
+### Distance Metrics
+
+### Precision, Recall, F1 Score
+
+### Loss Functions
+
 * Loss functions: MSE, RMSE, MAE
-* Supervised, unsupervised, reinforcement learning
-    * Buzzwords: classes, label, binary classification, multiclass classification, scalar regression, vector regressions
+
 * Confusion matrix
 * Overfitting
 * KNN for classification and/or regression

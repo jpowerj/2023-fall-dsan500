@@ -276,7 +276,13 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a></li>
   </ul></li>
   <li><a href="#text-analysis" id="toc-text-analysis" class="nav-link" data-scroll-target="#text-analysis">Text Analysis</a></li>
-  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning">Machine Learning</a></li>
+  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning">Machine Learning</a>
+  <ul class="collapse">
+  <li><a href="#types-of-learning-methods" id="toc-types-of-learning-methods" class="nav-link" data-scroll-target="#types-of-learning-methods">Types of Learning Methods</a></li>
+  <li><a href="#distance-metrics" id="toc-distance-metrics" class="nav-link" data-scroll-target="#distance-metrics">Distance Metrics</a></li>
+  <li><a href="#precision-recall-f1-score" id="toc-precision-recall-f1-score" class="nav-link" data-scroll-target="#precision-recall-f1-score">Precision, Recall, F1 Score</a></li>
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions">Loss Functions</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1424,26 +1430,454 @@ Solution
 </section>
 <section id="text-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="text-analysis">Text Analysis</h2>
+<p>We also only had a small amount of time to cover text analysis and Natural Language Processing (NLP) techniques in class, but in this case we really only want you all to know some basics, since you can take an entire class after this one which is solely about NLP!</p>
+<p>So, given the basic technique we talked about in class, of <strong>taking a corpus of texts and representing it as a <em>Document-Term Matrix</em> (DTM)</strong>, you should be able to answer the following multiple-choice question:</p>
+<ol type="1">
+<li><p>Assume we have four documents, <code>A.txt</code>, <code>B.txt</code>, <code>C.txt</code>, and <code>D.txt</code>, as follows:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>A.txt</strong></pre>
+</div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Green eggs are sweet.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>B.txt</strong></pre>
+</div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Ham is sour.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>C.txt</strong></pre>
+</div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Cats love sweet food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>D.txt</strong></pre>
+</div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Dogs love sour food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Which of the following matrices represents the <strong>document-term matrix</strong> encoding these four documents (assuming that we have performed <strong>lowercasing</strong>, <strong>word tokenization</strong>, and <strong>stopword removal</strong> on each document before vectorizing it)?</p>
+<p><em>(Note: The name for each table is contained in the upper-left-most cell of the table: since (A) appears in the upper-left-most cell of the first table below, for example, this table represents choice (A))</em></p></li>
+</ol>
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>(A)</th>
+<th><code>green</code></th>
+<th><code>eggs</code></th>
+<th><code>sweet</code></th>
+<th><code>ham</code></th>
+<th><code>sour</code></th>
+<th><code>cats</code></th>
+<th><code>love</code></th>
+<th><code>food</code></th>
+<th><code>dogs</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>A</code></td>
+<td>4</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><code>B</code></td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td><code>C</code></td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><code>D</code></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>(B)</th>
+<th><code>green</code></th>
+<th><code>eggs</code></th>
+<th><code>sweet</code></th>
+<th><code>ham</code></th>
+<th><code>sour</code></th>
+<th><code>cats</code></th>
+<th><code>love</code></th>
+<th><code>food</code></th>
+<th><code>dogs</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>A</code></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>B</code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td><code>C</code></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>D</code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>(C)</th>
+<th><code>green</code></th>
+<th><code>eggs</code></th>
+<th><code>sweet</code></th>
+<th><code>ham</code></th>
+<th><code>sour</code></th>
+<th><code>cats</code></th>
+<th><code>love</code></th>
+<th><code>food</code></th>
+<th><code>dogs</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>A</code></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>B</code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td><code>C</code></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>-1</td>
+<td>-5</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>D</code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>(D)</th>
+<th><code>green</code></th>
+<th><code>eggs</code></th>
+<th><code>sweet</code></th>
+<th><code>ham</code></th>
+<th><code>sour</code></th>
+<th><code>cats</code></th>
+<th><code>love</code></th>
+<th><code>food</code></th>
+<th><code>dogs</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>A</code></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>B</code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td><code>C</code></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>D</code></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The correct answer is <strong>(D)</strong>. We can tell that this final table is the correct DTM representation for our four documents by a process of elimination, for example:</p>
 <ul>
-<li>How to go from corpus -&gt; DTM</li>
+<li>The first table (A) contains a value of <code>4</code> in the cell representing the count of the token <code>green</code> in document <code>A</code>, whereas document <code>A</code> in fact only contains the token <code>green</code> <strong>one time</strong>.</li>
+<li>The second table (B) contains a value of <code>2</code> in the cell representing the count of the token <code>love</code> in document <code>A</code>, whereas document <code>A</code> in fact does not contain the token <code>love</code> at all.</li>
+<li>The third table (C) contains <strong>negative values</strong>: for example, the cell representing the count of the token <code>sour</code> in document <code>C</code> has the value <code>-5</code>. Since documents cannot contain tokens a negative number of times, we know that this is an invalid DTM in general.</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section id="machine-learning" class="level2">
 <h2 class="anchored" data-anchor-id="machine-learning">Machine Learning</h2>
+<section id="types-of-learning-methods" class="level3">
+<h3 class="anchored" data-anchor-id="types-of-learning-methods">Types of Learning Methods</h3>
+<p>At a general level (so, for essay questions for example), we want you to understand the distinction between <strong>supervised</strong>, <strong>unsupervised</strong>, and <strong>reinforcement learning</strong>, as well as how the following terms relate to these three types of learning:</p>
 <ul>
-<li>Distance metrics</li>
-<li>Precision, recall, F1-score</li>
-<li>Loss functions: MSE, RMSE, MAE</li>
-<li>Supervised, unsupervised, reinforcement learning
+<li>Classes</li>
+<li>Labels</li>
+<li>Binary classification</li>
+<li>Multiclass classification</li>
+<li>Scalar regression</li>
+<li>Vector regression</li>
+</ul>
+<p>So, for example, we could ask the following type of essay question to test your understanding of these terms and their interrelationships:</p>
+<ol type="1">
+<li>Describe how <strong>regression</strong> tasks differ from <strong>classification</strong> tasks in terms of Machine Learning, and then describe how we could <strong>transform</strong> the data we have for our regression task in such a way as to turn it into a <strong>classification</strong> task, and vice-versa. For example, imagine that the codebase at the company you’re working for only contains <strong>classification</strong> algorithms, so that you will be unable to learn anything about your data without being able to plug it into a classification algorithm, but all of the variables in the dataset are <strong>continuous</strong>. Then imagine that the codebase instead only contains <strong>regression</strong> algorithms, but that you have features and labels for a <strong>classification</strong> problem that you’d like to solve.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>An example response to this essay question could be as follows:</p>
+<p><strong>Regression</strong> tasks differ from <strong>classification</strong> tasks, in Machine Learning, in that regression tasks involve discovering statistical relationships between a set of features and a <strong>continuous</strong> label variable, while classification tasks involve discovering statistical relationships between a set of features an a <strong>discrete</strong> label variable.</p>
+<p>The following two mostly-similar examples illustrate this difference:</p>
 <ul>
-<li>Buzzwords: classes, label, binary classification, multiclass classification, scalar regression, vector regressions</li>
-</ul></li>
-<li>Confusion matrix</li>
-<li>Overfitting</li>
-<li>KNN for classification and/or regression</li>
+<li><strong>Classification task</strong>: Predict whether a review for a product will be a <strong>thumbs-up</strong> or <strong>thumbs-down</strong> review, on the basis of the text of the review</li>
+<li><strong>Regression task</strong>: Predict the numeric score given to a product by a reviewer (where scores are allowed to be any number in the range <span class="math inline">\([0,100]\)</span>), on the basis of the text of the review.</li>
+</ul>
+<p>In the former case, our goal is to take the text of a review and use it to predict a <strong>binary label</strong> <span class="math inline">\(\ell\)</span> for this review from the set <span class="math inline">\(\{\text{thumbs up}, \text{thumbs down}\}\)</span>, whereas in the latter case our goal is to take the text of a review and use it to predict a <strong>real-valued score</strong> <span class="math inline">\(s\)</span> from the interval <span class="math inline">\([0,100]\)</span>.</p>
+<p>Although both of these Machine Learning tasks present their own difficulties, we can often transform one type into the other type via a set of transformations.</p>
+<p>For example, to transform a <strong>binary classification</strong> task into a <strong>regression</strong> task, we could ask the regression algorithm to try and predict a real-valued score <span class="math inline">\(s \in [0,1]\)</span>, interpret this number as a “confidence score”, and convert the real-valued prediction into a binary prediction <span class="math inline">\(\widehat{\ell}\)</span> of the true label <span class="math inline">\(\ell\)</span> by rounding to the nearest integer:</p>
+<p><span class="math display">\[
+\widehat{\ell}(s) = \begin{cases}
+0 &amp;\text{if }s \leq 0.5, \\
+1 &amp;\text{otherwise.}
+\end{cases}
+\]</span></p>
+<p>Conversely, we can transform <strong>regression</strong> tasks into <strong>classification</strong> tasks by <strong>binning</strong> the continuous values into discrete bins.</p>
+<p>For example, if we have a dataset with <strong>continuous labels</strong> representing scores <span class="math inline">\(s \in [0,100]\)</span>, we could convert these labels into discrete values by <strong>dividing the range <span class="math inline">\([0,100]\)</span> into three equal bins</strong>, calling values in <span class="math inline">\(\left[0,\frac{1}{3}\right)\)</span> “low” values, values in <span class="math inline">\(\left[ \frac{1}{3}, \frac{2}{3} \right]\)</span> “medium” values, and values in <span class="math inline">\(\left( 2/3, 1 \right]\)</span> “high” values. We could then give all “low” values the label <span class="math inline">\(0\)</span>, all “medium” values the label <span class="math inline">\(1\)</span>, and all “high” values the label <span class="math inline">\(2\)</span>, producing the following mapping from continuous labels (appropriate for regression algorithms) to discrete labels <span class="math inline">\(\ell\)</span> (appropriate for classification algorithms):</p>
+<p><span class="math display">\[
+\ell(s) = \begin{cases}
+0 &amp;\text{if }0 \leq x \leq \frac{1}{3}, \\
+1 &amp;\text{if }\frac{1}{3} \leq x \leq \frac{2}{3}, \\
+2 &amp;\text{if }\frac{2}{3} \leq x \leq 1.
+\end{cases}
+\]</span></p>
+<p>And now we could use a <strong>multi-class classification algorithm</strong> (as opposed to a <strong>binary</strong> classification algorithm, which only works for labels with two possible values) to predict low, medium, or high score values. Then, if we really needed to guess a <strong>continuous</strong> value, we could guess the <strong>midpoint</strong> of each interval, so that the following function could map the predictions <span class="math inline">\(\widehat{\ell}_i\)</span> made by our multi-class classification algorithm back into continuous values <span class="math inline">\(\widehat{s}_i \in [0,100]\)</span>:</p>
+<p><span class="math display">\[
+\widehat{s}_i = \begin{cases}
+\frac{1}{6} &amp;\text{if }\widehat{\ell}_i = 0, \\
+\frac{1}{2} &amp;\text{if }\widehat{\ell}_i = 1, \\
+\frac{5}{6} &amp;\text{if }\widehat{\ell}_i = 2.
+\end{cases}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="distance-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="distance-metrics">Distance Metrics</h3>
+</section>
+<section id="precision-recall-f1-score" class="level3">
+<h3 class="anchored" data-anchor-id="precision-recall-f1-score">Precision, Recall, F1 Score</h3>
+</section>
+<section id="loss-functions" class="level3">
+<h3 class="anchored" data-anchor-id="loss-functions">Loss Functions</h3>
+<ul>
+<li><p>Loss functions: MSE, RMSE, MAE</p></li>
+<li><p>Confusion matrix</p></li>
+<li><p>Overfitting</p></li>
+<li><p>KNN for classification and/or regression</p></li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
