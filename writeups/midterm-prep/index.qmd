@@ -13,8 +13,18 @@ metadata-files:
 
 {{< include ../../_py-globals.qmd >}}
 
+::: {.hidden}
+
+```{r}
+#| label: source-r-globals
+source("../../_globals.r")
+```
+
+:::
+
 ::: {.callout-tip title="Update Log"}
 
+* *2023-10-15, 11pm EST*: Added review material and practice problems on **Loss Functions**
 * *2023-10-15, 9:30pm EST*: Added overviews/review material for **Precision**, **Recall**, **F1 Score**, and **Confusion Matrices**, along with practice multiple choice problems on interpreting confusion matrices.
 * *2023-10-15, 8:30pm EST*: Added example multiple choice problems on **Distance Metrics**
 * *2023-10-15, 8pm EST*: Added example essay question on **Classification vs. Regression**, and how to transform from one to the other
@@ -866,11 +876,118 @@ The correct answer is **b**: Looking at the given confusion matrix and deriving 
 
 ### Loss Functions
 
-* **Mean Squared Error** (**MSE**)
-* **Root Mean Squared Error** (**RMSE**)
-* **Maximum Absolute Error** (**MAE**)
+As mentioned above, **loss functions** are derived from **distance metrics**, such that a given loss function applied to a **pair of points** (like the true value and the predicted value) represents some appropriately-constructed **distance** between these points.
+
+However, when talking about the particular loss functions here, we will consider also how we **aggregate** the individual distances (for example, the distance between a single datapoint's **true label** and the **predicted label** for this datapoint) into an **overall "score"**, the **loss** that one incurs if they approximated the true values using the predicted values instead.
+
+From this definition, we can immediately come up with some properties that a loss function should have---for example, that a perfect set of predictions should have a loss value of **0**---and when thinking through the following three examples you should also think about their **range** in this sense: what values do these loss functions produce, for cases of perfect prediction, cases where only a few predictions are off, and cases where **all** predictions are far from the true value:
+
+**Mean Squared Error** (**MSE**)
+
+The [**mean squared error**](https://en.wikipedia.org/wiki/Mean_squared_error){target='_blank'} is probably the most straightforward loss function to use and to understand, in the sense that it is exactly as advertised: given a set of $n$ **true values** $Y_i = \{y_1, y_2, \ldots, y_n\}$, and $n$ **predictions** of these values $\widehat{Y_i} = \{\widehat{y_1}, \widehat{y_2}, \ldots, \widehat{y_n}\}$, the mean squared error is as follows:
+
+$$
+\text{MSE}\left(Y_i, \widehat{Y_i}\right) = \frac{1}{n}\sum_{i=1}^{n} (y_i - \widehat{y_i})^2
+$$
+
+**Root Mean Squared Error** (**RMSE**)
+
+If you understand the **MSE**, then you understand this loss function as well: it is just the [**square root** of the **MSE**](https://en.wikipedia.org/wiki/Root-mean-square_deviation){target='_blank'}:
+
+$$
+\text{RMSE}\left(Y_i, \widehat{Y_i}\right) = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \widehat{y_i})^2}.
+$$
+
+You can think about the various ways in which the MSE and RMSE may differ, for example in cases with only a few datapoints, but one good analogy would be that the **MSE** is to the **Variance** of a Random Variable as the **RMSE** is to the **Standard Deviation** of a Random Variable. Just as there are different scenarios wherein we'd want to use the **standard deviation** instead of the **variance**, and vice-versa, there are different scenarios where the **MSE** and the **RMSE** are more/less appropriate to use.
+
+**Mean Absolute Error** (**MAE**)
+
+In employing this loss function, unlike the previous two, we use the **absolute value** function $f(x) = |x|$ to ensure that positive and negative errors aren't cancelled out (rather than the **squaring** function $f(x) = x^2$ used in the previous two cases). Thus, given the same setup as the previous two definitions, the MAE is defined as follows:
+
+$$
+\text{MAE}\left(Y_i, \widehat{Y_i}\right) = \frac{1}{n}\sum_{i=1}^{n}|y_i - \widehat{y_i}|
+$$
+
+**Visualizing Loss Functions**
+
+Programmatically, we can visualize this loss function by considering a simulated dataset where the true value $y_i$ is always exactly $0$, but where the predictions $\widehat{y_i}$ vary around this true value, and seeing how predictions are penalized as they **get further and further from the true value**:
+
+```{r}
+#| label: mse-viz
+#| code-fold: true
+library(tidyverse)
+# The number of datapoints we want to simulate
+N <- 1000
+id_vals <- seq(from=1, to=N, by=1)
+y_vals <- rep(0, N)
+y_pred_vals <- runif(N, -5, 5)
+sim_df <- tibble(id=id_vals, y=y_vals, y_pred=y_pred_vals)
+sim_df <- sim_df |> mutate(
+    SE = (y - y_pred)^2,
+    RSE = sqrt((y - y_pred)^2) + 0.4,
+    AE = abs(y - y_pred)
+)
+long_df <- sim_df |> pivot_longer(
+    -c(id, y, y_pred),
+    names_to = "Loss Function",
+    values_to = "value"
+)
+#long_df
+# Here we convert from wide to long format so
+# that we can plot all three y variables at once
+ggplot(long_df, aes(x=y_pred, y=value, color=`Loss Function`)) +
+  geom_point(
+    #alpha=0.333
+  ) +
+  dsan_theme() +
+  labs(
+    title="Three Common Loss Functions",
+    x="Predicted Y Value",
+    y="Penalty Applied to Prediction"
+  )
+```
+
+*(Here I've added a constant to the Root Squared Error/RSE line, to differentiate it from the Absolute Error/AE line, but note that these two curves have the exact same $y$ value across the entire domain here.)*
+
+So, whether on a multiple choice or essay question, we would want you to be able to **compare and contrast** these loss functions, along with their underlying distance functions, in terms of their usefulness in given Machine Learning scenarios.
+
+For example, here are some practice problems on this topic:
+
+1. **True** or **False**: The **Mean Absolute Error** (**MAE**) loss function assigns loss values to predictions **linearly**, meaning that, if a predicted value $\widehat{y_i}$ is $x$ units from the true value $y_i$, then a predicted value $\widetilde{y_i}$ which is $a \cdot x$ units from the true value $y_i$ will have an MAE loss value $a$ times higher than the MAE loss value for $\widehat{y_i}$. Mathematically, if we define $\widehat{\Delta}$ as the absolute distance between $\widehat{y_i}$ and $y_i$ and $\widetilde{\Delta} = a\widehat{\Delta}$ as the absolute distance between $\widetilde{y_i}$ and $y_i$, then
+
+$$
+\text{MAE}(y_i, \widetilde{y_i}) = a\text{MAE}(y_i, \widehat{y_i}).
+$$
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+Here the statement is **True**: as can be seen from the plot above, the MAE loss function scales **linearly** as the predicted value (the $x$-axis value) gets futher and further away from the true value $y_i = 0$.
+
+Intuitively, one can think of this like: a prediction that is `1` unit away from the true value will be assigned an MAE value of `1`, a prediction that is `2` units away from the true value will be assigned an MAE value of `2`, a prediction that is `3` units away from the true value will be assigned an MAE value of `3`, and so on.
+
+:::
+
+2. **True** or **False**: The **Mean Squared Error** (**MSE**) loss function assigns loss values to predictions **linearly**, meaning that, if a predicted value $\widehat{y_i}$ is $x$ units from the true value $y_i$, then a predicted value $\widetilde{y_i}$ which is $a \cdot x$ units from the true value $y_i$ will have an MSE loss value $a$ times higher than the MSE loss value for $\widehat{y_i}$. Mathematically, if we define $\widehat{\Delta}$ as the absolute distance between $\widehat{y_i}$ and $y_i$ and $\widetilde{\Delta} = a\widehat{\Delta}$ as the absolute distance between $\widetilde{y_i}$ and $y_i$, then
+
+$$
+\text{MSE}(y_i, \widetilde{y_i}) = a\text{MSE}(y_i, \widehat{y_i}).
+$$
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+In this case the statement is **False**: as can be seen from the plot above, the MSE loss function does **not** scale **linearly** as the predicted value (the $x$-axis value) gets futher and further away from the true value $y_i = 0$, but **quadratically**. Therefore, to make the mathematical form above true, we would have to modify the equality to be
+
+$$
+\text{MSE}(y_i, \widetilde{y_i}) = a^2\text{MSE}(y_i, \widehat{y_i}).
+$$
+
+Intuitively, one can think of this like: a prediction that is `1` unit away from the true value will be assigned an MSE value of `1`, but a prediction that is `2` units away from the true value will be assigned an MSE value of `4`, a prediction that is `3` units away from the true value will be assigned an MSE value of `9`, and so on.
+
+:::
 
 ### Overfitting
+
+
 
 ### K-Nearest Neighbors, For Classification *And* Regression Tasks
 

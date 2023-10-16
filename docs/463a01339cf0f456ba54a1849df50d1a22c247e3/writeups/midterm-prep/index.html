@@ -363,6 +363,11 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<div class="hidden">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Update Log">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -374,6 +379,7 @@ Update Log
 </div>
 <div class="callout-body-container callout-body">
 <ul>
+<li><em>2023-10-15, 11pm EST</em>: Added review material and practice problems on <strong>Loss Functions</strong></li>
 <li><em>2023-10-15, 9:30pm EST</em>: Added overviews/review material for <strong>Precision</strong>, <strong>Recall</strong>, <strong>F1 Score</strong>, and <strong>Confusion Matrices</strong>, along with practice multiple choice problems on interpreting confusion matrices.</li>
 <li><em>2023-10-15, 8:30pm EST</em>: Added example multiple choice problems on <strong>Distance Metrics</strong></li>
 <li><em>2023-10-15, 8pm EST</em>: Added example essay question on <strong>Classification vs.&nbsp;Regression</strong>, and how to transform from one to the other</li>
@@ -746,20 +752,20 @@ Solution (Click to expand)
 <p>Python provides you with a set of “default” object types: starting from the base <a href="https://docs.python.org/3/library/functions.html#object" target="_blank"><code>object</code> class</a>, for example, it provides classes like <code>int</code>, <code>float</code>, <code>string</code>, <code>boolean</code>, and so on.</p>
 <p>However, sometimes these base classes on their own, or combinations of them, cannot serve the purposes that you need for your particular project/application. In these cases, you can create your own <strong>custom classes</strong>, with syntax that looks like the following</p>
 <p><em>(<strong>NOTE</strong>: Despite the fact that we’re not explicitly defining <code>Vehicle</code> here to be a sub-class of any other class, <strong>by default</strong> in Python <strong>all classes are subclasses of the <code>object</code> class mentioned above</strong>)</em></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_wheels <span class="op">=</span> num_wheels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_wheels <span class="op">=</span> num_wheels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>By defining the class using the line <code>class Vehicle</code> at the top, and then defining a <strong>constructor function</strong> called <code>__init__()</code>, we can now create new objects with the <strong>type</strong> <code>Vehicle</code> by using syntax like the following:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>my_vehicle <span class="op">=</span> Vehicle(<span class="st">"Toyota"</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_vehicle <span class="op">=</span> Vehicle(<span class="st">"Toyota"</span>, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Which will call the <code>__init__()</code> function defined above, such that now the value <code>"Toyota"</code> will be stored in the <strong>instance variable</strong> called <code>maker</code> within the <code>my_car</code> object, and the value <code>4</code> will be stored in the instance variable called <code>num_wheels</code> within the <code>my_obj</code> object. The <strong>object</strong> <code>my_obj</code> here is therefore an <strong>instance</strong> of the class <code>Vehicle</code>.</p>
 <p>This means that, from this point onwards, we can access this information (the values contained in <code>maker</code> and <code>num_wheels</code>) using the <strong>dot operator</strong> <code>.</code> on the object, like:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_vehicle.maker, my_vehicle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_vehicle.maker, my_vehicle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Toyota 4</code></pre>
 </div>
@@ -767,44 +773,44 @@ Solution (Click to expand)
 <p>Now that we’ve seen how to define a <strong>class</strong>, providing a <strong>template</strong> for creating objects, and how to <strong>create objects</strong> using the <strong>constructor function</strong> within a <strong>class</strong>, let’s now look at the notion of <strong>inheritance</strong>.</p>
 <p><strong>An issue with OOP in <em>Python</em> (unlike many other languages) is that Python does <em>not</em> allow you to create multiple versions of the same function within the same class</strong>.</p>
 <p>This means, for example, that we could <strong>not</strong> add a <code>start_vehicle()</code> function to our <code>Vehicle</code> class which would behave differently given different input types. The following new version of <code>Vehicle</code> will produce an error:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_wheels <span class="op">=</span> num_wheels</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> start_vehicle(<span class="va">self</span>):</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Version for cars</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Start the car</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> start_vehicle(<span class="va">self</span>):</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Version for motorcycles</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Start the motorcycle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vehicle:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker, num_wheels):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maker <span class="op">=</span> maker</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_wheels <span class="op">=</span> num_wheels</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> start_vehicle(<span class="va">self</span>):</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Version for cars</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Start the car</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> start_vehicle(<span class="va">self</span>):</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">        Version for motorcycles</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Start the motorcycle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So, if we find ourselves in a case where we want to model a <strong>hierarchy</strong> of more-general to more-specific versions of a class, we can use <strong>inheritance</strong> to define <strong>sub-classes</strong> of a given class which represent a more specific “version” of this class.</p>
 <p>So, using our <code>Vehicle</code> class as our working example, we may find ourselves defining <strong>four-wheeled</strong> vehicles very often, since <strong>cars</strong> are common vehicles which always have four wheels, but also <strong>two-wheeled</strong> vehicles very often, since <strong>motorcycles</strong> are common vehicles which always have two wheels.</p>
 <p>So, to make our lives easier, rather than having to specify the number of wheels each time we want to create an object representing a car or motorcycle, instead we can create <strong>sub-classes</strong> of <code>Vehicle</code> representing cars and motorcycles, as follows:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Car(Vehicle):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker):</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">4</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Motorcycle(Vehicle):</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker):</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Car(Vehicle):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">4</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Motorcycle(Vehicle):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maker):</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(maker, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we have these two sub-classes, defined in this way, we can create <strong><code>Car</code></strong> and <strong><code>Motorcycle</code></strong> objects, which will have those types (<code>Car</code> and <code>Motorcycle</code>, respectively) but will <strong>also</strong> both have type <code>Vehicle</code>, and will have their <code>num_wheels</code> value set automatically, without us having to provide these values explicitly to the <code>Car</code> and/or <code>Motorcycle</code> constructors:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>my_car <span class="op">=</span> Car(<span class="st">"Toyota"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>my_motorcycle <span class="op">=</span> Motorcycle(<span class="st">"Kawasaki"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>my_car <span class="op">=</span> Car(<span class="st">"Toyota"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>my_motorcycle <span class="op">=</span> Motorcycle(<span class="st">"Kawasaki"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And now, despite the fact that <code>my_car</code> and <code>my_motorcycle</code> are of different sub-types, since they are both objects of type <code>Vehicle</code> we know that we can access a field called <code>num_wheels</code> on both:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_car.num_wheels, my_motorcycle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_car.num_wheels, my_motorcycle.num_wheels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4 2</code></pre>
 </div>
@@ -938,59 +944,59 @@ Solution (Click to expand)
 <section id="typecasting-overview" class="level3">
 <h3 class="anchored" data-anchor-id="typecasting-overview">Typecasting: Overview</h3>
 <p>The concept of <strong>typecasting</strong> is one we didn’t get to discuss much in class, but it’s an operation that we use all the time when writing Python code: for example, every time we <strong>print the value of an <code>int</code> or <code>float</code> variable</strong>, we are implicitly <strong>typecasting</strong> the <code>int</code> or <code>float</code> to a <strong><code>string</code></strong> variable, as in the following example:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>one_plus_one <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"One plus one is </span><span class="sc">{</span>one_plus_one<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>one_plus_one <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"One plus one is </span><span class="sc">{</span>one_plus_one<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>One plus one is 2</code></pre>
 </div>
 </div>
 <p>A <strong>crucial concern with typecasting</strong> (the main reason we worry about it as data scientists) is that we need to ensure that <strong>the information we want to retain is indeed retained</strong> when we perform a typecasting operation, whether implicitly or explicitly.</p>
 <p>For example, if we make a variable called <code>my_pi</code> which we’re hoping to use to represent <span class="math inline">\(\pi\)</span> to the maximum precision possible (e.g.&nbsp;for computing areas of circles), then we need to make sure that we never <strong>typecast</strong> its value to a numeric type like <code>int</code> that cannot represent the decimal precision necessary for using <span class="math inline">\(\pi\)</span>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>my_pi <span class="op">=</span> math.pi</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>my_pi <span class="op">=</span> math.pi</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3.141592653589793</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>my_pi <span class="op">=</span> <span class="bu">int</span>(my_pi)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>my_pi <span class="op">=</span> <span class="bu">int</span>(my_pi)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_pi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3</code></pre>
 </div>
 </div>
 <p>This may seem like a silly example, since for values like <code>my_pi</code> we would usually be aware and careful about loss of precision, but it can become more and more easy to make these types of mistakes—where typecasting leads to a <strong>loss of information</strong>—when you are working with a large collection of numeric variables.</p>
 <p>More formally, we can say that <strong>information is lost</strong> when typecasting a variable <code>x</code> into some other type to produce a new variable <code>y</code> if it would not be possible to recover the information contained in <code>x</code> from the new variable <code>y</code>. So, given this definition,</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>my_str <span class="op">=</span> <span class="bu">str</span>(my_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>my_str <span class="op">=</span> <span class="bu">str</span>(my_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Would <strong>not</strong> be a case where information is lost, since we could always recover the original <code>my_int</code> by typecasting <strong>back</strong> to the <code>int</code> type;</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>my_new_int <span class="op">=</span> <span class="bu">int</span>(my_str)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_new_int, my_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>my_new_int <span class="op">=</span> <span class="bu">int</span>(my_str)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_new_int, my_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>my_new_int <span class="op">==</span> my_int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>my_new_int <span class="op">==</span> my_int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>True</code></pre>
 </div>
 </div>
 <p>However, in the following code block</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">=</span> <span class="fl">3.14</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="bu">int</span>(my_float)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">=</span> <span class="fl">3.14</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="bu">int</span>(my_float)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We have performed a typecasting operation which has resulted in a <strong>loss of information</strong>, since unlike in the previous example, we are unable to re-create the original <code>my_float</code> value by typecasting <code>my_int</code> back to the <code>float</code> type:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>my_new_float <span class="op">=</span> <span class="bu">float</span>(my_int)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_float, my_new_float)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>my_new_float <span class="op">=</span> <span class="bu">float</span>(my_int)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_float, my_new_float)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3.14 3.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">==</span> my_new_float</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">==</span> my_new_float</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>False</code></pre>
 </div>
@@ -1035,20 +1041,20 @@ Solution (Click to expand)
 <li><strong>Wide</strong> if the dataset only contains <strong>one row</strong> for each <strong>unit of observation</strong> in the data.</li>
 </ul>
 <p>For example, if the unit of observation is a <strong>country</strong>, then the following dataset is in <strong>long</strong> format, since it contains <strong>two rows</strong> for each country:</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>long_df <span class="ot">&lt;-</span> table2 <span class="sc">|&gt;</span> <span class="fu">filter</span>(</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2000</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">select</span>(</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    country, type, count</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">rename</span>(</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> type,</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> count</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>long_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/long_df.csv"</span>)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>long_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>long_df <span class="ot">&lt;-</span> table2 <span class="sc">|&gt;</span> <span class="fu">filter</span>(</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2000</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">select</span>(</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    country, type, count</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">rename</span>(</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> type,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> count</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>long_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/long_df.csv"</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>long_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="kable-table">
@@ -1097,14 +1103,14 @@ Solution (Click to expand)
 </div>
 </div>
 <p>On the other hand, the following dataset (with the same unit of observation) is in <strong>wide</strong> format, since each country’s information is contained in one and only one row.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>wide_df <span class="ot">&lt;-</span> table1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2000</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">select</span>(</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    country, cases, population</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>wide_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/wide_df.csv"</span>)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>wide_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>wide_df <span class="ot">&lt;-</span> table1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="dv">2000</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">select</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    country, cases, population</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>wide_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/wide_df.csv"</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>wide_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="kable-table">
 <table class="table table-sm table-striped small">
@@ -1137,15 +1143,15 @@ Solution (Click to expand)
 </div>
 </div>
 <p>We can use the Pandas function <code>pd.melt()</code>, however, to <strong>convert this second dataset from wide to long format</strong>, so it matches the format of the first dataset, as follows:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>wide_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/wide_df.csv"</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>long_df <span class="op">=</span> pd.melt(</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    wide_df,</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">'country'</span>],</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    value_vars<span class="op">=</span>[<span class="st">'cases'</span>,<span class="st">'population'</span>]</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>disp(long_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>wide_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/wide_df.csv"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>long_df <span class="op">=</span> pd.melt(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    wide_df,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">'country'</span>],</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    value_vars<span class="op">=</span>[<span class="st">'cases'</span>,<span class="st">'population'</span>]</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>disp(long_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -1444,25 +1450,25 @@ Solution
 <div class="code-with-filename-file">
 <pre><strong>A.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb33"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Green eggs are sweet.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Green eggs are sweet.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>B.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Ham is sour.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Ham is sour.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>C.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Cats love sweet food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Cats love sweet food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>D.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Dogs love sour food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Dogs love sour food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Which of the following matrices represents the <strong>document-term matrix</strong> encoding these four documents (assuming that we have performed <strong>lowercasing</strong>, <strong>word tokenization</strong>, and <strong>stopword removal</strong> on each document before vectorizing it)?</p>
 <p><em>(Note: The name for each table is contained in the upper-left-most cell of the table: since (A) appears in the upper-left-most cell of the first table below, for example, this table represents choice (A))</em></p></li>
@@ -2128,11 +2134,121 @@ Solution (Click to expand)
 </section>
 <section id="loss-functions" class="level3">
 <h3 class="anchored" data-anchor-id="loss-functions">Loss Functions</h3>
-<ul>
-<li><strong>Mean Squared Error</strong> (<strong>MSE</strong>)</li>
-<li><strong>Root Mean Squared Error</strong> (<strong>RMSE</strong>)</li>
-<li><strong>Maximum Absolute Error</strong> (<strong>MAE</strong>)</li>
-</ul>
+<p>As mentioned above, <strong>loss functions</strong> are derived from <strong>distance metrics</strong>, such that a given loss function applied to a <strong>pair of points</strong> (like the true value and the predicted value) represents some appropriately-constructed <strong>distance</strong> between these points.</p>
+<p>However, when talking about the particular loss functions here, we will consider also how we <strong>aggregate</strong> the individual distances (for example, the distance between a single datapoint’s <strong>true label</strong> and the <strong>predicted label</strong> for this datapoint) into an <strong>overall “score”</strong>, the <strong>loss</strong> that one incurs if they approximated the true values using the predicted values instead.</p>
+<p>From this definition, we can immediately come up with some properties that a loss function should have—for example, that a perfect set of predictions should have a loss value of <strong>0</strong>—and when thinking through the following three examples you should also think about their <strong>range</strong> in this sense: what values do these loss functions produce, for cases of perfect prediction, cases where only a few predictions are off, and cases where <strong>all</strong> predictions are far from the true value:</p>
+<p><strong>Mean Squared Error</strong> (<strong>MSE</strong>)</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Mean_squared_error" target="_blank"><strong>mean squared error</strong></a> is probably the most straightforward loss function to use and to understand, in the sense that it is exactly as advertised: given a set of <span class="math inline">\(n\)</span> <strong>true values</strong> <span class="math inline">\(Y_i = \{y_1, y_2, \ldots, y_n\}\)</span>, and <span class="math inline">\(n\)</span> <strong>predictions</strong> of these values <span class="math inline">\(\widehat{Y_i} = \{\widehat{y_1}, \widehat{y_2}, \ldots, \widehat{y_n}\}\)</span>, the mean squared error is as follows:</p>
+<p><span class="math display">\[
+\text{MSE}\left(Y_i, \widehat{Y_i}\right) = \frac{1}{n}\sum_{i=1}^{n} (y_i - \widehat{y_i})^2
+\]</span></p>
+<p><strong>Root Mean Squared Error</strong> (<strong>RMSE</strong>)</p>
+<p>If you understand the <strong>MSE</strong>, then you understand this loss function as well: it is just the <a href="https://en.wikipedia.org/wiki/Root-mean-square_deviation" target="_blank"><strong>square root</strong> of the <strong>MSE</strong></a>:</p>
+<p><span class="math display">\[
+\text{RMSE}\left(Y_i, \widehat{Y_i}\right) = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \widehat{y_i})^2}.
+\]</span></p>
+<p>You can think about the various ways in which the MSE and RMSE may differ, for example in cases with only a few datapoints, but one good analogy would be that the <strong>MSE</strong> is to the <strong>Variance</strong> of a Random Variable as the <strong>RMSE</strong> is to the <strong>Standard Deviation</strong> of a Random Variable. Just as there are different scenarios wherein we’d want to use the <strong>standard deviation</strong> instead of the <strong>variance</strong>, and vice-versa, there are different scenarios where the <strong>MSE</strong> and the <strong>RMSE</strong> are more/less appropriate to use.</p>
+<p><strong>Mean Absolute Error</strong> (<strong>MAE</strong>)</p>
+<p>In employing this loss function, unlike the previous two, we use the <strong>absolute value</strong> function <span class="math inline">\(f(x) = |x|\)</span> to ensure that positive and negative errors aren’t cancelled out (rather than the <strong>squaring</strong> function <span class="math inline">\(f(x) = x^2\)</span> used in the previous two cases). Thus, given the same setup as the previous two definitions, the MAE is defined as follows:</p>
+<p><span class="math display">\[
+\text{MAE}\left(Y_i, \widehat{Y_i}\right) = \frac{1}{n}\sum_{i=1}^{n}|y_i - \widehat{y_i}|
+\]</span></p>
+<p><strong>Visualizing Loss Functions</strong></p>
+<p>Programmatically, we can visualize this loss function by considering a simulated dataset where the true value <span class="math inline">\(y_i\)</span> is always exactly <span class="math inline">\(0\)</span>, but where the predictions <span class="math inline">\(\widehat{y_i}\)</span> vary around this true value, and seeing how predictions are penalized as they <strong>get further and further from the true value</strong>:</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of datapoints we want to simulate</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>id_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from=</span><span class="dv">1</span>, <span class="at">to=</span>N, <span class="at">by=</span><span class="dv">1</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>y_vals <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, N)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>y_pred_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>sim_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id=</span>id_vals, <span class="at">y=</span>y_vals, <span class="at">y_pred=</span>y_pred_vals)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>sim_df <span class="ot">&lt;-</span> sim_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">SE =</span> (y <span class="sc">-</span> y_pred)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">RSE =</span> <span class="fu">sqrt</span>((y <span class="sc">-</span> y_pred)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fl">0.4</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">AE =</span> <span class="fu">abs</span>(y <span class="sc">-</span> y_pred)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>long_df <span class="ot">&lt;-</span> sim_df <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span><span class="fu">c</span>(id, y, y_pred),</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Loss Function"</span>,</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="co">#long_df</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we convert from wide to long format so</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="co"># that we can plot all three y variables at once</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(long_df, <span class="fu">aes</span>(<span class="at">x=</span>y_pred, <span class="at">y=</span>value, <span class="at">color=</span><span class="st">`</span><span class="at">Loss Function</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">#alpha=0.333</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Three Common Loss Functions"</span>,</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Predicted Y Value"</span>,</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Penalty Applied to Prediction"</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/mse-viz-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>(Here I’ve added a constant to the Root Squared Error/RSE line, to differentiate it from the Absolute Error/AE line, but note that these two curves have the exact same <span class="math inline">\(y\)</span> value across the entire domain here.)</em></p>
+<p>So, whether on a multiple choice or essay question, we would want you to be able to <strong>compare and contrast</strong> these loss functions, along with their underlying distance functions, in terms of their usefulness in given Machine Learning scenarios.</p>
+<p>For example, here are some practice problems on this topic:</p>
+<ol type="1">
+<li><strong>True</strong> or <strong>False</strong>: The <strong>Mean Absolute Error</strong> (<strong>MAE</strong>) loss function assigns loss values to predictions <strong>linearly</strong>, meaning that, if a predicted value <span class="math inline">\(\widehat{y_i}\)</span> is <span class="math inline">\(x\)</span> units from the true value <span class="math inline">\(y_i\)</span>, then a predicted value <span class="math inline">\(\widetilde{y_i}\)</span> which is <span class="math inline">\(a \cdot x\)</span> units from the true value <span class="math inline">\(y_i\)</span> will have an MAE loss value <span class="math inline">\(a\)</span> times higher than the MAE loss value for <span class="math inline">\(\widehat{y_i}\)</span>. Mathematically, if we define <span class="math inline">\(\widehat{\Delta}\)</span> as the absolute distance between <span class="math inline">\(\widehat{y_i}\)</span> and <span class="math inline">\(y_i\)</span> and <span class="math inline">\(\widetilde{\Delta} = a\widehat{\Delta}\)</span> as the absolute distance between <span class="math inline">\(\widetilde{y_i}\)</span> and <span class="math inline">\(y_i\)</span>, then</li>
+</ol>
+<p><span class="math display">\[
+\text{MAE}(y_i, \widetilde{y_i}) = a\text{MAE}(y_i, \widehat{y_i}).
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Here the statement is <strong>True</strong>: as can be seen from the plot above, the MAE loss function scales <strong>linearly</strong> as the predicted value (the <span class="math inline">\(x\)</span>-axis value) gets futher and further away from the true value <span class="math inline">\(y_i = 0\)</span>.</p>
+<p>Intuitively, one can think of this like: a prediction that is <code>1</code> unit away from the true value will be assigned an MAE value of <code>1</code>, a prediction that is <code>2</code> units away from the true value will be assigned an MAE value of <code>2</code>, a prediction that is <code>3</code> units away from the true value will be assigned an MAE value of <code>3</code>, and so on.</p>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li><strong>True</strong> or <strong>False</strong>: The <strong>Mean Squared Error</strong> (<strong>MSE</strong>) loss function assigns loss values to predictions <strong>linearly</strong>, meaning that, if a predicted value <span class="math inline">\(\widehat{y_i}\)</span> is <span class="math inline">\(x\)</span> units from the true value <span class="math inline">\(y_i\)</span>, then a predicted value <span class="math inline">\(\widetilde{y_i}\)</span> which is <span class="math inline">\(a \cdot x\)</span> units from the true value <span class="math inline">\(y_i\)</span> will have an MSE loss value <span class="math inline">\(a\)</span> times higher than the MSE loss value for <span class="math inline">\(\widehat{y_i}\)</span>. Mathematically, if we define <span class="math inline">\(\widehat{\Delta}\)</span> as the absolute distance between <span class="math inline">\(\widehat{y_i}\)</span> and <span class="math inline">\(y_i\)</span> and <span class="math inline">\(\widetilde{\Delta} = a\widehat{\Delta}\)</span> as the absolute distance between <span class="math inline">\(\widetilde{y_i}\)</span> and <span class="math inline">\(y_i\)</span>, then</li>
+</ol>
+<p><span class="math display">\[
+\text{MSE}(y_i, \widetilde{y_i}) = a\text{MSE}(y_i, \widehat{y_i}).
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution (Click to expand)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution (Click to expand)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In this case the statement is <strong>False</strong>: as can be seen from the plot above, the MSE loss function does <strong>not</strong> scale <strong>linearly</strong> as the predicted value (the <span class="math inline">\(x\)</span>-axis value) gets futher and further away from the true value <span class="math inline">\(y_i = 0\)</span>, but <strong>quadratically</strong>. Therefore, to make the mathematical form above true, we would have to modify the equality to be</p>
+<p><span class="math display">\[
+\text{MSE}(y_i, \widetilde{y_i}) = a^2\text{MSE}(y_i, \widehat{y_i}).
+\]</span></p>
+<p>Intuitively, one can think of this like: a prediction that is <code>1</code> unit away from the true value will be assigned an MSE value of <code>1</code>, but a prediction that is <code>2</code> units away from the true value will be assigned an MSE value of <code>4</code>, a prediction that is <code>3</code> units away from the true value will be assigned an MSE value of <code>9</code>, and so on.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="overfitting" class="level3">
 <h3 class="anchored" data-anchor-id="overfitting">Overfitting</h3>
