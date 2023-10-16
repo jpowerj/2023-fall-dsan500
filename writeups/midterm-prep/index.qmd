@@ -15,7 +15,8 @@ metadata-files:
 
 ::: {.callout-tip title="Update Log"}
 
-* *2023-10-15, 8pm EST*: Added example essay question on **Classification vs. Regression**
+* *2023-10-15, 8:30pm EST*: Added example multiple choice problems on **Distance Metrics**
+* *2023-10-15, 8pm EST*: Added example essay question on **Classification vs. Regression**, and how to transform from one to the other
 * *2023-10-15, 7pm EST*: Added example multiple choice and essay questions on **EDA**
 * *2023-10-15, 6pm EST*: Added R and Python code demonstrating **Wide vs. Long Datasets** and how to transform data between these two formats
 * *2023-10-15, 5pm EST*: Added overviews and practice problems on **Conda**, **Typecasting**
@@ -729,6 +730,56 @@ $$
 :::
 
 ### Distance Metrics
+
+The main things to know here are (a) the various names for different distance metrics, and (b) the Machine Learning settings within which these various metrics **are** and **are not appropriate** to use.
+
+So, some example multiple choice problems would be as follows:
+
+1. You have a set of labeled data $(\mathbf{X}, \mathbf{y})$, and you are trying to train a machine learning algorithm to predict a **probability distribution** over the outcome $Y_i$ as a function of the features $X_i$. Which of the following is the most appropriate **distance metric** to use as the **loss function for a single prediction** made by the algorithm, during training?
+
+    a. Edit Distance
+    b. Euclidean Distance
+    c. Kullback-Leibler Divergence
+    d. Cosine Distance
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+The correct answer is **c**, Kullback-Leibler Divergence. While the other metrics are meant to handle different data types:
+
+* Edit distance is a metric created to quantify the distance between **strings** in terms of how frequently they differ by character
+* Euclidean distance is a metric created to quantify the **straight-line distance** between points in a geometric space
+* Cosine distance is a metric created to quantify the **angle** between two vectors in a vector space
+
+The **KL Divergence** is a metric created specifically to quantify differences between two **probability distributions**, the situation we have in this question.
+:::
+
+2. You have a set of labeled data $(\mathbf{X}, \mathbf{y})$, where both $\mathbf{X}$ and $\mathbf{y}$ may be extremely high-dimensional, and you are trying to train a machine learning algorithm to predict label values $y_i$ for given feature vectors $X_i$.
+
+    Your goal is specifically to **minimize the maximum distance between the predicted label $\widehat{y_i}$ and the true label $y_i$ across all dimensions**.
+
+    For example:
+    
+    * You want to penalize your algorithm heavily for predicting $\widehat{y_i} = (3,0,0)$ when the true label is $y_i = (0,0,0)$, since in this case even though it perfectly guessed the second and third value of the vector $y_i$, its guess for the first "coordinate" of $y_i$ was 3 units away from the true value
+    * But, you don't want to penalize it as heavily for predicting $\widehat{y_i} = (-0.1, 1.0, 0.2)$ when the true label is $y_i = (0,0,0)$, since in this case its maximum error across all dimensions was $1.0$.
+    * Since the "worst" guess in the latter case was only $1.0$ units away from the true value, while the "worst" guess in the former case was $3.0$ units away from the true value, we would want to penalize the guess in the first case **three times more heavily** than the guess in the second case. 
+    
+    What is the most appropriate distance metric to use as the **loss function for a single prediction** of the machine learning algorithm, in this case?
+    a. Euclidean Distance
+    b. Kullback-Leibler Divergence
+    c. The $L^\infty$-Norm $|| \widehat{y_i} - y_i ||_{\infty}$
+    d. The $L^1$-Norm $|| \widehat{y_i} - y_i ||_1$
+
+::: {.callout-note collapse="true" title="Solution (Click to expand)"}
+
+The correct answer is **c**, the $L^\infty$ norm, which can be seen more easily if we write it out as the norm which results from taking the $L^p$-norm in general and computing its limit as $p$ goes to $\infty$:
+
+$$
+\lim_{p \rightarrow \infty} || \widehat{y_i} - y_i || = \max_i\{\widehat{y_{i,1}} - y_{i,1}, \widehat{y_{i,2}} - y_{i,2}, \ldots, \widehat{y_{i,N}} - y_{i,N}\}.
+$$
+
+And so we see that, unlike the other distance metric choices, the $L^\infty$ norm specifically will penalize the machine learning algorithm's guess **in proportion to the maximum of the errors across all dimensions of $y_i$**.
+
+:::
 
 ### Precision, Recall, F1 Score
 
