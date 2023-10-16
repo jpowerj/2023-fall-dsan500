@@ -15,6 +15,7 @@ metadata-files:
 
 ::: {.callout-tip title="Update Log"}
 
+* *2023-10-15, 8pm EST*: Added example essay question on **Classification vs. Regression**
 * *2023-10-15, 7pm EST*: Added example multiple choice and essay questions on **EDA**
 * *2023-10-15, 6pm EST*: Added R and Python code demonstrating **Wide vs. Long Datasets** and how to transform data between these two formats
 * *2023-10-15, 5pm EST*: Added overviews and practice problems on **Conda**, **Typecasting**
