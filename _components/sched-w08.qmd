@@ -1,0 +1,6 @@
+
+| | Start | End | Topic | Recording |
+|:- |:- |:- |:- |:-:|
+| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p15'>2:00pm</a> | <a href='' target='_blank'>Midterm (on Canvas)<i class='bi bi-box-arrow-up-right ps-1'></i> | [No recording this week] |
+
+: {tbl-colwidths="[14,12,12,50,12]"}

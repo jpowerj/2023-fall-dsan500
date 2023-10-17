@@ -135,5 +135,9 @@
   },
   "presentations/index.qmd": {
     "index.html": "2e557400"
+  },
+  "w08/index.qmd": {
+    "slides.html": "a12e77eb",
+    "index.html": "0c1e2968"
   }
 }

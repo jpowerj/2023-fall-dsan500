@@ -1,0 +1,39 @@
+---
+title: "Week 8: Midterm"
+date: "Tuesday, October 17, 2023"
+date-format: full
+#date: last-modified
+#date-format: "dddd MMM D, YYYY, HH:mm:ss"
+lecnum: 8
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    output-file: slides.html
+    cache: false
+    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 8: Midterm"
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+    cache: false
+    code-fold: true
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+{{< include ../_components/sched-w07.qmd >}}

@@ -1,5 +1,34 @@
 [
   {
+    "listing": "/extra-videos/index.html",
+    "items": []
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/w01/index.html",
+      "/w02/index.html",
+      "/w03/index.html",
+      "/w04/index.html",
+      "/w05/index.html",
+      "/w06/index.html",
+      "/w07/index.html",
+      "/w08/index.html"
+    ]
+  },
+  {
+    "listing": "/cheatsheet-code/index.html",
+    "items": []
+  },
+  {
+    "listing": "/writeups/quiz-status/index.html",
+    "items": []
+  },
+  {
+    "listing": "/recordings/index.html",
+    "items": []
+  },
+  {
     "listing": "/writeups/index.html",
     "items": [
       "/writeups/midterm-prep/index.html",
@@ -23,33 +52,5 @@
       "/writeups/hw1-clarifications/index.html",
       "/writeups/refs-and-citations/index.html"
     ]
-  },
-  {
-    "listing": "/recordings/index.html",
-    "items": []
-  },
-  {
-    "listing": "/writeups/quiz-status/index.html",
-    "items": []
-  },
-  {
-    "listing": "/cheatsheet-code/index.html",
-    "items": []
-  },
-  {
-    "listing": "/index.html",
-    "items": [
-      "/w01/index.html",
-      "/w02/index.html",
-      "/w03/index.html",
-      "/w04/index.html",
-      "/w05/index.html",
-      "/w06/index.html",
-      "/w07/index.html"
-    ]
-  },
-  {
-    "listing": "/extra-videos/index.html",
-    "items": []
   }
 ]
