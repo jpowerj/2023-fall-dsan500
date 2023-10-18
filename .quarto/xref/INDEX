@@ -139,5 +139,8 @@
   "w08/index.qmd": {
     "slides.html": "a12e77eb",
     "index.html": "0c1e2968"
+  },
+  "writeups/left-right-shifts/index.qmd": {
+    "index.html": "78ef0e2f"
   }
 }

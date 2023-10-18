@@ -31,6 +31,7 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/left-right-shifts/index.html",
       "/writeups/midterm-prep/index.html",
       "/writeups/lab-3-2-clarifications/index.html",
       "/writeups/selenium/Web_Scraping_With_Selenium.html",

@@ -1,0 +1,49 @@
+---
+title: "Left-Right Shifts of a Function"
+date: last-modified
+categories:
+  - "Extra Writeups"
+format:
+  html:
+    df-print: kable
+metadata-files: 
+  - "../../_doc-meta.yml"
+---
+
+Apropos of a question from your <a href='https://georgetown.instructure.com/courses/173310/quizzes/201583/' target='_blank'>Quiz-3.2</a> assignment, the following is a quick writeup explaining why we get the strange result that, given some original function $f(x)$ and constant $c > 0$,
+
+* $g(x) = f(x + c)$ represents a shift to the **left** by $c$ units, and
+* $g(x) = f(x - c)$ represents a shift to the **right** by $c$ units.
+
+This is a classic weird aspect of Cartesian plots (plots on the $xy$-plane) that essentially exists to cruelly trick people, by making the mathematical formulation of something the opposite of our intuition 😑
+
+The way to get around this trick is to just work through it by making a table of some function $f(x)$, then a table of $g(x) = f(x + c)$ and/or $g(x) = f(x - c)$, and seeing how the table changes.
+
+For example, let's pick $f(x) = x$ (so, just a diagonal line with a slope of 1 and a y-intercept of 0), and then to represent the case where $c = 3$, define a new function $g(x) = f(x + 3)$. Then a table of values for the plain $f(x)$ function looks like:
+
+| $x$ | $f(x)$ |
+| - | - |
+| $x = -1$ | $f(-1) = -1$ |
+| $x = 0$ | $f(0) = 0$ |
+| $x = 1$ | $f(1) = 1$ |
+| $x = 2$ | $f(2) = 2$ |
+| $x = 3$ | $f(x) = 3$ |
+| $x = 4$ | $f(x) = 4$ |
+
+And now let's make a table of values for $g(x)$:
+
+| $x$ | $g(x)$ |
+| - | - |
+| $x = -1$ | $g(x) = f(x + 3) = f(2) = 2$ |
+| $x = 0$ | $g(x) = f(x + 3) = f(3) = 3$ |
+| $x = 1$ | $g(x) = f(x + 3) = f(4) = 4$ |
+
+So:
+
+* The original $f(x)$ passed through the point $(4, 4)$, but our new $g(x)$ passes through the point $(1,4)$, which is **3 units to the left** of $(4, 4)$.
+* The original $f(x)$ passed through the point $(3, 3)$, whereas $g(x)$ passes through the point $(0, 3)$ which is **3 units to the left**, and so on.
+
+Basically, this weirdness comes from the way we "parametrize" functions -- in an alternative universe, we could have developed math in such a way that we'd instead define e.g. f(x, c, d) to be "f(x) shifted left/right by c units, up/down by d units", and then we wouldn't have to worry about this weirdness. But, thanks to Descartes, who came up with this system, it's just f(x + c), and to me there's no intuition besides just making the tables like above and remembering that it's bizarro world so that adding c inside the function results in a shift to the left, and subtracting c inside the function results in a shift to the right.
+
+You, 43 min
+Actually, also, you could trace the same logic that I'm getting at with those tables in a nicer, graphical way using e.g. Desmos: https://www.desmos.com/calculator/b9flirnevl

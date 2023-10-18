@@ -36,4 +36,4 @@ metadata-files:
 
 Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
-{{< include ../_components/sched-w07.qmd >}}
+{{< include ../_components/sched-w08.qmd >}}
