@@ -142,5 +142,9 @@
   },
   "writeups/left-right-shifts/index.qmd": {
     "index.html": "78ef0e2f"
+  },
+  "w09/index.qmd": {
+    "slides.html": "7766c17e",
+    "index.html": "e1793740"
   }
 }

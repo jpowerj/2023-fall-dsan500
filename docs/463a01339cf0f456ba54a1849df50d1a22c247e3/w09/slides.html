@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.450">
+
+  <meta name="author" content="Jeff Jacobs">
+  <title>DSAN 5000 - Week 9: Clustering Analysis</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-ETYTX4E16L"></script>
+
+  <script type="text/javascript">
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
+  </script>
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/simplemenu/simplemenu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../jjcustom.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Week 9: Clustering Analysis</h1>
+  <p class="subtitle"><em>DSAN 5000: Data Science and Analytics</em><br>Section <span class="sec-num">02</span></p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Jeff Jacobs 
+</div>
+        <p class="quarto-title-affiliation">
+            <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
+          </p>
+    </div>
+</div>
+
+  <p class="date">Tuesday, October 24, 2023</p>
+</section>
+<section id="schedule" class="title-slide slide level1 smaller small-title crunch-title crunch-callout center" data-name="Schedule">
+<h1>Schedule</h1>
+<div class="hidden">
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div class="hidden">
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">def</span> disp(df, floatfmt<span class="op">=</span><span class="st">'g'</span>, include_index<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb2-5"><a href="#cb2-5"></a>  <span class="cf">return</span> Markdown(</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    df.to_markdown(</span>
+<span id="cb2-7"><a href="#cb2-7"></a>      floatfmt<span class="op">=</span>floatfmt,</span>
+<span id="cb2-8"><a href="#cb2-8"></a>      index<span class="op">=</span>include_index</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    )</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  )</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">def</span> summary_to_df(summary_obj, corner_col <span class="op">=</span> <span class="st">''</span>):</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    reg_df <span class="op">=</span> pd.DataFrame(summary_obj.tables[<span class="dv">1</span>].data)</span>
+<span id="cb2-14"><a href="#cb2-14"></a>    reg_df.columns <span class="op">=</span> reg_df.iloc[<span class="dv">0</span>]</span>
+<span id="cb2-15"><a href="#cb2-15"></a>    reg_df <span class="op">=</span> reg_df.iloc[<span class="dv">1</span>:].copy()</span>
+<span id="cb2-16"><a href="#cb2-16"></a>    <span class="co"># Save index col</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a>    index_col <span class="op">=</span> reg_df[<span class="st">''</span>]</span>
+<span id="cb2-18"><a href="#cb2-18"></a>    <span class="co"># Drop for now, so it's all numeric</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a>    reg_df.drop(columns<span class="op">=</span>[<span class="st">''</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-20"><a href="#cb2-20"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(pd.to_numeric)</span>
+<span id="cb2-21"><a href="#cb2-21"></a>    my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x, <span class="dv">2</span>)</span>
+<span id="cb2-22"><a href="#cb2-22"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(my_round)</span>
+<span id="cb2-23"><a href="#cb2-23"></a>    numeric_cols <span class="op">=</span> reg_df.columns</span>
+<span id="cb2-24"><a href="#cb2-24"></a>    <span class="co"># Add index col back in</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a>    reg_df.insert(loc<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span>corner_col, value<span class="op">=</span>index_col)</span>
+<span id="cb2-26"><a href="#cb2-26"></a>    <span class="co"># Sigh. Have to escape | characters?</span></span>
+<span id="cb2-27"><a href="#cb2-27"></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">"|"</span>,<span class="st">"\|"</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
+<span id="cb2-28"><a href="#cb2-28"></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div class="hidden">
+<p><span class="math display">\[
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\newcommand{\bigexpect}[1]{\mathbb{E}\mkern-4mu \left[ #1 \right]}
+\newcommand{\definedas}{\overset{\text{defn}}{=}}
+\newcommand{\definedalign}{\overset{\phantom{\text{defn}}}{=}}
+\newcommand{\eqeventual}{\overset{\text{eventually}}{=}}
+\newcommand{\expect}[1]{\mathbb{E}[#1]}
+\newcommand{\expectsq}[1]{\mathbb{E}^2[#1]}
+\newcommand{\fw}[1]{\texttt{#1}}
+\newcommand{\given}{\mid}
+\newcommand{\green}[1]{\color{green}{#1}}
+\newcommand{\heads}{\outcome{heads}}
+\newcommand{\iqr}{\text{IQR}}
+\newcommand{\kl}{\text{KL}}
+\newcommand{\lik}{\mathcal{L}}
+\newcommand{\mle}{\textsf{ML}}
+\newcommand{\orange}[1]{\color{orange}{#1}}
+\newcommand{\outcome}[1]{\textsf{#1}}
+\newcommand{\param}[1]{{\color{purple} #1}}
+\newcommand{\paramDist}{\param{\boldsymbol\theta_\mathcal{D}}}
+\newcommand{\pgsamplespace}{\{\green{1},\green{2},\green{3},\purp{4},\purp{5},\purp{6}\}}
+\newcommand{\prob}[1]{P\left( #1 \right)}
+\newcommand{\purp}[1]{\color{purple}{#1}}
+\newcommand{\red}[1]{\color{red}#1}
+\newcommand{\spacecap}{\; \cap \;}
+\newcommand{\spacewedge}{\; \wedge \;}
+\newcommand{\tails}{\outcome{tails}}
+\newcommand{\Var}[1]{\text{Var}[#1]}
+\newcommand{\bigVar}[1]{\text{Var}\mkern-4mu \left[ #1 \right]}
+\]</span></p>
+</div>
+<p>Today’s Planned Schedule (Section <span class="sec-num">02</span>):</p>
+<table>
+<colgroup>
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 50%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Start</th>
+<th style="text-align: left;">End</th>
+<th style="text-align: left;">Topic</th>
+<th style="text-align: center;">Recording</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Lecture</strong></td>
+<td style="text-align: left;"><span class="sec-start">12:30pm</span></td>
+<td style="text-align: left;"><span class="sec-p20">12:50pm</span></td>
+<td style="text-align: left;"><a href="#dgps-for-clusters">DGPs for Clusters →</a></td>
+<td style="text-align: center;"><a id="rec-link-w07-1" href="../recordings/recording-w07s02-1.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="sec-p20">12:50pm</span></td>
+<td style="text-align: left;"><span class="sec-p35">1:05pm</span></td>
+<td style="text-align: left;"><a href="https://georgetown.instructure.com/courses/173310/quizzes/201583" target="_blank">Unsupervised Learning →</a></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="sec-p35">1:05pm</span></td>
+<td style="text-align: left;"><span class="sec-p50">1:20pm</span></td>
+<td style="text-align: left;"><a href="#machine-learning">Intro to Supervised Learning →</a></td>
+<td style="text-align: center;"><a id="rec-link-w06-2" href="../recordings/recording-w06s02-2.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="sec-p50">1:20pm</span></td>
+<td style="text-align: left;"><span class="sec-p65">1:35pm</span></td>
+<td style="text-align: left;"><a href="#k-nearest-neighbors-knn">K-Means Clustering →</a></td>
+<td style="text-align: center;"><a id="rec-link-w07-3" href="../recordings/recording-w07s02-3.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="sec-p65">1:35pm</span></td>
+<td style="text-align: left;"><span class="sec-p80">1:50pm</span></td>
+<td style="text-align: left;"><a href="#na%C3%AFve-bayes-classifiers">DBSCAN →</a></td>
+<td style="text-align: center;"><a href="../recordings/recording-w07s02-4.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Break!</strong></td>
+<td style="text-align: left;"><span class="sec-p80">1:50pm</span></td>
+<td style="text-align: left;"><span class="sec-p90">2:00pm</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Lab</strong></td>
+<td style="text-align: left;"><span class="sec-p90">2:00pm</span></td>
+<td style="text-align: left;"><span class="sec-p130">2:40pm</span></td>
+<td style="text-align: left;"><a href="#lab-feature-selection-in-scikit-learn">Lab: Hyperparameter Tuning →</a></td>
+<td style="text-align: center;"><a id="rec-link-w07-5" href="../recordings/recording-w06s02-5.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="sec-p130">2:40pm</span></td>
+<td style="text-align: left;"><span class="sec-end">3:00pm</span></td>
+<td style="text-align: left;">Student Presentation</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<section id="from-w06-data-generating-process-dgp" class="title-slide slide level1 title-13 smaller nostretch not-title-slide center" data-stack-name="DGPs for Clusters">
+<h1>From W06: Data Generating Process (DGP)</h1>
+<ul>
+<li>You are a teacher trying to assess the <strong>causal impact</strong> of <strong>studying</strong> on <strong>homework scores</strong></li>
+<li>Let <span class="math inline">\(S\)</span> = hours of studying, <span class="math inline">\(H\)</span> = homework score</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/pgm_homework.svg" width="300"></p>
+</figure>
+</div>
+<ul>
+<li>So far so good: we could estimate the relationship via (e.g.) regression</li>
+</ul>
+<p><span class="math display">\[
+h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
+\]</span></p>
+</section>
+<section id="my-dog-ate-my-homework" class="slide level2 smaller">
+<h2>My Dog Ate My Homework</h2>
+<ul>
+<li>The issue: for some students <span class="math inline">\(h_i\)</span> is <strong>missing</strong>, since <strong>their dog ate their homework</strong></li>
+<li>Let <span class="math inline">\(D = \begin{cases}1 &amp;\text{if dog ate homework} \\ 0 &amp;\text{otherwise}\end{cases}\)</span></li>
+<li>This means we don’t observe <span class="math inline">\(H\)</span> but <span class="math inline">\(H^* = \begin{cases} H &amp;\text{if }D = 0 \\ \texttt{NA} &amp;\text{otherwise}\end{cases}\)</span></li>
+<li>In the <strong>easy case</strong>, let’s say that dogs eat homework <strong>at random</strong> (i.e., without reference to <span class="math inline">\(S\)</span> or <span class="math inline">\(H\)</span>). Then we say <span class="math inline">\(H\)</span> is “missing at random”. Our PGM now looks like:</li>
+</ul>
+
+<img data-src="images/pgm_hw_missing_at_random.svg" class="r-stretch quarto-figure-center"></section>
+<section id="my-dog-ate-my-homework-because-of-reasons" class="slide level2 smaller small-title nostretch">
+<h2>My Dog Ate My Homework Because of Reasons</h2>
+<p><img data-src="images/reasons_crop.jpeg" class="absolute" style="top: -15px; right: 10%; "></p>
+<p>There are scarier alternatives, though! What if…</p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="dog-study" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p>Dogs eat homework because their owner studied so much that the dog got ignored?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/pgm_hw_missing_study.svg" width="280"></p>
+</figure>
+</div>
+</div>
+<div id="dog-bad-hw" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p>Dogs hate sloppy work, and eat bad homework that would have gotten a low score</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/pgm_hw_missing_badhw.svg" width="280"></p>
+</figure>
+</div>
+</div>
+<div id="dog-noisy" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p>Noisy homes (<span class="math inline">\(Z = 1\)</span>) cause dogs to get agitated and eat homework more often, <strong>and</strong> students do worse</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/pgm_hw_missing_noisy.svg" width="280"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="why-do-we-need-to-think-about-dgps" class="slide level2 nostretch">
+<h2>Why Do We Need To Think About DGPs?</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/kidnappings.jpg"></p>
+<figcaption>Figure (and DGP analysis) from <span class="citation" data-cites="dignazio_numbers_2020">D’Ignazio and Klein (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+<div id="kidnapping-dgp" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p>Presumed DGP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/dgp_kidnappings.svg" width="300"></p>
+<figcaption><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+</figure>
+</div>
+<p>Actual DGP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/dgp_kidnappings_true.svg" width="300"></p>
+<figcaption><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(R\)</span> = <strong>News reports</strong> about kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="relevance-to-clustering" class="slide level2 smaller crunch-title crunch-figures crunch-code crunch-p crunch-quarto-figure-center crunch-ul">
+<h2>Relevance to Clustering</h2>
+<ul>
+<li>Let <span class="math inline">\(\boldsymbol\mu_1 = (0.2, 0.8)^\top\)</span>, <span class="math inline">\(\boldsymbol\mu_2 = (0.8, 0.2)^\top\)</span>, <span class="math inline">\(\Sigma = \text{diag}(1/64)\)</span>, and <span class="math inline">\(\mathbf{X} = (X_1, X_2)\)</span>.</li>
+<li><span class="math inline">\(X_1 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_1, \Sigma)\)</span>, <span class="math inline">\(X_2 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_2, \Sigma)\)</span></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>Mu1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>Mu2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>sigma <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">24</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co"># Data for concentric circles</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>circle_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb3-11"><a href="#cb3-11"></a>  <span class="sc">~</span>x0, <span class="sc">~</span>y0, <span class="sc">~</span>r, <span class="sc">~</span>Cluster, <span class="sc">~</span>whichR,</span>
+<span id="cb3-12"><a href="#cb3-12"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">1</span>,</span>
+<span id="cb3-13"><a href="#cb3-13"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">1</span>,</span>
+<span id="cb3-14"><a href="#cb3-14"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">2</span>,</span>
+<span id="cb3-15"><a href="#cb3-15"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">2</span>,</span>
+<span id="cb3-16"><a href="#cb3-16"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">3</span>,</span>
+<span id="cb3-17"><a href="#cb3-17"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">3</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a>)</span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#print(circle_df)</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(sigma,<span class="dv">0</span>,<span class="dv">0</span>,sigma), <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#print(Sigma)</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a>x1_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu1, Sigma))</span>
+<span id="cb3-23"><a href="#cb3-23"></a>x1_df <span class="ot">&lt;-</span> x1_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb3-24"><a href="#cb3-24"></a>  <span class="at">Cluster=</span><span class="st">'C1'</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a>)</span>
+<span id="cb3-26"><a href="#cb3-26"></a>x2_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu2, Sigma))</span>
+<span id="cb3-27"><a href="#cb3-27"></a>x2_df <span class="ot">&lt;-</span> x2_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb3-28"><a href="#cb3-28"></a>  <span class="at">Cluster=</span><span class="st">'C2'</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a>)</span>
+<span id="cb3-30"><a href="#cb3-30"></a>cluster_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(x1_df, x2_df)</span>
+<span id="cb3-31"><a href="#cb3-31"></a>cluster_df <span class="ot">&lt;-</span> cluster_df <span class="sc">|&gt;</span> <span class="fu">rename</span>(</span>
+<span id="cb3-32"><a href="#cb3-32"></a>  <span class="at">x=</span>V1, <span class="at">y=</span>V2</span>
+<span id="cb3-33"><a href="#cb3-33"></a>)</span>
+<span id="cb3-34"><a href="#cb3-34"></a>known_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-36"><a href="#cb3-36"></a>    <span class="at">data =</span> circle_df,</span>
+<span id="cb3-37"><a href="#cb3-37"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x0, <span class="at">y=</span>y0)</span>
+<span id="cb3-38"><a href="#cb3-38"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-39"><a href="#cb3-39"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb3-40"><a href="#cb3-40"></a>    <span class="at">data =</span> circle_df,</span>
+<span id="cb3-41"><a href="#cb3-41"></a>    <span class="fu">aes</span>(<span class="at">x0=</span>x0, <span class="at">y0=</span>y0, <span class="at">r=</span>r, <span class="at">fill=</span>Cluster),</span>
+<span id="cb3-42"><a href="#cb3-42"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb3-43"><a href="#cb3-43"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb3-44"><a href="#cb3-44"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-45"><a href="#cb3-45"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-46"><a href="#cb3-46"></a>    <span class="at">data=</span>cluster_df,</span>
+<span id="cb3-47"><a href="#cb3-47"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">fill=</span>Cluster),</span>
+<span id="cb3-48"><a href="#cb3-48"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb3-49"><a href="#cb3-49"></a>    <span class="at">shape =</span> <span class="dv">21</span></span>
+<span id="cb3-50"><a href="#cb3-50"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-51"><a href="#cb3-51"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
+<span id="cb3-52"><a href="#cb3-52"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb3-53"><a href="#cb3-53"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-54"><a href="#cb3-54"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb3-55"><a href="#cb3-55"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
+<span id="cb3-56"><a href="#cb3-56"></a>    <span class="at">title =</span> <span class="st">"Data with Known Clusters"</span></span>
+<span id="cb3-57"><a href="#cb3-57"></a>  ) <span class="sc">+</span> </span>
+<span id="cb3-58"><a href="#cb3-58"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">2</span>], cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>])) <span class="sc">+</span></span>
+<span id="cb3-59"><a href="#cb3-59"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>], cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>]))</span>
+<span id="cb3-60"><a href="#cb3-60"></a>unknown_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
+<span id="cb3-61"><a href="#cb3-61"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb3-62"><a href="#cb3-62"></a>    <span class="at">data=</span>cluster_df,</span>
+<span id="cb3-63"><a href="#cb3-63"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y),</span>
+<span id="cb3-64"><a href="#cb3-64"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb3-65"><a href="#cb3-65"></a>    <span class="co">#shape = 21</span></span>
+<span id="cb3-66"><a href="#cb3-66"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-67"><a href="#cb3-67"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
+<span id="cb3-68"><a href="#cb3-68"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb3-69"><a href="#cb3-69"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-70"><a href="#cb3-70"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb3-71"><a href="#cb3-71"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
+<span id="cb3-72"><a href="#cb3-72"></a>    <span class="at">title =</span> <span class="st">"Same Data with Unknown Clusters"</span></span>
+<span id="cb3-73"><a href="#cb3-73"></a>  )</span>
+<span id="cb3-74"><a href="#cb3-74"></a>cluster_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/cluster_data.csv"</span>)</span>
+<span id="cb3-75"><a href="#cb3-75"></a>known_plot <span class="sc">+</span> unknown_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="index_files/figure-revealjs/two-gaussian-clusters-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="clusters-as-latent-variables" class="slide level2">
+<h2>Clusters as Latent Variables</h2>
+<ul>
+<li>Recall the Hidden Markov Model (one of many examples):</li>
+</ul>
+
+<img data-src="images/hmm.svg" class="r-stretch quarto-figure-center"></section>
+<section id="modeling-the-latent-distribution" class="slide level2 smaller crunch-title crunch-ul crunch-figures math-75 small-inline crunch-quarto-figure-center crunch-ul-left">
+<h2>Modeling the Latent Distribution</h2>
+<ul>
+<li>This observed/latent distinction gives us a <strong>modeling framework</strong> for inferring “underlying” <strong>distributions</strong> from <strong>data</strong>!</li>
+<li>Let’s begin with an overly-simple model: only <strong>one</strong> cluster (all data drawn from a <strong>single</strong> normal distribution)</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/hmm_clusters_single_dist.svg" style="width:75.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p>Probability that RV <span class="math inline">\(X_i\)</span> takes on value <span class="math inline">\(\mathbf{v}\)</span>:</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\Pr(X_i = \mathbf{v} \mid \param{\boldsymbol\theta_\mathcal{D}}) =
+\varphi_2(\mathbf{v}; \param{\boldsymbol\mu}, \param{\mathbf{\Sigma}})
+\end{align*}
+\]</span></p>
+<p>where <span class="math inline">\(\varphi_2(\mathbf{v}; \boldsymbol\mu, \mathbf{\Sigma})\)</span> is pdf of <span class="math inline">\(\boldsymbol{\mathcal{N}}_2(\boldsymbol\mu, \mathbf{\Sigma})\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(\mathbf{X} = (X_1, \ldots, X_N)\)</span>, <span class="math inline">\(\mathbf{V} = (\mathbf{v}_1, \ldots, \mathbf{v}_N)\)</span></p></li>
+<li><p>Probability that RV <span class="math inline">\(\mathbf{X}\)</span> takes on <strong>values</strong> <span class="math inline">\(\mathbf{V}\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\Pr(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) \\
+&amp;= \Pr(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \paramDist)
+\end{align*}
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="so-how-do-we-infer-latent-vars-from-data" class="slide level2 smaller title-12">
+<h2>So How Do We <em>Infer</em> Latent Vars From Data?</h2>
+<ul>
+<li><p>If only we had some sort of method for estimating which values of our <strong>unknown parameters</strong> <span class="math inline">\(\paramDist\)</span> are <em>most likely</em> to produce our <strong>observed data</strong> <span class="math inline">\(\mathbf{X}\)</span> <img data-src="images/thinking_transparent.png" width="42"></p></li>
+<li><p>The diagram on the previous slide gave us an equation</p>
+<p><span class="math display">\[
+\begin{align*}
+\Pr(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \Pr(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \paramDist)
+\end{align*}
+\]</span></p></li>
+<li><p>And we know that, when we consider the <strong>data</strong> as <strong>given</strong> and view this probability as a function of the <strong>parameters</strong>, we write it as</p>
+<p><span class="math display">\[
+\begin{align*}
+\lik(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \lik(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \lik(X_N = \mathbf{v}_N \mid \paramDist)
+\end{align*}
+\]</span></p></li>
+<li><p>We want to find the <em>most likely</em> <span class="math inline">\(\paramDist\)</span>, that is, <span class="math inline">\(\boldsymbol\theta^*_\mathcal{D} = \argmax_{\paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \paramDist)\)</span></p></li>
+<li><p>This value <span class="math inline">\(\boldsymbol\theta^*_\mathcal{D}\)</span> is called the <strong>Maximum Likelihood Estimate</strong> of <span class="math inline">\(\paramDist\)</span>, and is easy to find using calculus tricks<sup>1</sup></p></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>If you’re in my DSAN5100 class, then you already know this! If you’re not, and you don’t believe me, <a href="https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation">check out the slides here</a></p></li></ol></aside></section>
+<section id="handling-multiple-clusters" class="slide level2 smaller crunch-title crunch-ul crunch-ul-left crunch-figures smaller-math smaller-inline">
+<h2>Handling Multiple Clusters</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/hmm_clusters.svg" style="width:85.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p>Probability <span class="math inline">\(X_i\)</span> takes on value <span class="math inline">\(\mathbf{v}\)</span>:</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\Pr(X_i = \mathbf{v} \mid \param{C_i} = c_i; \; \param{\boldsymbol\theta_\mathcal{D}}) \\
+&amp;= \begin{cases}
+\varphi_2(v; \param{\boldsymbol\mu_1}, \param{\mathbf{\Sigma}}) &amp;\text{if }c_i = 1 \\
+\varphi_2(v; \param{\boldsymbol\mu_2}, \param{\mathbf{\Sigma}}) &amp;\text{otherwise,}
+\end{cases}
+\end{align*}
+\]</span></p>
+<p>where <span class="math inline">\(\varphi_2(v; \boldsymbol\mu, \mathbf{\Sigma})\)</span> is pdf of <span class="math inline">\(\boldsymbol{\mathcal{N}}_2(\boldsymbol\mu, \mathbf{\Sigma})\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(\mathbf{C} = (\underbrace{C_1}_{\text{RV}}, \ldots, C_N)\)</span>, <span class="math inline">\(\mathbf{c} = (\underbrace{c_1}_{\mathclap{\text{scalar}}}, \ldots, c_N)\)</span></p></li>
+</ul>
+</div>
+</div>
+<ul>
+<li>Probability that RV <span class="math inline">\(\mathbf{X}\)</span> takes on <strong>values</strong> <span class="math inline">\(\mathbf{V}\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\Pr(\mathbf{X} = \mathbf{V} \mid \param{\mathbf{C}} = \mathbf{c}; \; \param{\boldsymbol\theta_\mathcal{D}}) \\
+&amp;= \Pr(X_1 = \mathbf{v}_1 \mid \param{C_1} = c_1; \; \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \param{C_N} = c_N; \; \paramDist)
+\end{align*}
+\]</span></p>
+<ul>
+<li><em>It’s the same math as before!</em> Find <span class="math inline">\((\mathbf{C}^*, \boldsymbol\theta^*_\mathcal{D}) = \argmax_{\param{\mathbf{C}}, \, \paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \param{\mathbf{C}}; \; \param{\boldsymbol\theta_\mathcal{D}})\)</span></li>
+</ul>
+</section>
+<section id="in-code" class="slide level2 smaller crunch-code">
+<h2>In Code!</h2>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="im">import</span> sklearn</span>
+<span id="cb4-4"><a href="#cb4-4"></a>sklearn.set_config(display <span class="op">=</span> <span class="st">'text'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="im">from</span> sklearn.mixture <span class="im">import</span> GaussianMixture</span>
+<span id="cb4-6"><a href="#cb4-6"></a>cluster_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/cluster_data.csv"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>X <span class="op">=</span> cluster_df[[<span class="st">'x'</span>,<span class="st">'y'</span>]].values</span>
+<span id="cb4-8"><a href="#cb4-8"></a>estimator <span class="op">=</span> GaussianMixture(n_components<span class="op">=</span><span class="dv">2</span>, covariance_type<span class="op">=</span><span class="st">"spherical"</span>, max_iter<span class="op">=</span><span class="dv">20</span>, random_state<span class="op">=</span><span class="dv">5000</span>)<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>estimator.fit(X)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>y_pred <span class="op">=</span> estimator.predict(X)</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co"># Gather everything into a .csv</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co"># The estimated means</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a>mean_df <span class="op">=</span> pd.DataFrame(estimator.means_).transpose()</span>
+<span id="cb4-14"><a href="#cb4-14"></a>mean_df.columns <span class="op">=</span> [<span class="st">'x'</span>,<span class="st">'y'</span>]</span>
+<span id="cb4-15"><a href="#cb4-15"></a>mean_df[<span class="st">'Estimated Centroid'</span>] <span class="op">=</span> [<span class="st">'mu1'</span>,<span class="st">'mu2'</span>]</span>
+<span id="cb4-16"><a href="#cb4-16"></a>mean_df[<span class="st">'Estimated Cluster'</span>] <span class="op">=</span> [<span class="st">'E1'</span>, <span class="st">'E2'</span>]</span>
+<span id="cb4-17"><a href="#cb4-17"></a>mean_df[<span class="st">'Estimated Cluster Mapped'</span>] <span class="op">=</span> [<span class="st">'C1'</span>, <span class="st">'C2'</span>]</span>
+<span id="cb4-18"><a href="#cb4-18"></a>cov_array <span class="op">=</span> estimator.covariances_</span>
+<span id="cb4-19"><a href="#cb4-19"></a>sigma1 <span class="op">=</span> np.sqrt(cov_array[<span class="dv">0</span>])</span>
+<span id="cb4-20"><a href="#cb4-20"></a>sigma2 <span class="op">=</span> np.sqrt(cov_array[<span class="dv">1</span>])</span>
+<span id="cb4-21"><a href="#cb4-21"></a>mean_df[<span class="st">'Estimated Sigma'</span>] <span class="op">=</span> [sigma1,sigma2]</span>
+<span id="cb4-22"><a href="#cb4-22"></a>mean_df[<span class="st">'Estimated 2Sigma'</span>] <span class="op">=</span> [<span class="dv">2</span><span class="op">*</span>sigma1, <span class="dv">2</span><span class="op">*</span>sigma2]</span>
+<span id="cb4-23"><a href="#cb4-23"></a>mean_df[<span class="st">'Estimated 3Sigma'</span>] <span class="op">=</span> [<span class="dv">3</span><span class="op">*</span>sigma1, <span class="dv">3</span><span class="op">*</span>sigma2]</span>
+<span id="cb4-24"><a href="#cb4-24"></a>mean_df.to_csv(<span class="st">"assets/sklearn_mean_df.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="co"># The estimated covariance matrix</span></span>
+<span id="cb4-26"><a href="#cb4-26"></a>cov_df <span class="op">=</span> pd.DataFrame({<span class="st">'c1'</span>: [<span class="dv">1</span>, cov_array[<span class="dv">0</span>]], <span class="st">'c2'</span>: [cov_array[<span class="dv">1</span>], <span class="dv">1</span>]})</span>
+<span id="cb4-27"><a href="#cb4-27"></a>cov_df.to_csv(<span class="st">"assets/sklearn_cov_df.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-28"><a href="#cb4-28"></a><span class="co"># And the predicted clusters</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a>pred_df <span class="op">=</span> pd.DataFrame({<span class="st">'Estimated Cluster'</span>: y_pred})</span>
+<span id="cb4-30"><a href="#cb4-30"></a>pred_df[<span class="st">'Estimated Cluster'</span>] <span class="op">=</span> pred_df[<span class="st">'Estimated Cluster'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">'E1'</span> <span class="cf">if</span> x <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'E2'</span>)</span>
+<span id="cb4-31"><a href="#cb4-31"></a>pred_df[<span class="st">'Estimated Cluster Mapped'</span>] <span class="op">=</span> pred_df[<span class="st">'Estimated Cluster'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="st">'C1'</span> <span class="cf">if</span> x <span class="op">==</span> <span class="st">'E1'</span> <span class="cf">else</span> <span class="st">'C2'</span>)</span>
+<span id="cb4-32"><a href="#cb4-32"></a>pred_df.to_csv(<span class="st">"assets/sklearn_pred_df.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="distribution-estimation-results" class="slide level2 smaller">
+<h2>Distribution Estimation Results</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Data for concentric circles</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>mean_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/sklearn_mean_df.csv"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#print(mean_df)</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>cov_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/sklearn_cov_df.csv"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#print(cov_df)</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>pred_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/sklearn_pred_df.csv"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co"># Merge the predicted clusters into cluster_df</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>cluster_df <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(cluster_df, pred_df)</span>
+<span id="cb5-9"><a href="#cb5-9"></a>cluster_df <span class="ot">&lt;-</span> cluster_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb5-10"><a href="#cb5-10"></a>  <span class="at">Correct =</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">Estimated Cluster Mapped</span><span class="st">`</span> <span class="sc">==</span> Cluster)</span>
+<span id="cb5-11"><a href="#cb5-11"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12"></a>correct_df <span class="ot">&lt;-</span> cluster_df <span class="sc">|&gt;</span> <span class="fu">filter</span>(Correct <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb5-13"><a href="#cb5-13"></a>incorrect_df <span class="ot">&lt;-</span> cluster_df <span class="sc">|&gt;</span> <span class="fu">filter</span>(Correct <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#print(cluster_df)</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co"># Keep only the 3*Sigma circle</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co"># compare_circle_df &lt;- circle_df |&gt; filter(</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#   whichR == 3</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co"># )</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#print(mean_df)</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#print(compare_circle_df)</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>compare_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb5-23"><a href="#cb5-23"></a>    <span class="at">data =</span> mean_df,</span>
+<span id="cb5-24"><a href="#cb5-24"></a>    <span class="fu">aes</span>(</span>
+<span id="cb5-25"><a href="#cb5-25"></a>      <span class="at">x=</span>x, <span class="at">y=</span>y,</span>
+<span id="cb5-26"><a href="#cb5-26"></a>      <span class="co">#fill=`Estimated Cluster`</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a>    )</span>
+<span id="cb5-28"><a href="#cb5-28"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb5-30"><a href="#cb5-30"></a>    <span class="at">data =</span> circle_df,</span>
+<span id="cb5-31"><a href="#cb5-31"></a>    <span class="fu">aes</span>(</span>
+<span id="cb5-32"><a href="#cb5-32"></a>      <span class="at">x=</span>x0, <span class="at">y=</span>y0,</span>
+<span id="cb5-33"><a href="#cb5-33"></a>      <span class="co">#fill=Cluster</span></span>
+<span id="cb5-34"><a href="#cb5-34"></a>    )</span>
+<span id="cb5-35"><a href="#cb5-35"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb5-37"><a href="#cb5-37"></a>    <span class="at">data =</span> mean_df,</span>
+<span id="cb5-38"><a href="#cb5-38"></a>    <span class="fu">aes</span>(</span>
+<span id="cb5-39"><a href="#cb5-39"></a>      <span class="at">x0=</span>x, <span class="at">y0=</span>y,</span>
+<span id="cb5-40"><a href="#cb5-40"></a>      <span class="at">r=</span><span class="st">`</span><span class="at">Estimated Sigma</span><span class="st">`</span>,</span>
+<span id="cb5-41"><a href="#cb5-41"></a>      <span class="at">color=</span><span class="st">`</span><span class="at">Estimated Cluster</span><span class="st">`</span></span>
+<span id="cb5-42"><a href="#cb5-42"></a>      <span class="co">#fill=`Estimated Centroid`</span></span>
+<span id="cb5-43"><a href="#cb5-43"></a>    ),</span>
+<span id="cb5-44"><a href="#cb5-44"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb5-45"><a href="#cb5-45"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb5-46"><a href="#cb5-46"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-47"><a href="#cb5-47"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb5-48"><a href="#cb5-48"></a>    <span class="at">data =</span> mean_df,</span>
+<span id="cb5-49"><a href="#cb5-49"></a>    <span class="fu">aes</span>(</span>
+<span id="cb5-50"><a href="#cb5-50"></a>      <span class="at">x0=</span>x, <span class="at">y0=</span>y,</span>
+<span id="cb5-51"><a href="#cb5-51"></a>      <span class="at">r=</span><span class="st">`</span><span class="at">Estimated 2Sigma</span><span class="st">`</span>,</span>
+<span id="cb5-52"><a href="#cb5-52"></a>      <span class="at">color=</span><span class="st">`</span><span class="at">Estimated Cluster</span><span class="st">`</span></span>
+<span id="cb5-53"><a href="#cb5-53"></a>      <span class="co">#fill=`Estimated Centroid`</span></span>
+<span id="cb5-54"><a href="#cb5-54"></a>    ),</span>
+<span id="cb5-55"><a href="#cb5-55"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb5-56"><a href="#cb5-56"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb5-57"><a href="#cb5-57"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-58"><a href="#cb5-58"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb5-59"><a href="#cb5-59"></a>    <span class="at">data =</span> mean_df,</span>
+<span id="cb5-60"><a href="#cb5-60"></a>    <span class="fu">aes</span>(</span>
+<span id="cb5-61"><a href="#cb5-61"></a>      <span class="at">x0=</span>x, <span class="at">y0=</span>y,</span>
+<span id="cb5-62"><a href="#cb5-62"></a>      <span class="at">r=</span><span class="st">`</span><span class="at">Estimated 3Sigma</span><span class="st">`</span>,</span>
+<span id="cb5-63"><a href="#cb5-63"></a>      <span class="at">color=</span><span class="st">`</span><span class="at">Estimated Cluster</span><span class="st">`</span></span>
+<span id="cb5-64"><a href="#cb5-64"></a>      <span class="co">#fill=`Estimated Cluster`</span></span>
+<span id="cb5-65"><a href="#cb5-65"></a>    ),</span>
+<span id="cb5-66"><a href="#cb5-66"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb5-67"><a href="#cb5-67"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb5-68"><a href="#cb5-68"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-69"><a href="#cb5-69"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb5-70"><a href="#cb5-70"></a>    <span class="at">data =</span> circle_df,</span>
+<span id="cb5-71"><a href="#cb5-71"></a>    <span class="fu">aes</span>(</span>
+<span id="cb5-72"><a href="#cb5-72"></a>      <span class="at">x0=</span>x0, <span class="at">y0=</span>y0,</span>
+<span id="cb5-73"><a href="#cb5-73"></a>      <span class="at">r=</span>r,</span>
+<span id="cb5-74"><a href="#cb5-74"></a>      <span class="at">color=</span>Cluster</span>
+<span id="cb5-75"><a href="#cb5-75"></a>      <span class="co">#fill=Cluster</span></span>
+<span id="cb5-76"><a href="#cb5-76"></a>    ),</span>
+<span id="cb5-77"><a href="#cb5-77"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb5-78"><a href="#cb5-78"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb5-79"><a href="#cb5-79"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-80"><a href="#cb5-80"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
+<span id="cb5-81"><a href="#cb5-81"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb5-82"><a href="#cb5-82"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-83"><a href="#cb5-83"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb5-84"><a href="#cb5-84"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
+<span id="cb5-85"><a href="#cb5-85"></a>    <span class="at">title =</span> <span class="st">"DGP vs. Estimated Clusters"</span>,</span>
+<span id="cb5-86"><a href="#cb5-86"></a>    <span class="at">fill =</span> <span class="st">"MLE"</span>,</span>
+<span id="cb5-87"><a href="#cb5-87"></a>    <span class="at">color =</span> <span class="st">"MLE"</span>,</span>
+<span id="cb5-88"><a href="#cb5-88"></a>    <span class="at">shape =</span> <span class="st">"Correct?"</span></span>
+<span id="cb5-89"><a href="#cb5-89"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-90"><a href="#cb5-90"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">21</span>)) <span class="sc">+</span></span>
+<span id="cb5-91"><a href="#cb5-91"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">2</span>], cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>]))</span>
+<span id="cb5-92"><a href="#cb5-92"></a>compare_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="index_files/figure-revealjs/compare-clusters-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="clustering-results" class="slide level2 smaller crunch-code crunch-figures crunch-p">
+<h2>Clustering Results</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>est_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="co"># geom_point(</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="co">#   data = mean_df,</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="co">#   aes(x=x, y=y)</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="co"># ) +</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="at">data =</span> mean_df,</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="fu">aes</span>(</span>
+<span id="cb6-9"><a href="#cb6-9"></a>      <span class="at">x0=</span>x, <span class="at">y0=</span>y,</span>
+<span id="cb6-10"><a href="#cb6-10"></a>      <span class="at">r=</span><span class="st">`</span><span class="at">Estimated Sigma</span><span class="st">`</span>,</span>
+<span id="cb6-11"><a href="#cb6-11"></a>      <span class="at">fill=</span><span class="st">`</span><span class="at">Estimated Cluster Mapped</span><span class="st">`</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>    ),</span>
+<span id="cb6-13"><a href="#cb6-13"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb6-14"><a href="#cb6-14"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb6-17"><a href="#cb6-17"></a>    <span class="at">data =</span> mean_df,</span>
+<span id="cb6-18"><a href="#cb6-18"></a>    <span class="fu">aes</span>(<span class="at">x0=</span>x, <span class="at">y0=</span>y, <span class="at">r=</span><span class="st">`</span><span class="at">Estimated 2Sigma</span><span class="st">`</span>, <span class="at">fill=</span><span class="st">`</span><span class="at">Estimated Cluster Mapped</span><span class="st">`</span>),</span>
+<span id="cb6-19"><a href="#cb6-19"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb6-20"><a href="#cb6-20"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb6-23"><a href="#cb6-23"></a>    <span class="at">data =</span> mean_df,</span>
+<span id="cb6-24"><a href="#cb6-24"></a>    <span class="fu">aes</span>(<span class="at">x0=</span>x, <span class="at">y0=</span>y, <span class="at">r=</span><span class="st">`</span><span class="at">Estimated 3Sigma</span><span class="st">`</span>, <span class="at">fill=</span><span class="st">`</span><span class="at">Estimated Cluster Mapped</span><span class="st">`</span>),</span>
+<span id="cb6-25"><a href="#cb6-25"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb6-26"><a href="#cb6-26"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-29"><a href="#cb6-29"></a>    <span class="at">data=</span>cluster_df,</span>
+<span id="cb6-30"><a href="#cb6-30"></a>    <span class="fu">aes</span>(</span>
+<span id="cb6-31"><a href="#cb6-31"></a>      <span class="at">x=</span>x, <span class="at">y=</span>y,</span>
+<span id="cb6-32"><a href="#cb6-32"></a>      <span class="at">fill=</span><span class="fu">factor</span>(<span class="st">`</span><span class="at">Estimated Cluster Mapped</span><span class="st">`</span>),</span>
+<span id="cb6-33"><a href="#cb6-33"></a>      <span class="at">shape=</span><span class="fu">factor</span>(Correct)</span>
+<span id="cb6-34"><a href="#cb6-34"></a>    ),</span>
+<span id="cb6-35"><a href="#cb6-35"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb6-36"><a href="#cb6-36"></a>    <span class="at">stroke =</span> <span class="fl">0.75</span></span>
+<span id="cb6-37"><a href="#cb6-37"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-38"><a href="#cb6-38"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-39"><a href="#cb6-39"></a>    <span class="at">data=</span>incorrect_df,</span>
+<span id="cb6-40"><a href="#cb6-40"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y),</span>
+<span id="cb6-41"><a href="#cb6-41"></a>    <span class="at">color=</span><span class="st">'black'</span>,</span>
+<span id="cb6-42"><a href="#cb6-42"></a>    <span class="at">shape =</span> <span class="dv">4</span>,</span>
+<span id="cb6-43"><a href="#cb6-43"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb6-44"><a href="#cb6-44"></a>    <span class="at">stroke =</span> <span class="dv">2</span></span>
+<span id="cb6-45"><a href="#cb6-45"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-46"><a href="#cb6-46"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb6-47"><a href="#cb6-47"></a>    <span class="at">data=</span>incorrect_df,</span>
+<span id="cb6-48"><a href="#cb6-48"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y),</span>
+<span id="cb6-49"><a href="#cb6-49"></a>    <span class="at">color=</span>cbPalette[<span class="dv">4</span>],</span>
+<span id="cb6-50"><a href="#cb6-50"></a>    <span class="at">shape =</span> <span class="dv">4</span>,</span>
+<span id="cb6-51"><a href="#cb6-51"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb6-52"><a href="#cb6-52"></a>    <span class="at">stroke =</span> <span class="fl">0.8</span></span>
+<span id="cb6-53"><a href="#cb6-53"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-54"><a href="#cb6-54"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
+<span id="cb6-55"><a href="#cb6-55"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb6-56"><a href="#cb6-56"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-57"><a href="#cb6-57"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb6-58"><a href="#cb6-58"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
+<span id="cb6-59"><a href="#cb6-59"></a>    <span class="at">title =</span> <span class="st">"Data with Estimated Clusters"</span>,</span>
+<span id="cb6-60"><a href="#cb6-60"></a>    <span class="at">fill =</span> <span class="st">"MLE"</span>,</span>
+<span id="cb6-61"><a href="#cb6-61"></a>    <span class="at">color =</span> <span class="st">"MLE"</span>,</span>
+<span id="cb6-62"><a href="#cb6-62"></a>    <span class="at">shape =</span> <span class="st">"Correct?"</span></span>
+<span id="cb6-63"><a href="#cb6-63"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-64"><a href="#cb6-64"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">21</span>)) <span class="sc">+</span></span>
+<span id="cb6-65"><a href="#cb6-65"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>])) <span class="sc">+</span></span>
+<span id="cb6-66"><a href="#cb6-66"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>]))</span>
+<span id="cb6-67"><a href="#cb6-67"></a>known_plot <span class="sc">+</span> est_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="index_files/figure-revealjs/plot-gaussian-mixture-mle-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="clustering-in-general" class="slide level2">
+<h2>Clustering In General</h2>
+<ul>
+<li>What makes a <strong>“good”</strong> cluster?</li>
+<li>In previous example, “good” meant that it <strong>recovered our DGP</strong></li>
+<li>In an <strong>EDA</strong> context, we may not have a well-formulated DGP in mind…</li>
+</ul>
+</section>
+<section id="unsupervised-clustering-heuristics" class="slide level2 smaller title-12">
+<h2>Unsupervised Clustering: Heuristics</h2>
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Heuristic 1</th>
+<th>Heuristic 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Points in <strong>same</strong> cluster should be <strong>similar</strong></td>
+<td>Points in <strong>different</strong> clusters should be <strong>dissimilar</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>You could take these two heuristics, formalize them, and derive the rest of lecture</em> 😉</p>
+
+<img data-src="images/clustering-heuristics.jpeg" class="r-stretch quarto-figure-center"><p class="caption">Image from <a href="http://courses.washington.edu/css490/2012.Winter/lecture_slides/10_clustering_basics_1.pdf" target="_blank"><em>Introduction to Machine Learning</em></a>, University of Washington (2012)</p></section>
+<section id="hierarchical-clustering" class="slide level2 crunch-title crunch-ul crunch-quarto-figure crunch-figures crunch-images">
+<h2>Hierarchical Clustering</h2>
+<ul>
+<li>If our task is to <strong>partition</strong>, we’re done!</li>
+<li>If our task is to infer a <strong>hierarchy</strong>, we can also think about a spectrum of <strong>coarse-grained</strong> to <strong>fine-grained</strong> clusterings:</li>
+</ul>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/hierarchical-clustering.png"></p>
+</figure>
+</div>
+</div>
+<div class="cell quarto-layout-cell" data-fig-width="6" data-fig-height="3" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output-display">
+<div>
+<div>
+<svg width="576" height="288" viewbox="0.00 0.00 607.00 182.40" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 178.4)">
+<title>
+G
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-178.4 603,-178.4 603,4 -4,4"></polygon> <g id="clust1" class="cluster">
+<title>
+cluster_animal
+</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-166.4 591,-166.4 591,-8 8,-8"></polygon> <text text-anchor="middle" x="299.5" y="-149.8" font-family="Times,serif" font-size="14.00">Animals</text> </g> <g id="clust2" class="cluster">
+<title>
+cluster_vertebrate
+</title>
+<polygon fill="none" stroke="black" points="222,-16 222,-133.6 583,-133.6 583,-16 222,-16"></polygon> <text text-anchor="middle" x="402.5" y="-117" font-family="Times,serif" font-size="14.00">Vertebrate</text> </g> <g id="clust3" class="cluster">
+<title>
+cluster_birds
+</title>
+<polygon fill="none" stroke="black" points="389,-24 389,-100.8 575,-100.8 575,-24 389,-24"></polygon> <text text-anchor="middle" x="482" y="-84.2" font-family="Times,serif" font-size="14.00">Birds</text> </g> <g id="clust4" class="cluster">
+<title>
+cluster_mammals
+</title>
+<polygon fill="none" stroke="black" points="230,-24 230,-100.8 381,-100.8 381,-24 230,-24"></polygon> <text text-anchor="middle" x="305.5" y="-84.2" font-family="Times,serif" font-size="14.00">Mammals</text> </g> <g id="clust5" class="cluster">
+<title>
+cluster_legs
+</title>
+<polygon fill="none" stroke="black" points="16,-24 16,-100.8 214,-100.8 214,-24 16,-24"></polygon> <text text-anchor="middle" x="115" y="-84.2" font-family="Times,serif" font-size="14.00">3+ Legs</text> </g> <!-- Eagle --> <g id="node1" class="node">
+<title>
+Eagle
+</title>
+<ellipse fill="none" stroke="black" cx="534" cy="-50" rx="33.04" ry="18"></ellipse> <text text-anchor="middle" x="534" y="-45.8" font-family="Times,serif" font-size="14.00">Eagle</text> </g> <!-- Peacock --> <g id="node2" class="node">
+<title>
+Peacock
+</title>
+<ellipse fill="none" stroke="black" cx="440" cy="-50" rx="43.42" ry="18"></ellipse> <text text-anchor="middle" x="440" y="-45.8" font-family="Times,serif" font-size="14.00">Peacock</text> </g> <!-- Lion --> <g id="node3" class="node">
+<title>
+Lion
+</title>
+<ellipse fill="none" stroke="black" cx="344" cy="-50" rx="29.05" ry="18"></ellipse> <text text-anchor="middle" x="344" y="-45.8" font-family="Times,serif" font-size="14.00">Lion</text> </g> <!-- Bear --> <g id="node4" class="node">
+<title>
+Bear
+</title>
+<ellipse fill="none" stroke="black" cx="267" cy="-50" rx="29.03" ry="18"></ellipse> <text text-anchor="middle" x="267" y="-45.8" font-family="Times,serif" font-size="14.00">Bear</text> </g> <!-- Spider --> <g id="node5" class="node">
+<title>
+Spider
+</title>
+<ellipse fill="none" stroke="black" cx="170" cy="-50" rx="36.5" ry="18"></ellipse> <text text-anchor="middle" x="170" y="-45.8" font-family="Times,serif" font-size="14.00">Spider</text> </g> <!-- Scorpion --> <g id="node6" class="node">
+<title>
+Scorpion
+</title>
+<ellipse fill="none" stroke="black" cx="70" cy="-50" rx="45.81" ry="18"></ellipse> <text text-anchor="middle" x="70" y="-45.8" font-family="Times,serif" font-size="14.00">Scorpion</text> </g> </g>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="k-means-clustering" class="title-slide slide level1 center" data-stack-name="K-Means Clustering">
+<h1>K-Means Clustering</h1>
+
+</section>
+<section id="what-is-k-means-clustering" class="slide level2 crunch-title crunch-ul crunch-images crunch-quarto-layout-panel">
+<h2>What is K-Means Clustering?</h2>
+<ul>
+<li><strong>Operationalizes</strong> our two heuristics by simultaneously:
+<ul>
+<li><strong>Maximizing</strong> within-cluster similarity</li>
+<li><strong>Minimizing</strong> between-cluster similarity</li>
+</ul></li>
+</ul>
+<div id="fig-voronoi" class="quarto-figure quarto-figure-center">
+<figure>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p><img data-src="images/voronoi_k2.png"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p><img data-src="images/voronoi_k3.png"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<p><img data-src="images/voronoi_k5.png"></p>
+</div>
+</div>
+</div>
+<figcaption>Figure&nbsp;1: Voronoi diagrams for <span class="math inline">\(K = 2\)</span> (left), <span class="math inline">\(K = 3\)</span> (center), and <span class="math inline">\(K = 5\)</span> (right) [<a href="https://antoinebrl.github.io/blog/kmeans/" target="_blank">Source</a>]</figcaption>
+</figure>
+</div>
+</section>
+<section id="k-means-clustering-algorithm" class="slide level2 smaller crunch-title crunch-callout ol-95 fix-callout-font crunch-lists crunch-ol crunch-p">
+<h2>K-Means Clustering Algorithm</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<strong>What we’re given:</strong>
+</center>
+<ul>
+<li><strong>Data</strong> <span class="small-inline"><span class="math inline">\(\mathbf{X} = (X_1 = \mathbf{x}_1, \ldots, X_N = \mathbf{x}_N)\)</span></span></li>
+<li><strong>Distance metric</strong> <span class="math inline">\(d(\mathbf{v}_1, \mathbf{v}_2)\)</span></li>
+<li><strong>Hyperparameter value</strong> for <span class="math inline">\(K\)</span> (⁉️)</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<center>
+<strong>Our goal:</strong>
+</center>
+<ul>
+<li>Assign each <strong>point</strong> <span class="small-inline"><span class="math inline">\(\mathbf{x}_i\)</span></span> to a <strong>cluster</strong> <span class="small-inline"><span class="math inline">\(C_i \in \{1, \ldots, K\}\)</span></span> (so <span class="small-inline"><span class="math inline">\(S_j = \{\mathbf{x}_i \mid C_i = j\}\)</span></span> is the set of points assigned to cluster <span class="small-inline"><span class="math inline">\(j\)</span></span>)</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><i class="bi bi-info-circle pe-1 pt-1"></i> K-Means Clustering Algorithm</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><p>Initialize <span class="math inline">\(K\)</span> random <strong>centroids</strong> <span class="math inline">\(\boldsymbol\mu_1, \ldots, \boldsymbol\mu_K\)</span></p></li>
+<li><p><strong>(Re-)Compute distance</strong> <span class="math inline">\(d(\mathbf{x}_i, \boldsymbol\mu_j)\)</span> from <strong>each point</strong> <span class="math inline">\(\mathbf{x}_i\)</span> to <strong>each centroid</strong> <span class="math inline">\(\boldsymbol\mu_j\)</span></p></li>
+<li><p><strong>(Re-)Assign points</strong> to class of <strong>nearest centroid</strong>: <span class="math inline">\(C_i = \argmin_j d(\mathbf{x}_i, \boldsymbol\mu_j)\)</span></p></li>
+<li><p><strong>(Re-)compute centroids</strong> as mean of points in each cluster:</p>
+<p><span class="math display">\[
+\mu_j^\text{new} \leftarrow \frac{1}{|S_j|}\sum_{\mathbf{x}_i \in S_j}\mathbf{x}_i
+\]</span></p></li>
+<li><p><strong>Repeat Steps 2-4</strong> until convergence</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="in-pictures" class="slide level2">
+<h2>In Pictures</h2>
+</section>
+<section id="in-code-1" class="slide level2">
+<h2>In Code</h2>
+</section>
+<section id="dbscan" class="slide level2">
+<h2>DBSCAN</h2>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-dignazio_numbers_2020" class="csl-entry" role="listitem">
+D’Ignazio, Catherine, and Lauren Klein. 2020. <span>“6. <span>The Numbers Don</span>’t <span>Speak</span> for <span>Themselves</span>.”</span> <em>Data Feminism</em>, March.
+</div>
+</div>
+</section>
+<section id="appendix-i-maximum-likelihood-estimation" class="slide level2 smaller">
+<h2>Appendix I: Maximum Likelihood Estimation</h2>
+<ul>
+<li><p>But if <span class="math inline">\(x^* = \argmax_x\left[ \log(f(x)) \right]\)</span> then <span class="math inline">\(x^* = \argmax_x\left[f(x)\right]\)</span>, so we can just find</p>
+<p><span class="math display">\[
+\begin{align*}
+\boldsymbol\theta^*_\mathcal{D} = \argmax_\theta \ell(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \argmax_\theta \left[ \ell(X_1 = \mathbf{v}_1 \mid \paramDist) + \cdots + \ell(X_N = \mathbf{v}_N \mid \paramDist) \right]
+\end{align*}
+\]</span></p></li>
+</ul>
+
+<div class="footer footer-default">
+<p>DSAN 5000-<span class="sec-num">02</span> Week 9: Clustering Analysis</p>
+</div>
+</section></section>
+
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/simplemenu/simplemenu.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'simplemenu': {"menubarclass":"menubar","menuclass":"menu","activeclass":"active","activeelement":"li","flat":true,"barhtml":{"header":"<div class='menubar'>\n  <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>\n  \n  <span style='position: absolute; right: 0; padding-right: 8px; z-index: 10; display: inline-flex !important;'>\n    <a id='toggle-02-label' href='#' onclick=\"window.toggleSectionClicked('02'); return(false);\" class='no-decoration'>02 </a>\n    <a href='#' onclick=\"window.toggleIconClicked(); return(false);\" class='no-decoration'><i id='section-toggle-icon' class='bi bi-toggle-off pt-0 ps-1 pe-1'></i></a>\n    <a id='toggle-03-label' href='#' onclick=\"window.toggleSectionClicked('03'); return(false);\" class='no-decoration'> 03</a>\n  </span>\n  <ul class='menu'></ul>\n</div>\n","footer":""},"scale":0.5},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Simplemenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

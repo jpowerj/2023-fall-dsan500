@@ -112,18 +112,54 @@ figcaption {
   margin-top: 3px !important;
   margin-bottom: 3px !important;
 }
+.crunch-quarto-figure .quarto-figure {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+.crunch-quarto-figure-center .quarto-figure-center {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  margin-right: 0px !important;
+}
+.crunch-quarto-layout-panel .quarto-layout-panel {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
 .crunch-title h1 {
   margin-bottom: 1px !important;
 }
 .crunch-title h2 {
     margin-bottom: 1px !important;
 }
+
+// lists
+.crunch ol ol {
+  margin-bottom: 0px !important;
+}
 .crunch-ul ul {
   margin-bottom: 0px !important;
+}
+.crunch-ul-left ul {
+  margin-left: 0px !important;
 }
 
 .fix-scroll .sourceCode {
   overflow-x: scroll !important;
+}
+
+.fix-callout-font .callout {
+  font-size: 1em !important;
+}
+
+.full-width-callout .callout-body {
+  width: 100% !important;
+}
+
+.full-width-callout .callout-content {
+  width: 100% !important;
+}
+.full-width-ol ol {
+  width: 100% !important;
 }
 
 .no-decoration {
@@ -158,12 +194,27 @@ figcaption {
 .small-footnotes aside {
   font-size: 0.5em !important;
 }
+
+// math
 .small-inline .math.inline {
   font-size: 85% !important;
 }
 .smaller-math .math.display {
   font-size: 80% !important;
 }
+.math-80 .math.display {
+  font-size: 80% !important;
+}
+.math-78 .math.display {
+  font-size: 78% !important;
+}
+.math-75 .math.display {
+  font-size: 75% !important;
+}
+.smaller-inline .math.inline {
+  font-size: 80% !important;
+}
+
 .smallish {
   font-size: 2.1rem !important;
 }
@@ -173,6 +224,7 @@ figcaption {
 .smaller-table-text table > * {
   font-size: 70% !important;
 }
+// title
 .small-title h1 {
   // font-size: var(--r-heading2-size) !important;
   font-size: var(--r-heading2-size) !important;
@@ -181,6 +233,33 @@ figcaption {
 .small-title h2 {
     // font-size: var(--r-heading2-size) !important;
     font-size: var(--r-heading3-size) !important;
+}
+.title-09 h2 {
+  font-size: calc(0.9 * var(--r-heading2-size)) !important;
+}
+.title-10 h2 {
+  font-size: calc(1.0 * var(--r-heading2-size)) !important;
+}
+.title-11 h2 {
+  font-size: calc(1.1 * var(--r-heading2-size)) !important;
+}
+.title-12 h2 {
+  font-size: calc(1.2 * var(--r-heading2-size)) !important;
+}
+.title-12 h1 {
+  font-size: calc(1.2 * var(--r-heading2-size)) !important;
+}
+.title-13 h2 {
+  font-size: calc(1.3 * var(--r-heading2-size)) !important;
+}
+.title-13 h1 {
+  font-size: calc(1.3 * var(--r-heading2-size)) !important;
+}
+.title-14 h2 {
+  font-size: calc(1.4 * var(--r-heading2-size)) !important;
+}
+.title-14 h1 {
+  font-size: calc(1.4 * var(--r-heading2-size)) !important;
 }
 
 .some-left-margin {

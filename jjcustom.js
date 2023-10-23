@@ -64,9 +64,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w04-date': 'Sep 12',
       '.sec-w05-date': 'Sep 19',
       '.sec-w06-date': 'Sep 26',
+      '.sec-w07-date': 'Oct 3',
+      '.sec-w08-date': 'Oct 10',
+      '.sec-w09-date': 'Oct 24',
       '.sec-start': '12:30pm',
       '.sec-p10': '12:40pm',
       '.sec-p15': '12:45pm',
+      '.sec-p20': '12:50pm',
       '.sec-p30': '1:00pm',
       '.sec-p35': '1:05pm',
       '.sec-p40': '1:10pm',
@@ -97,9 +101,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w04-date': 'Sep 13',
       '.sec-w05-date': 'Sep 20',
       '.sec-w06-date': 'Sep 27',
+      '.sec-w07-date': 'Oct 4',
+      '.sec-w08-date': 'Oct 11',
+      '.sec-w09-date': 'Oct 25',
       '.sec-start': '3:30pm',
       '.sec-p10': '3:40pm',
       '.sec-p15': '3:45pm',
+      '.sec-p20': '3:50pm',
       '.sec-p30': '4:00pm',
       '.sec-p35': '4:05pm',
       '.sec-p40': '4:10pm',
@@ -138,18 +146,44 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     // A special one for the slides... Very janky
     const s02Replace = {
+      // w01
+      'Wednesday, August 23, 2023': 'Tuesday, August 22, 2023',
+      // w02
+      'Wednesday, August 30, 2023': 'Tuesday, August 29, 2023',
+      // w03
+      'Wednesday, September 6, 2023': 'Tuesday, September 5, 2023',
+      // w04
       'Wednesday, September 13, 2023': 'Tuesday, September 12, 2023',
+      // w05
       'Wednesday, September 20, 2023': 'Tuesday, September 19, 2023',
+      // w06
       'Wednesday, September 27, 2023': 'Tuesday, September 26, 2023',
       // w07
-      'Wednesday, October 4, 2023': 'Tuesday, October 3, 2023'
+      'Wednesday, October 4, 2023': 'Tuesday, October 3, 2023',
+      // w08
+      'Wednesday, October 18, 2023': 'Tuesday, October 17, 2023',
+      // w09
+      'Wednesday, October 25, 2023': 'Tuesday, October 24, 2023'
     };
     const s03Replace = {
+      // w01
+      'Tuesday, August 22, 2023': 'Wednesday, August 23, 2023',
+      // w02
+      'Tuesday, August 29, 2023': 'Wednesday, August 30, 2023',
+      // w03
+      'Tuesday, September 5, 2023': 'Wednesday, September 6, 2023',
+      // w04
       'Tuesday, September 12, 2023': 'Wednesday, September 13, 2023',
+      // w05
       'Tuesday, September 19, 2023': 'Wednesday, September 20, 2023',
+      // w06
       'Tuesday, September 26, 2023': 'Wednesday, September 27, 2023',
       // w07
-      'Tuesday, October 3, 2023': 'Wednesday, October 4, 2023'
+      'Tuesday, October 3, 2023': 'Wednesday, October 4, 2023',
+      // w08
+      'Tuesday, October 17, 2023': 'Wednesday, October 18, 2023',
+      // w09
+      'Tuesday, October 24, 2023': 'Wednesday, October 25, 2023'
     };
     let shownDate = $('p.date').text();
     //console.log(shownDate);

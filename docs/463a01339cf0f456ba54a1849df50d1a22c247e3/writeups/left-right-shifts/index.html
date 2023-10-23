@@ -270,11 +270,78 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 </header>
 
-<p>Apropos of a question from your <a href="https://georgetown.instructure.com/courses/173310/quizzes/201583/" target="_blank">Quiz-3.2</a> assignment, the following is a quick writeup explaining why we get the strange result that, given some original function <span class="math inline">\(f(x)\)</span> and constant <span class="math inline">\(c \geq 0\)</span>,</p>
+<p>Apropos of a question from your <a href="https://georgetown.instructure.com/courses/173310/quizzes/201583/" target="_blank">Quiz-3.2</a> assignment, the following is a quick writeup explaining why we get the strange result that, given some original function <span class="math inline">\(f(x)\)</span> and constant <span class="math inline">\(c &gt; 0\)</span>,</p>
 <ul>
 <li><span class="math inline">\(g(x) = f(x + c)\)</span> represents a shift to the <strong>left</strong> by <span class="math inline">\(c\)</span> units, and</li>
 <li><span class="math inline">\(g(x) = f(x - c)\)</span> represents a shift to the <strong>right</strong> by <span class="math inline">\(c\)</span> units.</li>
 </ul>
+<p>This is a classic weird aspect of Cartesian plots (plots on the <span class="math inline">\(xy\)</span>-plane) that essentially exists to cruelly trick people, by making the mathematical formulation of something the opposite of our intuition 😑</p>
+<p>The way to get around this trick is to just work through it by making a table of some function <span class="math inline">\(f(x)\)</span>, then a table of <span class="math inline">\(g(x) = f(x + c)\)</span> and/or <span class="math inline">\(g(x) = f(x - c)\)</span>, and seeing how the table changes.</p>
+<p>For example, let’s pick <span class="math inline">\(f(x) = x\)</span> (so, just a diagonal line with a slope of 1 and a y-intercept of 0), and then to represent the case where <span class="math inline">\(c = 3\)</span>, define a new function <span class="math inline">\(g(x) = f(x + 3)\)</span>. Then a table of values for the plain <span class="math inline">\(f(x)\)</span> function looks like:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th><span class="math inline">\(f(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x = -1\)</span></td>
+<td><span class="math inline">\(f(-1) = -1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(x = 0\)</span></td>
+<td><span class="math inline">\(f(0) = 0\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(x = 1\)</span></td>
+<td><span class="math inline">\(f(1) = 1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(x = 2\)</span></td>
+<td><span class="math inline">\(f(2) = 2\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(x = 3\)</span></td>
+<td><span class="math inline">\(f(x) = 3\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(x = 4\)</span></td>
+<td><span class="math inline">\(f(x) = 4\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>And now let’s make a table of values for <span class="math inline">\(g(x)\)</span>:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th><span class="math inline">\(g(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x = -1\)</span></td>
+<td><span class="math inline">\(g(x) = f(x + 3) = f(2) = 2\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(x = 0\)</span></td>
+<td><span class="math inline">\(g(x) = f(x + 3) = f(3) = 3\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(x = 1\)</span></td>
+<td><span class="math inline">\(g(x) = f(x + 3) = f(4) = 4\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>So:</p>
+<ul>
+<li>The original <span class="math inline">\(f(x)\)</span> passed through the point <span class="math inline">\((4, 4)\)</span>, but our new <span class="math inline">\(g(x)\)</span> passes through the point <span class="math inline">\((1,4)\)</span>, which is <strong>3 units to the left</strong> of <span class="math inline">\((4, 4)\)</span>.</li>
+<li>The original <span class="math inline">\(f(x)\)</span> passed through the point <span class="math inline">\((3, 3)\)</span>, whereas <span class="math inline">\(g(x)\)</span> passes through the point <span class="math inline">\((0, 3)\)</span> which is <strong>3 units to the left</strong>, and so on.</li>
+</ul>
+<p>Basically, this weirdness comes from the way we “parametrize” functions – in an alternative universe, we could have developed math in such a way that we’d instead define e.g.&nbsp;f(x, c, d) to be “f(x) shifted left/right by c units, up/down by d units”, and then we wouldn’t have to worry about this weirdness. But, thanks to Descartes, who came up with this system, it’s just f(x + c), and to me there’s no intuition besides just making the tables like above and remembering that it’s bizarro world so that adding c inside the function results in a shift to the left, and subtracting c inside the function results in a shift to the right.</p>
+<p>You, 43 min Actually, also, you could trace the same logic that I’m getting at with those tables in a nicer, graphical way using e.g.&nbsp;Desmos: https://www.desmos.com/calculator/b9flirnevl</p>
 
 
 

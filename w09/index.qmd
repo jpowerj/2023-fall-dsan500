@@ -1,0 +1,659 @@
+---
+title: "Week 9: Clustering Analysis"
+date: "Tuesday, October 24, 2023"
+date-format: full
+lecnum: 9
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    output-file: slides.html
+    cache: false
+    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 9: Clustering Analysis"
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+    cache: false
+    code-fold: true
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
+
+{{< include ../_r-globals.qmd >}}
+
+{{< include ../_py-globals.qmd >}}
+
+{{< include ../_tex-globals.qmd >}}
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+{{< include ../_components/sched-w09.qmd >}}
+
+# From W06: Data Generating Process (DGP) {.title-13 .smaller .nostretch .not-title-slide data-stack-name="DGPs for Clusters"}
+
+* You are a teacher trying to assess the **causal impact** of **studying** on **homework scores**
+* Let $S$ = hours of studying, $H$ = homework score
+
+![](images/pgm_homework.svg){fig-align="center" width="300"}
+
+* So far so good: we could estimate the relationship via (e.g.) regression
+
+$$
+h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
+$$
+
+## My Dog Ate My Homework {.smaller}
+
+* The issue: for some students $h_i$ is **missing**, since **their dog ate their homework**
+* Let $D = \begin{cases}1 &\text{if dog ate homework} \\ 0 &\text{otherwise}\end{cases}$
+* This means we don't observe $H$ but $H^* = \begin{cases} H &\text{if }D = 0 \\ \texttt{NA} &\text{otherwise}\end{cases}$
+* In the **easy case**, let's say that dogs eat homework **at random** (i.e., without reference to $S$ or $H$). Then we say $H$ is "missing at random".  Our PGM now looks like:
+
+![](images/pgm_hw_missing_at_random.svg){fig-align="center"}
+
+## My Dog Ate My Homework Because of Reasons {.smaller .small-title .nostretch}
+
+![](images/reasons_crop.jpeg){.absolute top="-15" right="10%"}
+
+There are scarier alternatives, though! What if...
+
+::: {layout-ncol=3}
+
+::: {#dog-study}
+
+Dogs eat homework because their owner studied so much that the dog got ignored?
+
+![](images/pgm_hw_missing_study.svg){fig-align="center" width="280"}
+
+:::
+
+::: {#dog-bad-hw}
+
+Dogs hate sloppy work, and eat bad homework that would have gotten a low score
+
+![](images/pgm_hw_missing_badhw.svg){fig-align="center" width="280"}
+
+:::
+
+::: {#dog-noisy}
+
+Noisy homes ($Z = 1$) cause dogs to get agitated and eat homework more often, **and** students do worse
+
+![](images/pgm_hw_missing_noisy.svg){fig-align="center" width="280"}
+
+:::
+
+:::
+
+## Why Do We Need To Think About DGPs? {.nostretch}
+
+::: {layout-ncol=2}
+
+![Figure (and DGP analysis) from @dignazio_numbers_2020](images/kidnappings.jpg){fig-align="center"}
+
+::: {#kidnapping-dgp}
+
+Presumed DGP:
+
+![$K$ = Kidnappings, $C$ = Counts](images/dgp_kidnappings.svg){fig-align="center" width="300"}
+
+Actual DGP:
+
+![$K$ = Kidnappings, $R$ = **News reports** about kidnappings, $C$ = Counts](images/dgp_kidnappings_true.svg){fig-align="center" width="300"}
+
+:::
+
+:::
+
+## Relevance to Clustering {.smaller .crunch-title .crunch-figures .crunch-code .crunch-p .crunch-quarto-figure-center .crunch-ul}
+
+* Let $\boldsymbol\mu_1 = (0.2, 0.8)^\top$, $\boldsymbol\mu_2 = (0.8, 0.2)^\top$, $\Sigma = \text{diag}(1/64)$, and $\mathbf{X} = (X_1, X_2)$.
+* $X_1 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_1, \Sigma)$, $X_2 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_2, \Sigma)$
+
+```{r}
+#| label: two-gaussian-clusters
+#| fig-align: center
+library(tidyverse)
+library(ggforce)
+library(MASS)
+library(patchwork)
+N <- 50
+Mu1 <- c(0.2, 0.8)
+Mu2 <- c(0.8, 0.2)
+sigma <- 1/24
+# Data for concentric circles
+circle_df <- tribble(
+  ~x0, ~y0, ~r, ~Cluster, ~whichR,
+  Mu1[1], Mu1[2], sqrt(sigma), "C1", 1,
+  Mu2[1], Mu2[2], sqrt(sigma), "C2", 1,
+  Mu1[1], Mu1[2], 2 * sqrt(sigma), "C1", 2,
+  Mu2[1], Mu2[2], 2 * sqrt(sigma), "C2", 2,
+  Mu1[1], Mu1[2], 3 * sqrt(sigma), "C1", 3,
+  Mu2[1], Mu2[2], 3 * sqrt(sigma), "C2", 3
+)
+#print(circle_df)
+Sigma <- matrix(c(sigma,0,0,sigma), nrow=2)
+#print(Sigma)
+x1_df <- as_tibble(mvrnorm(N, Mu1, Sigma))
+x1_df <- x1_df |> mutate(
+  Cluster='C1'
+)
+x2_df <- as_tibble(mvrnorm(N, Mu2, Sigma))
+x2_df <- x2_df |> mutate(
+  Cluster='C2'
+)
+cluster_df <- bind_rows(x1_df, x2_df)
+cluster_df <- cluster_df |> rename(
+  x=V1, y=V2
+)
+known_plot <- ggplot(cluster_df) +
+  geom_point(
+    data = circle_df,
+    aes(x=x0, y=y0)
+  ) +
+  geom_circle(
+    data = circle_df,
+    aes(x0=x0, y0=y0, r=r, fill=Cluster),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_point(
+    data=cluster_df,
+    aes(x=x, y=y, fill=Cluster),
+    size = g_pointsize / 2,
+    shape = 21
+  ) +
+  dsan_theme("full") +
+  coord_fixed() +
+  labs(
+    x = "x",
+    y = "y",
+    title = "Data with Known Clusters"
+  ) + 
+  scale_fill_manual(values=c(cbPalette[2], cbPalette[1], cbPalette[3], cbPalette[4])) +
+  scale_color_manual(values=c(cbPalette[1], cbPalette[2], cbPalette[3], cbPalette[4]))
+unknown_plot <- ggplot(cluster_df) +
+  geom_point(
+    data=cluster_df,
+    aes(x=x, y=y),
+    size = g_pointsize / 2,
+    #shape = 21
+  ) +
+  dsan_theme("full") +
+  coord_fixed() +
+  labs(
+    x = "x",
+    y = "y",
+    title = "Same Data with Unknown Clusters"
+  )
+cluster_df |> write_csv("assets/cluster_data.csv")
+known_plot + unknown_plot
+```
+
+## Clusters as Latent Variables
+
+* Recall the Hidden Markov Model (one of many examples):
+
+![](images/hmm.svg){fig-align="center"}
+
+## Modeling the Latent Distribution {.smaller .crunch-title .crunch-ul .crunch-figures .math-75 .small-inline .crunch-quarto-figure-center .crunch-ul-left}
+
+* This observed/latent distinction gives us a **modeling framework** for inferring "underlying" **distributions** from **data**!
+* Let's begin with an overly-simple model: only **one** cluster (all data drawn from a **single** normal distribution)
+
+
+::: columns
+::: {.column width="50%"}
+
+![](images/hmm_clusters_single_dist.svg){fig-align="center" width="75%"}
+
+:::
+::: {.column width="50%"}
+
+* Probability that RV $X_i$ takes on value $\mathbf{v}$:
+
+  $$
+  \begin{align*}
+  &\Pr(X_i = \mathbf{v} \mid \param{\boldsymbol\theta_\mathcal{D}}) =
+  \varphi_2(\mathbf{v}; \param{\boldsymbol\mu}, \param{\mathbf{\Sigma}})
+  \end{align*}
+  $$
+
+  where $\varphi_2(\mathbf{v}; \boldsymbol\mu, \mathbf{\Sigma})$ is pdf of $\boldsymbol{\mathcal{N}}_2(\boldsymbol\mu, \mathbf{\Sigma})$.
+
+* Let $\mathbf{X} = (X_1, \ldots, X_N)$, $\mathbf{V} = (\mathbf{v}_1, \ldots, \mathbf{v}_N)$
+* Probability that RV $\mathbf{X}$ takes on **values** $\mathbf{V}$:
+
+$$
+\begin{align*}
+&\Pr(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) \\
+&= \Pr(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \paramDist)
+\end{align*}
+$$
+
+:::
+:::
+
+## So How Do We *Infer* Latent Vars From Data? {.smaller .title-12}
+
+* If only we had some sort of method for estimating which values of our **unknown parameters** $\paramDist$ are *most likely* to produce our **observed data** $\mathbf{X}$ ![](images/thinking_transparent.png){width="42"}
+* The diagram on the previous slide gave us an equation
+
+  $$
+  \begin{align*}
+  \Pr(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \Pr(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \paramDist)
+  \end{align*}
+  $$
+
+* And we know that, when we consider the **data** as **given** and view this probability as a function of the **parameters**, we write it as
+
+  $$
+  \begin{align*}
+  \lik(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \lik(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \lik(X_N = \mathbf{v}_N \mid \paramDist)
+  \end{align*}
+  $$
+
+* We want to find the *most likely* $\paramDist$, that is, $\boldsymbol\theta^*_\mathcal{D} = \argmax_{\paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \paramDist)$
+
+* This value $\boldsymbol\theta^*_\mathcal{D}$ is called the **Maximum Likelihood Estimate** of $\paramDist$, and is easy to find using calculus tricks^[If you're in my DSAN5100 class, then you already know this! If you're not, and you don't believe me, [check out the slides here](https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation)]
+
+## Handling Multiple Clusters {.smaller .crunch-title .crunch-ul .crunch-ul-left .crunch-figures .smaller-math .smaller-inline}
+
+::: columns
+::: {.column width="50%"}
+
+![](images/hmm_clusters.svg){fig-align="center" width="85%"}
+
+:::
+::: {.column width="50%"}
+
+* Probability $X_i$ takes on value $\mathbf{v}$:
+
+  $$
+  \begin{align*}
+  &\Pr(X_i = \mathbf{v} \mid \param{C_i} = c_i; \; \param{\boldsymbol\theta_\mathcal{D}}) \\
+  &= \begin{cases}
+  \varphi_2(v; \param{\boldsymbol\mu_1}, \param{\mathbf{\Sigma}}) &\text{if }c_i = 1 \\
+  \varphi_2(v; \param{\boldsymbol\mu_2}, \param{\mathbf{\Sigma}}) &\text{otherwise,}
+  \end{cases}
+  \end{align*}
+  $$
+
+  where $\varphi_2(v; \boldsymbol\mu, \mathbf{\Sigma})$ is pdf of $\boldsymbol{\mathcal{N}}_2(\boldsymbol\mu, \mathbf{\Sigma})$.
+
+* Let $\mathbf{C} = (\underbrace{C_1}_{\text{RV}}, \ldots, C_N)$, $\mathbf{c} = (\underbrace{c_1}_{\mathclap{\text{scalar}}}, \ldots, c_N)$
+
+:::
+:::
+
+* Probability that RV $\mathbf{X}$ takes on **values** $\mathbf{V}$:
+
+$$
+\begin{align*}
+&\Pr(\mathbf{X} = \mathbf{V} \mid \param{\mathbf{C}} = \mathbf{c}; \; \param{\boldsymbol\theta_\mathcal{D}}) \\
+&= \Pr(X_1 = \mathbf{v}_1 \mid \param{C_1} = c_1; \; \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \param{C_N} = c_N; \; \paramDist)
+\end{align*}
+$$
+
+* *It's the same math as before!* Find $(\mathbf{C}^*, \boldsymbol\theta^*_\mathcal{D}) = \argmax_{\param{\mathbf{C}}, \, \paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \param{\mathbf{C}}; \; \param{\boldsymbol\theta_\mathcal{D}})$
+
+## In Code! {.smaller .crunch-code}
+
+```{python}
+#| label: gaussian-mixture-mle
+#| output: false
+#| code-fold: show
+import pandas as pd
+import numpy as np
+import sklearn
+sklearn.set_config(display = 'text')
+from sklearn.mixture import GaussianMixture
+cluster_df = pd.read_csv("assets/cluster_data.csv")
+X = cluster_df[['x','y']].values
+estimator = GaussianMixture(n_components=2, covariance_type="spherical", max_iter=20, random_state=5000);
+estimator.fit(X);
+y_pred = estimator.predict(X)
+# Gather everything into a .csv
+# The estimated means
+mean_df = pd.DataFrame(estimator.means_).transpose()
+mean_df.columns = ['x','y']
+mean_df['Estimated Centroid'] = ['mu1','mu2']
+mean_df['Estimated Cluster'] = ['E1', 'E2']
+mean_df['Estimated Cluster Mapped'] = ['C1', 'C2']
+cov_array = estimator.covariances_
+sigma1 = np.sqrt(cov_array[0])
+sigma2 = np.sqrt(cov_array[1])
+mean_df['Estimated Sigma'] = [sigma1,sigma2]
+mean_df['Estimated 2Sigma'] = [2*sigma1, 2*sigma2]
+mean_df['Estimated 3Sigma'] = [3*sigma1, 3*sigma2]
+mean_df.to_csv("assets/sklearn_mean_df.csv", index=False)
+# The estimated covariance matrix
+cov_df = pd.DataFrame({'c1': [1, cov_array[0]], 'c2': [cov_array[1], 1]})
+cov_df.to_csv("assets/sklearn_cov_df.csv", index=False)
+# And the predicted clusters
+pred_df = pd.DataFrame({'Estimated Cluster': y_pred})
+pred_df['Estimated Cluster'] = pred_df['Estimated Cluster'].apply(lambda x: 'E1' if x == 0 else 'E2')
+pred_df['Estimated Cluster Mapped'] = pred_df['Estimated Cluster'].apply(lambda x: 'C1' if x == 'E1' else 'C2')
+pred_df.to_csv("assets/sklearn_pred_df.csv", index=False)
+```
+
+## Distribution Estimation Results {.smaller}
+
+```{r}
+#| label: compare-clusters
+# Data for concentric circles
+mean_df <- read_csv("assets/sklearn_mean_df.csv")
+#print(mean_df)
+cov_df <- read_csv("assets/sklearn_cov_df.csv")
+#print(cov_df)
+pred_df <- read_csv("assets/sklearn_pred_df.csv")
+# Merge the predicted clusters into cluster_df
+cluster_df <- bind_cols(cluster_df, pred_df)
+cluster_df <- cluster_df |> mutate(
+  Correct = as.numeric(`Estimated Cluster Mapped` == Cluster)
+)
+correct_df <- cluster_df |> filter(Correct == 1)
+incorrect_df <- cluster_df |> filter(Correct == 0)
+#print(cluster_df)
+# Keep only the 3*Sigma circle
+# compare_circle_df <- circle_df |> filter(
+#   whichR == 3
+# )
+#print(mean_df)
+#print(compare_circle_df)
+compare_plot <- ggplot(cluster_df) +
+  geom_point(
+    data = mean_df,
+    aes(
+      x=x, y=y,
+      #fill=`Estimated Cluster`
+    )
+  ) +
+  geom_point(
+    data = circle_df,
+    aes(
+      x=x0, y=y0,
+      #fill=Cluster
+    )
+  ) +
+  geom_circle(
+    data = mean_df,
+    aes(
+      x0=x, y0=y,
+      r=`Estimated Sigma`,
+      color=`Estimated Cluster`
+      #fill=`Estimated Centroid`
+    ),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_circle(
+    data = mean_df,
+    aes(
+      x0=x, y0=y,
+      r=`Estimated 2Sigma`,
+      color=`Estimated Cluster`
+      #fill=`Estimated Centroid`
+    ),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_circle(
+    data = mean_df,
+    aes(
+      x0=x, y0=y,
+      r=`Estimated 3Sigma`,
+      color=`Estimated Cluster`
+      #fill=`Estimated Cluster`
+    ),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_circle(
+    data = circle_df,
+    aes(
+      x0=x0, y0=y0,
+      r=r,
+      color=Cluster
+      #fill=Cluster
+    ),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  dsan_theme("full") +
+  coord_fixed() +
+  labs(
+    x = "x",
+    y = "y",
+    title = "DGP vs. Estimated Clusters",
+    fill = "MLE",
+    color = "MLE",
+    shape = "Correct?"
+  ) +
+  scale_shape_manual(values = c(4,21)) +
+  scale_color_manual(values=c(cbPalette[2], cbPalette[1], cbPalette[3], cbPalette[4]))
+compare_plot
+```
+
+## Clustering Results {.smaller .crunch-code .crunch-figures .crunch-p}
+
+```{r}
+#| label: plot-gaussian-mixture-mle
+est_plot <- ggplot(cluster_df) +
+  # geom_point(
+  #   data = mean_df,
+  #   aes(x=x, y=y)
+  # ) +
+  geom_circle(
+    data = mean_df,
+    aes(
+      x0=x, y0=y,
+      r=`Estimated Sigma`,
+      fill=`Estimated Cluster Mapped`
+    ),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_circle(
+    data = mean_df,
+    aes(x0=x, y0=y, r=`Estimated 2Sigma`, fill=`Estimated Cluster Mapped`),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_circle(
+    data = mean_df,
+    aes(x0=x, y0=y, r=`Estimated 3Sigma`, fill=`Estimated Cluster Mapped`),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_point(
+    data=cluster_df,
+    aes(
+      x=x, y=y,
+      fill=factor(`Estimated Cluster Mapped`),
+      shape=factor(Correct)
+    ),
+    size = g_pointsize / 2,
+    stroke = 0.75
+  ) +
+  geom_point(
+    data=incorrect_df,
+    aes(x=x, y=y),
+    color='black',
+    shape = 4,
+    size = g_pointsize / 2,
+    stroke = 2
+  ) +
+  geom_point(
+    data=incorrect_df,
+    aes(x=x, y=y),
+    color=cbPalette[4],
+    shape = 4,
+    size = g_pointsize / 2,
+    stroke = 0.8
+  ) +
+  dsan_theme("full") +
+  coord_fixed() +
+  labs(
+    x = "x",
+    y = "y",
+    title = "Data with Estimated Clusters",
+    fill = "MLE",
+    color = "MLE",
+    shape = "Correct?"
+  ) +
+  scale_shape_manual(values = c(4,21)) +
+  scale_fill_manual(values=c(cbPalette[3], cbPalette[4])) +
+  scale_color_manual(values=c(cbPalette[3], cbPalette[4]))
+known_plot + est_plot
+```
+
+## Clustering In General
+
+* What makes a **"good"** cluster?
+* In previous example, "good" meant that it **recovered our DGP**
+* In an **EDA** context, we may not have a well-formulated DGP in mind...
+
+## Unsupervised Clustering: Heuristics {.smaller .title-12}
+
+| Heuristic 1 | Heuristic 2 |
+| - | - |
+| Points in **same** cluster should be **similar** | Points in **different** clusters should be **dissimilar** |
+
+*You could take these two heuristics, formalize them, and derive the rest of lecture* 😉
+
+![Image from [*Introduction to Machine Learning*](http://courses.washington.edu/css490/2012.Winter/lecture_slides/10_clustering_basics_1.pdf){target='_blank'}, University of Washington (2012)](images/clustering-heuristics.jpeg){fig-align="center"}
+
+## Hierarchical Clustering {.crunch-title .crunch-ul .crunch-quarto-figure .crunch-figures .crunch-images}
+
+* If our task is to **partition**, we're done!
+* If our task is to infer a **hierarchy**, we can also think about a spectrum of **coarse-grained** to **fine-grained** clusterings:
+
+::: {layout="[1,1]" layout-valign="center"}
+
+![](images/hierarchical-clustering.png){fig-align="center"}
+
+```{dot}
+//| fig-width: 6
+//| fig-height: 3
+//| echo: false
+digraph G {
+  subgraph cluster_animal {
+    label="Animals"
+    subgraph cluster_vertebrate {
+      label="Vertebrate"
+      subgraph cluster_birds {
+        label="Birds"
+        Eagle
+        Peacock
+      }
+      subgraph cluster_mammals {
+        label="Mammals"
+        Lion
+        Bear
+      }
+    }
+    subgraph cluster_legs {
+      label="3+ Legs"
+      Spider
+      Scorpion
+    }
+  }
+}
+```
+
+:::
+
+# K-Means Clustering {data-stack-name="K-Means Clustering"}
+
+## What is K-Means Clustering? {.crunch-title .crunch-ul .crunch-images .crunch-quarto-layout-panel}
+
+* **Operationalizes** our two heuristics by simultaneously:
+  * **Maximizing** within-cluster similarity
+  * **Minimizing** between-cluster similarity
+
+::: {#fig-voronoi}
+::: {layout-ncol=3}
+
+![](images/voronoi_k2.png)
+
+![](images/voronoi_k3.png)
+
+![](images/voronoi_k5.png)
+
+:::
+
+Voronoi diagrams for $K = 2$ (left), $K = 3$ (center), and $K = 5$ (right) [[Source](https://antoinebrl.github.io/blog/kmeans/){target='_blank'}]
+:::
+
+## K-Means Clustering Algorithm {.smaller .crunch-title .crunch-callout .ol-95 .fix-callout-font .crunch-lists .crunch-ol .crunch-p}
+
+::: columns
+::: {.column width="50%"}
+
+<center>
+**What we're given:**
+</center>
+
+* **Data** [$\mathbf{X} = (X_1 = \mathbf{x}_1, \ldots, X_N = \mathbf{x}_N)$]{.small-inline}
+* **Distance metric** $d(\mathbf{v}_1, \mathbf{v}_2)$
+* **Hyperparameter value** for $K$ (⁉️)
+
+:::
+::: {.column width="50%"}
+
+<center>
+**Our goal:**
+</center>
+
+* Assign each **point** [$\mathbf{x}_i$]{.small-inline} to a **cluster** [$C_i \in \{1, \ldots, K\}$]{.small-inline} (so [$S_j = \{\mathbf{x}_i \mid C_i = j\}$]{.small-inline} is the set of points assigned to cluster [$j$]{.small-inline})
+
+:::
+:::
+
+::: {.callout-note .full-width-callout icon="false" title="<i class='bi bi-info-circle pe-1 pt-1'></i> K-Means Clustering Algorithm"}
+
+1. Initialize $K$ random **centroids** $\boldsymbol\mu_1, \ldots, \boldsymbol\mu_K$
+2. **(Re-)Compute distance** $d(\mathbf{x}_i, \boldsymbol\mu_j)$ from **each point** $\mathbf{x}_i$ to **each centroid** $\boldsymbol\mu_j$
+3. **(Re-)Assign points** to class of **nearest centroid**: $C_i = \argmin_j d(\mathbf{x}_i, \boldsymbol\mu_j)$
+4. **(Re-)compute centroids** as mean of points in each cluster:
+
+    $$
+    \mu_j^\text{new} \leftarrow \frac{1}{|S_j|}\sum_{\mathbf{x}_i \in S_j}\mathbf{x}_i
+    $$
+
+5. **Repeat Steps 2-4** until convergence
+
+:::
+
+## In Pictures
+
+## In Code
+
+## DBSCAN
+
+## References
+
+::: {#refs}
+:::
+
+## Appendix I: Maximum Likelihood Estimation {.smaller}
+
+* But if $x^* = \argmax_x\left[ \log(f(x)) \right]$ then $x^* = \argmax_x\left[f(x)\right]$, so we can just find
+
+  $$
+  \begin{align*}
+  \boldsymbol\theta^*_\mathcal{D} = \argmax_\theta \ell(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \argmax_\theta \left[ \ell(X_1 = \mathbf{v}_1 \mid \paramDist) + \cdots + \ell(X_N = \mathbf{v}_N \mid \paramDist) \right]
+  \end{align*}
+  $$
