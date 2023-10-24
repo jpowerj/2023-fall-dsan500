@@ -16,6 +16,7 @@ format:
     html-math-method: mathjax
     cache: false
     code-fold: true
+    warning: false
 metadata-files: 
   - "../_slide-meta.yml"
 ---
@@ -124,6 +125,7 @@ Actual DGP:
 ```{r}
 #| label: two-gaussian-clusters
 #| fig-align: center
+#| warning: false
 library(tidyverse)
 library(ggforce)
 library(MASS)
