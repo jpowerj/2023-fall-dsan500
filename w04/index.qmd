@@ -52,14 +52,14 @@ Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
 | | Start | End | Topic | Recording |
 |:- |:- |:- |:- |:-:|
-| **Lecture** | <span class='sec-start'>12:30pm</span> | 12:40pm | <a href="#week-03-recap">Week 03 Recap &rarr;</a> | <a href="../recordings/recording-w04-1.html" target="_blank"><i class="bi bi-film"></i></a> |
+| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p10'>12:40pm</span> | <a href="#week-03-recap">Week 03 Recap &rarr;</a> | <a href="../recordings/recording-w04s02-1.html" target="_blank"><i class="bi bi-film"></i></a> |
 | | 12:40pm | 1:00pm | <a href="https://georgetown.instructure.com/courses/173310/quizzes/201388">Quiz 2.1 <i class="bi bi-box-arrow-up-right" style="font-size: 1.5rem;"></i></a> | |
-| | 1:00pm | 1:30pm | <a href="#data-gathering">Data Gathering &rarr;</a> | <a href="../recordings/recording-w04-2.html" target="_blank"><i class="bi bi-film"></i></a> |
-| | 1:30pm | 1:45pm | <a href="#web-scraping">Web Scraping &rarr;</a> | <a href="../recordings/recording-w04-3.html" target="_blank"><i class="bi bi-film"></i></a> |
-| | 1:45pm | 2:00pm | <a href="#apis">APIs &rarr;</a> | <a href="../recordings/recording-w04-4.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 1:00pm | 1:30pm | <a href="#data-gathering">Data Gathering &rarr;</a> | <a href="../recordings/recording-w04s02-2.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 1:30pm | 1:45pm | <a href="#web-scraping">Web Scraping &rarr;</a> | <a href="../recordings/recording-w04s02-3.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 1:45pm | 2:00pm | <a href="#apis">APIs &rarr;</a> | <a href="../recordings/recording-w04s02-4.html" target="_blank"><i class="bi bi-film"></i></a> |
 | **Break!** | 2:00pm | 2:10pm | | |
-| **Lab** | 2:10pm | 2:50pm | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a href="../recordings/recording-w04-5.html" target="_blank"><i class="bi bi-film"></i></a> |
-| | 2:50pm | 3:00pm | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a href="../recordings/recording-w04-6.html" target="_blank"><i class="bi bi-film"></i></a> |
+| **Lab** | 2:10pm | 2:50pm | <a href="#lab-demonstrations">Lab Demonstrations &rarr;</a> | <a href="../recordings/recording-w04s02-5.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | 2:50pm | 3:00pm | <a href="#lab-assignment-overview">Lab Assignment Overview &rarr;</a> | <a href="../recordings/recording-w04s02-6.html" target="_blank"><i class="bi bi-film"></i></a> |
 
 : {tbl-colwidths="[14,12,12,50,12]"} 
 

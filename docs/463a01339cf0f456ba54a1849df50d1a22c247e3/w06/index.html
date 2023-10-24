@@ -493,7 +493,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"><span class="sec-start">12:30pm</span></td>
 <td style="text-align: left;"><span class="sec-p30">1:00pm</span></td>
 <td style="text-align: left;"><a href="#week-05-recap">Week 05 Deeper Dive →</a></td>
-<td style="text-align: center;"><a id="rec-link-w06-1" href="../recordings/recording-w06s02-1.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: center;"><a id="rec-link-w06-1" href="../recordings/recording-w06s02-1.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -507,7 +507,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"><span class="sec-p45">1:15pm</span></td>
 <td style="text-align: left;"><span class="sec-p55">1:25pm</span></td>
 <td style="text-align: left;"><a href="#exploratory-data-analysis-eda">Introduction to EDA →</a></td>
-<td style="text-align: center;"><a id="rec-link-w06-2" href="../recordings/recording-w06s02-2.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: center;"><a id="rec-link-w06-2" href="../recordings/recording-w06s02-2.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -521,7 +521,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"><span class="sec-p70">1:40pm</span></td>
 <td style="text-align: left;"><span class="sec-p90">2:00pm</span></td>
 <td style="text-align: left;"><a href="#missing-data">Missing Data / Outlier Detection →</a></td>
-<td style="text-align: center;"><a href="../recordings/recording-w06s02-4.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: center;"><a href="../recordings/recording-w06s02-4.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Break!</strong></td>
@@ -535,7 +535,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <td style="text-align: left;"><span class="sec-p100">2:10pm</span></td>
 <td style="text-align: left;"><span class="sec-p130">2:40pm</span></td>
 <td style="text-align: left;"><a href="#lab-demonstrations">Lab 5 →</a></td>
-<td style="text-align: center;"><a id="rec-link-w06-5" href="../recordings/recording-w06s02-5.html" target="_blank" class="disabled"><i class="bi bi-film"></i></a></td>
+<td style="text-align: center;"><a id="rec-link-w06-5" href="../recordings/recording-w06s02-5.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1766,8 +1766,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.mean)</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x108809120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
-&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x108809120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
+<pre><code>&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x11e0cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.
+&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x11e0cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "mean" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>disp(data_means, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1816,8 +1816,8 @@ dbl (4): id, ideology, elast, tr_est
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  y_mean <span class="op">=</span> (<span class="st">'y'</span>, np.std),</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x108809260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
-&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x108809260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
+<pre><code>&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x11e0cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.
+&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x11e0cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string "std" instead.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>disp(data_sds, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
