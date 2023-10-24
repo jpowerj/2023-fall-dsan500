@@ -299,16 +299,21 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#clustering-in-general" id="toc-clustering-in-general" class="nav-link" data-scroll-target="#clustering-in-general">Clustering In General</a></li>
   <li><a href="#unsupervised-clustering-heuristics" id="toc-unsupervised-clustering-heuristics" class="nav-link" data-scroll-target="#unsupervised-clustering-heuristics">Unsupervised Clustering: Heuristics</a></li>
   <li><a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering">Hierarchical Clustering</a></li>
+  <li><a href="#hierarchical-clustering-rightarrow-multilevel-modeling" id="toc-hierarchical-clustering-rightarrow-multilevel-modeling" class="nav-link" data-scroll-target="#hierarchical-clustering-rightarrow-multilevel-modeling">Hierarchical Clustering <span class="math inline">\(\rightarrow\)</span> Multilevel Modeling</a></li>
+  <li><a href="#in-practice" id="toc-in-practice" class="nav-link" data-scroll-target="#in-practice">In Practice</a></li>
   </ul></li>
   <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">K-Means Clustering</a>
   <ul class="collapse">
   <li><a href="#what-is-k-means-clustering" id="toc-what-is-k-means-clustering" class="nav-link" data-scroll-target="#what-is-k-means-clustering">What is K-Means Clustering?</a></li>
   <li><a href="#k-means-clustering-algorithm" id="toc-k-means-clustering-algorithm" class="nav-link" data-scroll-target="#k-means-clustering-algorithm">K-Means Clustering Algorithm</a></li>
   <li><a href="#in-pictures" id="toc-in-pictures" class="nav-link" data-scroll-target="#in-pictures">In Pictures</a></li>
-  <li><a href="#in-code-1" id="toc-in-code-1" class="nav-link" data-scroll-target="#in-code-1">In Code</a></li>
+  <li><a href="#in-code-pictures" id="toc-in-code-pictures" class="nav-link" data-scroll-target="#in-code-pictures">In Code + Pictures</a></li>
+  </ul></li>
+  <li><a href="#fancier-clustering-and-hyperparameter-tuning-methods" id="toc-fancier-clustering-and-hyperparameter-tuning-methods" class="nav-link" data-scroll-target="#fancier-clustering-and-hyperparameter-tuning-methods">Fancier Clustering and Hyperparameter Tuning Methods</a>
+  <ul class="collapse">
   <li><a href="#dbscan" id="toc-dbscan" class="nav-link" data-scroll-target="#dbscan">DBSCAN</a></li>
+  <li><a href="#hyperparameter-tuning-more-heuristics" id="toc-hyperparameter-tuning-more-heuristics" class="nav-link" data-scroll-target="#hyperparameter-tuning-more-heuristics">Hyperparameter Tuning: More Heuristics</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  <li><a href="#appendix-i-maximum-likelihood-estimation" id="toc-appendix-i-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#appendix-i-maximum-likelihood-estimation">Appendix I: Maximum Likelihood Estimation</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
@@ -1155,8 +1160,8 @@ chr (2): Estimated Cluster, Estimated Cluster Mapped
 </figure>
 </div>
 </section>
-<section id="hierarchical-clustering" class="level2 crunch-title crunch-ul crunch-quarto-figure crunch-figures crunch-images">
-<h2 class="crunch-title crunch-ul crunch-quarto-figure crunch-figures crunch-images anchored" data-anchor-id="hierarchical-clustering">Hierarchical Clustering</h2>
+<section id="hierarchical-clustering" class="level2 crunch-title crunch-ul crunch-quarto-figure crunch-figures crunch-images crunch-lists">
+<h2 class="crunch-title crunch-ul crunch-quarto-figure crunch-figures crunch-images crunch-lists anchored" data-anchor-id="hierarchical-clustering">Hierarchical Clustering</h2>
 <ul>
 <li>If our task is to <strong>partition</strong>, we’re done!</li>
 <li>If our task is to infer a <strong>hierarchy</strong>, we can also think about a spectrum of <strong>coarse-grained</strong> to <strong>fine-grained</strong> clusterings:</li>
@@ -1170,64 +1175,59 @@ chr (2): Estimated Cluster, Estimated Cluster Mapped
 </figure>
 </div>
 </div>
-<div class="cell quarto-layout-cell" data-fig-width="6" data-fig-height="3" style="flex-basis: 50.0%;justify-content: center;">
-<div class="cell-output-display">
-<div>
-<div>
-<svg width="576" height="288" viewbox="0.00 0.00 607.00 182.40" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 178.4)">
-<title>
-G
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-178.4 603,-178.4 603,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_animal
-</title>
-<polygon fill="none" stroke="black" points="8,-8 8,-166.4 591,-166.4 591,-8 8,-8"></polygon> <text text-anchor="middle" x="299.5" y="-149.8" font-family="Times,serif" font-size="14.00">Animals</text> </g> <g id="clust2" class="cluster">
-<title>
-cluster_vertebrate
-</title>
-<polygon fill="none" stroke="black" points="222,-16 222,-133.6 583,-133.6 583,-16 222,-16"></polygon> <text text-anchor="middle" x="402.5" y="-117" font-family="Times,serif" font-size="14.00">Vertebrate</text> </g> <g id="clust4" class="cluster">
-<title>
-cluster_mammals
-</title>
-<polygon fill="none" stroke="black" points="424,-24 424,-100.8 575,-100.8 575,-24 424,-24"></polygon> <text text-anchor="middle" x="499.5" y="-84.2" font-family="Times,serif" font-size="14.00">Mammals</text> </g> <g id="clust3" class="cluster">
-<title>
-cluster_birds
-</title>
-<polygon fill="none" stroke="black" points="230,-24 230,-100.8 416,-100.8 416,-24 230,-24"></polygon> <text text-anchor="middle" x="323" y="-84.2" font-family="Times,serif" font-size="14.00">Birds</text> </g> <g id="clust5" class="cluster">
-<title>
-cluster_legs
-</title>
-<polygon fill="none" stroke="black" points="16,-24 16,-100.8 214,-100.8 214,-24 16,-24"></polygon> <text text-anchor="middle" x="115" y="-84.2" font-family="Times,serif" font-size="14.00">3+ Legs</text> </g> <!-- Eagle --> <g id="node1" class="node">
-<title>
-Eagle
-</title>
-<ellipse fill="none" stroke="black" cx="375" cy="-50" rx="33.04" ry="18"></ellipse> <text text-anchor="middle" x="375" y="-45.8" font-family="Times,serif" font-size="14.00">Eagle</text> </g> <!-- Peacock --> <g id="node2" class="node">
-<title>
-Peacock
-</title>
-<ellipse fill="none" stroke="black" cx="281" cy="-50" rx="43.42" ry="18"></ellipse> <text text-anchor="middle" x="281" y="-45.8" font-family="Times,serif" font-size="14.00">Peacock</text> </g> <!-- Lion --> <g id="node3" class="node">
-<title>
-Lion
-</title>
-<ellipse fill="none" stroke="black" cx="538" cy="-50" rx="29.05" ry="18"></ellipse> <text text-anchor="middle" x="538" y="-45.8" font-family="Times,serif" font-size="14.00">Lion</text> </g> <!-- Bear --> <g id="node4" class="node">
-<title>
-Bear
-</title>
-<ellipse fill="none" stroke="black" cx="461" cy="-50" rx="29.03" ry="18"></ellipse> <text text-anchor="middle" x="461" y="-45.8" font-family="Times,serif" font-size="14.00">Bear</text> </g> <!-- Spider --> <g id="node5" class="node">
-<title>
-Spider
-</title>
-<ellipse fill="none" stroke="black" cx="170" cy="-50" rx="36.5" ry="18"></ellipse> <text text-anchor="middle" x="170" y="-45.8" font-family="Times,serif" font-size="14.00">Spider</text> </g> <!-- Scorpion --> <g id="node6" class="node">
-<title>
-Scorpion
-</title>
-<ellipse fill="none" stroke="black" cx="70" cy="-50" rx="45.81" ry="18"></ellipse> <text text-anchor="middle" x="70" y="-45.8" font-family="Times,serif" font-size="14.00">Scorpion</text> </g> </g>
-</svg>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/hierarchical-flat-v2.svg" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
+</div>
+</section>
+<section id="hierarchical-clustering-rightarrow-multilevel-modeling" class="level2 smaller title-11 crunch-title crunch-quarto-figure crunch-figures crunch-fig-top crunch-images crunch-p">
+<h2 class="smaller title-11 crunch-title crunch-quarto-figure crunch-figures crunch-fig-top crunch-images crunch-p anchored" data-anchor-id="hierarchical-clustering-rightarrow-multilevel-modeling">Hierarchical Clustering <span class="math inline">\(\rightarrow\)</span> Multilevel Modeling</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div id="multilevel-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li><strong>Extremely powerful modeling tool</strong> for statistical inference!
+<ul>
+<li>Learning about <strong>eagles</strong> <span class="math inline">\(\implies\)</span> learning about <strong>birds</strong></li>
+<li>Surveying <strong>DSAN 5000 students</strong> <span class="math inline">\(\implies\)</span> <strong>Georgetown students</strong></li>
+<li>We can <strong>pool</strong> information from US <strong>states</strong> into <strong>national</strong> estimates</li>
+</ul></li>
+<li>And, when we compute <strong>averages</strong>, we can take into account our <strong>relative certainty/uncertainty</strong> about units at <strong>each level</strong> (read more <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/multilevel-ma.html" target="_blank">here</a>)</li>
+</ul>
+<div style="float: right;">
+<p><em>Image from <span class="citation" data-cites="gelman_red_2009">Gelman (<a href="#ref-gelman_red_2009" role="doc-biblioref">2009</a>)</span></em></p>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/gelman-states.jpeg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="in-practice" class="level2 smaller crunch-title crunch-images crunch-fig-top crunch-quarto-figure crunch-figcaption">
+<h2 class="smaller crunch-title crunch-images crunch-fig-top crunch-quarto-figure crunch-figcaption anchored" data-anchor-id="in-practice">In Practice</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/1960-1980_Katsakioris_RegionalTotals.PNG" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><em>Above</em>: Data from Soviet archives; <em>Above Right</em>: US Military archives; <em>Below Right</em>: NATO archives</figcaption>
+</figure>
+</div>
+</div>
+<div id="right-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="images/1970-1978_regional-totals-crop.jpeg" class="img-fluid"></p>
+<p><img src="images/departures.jpeg" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
 </div>
@@ -1235,8 +1235,8 @@ Scorpion
 </section>
 <section id="k-means-clustering" class="level1" data-stack-name="K-Means Clustering">
 <h1 data-stack-name="K-Means Clustering">K-Means Clustering</h1>
-<section id="what-is-k-means-clustering" class="level2 crunch-title crunch-ul crunch-images crunch-quarto-layout-panel">
-<h2 class="crunch-title crunch-ul crunch-images crunch-quarto-layout-panel anchored" data-anchor-id="what-is-k-means-clustering">What is K-Means Clustering?</h2>
+<section id="what-is-k-means-clustering" class="level2 crunch-title crunch-ul crunch-images crunch-quarto-layout-panel crunch-lists">
+<h2 class="crunch-title crunch-ul crunch-images crunch-quarto-layout-panel crunch-lists anchored" data-anchor-id="what-is-k-means-clustering">What is K-Means Clustering?</h2>
 <ul>
 <li><strong>Operationalizes</strong> our two heuristics by simultaneously:
 <ul>
@@ -1307,14 +1307,407 @@ Scorpion
 </div>
 </div>
 </section>
-<section id="in-pictures" class="level2">
-<h2 class="anchored" data-anchor-id="in-pictures">In Pictures</h2>
+<section id="in-pictures" class="level2 smaller crunch-title">
+<h2 class="smaller crunch-title anchored" data-anchor-id="in-pictures">In Pictures</h2>
+<script src="assets/d3.v3.min.js"></script>
+<script src="assets/choose.js"></script>
+<script src="assets/generate.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/kmeans.js"></script>
+<script src="assets/main.js"></script>
+<div id="svg_area" style="margin-top: 0px; font-size: 0.75em;"></div>
+<div id="button_container" style="display: flex; flex-direction: row;">
+<div id="button_area" style="margin-top: 4px; flex-grow: 1;"></div><div style="float: right; margin-top: 4px;">Adapted from <a href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/" target="_blank">this blog post</a>
+</div>
+<script>restart();</script>
+</div></section>
+<section id="in-code-pictures" class="level2 smaller crunch-code crunch-title">
+<h2 class="smaller crunch-code crunch-title anchored" data-anchor-id="in-code-pictures">In Code + Pictures</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>cluster_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/cluster_data.csv"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> cluster_df[[<span class="st">'x'</span>,<span class="st">'y'</span>]].values</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>kmc_model <span class="op">=</span> KMeans(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  n_clusters<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  init<span class="op">=</span><span class="st">'k-means++'</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  verbose<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  random_state<span class="op">=</span><span class="dv">5000</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  copy_x<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  algorithm<span class="op">=</span><span class="st">'lloyd'</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>kmc_model.fit(X)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>/Users/jpj/.virtualenvs/r-reticulate/lib/python3.11/site-packages/sklearn/cluster/_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>y_pred_vals <span class="op">=</span> kmc_model.predict(X)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>y_pred_df <span class="op">=</span> pd.DataFrame({<span class="st">'y_pred'</span>: y_pred_vals})</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>y_pred_df.to_csv(<span class="st">"assets/kmc_preds.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>kmc_centroid_df <span class="op">=</span> pd.DataFrame(kmc_model.cluster_centers_.transpose(), columns<span class="op">=</span>[<span class="st">'x'</span>,<span class="st">'y'</span>])</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#disp(kmc_centroid_df)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>kmc_centroid_df.to_csv(<span class="st">"assets/kmc_centroids.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Step size of the mesh. Decrease to increase the quality of the VQ.</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">0.01</span>  <span class="co"># point in the mesh [x_min, x_max]x[y_min, y_max].</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the decision boundary. For that, we will assign a color to each</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>bpad <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> bpad, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> bpad</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> bpad, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> bpad</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain labels for each point in mesh. Use last trained model.</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> kmc_model.predict(np.c_[xx.ravel(), yy.ravel()])</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Put the result into a color plot</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">#custom_cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", ["red","violet","blue"])</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">#custom_cmap = matplotlib.colors.ListedColormap(['white', 'red'])</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co">#custom_cmap = matplotlib.colors.ListedColormap(cb_palette).reversed()</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>custom_cmap <span class="op">=</span> matplotlib.colors.ListedColormap([cb_palette[<span class="dv">0</span>], cb_palette[<span class="dv">2</span>], cb_palette[<span class="dv">1</span>]])</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>plt.figure(<span class="dv">1</span>)</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>plt.clf()</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>plt.imshow(</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    Z,</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    interpolation<span class="op">=</span><span class="st">"nearest"</span>,</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    extent<span class="op">=</span>(xx.<span class="bu">min</span>(), xx.<span class="bu">max</span>(), yy.<span class="bu">min</span>(), yy.<span class="bu">max</span>()),</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">#cmap=plt.cm.Paired,</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span>custom_cmap,</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    aspect<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    origin<span class="op">=</span><span class="st">"lower"</span>,</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a><span class="co"># And plot the points</span></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>plt.plot(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], <span class="st">"o"</span>, markersize<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'white'</span>, markerfacecolor<span class="op">=</span><span class="st">'black'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the centroids as a white X</span></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>centroids <span class="op">=</span> kmc_model.cluster_centers_</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>plt.scatter(</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>    centroids[:, <span class="dv">0</span>],</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>    centroids[:, <span class="dv">1</span>],</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">"*"</span>,</span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>    s<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>    linewidths<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>    facecolor<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>    zorder<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot gaussian means as... smth else</span></span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>plt.scatter(</span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.2</span>,<span class="fl">0.8</span>],</span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.8</span>,<span class="fl">0.2</span>],</span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="st">"*"</span>,</span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a>    s<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a>    linewidths<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>cb_palette[<span class="dv">3</span>],</span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>    facecolor<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a>    zorder<span class="op">=</span><span class="dv">9</span>,</span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a>plt.title(</span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"K-means clustering on the Gaussian mixture data"</span></span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>plt.legend([</span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Original Data'</span>,</span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a>  <span class="st">'K-Means Centroids'</span>,</span>
+<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a>  <span class="st">'True Centroids (DGP)'</span></span>
+<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xlim(x_min, x_max);</span></span>
+<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ylim(y_min, y_max);</span></span>
+<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xticks(());</span></span>
+<span id="cb23-75"><a href="#cb23-75" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.yticks(());</span></span>
+<span id="cb23-76"><a href="#cb23-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/sklearn-kmc-1.png" class="img-fluid figure-img" width="614"></p>
+<figcaption class="figure-caption">Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py" target="_blank">Scikit-learn User Guide</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="in-code-1" class="level2">
-<h2 class="anchored" data-anchor-id="in-code-1">In Code</h2>
 </section>
-<section id="dbscan" class="level2">
-<h2 class="anchored" data-anchor-id="dbscan">DBSCAN</h2>
+<section id="fancier-clustering-and-hyperparameter-tuning-methods" class="level1" data-stack-name="Fancier Methods">
+<h1 data-stack-name="Fancier Methods">Fancier Clustering and Hyperparameter Tuning Methods</h1>
+<section id="dbscan" class="level2 smaller crunch-code crunch-title">
+<h2 class="smaller crunch-code crunch-title anchored" data-anchor-id="dbscan">DBSCAN</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> cycle, islice</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> cluster, datasets, mixture</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> kneighbors_graph</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ============</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate datasets. We choose the size big enough to see the scalability</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co"># of the algorithms, but not too big to avoid too long running times</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ============</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>noisy_circles <span class="op">=</span> datasets.make_circles(</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span>n_samples, factor<span class="op">=</span><span class="fl">0.5</span>, noise<span class="op">=</span><span class="fl">0.05</span>, random_state<span class="op">=</span>seed</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>noisy_moons <span class="op">=</span> datasets.make_moons(n_samples<span class="op">=</span>n_samples, noise<span class="op">=</span><span class="fl">0.05</span>, random_state<span class="op">=</span>seed)</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>blobs <span class="op">=</span> datasets.make_blobs(n_samples<span class="op">=</span>n_samples, random_state<span class="op">=</span>seed)</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.RandomState(seed)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>no_structure <span class="op">=</span> rng.rand(n_samples, <span class="dv">2</span>), <span class="va">None</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Anisotropicly distributed data</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>random_state <span class="op">=</span> <span class="dv">170</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> datasets.make_blobs(n_samples<span class="op">=</span>n_samples, random_state<span class="op">=</span>random_state)</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>transformation <span class="op">=</span> [[<span class="fl">0.6</span>, <span class="op">-</span><span class="fl">0.6</span>], [<span class="op">-</span><span class="fl">0.4</span>, <span class="fl">0.8</span>]]</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>X_aniso <span class="op">=</span> np.dot(X, transformation)</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>aniso <span class="op">=</span> (X_aniso, y)</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="co"># blobs with varied variances</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>varied <span class="op">=</span> datasets.make_blobs(</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span>n_samples, cluster_std<span class="op">=</span>[<span class="fl">1.0</span>, <span class="fl">2.5</span>, <span class="fl">0.5</span>], random_state<span class="op">=</span>random_state</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="co"># ============</span></span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up cluster parameters</span></span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a><span class="co"># ============</span></span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">9</span> <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span>, <span class="dv">13</span>))</span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(</span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>    left<span class="op">=</span><span class="fl">0.02</span>, right<span class="op">=</span><span class="fl">0.98</span>, bottom<span class="op">=</span><span class="fl">0.001</span>, top<span class="op">=</span><span class="fl">0.95</span>, wspace<span class="op">=</span><span class="fl">0.05</span>, hspace<span class="op">=</span><span class="fl">0.01</span></span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>plot_num <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a>default_base <span class="op">=</span> {</span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"quantile"</span>: <span class="fl">0.3</span>,</span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"eps"</span>: <span class="fl">0.3</span>,</span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"damping"</span>: <span class="fl">0.9</span>,</span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">"preference"</span>: <span class="op">-</span><span class="dv">200</span>,</span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_neighbors"</span>: <span class="dv">3</span>,</span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_clusters"</span>: <span class="dv">3</span>,</span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">"xi"</span>: <span class="fl">0.05</span>,</span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">"min_cluster_size"</span>: <span class="fl">0.1</span>,</span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"allow_single_cluster"</span>: <span class="va">True</span>,</span>
+<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hdbscan_min_cluster_size"</span>: <span class="dv">15</span>,</span>
+<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hdbscan_min_samples"</span>: <span class="dv">3</span>,</span>
+<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"random_state"</span>: <span class="dv">42</span>,</span>
+<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a>datasets <span class="op">=</span> [</span>
+<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a>        noisy_circles,</span>
+<span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb24-68"><a href="#cb24-68" aria-hidden="true" tabindex="-1"></a>            <span class="st">"damping"</span>: <span class="fl">0.77</span>,</span>
+<span id="cb24-69"><a href="#cb24-69" aria-hidden="true" tabindex="-1"></a>            <span class="st">"preference"</span>: <span class="op">-</span><span class="dv">240</span>,</span>
+<span id="cb24-70"><a href="#cb24-70" aria-hidden="true" tabindex="-1"></a>            <span class="st">"quantile"</span>: <span class="fl">0.2</span>,</span>
+<span id="cb24-71"><a href="#cb24-71" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_clusters"</span>: <span class="dv">2</span>,</span>
+<span id="cb24-72"><a href="#cb24-72" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb24-73"><a href="#cb24-73" aria-hidden="true" tabindex="-1"></a>            <span class="st">"xi"</span>: <span class="fl">0.08</span>,</span>
+<span id="cb24-74"><a href="#cb24-74" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb24-75"><a href="#cb24-75" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb24-76"><a href="#cb24-76" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb24-77"><a href="#cb24-77" aria-hidden="true" tabindex="-1"></a>        noisy_moons,</span>
+<span id="cb24-78"><a href="#cb24-78" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb24-79"><a href="#cb24-79" aria-hidden="true" tabindex="-1"></a>            <span class="st">"damping"</span>: <span class="fl">0.75</span>,</span>
+<span id="cb24-80"><a href="#cb24-80" aria-hidden="true" tabindex="-1"></a>            <span class="st">"preference"</span>: <span class="op">-</span><span class="dv">220</span>,</span>
+<span id="cb24-81"><a href="#cb24-81" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_clusters"</span>: <span class="dv">2</span>,</span>
+<span id="cb24-82"><a href="#cb24-82" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb24-83"><a href="#cb24-83" aria-hidden="true" tabindex="-1"></a>            <span class="st">"xi"</span>: <span class="fl">0.1</span>,</span>
+<span id="cb24-84"><a href="#cb24-84" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb24-85"><a href="#cb24-85" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb24-86"><a href="#cb24-86" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (</span></span>
+<span id="cb24-87"><a href="#cb24-87" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     varied,</span></span>
+<span id="cb24-88"><a href="#cb24-88" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     {</span></span>
+<span id="cb24-89"><a href="#cb24-89" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "eps": 0.18,</span></span>
+<span id="cb24-90"><a href="#cb24-90" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "n_neighbors": 2,</span></span>
+<span id="cb24-91"><a href="#cb24-91" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "min_samples": 7,</span></span>
+<span id="cb24-92"><a href="#cb24-92" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "xi": 0.01,</span></span>
+<span id="cb24-93"><a href="#cb24-93" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         "min_cluster_size": 0.2,</span></span>
+<span id="cb24-94"><a href="#cb24-94" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     },</span></span>
+<span id="cb24-95"><a href="#cb24-95" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ),</span></span>
+<span id="cb24-96"><a href="#cb24-96" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb24-97"><a href="#cb24-97" aria-hidden="true" tabindex="-1"></a>        aniso,</span>
+<span id="cb24-98"><a href="#cb24-98" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb24-99"><a href="#cb24-99" aria-hidden="true" tabindex="-1"></a>            <span class="st">"eps"</span>: <span class="fl">0.15</span>,</span>
+<span id="cb24-100"><a href="#cb24-100" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_neighbors"</span>: <span class="dv">2</span>,</span>
+<span id="cb24-101"><a href="#cb24-101" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb24-102"><a href="#cb24-102" aria-hidden="true" tabindex="-1"></a>            <span class="st">"xi"</span>: <span class="fl">0.1</span>,</span>
+<span id="cb24-103"><a href="#cb24-103" aria-hidden="true" tabindex="-1"></a>            <span class="st">"min_cluster_size"</span>: <span class="fl">0.2</span>,</span>
+<span id="cb24-104"><a href="#cb24-104" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb24-105"><a href="#cb24-105" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb24-106"><a href="#cb24-106" aria-hidden="true" tabindex="-1"></a>    (blobs, {<span class="st">"min_samples"</span>: <span class="dv">7</span>, <span class="st">"xi"</span>: <span class="fl">0.1</span>, <span class="st">"min_cluster_size"</span>: <span class="fl">0.2</span>}),</span>
+<span id="cb24-107"><a href="#cb24-107" aria-hidden="true" tabindex="-1"></a>    (no_structure, {}),</span>
+<span id="cb24-108"><a href="#cb24-108" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb24-109"><a href="#cb24-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-110"><a href="#cb24-110" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i_dataset, (dataset, algo_params) <span class="kw">in</span> <span class="bu">enumerate</span>(datasets):</span>
+<span id="cb24-111"><a href="#cb24-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># update parameters with dataset-specific values</span></span>
+<span id="cb24-112"><a href="#cb24-112" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> default_base.copy()</span>
+<span id="cb24-113"><a href="#cb24-113" aria-hidden="true" tabindex="-1"></a>    params.update(algo_params)</span>
+<span id="cb24-114"><a href="#cb24-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-115"><a href="#cb24-115" aria-hidden="true" tabindex="-1"></a>    X, y <span class="op">=</span> dataset</span>
+<span id="cb24-116"><a href="#cb24-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-117"><a href="#cb24-117" aria-hidden="true" tabindex="-1"></a>    <span class="co"># normalize dataset for easier parameter selection</span></span>
+<span id="cb24-118"><a href="#cb24-118" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> StandardScaler().fit_transform(X)</span>
+<span id="cb24-119"><a href="#cb24-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-120"><a href="#cb24-120" aria-hidden="true" tabindex="-1"></a>    <span class="co"># estimate bandwidth for mean shift</span></span>
+<span id="cb24-121"><a href="#cb24-121" aria-hidden="true" tabindex="-1"></a>    bandwidth <span class="op">=</span> cluster.estimate_bandwidth(X, quantile<span class="op">=</span>params[<span class="st">"quantile"</span>])</span>
+<span id="cb24-122"><a href="#cb24-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-123"><a href="#cb24-123" aria-hidden="true" tabindex="-1"></a>    <span class="co"># connectivity matrix for structured Ward</span></span>
+<span id="cb24-124"><a href="#cb24-124" aria-hidden="true" tabindex="-1"></a>    connectivity <span class="op">=</span> kneighbors_graph(</span>
+<span id="cb24-125"><a href="#cb24-125" aria-hidden="true" tabindex="-1"></a>        X, n_neighbors<span class="op">=</span>params[<span class="st">"n_neighbors"</span>], include_self<span class="op">=</span><span class="va">False</span></span>
+<span id="cb24-126"><a href="#cb24-126" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-127"><a href="#cb24-127" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make connectivity symmetric</span></span>
+<span id="cb24-128"><a href="#cb24-128" aria-hidden="true" tabindex="-1"></a>    connectivity <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (connectivity <span class="op">+</span> connectivity.T)</span>
+<span id="cb24-129"><a href="#cb24-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-130"><a href="#cb24-130" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ============</span></span>
+<span id="cb24-131"><a href="#cb24-131" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create cluster objects</span></span>
+<span id="cb24-132"><a href="#cb24-132" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ============</span></span>
+<span id="cb24-133"><a href="#cb24-133" aria-hidden="true" tabindex="-1"></a>    two_means <span class="op">=</span> cluster.MiniBatchKMeans(</span>
+<span id="cb24-134"><a href="#cb24-134" aria-hidden="true" tabindex="-1"></a>        n_clusters<span class="op">=</span>params[<span class="st">"n_clusters"</span>],</span>
+<span id="cb24-135"><a href="#cb24-135" aria-hidden="true" tabindex="-1"></a>        n_init<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb24-136"><a href="#cb24-136" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span>params[<span class="st">"random_state"</span>],</span>
+<span id="cb24-137"><a href="#cb24-137" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-138"><a href="#cb24-138" aria-hidden="true" tabindex="-1"></a>    <span class="co"># spectral = cluster.SpectralClustering(</span></span>
+<span id="cb24-139"><a href="#cb24-139" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     n_clusters=params["n_clusters"],</span></span>
+<span id="cb24-140"><a href="#cb24-140" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     eigen_solver="arpack",</span></span>
+<span id="cb24-141"><a href="#cb24-141" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     affinity="nearest_neighbors",</span></span>
+<span id="cb24-142"><a href="#cb24-142" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     random_state=params["random_state"],</span></span>
+<span id="cb24-143"><a href="#cb24-143" aria-hidden="true" tabindex="-1"></a>    <span class="co"># )</span></span>
+<span id="cb24-144"><a href="#cb24-144" aria-hidden="true" tabindex="-1"></a>    dbscan <span class="op">=</span> cluster.DBSCAN(eps<span class="op">=</span>params[<span class="st">"eps"</span>])</span>
+<span id="cb24-145"><a href="#cb24-145" aria-hidden="true" tabindex="-1"></a>    gmm <span class="op">=</span> mixture.GaussianMixture(</span>
+<span id="cb24-146"><a href="#cb24-146" aria-hidden="true" tabindex="-1"></a>        n_components<span class="op">=</span>params[<span class="st">"n_clusters"</span>],</span>
+<span id="cb24-147"><a href="#cb24-147" aria-hidden="true" tabindex="-1"></a>        covariance_type<span class="op">=</span><span class="st">"full"</span>,</span>
+<span id="cb24-148"><a href="#cb24-148" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span>params[<span class="st">"random_state"</span>],</span>
+<span id="cb24-149"><a href="#cb24-149" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-150"><a href="#cb24-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-151"><a href="#cb24-151" aria-hidden="true" tabindex="-1"></a>    clustering_algorithms <span class="op">=</span> (</span>
+<span id="cb24-152"><a href="#cb24-152" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"MiniBatch</span><span class="ch">\n</span><span class="st">KMeans"</span>, two_means),</span>
+<span id="cb24-153"><a href="#cb24-153" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("Affinity\nPropagation", affinity_propagation),</span></span>
+<span id="cb24-154"><a href="#cb24-154" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("MeanShift", ms),</span></span>
+<span id="cb24-155"><a href="#cb24-155" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("Spectral\nClustering", spectral),</span></span>
+<span id="cb24-156"><a href="#cb24-156" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("Ward", ward),</span></span>
+<span id="cb24-157"><a href="#cb24-157" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("Agglomerative\nClustering", average_linkage),</span></span>
+<span id="cb24-158"><a href="#cb24-158" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"DBSCAN"</span>, dbscan),</span>
+<span id="cb24-159"><a href="#cb24-159" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("HDBSCAN", hdbscan),</span></span>
+<span id="cb24-160"><a href="#cb24-160" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("OPTICS", optics),</span></span>
+<span id="cb24-161"><a href="#cb24-161" aria-hidden="true" tabindex="-1"></a>        <span class="co">#("BIRCH", birch),</span></span>
+<span id="cb24-162"><a href="#cb24-162" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Gaussian</span><span class="ch">\n</span><span class="st">Mixture"</span>, gmm),</span>
+<span id="cb24-163"><a href="#cb24-163" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-164"><a href="#cb24-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-165"><a href="#cb24-165" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> name, algorithm <span class="kw">in</span> clustering_algorithms:</span>
+<span id="cb24-166"><a href="#cb24-166" aria-hidden="true" tabindex="-1"></a>        t0 <span class="op">=</span> time.time()</span>
+<span id="cb24-167"><a href="#cb24-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-168"><a href="#cb24-168" aria-hidden="true" tabindex="-1"></a>        <span class="co"># catch warnings related to kneighbors_graph</span></span>
+<span id="cb24-169"><a href="#cb24-169" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> warnings.catch_warnings():</span>
+<span id="cb24-170"><a href="#cb24-170" aria-hidden="true" tabindex="-1"></a>            warnings.filterwarnings(</span>
+<span id="cb24-171"><a href="#cb24-171" aria-hidden="true" tabindex="-1"></a>                <span class="st">"ignore"</span>,</span>
+<span id="cb24-172"><a href="#cb24-172" aria-hidden="true" tabindex="-1"></a>                message<span class="op">=</span><span class="st">"the number of connected components of the "</span></span>
+<span id="cb24-173"><a href="#cb24-173" aria-hidden="true" tabindex="-1"></a>                <span class="op">+</span> <span class="st">"connectivity matrix is [0-9]{1,2}"</span></span>
+<span id="cb24-174"><a href="#cb24-174" aria-hidden="true" tabindex="-1"></a>                <span class="op">+</span> <span class="st">" &gt; 1. Completing it to avoid stopping the tree early."</span>,</span>
+<span id="cb24-175"><a href="#cb24-175" aria-hidden="true" tabindex="-1"></a>                category<span class="op">=</span><span class="pp">UserWarning</span>,</span>
+<span id="cb24-176"><a href="#cb24-176" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb24-177"><a href="#cb24-177" aria-hidden="true" tabindex="-1"></a>            warnings.filterwarnings(</span>
+<span id="cb24-178"><a href="#cb24-178" aria-hidden="true" tabindex="-1"></a>                <span class="st">"ignore"</span>,</span>
+<span id="cb24-179"><a href="#cb24-179" aria-hidden="true" tabindex="-1"></a>                message<span class="op">=</span><span class="st">"Graph is not fully connected, spectral embedding"</span></span>
+<span id="cb24-180"><a href="#cb24-180" aria-hidden="true" tabindex="-1"></a>                <span class="op">+</span> <span class="st">" may not work as expected."</span>,</span>
+<span id="cb24-181"><a href="#cb24-181" aria-hidden="true" tabindex="-1"></a>                category<span class="op">=</span><span class="pp">UserWarning</span>,</span>
+<span id="cb24-182"><a href="#cb24-182" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb24-183"><a href="#cb24-183" aria-hidden="true" tabindex="-1"></a>            algorithm.fit(X)</span>
+<span id="cb24-184"><a href="#cb24-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-185"><a href="#cb24-185" aria-hidden="true" tabindex="-1"></a>        t1 <span class="op">=</span> time.time()</span>
+<span id="cb24-186"><a href="#cb24-186" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">hasattr</span>(algorithm, <span class="st">"labels_"</span>):</span>
+<span id="cb24-187"><a href="#cb24-187" aria-hidden="true" tabindex="-1"></a>            y_pred <span class="op">=</span> algorithm.labels_.astype(<span class="bu">int</span>)</span>
+<span id="cb24-188"><a href="#cb24-188" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb24-189"><a href="#cb24-189" aria-hidden="true" tabindex="-1"></a>            y_pred <span class="op">=</span> algorithm.predict(X)</span>
+<span id="cb24-190"><a href="#cb24-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-191"><a href="#cb24-191" aria-hidden="true" tabindex="-1"></a>        plt.subplot(<span class="bu">len</span>(datasets), <span class="bu">len</span>(clustering_algorithms), plot_num)</span>
+<span id="cb24-192"><a href="#cb24-192" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> i_dataset <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb24-193"><a href="#cb24-193" aria-hidden="true" tabindex="-1"></a>            plt.title(name, size<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb24-194"><a href="#cb24-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-195"><a href="#cb24-195" aria-hidden="true" tabindex="-1"></a>        colors <span class="op">=</span> np.array(</span>
+<span id="cb24-196"><a href="#cb24-196" aria-hidden="true" tabindex="-1"></a>            <span class="bu">list</span>(</span>
+<span id="cb24-197"><a href="#cb24-197" aria-hidden="true" tabindex="-1"></a>                islice(</span>
+<span id="cb24-198"><a href="#cb24-198" aria-hidden="true" tabindex="-1"></a>                    cycle(</span>
+<span id="cb24-199"><a href="#cb24-199" aria-hidden="true" tabindex="-1"></a>                        [</span>
+<span id="cb24-200"><a href="#cb24-200" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#377eb8"</span>,</span>
+<span id="cb24-201"><a href="#cb24-201" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#ff7f00"</span>,</span>
+<span id="cb24-202"><a href="#cb24-202" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#4daf4a"</span>,</span>
+<span id="cb24-203"><a href="#cb24-203" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#f781bf"</span>,</span>
+<span id="cb24-204"><a href="#cb24-204" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#a65628"</span>,</span>
+<span id="cb24-205"><a href="#cb24-205" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#984ea3"</span>,</span>
+<span id="cb24-206"><a href="#cb24-206" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#999999"</span>,</span>
+<span id="cb24-207"><a href="#cb24-207" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#e41a1c"</span>,</span>
+<span id="cb24-208"><a href="#cb24-208" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"#dede00"</span>,</span>
+<span id="cb24-209"><a href="#cb24-209" aria-hidden="true" tabindex="-1"></a>                        ]</span>
+<span id="cb24-210"><a href="#cb24-210" aria-hidden="true" tabindex="-1"></a>                    ),</span>
+<span id="cb24-211"><a href="#cb24-211" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">int</span>(<span class="bu">max</span>(y_pred) <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb24-212"><a href="#cb24-212" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb24-213"><a href="#cb24-213" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb24-214"><a href="#cb24-214" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb24-215"><a href="#cb24-215" aria-hidden="true" tabindex="-1"></a>        <span class="co"># add black color for outliers (if any)</span></span>
+<span id="cb24-216"><a href="#cb24-216" aria-hidden="true" tabindex="-1"></a>        colors <span class="op">=</span> np.append(colors, [<span class="st">"#000000"</span>])</span>
+<span id="cb24-217"><a href="#cb24-217" aria-hidden="true" tabindex="-1"></a>        plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span>colors[y_pred])</span>
+<span id="cb24-218"><a href="#cb24-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-219"><a href="#cb24-219" aria-hidden="true" tabindex="-1"></a>        plt.xlim(<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>)</span>
+<span id="cb24-220"><a href="#cb24-220" aria-hidden="true" tabindex="-1"></a>        plt.ylim(<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>)</span>
+<span id="cb24-221"><a href="#cb24-221" aria-hidden="true" tabindex="-1"></a>        plt.xticks(())</span>
+<span id="cb24-222"><a href="#cb24-222" aria-hidden="true" tabindex="-1"></a>        plt.yticks(())</span>
+<span id="cb24-223"><a href="#cb24-223" aria-hidden="true" tabindex="-1"></a>        plt.text(</span>
+<span id="cb24-224"><a href="#cb24-224" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.99</span>,</span>
+<span id="cb24-225"><a href="#cb24-225" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.01</span>,</span>
+<span id="cb24-226"><a href="#cb24-226" aria-hidden="true" tabindex="-1"></a>            (<span class="st">"</span><span class="sc">%.2f</span><span class="st">s"</span> <span class="op">%</span> (t1 <span class="op">-</span> t0)).lstrip(<span class="st">"0"</span>),</span>
+<span id="cb24-227"><a href="#cb24-227" aria-hidden="true" tabindex="-1"></a>            transform<span class="op">=</span>plt.gca().transAxes,</span>
+<span id="cb24-228"><a href="#cb24-228" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb24-229"><a href="#cb24-229" aria-hidden="true" tabindex="-1"></a>            horizontalalignment<span class="op">=</span><span class="st">"right"</span>,</span>
+<span id="cb24-230"><a href="#cb24-230" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb24-231"><a href="#cb24-231" aria-hidden="true" tabindex="-1"></a>        plot_num <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb24-232"><a href="#cb24-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-233"><a href="#cb24-233" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/dbscan-grid-3.png" class="img-fluid figure-img" width="2016"></p>
+<figcaption class="figure-caption">Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html" target="_blank">Scikit-learn User Guide</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="hyperparameter-tuning-more-heuristics" class="level2 smaller crunch-title">
+<h2 class="smaller crunch-title anchored" data-anchor-id="hyperparameter-tuning-more-heuristics">Hyperparameter Tuning: More Heuristics</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div id="elbow-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li><strong>Inertia</strong>: A measure of how “well-clustered” a dataset is</li>
+<li>Sum of squared distances of samples to their closest cluster center</li>
+<li>A good model is one with low inertia <strong>and</strong> low <span class="math inline">\(K\)</span> (tradeoff, akin to bias-variance)</li>
+<li><strong>Elbow Method</strong>: Find the <span class="math inline">\(K\)</span> value after which <strong>decrease in inertia</strong> begins to slow →</li>
+</ul>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/elbow-method.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure from <a href="https://ankitajhumu.medium.com/selecting-number-of-clusters-in-k-mean-clustering-d60a1f85d65b" target="_blank">this blog post</a> by <a href="https://ankitajhumu.medium.com/" target="_blank">Ankita Banerji</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
@@ -1322,18 +1715,10 @@ Scorpion
 <div id="ref-dignazio_numbers_2020" class="csl-entry" role="listitem">
 D’Ignazio, Catherine, and Lauren Klein. 2020. <span>“6. <span>The Numbers Don</span>’t <span>Speak</span> for <span>Themselves</span>.”</span> <em>Data Feminism</em>, March.
 </div>
+<div id="ref-gelman_red_2009" class="csl-entry" role="listitem">
+Gelman, Andrew. 2009. <em>Red <span>State</span>, <span>Blue State</span>, <span>Rich State</span>, <span>Poor State</span>: <span>Why Americans Vote</span> the <span>Way They Do</span> - <span>Expanded Edition</span></em>. <span>Princeton University Press</span>.
 </div>
-</section>
-<section id="appendix-i-maximum-likelihood-estimation" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="appendix-i-maximum-likelihood-estimation">Appendix I: Maximum Likelihood Estimation</h2>
-<ul>
-<li><p>But if <span class="math inline">\(x^* = \argmax_x\left[ \log(f(x)) \right]\)</span> then <span class="math inline">\(x^* = \argmax_x\left[f(x)\right]\)</span>, so we can just find</p>
-<p><span class="math display">\[
-\begin{align*}
-\boldsymbol\theta^*_\mathcal{D} = \argmax_\theta \ell(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \argmax_\theta \left[ \ell(X_1 = \mathbf{v}_1 \mid \paramDist) + \cdots + \ell(X_N = \mathbf{v}_N \mid \paramDist) \right]
-\end{align*}
-\]</span></p></li>
-</ul>
+</div>
 
 
 </section>
@@ -1343,7 +1728,7 @@ D’Ignazio, Catherine, and Lauren Klein. 2020. <span>“6. <span>The Numbers Do
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>If you’re in my DSAN5100 class, then you already know this! If you’re not, and you don’t believe me, <a href="https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation">check out the slides here</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>If you’re in my DSAN5100 class, then you already know this! If not, <a href="https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation" target="_blank">check out the MLE slides here<i class="bi bi-box-arrow-up-right ps-1"></i></a> for more details<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

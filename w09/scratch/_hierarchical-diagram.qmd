@@ -1,0 +1,62 @@
+## v2:
+
+<!-- https://kroki.io/graphviz/svg/eNp9kE0LwjAMhu_-itCrKH6AtwkK4kVBGHgRkWwLs9h1I90Elf13121WcOqteZMnT0kkY8bsDGt49ACMvJM3qx46jchQ5o2G46pi1JemmtihImiYUBUmJz6hlgmqegGAwoCUJxZ1ZkSddYgrcU4BY04t5bi964i20YEDyZFxnCOXNhYuXWGsCAZz2BGGaXg5mPymyBNSX6URx3au_CVJMLH_72q2TeMt2shUW8-SkP9Jyu-nUBSbzyNM-7Cp4pfDz2REbB1-mHJW-b557P6yVz4BsK6LKw== -->
+
+```{dot}
+digraph G {
+  size=6
+  nodesep=0.1
+  ranksep=0.2
+  subgraph cluster_animal {
+    label="Animals"
+    subgraph cluster_vertebrate {
+      label="Vertebrate"
+      subgraph cluster_birds {
+        label="Birds"
+        Eagle -> Peacock[style="invis"]
+      }
+      subgraph cluster_mammals {
+        label="Mammals"
+        Lion -> Bear[style="invis"]
+      }
+    }
+    subgraph cluster_legs {
+      label="3+ Legs"
+      Spider -> Scorpion[style="invis"]
+    }
+  }
+}
+```
+
+## v1:
+
+<!-- https://kroki.io/graphviz/svg/eNp1j8sKwjAQRff9iiFbl65dWBA3FYSC2zJJhxpMH0xSN5J_175GtLq893JOMqWtGLsrHOGRAPheT9G43gfiAhtboxs3AIea3E7tx86rsVsRd-JAmjHQTAl3kUXNwwrWlksvnJDpUCtpD1g5knQmNK25zTn-U9dYD79ey0_T8NZntm0kpIT8oY6_z3ZU-e-DtxvIXvVizjtb0iLLTcvd8tDgjEl8Ap-kcMg= -->
+
+```{dot}
+//| fig-width: 6
+//| fig-height: 3
+//| echo: false
+digraph G {
+  subgraph cluster_animal {
+    label="Animals"
+    subgraph cluster_vertebrate {
+      label="Vertebrate"
+      subgraph cluster_birds {
+        label="Birds"
+        Eagle
+        Peacock
+      }
+      subgraph cluster_mammals {
+        label="Mammals"
+        Lion
+        Bear
+      }
+    }
+    subgraph cluster_legs {
+      label="3+ Legs"
+      Spider
+      Scorpion
+    }
+  }
+}
+```

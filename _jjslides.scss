@@ -54,20 +54,32 @@ figcaption {
     border-bottom: 1px solid black !important;
 }
 
-
+// callout
 .crunch-callout .callout {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
 }
+
+// code
 .crunch-code details {
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
+
+// figcaption
 .crunch-figcaption figcaption {
   margin-top: 2px !important;
 }
+
+// figure
 .crunch-figures .quarto-figure {
     margin-bottom: 0 !important;
+}
+.crunch-fig-top .quarto-figure {
+  margin-top: 0px !important;
+}
+.crunch-fig-top figure {
+  margin-top: 0px !important;
 }
 .crunch-figures figcaption {
     margin-top: 0 !important;

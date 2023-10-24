@@ -266,7 +266,7 @@ $$
 
 * We want to find the *most likely* $\paramDist$, that is, $\boldsymbol\theta^*_\mathcal{D} = \argmax_{\paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \paramDist)$
 
-* This value $\boldsymbol\theta^*_\mathcal{D}$ is called the **Maximum Likelihood Estimate** of $\paramDist$, and is easy to find using calculus tricks^[If you're in my DSAN5100 class, then you already know this! If you're not, and you don't believe me, [check out the slides here](https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation)]
+* This value $\boldsymbol\theta^*_\mathcal{D}$ is called the **Maximum Likelihood Estimate** of $\paramDist$, and is easy to find using calculus tricks^[If you're in my DSAN5100 class, then you already know this! If not, [check out the MLE slides here<i class='bi bi-box-arrow-up-right ps-1'></i>](https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation){target='_blank'} for more details]
 
 ## Handling Multiple Clusters {.smaller .crunch-title .crunch-ul .crunch-ul-left .crunch-figures .smaller-math .smaller-inline}
 
@@ -535,7 +535,7 @@ known_plot + est_plot
 
 ![Image from [*Introduction to Machine Learning*](http://courses.washington.edu/css490/2012.Winter/lecture_slides/10_clustering_basics_1.pdf){target='_blank'}, University of Washington (2012)](images/clustering-heuristics.jpeg){fig-align="center"}
 
-## Hierarchical Clustering {.crunch-title .crunch-ul .crunch-quarto-figure .crunch-figures .crunch-images}
+## Hierarchical Clustering {.crunch-title .crunch-ul .crunch-quarto-figure .crunch-figures .crunch-images .crunch-lists}
 
 * If our task is to **partition**, we're done!
 * If our task is to infer a **hierarchy**, we can also think about a spectrum of **coarse-grained** to **fine-grained** clusterings:
@@ -544,40 +544,50 @@ known_plot + est_plot
 
 ![](images/hierarchical-clustering.png){fig-align="center"}
 
-```{dot}
-//| fig-width: 6
-//| fig-height: 3
-//| echo: false
-digraph G {
-  subgraph cluster_animal {
-    label="Animals"
-    subgraph cluster_vertebrate {
-      label="Vertebrate"
-      subgraph cluster_birds {
-        label="Birds"
-        Eagle
-        Peacock
-      }
-      subgraph cluster_mammals {
-        label="Mammals"
-        Lion
-        Bear
-      }
-    }
-    subgraph cluster_legs {
-      label="3+ Legs"
-      Spider
-      Scorpion
-    }
-  }
-}
-```
+![](images/hierarchical-flat-v2.svg){fig-align="center"}
 
+:::
+
+## Hierarchical Clustering $\rightarrow$ Multilevel Modeling {.smaller .title-11 .crunch-title .crunch-quarto-figure .crunch-figures .crunch-fig-top .crunch-images .crunch-p}
+
+::: {layout="[1,1]" layout-valign="center"}
+
+::: {#multilevel-text}
+
+* **Extremely powerful modeling tool** for statistical inference!
+  * Learning about **eagles** $\implies$ learning about **birds**
+  * Surveying **DSAN 5000 students** $\implies$ **Georgetown students**
+  * We can **pool** information from US **states** into **national** estimates
+* And, when we compute **averages**, we can take into account our **relative certainty/uncertainty** about units at **each level** (read more [here](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/multilevel-ma.html){target='_blank'})
+
+<div style="float: right;">
+*Image from @gelman_red_2009*
+</div>
+
+:::
+
+![](images/gelman-states.jpeg){fig-align="center" width="80%"}
+
+:::
+
+## In Practice {.smaller .crunch-title .crunch-images .crunch-fig-top .crunch-quarto-figure .crunch-figcaption}
+
+::: {layout="[5,5]" layout-valign="center"}
+
+![*Above*: Data from Soviet archives; *Above Right*: US Military archives; *Below Right*: NATO archives](images/1960-1980_Katsakioris_RegionalTotals.PNG)
+
+::: {#right-col}
+
+![](images/1970-1978_regional-totals-crop.jpeg)
+
+![](images/departures.jpeg){width="100%"}
+
+:::
 :::
 
 # K-Means Clustering {data-stack-name="K-Means Clustering"}
 
-## What is K-Means Clustering? {.crunch-title .crunch-ul .crunch-images .crunch-quarto-layout-panel}
+## What is K-Means Clustering? {.crunch-title .crunch-ul .crunch-images .crunch-quarto-layout-panel .crunch-lists}
 
 * **Operationalizes** our two heuristics by simultaneously:
   * **Maximizing** within-cluster similarity
@@ -637,23 +647,378 @@ Voronoi diagrams for $K = 2$ (left), $K = 3$ (center), and $K = 5$ (right) [[Sou
 
 :::
 
-## In Pictures
+## In Pictures {.smaller .crunch-title}
 
-## In Code
+```{=html}
+<script src="assets/d3.v3.min.js"></script>
+<script src="assets/choose.js"></script>
+<script src="assets/generate.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/kmeans.js"></script>
+<script src="assets/main.js"></script>
+<div id="svg_area" style="margin-top: 0px; font-size: 0.75em;"></div>
+<div id="button_container" style="display: flex; flex-direction: row;">
+<div id="button_area" style="margin-top: 4px; flex-grow: 1;"></div><div style="float: right; margin-top: 4px;">Adapted from <a href='https://www.naftaliharris.com/blog/visualizing-k-means-clustering/' target='_blank'>this blog post</a></span>
+</div>
+<script>restart();</script>
+```
 
-## DBSCAN
+## In Code + Pictures {.smaller .crunch-code .crunch-title}
+
+```{python}
+#| label: sklearn-kmc
+#| fig-cap: Adapted from [Scikit-learn User Guide](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py){target='_blank'}
+import pandas as pd
+import matplotlib.colors
+from sklearn.cluster import KMeans
+cluster_df = pd.read_csv("assets/cluster_data.csv")
+X = cluster_df[['x','y']].values
+kmc_model = KMeans(
+  n_clusters=2,
+  init='k-means++',
+  verbose=0,
+  random_state=5000,
+  copy_x=True,
+  algorithm='lloyd'
+);
+kmc_model.fit(X);
+y_pred_vals = kmc_model.predict(X)
+y_pred_df = pd.DataFrame({'y_pred': y_pred_vals})
+y_pred_df.to_csv("assets/kmc_preds.csv", index=False)
+kmc_centroid_df = pd.DataFrame(kmc_model.cluster_centers_.transpose(), columns=['x','y'])
+#disp(kmc_centroid_df)
+kmc_centroid_df.to_csv("assets/kmc_centroids.csv", index=False)
+
+import matplotlib.pyplot as plt
+# Step size of the mesh. Decrease to increase the quality of the VQ.
+h = 0.01  # point in the mesh [x_min, x_max]x[y_min, y_max].
+
+# Plot the decision boundary. For that, we will assign a color to each
+bpad = 0.05
+x_min, x_max = X[:, 0].min() - bpad, X[:, 0].max() + bpad
+y_min, y_max = X[:, 1].min() - bpad, X[:, 1].max() + bpad
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+
+# Obtain labels for each point in mesh. Use last trained model.
+Z = kmc_model.predict(np.c_[xx.ravel(), yy.ravel()])
+
+# Put the result into a color plot
+#custom_cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", ["red","violet","blue"])
+#custom_cmap = matplotlib.colors.ListedColormap(['white', 'red'])
+#custom_cmap = matplotlib.colors.ListedColormap(cb_palette).reversed()
+custom_cmap = matplotlib.colors.ListedColormap([cb_palette[0], cb_palette[2], cb_palette[1]])
+Z = Z.reshape(xx.shape)
+plt.figure(1)
+plt.clf()
+plt.imshow(
+    Z,
+    interpolation="nearest",
+    extent=(xx.min(), xx.max(), yy.min(), yy.max()),
+    #cmap=plt.cm.Paired,
+    cmap=custom_cmap,
+    aspect="auto",
+    origin="lower",
+)
+
+# And plot the points
+plt.plot(X[:, 0], X[:, 1], "o", markersize=6, color='white', markerfacecolor='black', alpha=0.75)
+# Plot the centroids as a white X
+centroids = kmc_model.cluster_centers_
+plt.scatter(
+    centroids[:, 0],
+    centroids[:, 1],
+    marker="*",
+    s=250,
+    linewidths=1.5,
+    color='white',
+    facecolor='black',
+    zorder=10,
+)
+# Plot gaussian means as... smth else
+plt.scatter(
+    [0.2,0.8],
+    [0.8,0.2],
+    marker="*",
+    s=250,
+    linewidths=1.5,
+    color=cb_palette[3],
+    facecolor='black',
+    zorder=9,
+)
+plt.title(
+    "K-means clustering on the Gaussian mixture data"
+)
+plt.legend([
+  'Original Data',
+  'K-Means Centroids',
+  'True Centroids (DGP)'
+])
+#plt.xlim(x_min, x_max);
+#plt.ylim(y_min, y_max);
+#plt.xticks(());
+#plt.yticks(());
+plt.show()
+```
+
+# Fancier Clustering and Hyperparameter Tuning Methods {data-stack-name="Fancier Methods"}
+
+## DBSCAN {.smaller .crunch-code .crunch-title}
+
+```{python}
+#| label: dbscan-grid
+#| fig-cap: Adapted from [Scikit-learn User Guide](https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html){target='_blank'}
+import time
+import warnings
+from itertools import cycle, islice
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+from sklearn import cluster, datasets, mixture
+from sklearn.neighbors import kneighbors_graph
+from sklearn.preprocessing import StandardScaler
+
+# ============
+# Generate datasets. We choose the size big enough to see the scalability
+# of the algorithms, but not too big to avoid too long running times
+# ============
+n_samples = 500
+seed = 30
+noisy_circles = datasets.make_circles(
+    n_samples=n_samples, factor=0.5, noise=0.05, random_state=seed
+)
+noisy_moons = datasets.make_moons(n_samples=n_samples, noise=0.05, random_state=seed)
+blobs = datasets.make_blobs(n_samples=n_samples, random_state=seed)
+rng = np.random.RandomState(seed)
+no_structure = rng.rand(n_samples, 2), None
+
+# Anisotropicly distributed data
+random_state = 170
+X, y = datasets.make_blobs(n_samples=n_samples, random_state=random_state)
+transformation = [[0.6, -0.6], [-0.4, 0.8]]
+X_aniso = np.dot(X, transformation)
+aniso = (X_aniso, y)
+
+# blobs with varied variances
+varied = datasets.make_blobs(
+    n_samples=n_samples, cluster_std=[1.0, 2.5, 0.5], random_state=random_state
+)
+
+# ============
+# Set up cluster parameters
+# ============
+plt.figure(figsize=(9 * 2 + 3, 13))
+plt.subplots_adjust(
+    left=0.02, right=0.98, bottom=0.001, top=0.95, wspace=0.05, hspace=0.01
+)
+
+plot_num = 1
+
+default_base = {
+    "quantile": 0.3,
+    "eps": 0.3,
+    "damping": 0.9,
+    "preference": -200,
+    "n_neighbors": 3,
+    "n_clusters": 3,
+    "min_samples": 7,
+    "xi": 0.05,
+    "min_cluster_size": 0.1,
+    "allow_single_cluster": True,
+    "hdbscan_min_cluster_size": 15,
+    "hdbscan_min_samples": 3,
+    "random_state": 42,
+}
+
+datasets = [
+    (
+        noisy_circles,
+        {
+            "damping": 0.77,
+            "preference": -240,
+            "quantile": 0.2,
+            "n_clusters": 2,
+            "min_samples": 7,
+            "xi": 0.08,
+        },
+    ),
+    (
+        noisy_moons,
+        {
+            "damping": 0.75,
+            "preference": -220,
+            "n_clusters": 2,
+            "min_samples": 7,
+            "xi": 0.1,
+        },
+    ),
+    # (
+    #     varied,
+    #     {
+    #         "eps": 0.18,
+    #         "n_neighbors": 2,
+    #         "min_samples": 7,
+    #         "xi": 0.01,
+    #         "min_cluster_size": 0.2,
+    #     },
+    # ),
+    (
+        aniso,
+        {
+            "eps": 0.15,
+            "n_neighbors": 2,
+            "min_samples": 7,
+            "xi": 0.1,
+            "min_cluster_size": 0.2,
+        },
+    ),
+    (blobs, {"min_samples": 7, "xi": 0.1, "min_cluster_size": 0.2}),
+    (no_structure, {}),
+]
+
+for i_dataset, (dataset, algo_params) in enumerate(datasets):
+    # update parameters with dataset-specific values
+    params = default_base.copy()
+    params.update(algo_params)
+
+    X, y = dataset
+
+    # normalize dataset for easier parameter selection
+    X = StandardScaler().fit_transform(X)
+
+    # estimate bandwidth for mean shift
+    bandwidth = cluster.estimate_bandwidth(X, quantile=params["quantile"])
+
+    # connectivity matrix for structured Ward
+    connectivity = kneighbors_graph(
+        X, n_neighbors=params["n_neighbors"], include_self=False
+    )
+    # make connectivity symmetric
+    connectivity = 0.5 * (connectivity + connectivity.T)
+
+    # ============
+    # Create cluster objects
+    # ============
+    two_means = cluster.MiniBatchKMeans(
+        n_clusters=params["n_clusters"],
+        n_init="auto",
+        random_state=params["random_state"],
+    )
+    # spectral = cluster.SpectralClustering(
+    #     n_clusters=params["n_clusters"],
+    #     eigen_solver="arpack",
+    #     affinity="nearest_neighbors",
+    #     random_state=params["random_state"],
+    # )
+    dbscan = cluster.DBSCAN(eps=params["eps"])
+    gmm = mixture.GaussianMixture(
+        n_components=params["n_clusters"],
+        covariance_type="full",
+        random_state=params["random_state"],
+    )
+
+    clustering_algorithms = (
+        ("MiniBatch\nKMeans", two_means),
+        #("Affinity\nPropagation", affinity_propagation),
+        #("MeanShift", ms),
+        #("Spectral\nClustering", spectral),
+        #("Ward", ward),
+        #("Agglomerative\nClustering", average_linkage),
+        ("DBSCAN", dbscan),
+        #("HDBSCAN", hdbscan),
+        #("OPTICS", optics),
+        #("BIRCH", birch),
+        ("Gaussian\nMixture", gmm),
+    )
+
+    for name, algorithm in clustering_algorithms:
+        t0 = time.time()
+
+        # catch warnings related to kneighbors_graph
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message="the number of connected components of the "
+                + "connectivity matrix is [0-9]{1,2}"
+                + " > 1. Completing it to avoid stopping the tree early.",
+                category=UserWarning,
+            )
+            warnings.filterwarnings(
+                "ignore",
+                message="Graph is not fully connected, spectral embedding"
+                + " may not work as expected.",
+                category=UserWarning,
+            )
+            algorithm.fit(X)
+
+        t1 = time.time()
+        if hasattr(algorithm, "labels_"):
+            y_pred = algorithm.labels_.astype(int)
+        else:
+            y_pred = algorithm.predict(X)
+
+        plt.subplot(len(datasets), len(clustering_algorithms), plot_num)
+        if i_dataset == 0:
+            plt.title(name, size=18)
+
+        colors = np.array(
+            list(
+                islice(
+                    cycle(
+                        [
+                            "#377eb8",
+                            "#ff7f00",
+                            "#4daf4a",
+                            "#f781bf",
+                            "#a65628",
+                            "#984ea3",
+                            "#999999",
+                            "#e41a1c",
+                            "#dede00",
+                        ]
+                    ),
+                    int(max(y_pred) + 1),
+                )
+            )
+        )
+        # add black color for outliers (if any)
+        colors = np.append(colors, ["#000000"])
+        plt.scatter(X[:, 0], X[:, 1], s=10, color=colors[y_pred])
+
+        plt.xlim(-2.5, 2.5)
+        plt.ylim(-2.5, 2.5)
+        plt.xticks(())
+        plt.yticks(())
+        plt.text(
+            0.99,
+            0.01,
+            ("%.2fs" % (t1 - t0)).lstrip("0"),
+            transform=plt.gca().transAxes,
+            size=15,
+            horizontalalignment="right",
+        )
+        plot_num += 1
+
+plt.show()
+```
+
+## Hyperparameter Tuning: More Heuristics {.smaller .crunch-title}
+
+::: {layout-ncol=2 layout-valign="center"}
+
+::: {#elbow-text}
+* **Inertia**: A measure of how "well-clustered" a dataset is
+* Sum of squared distances of samples to their closest cluster center
+* A good model is one with low inertia **and** low $K$ (tradeoff, akin to bias-variance)
+* **Elbow Method**: Find the $K$ value after which **decrease in inertia** begins to slow &rarr;
+
+:::
+
+![Figure from [this blog post](https://ankitajhumu.medium.com/selecting-number-of-clusters-in-k-mean-clustering-d60a1f85d65b){target='_blank'} by [Ankita Banerji](https://ankitajhumu.medium.com/){target='_blank'}](images/elbow-method.png){fig-align="center"}
+
+:::
 
 ## References
 
 ::: {#refs}
 :::
-
-## Appendix I: Maximum Likelihood Estimation {.smaller}
-
-* But if $x^* = \argmax_x\left[ \log(f(x)) \right]$ then $x^* = \argmax_x\left[f(x)\right]$, so we can just find
-
-  $$
-  \begin{align*}
-  \boldsymbol\theta^*_\mathcal{D} = \argmax_\theta \ell(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \argmax_\theta \left[ \ell(X_1 = \mathbf{v}_1 \mid \paramDist) + \cdots + \ell(X_N = \mathbf{v}_N \mid \paramDist) \right]
-  \end{align*}
-  $$

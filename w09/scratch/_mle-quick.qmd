@@ -1,0 +1,11 @@
+
+## Appendix I: Maximum Likelihood Estimation {.smaller}
+
+* But if $x^* = \argmax_x\left[ \log(f(x)) \right]$ then $x^* = \argmax_x\left[f(x)\right]$, so we can just find
+
+  $$
+  \begin{align*}
+  \boldsymbol\theta^*_\mathcal{D} = \argmax_\theta \ell(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \argmax_\theta \left[ \ell(X_1 = \mathbf{v}_1 \mid \paramDist) + \cdots + \ell(X_N = \mathbf{v}_N \mid \paramDist) \right]
+  \end{align*}
+  $$
+

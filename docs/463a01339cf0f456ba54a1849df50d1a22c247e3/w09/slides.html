@@ -837,7 +837,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <li><p>We want to find the <em>most likely</em> <span class="math inline">\(\paramDist\)</span>, that is, <span class="math inline">\(\boldsymbol\theta^*_\mathcal{D} = \argmax_{\paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \paramDist)\)</span></p></li>
 <li><p>This value <span class="math inline">\(\boldsymbol\theta^*_\mathcal{D}\)</span> is called the <strong>Maximum Likelihood Estimate</strong> of <span class="math inline">\(\paramDist\)</span>, and is easy to find using calculus tricks<sup>1</sup></p></li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>If you’re in my DSAN5100 class, then you already know this! If you’re not, and you don’t believe me, <a href="https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation">check out the slides here</a></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>If you’re in my DSAN5100 class, then you already know this! If not, <a href="https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation" target="_blank">check out the MLE slides here<i class="bi bi-box-arrow-up-right ps-1"></i></a> for more details</p></li></ol></aside></section>
 <section id="handling-multiple-clusters" class="slide level2 smaller crunch-title crunch-ul crunch-ul-left crunch-figures smaller-math smaller-inline">
 <h2>Handling Multiple Clusters</h2>
 <div class="columns">
@@ -1125,7 +1125,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <p><em>You could take these two heuristics, formalize them, and derive the rest of lecture</em> 😉</p>
 
 <img data-src="images/clustering-heuristics.jpeg" class="r-stretch quarto-figure-center"><p class="caption">Image from <a href="http://courses.washington.edu/css490/2012.Winter/lecture_slides/10_clustering_basics_1.pdf" target="_blank"><em>Introduction to Machine Learning</em></a>, University of Washington (2012)</p></section>
-<section id="hierarchical-clustering" class="slide level2 crunch-title crunch-ul crunch-quarto-figure crunch-figures crunch-images">
+<section id="hierarchical-clustering" class="slide level2 crunch-title crunch-ul crunch-quarto-figure crunch-figures crunch-images crunch-lists">
 <h2>Hierarchical Clustering</h2>
 <ul>
 <li>If our task is to <strong>partition</strong>, we’re done!</li>
@@ -1140,64 +1140,59 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </figure>
 </div>
 </div>
-<div class="cell quarto-layout-cell" data-fig-width="6" data-fig-height="3" style="flex-basis: 50.0%;justify-content: center;">
-<div class="cell-output-display">
-<div>
-<div>
-<svg width="576" height="288" viewbox="0.00 0.00 607.00 182.40" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 178.4)">
-<title>
-G
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-178.4 603,-178.4 603,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_animal
-</title>
-<polygon fill="none" stroke="black" points="8,-8 8,-166.4 591,-166.4 591,-8 8,-8"></polygon> <text text-anchor="middle" x="299.5" y="-149.8" font-family="Times,serif" font-size="14.00">Animals</text> </g> <g id="clust2" class="cluster">
-<title>
-cluster_vertebrate
-</title>
-<polygon fill="none" stroke="black" points="222,-16 222,-133.6 583,-133.6 583,-16 222,-16"></polygon> <text text-anchor="middle" x="402.5" y="-117" font-family="Times,serif" font-size="14.00">Vertebrate</text> </g> <g id="clust3" class="cluster">
-<title>
-cluster_birds
-</title>
-<polygon fill="none" stroke="black" points="389,-24 389,-100.8 575,-100.8 575,-24 389,-24"></polygon> <text text-anchor="middle" x="482" y="-84.2" font-family="Times,serif" font-size="14.00">Birds</text> </g> <g id="clust4" class="cluster">
-<title>
-cluster_mammals
-</title>
-<polygon fill="none" stroke="black" points="230,-24 230,-100.8 381,-100.8 381,-24 230,-24"></polygon> <text text-anchor="middle" x="305.5" y="-84.2" font-family="Times,serif" font-size="14.00">Mammals</text> </g> <g id="clust5" class="cluster">
-<title>
-cluster_legs
-</title>
-<polygon fill="none" stroke="black" points="16,-24 16,-100.8 214,-100.8 214,-24 16,-24"></polygon> <text text-anchor="middle" x="115" y="-84.2" font-family="Times,serif" font-size="14.00">3+ Legs</text> </g> <!-- Eagle --> <g id="node1" class="node">
-<title>
-Eagle
-</title>
-<ellipse fill="none" stroke="black" cx="534" cy="-50" rx="33.04" ry="18"></ellipse> <text text-anchor="middle" x="534" y="-45.8" font-family="Times,serif" font-size="14.00">Eagle</text> </g> <!-- Peacock --> <g id="node2" class="node">
-<title>
-Peacock
-</title>
-<ellipse fill="none" stroke="black" cx="440" cy="-50" rx="43.42" ry="18"></ellipse> <text text-anchor="middle" x="440" y="-45.8" font-family="Times,serif" font-size="14.00">Peacock</text> </g> <!-- Lion --> <g id="node3" class="node">
-<title>
-Lion
-</title>
-<ellipse fill="none" stroke="black" cx="344" cy="-50" rx="29.05" ry="18"></ellipse> <text text-anchor="middle" x="344" y="-45.8" font-family="Times,serif" font-size="14.00">Lion</text> </g> <!-- Bear --> <g id="node4" class="node">
-<title>
-Bear
-</title>
-<ellipse fill="none" stroke="black" cx="267" cy="-50" rx="29.03" ry="18"></ellipse> <text text-anchor="middle" x="267" y="-45.8" font-family="Times,serif" font-size="14.00">Bear</text> </g> <!-- Spider --> <g id="node5" class="node">
-<title>
-Spider
-</title>
-<ellipse fill="none" stroke="black" cx="170" cy="-50" rx="36.5" ry="18"></ellipse> <text text-anchor="middle" x="170" y="-45.8" font-family="Times,serif" font-size="14.00">Spider</text> </g> <!-- Scorpion --> <g id="node6" class="node">
-<title>
-Scorpion
-</title>
-<ellipse fill="none" stroke="black" cx="70" cy="-50" rx="45.81" ry="18"></ellipse> <text text-anchor="middle" x="70" y="-45.8" font-family="Times,serif" font-size="14.00">Scorpion</text> </g> </g>
-</svg>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/hierarchical-flat-v2.svg"></p>
+</figure>
 </div>
 </div>
 </div>
+</div>
+</section>
+<section id="hierarchical-clustering-rightarrow-multilevel-modeling" class="slide level2 smaller title-11 crunch-title crunch-quarto-figure crunch-figures crunch-fig-top crunch-images crunch-p">
+<h2>Hierarchical Clustering <span class="math inline">\(\rightarrow\)</span> Multilevel Modeling</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div id="multilevel-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li><strong>Extremely powerful modeling tool</strong> for statistical inference!
+<ul>
+<li>Learning about <strong>eagles</strong> <span class="math inline">\(\implies\)</span> learning about <strong>birds</strong></li>
+<li>Surveying <strong>DSAN 5000 students</strong> <span class="math inline">\(\implies\)</span> <strong>Georgetown students</strong></li>
+<li>We can <strong>pool</strong> information from US <strong>states</strong> into <strong>national</strong> estimates</li>
+</ul></li>
+<li>And, when we compute <strong>averages</strong>, we can take into account our <strong>relative certainty/uncertainty</strong> about units at <strong>each level</strong> (read more <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/multilevel-ma.html" target="_blank">here</a>)</li>
+</ul>
+<div style="float: right;">
+<p><em>Image from <span class="citation" data-cites="gelman_red_2009">Gelman (<a href="#/references" role="doc-biblioref" onclick="">2009</a>)</span></em></p>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/gelman-states.jpeg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="in-practice" class="slide level2 smaller crunch-title crunch-images crunch-fig-top crunch-quarto-figure crunch-figcaption">
+<h2>In Practice</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/1960-1980_Katsakioris_RegionalTotals.PNG"></p>
+<figcaption><em>Above</em>: Data from Soviet archives; <em>Above Right</em>: US Military archives; <em>Below Right</em>: NATO archives</figcaption>
+</figure>
+</div>
+</div>
+<div id="right-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="images/1970-1978_regional-totals-crop.jpeg"></p>
+<p><img data-src="images/departures.jpeg" style="width:100.0%"></p>
 </div>
 </div>
 </div>
@@ -1207,7 +1202,7 @@ Scorpion
 <h1>K-Means Clustering</h1>
 
 </section>
-<section id="what-is-k-means-clustering" class="slide level2 crunch-title crunch-ul crunch-images crunch-quarto-layout-panel">
+<section id="what-is-k-means-clustering" class="slide level2 crunch-title crunch-ul crunch-images crunch-quarto-layout-panel crunch-lists">
 <h2>What is K-Means Clustering?</h2>
 <ul>
 <li><strong>Operationalizes</strong> our two heuristics by simultaneously:
@@ -1276,14 +1271,388 @@ Scorpion
 </div>
 </div>
 </section>
-<section id="in-pictures" class="slide level2">
+<section id="in-pictures" class="slide level2 smaller crunch-title">
 <h2>In Pictures</h2>
+<script src="assets/d3.v3.min.js"></script>
+<script src="assets/choose.js"></script>
+<script src="assets/generate.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/kmeans.js"></script>
+<script src="assets/main.js"></script>
+<div id="svg_area" style="margin-top: 0px; font-size: 0.75em;"></div>
+<div id="button_container" style="display: flex; flex-direction: row;">
+<div id="button_area" style="margin-top: 4px; flex-grow: 1;"></div><div style="float: right; margin-top: 4px;">Adapted from <a href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/" target="_blank">this blog post</a>
+</div>
+<script>restart();</script>
+</div></section>
+<section id="in-code-pictures" class="slide level2 smaller crunch-code crunch-title">
+<h2>In Code + Pictures</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">import</span> matplotlib.colors</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb7-4"><a href="#cb7-4"></a>cluster_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/cluster_data.csv"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5"></a>X <span class="op">=</span> cluster_df[[<span class="st">'x'</span>,<span class="st">'y'</span>]].values</span>
+<span id="cb7-6"><a href="#cb7-6"></a>kmc_model <span class="op">=</span> KMeans(</span>
+<span id="cb7-7"><a href="#cb7-7"></a>  n_clusters<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb7-8"><a href="#cb7-8"></a>  init<span class="op">=</span><span class="st">'k-means++'</span>,</span>
+<span id="cb7-9"><a href="#cb7-9"></a>  verbose<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb7-10"><a href="#cb7-10"></a>  random_state<span class="op">=</span><span class="dv">5000</span>,</span>
+<span id="cb7-11"><a href="#cb7-11"></a>  copy_x<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb7-12"><a href="#cb7-12"></a>  algorithm<span class="op">=</span><span class="st">'lloyd'</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>)<span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a>kmc_model.fit(X)<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>y_pred_vals <span class="op">=</span> kmc_model.predict(X)</span>
+<span id="cb7-16"><a href="#cb7-16"></a>y_pred_df <span class="op">=</span> pd.DataFrame({<span class="st">'y_pred'</span>: y_pred_vals})</span>
+<span id="cb7-17"><a href="#cb7-17"></a>y_pred_df.to_csv(<span class="st">"assets/kmc_preds.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-18"><a href="#cb7-18"></a>kmc_centroid_df <span class="op">=</span> pd.DataFrame(kmc_model.cluster_centers_.transpose(), columns<span class="op">=</span>[<span class="st">'x'</span>,<span class="st">'y'</span>])</span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#disp(kmc_centroid_df)</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>kmc_centroid_df.to_csv(<span class="st">"assets/kmc_centroids.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-21"><a href="#cb7-21"></a></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-23"><a href="#cb7-23"></a><span class="co"># Step size of the mesh. Decrease to increase the quality of the VQ.</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>h <span class="op">=</span> <span class="fl">0.01</span>  <span class="co"># point in the mesh [x_min, x_max]x[y_min, y_max].</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a></span>
+<span id="cb7-26"><a href="#cb7-26"></a><span class="co"># Plot the decision boundary. For that, we will assign a color to each</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a>bpad <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> bpad, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> bpad</span>
+<span id="cb7-29"><a href="#cb7-29"></a>y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> bpad, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> bpad</span>
+<span id="cb7-30"><a href="#cb7-30"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))</span>
+<span id="cb7-31"><a href="#cb7-31"></a></span>
+<span id="cb7-32"><a href="#cb7-32"></a><span class="co"># Obtain labels for each point in mesh. Use last trained model.</span></span>
+<span id="cb7-33"><a href="#cb7-33"></a>Z <span class="op">=</span> kmc_model.predict(np.c_[xx.ravel(), yy.ravel()])</span>
+<span id="cb7-34"><a href="#cb7-34"></a></span>
+<span id="cb7-35"><a href="#cb7-35"></a><span class="co"># Put the result into a color plot</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a><span class="co">#custom_cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", ["red","violet","blue"])</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a><span class="co">#custom_cmap = matplotlib.colors.ListedColormap(['white', 'red'])</span></span>
+<span id="cb7-38"><a href="#cb7-38"></a><span class="co">#custom_cmap = matplotlib.colors.ListedColormap(cb_palette).reversed()</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a>custom_cmap <span class="op">=</span> matplotlib.colors.ListedColormap([cb_palette[<span class="dv">0</span>], cb_palette[<span class="dv">2</span>], cb_palette[<span class="dv">1</span>]])</span>
+<span id="cb7-40"><a href="#cb7-40"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb7-41"><a href="#cb7-41"></a>plt.figure(<span class="dv">1</span>)</span>
+<span id="cb7-42"><a href="#cb7-42"></a>plt.clf()</span>
+<span id="cb7-43"><a href="#cb7-43"></a>plt.imshow(</span>
+<span id="cb7-44"><a href="#cb7-44"></a>    Z,</span>
+<span id="cb7-45"><a href="#cb7-45"></a>    interpolation<span class="op">=</span><span class="st">"nearest"</span>,</span>
+<span id="cb7-46"><a href="#cb7-46"></a>    extent<span class="op">=</span>(xx.<span class="bu">min</span>(), xx.<span class="bu">max</span>(), yy.<span class="bu">min</span>(), yy.<span class="bu">max</span>()),</span>
+<span id="cb7-47"><a href="#cb7-47"></a>    <span class="co">#cmap=plt.cm.Paired,</span></span>
+<span id="cb7-48"><a href="#cb7-48"></a>    cmap<span class="op">=</span>custom_cmap,</span>
+<span id="cb7-49"><a href="#cb7-49"></a>    aspect<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb7-50"><a href="#cb7-50"></a>    origin<span class="op">=</span><span class="st">"lower"</span>,</span>
+<span id="cb7-51"><a href="#cb7-51"></a>)</span>
+<span id="cb7-52"><a href="#cb7-52"></a></span>
+<span id="cb7-53"><a href="#cb7-53"></a><span class="co"># And plot the points</span></span>
+<span id="cb7-54"><a href="#cb7-54"></a>plt.plot(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], <span class="st">"o"</span>, markersize<span class="op">=</span><span class="dv">6</span>, color<span class="op">=</span><span class="st">'white'</span>, markerfacecolor<span class="op">=</span><span class="st">'black'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb7-55"><a href="#cb7-55"></a><span class="co"># Plot the centroids as a white X</span></span>
+<span id="cb7-56"><a href="#cb7-56"></a>centroids <span class="op">=</span> kmc_model.cluster_centers_</span>
+<span id="cb7-57"><a href="#cb7-57"></a>plt.scatter(</span>
+<span id="cb7-58"><a href="#cb7-58"></a>    centroids[:, <span class="dv">0</span>],</span>
+<span id="cb7-59"><a href="#cb7-59"></a>    centroids[:, <span class="dv">1</span>],</span>
+<span id="cb7-60"><a href="#cb7-60"></a>    marker<span class="op">=</span><span class="st">"*"</span>,</span>
+<span id="cb7-61"><a href="#cb7-61"></a>    s<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb7-62"><a href="#cb7-62"></a>    linewidths<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb7-63"><a href="#cb7-63"></a>    color<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb7-64"><a href="#cb7-64"></a>    facecolor<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb7-65"><a href="#cb7-65"></a>    zorder<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb7-66"><a href="#cb7-66"></a>)</span>
+<span id="cb7-67"><a href="#cb7-67"></a><span class="co"># Plot gaussian means as... smth else</span></span>
+<span id="cb7-68"><a href="#cb7-68"></a>plt.scatter(</span>
+<span id="cb7-69"><a href="#cb7-69"></a>    [<span class="fl">0.2</span>,<span class="fl">0.8</span>],</span>
+<span id="cb7-70"><a href="#cb7-70"></a>    [<span class="fl">0.8</span>,<span class="fl">0.2</span>],</span>
+<span id="cb7-71"><a href="#cb7-71"></a>    marker<span class="op">=</span><span class="st">"*"</span>,</span>
+<span id="cb7-72"><a href="#cb7-72"></a>    s<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb7-73"><a href="#cb7-73"></a>    linewidths<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb7-74"><a href="#cb7-74"></a>    color<span class="op">=</span>cb_palette[<span class="dv">3</span>],</span>
+<span id="cb7-75"><a href="#cb7-75"></a>    facecolor<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb7-76"><a href="#cb7-76"></a>    zorder<span class="op">=</span><span class="dv">9</span>,</span>
+<span id="cb7-77"><a href="#cb7-77"></a>)</span>
+<span id="cb7-78"><a href="#cb7-78"></a>plt.title(</span>
+<span id="cb7-79"><a href="#cb7-79"></a>    <span class="st">"K-means clustering on the Gaussian mixture data"</span></span>
+<span id="cb7-80"><a href="#cb7-80"></a>)</span>
+<span id="cb7-81"><a href="#cb7-81"></a>plt.legend([</span>
+<span id="cb7-82"><a href="#cb7-82"></a>  <span class="st">'Original Data'</span>,</span>
+<span id="cb7-83"><a href="#cb7-83"></a>  <span class="st">'K-Means Centroids'</span>,</span>
+<span id="cb7-84"><a href="#cb7-84"></a>  <span class="st">'True Centroids (DGP)'</span></span>
+<span id="cb7-85"><a href="#cb7-85"></a>])</span>
+<span id="cb7-86"><a href="#cb7-86"></a><span class="co">#plt.xlim(x_min, x_max);</span></span>
+<span id="cb7-87"><a href="#cb7-87"></a><span class="co">#plt.ylim(y_min, y_max);</span></span>
+<span id="cb7-88"><a href="#cb7-88"></a><span class="co">#plt.xticks(());</span></span>
+<span id="cb7-89"><a href="#cb7-89"></a><span class="co">#plt.yticks(());</span></span>
+<span id="cb7-90"><a href="#cb7-90"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="index_files/figure-revealjs/sklearn-kmc-1.png" width="614" class="r-stretch quarto-figure-center"><p class="caption">Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py" target="_blank">Scikit-learn User Guide</a></p></section></section>
+<section>
+<section id="fancier-clustering-and-hyperparameter-tuning-methods" class="title-slide slide level1 center" data-stack-name="Fancier Methods">
+<h1>Fancier Clustering and Hyperparameter Tuning Methods</h1>
+
 </section>
-<section id="in-code-1" class="slide level2">
-<h2>In Code</h2>
-</section>
-<section id="dbscan" class="slide level2">
+<section id="dbscan" class="slide level2 smaller crunch-code crunch-title">
 <h2>DBSCAN</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> time</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="im">import</span> warnings</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="im">from</span> itertools <span class="im">import</span> cycle, islice</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="im">from</span> sklearn <span class="im">import</span> cluster, datasets, mixture</span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> kneighbors_graph</span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co"># ============</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co"># Generate datasets. We choose the size big enough to see the scalability</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co"># of the algorithms, but not too big to avoid too long running times</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co"># ============</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>n_samples <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>seed <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>noisy_circles <span class="op">=</span> datasets.make_circles(</span>
+<span id="cb8-19"><a href="#cb8-19"></a>    n_samples<span class="op">=</span>n_samples, factor<span class="op">=</span><span class="fl">0.5</span>, noise<span class="op">=</span><span class="fl">0.05</span>, random_state<span class="op">=</span>seed</span>
+<span id="cb8-20"><a href="#cb8-20"></a>)</span>
+<span id="cb8-21"><a href="#cb8-21"></a>noisy_moons <span class="op">=</span> datasets.make_moons(n_samples<span class="op">=</span>n_samples, noise<span class="op">=</span><span class="fl">0.05</span>, random_state<span class="op">=</span>seed)</span>
+<span id="cb8-22"><a href="#cb8-22"></a>blobs <span class="op">=</span> datasets.make_blobs(n_samples<span class="op">=</span>n_samples, random_state<span class="op">=</span>seed)</span>
+<span id="cb8-23"><a href="#cb8-23"></a>rng <span class="op">=</span> np.random.RandomState(seed)</span>
+<span id="cb8-24"><a href="#cb8-24"></a>no_structure <span class="op">=</span> rng.rand(n_samples, <span class="dv">2</span>), <span class="va">None</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a></span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="co"># Anisotropicly distributed data</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a>random_state <span class="op">=</span> <span class="dv">170</span></span>
+<span id="cb8-28"><a href="#cb8-28"></a>X, y <span class="op">=</span> datasets.make_blobs(n_samples<span class="op">=</span>n_samples, random_state<span class="op">=</span>random_state)</span>
+<span id="cb8-29"><a href="#cb8-29"></a>transformation <span class="op">=</span> [[<span class="fl">0.6</span>, <span class="op">-</span><span class="fl">0.6</span>], [<span class="op">-</span><span class="fl">0.4</span>, <span class="fl">0.8</span>]]</span>
+<span id="cb8-30"><a href="#cb8-30"></a>X_aniso <span class="op">=</span> np.dot(X, transformation)</span>
+<span id="cb8-31"><a href="#cb8-31"></a>aniso <span class="op">=</span> (X_aniso, y)</span>
+<span id="cb8-32"><a href="#cb8-32"></a></span>
+<span id="cb8-33"><a href="#cb8-33"></a><span class="co"># blobs with varied variances</span></span>
+<span id="cb8-34"><a href="#cb8-34"></a>varied <span class="op">=</span> datasets.make_blobs(</span>
+<span id="cb8-35"><a href="#cb8-35"></a>    n_samples<span class="op">=</span>n_samples, cluster_std<span class="op">=</span>[<span class="fl">1.0</span>, <span class="fl">2.5</span>, <span class="fl">0.5</span>], random_state<span class="op">=</span>random_state</span>
+<span id="cb8-36"><a href="#cb8-36"></a>)</span>
+<span id="cb8-37"><a href="#cb8-37"></a></span>
+<span id="cb8-38"><a href="#cb8-38"></a><span class="co"># ============</span></span>
+<span id="cb8-39"><a href="#cb8-39"></a><span class="co"># Set up cluster parameters</span></span>
+<span id="cb8-40"><a href="#cb8-40"></a><span class="co"># ============</span></span>
+<span id="cb8-41"><a href="#cb8-41"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">9</span> <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span>, <span class="dv">13</span>))</span>
+<span id="cb8-42"><a href="#cb8-42"></a>plt.subplots_adjust(</span>
+<span id="cb8-43"><a href="#cb8-43"></a>    left<span class="op">=</span><span class="fl">0.02</span>, right<span class="op">=</span><span class="fl">0.98</span>, bottom<span class="op">=</span><span class="fl">0.001</span>, top<span class="op">=</span><span class="fl">0.95</span>, wspace<span class="op">=</span><span class="fl">0.05</span>, hspace<span class="op">=</span><span class="fl">0.01</span></span>
+<span id="cb8-44"><a href="#cb8-44"></a>)</span>
+<span id="cb8-45"><a href="#cb8-45"></a></span>
+<span id="cb8-46"><a href="#cb8-46"></a>plot_num <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-47"><a href="#cb8-47"></a></span>
+<span id="cb8-48"><a href="#cb8-48"></a>default_base <span class="op">=</span> {</span>
+<span id="cb8-49"><a href="#cb8-49"></a>    <span class="st">"quantile"</span>: <span class="fl">0.3</span>,</span>
+<span id="cb8-50"><a href="#cb8-50"></a>    <span class="st">"eps"</span>: <span class="fl">0.3</span>,</span>
+<span id="cb8-51"><a href="#cb8-51"></a>    <span class="st">"damping"</span>: <span class="fl">0.9</span>,</span>
+<span id="cb8-52"><a href="#cb8-52"></a>    <span class="st">"preference"</span>: <span class="op">-</span><span class="dv">200</span>,</span>
+<span id="cb8-53"><a href="#cb8-53"></a>    <span class="st">"n_neighbors"</span>: <span class="dv">3</span>,</span>
+<span id="cb8-54"><a href="#cb8-54"></a>    <span class="st">"n_clusters"</span>: <span class="dv">3</span>,</span>
+<span id="cb8-55"><a href="#cb8-55"></a>    <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb8-56"><a href="#cb8-56"></a>    <span class="st">"xi"</span>: <span class="fl">0.05</span>,</span>
+<span id="cb8-57"><a href="#cb8-57"></a>    <span class="st">"min_cluster_size"</span>: <span class="fl">0.1</span>,</span>
+<span id="cb8-58"><a href="#cb8-58"></a>    <span class="st">"allow_single_cluster"</span>: <span class="va">True</span>,</span>
+<span id="cb8-59"><a href="#cb8-59"></a>    <span class="st">"hdbscan_min_cluster_size"</span>: <span class="dv">15</span>,</span>
+<span id="cb8-60"><a href="#cb8-60"></a>    <span class="st">"hdbscan_min_samples"</span>: <span class="dv">3</span>,</span>
+<span id="cb8-61"><a href="#cb8-61"></a>    <span class="st">"random_state"</span>: <span class="dv">42</span>,</span>
+<span id="cb8-62"><a href="#cb8-62"></a>}</span>
+<span id="cb8-63"><a href="#cb8-63"></a></span>
+<span id="cb8-64"><a href="#cb8-64"></a>datasets <span class="op">=</span> [</span>
+<span id="cb8-65"><a href="#cb8-65"></a>    (</span>
+<span id="cb8-66"><a href="#cb8-66"></a>        noisy_circles,</span>
+<span id="cb8-67"><a href="#cb8-67"></a>        {</span>
+<span id="cb8-68"><a href="#cb8-68"></a>            <span class="st">"damping"</span>: <span class="fl">0.77</span>,</span>
+<span id="cb8-69"><a href="#cb8-69"></a>            <span class="st">"preference"</span>: <span class="op">-</span><span class="dv">240</span>,</span>
+<span id="cb8-70"><a href="#cb8-70"></a>            <span class="st">"quantile"</span>: <span class="fl">0.2</span>,</span>
+<span id="cb8-71"><a href="#cb8-71"></a>            <span class="st">"n_clusters"</span>: <span class="dv">2</span>,</span>
+<span id="cb8-72"><a href="#cb8-72"></a>            <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb8-73"><a href="#cb8-73"></a>            <span class="st">"xi"</span>: <span class="fl">0.08</span>,</span>
+<span id="cb8-74"><a href="#cb8-74"></a>        },</span>
+<span id="cb8-75"><a href="#cb8-75"></a>    ),</span>
+<span id="cb8-76"><a href="#cb8-76"></a>    (</span>
+<span id="cb8-77"><a href="#cb8-77"></a>        noisy_moons,</span>
+<span id="cb8-78"><a href="#cb8-78"></a>        {</span>
+<span id="cb8-79"><a href="#cb8-79"></a>            <span class="st">"damping"</span>: <span class="fl">0.75</span>,</span>
+<span id="cb8-80"><a href="#cb8-80"></a>            <span class="st">"preference"</span>: <span class="op">-</span><span class="dv">220</span>,</span>
+<span id="cb8-81"><a href="#cb8-81"></a>            <span class="st">"n_clusters"</span>: <span class="dv">2</span>,</span>
+<span id="cb8-82"><a href="#cb8-82"></a>            <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb8-83"><a href="#cb8-83"></a>            <span class="st">"xi"</span>: <span class="fl">0.1</span>,</span>
+<span id="cb8-84"><a href="#cb8-84"></a>        },</span>
+<span id="cb8-85"><a href="#cb8-85"></a>    ),</span>
+<span id="cb8-86"><a href="#cb8-86"></a>    <span class="co"># (</span></span>
+<span id="cb8-87"><a href="#cb8-87"></a>    <span class="co">#     varied,</span></span>
+<span id="cb8-88"><a href="#cb8-88"></a>    <span class="co">#     {</span></span>
+<span id="cb8-89"><a href="#cb8-89"></a>    <span class="co">#         "eps": 0.18,</span></span>
+<span id="cb8-90"><a href="#cb8-90"></a>    <span class="co">#         "n_neighbors": 2,</span></span>
+<span id="cb8-91"><a href="#cb8-91"></a>    <span class="co">#         "min_samples": 7,</span></span>
+<span id="cb8-92"><a href="#cb8-92"></a>    <span class="co">#         "xi": 0.01,</span></span>
+<span id="cb8-93"><a href="#cb8-93"></a>    <span class="co">#         "min_cluster_size": 0.2,</span></span>
+<span id="cb8-94"><a href="#cb8-94"></a>    <span class="co">#     },</span></span>
+<span id="cb8-95"><a href="#cb8-95"></a>    <span class="co"># ),</span></span>
+<span id="cb8-96"><a href="#cb8-96"></a>    (</span>
+<span id="cb8-97"><a href="#cb8-97"></a>        aniso,</span>
+<span id="cb8-98"><a href="#cb8-98"></a>        {</span>
+<span id="cb8-99"><a href="#cb8-99"></a>            <span class="st">"eps"</span>: <span class="fl">0.15</span>,</span>
+<span id="cb8-100"><a href="#cb8-100"></a>            <span class="st">"n_neighbors"</span>: <span class="dv">2</span>,</span>
+<span id="cb8-101"><a href="#cb8-101"></a>            <span class="st">"min_samples"</span>: <span class="dv">7</span>,</span>
+<span id="cb8-102"><a href="#cb8-102"></a>            <span class="st">"xi"</span>: <span class="fl">0.1</span>,</span>
+<span id="cb8-103"><a href="#cb8-103"></a>            <span class="st">"min_cluster_size"</span>: <span class="fl">0.2</span>,</span>
+<span id="cb8-104"><a href="#cb8-104"></a>        },</span>
+<span id="cb8-105"><a href="#cb8-105"></a>    ),</span>
+<span id="cb8-106"><a href="#cb8-106"></a>    (blobs, {<span class="st">"min_samples"</span>: <span class="dv">7</span>, <span class="st">"xi"</span>: <span class="fl">0.1</span>, <span class="st">"min_cluster_size"</span>: <span class="fl">0.2</span>}),</span>
+<span id="cb8-107"><a href="#cb8-107"></a>    (no_structure, {}),</span>
+<span id="cb8-108"><a href="#cb8-108"></a>]</span>
+<span id="cb8-109"><a href="#cb8-109"></a></span>
+<span id="cb8-110"><a href="#cb8-110"></a><span class="cf">for</span> i_dataset, (dataset, algo_params) <span class="kw">in</span> <span class="bu">enumerate</span>(datasets):</span>
+<span id="cb8-111"><a href="#cb8-111"></a>    <span class="co"># update parameters with dataset-specific values</span></span>
+<span id="cb8-112"><a href="#cb8-112"></a>    params <span class="op">=</span> default_base.copy()</span>
+<span id="cb8-113"><a href="#cb8-113"></a>    params.update(algo_params)</span>
+<span id="cb8-114"><a href="#cb8-114"></a></span>
+<span id="cb8-115"><a href="#cb8-115"></a>    X, y <span class="op">=</span> dataset</span>
+<span id="cb8-116"><a href="#cb8-116"></a></span>
+<span id="cb8-117"><a href="#cb8-117"></a>    <span class="co"># normalize dataset for easier parameter selection</span></span>
+<span id="cb8-118"><a href="#cb8-118"></a>    X <span class="op">=</span> StandardScaler().fit_transform(X)</span>
+<span id="cb8-119"><a href="#cb8-119"></a></span>
+<span id="cb8-120"><a href="#cb8-120"></a>    <span class="co"># estimate bandwidth for mean shift</span></span>
+<span id="cb8-121"><a href="#cb8-121"></a>    bandwidth <span class="op">=</span> cluster.estimate_bandwidth(X, quantile<span class="op">=</span>params[<span class="st">"quantile"</span>])</span>
+<span id="cb8-122"><a href="#cb8-122"></a></span>
+<span id="cb8-123"><a href="#cb8-123"></a>    <span class="co"># connectivity matrix for structured Ward</span></span>
+<span id="cb8-124"><a href="#cb8-124"></a>    connectivity <span class="op">=</span> kneighbors_graph(</span>
+<span id="cb8-125"><a href="#cb8-125"></a>        X, n_neighbors<span class="op">=</span>params[<span class="st">"n_neighbors"</span>], include_self<span class="op">=</span><span class="va">False</span></span>
+<span id="cb8-126"><a href="#cb8-126"></a>    )</span>
+<span id="cb8-127"><a href="#cb8-127"></a>    <span class="co"># make connectivity symmetric</span></span>
+<span id="cb8-128"><a href="#cb8-128"></a>    connectivity <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> (connectivity <span class="op">+</span> connectivity.T)</span>
+<span id="cb8-129"><a href="#cb8-129"></a></span>
+<span id="cb8-130"><a href="#cb8-130"></a>    <span class="co"># ============</span></span>
+<span id="cb8-131"><a href="#cb8-131"></a>    <span class="co"># Create cluster objects</span></span>
+<span id="cb8-132"><a href="#cb8-132"></a>    <span class="co"># ============</span></span>
+<span id="cb8-133"><a href="#cb8-133"></a>    two_means <span class="op">=</span> cluster.MiniBatchKMeans(</span>
+<span id="cb8-134"><a href="#cb8-134"></a>        n_clusters<span class="op">=</span>params[<span class="st">"n_clusters"</span>],</span>
+<span id="cb8-135"><a href="#cb8-135"></a>        n_init<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb8-136"><a href="#cb8-136"></a>        random_state<span class="op">=</span>params[<span class="st">"random_state"</span>],</span>
+<span id="cb8-137"><a href="#cb8-137"></a>    )</span>
+<span id="cb8-138"><a href="#cb8-138"></a>    <span class="co"># spectral = cluster.SpectralClustering(</span></span>
+<span id="cb8-139"><a href="#cb8-139"></a>    <span class="co">#     n_clusters=params["n_clusters"],</span></span>
+<span id="cb8-140"><a href="#cb8-140"></a>    <span class="co">#     eigen_solver="arpack",</span></span>
+<span id="cb8-141"><a href="#cb8-141"></a>    <span class="co">#     affinity="nearest_neighbors",</span></span>
+<span id="cb8-142"><a href="#cb8-142"></a>    <span class="co">#     random_state=params["random_state"],</span></span>
+<span id="cb8-143"><a href="#cb8-143"></a>    <span class="co"># )</span></span>
+<span id="cb8-144"><a href="#cb8-144"></a>    dbscan <span class="op">=</span> cluster.DBSCAN(eps<span class="op">=</span>params[<span class="st">"eps"</span>])</span>
+<span id="cb8-145"><a href="#cb8-145"></a>    gmm <span class="op">=</span> mixture.GaussianMixture(</span>
+<span id="cb8-146"><a href="#cb8-146"></a>        n_components<span class="op">=</span>params[<span class="st">"n_clusters"</span>],</span>
+<span id="cb8-147"><a href="#cb8-147"></a>        covariance_type<span class="op">=</span><span class="st">"full"</span>,</span>
+<span id="cb8-148"><a href="#cb8-148"></a>        random_state<span class="op">=</span>params[<span class="st">"random_state"</span>],</span>
+<span id="cb8-149"><a href="#cb8-149"></a>    )</span>
+<span id="cb8-150"><a href="#cb8-150"></a></span>
+<span id="cb8-151"><a href="#cb8-151"></a>    clustering_algorithms <span class="op">=</span> (</span>
+<span id="cb8-152"><a href="#cb8-152"></a>        (<span class="st">"MiniBatch</span><span class="ch">\n</span><span class="st">KMeans"</span>, two_means),</span>
+<span id="cb8-153"><a href="#cb8-153"></a>        <span class="co">#("Affinity\nPropagation", affinity_propagation),</span></span>
+<span id="cb8-154"><a href="#cb8-154"></a>        <span class="co">#("MeanShift", ms),</span></span>
+<span id="cb8-155"><a href="#cb8-155"></a>        <span class="co">#("Spectral\nClustering", spectral),</span></span>
+<span id="cb8-156"><a href="#cb8-156"></a>        <span class="co">#("Ward", ward),</span></span>
+<span id="cb8-157"><a href="#cb8-157"></a>        <span class="co">#("Agglomerative\nClustering", average_linkage),</span></span>
+<span id="cb8-158"><a href="#cb8-158"></a>        (<span class="st">"DBSCAN"</span>, dbscan),</span>
+<span id="cb8-159"><a href="#cb8-159"></a>        <span class="co">#("HDBSCAN", hdbscan),</span></span>
+<span id="cb8-160"><a href="#cb8-160"></a>        <span class="co">#("OPTICS", optics),</span></span>
+<span id="cb8-161"><a href="#cb8-161"></a>        <span class="co">#("BIRCH", birch),</span></span>
+<span id="cb8-162"><a href="#cb8-162"></a>        (<span class="st">"Gaussian</span><span class="ch">\n</span><span class="st">Mixture"</span>, gmm),</span>
+<span id="cb8-163"><a href="#cb8-163"></a>    )</span>
+<span id="cb8-164"><a href="#cb8-164"></a></span>
+<span id="cb8-165"><a href="#cb8-165"></a>    <span class="cf">for</span> name, algorithm <span class="kw">in</span> clustering_algorithms:</span>
+<span id="cb8-166"><a href="#cb8-166"></a>        t0 <span class="op">=</span> time.time()</span>
+<span id="cb8-167"><a href="#cb8-167"></a></span>
+<span id="cb8-168"><a href="#cb8-168"></a>        <span class="co"># catch warnings related to kneighbors_graph</span></span>
+<span id="cb8-169"><a href="#cb8-169"></a>        <span class="cf">with</span> warnings.catch_warnings():</span>
+<span id="cb8-170"><a href="#cb8-170"></a>            warnings.filterwarnings(</span>
+<span id="cb8-171"><a href="#cb8-171"></a>                <span class="st">"ignore"</span>,</span>
+<span id="cb8-172"><a href="#cb8-172"></a>                message<span class="op">=</span><span class="st">"the number of connected components of the "</span></span>
+<span id="cb8-173"><a href="#cb8-173"></a>                <span class="op">+</span> <span class="st">"connectivity matrix is [0-9]{1,2}"</span></span>
+<span id="cb8-174"><a href="#cb8-174"></a>                <span class="op">+</span> <span class="st">" &gt; 1. Completing it to avoid stopping the tree early."</span>,</span>
+<span id="cb8-175"><a href="#cb8-175"></a>                category<span class="op">=</span><span class="pp">UserWarning</span>,</span>
+<span id="cb8-176"><a href="#cb8-176"></a>            )</span>
+<span id="cb8-177"><a href="#cb8-177"></a>            warnings.filterwarnings(</span>
+<span id="cb8-178"><a href="#cb8-178"></a>                <span class="st">"ignore"</span>,</span>
+<span id="cb8-179"><a href="#cb8-179"></a>                message<span class="op">=</span><span class="st">"Graph is not fully connected, spectral embedding"</span></span>
+<span id="cb8-180"><a href="#cb8-180"></a>                <span class="op">+</span> <span class="st">" may not work as expected."</span>,</span>
+<span id="cb8-181"><a href="#cb8-181"></a>                category<span class="op">=</span><span class="pp">UserWarning</span>,</span>
+<span id="cb8-182"><a href="#cb8-182"></a>            )</span>
+<span id="cb8-183"><a href="#cb8-183"></a>            algorithm.fit(X)</span>
+<span id="cb8-184"><a href="#cb8-184"></a></span>
+<span id="cb8-185"><a href="#cb8-185"></a>        t1 <span class="op">=</span> time.time()</span>
+<span id="cb8-186"><a href="#cb8-186"></a>        <span class="cf">if</span> <span class="bu">hasattr</span>(algorithm, <span class="st">"labels_"</span>):</span>
+<span id="cb8-187"><a href="#cb8-187"></a>            y_pred <span class="op">=</span> algorithm.labels_.astype(<span class="bu">int</span>)</span>
+<span id="cb8-188"><a href="#cb8-188"></a>        <span class="cf">else</span>:</span>
+<span id="cb8-189"><a href="#cb8-189"></a>            y_pred <span class="op">=</span> algorithm.predict(X)</span>
+<span id="cb8-190"><a href="#cb8-190"></a></span>
+<span id="cb8-191"><a href="#cb8-191"></a>        plt.subplot(<span class="bu">len</span>(datasets), <span class="bu">len</span>(clustering_algorithms), plot_num)</span>
+<span id="cb8-192"><a href="#cb8-192"></a>        <span class="cf">if</span> i_dataset <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb8-193"><a href="#cb8-193"></a>            plt.title(name, size<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb8-194"><a href="#cb8-194"></a></span>
+<span id="cb8-195"><a href="#cb8-195"></a>        colors <span class="op">=</span> np.array(</span>
+<span id="cb8-196"><a href="#cb8-196"></a>            <span class="bu">list</span>(</span>
+<span id="cb8-197"><a href="#cb8-197"></a>                islice(</span>
+<span id="cb8-198"><a href="#cb8-198"></a>                    cycle(</span>
+<span id="cb8-199"><a href="#cb8-199"></a>                        [</span>
+<span id="cb8-200"><a href="#cb8-200"></a>                            <span class="st">"#377eb8"</span>,</span>
+<span id="cb8-201"><a href="#cb8-201"></a>                            <span class="st">"#ff7f00"</span>,</span>
+<span id="cb8-202"><a href="#cb8-202"></a>                            <span class="st">"#4daf4a"</span>,</span>
+<span id="cb8-203"><a href="#cb8-203"></a>                            <span class="st">"#f781bf"</span>,</span>
+<span id="cb8-204"><a href="#cb8-204"></a>                            <span class="st">"#a65628"</span>,</span>
+<span id="cb8-205"><a href="#cb8-205"></a>                            <span class="st">"#984ea3"</span>,</span>
+<span id="cb8-206"><a href="#cb8-206"></a>                            <span class="st">"#999999"</span>,</span>
+<span id="cb8-207"><a href="#cb8-207"></a>                            <span class="st">"#e41a1c"</span>,</span>
+<span id="cb8-208"><a href="#cb8-208"></a>                            <span class="st">"#dede00"</span>,</span>
+<span id="cb8-209"><a href="#cb8-209"></a>                        ]</span>
+<span id="cb8-210"><a href="#cb8-210"></a>                    ),</span>
+<span id="cb8-211"><a href="#cb8-211"></a>                    <span class="bu">int</span>(<span class="bu">max</span>(y_pred) <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb8-212"><a href="#cb8-212"></a>                )</span>
+<span id="cb8-213"><a href="#cb8-213"></a>            )</span>
+<span id="cb8-214"><a href="#cb8-214"></a>        )</span>
+<span id="cb8-215"><a href="#cb8-215"></a>        <span class="co"># add black color for outliers (if any)</span></span>
+<span id="cb8-216"><a href="#cb8-216"></a>        colors <span class="op">=</span> np.append(colors, [<span class="st">"#000000"</span>])</span>
+<span id="cb8-217"><a href="#cb8-217"></a>        plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span>colors[y_pred])</span>
+<span id="cb8-218"><a href="#cb8-218"></a></span>
+<span id="cb8-219"><a href="#cb8-219"></a>        plt.xlim(<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>)</span>
+<span id="cb8-220"><a href="#cb8-220"></a>        plt.ylim(<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>)</span>
+<span id="cb8-221"><a href="#cb8-221"></a>        plt.xticks(())</span>
+<span id="cb8-222"><a href="#cb8-222"></a>        plt.yticks(())</span>
+<span id="cb8-223"><a href="#cb8-223"></a>        plt.text(</span>
+<span id="cb8-224"><a href="#cb8-224"></a>            <span class="fl">0.99</span>,</span>
+<span id="cb8-225"><a href="#cb8-225"></a>            <span class="fl">0.01</span>,</span>
+<span id="cb8-226"><a href="#cb8-226"></a>            (<span class="st">"</span><span class="sc">%.2f</span><span class="st">s"</span> <span class="op">%</span> (t1 <span class="op">-</span> t0)).lstrip(<span class="st">"0"</span>),</span>
+<span id="cb8-227"><a href="#cb8-227"></a>            transform<span class="op">=</span>plt.gca().transAxes,</span>
+<span id="cb8-228"><a href="#cb8-228"></a>            size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb8-229"><a href="#cb8-229"></a>            horizontalalignment<span class="op">=</span><span class="st">"right"</span>,</span>
+<span id="cb8-230"><a href="#cb8-230"></a>        )</span>
+<span id="cb8-231"><a href="#cb8-231"></a>        plot_num <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-232"><a href="#cb8-232"></a></span>
+<span id="cb8-233"><a href="#cb8-233"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="index_files/figure-revealjs/dbscan-grid-3.png" width="2016" class="r-stretch quarto-figure-center"><p class="caption">Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html" target="_blank">Scikit-learn User Guide</a></p></section>
+<section id="hyperparameter-tuning-more-heuristics" class="slide level2 smaller crunch-title">
+<h2>Hyperparameter Tuning: More Heuristics</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div id="elbow-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ul>
+<li><strong>Inertia</strong>: A measure of how “well-clustered” a dataset is</li>
+<li>Sum of squared distances of samples to their closest cluster center</li>
+<li>A good model is one with low inertia <strong>and</strong> low <span class="math inline">\(K\)</span> (tradeoff, akin to bias-variance)</li>
+<li><strong>Elbow Method</strong>: Find the <span class="math inline">\(K\)</span> value after which <strong>decrease in inertia</strong> begins to slow →</li>
+</ul>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/elbow-method.png"></p>
+<figcaption>Figure from <a href="https://ankitajhumu.medium.com/selecting-number-of-clusters-in-k-mean-clustering-d60a1f85d65b" target="_blank">this blog post</a> by <a href="https://ankitajhumu.medium.com/" target="_blank">Ankita Banerji</a></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
@@ -1291,18 +1660,10 @@ Scorpion
 <div id="ref-dignazio_numbers_2020" class="csl-entry" role="listitem">
 D’Ignazio, Catherine, and Lauren Klein. 2020. <span>“6. <span>The Numbers Don</span>’t <span>Speak</span> for <span>Themselves</span>.”</span> <em>Data Feminism</em>, March.
 </div>
+<div id="ref-gelman_red_2009" class="csl-entry" role="listitem">
+Gelman, Andrew. 2009. <em>Red <span>State</span>, <span>Blue State</span>, <span>Rich State</span>, <span>Poor State</span>: <span>Why Americans Vote</span> the <span>Way They Do</span> - <span>Expanded Edition</span></em>. <span>Princeton University Press</span>.
 </div>
-</section>
-<section id="appendix-i-maximum-likelihood-estimation" class="slide level2 smaller">
-<h2>Appendix I: Maximum Likelihood Estimation</h2>
-<ul>
-<li><p>But if <span class="math inline">\(x^* = \argmax_x\left[ \log(f(x)) \right]\)</span> then <span class="math inline">\(x^* = \argmax_x\left[f(x)\right]\)</span>, so we can just find</p>
-<p><span class="math display">\[
-\begin{align*}
-\boldsymbol\theta^*_\mathcal{D} = \argmax_\theta \ell(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \argmax_\theta \left[ \ell(X_1 = \mathbf{v}_1 \mid \paramDist) + \cdots + \ell(X_N = \mathbf{v}_N \mid \paramDist) \right]
-\end{align*}
-\]</span></p></li>
-</ul>
+</div>
 
 <div class="footer footer-default">
 <p>DSAN 5000-<span class="sec-num">02</span> Week 9: Clustering Analysis</p>
