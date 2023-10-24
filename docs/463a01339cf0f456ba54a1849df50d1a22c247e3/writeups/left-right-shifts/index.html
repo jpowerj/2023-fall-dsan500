@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
-<meta name="dcterms.date" content="2023-10-17">
+<meta name="dcterms.date" content="2023-10-24">
 
 <title>DSAN 5000 - Left-Right Shifts of a Function</title>
 <style>
@@ -272,7 +272,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 17, 2023</p>
+      <p class="date">October 24, 2023</p>
     </div>
   </div>
   
@@ -352,8 +352,11 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li>The original <span class="math inline">\(f(x)\)</span> passed through the point <span class="math inline">\((4, 4)\)</span>, but our new <span class="math inline">\(g(x)\)</span> passes through the point <span class="math inline">\((1,4)\)</span>, which is <strong>3 units to the left</strong> of <span class="math inline">\((4, 4)\)</span>.</li>
 <li>The original <span class="math inline">\(f(x)\)</span> passed through the point <span class="math inline">\((3, 3)\)</span>, whereas <span class="math inline">\(g(x)\)</span> passes through the point <span class="math inline">\((0, 3)\)</span> which is <strong>3 units to the left</strong>, and so on.</li>
 </ul>
-<p>Basically, this weirdness comes from the way we “parametrize” functions – in an alternative universe, we could have developed math in such a way that we’d instead define e.g.&nbsp;f(x, c, d) to be “f(x) shifted left/right by c units, up/down by d units”, and then we wouldn’t have to worry about this weirdness. But, thanks to Descartes, who came up with this system, it’s just f(x + c), and to me there’s no intuition besides just making the tables like above and remembering that it’s bizarro world so that adding c inside the function results in a shift to the left, and subtracting c inside the function results in a shift to the right.</p>
-<p>You, 43 min Actually, also, you could trace the same logic that I’m getting at with those tables in a nicer, graphical way using e.g.&nbsp;Desmos: https://www.desmos.com/calculator/b9flirnevl</p>
+<p>Basically, this weirdness comes from the way we “parametrize” functions – in an alternative universe, we could have developed math in such a way that we’d instead define e.g.&nbsp;<span class="math inline">\(f(x, c, d)\)</span> to mean “<span class="math inline">\(f(x)\)</span> shifted left/right by <span class="math inline">\(c\)</span> units, up/down by <span class="math inline">\(d\)</span> units”, and then we wouldn’t have to worry about this weirdness.</p>
+<p>But, thanks to Descartes, who came up with this system (hence the term “cartesian coordinates”, or the “cartesian plane”), it’s just <span class="math inline">\(f(x + c)\)</span>, and to me there’s not necessarily any better intuition besides just making the tables above and remembering that it’s bizarro world, so that <strong>adding</strong> <span class="math inline">\(c\)</span> inside the function results in a shift to the <strong>left</strong>, and <strong>subtracting</strong> c inside the function results in a shift to the <strong>right</strong>.</p>
+<p>You could trace the same logic that I’m getting at with these tables in a nicer, graphical way using e.g.&nbsp;<a href="https://desmos.com/" target="_blank">Desmos</a>.</p>
+<p>The following plots visualize what’s going on, by plotting <span class="math inline">\(f(x) = x\)</span>, <span class="math inline">\(g(x) = f(x + 3)\)</span>, and <span class="math inline">\(h(x) = f(x - 1)\)</span>, all on the same cartesian plane. You can open the plots in a new tab via the following link: <a href="https://www.desmos.com/calculator/b9flirnevl" target="_blank">https://www.desmos.com/calculator/b9flirnevl</a></p>
+<iframe src="https://www.desmos.com/calculator/y54mc47c4h?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder="0"></iframe>
 
 
 
