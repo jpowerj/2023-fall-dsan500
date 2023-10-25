@@ -7,6 +7,8 @@ project:
     port: 4321
   post-render:
     - _pw_protect.py
+    - _post_fix_figures.py
+    - _post_recording_pages.py
 
 website:
   favicon: "favicon.png"

@@ -22,7 +22,7 @@ def main():
         cur_notes_fpath = os.path.join(cur_week_dir, "index.html")
         #html_glob_str = os.path.join(cur_week_dir, "*.html")
         orig_notes_html = load_file(cur_notes_fpath)
-        print(orig_notes_html)
+        #print(orig_notes_html)
         # Perform replacement
         cleaned_html = orig_notes_html.replace("index_files/figure-html", "index_files/figure-revealjs")
         # And save
