@@ -61,7 +61,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: default
     #  light: cosmo
     #  dark: darkly
     css: styles.css
