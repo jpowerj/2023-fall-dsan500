@@ -86,7 +86,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-p130': '2:40pm',
       '.sec-p140': '2:50pm',
       '.sec-end': '3:00pm',
-      '.rec-link-w05': '../recordings/recording-w05s02-1.html'
+      '.rec-link-w05': '../recordings/recording-w05s02-1.html',
+      '.rec-link-w06': '../recordings/recording-w06s02-1.html',
+      '.rec-link-w07': '../recordings/recording-w07s02-1.html',
+      '.rec-link-w08': '../recordings/recording-w08s02-1.html',
+      '.rec-link-w09': '../recordings/recording-w09s02-1.html'
     },
     '03': {
       '.sec-num': '03',
@@ -123,7 +127,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-p130': '5:40pm',
       '.sec-p140': '5:50pm',
       '.sec-end': '6:00pm',
-      '.rec-link-w05': '../recordings/recording-w05s03-1.html'
+      '.rec-link-w05': '../recordings/recording-w05s03-1.html',
+      '.rec-link-w06': '../recordings/recording-w06s03-1.html',
+      '.rec-link-w07': '../recordings/recording-w07s03-1.html',
+      '.rec-link-w08': '../recordings/recording-w08s03-1.html',
+      '.rec-link-w09': '../recordings/recording-w09s03-1.html'
     }
   }
 
