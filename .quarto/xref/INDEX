@@ -146,5 +146,11 @@
   "w09/index.qmd": {
     "slides.html": "7766c17e",
     "index.html": "e1793740"
+  },
+  "writeups/clustering/DSAN5000_Clustering_Lab_v3.ipynb": {
+    "DSAN5000_Clustering_Lab_v3.html": "5ea0248c"
+  },
+  "writeups/clustering/DSAN5000_Clustering_Lab.ipynb": {
+    "DSAN5000_Clustering_Lab.html": "6be15225"
   }
 }

@@ -6,6 +6,8 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/clustering/DSAN5000_Clustering_Lab.html",
+      "/writeups/data-cleaning/clean_data.html",
       "/writeups/left-right-shifts/index.html",
       "/writeups/midterm-prep/index.html",
       "/writeups/lab-3-2-clarifications/index.html",
@@ -20,7 +22,6 @@
       "/writeups/quiz-status/index.html",
       "/writeups/python-install/index.html",
       "/writeups/regex/index.html",
-      "/writeups/data-cleaning/clean_data.html",
       "/writeups/empty-files-error/index.html",
       "/writeups/lab-1-2-clarifications/index.html",
       "/writeups/zotero/index.html",
@@ -30,11 +31,11 @@
     ]
   },
   {
-    "listing": "/recordings/index.html",
+    "listing": "/writeups/quiz-status/index.html",
     "items": []
   },
   {
-    "listing": "/writeups/quiz-status/index.html",
+    "listing": "/recordings/index.html",
     "items": []
   },
   {
