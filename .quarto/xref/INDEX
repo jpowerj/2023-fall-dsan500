@@ -152,5 +152,9 @@
   },
   "writeups/clustering/DSAN5000_Clustering_Lab.ipynb": {
     "DSAN5000_Clustering_Lab.html": "6be15225"
+  },
+  "w10/index.qmd": {
+    "slides.html": "61fad03d",
+    "index.html": "408e8dd6"
   }
 }

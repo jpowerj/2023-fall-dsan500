@@ -4,6 +4,18 @@
     "items": []
   },
   {
+    "listing": "/cheatsheet-code/index.html",
+    "items": []
+  },
+  {
+    "listing": "/recordings/index.html",
+    "items": []
+  },
+  {
+    "listing": "/writeups/quiz-status/index.html",
+    "items": []
+  },
+  {
     "listing": "/writeups/index.html",
     "items": [
       "/writeups/clustering/DSAN5000_Clustering_Lab.html",
@@ -31,18 +43,6 @@
     ]
   },
   {
-    "listing": "/writeups/quiz-status/index.html",
-    "items": []
-  },
-  {
-    "listing": "/recordings/index.html",
-    "items": []
-  },
-  {
-    "listing": "/cheatsheet-code/index.html",
-    "items": []
-  },
-  {
     "listing": "/index.html",
     "items": [
       "/w01/index.html",
@@ -53,7 +53,8 @@
       "/w06/index.html",
       "/w07/index.html",
       "/w08/index.html",
-      "/w09/index.html"
+      "/w09/index.html",
+      "/w10/index.html"
     ]
   }
 ]
