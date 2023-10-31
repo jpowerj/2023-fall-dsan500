@@ -40,6 +40,8 @@ website:
         text: "Week 8: <span class='sec-w08-date'>Oct 17</span>"
       - href: w09/index.qmd
         text: "Week 9: <span class='sec-w09-date'>Oct 24</span>"
+      - href: w10/index.qmd
+        text: "Week 10: <span class='sec-w10-date'>Oct 31</span>"
       - href: recordings/index.qmd
         text: "Lecture Recordings"
       - "---"
