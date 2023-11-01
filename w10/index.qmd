@@ -816,7 +816,7 @@ ggplot(representatives, aes(x = dim_1, y = year1, group = year1)) +
 
 ## Clustering and Dimensionality Reduction for Text Data
 
-[Lab Link <i class='bi bi-box-arrow-up-right'></i>](../writeups/clustering/DSAN5000_Clustering_Lab.ipynb){target='_blank'}
+[Lab Link <i class='bi bi-box-arrow-up-right'></i>](../writeups/clustering/DSAN5000_Clustering_Lab.html){target='_blank'}
 
 ## References
 
