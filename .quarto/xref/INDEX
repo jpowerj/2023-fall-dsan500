@@ -156,5 +156,9 @@
   "w10/index.qmd": {
     "slides.html": "61fad03d",
     "index.html": "408e8dd6"
+  },
+  "writeups/regression-vs-pca/index.qmd": {
+    "index.html": "5051f949",
+    "slides.html": "e78d26ee"
   }
 }

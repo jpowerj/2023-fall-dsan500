@@ -12,8 +12,8 @@
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Jeff Jacobs">
-  <meta name="dcterms.date" content="2023-10-31">
-  <title>DSAN 5000 - Extra Slides: A Slightly Deeper Dive Into Machine Learning</title>
+  <meta name="dcterms.date" content="2023-11-01">
+  <title>DSAN 5000 - Regression vs.&nbsp;PCA</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -96,7 +96,26 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto.css">
   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-ETYTX4E16L"></script>
 
@@ -110,6 +129,7 @@
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/simplemenu/simplemenu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
@@ -396,14 +416,15 @@
       margin-right: 0; 
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Extra Slides: A Slightly Deeper Dive Into Machine Learning</h1>
-  <p class="subtitle"><em>DSAN5000: Data Science and Analytics</em><br>(Addendum to Week 07)</p>
+  <h1 class="title">Regression vs.&nbsp;PCA</h1>
+  <p class="subtitle"><em>DSAN 5000: Data Science and Analytics</em></p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -411,149 +432,375 @@
 Jeff Jacobs 
 </div>
         <p class="quarto-title-affiliation">
-            <a href="mailto:jj1088@georgetown.edu" target="_blank"><code>jj1088@georgetown.edu</code></a>
+            <a href="mailto:jj1088@georgetown.edu"><code>jj1088@georgetown.edu</code></a>
           </p>
     </div>
 </div>
 
-  <p class="date">2023-10-31</p>
+  <p class="date">2023-11-01</p>
 </section>
-<section id="supervised-vs.-unsupervised-learning" class="slide level2 smaller shift-footnotes-lesser crunch-title crunch-ul">
-<h2>Supervised vs.&nbsp;Unsupervised Learning</h2>
+<section id="the-central-tool-of-data-science" class="slide level2" data-name="What is Regression?">
+<h2>The Central Tool of Data Science</h2>
 <div class="hidden">
 
 </div>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><em><strong>Supervised</strong> Learning</em>: You want the computer to learn the <strong>existing pattern</strong> of <strong>how <em>you</em> are classifying<sup>1</sup> observations</strong></p>
-<ul>
-<li>Discovering the relationship between <strong>properties</strong> of data and <strong>outcomes</strong></li>
-<li>Example (<em>Binary Classification</em>): I look at homes on Zillow, saving those I like to folder A and don’t like to folder B</li>
-<li>Example (<em>Regression</em>): I assign a rating of 0-100 to each home</li>
-<li>In both cases: I ask the computer to <strong>learn my schema</strong> (how I classify)</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><em><strong>Unsupervised</strong> Learning</em>: You want the computer to <strong><em>find</em> patterns in a dataset</strong>, without any prior classification info</p>
-<ul>
-<li>Typically: grouping or clustering observations based on shared properties</li>
-<li>Example (<em>Clustering</em>): I save all the used car listings I can find, and ask the computer to “find a pattern” in this data, by clustering similar cars together</li>
-</ul>
+<div class="hidden">
+<p><span class="math display">\[
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\newcommand{\bigexpect}[1]{\mathbb{E}\mkern-4mu \left[ #1 \right]}
+\newcommand{\definedas}{\overset{\text{defn}}{=}}
+\newcommand{\definedalign}{\overset{\phantom{\text{defn}}}{=}}
+\newcommand{\eqeventual}{\overset{\text{eventually}}{=}}
+\newcommand{\expect}[1]{\mathbb{E}[#1]}
+\newcommand{\expectsq}[1]{\mathbb{E}^2[#1]}
+\newcommand{\fw}[1]{\texttt{#1}}
+\newcommand{\given}{\mid}
+\newcommand{\green}[1]{\color{green}{#1}}
+\newcommand{\heads}{\outcome{heads}}
+\newcommand{\iqr}{\text{IQR}}
+\newcommand{\kl}{\text{KL}}
+\newcommand{\lik}{\mathcal{L}}
+\newcommand{\mle}{\textsf{ML}}
+\newcommand{\orange}[1]{\color{orange}{#1}}
+\newcommand{\outcome}[1]{\textsf{#1}}
+\newcommand{\param}[1]{{\color{purple} #1}}
+\newcommand{\paramDist}{\param{\boldsymbol\theta_\mathcal{D}}}
+\newcommand{\pgsamplespace}{\{\green{1},\green{2},\green{3},\purp{4},\purp{5},\purp{6}\}}
+\newcommand{\prob}[1]{P\left( #1 \right)}
+\newcommand{\purp}[1]{\color{purple}{#1}}
+\newcommand{\red}[1]{\color{red}#1}
+\newcommand{\spacecap}{\; \cap \;}
+\newcommand{\spacewedge}{\; \wedge \;}
+\newcommand{\tails}{\outcome{tails}}
+\newcommand{\Var}[1]{\text{Var}[#1]}
+\newcommand{\bigVar}[1]{\text{Var}\mkern-4mu \left[ #1 \right]}
+\]</span></p>
 </div>
-</div>
-<aside><ol class="aside-footnotes"><li id="fn1"><p><em>Whether standard <strong>classification</strong> (sorting observations into bins) or <strong>regression</strong> (assigning a real number to each observation)</em></p></li></ol></aside></section>
-<section id="dataset-structures" class="slide level2 smaller">
-<h2>Dataset Structures</h2>
+<ul>
+<li>If science is understanding relationships between variables, <strong>regression</strong> is the most basic but fundamental tool we have to start <strong>measuring</strong> these relationships</li>
+<li>Often exactly what humans do when we see data!</li>
+</ul>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Supervised</strong> Learning: Dataset has both <span class="cb1"><em>explanatory</em> variables (“features”)</span> and <span class="cb2"><em>response</em> variables (“labels”)</span></p>
-<div class="suptable">
+<div class="column" style="width:48%;">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div class="kable-table">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/basic-scatter-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:4%;">
+<div style="height: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+<p>
+<span class="material-symbols-outlined" style="visibility: hidden;"> psychology </span> <span class="material-symbols-outlined gsym-medium" style="transform: translate(0px, 20px);"> psychology </span><br> <span class="material-symbols-outlined gsym-medium"> trending_flat </span>
+</p>
+</div>
+</div><div class="column" style="width:48%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/basic-regression-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-goal" class="slide level2">
+<h2>The Goal</h2>
+<ul>
+<li>Whenever you carry out a regression, keep the <strong>goal</strong> in the front of your mind:</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The Goal of Regression</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Find a line <span class="math inline">\(\widehat{y} = mx + b\)</span> that best predicts <span class="math inline">\(Y\)</span> for given values of <span class="math inline">\(X\)</span></strong></p>
+</div>
+</div>
+</div>
+</section>
+<section id="how-do-we-define-best" class="slide level2 smaller">
+<h2>How Do We Define “Best”?</h2>
+<ul>
+<li>Intuitively, two different ways to measure <strong>how well a line fits the data</strong>:</li>
+</ul>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/pc-line-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/pca-line-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<aside><div>
+<p>On the difference between these two lines, and why it matters, I cannot recommend <span class="citation" data-cites="gelman_data_2007">Gelman and Hill (<a href="#/references" role="doc-biblioref" onclick="">2007</a>)</span> enough!</p>
+</div></aside></section>
+<section id="principal-component-analysis" class="slide level2 smaller crunch-title crunch-ul shift-footnotes-20">
+<h2>Principal Component Analysis</h2>
+<ul>
+<li><p><strong>Principal Component Line</strong> can be used to <strong>project</strong> the data onto its <strong>dimension of highest variance</strong></p></li>
+<li><p>More simply: PCA can <strong>discover</strong> meaningful axes in data (<strong>unsupervised</strong> learning / <strong>exploratory</strong> data analysis settings)</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/gdp-plot-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<aside><div>
+<p>See <a href="https://juliasilge.com/blog/un-voting/" target="_blank">https://juliasilge.com/blog/un-voting/</a> for an amazing blog post using PCA, with 2 dimensions, to explore UN voting patterns!</p>
+</div></aside></section>
+<section id="create-your-own-dimension" class="slide level2">
+<h2>Create Your Own Dimension!</h2>
+
+<img data-src="index_files/figure-revealjs/pca-plot-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="and-use-it-for-eda" class="slide level2">
+<h2>And Use It for EDA</h2>
+
+<img data-src="index_files/figure-revealjs/pca-facet-plot-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+<section id="but-in-our-case" class="slide level2 crunch-title crunch-ul" data-name="Regression Hypothesis">
+<h2>But in Our Case…</h2>
+<ul>
+<li><span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> dimensions <strong>already have meaning</strong>, and we have a <strong>hypothesis</strong> about <span class="math inline">\(x \rightarrow y\)</span>!</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The Regression Hypothesis <span class="math inline">\(\mathcal{H}_{\text{reg}}\)</span></strong></p>
+</div>
+<div class="callout-content">
+<p>Given data <span class="math inline">\((X, Y)\)</span>, we estimate <span class="math inline">\(\widehat{y} = \widehat{\beta_0} + \widehat{\beta_1}x\)</span>, hypothesizing that:</p>
+<ul>
+<li>Starting from <span class="math inline">\(y = \widehat{\beta_0}\)</span> when <span class="math inline">\(x = 0\)</span> (the intercept),</li>
+<li>An increase of <span class="math inline">\(x\)</span> by 1 unit is associated with an increase of <span class="math inline">\(y\)</span> by <span class="math inline">\(\widehat{\beta_1}\)</span> units (the coefficient)</li>
+</ul>
+</div>
+</div>
+</div>
+<ul>
+<li>We want to measure <strong>how well</strong> our line predicts <span class="math inline">\(y\)</span> for any given <span class="math inline">\(x\)</span> value <span class="math inline">\(\implies\)</span> <strong>vertical distance</strong> from regression line</li>
+</ul>
+</section>
+<section id="key-features-of-regression-line" class="slide level2 crunch-math smaller-math">
+<h2>Key Features of Regression Line</h2>
+<ul>
+<li>Regression line is <strong>BLUE</strong>: <strong>B</strong>est <strong>L</strong>inear <strong>U</strong>nbiased <strong>E</strong>stimator</li>
+<li>What exactly is it the “best” linear estimator of?</li>
+</ul>
+<p><span class="math display">\[
+\widehat{y} = \underbrace{\widehat{\beta_0}}_{\small\begin{array}{c}\text{Predicted} \\[-5mm] \text{intercept}\end{array}} + \underbrace{\widehat{\beta_1}}_{\small\begin{array}{c}\text{Predicted} \\[-4mm] \text{slope}\end{array}}\cdot x
+\]</span></p>
+<p>is chosen so that</p>
+<div class="smallmath">
+<p><span class="math display">\[
+\theta = \left(\widehat{\beta_0}, \widehat{\beta_1}\right) = \argmin_{\beta_0, \beta_1}\left[ \sum_{x_i \in X} \left(\overbrace{\widehat{y}(x_i)}^{\small\text{Predicted }y} - \overbrace{\expect{Y \mid X = x_i}}^{\small \text{Avg. }y\text{ when }x = x_i}\right)^2 \right]
+\]</span></p>
+</div>
+</section>
+<section id="regression-in-r" class="slide level2 crunch-output">
+<h2>Regression in <code>R</code></h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>lin_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(military <span class="sc">~</span> industrial, <span class="at">data=</span>gdp_df)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">summary</span>(lin_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = military ~ industrial, data = gdp_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.3354 -1.0997 -0.3870  0.6081  6.7508 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  0.61969    0.59526   1.041   0.3010  
+industrial   0.05253    0.02019   2.602   0.0111 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.671 on 79 degrees of freedom
+  (8 observations deleted due to missingness)
+Multiple R-squared:  0.07895,   Adjusted R-squared:  0.06729 
+F-statistic: 6.771 on 1 and 79 DF,  p-value: 0.01106</code></pre>
+</div>
+</div>
+</section>
+<section id="lm-syntax" class="slide level2">
+<h2><code>lm</code> Syntax</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">lm</span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="at">formula =</span> dependent <span class="sc">~</span> independent <span class="sc">+</span> controls,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="at">data =</span> my_df</span>
+<span id="cb3-4"><a href="#cb3-4"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="interpreting-output" class="slide level2" data-name="Interpreting">
+<h2>Interpreting Output</h2>
+<pre>Call:
+lm(formula = military ~ industrial, data = gdp_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.3354 -1.0997 -0.3870  0.6081  6.7508 
+</pre>
+<pre class="highlight-block">Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  0.61969    0.59526   1.041   0.3010  
+industrial   0.05253    0.02019   2.602   0.0111 *
+</pre>
+<pre class="highlight-below">---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Residual standard error: 1.671 on 79 degrees of freedom
+  (8 observations deleted due to missingness)
+Multiple R-squared:  0.07895,   Adjusted R-squared:  0.06729 
+F-statistic: 6.771 on 1 and 79 DF,  p-value: 0.01106
+</pre>
+</section>
+<section id="zooming-in-coefficients" class="slide level2">
+<h2>Zooming In: Coefficients</h2>
+<div class="coef-table">
 <table>
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 16%">
+<col style="width: 12%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">home_id</th>
-<th style="text-align: right;">sqft</th>
-<th style="text-align: right;">bedrooms</th>
-<th style="text-align: left;">rating</th>
+<th style="text-align: right;"></th>
+<th style="text-align: center;">Estimate</th>
+<th>Std. Error</th>
+<th>t value</th>
+<th>Pr(&gt;|t|)</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Disliked</td>
+<td style="text-align: right;"><span class="cb1"><strong>(Intercept)</strong></span></td>
+<td style="text-align: center;"><span class="cb1 bold">0.61969</span></td>
+<td><span class="cb1 bold">0.59526</span></td>
+<td><span class="cb1">1.041</span></td>
+<td><span class="cb1">0.3010</span></td>
+<td></td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2000</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">Liked</td>
+<td style="text-align: right;"><span class="cb2"><strong>industrial</strong></span></td>
+<td style="text-align: center;"><span class="cb2 bold">0.05253</span></td>
+<td><span class="cb2 bold">0.02019</span></td>
+<td><span class="cb2">2.602</span></td>
+<td><span class="cb2">0.0111</span></td>
+<td><span class="cb2">*</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2500</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Liked</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1500</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">Disliked</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">2200</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Liked</td>
+<td style="text-align: right;"></td>
+<td style="text-align: center;"><span class="coef-label"><span class="math inline">\(\widehat{\beta}\)</span></span></td>
+<td><span class="coef-label">Uncertainty</span></td>
+<td><span class="coef-label">Test statistic</span></td>
+<td><span class="coef-label">How extreme is test stat?</span></td>
+<td><span class="coef-label">Statistical significance</span></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<p><strong>Unsupervised</strong> Learning: Dataset has only <span class="cb1"><em>explanatory</em> variables (“features”)</span></p>
-<div class="unsuptable">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="kable-table">
+<p><span class="math display">\[
+\widehat{y} \approx \class{cb1}{\overset{\beta_0}{\underset{\small \pm 0.595}{0.620}}} +  \class{cb2}{\overset{\beta_1}{\underset{\small \pm 0.020}{0.053}}} \cdot x
+\]</span></p>
+</section>
+<section id="zooming-in-significance" class="slide level2 crunch-title">
+<h2>Zooming In: Significance</h2>
+<div class="coef-table">
 <table>
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 16%">
+<col style="width: 12%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">home_id</th>
-<th style="text-align: right;">sqft</th>
-<th style="text-align: right;">bedrooms</th>
+<th style="text-align: right;"></th>
+<th style="text-align: center;">Estimate</th>
+<th>Std. Error</th>
+<th>t value</th>
+<th>Pr(&gt;|t|)</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;"><span class="cb1"><strong>(Intercept)</strong></span></td>
+<td style="text-align: center;"><span class="cb1">0.61969</span></td>
+<td><span class="cb1">0.59526</span></td>
+<td><span class="cb1 bold">1.041</span></td>
+<td><span class="cb1 bold">0.3010</span></td>
+<td></td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2000</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;"><span class="cb2"><strong>industrial</strong></span></td>
+<td style="text-align: center;"><span class="cb2">0.05253</span></td>
+<td><span class="cb2">0.02019</span></td>
+<td><span class="cb2 bold">2.602</span></td>
+<td><span class="cb2 bold">0.0111</span></td>
+<td><span class="cb2 bold">*</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2500</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1500</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">2200</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;"></td>
+<td style="text-align: center;"><span class="coef-label"><span class="math inline">\(\widehat{\beta}\)</span></span></td>
+<td><span class="coef-label">Uncertainty</span></td>
+<td><span class="coef-label">Test statistic</span></td>
+<td><span class="coef-label">How extreme is test stat?</span></td>
+<td><span class="coef-label">Statistical significance</span></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="dataset-structures-visualized" class="slide level2 nostretch smaller crunch-code">
-<h2>Dataset Structures: Visualized</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/sup-data-plot-1.png" width="768"></p>
+<p><img data-src="index_files/figure-revealjs/t-stat-intercept-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -563,7 +810,7 @@ Jeff Jacobs
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/unsup-data-plot-1.png" width="768"></p>
+<p><img data-src="index_files/figure-revealjs/t-stat-coef-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -571,25 +818,32 @@ Jeff Jacobs
 </div>
 </div>
 </section>
-<section id="different-goals" class="slide level2 smaller crunch-code">
-<h2>Different Goals</h2>
+<section id="the-residual-plot" class="slide level2 crunch-title crunch-images" data-name="Diagnostics">
+<h2>The Residual Plot</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="index_files/figure-revealjs/sup-data-outcomes-1.png" width="768"></p>
-</figure>
-</div>
-</div>
-</div>
+<ul>
+<li>A key <strong>assumption</strong> required for OLS: <strong>“homoskedasticity”</strong></li>
+<li>Given our model <span class="math display">\[
+y_i = \beta_0 + \beta_1x_i + \varepsilon_i
+\]</span> the errors <span class="math inline">\(\varepsilon_i\)</span> <strong>should not vary systematically with <span class="math inline">\(i\)</span></strong></li>
+<li>Formally: <span class="math inline">\(\forall i \left[ \Var{\varepsilon_i} = \sigma^2 \right]\)</span></li>
+</ul>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/unsup-data-clustered-1.png" width="768"></p>
+<p><img data-src="index_files/figure-revealjs/residual-plot-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/heteroskedastic-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -597,139 +851,10 @@ Jeff Jacobs
 </div>
 </div>
 </section>
-<section id="the-learning-in-machine-learning" class="slide level2 smaller crunch-title">
-<h2>The “Learning” in Machine Learning</h2>
+<section id="q-q-plot" class="slide level2">
+<h2>Q-Q Plot</h2>
 <ul>
-<li>Given these datasets, how do we learn the patterns?</li>
-<li>Naïve idea: Try random lines (each forming a <strong>decision boundary</strong>), pick “best” one</li>
-</ul>
-
-<img data-src="index_files/figure-revealjs/like-dislike-boundary-random-1.png" width="960" class="r-stretch quarto-figure-center"><ul>
-<li>What <strong>parameters</strong> are we choosing when we draw a random line? Random curve?</li>
-</ul>
-</section>
-<section id="what-makes-a-goodbest-guess" class="slide level2">
-<h2>What Makes a “Good”/“Best” Guess?</h2>
-<ul>
-<li>What’s your intuition? How about accuracy… 🤔</li>
-</ul>
-
-<img data-src="index_files/figure-revealjs/good-vs-bad-2-1.png" width="960" class="r-stretch quarto-figure-center"><p>So… what’s wrong here?</p>
-</section>
-<section id="whats-wrong-with-accuracy" class="slide level2">
-<h2>What’s Wrong with Accuracy?</h2>
-
-<img data-src="index_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch quarto-figure-center"></section>
-<section id="the-oversimplified-big-picture" class="slide level2 smaller smaller-lines">
-<h2>The (Oversimplified) Big Picture</h2>
-<ul>
-<li>A <strong>model</strong>: some representation of something in the world</li>
-</ul>
-<div class="columns">
-<div class="column" style="width:55%;">
-<div class="regular-lines">
-<ul>
-<li><p>How <strong>well</strong> does our model represent the world?<sup>1</sup> <span class="math inline">\(\mathsf{Correspondence}(y_{obs}, \theta)\)</span></p></li>
-<li><p><span class="math inline">\(P\left(y_{obs}, \theta\right)\)</span>, <span class="math inline">\(P\left(\theta \; | \; y_{obs}\right)\)</span>, <span class="math inline">\(P\left(y_{obs} \; | \; \theta\right)\)</span><sup>2</sup></p></li>
-<li><p>Maximum <strong>Likelihood</strong> Estimation?</p></li>
-</ul>
-</div>
-</div><div class="column" style="width:45%;">
-<div class="cell" data-fig-height="2.65" data-fig-width="4.5">
-<div class="cell-output-display">
-<div>
-<div>
-<svg width="432" height="254" viewbox="0.00 0.00 361.55 209.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 205)">
-<title>
-grid
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-205 357.55,-205 357.55,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_01
-</title>
-<polygon fill="none" stroke="black" points="8,-8 8,-193 201.06,-193 201.06,-8 8,-8"></polygon> <text text-anchor="middle" x="104.53" y="-176.4" font-family="Times,serif" font-size="14.00">“Nature”</text> </g> <g id="clust4" class="cluster">
-<title>
-cluster_02
-</title>
-<polygon fill="none" stroke="black" points="257.06,-62 257.06,-139 345.55,-139 345.55,-62 257.06,-62"></polygon> <text text-anchor="middle" x="301.3" y="-122.4" font-family="Times,serif" font-size="14.00">“Science”</text> </g> <!-- Obs --> <g id="node1" class="node">
-<title>
-Obs
-</title>
-<ellipse fill="lightblue" stroke="black" cx="104.53" cy="-142" rx="88.56" ry="18"></ellipse> <text text-anchor="middle" x="104.53" y="-137.8" font-family="Times,serif" font-size="14.00">Thing(s) we can see</text> </g> <!-- Und --> <g id="node2" class="node">
-<title>
-Und
-</title>
-<ellipse fill="white" stroke="black" cx="104.53" cy="-34" rx="86.29" ry="18"></ellipse> <text text-anchor="middle" x="104.53" y="-29.8" font-family="Times,serif" font-size="14.00">Underlying process</text> </g> <!-- Und&#45;&gt;Obs --> <g id="edge3" class="edge">
-<title>
-Und-&gt;Obs
-</title>
-<path fill="none" stroke="black" d="M104.53,-52.14C104.53,-72.65 104.53,-93.17 104.53,-113.68"></path> <polygon fill="black" stroke="black" points="101.03,-113.75 104.53,-123.75 108.03,-113.75 101.03,-113.75"></polygon> </g> <!-- Model --> <g id="node3" class="node">
-<title>
-Model
-</title>
-<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="301.3" cy="-88" rx="36.5" ry="18"></ellipse> <text text-anchor="middle" x="301.3" y="-83.8" font-family="Times,serif" font-size="14.00">Model</text> </g> <!-- Und&#45;&gt;Model --> <g id="edge1" class="edge">
-<title>
-Und-&gt;Model
-</title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M167.08,-51.06C201.14,-60.51 241.98,-71.83 269.39,-79.43"></path> <polygon fill="black" stroke="black" points="167.78,-47.63 157.21,-48.33 165.91,-54.37 167.78,-47.63"></polygon> </g> <!-- Model&#45;&gt;Obs --> <g id="edge2" class="edge">
-<title>
-Model-&gt;Obs
-</title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M269.27,-96.6C241.99,-104.17 201.46,-115.4 167.55,-124.8"></path> <polygon fill="black" stroke="black" points="166.43,-121.48 157.72,-127.53 168.3,-128.23 166.43,-121.48"></polygon> </g> </g>
-</svg>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p><span class="math display">\[
-\begin{align*}
-\mathsf{Correspondence}(y_{obs}, \theta) &amp;\equiv P(y = y_{obs}, \theta) \\
-P(y = y_{obs}, \theta) &amp;= P(y=y_{obs} \; | \; \theta)P(\theta) \\
-&amp;\propto P\left(y = y_{obs} \; | \; \theta\right)\ldots \implies \text{(maximize this!)}  \\
-\end{align*}
-\]</span></p>
-<aside><ol class="aside-footnotes"><li id="fn2"><p>Computer scientists implicitly assume a <a href="https://en.wikipedia.org/wiki/Correspondence_theory_of_truth">Correspondence Theory of Truth</a>, hence the choice of name</p></li><li id="fn3"><p>Thanks to <strong>Bayes’ Rule</strong>, mathematically we can always convert between the two: <span class="math inline">\(P(A|B) = \frac{P(B|A)P(A)}{P(B)}\)</span></p></li></ol></aside></section>
-<section id="measuring-errors-f1-score" class="slide level2 crunch-title crunch-ul crunch-math smaller-math shift-footnotes-less">
-<h2>Measuring Errors: F1 Score</h2>
-<ul>
-<li>How can we reward guesses which best <em>discriminate</em> between classes?</li>
-</ul>
-<p><span class="math display">\[
-\begin{align*}
-\mathsf{Precision} &amp;= \frac{\# \text{true positives}}{\# \text{predicted positive}} = \frac{tp}{tp+fp} \\[1.5em]
-\mathsf{Recall} &amp;= \frac{\# \text{true positives}}{\# \text{positives in data}} = \frac{tp}{tp+fn} \\[1.5em]
-F_1 &amp;= 2\frac{\mathsf{Precision} \cdot \mathsf{Recall}}{\mathsf{Precision} + \mathsf{Recall}} = \mathsf{HMean}(\mathsf{Precision}, \mathsf{Recall})
-\end{align*}
-\]</span></p>
-<ul>
-<li>Think about: <strong>How</strong> does this address/fix issue with accuracy?</li>
-</ul>
-
-<aside><div>
-<p>Here <span class="math inline">\(\mathsf{HMean}\)</span> is the <strong>Harmonic Mean function</strong>: see <a href="#/appendix-harmonic-mean">appendix slide</a> or <a href="https://en.wikipedia.org/wiki/Harmonic_mean" target="_blank">Wikipedia</a>.</p>
-</div></aside></section>
-<section id="measuring-errors-the-loss-function" class="slide level2">
-<h2>Measuring Errors: The Loss Function</h2>
-<ul>
-<li>What about <strong>regression</strong>?
-<ul>
-<li>No longer just “true prediction good, false prediction bad”</li>
-</ul></li>
-<li>We have to quantify <strong>how bad</strong> the guess is! Then we can scale the penalty accordingly: <span class="math inline">\(\text{penalty} \propto \text{badness}\)</span></li>
-<li>Enter <strong>Loss Functions</strong>! Just <strong>distances</strong> (using <strong>distance metrics</strong> you’ve already seen) between the <strong>true value</strong> and our <strong>guess</strong>:
-<ul>
-<li><strong>Squared Error</strong> <span class="math inline">\(L^2(y_{obs}, y_{pred}) = (y_{obs} - y_{pred})^2\)</span></li>
-<li><strong>Kullback-Leibler Divergence</strong> if guessing <strong>distributions</strong></li>
-</ul></li>
-</ul>
-</section>
-<section id="calculus-rears-its-ugly-head" class="slide level2">
-<h2>Calculus Rears its Ugly Head</h2>
-<ul>
-<li>Neural networks use <strong>derivatives</strong>/<strong>gradients</strong> to improve their predictions given a particular loss function.</li>
+<li>If <span class="math inline">\((\widehat{y} - y) \sim \mathcal{N}(0, \sigma^2)\)</span>, points would lie on 45° line:</li>
 </ul>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -737,7 +862,7 @@ F_1 &amp;= 2\frac{\mathsf{Precision} \cdot \mathsf{Recall}}{\mathsf{Precision} +
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-14-1.png" width="384"></p>
+<p><img data-src="index_files/figure-revealjs/qq-plot-heteroskedastic-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -747,426 +872,42 @@ F_1 &amp;= 2\frac{\mathsf{Precision} \cdot \mathsf{Recall}}{\mathsf{Precision} +
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-15-1.png" width="384"></p>
+<p><img data-src="index_files/figure-revealjs/qq-plot-gdp-1.png" width="960"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 </div>
-<ul>
-<li>Can we just use the <span class="math inline">\(F_1\)</span> score?</li>
-</ul>
-<p><span class="math display">\[
-\frac{\partial F_1(weights)}{\partial weights} = \ldots \; ? \; \ldots 💀
-\]</span></p>
 </section>
-<section id="quantifying-discrete-loss" class="slide level2">
-<h2>Quantifying Discrete Loss</h2>
+<section id="multiple-linear-regression" class="slide level2">
+<h2>Multiple Linear Regression</h2>
 <ul>
-<li>We can quantify a differentiable <strong>discrete</strong> loss by asking the algorithm <em>how confident</em> it is
-<ul>
-<li>Closer to 0 <span class="math inline">\(\implies\)</span> more confident that the true label is 0</li>
-<li>Closer to 1 <span class="math inline">\(\implies\)</span> more confident that the true label is 1</li>
-</ul></li>
+<li>Notation: <span class="math inline">\(x_{i,j}\)</span> = value of independent variable <span class="math inline">\(j\)</span> for person/observation <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(M\)</span> = total number of independent variables</li>
 </ul>
 <p><span class="math display">\[
-\mathcal{L}_{CE}(y_{pred}, y_{obs}) = -(y_{obs}\log(y_{pred}) + (1-y_{obs})\log(1-y_{pred}))
+\widehat{y}_i = \beta_0 + \beta_1x_{i,1} + \beta_2x_{i,2} + \cdots + \beta_M x_{i,M}
 \]</span></p>
+<ul>
+<li><span class="math inline">\(\beta_j\)</span> interpretation: a one-unit increase in <span class="math inline">\(x_{i,j}\)</span> is associated with a <span class="math inline">\(\beta_j\)</span> unit increase in <span class="math inline">\(y_i\)</span>, <strong>holding all other independent variables constant</strong></li>
+</ul>
+<!-- ## Handling Categorical Data
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch quarto-figure-center"></section>
-<section id="loss-function-implies-ready-to-learn" class="slide level2">
-<h2>Loss Function <span class="math inline">\(\implies\)</span> Ready to Learn!</h2>
-<ul>
-<li><p>Once we’ve chosen a loss function, the learning algorithm has what it needs to proceed with the actual <em>learning</em></p></li>
-<li><p>Notation: Bundle all the model’s parameters together into <span class="math inline">\(\theta\)</span></p></li>
-<li><p>The goal: <span class="math display">\[
-\min_{\theta} \mathcal{L}(y_{obs}, y_{pred}(\theta))
-\]</span></p></li>
-<li><p>What would this look like for the random-lines approach?</p></li>
-<li><p>Is there a more efficient way?</p></li>
-</ul>
+## Interaction Effects -->
 </section>
-<section id="calculus-strikes-again" class="slide level2">
-<h2>Calculus Strikes Again</h2>
-<ul>
-<li>tldr: The <strong>slope</strong> of a function tells us how to get to a minimum (why <em>a</em> minimum rather than <em>the</em> minimum?)</li>
-<li>Derivative (gradient) = “direction of sharpest decrease”</li>
-<li>Think of <strong>hill climbing</strong>! Let <span class="math inline">\(\ell_t \in L\)</span> be your location at time <span class="math inline">\(t\)</span>, and <span class="math inline">\(Alt(\ell)\)</span> be the altitude at a location <span class="math inline">\(\ell\)</span></li>
-<li>Gradient descent for <span class="math inline">\(\ell^* = \max_{\ell \in L} Alt(\ell)\)</span>: <span class="math display">\[
-\ell_{t+1} = \ell_t + \gamma\nabla Alt(\ell_t),\ t\geq 0.
-\]</span></li>
-<li>While top of mountain = good, <strong>Loss</strong> is bad: we want to find the <strong>bottom</strong> of the “loss crater”
-<ul>
-<li><span class="math inline">\(\implies\)</span> we do the opposite: subtract <span class="math inline">\(\gamma\nabla Alt(\ell_t)\)</span></li>
-</ul></li>
-</ul>
-</section>
-<section id="good-and-bad-news" class="slide level2">
-<h2>Good and Bad News</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<ul>
-<li>Universal Approximation Theorem</li>
-<li>Neural networks can represent any function mapping one Euclidean space to another</li>
-<li>(Neural Turing Machines:)</li>
-</ul>
-<center>
-<img data-src="images/NTM_Schematic.png" id="ntm" style="width:50.0%">
-</center>
-
-</div><div class="column" style="width:&quot;50%;">
-<ul>
-<li>Weierstrass Approximation Theorem</li>
-<li>(Polynomials could already represent any function)</li>
-</ul>
-<p><span class="math display">\[
-f \in C([a,b],[a,b])
-\]</span> <span class="math display">\[
-\implies \forall \epsilon &gt; 0, \exists p \in \mathbb{R}[x] :
-\]</span> <span class="math display">\[
-\forall x \in [a, b] \; \left|f(x) − p(x)\right| &lt; \epsilon
-\]</span></p>
-<ul>
-<li>Implications for machine learning?</li>
-</ul>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gelman_data_2007" class="csl-entry" role="listitem">
+Gelman, Andrew, and Jennifer Hill. 2007. <em>Data <span>Analysis Using Regression</span> and <span>Multilevel</span>/<span>Hierarchical Models</span></em>. <span>Cambridge University Press</span>.
 </div>
 </div>
-<aside><div>
-<p>Figure from <span class="citation" data-cites="schmidinger_exploring_2019">@schmidinger_exploring_2019</span></p>
-</div></aside></section>
-<section id="so-whats-the-issue" class="slide level2">
-<h2>So What’s the Issue?</h2>
-<div class="columns">
-<div class="column" style="width:&quot;50%;">
-<div class="cell" data-layout-align="left">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-18-1.png" width="351"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-19-1.png" width="480"></p>
-</figure>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<ul>
-<li>Higher <span class="math inline">\(R^2\)</span> = Better Model? Lower <span class="math inline">\(RSS\)</span>?</li>
-<li>Linear Model:</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">summary</span>(lin_model)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.530839</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">get_rss</span>(lin_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.538697</code></pre>
-</div>
-</div>
-<ul>
-<li>Polynomial Model:</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">summary</span>(poly_model)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">get_rss</span>(poly_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="generalization" class="slide level2">
-<h2>Generalization</h2>
-<ul>
-<li>Training Accuracy: How well does it fit the data we can see?</li>
-<li>Test Accuracy: How well does it <strong>generalize</strong> to future data?</li>
-</ul>
-<div class="columns">
-<div class="column" style="width:&quot;50%;">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-23-1.png" width="528"></p>
-</figure>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<ul>
-<li>Linear Model:</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>lin_r2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.841047</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>lin_rss_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1857214</code></pre>
-</div>
-</div>
-<ul>
-<li>Polynomial Model:</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>poly_r2_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2782714</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>poly_rss_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8432709</code></pre>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="how-to-avoid-overfitting" class="slide level2">
-<h2>How to Avoid Overfitting?</h2>
-<ul>
-<li>The gist: penalize model <strong>complexity</strong></li>
-</ul>
-<p>Original optimization: <span class="math display">\[
-\theta^* = \underset{\theta}{\operatorname{argmin}} \mathcal{L}(y_{obs}, y_{pred}(\theta))
-\]</span></p>
-<p>New optimization: <span class="math display">\[
-\theta^* = \underset{\theta}{\operatorname{argmin}} \left[ \mathcal{L}(y_{obs}, y_{pred}(\theta)) + \mathsf{Complexity}(\theta) \right]
-\]</span></p>
-<ul>
-<li>So how do we measure, and penalize, “complexity”?</li>
-</ul>
-</section>
-<section id="regularization-measuring-and-penalizing-complexity" class="slide level2">
-<h2>Regularization: Measuring and Penalizing Complexity</h2>
-<ul>
-<li>In the case of polynomials, fairly simple complexity measure: <em>degree</em> of polynomial</li>
-</ul>
-<p><span class="math display">\[
-\mathsf{Complexity}(y_{pred} = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3) &gt; \mathsf{Complexity}(y_{pred} = \beta_0 + \beta_1 x)
-\]</span></p>
-<ul>
-<li>In general machine learning, however, we might not be working with polynomials</li>
-<li>In neural networks, for example, we sometimes toss in millions of features and ask the algorithm to “just figure it out”</li>
-<li>The gist, in the general case, is thus: try to “amplify” the most important features and shrink the rest, so that</li>
-</ul>
-<p><span class="math display">\[
-\mathsf{Complexity} \propto \frac{|\text{AmplifiedFeatures}|}{|\text{ShrunkFeatures}|}
-\]</span></p>
-</section>
-<section id="lasso-and-elastic-net-regularization" class="slide level2">
-<h2>LASSO and Elastic Net Regularization</h2>
-<ul>
-<li>Many ways to translate this intuition into math!</li>
-<li>In several fields, however (econ, biostatistics), LASSO<sup>1</sup> <span class="citation" data-cites="tibshirani_regression_1996">[@tibshirani_regression_1996]</span> is standard:</li>
-</ul>
-<p><span class="math display">\[
-\beta^*_{LASSO} = {\underset{\beta}{\operatorname{argmin}}}\left\{{\frac {1}{N}}\left\|y-X\beta \right\|_{2}^{2}+\lambda \|\beta \|_{1}\right\}
-\]</span></p>
-<ul>
-<li>Why does this work to penalize complexity? What does the parameter <span class="math inline">\(\lambda\)</span> do?</li>
-<li>Some known issues with LASSO fixed in extension of the same intuitions: <strong>Elastic Net</strong></li>
-</ul>
-<p><span class="math display">\[
-\beta^*_{EN} = {\underset {\beta }{\operatorname {argmin} }}\left\{ \|y-X\beta \|^{2}_2+\lambda _{2}\|\beta \|^{2}+\lambda _{1}\|\beta \|_{1} \right\}
-\]</span></p>
-<ul>
-<li>(Ensures a unique global minimum! Note that <span class="math inline">\(\lambda_2 = 0, \lambda_1 = 1 \implies \beta^*_{LASSO} = \beta^*_{EN}\)</span>)</li>
-</ul>
-<aside><ol class="aside-footnotes"><li id="fn4"><p><strong>L</strong>east <strong>A</strong>bsolute <strong>S</strong>hrinkage and <strong>S</strong>election <strong>O</strong>perator</p></li></ol></aside></section>
-<section id="training-vs.-test-data" class="slide level2">
-<h2>Training vs.&nbsp;Test Data</h2>
-<div class="cell" data-fig-size="3">
-<div class="cell-output-display">
-<div>
-<div>
-<svg width="960" height="480" viewbox="0.00 0.00 366.00 100.80" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 96.8)">
-<title>
-grid
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-96.8 362,-96.8 362,4 -4,4"></polygon> <g id="clust2" class="cluster">
-<title>
-cluster_02
-</title>
-<polygon fill="none" stroke="black" points="251,-8 251,-84.8 350,-84.8 350,-8 251,-8"></polygon> <text text-anchor="middle" x="300.5" y="-68.2" font-family="Times,serif" font-size="14.00">Test Set (20%)</text> </g> <g id="clust1" class="cluster">
-<title>
-cluster_01
-</title>
-<polygon fill="none" stroke="black" points="8,-8 8,-84.8 243,-84.8 243,-8 8,-8"></polygon> <text text-anchor="middle" x="125.5" y="-68.2" font-family="Times,serif" font-size="14.00">Training Set (80%)</text> </g> <!-- N1 --> <g id="node1" class="node">
-<title>
-N1
-</title>
-<polygon fill="lightblue" stroke="black" points="235,-52 181,-52 181,-16 235,-16 235,-52"></polygon> <text text-anchor="middle" x="208" y="-29.8" font-family="Times,serif" font-size="14.00">20%</text> </g> <!-- N2 --> <g id="node2" class="node">
-<title>
-N2
-</title>
-<polygon fill="lightblue" stroke="black" points="180,-52 126,-52 126,-16 180,-16 180,-52"></polygon> <text text-anchor="middle" x="153" y="-29.8" font-family="Times,serif" font-size="14.00">20%</text> </g> <!-- N3 --> <g id="node3" class="node">
-<title>
-N3
-</title>
-<polygon fill="lightblue" stroke="black" points="125,-52 71,-52 71,-16 125,-16 125,-52"></polygon> <text text-anchor="middle" x="98" y="-29.8" font-family="Times,serif" font-size="14.00">20%</text> </g> <!-- N4 --> <g id="node4" class="node">
-<title>
-N4
-</title>
-<polygon fill="lightblue" stroke="black" points="70,-52 16,-52 16,-16 70,-16 70,-52"></polygon> <text text-anchor="middle" x="43" y="-29.8" font-family="Times,serif" font-size="14.00">20%</text> </g> <!-- N5 --> <g id="node5" class="node">
-<title>
-N5
-</title>
-<polygon fill="orange" stroke="black" points="327,-52 273,-52 273,-16 327,-16 327,-52"></polygon> <text text-anchor="middle" x="300" y="-29.8" font-family="Times,serif" font-size="14.00">20%</text> </g> </g>
-</svg>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="cross-validation" class="slide level2">
-<h2>Cross-Validation</h2>
-<ul>
-<li>The idea that <strong>good models generalize well</strong> is crucial!
-<ul>
-<li>What if we could leverage this insight to optimize <strong>over our training data</strong>?</li>
-<li>The key: <strong>Validation Sets</strong></li>
-</ul></li>
-</ul>
-<div class="cell" data-fig-height="3">
-<div class="cell-output-display">
-<div>
-<div>
-<svg width="960" height="288" viewbox="0.00 0.00 553.00 142.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none; display: block; margin: auto auto auto auto">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 138)">
-<title>
-grid
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-138 549,-138 549,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_01
-</title>
-<polygon fill="none" stroke="black" points="8,-8 8,-126 438,-126 438,-8 8,-8"></polygon> <text text-anchor="middle" x="223" y="-109.4" font-family="Times,serif" font-size="14.00">Training Set (80%)</text> </g> <g id="clust3" class="cluster">
-<title>
-cluster_03
-</title>
-<polygon fill="none" stroke="black" points="288,-16 288,-93 430,-93 430,-16 288,-16"></polygon> <text text-anchor="middle" x="359" y="-76.4" font-family="Times,serif" font-size="14.00">Validation Fold (20%)</text> </g> <g id="clust2" class="cluster">
-<title>
-cluster_02
-</title>
-<polygon fill="none" stroke="black" points="16,-16 16,-93 272,-93 272,-16 16,-16"></polygon> <text text-anchor="middle" x="144" y="-76.4" font-family="Times,serif" font-size="14.00">Training Fold (80%)</text> </g> <g id="clust4" class="cluster">
-<title>
-cluster_04
-</title>
-<polygon fill="none" stroke="black" points="446,-16 446,-93 545,-93 545,-16 446,-16"></polygon> <text text-anchor="middle" x="495.5" y="-76.4" font-family="Times,serif" font-size="14.00">Test Set (20%)</text> </g> <!-- A1 --> <g id="node1" class="node">
-<title>
-A1
-</title>
-<polygon fill="lightblue" stroke="black" points="78,-60 24,-60 24,-24 78,-24 78,-60"></polygon> <text text-anchor="middle" x="51" y="-37.8" font-family="Times,serif" font-size="14.00">16%</text> </g> <!-- A2 --> <g id="node2" class="node">
-<title>
-A2
-</title>
-<polygon fill="lightblue" stroke="black" points="140,-60 86,-60 86,-24 140,-24 140,-60"></polygon> <text text-anchor="middle" x="113" y="-37.8" font-family="Times,serif" font-size="14.00">16%</text> </g> <!-- A1&#45;&#45;A2 --> <!-- A3 --> <g id="node3" class="node">
-<title>
-A3
-</title>
-<polygon fill="lightblue" stroke="black" points="202,-60 148,-60 148,-24 202,-24 202,-60"></polygon> <text text-anchor="middle" x="175" y="-37.8" font-family="Times,serif" font-size="14.00">16%</text> </g> <!-- A2&#45;&#45;A3 --> <!-- A4 --> <g id="node4" class="node">
-<title>
-A4
-</title>
-<polygon fill="lightblue" stroke="black" points="264,-60 210,-60 210,-24 264,-24 264,-60"></polygon> <text text-anchor="middle" x="237" y="-37.8" font-family="Times,serif" font-size="14.00">16%</text> </g> <!-- A3&#45;&#45;A4 --> <!-- B1 --> <g id="node5" class="node">
-<title>
-B1
-</title>
-<polygon fill="lightgreen" stroke="black" points="386,-60 332,-60 332,-24 386,-24 386,-60"></polygon> <text text-anchor="middle" x="359" y="-37.8" font-family="Times,serif" font-size="14.00">16%</text> </g> <!-- A4&#45;&#45;B1 --> <!-- C1 --> <g id="node6" class="node">
-<title>
-C1
-</title>
-<polygon fill="orange" stroke="black" points="522,-60 468,-60 468,-24 522,-24 522,-60"></polygon> <text text-anchor="middle" x="495" y="-37.8" font-family="Times,serif" font-size="14.00">20%</text> </g> <!-- B1&#45;&#45;C1 --> </g>
-</svg>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="hyperparameters" class="slide level2">
-<h2>Hyperparameters</h2>
-<ul>
-<li>The unspoken (but highly consequential!) “settings” for our learning procedure (that we <em>haven’t</em> optimized via gradient descent)</li>
-<li>There are several we’ve already seen – can you name them?</li>
-</ul>
-<div class="fragment">
-<ul>
-<li>Unsupervised Clustering: The number of clusters we want (<span class="math inline">\(K\)</span>)</li>
-<li>Gradient Descent: The <strong>step size</strong> <span class="math inline">\(\gamma\)</span></li>
-<li>LASSO/Elastic Net: <span class="math inline">\(\lambda\)</span></li>
-<li>The train/validation/test split!</li>
-</ul>
-</div>
-</section>
-<section id="hyperparameter-selection" class="slide level2">
-<h2>Hyperparameter Selection</h2>
-<ul>
-<li>Every model comes with its own hyperparameters:
-<ul>
-<li>Neural Networks: Number of layers, number of nodes per layer</li>
-<li>Decision Trees: Maximum tree depth, max number of features to include</li>
-<li>Topic Models: Number of topics, document/topic <strong>priors</strong></li>
-</ul></li>
-<li>So, how do we choose?
-<ul>
-<li>Often more art than science</li>
-<li>Principled, universally applicable, but slow: grid search</li>
-<li>Specific methods for specific algorithms: ADAM <span class="citation" data-cites="kingma_adam_2017">[@kingma_adam_2017]</span> for Neural Network learning rates)</li>
-</ul></li>
-</ul>
-</section>
-<section id="appendix-harmonic-mean" class="slide level2">
-<h2>Appendix: Harmonic Mean</h2>
-<ul>
-<li><span class="math inline">\(\mathsf{HMean}\)</span> is the <strong>harmonic mean</strong>, an alternative to the standard (arithmetic) mean</li>
-<li>Penalizes greater “gaps” between precision and recall: if precision is 0 and recall is 1, for example, their <em>arithmetic</em> mean is 0.5 while their harmonic mean is 0.</li>
-<li>For the curious: given numbers <span class="math inline">\(X = \{x_1, \ldots, x_n\}\)</span>, <span class="math inline">\(\mathsf{HMean}(X) = \frac{n}{\sum_{i=1}^nx_i^{-1}}\)</span></li>
-</ul>
 
 <div class="footer footer-default">
-<p>DSAN5000 Extra Slides: Machine Learning</p>
+<p>DSAN 5000 Extra Slides: Regression vs.&nbsp;PCA</p>
 </div>
 </section>
-
     </div>
   </div>
 
@@ -1177,6 +918,7 @@ C1
   <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/simplemenu/simplemenu.js"></script>
   <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1199,6 +941,7 @@ C1
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'simplemenu': {"menubarclass":"menubar","menuclass":"menu","activeclass":"active","activeelement":"li","flat":true,"barhtml":{"header":"<div class='menubar'>\n  <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>\n  <ul class='menu'></ul>\n</div>\n","footer":""},"scale":0.5},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1369,7 +1112,7 @@ C1
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Simplemenu, QuartoSupport,
 
           RevealMath,
           RevealNotes,

@@ -8,16 +8,10 @@
     "items": []
   },
   {
-    "listing": "/recordings/index.html",
-    "items": []
-  },
-  {
-    "listing": "/writeups/quiz-status/index.html",
-    "items": []
-  },
-  {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/regression-vs-pca/index.html",
+      "/writeups/machine-learning/index.html",
       "/writeups/clustering/DSAN5000_Clustering_Lab.html",
       "/writeups/data-cleaning/clean_data.html",
       "/writeups/left-right-shifts/index.html",
@@ -26,7 +20,6 @@
       "/writeups/selenium/Web_Scraping_With_Selenium.html",
       "/writeups/hw2-clarifications/index.html",
       "/writeups/feature-selection/DSAN5000_Feature_Selection_Full.html",
-      "/writeups/machine-learning/index.html",
       "/writeups/melt-and-pivot/index.html",
       "/writeups/eda-seaborn/THOR_EDA_with_Seaborn.html",
       "/writeups/tidyverse-split-column/index.html",
@@ -41,6 +34,14 @@
       "/writeups/hw1-clarifications/index.html",
       "/writeups/refs-and-citations/index.html"
     ]
+  },
+  {
+    "listing": "/writeups/quiz-status/index.html",
+    "items": []
+  },
+  {
+    "listing": "/recordings/index.html",
+    "items": []
   },
   {
     "listing": "/index.html",

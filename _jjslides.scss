@@ -46,6 +46,15 @@ figcaption {
   color: #F0E442 !important;
 }
 
+.coef-table {
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 1.5rem !important;
+}
+
+.coef-table td {
+  vertical-align: middle !important;
+}
+
 // Fix the quarto table <-> python tabular thing
 // https://stackoverflow.com/questions/359821/styling-the-last-td-in-a-table-with-css
 .corr-table tbody > tr:last-of-type {
@@ -122,6 +131,7 @@ figcaption {
   margin-bottom: 2px !important;
 }
 
+// p
 .crunch-p p {
   margin-top: 3px !important;
   margin-bottom: 3px !important;
