@@ -160,5 +160,9 @@
   "writeups/regression-vs-pca/index.qmd": {
     "index.html": "5051f949",
     "slides.html": "e78d26ee"
+  },
+  "w11/index.qmd": {
+    "slides.html": "39f6ba31",
+    "index.html": "78d75c3c"
   }
 }

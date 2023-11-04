@@ -1,0 +1,47 @@
+---
+title: "Week 11: Decision Trees"
+date: "Tuesday, October 31, 2023"
+date-format: full
+lecnum: 11
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    output-file: slides.html
+    cache: false
+    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 11: Decision Trees"
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+    cache: false
+    code-fold: true
+    warning: false
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
+
+{{< include ../_r-globals.qmd >}}
+
+{{< include ../_py-globals.qmd >}}
+
+{{< include ../_tex-globals.qmd >}}
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+{{< include ../_components/sched-w10.qmd >}}
+
+# Quiz Prep {data-stack-name="Quiz Prep"}
+
+##  {.smaller .crunch-title .crunch-ul .crunch-code .crunch-quarto-layout-panel .crunch-images .crunch-figures}
+
