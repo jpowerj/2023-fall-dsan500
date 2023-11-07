@@ -1731,14 +1731,14 @@ branch2-&gt;leaf6
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>),<span class="fu">ymd</span>(<span class="st">'2023-12-31'</span>),<span class="at">by=</span><span class="st">'weeks'</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>longitude <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by=</span><span class="dv">5</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ski_df <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(day, longitude)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>latitude <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by=</span><span class="dv">5</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ski_df <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(day, latitude)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#ski_df |&gt; head()</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Data-generating process</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ski_df <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">near_equator =</span> <span class="fu">abs</span>(longitude) <span class="sc">&lt;=</span> <span class="dv">30</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">northern =</span> longitude <span class="sc">&gt;</span> <span class="dv">30</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">southern =</span> longitude <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">near_equator =</span> <span class="fu">abs</span>(latitude) <span class="sc">&lt;=</span> <span class="dv">30</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">northern =</span> latitude <span class="sc">&gt;</span> <span class="dv">30</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">southern =</span> latitude <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>,</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_3m =</span> day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>),</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_3m =</span> day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>),</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">middle_6m =</span> (day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>)) <span class="sc">&amp;</span> (day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>)),</span>
@@ -1765,14 +1765,14 @@ branch2-&gt;leaf6
 <span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co">#print(nrow(ski_df))</span></span>
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>ski_sample <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="dv">100</span>)</span>
 <span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/ski.csv"</span>)</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>longitude, <span class="at">shape=</span>good_skiing, <span class="at">color=</span>good_skiing)) <span class="sc">+</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>latitude, <span class="at">shape=</span>good_skiing, <span class="at">color=</span>good_skiing)) <span class="sc">+</span></span>
 <span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>, <span class="at">stroke=</span><span class="fl">1.5</span>,</span>
 <span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
 <span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Longitude"</span>,</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>,</span>
 <span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
 <span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">"Good Skiing?"</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
@@ -1833,20 +1833,20 @@ branch2-&gt;leaf6
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div id="split-choice-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <center>
-<p><span class="math inline">\(\text{longitude} \geq -30\)</span>:</p>
+<p><span class="math inline">\(\text{latitude} \geq -30\)</span>:</p>
 </center>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ski_sample <span class="ot">&lt;-</span> ski_sample <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">lon_gt_n30 =</span> longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">30</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">lat_gt_n30 =</span> latitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">30</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(lon_gt_n30) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(lat_gt_n30) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
-# Groups:   lon_gt_n30 [2]
-  lon_gt_n30 good_skiing     n
+# Groups:   lat_gt_n30 [2]
+  lat_gt_n30 good_skiing     n
   &lt;lgl&gt;      &lt;lgl&gt;       &lt;int&gt;
 1 FALSE      FALSE          17
 2 FALSE      TRUE           19
@@ -1857,7 +1857,7 @@ branch2-&gt;leaf6
 <p>This gives us the rule</p>
 <p><span class="math display">\[
 \widehat{C}(x) = \begin{cases}
-0 &amp;\text{if }\text{longitude} \geq -30, \\
+0 &amp;\text{if }\text{latitude} \geq -30, \\
 0 &amp;\text{otherwise}
 \end{cases}
 \]</span></p>
@@ -1909,7 +1909,7 @@ branch2-&gt;leaf6
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>sklearn.set_config(display<span class="op">=</span><span class="st">'text'</span>)</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ski_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/ski.csv"</span>)</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>ski_df[<span class="st">'good_skiing'</span>] <span class="op">=</span> ski_df[<span class="st">'good_skiing'</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> ski_df[[<span class="st">'day_num'</span>, <span class="st">'longitude'</span>]]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> ski_df[[<span class="st">'day_num'</span>, <span class="st">'latitude'</span>]]</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> ski_df[[<span class="st">'good_skiing'</span>]].values</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>dtc <span class="op">=</span> DecisionTreeClassifier(</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  criterion <span class="op">=</span> <span class="st">"entropy"</span></span>
@@ -1945,12 +1945,12 @@ branch2-&gt;leaf6
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ski_sample[<span class="st">'snowfall_str'</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(ski_sample<span class="sc">$</span>snowfall, format_snow)</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#ski_df |&gt; head()</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#print(nrow(ski_df))</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>longitude, <span class="at">label=</span>snowfall_str)) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>latitude, <span class="at">label=</span>snowfall_str)) <span class="sc">+</span></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Longitude"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>,</span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>

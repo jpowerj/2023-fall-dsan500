@@ -856,14 +856,14 @@ digraph G {
 library(tidyverse)
 library(lubridate)
 day <- seq(ymd('2023-01-01'),ymd('2023-12-31'),by='weeks')
-longitude <- seq(-90, 90, by=5)
-ski_df <- expand_grid(day, longitude)
+latitude <- seq(-90, 90, by=5)
+ski_df <- expand_grid(day, latitude)
 #ski_df |> head()
 # Data-generating process
 ski_df <- ski_df |> mutate(
-  near_equator = abs(longitude) <= 30,
-  northern = longitude > 30,
-  southern = longitude < -30,
+  near_equator = abs(latitude) <= 30,
+  northern = latitude > 30,
+  southern = latitude < -30,
   first_3m = day < ymd('2023-04-01'),
   last_3m = day >= ymd('2023-10-01'),
   middle_6m = (day >= ymd('2023-04-01')) & (day < ymd('2023-10-01')),
@@ -890,14 +890,14 @@ ski_df <- ski_df |> mutate(
 #print(nrow(ski_df))
 ski_sample <- ski_df |> sample_n(100)
 ski_sample |> write_csv("assets/ski.csv")
-ggplot(ski_sample, aes(x=day, y=longitude, shape=good_skiing, color=good_skiing)) +
+ggplot(ski_sample, aes(x=day, y=latitude, shape=good_skiing, color=good_skiing)) +
   geom_point(
     size = g_pointsize / 2, stroke=1.5,
   ) +
   dsan_theme() +
   labs(
     x = "Time of Year",
-    y = "Longitude",
+    y = "Latitude",
     shape = "Good Skiing?"
   ) +
   scale_shape_manual(name="Good Skiing?", values=c(1, 3)) +
@@ -942,24 +942,24 @@ Let's think through two choices for the first split:
 
 <center>
 
-$\text{longitude} \geq -30$:
+$\text{latitude} \geq -30$:
 
 </center>
 
 ```{r}
-#| label: ski-split-longitude
+#| label: ski-split-latitude
 #| fig-align: center
 ski_sample <- ski_sample |> mutate(
-  lon_gt_n30 = longitude >= -30
+  lat_gt_n30 = latitude >= -30
 )
-ski_sample |> group_by(lon_gt_n30) |> count(good_skiing)
+ski_sample |> group_by(lat_gt_n30) |> count(good_skiing)
 ```
 
 This gives us the rule
 
 $$
 \widehat{C}(x) = \begin{cases}
-0 &\text{if }\text{longitude} \geq -30, \\
+0 &\text{if }\text{latitude} \geq -30, \\
 0 &\text{otherwise}
 \end{cases}
 $$
@@ -1006,7 +1006,7 @@ from sklearn.tree import DecisionTreeClassifier
 sklearn.set_config(display='text')
 ski_df = pd.read_csv("assets/ski.csv")
 ski_df['good_skiing'] = ski_df['good_skiing'].astype(int)
-X = ski_df[['day_num', 'longitude']]
+X = ski_df[['day_num', 'latitude']]
 y = ski_df[['good_skiing']].values
 dtc = DecisionTreeClassifier(
   criterion = "entropy"
@@ -1027,12 +1027,12 @@ format_snow <- function(x) round(x, 2)
 ski_sample['snowfall_str'] <- sapply(ski_sample$snowfall, format_snow)
 #ski_df |> head()
 #print(nrow(ski_df))
-ggplot(ski_sample, aes(x=day, y=longitude, label=snowfall_str)) +
+ggplot(ski_sample, aes(x=day, y=latitude, label=snowfall_str)) +
   geom_text(size = 6) +
   dsan_theme() +
   labs(
     x = "Time of Year",
-    y = "Longitude",
+    y = "Latitude",
     shape = "Good Skiing?"
   ) +
   scale_shape_manual(values=c(1, 3)) +

@@ -1,4 +1,4 @@
-day,longitude,near_equator,northern,southern,first_3m,last_3m,middle_6m,snowfall,good_skiing,day_num
+day,latitude,near_equator,northern,southern,first_3m,last_3m,middle_6m,snowfall,good_skiing,day_num
 2023-09-17,30,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,0,FALSE,260
 2023-01-29,40,FALSE,TRUE,FALSE,TRUE,FALSE,FALSE,16.008312113874148,TRUE,29
 2023-02-26,25,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE,0,FALSE,57
