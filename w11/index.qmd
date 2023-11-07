@@ -566,7 +566,7 @@ $$
 | - | - |
 | *Is it a **physical object***? | *Is it a **soda can**?* |
 | *Is it an **animal***? | Is it a **cat**?
-| *Is it **bigger than a house***? | *Is it the planet **Mercury**?* |
+| *Is it **bigger than a house***? | *Is it a **planet**?* |
 
 ::: {.aside}
 

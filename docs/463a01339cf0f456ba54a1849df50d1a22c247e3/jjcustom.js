@@ -67,6 +67,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w07-date': 'Oct 3',
       '.sec-w08-date': 'Oct 10',
       '.sec-w09-date': 'Oct 24',
+      '.sec-w10-date': 'Oct 31',
+      '.sec-w11-date': 'Nov 7',
       '.sec-start': '12:30pm',
       '.sec-p10': '12:40pm',
       '.sec-p15': '12:45pm',
@@ -108,6 +110,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w07-date': 'Oct 4',
       '.sec-w08-date': 'Oct 11',
       '.sec-w09-date': 'Oct 25',
+      '.sec-w10-date': 'Nov 1',
+      '.sec-w11-date': 'Nov 8',
       '.sec-start': '3:30pm',
       '.sec-p10': '3:40pm',
       '.sec-p15': '3:45pm',
@@ -171,7 +175,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       // w08
       'Wednesday, October 18, 2023': 'Tuesday, October 17, 2023',
       // w09
-      'Wednesday, October 25, 2023': 'Tuesday, October 24, 2023'
+      'Wednesday, October 25, 2023': 'Tuesday, October 24, 2023',
+      // w10
+      'Wednesday, November 1, 2023': 'Tuesday, October 31, 2023',
+      // w11
+      'Wednesday, November 8, 2023': 'Tuesday, November 7, 2023'
     };
     const s03Replace = {
       // w01
@@ -191,7 +199,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       // w08
       'Tuesday, October 17, 2023': 'Wednesday, October 18, 2023',
       // w09
-      'Tuesday, October 24, 2023': 'Wednesday, October 25, 2023'
+      'Tuesday, October 24, 2023': 'Wednesday, October 25, 2023',
+      // w10
+      'Tuesday, October 31, 2023': 'Wednesday, November 1, 2023',
+      // w11
+      'Tuesday, November 7, 2023': 'Wednesday, November 8, 2023'
     };
     let shownDate = $('p.date').text();
     //console.log(shownDate);

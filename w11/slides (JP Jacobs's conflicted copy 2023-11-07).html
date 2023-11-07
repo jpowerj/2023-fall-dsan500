@@ -1,26 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<link href="../favicon.png" rel="icon" type="image/png">
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/tabby.min.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><link href="../favicon.png" rel="icon" type="image/png">
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/tabby.min.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.450" />
 
   <meta name="author" content="Jeff Jacobs">
-  <title>DSAN 5000 - Week 11: Decision Trees</title>
+  <title>DSAN 5000 – Week 11: Decision Trees</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -124,7 +109,7 @@
       margin-left: 2em;
     }  </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
-  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-ETYTX4E16L"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ETYTX4E16L"></script>
 
   <script type="text/javascript">
 
@@ -423,13 +408,13 @@
       margin-right: 0; 
     }
   </style>
-  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../jjcustom.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src='https://code.jquery.com/jquery-3.7.1.slim.min.js'></script><script src='/jjcustom.js'></script><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css' integrity='sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65' crossorigin='anonymous'><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css'>
 </head>
-<body class="quarto-light">
+<body>
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" class="quarto-title-block">
   <h1 class="title">Week 11: Decision Trees</h1>
   <p class="subtitle"><em>DSAN 5000: Data Science and Analytics</em><br>Section <span class="sec-num">02</span></p>
 
@@ -446,13 +431,13 @@ Jeff Jacobs
 
   <p class="date">Tuesday, November 7, 2023</p>
 </section>
-<section id="schedule" class="title-slide slide level1 smaller small-title crunch-title crunch-callout center" data-name="Schedule">
-<h1>Schedule</h1>
+<section id="schedule" class="title-slide slide level1 smaller small-title crunch-title crunch-callout" data-name="Schedule">
+<h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
 <div class="hidden">
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">source</span>(<span class="st">&quot;../_globals.r&quot;</span>)</span></code></pre></div>
 </details>
 </div>
 </div>
@@ -460,10 +445,10 @@ Jeff Jacobs
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python cell-code number-lines"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>cb_palette <span class="op">=</span> [<span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;#56B4E9&quot;</span>, <span class="st">&quot;#009E73&quot;</span>, <span class="st">&quot;#F0E442&quot;</span>, <span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;#D55E00&quot;</span>, <span class="st">&quot;#CC79A7&quot;</span>]</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">def</span> disp(df, floatfmt<span class="op">=</span><span class="st">'g'</span>, include_index<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">def</span> disp(df, floatfmt<span class="op">=</span><span class="st">&#39;g&#39;</span>, include_index<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb2-5"><a href="#cb2-5"></a>  <span class="cf">return</span> Markdown(</span>
 <span id="cb2-6"><a href="#cb2-6"></a>    df.to_markdown(</span>
 <span id="cb2-7"><a href="#cb2-7"></a>      floatfmt<span class="op">=</span>floatfmt,</span>
@@ -471,14 +456,14 @@ Jeff Jacobs
 <span id="cb2-9"><a href="#cb2-9"></a>    )</span>
 <span id="cb2-10"><a href="#cb2-10"></a>  )</span>
 <span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">def</span> summary_to_df(summary_obj, corner_col <span class="op">=</span> <span class="st">''</span>):</span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">def</span> summary_to_df(summary_obj, corner_col <span class="op">=</span> <span class="st">&#39;&#39;</span>):</span>
 <span id="cb2-13"><a href="#cb2-13"></a>    reg_df <span class="op">=</span> pd.DataFrame(summary_obj.tables[<span class="dv">1</span>].data)</span>
 <span id="cb2-14"><a href="#cb2-14"></a>    reg_df.columns <span class="op">=</span> reg_df.iloc[<span class="dv">0</span>]</span>
 <span id="cb2-15"><a href="#cb2-15"></a>    reg_df <span class="op">=</span> reg_df.iloc[<span class="dv">1</span>:].copy()</span>
 <span id="cb2-16"><a href="#cb2-16"></a>    <span class="co"># Save index col</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a>    index_col <span class="op">=</span> reg_df[<span class="st">''</span>]</span>
-<span id="cb2-18"><a href="#cb2-18"></a>    <span class="co"># Drop for now, so it's all numeric</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a>    reg_df.drop(columns<span class="op">=</span>[<span class="st">''</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-17"><a href="#cb2-17"></a>    index_col <span class="op">=</span> reg_df[<span class="st">&#39;&#39;</span>]</span>
+<span id="cb2-18"><a href="#cb2-18"></a>    <span class="co"># Drop for now, so it&#39;s all numeric</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a>    reg_df.drop(columns<span class="op">=</span>[<span class="st">&#39;&#39;</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-20"><a href="#cb2-20"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(pd.to_numeric)</span>
 <span id="cb2-21"><a href="#cb2-21"></a>    my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x, <span class="dv">2</span>)</span>
 <span id="cb2-22"><a href="#cb2-22"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(my_round)</span>
@@ -486,8 +471,8 @@ Jeff Jacobs
 <span id="cb2-24"><a href="#cb2-24"></a>    <span class="co"># Add index col back in</span></span>
 <span id="cb2-25"><a href="#cb2-25"></a>    reg_df.insert(loc<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span>corner_col, value<span class="op">=</span>index_col)</span>
 <span id="cb2-26"><a href="#cb2-26"></a>    <span class="co"># Sigh. Have to escape | characters?</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">"|"</span>,<span class="st">"\|"</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
-<span id="cb2-28"><a href="#cb2-28"></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-27"><a href="#cb2-27"></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">&quot;|&quot;</span>,<span class="st">&quot;\|&quot;</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
+<span id="cb2-28"><a href="#cb2-28"></a>    <span class="cf">return</span> reg_df</span></code></pre></div>
 </details>
 </div>
 </div>
@@ -527,11 +512,11 @@ Jeff Jacobs
 <p>Today’s Planned Schedule (Section <span class="sec-num">02</span>):</p>
 <table>
 <colgroup>
-<col style="width: 14%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 50%">
-<col style="width: 12%">
+<col style="width: 14%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 50%" />
+<col style="width: 12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -546,28 +531,28 @@ Jeff Jacobs
 <tr class="odd">
 <td style="text-align: left;"><strong>Lecture</strong></td>
 <td style="text-align: left;"><span class="sec-start">12:30pm</span></td>
-<td style="text-align: left;"><span class="sec-p30">1:00pm</span></td>
+<td style="text-align: left;"><span class='sec-p30'>1:00pm</a></td>
 <td style="text-align: left;"><a href="#quiz-prep">Quiz Prep →</a></td>
 <td style="text-align: center;"><a id="rec-link-w11-1" href="../recordings/recording-w11s02-1.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p30">1:00pm</span></td>
-<td style="text-align: left;"><span class="sec-p50">1:20pm</span></td>
-<td style="text-align: left;"><a href="https://georgetown.instructure.com/courses/173310/quizzes/203758?module_item_id=3453375" target="_blank">Quiz 5.1 <i class="bi bi-box-arrow-up-right"></i></a></td>
+<td style="text-align: left;"><span class='sec-p50'>1:20pm</a></td>
+<td style="text-align: left;"><a href="https://georgetown.instructure.com/courses/173310/quizzes/203758?module_item_id=3453375" target='_blank'>Quiz 5.1 <i class='bi bi-box-arrow-up-right'></i></a></td>
 <td style="text-align: center;"><a id="rec-link-w11-2" href="../recordings/recording-w11s02-2.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p50">1:20pm</span></td>
-<td style="text-align: left;"><span class="sec-p70">1:40pm</span></td>
+<td style="text-align: left;"><span class='sec-p70'>1:40pm</a></td>
 <td style="text-align: left;"><a href="#from-w06-data-generating-process-dgp">Decision Trees and Entropy →</a></td>
 <td style="text-align: center;"><a id="rec-link-w11-3" href="../recordings/recording-w11s02-3.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p70">1:40pm</span></td>
-<td style="text-align: left;"><span class="sec-p90">2:00pm</span></td>
+<td style="text-align: left;"><span class='sec-p90'>2:00pm</a></td>
 <td style="text-align: left;"><a href="#from-w06-data-generating-process-dgp">Decision Trees for Classification →</a></td>
 <td style="text-align: center;"><a id="rec-link-w10-1" href="../recordings/recording-w10s02-1.html" target="_blank"><i class="bi bi-film"></i></a></td>
 </tr>
@@ -582,8 +567,8 @@ Jeff Jacobs
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><span class="sec-p100">2:10pm</span></td>
 <td style="text-align: left;"><span class="sec-p130">2:40pm</span></td>
-<td style="text-align: left;"><a href="#clustering-and-dimensionality-reduction-for-text-data">Decision Trees for Regression →</a></td>
-<td style="text-align: center;"><a href="../recordings/recording-w10s02-3.html" target="_blank"><i class="bi bi-film"></i></a></td>
+<td style="text-align: left;"><a href='#clustering-and-dimensionality-reduction-for-text-data'>Decision Trees for Regression →</a></td>
+<td style="text-align: center;"><a href='../recordings/recording-w10s02-3.html' target='_blank'><i class='bi bi-film'></i></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
@@ -597,12 +582,12 @@ Jeff Jacobs
 </section>
 
 <section>
-<section id="quiz-prep" class="title-slide slide level1 center" data-stack-name="Quiz Prep">
-<h1>Quiz Prep</h1>
+<section id="quiz-prep" class="title-slide slide level1" data-stack-name="Quiz Prep">
+<h1 data-stack-name="Quiz Prep">Quiz Prep</h1>
 
 </section>
 <section id="reducing-dimensionality" class="slide level2 smaller crunch-title small-math crunch-quarto-layout-cell">
-<h2>Reducing Dimensionality</h2>
+<h2 class="smaller crunch-title small-math crunch-quarto-layout-cell">Reducing Dimensionality</h2>
 <style>
 .xout {
   background: 
@@ -733,8 +718,8 @@ Jeff Jacobs
 <div class="quarto-layout-cell" style="flex-basis: 28.6%;justify-content: center;">
 <p><span class="math display">\[
 \begin{align*}
-{\color{#56b4e9}F'_{12}} &amp;= \frac{{\color{#e69f00}F_1} + {\color{#e69f00}F_2}}{2} \\
-{\color{#56b4e9}F'_{23}} &amp;= \frac{{\color{#e69f00}F_2} + {\color{#e69f00}F_3}}{2}
+{\color{#56b4e9}F&#39;_{12}} &amp;= \frac{{\color{#e69f00}F_1} + {\color{#e69f00}F_2}}{2} \\
+{\color{#56b4e9}F&#39;_{23}} &amp;= \frac{{\color{#e69f00}F_2} + {\color{#e69f00}F_3}}{2}
 \end{align*}
 \]</span></p>
 </div>
@@ -745,8 +730,8 @@ Jeff Jacobs
 <table id="fe3" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th"><span class="cb2"><span class="math inline">\(F'_{12}\)</span></span></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th"><span class="cb2"><span class="math inline">\(F'_{23}\)</span></span></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th"><span class="cb2"><span class="math inline">\(F&#39;_{12}\)</span></span></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th"><span class="cb2"><span class="math inline">\(F&#39;_{23}\)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -765,7 +750,7 @@ Jeff Jacobs
 </div>
 </section>
 <section id="principal-component-analysis-pca" class="slide level2 smaller crunch-title crunch-code crunch-figures crunch-quarto-layout-panel crunch-ul">
-<h2>Principal Component Analysis (PCA)</h2>
+<h2 class="smaller crunch-title crunch-code crunch-figures crunch-quarto-layout-panel crunch-ul">Principal Component Analysis (PCA)</h2>
 <ul>
 <li>We know this is feature <strong>extraction</strong> since we obtain <strong>new dimensions</strong>:</li>
 </ul>
@@ -774,9 +759,9 @@ Jeff Jacobs
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(readr)</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>gdp_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/gdp_pca.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>gdp_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;assets/gdp_pca.csv&quot;</span>)</span>
 <span id="cb3-4"><a href="#cb3-4"></a></span>
 <span id="cb3-5"><a href="#cb3-5"></a>dist_to_line <span class="ot">&lt;-</span> <span class="cf">function</span>(x0, y0, a, c) {</span>
 <span id="cb3-6"><a href="#cb3-6"></a>    numer <span class="ot">&lt;-</span> <span class="fu">abs</span>(a <span class="sc">*</span> x0 <span class="sc">-</span> y0 <span class="sc">+</span> c)</span>
@@ -794,21 +779,21 @@ Jeff Jacobs
 <span id="cb3-18"><a href="#cb3-18"></a>o <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), lossFn, <span class="at">x0 =</span> x, <span class="at">y0 =</span> y)</span>
 <span id="cb3-19"><a href="#cb3-19"></a><span class="fu">ggplot</span>(gdp_df, <span class="fu">aes</span>(<span class="at">x =</span> industrial, <span class="at">y =</span> exports)) <span class="sc">+</span></span>
 <span id="cb3-20"><a href="#cb3-20"></a>    <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize<span class="sc">/</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-21"><a href="#cb3-21"></a>    <span class="fu">geom_abline</span>(<span class="fu">aes</span>(<span class="at">slope =</span> o<span class="sc">$</span>par[<span class="dv">1</span>], <span class="at">intercept =</span> o<span class="sc">$</span>par[<span class="dv">2</span>], <span class="at">color=</span><span class="st">"pca"</span>), <span class="at">linewidth=</span>g_linewidth, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a>    <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">color=</span><span class="st">"lm"</span>), <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth=</span>g_linewidth, <span class="at">key_glyph =</span> <span class="st">"blank"</span>) <span class="sc">+</span></span>
-<span id="cb3-23"><a href="#cb3-23"></a>    <span class="fu">scale_color_manual</span>(<span class="fu">element_blank</span>(), <span class="at">values=</span><span class="fu">c</span>(<span class="st">"pca"</span><span class="ot">=</span>cbPalette[<span class="dv">2</span>],<span class="st">"lm"</span><span class="ot">=</span>cbPalette[<span class="dv">1</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Regression"</span>,<span class="st">"PCA"</span>)) <span class="sc">+</span></span>
-<span id="cb3-24"><a href="#cb3-24"></a>    <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a>    <span class="fu">geom_abline</span>(<span class="fu">aes</span>(<span class="at">slope =</span> o<span class="sc">$</span>par[<span class="dv">1</span>], <span class="at">intercept =</span> o<span class="sc">$</span>par[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;pca&quot;</span>), <span class="at">linewidth=</span>g_linewidth, <span class="at">show.legend =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a>    <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">color=</span><span class="st">&quot;lm&quot;</span>), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth=</span>g_linewidth, <span class="at">key_glyph =</span> <span class="st">&quot;blank&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a>    <span class="fu">scale_color_manual</span>(<span class="fu">element_blank</span>(), <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;pca&quot;</span><span class="ot">=</span>cbPalette[<span class="dv">2</span>],<span class="st">&quot;lm&quot;</span><span class="ot">=</span>cbPalette[<span class="dv">1</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Regression&quot;</span>,<span class="st">&quot;PCA&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a>    <span class="fu">dsan_theme</span>(<span class="st">&quot;half&quot;</span>) <span class="sc">+</span></span>
 <span id="cb3-25"><a href="#cb3-25"></a>    <span class="fu">remove_legend_title</span>() <span class="sc">+</span></span>
 <span id="cb3-26"><a href="#cb3-26"></a>    <span class="fu">labs</span>(</span>
-<span id="cb3-27"><a href="#cb3-27"></a>      <span class="at">title =</span> <span class="st">"PCA Line vs. Regression Line"</span>,</span>
-<span id="cb3-28"><a href="#cb3-28"></a>        <span class="at">x =</span> <span class="st">"Industrial Production (% of GDP)"</span>,</span>
-<span id="cb3-29"><a href="#cb3-29"></a>        <span class="at">y =</span> <span class="st">"Exports (% of GDP)"</span></span>
-<span id="cb3-30"><a href="#cb3-30"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-27"><a href="#cb3-27"></a>      <span class="at">title =</span> <span class="st">&quot;PCA Line vs. Regression Line&quot;</span>,</span>
+<span id="cb3-28"><a href="#cb3-28"></a>        <span class="at">x =</span> <span class="st">&quot;Industrial Production (% of GDP)&quot;</span>,</span>
+<span id="cb3-29"><a href="#cb3-29"></a>        <span class="at">y =</span> <span class="st">&quot;Exports (% of GDP)&quot;</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a>    )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/gdp-plot-1.png" width="960"></p>
+<p><img data-src="index_files/figure-revealjs/gdp-plot-1.png" width="960" /></p>
 </figure>
 </div>
 </div>
@@ -816,24 +801,24 @@ Jeff Jacobs
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">ggplot</span>(gdp_df, <span class="fu">aes</span>(pc1, .fittedPC2)) <span class="sc">+</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">ggplot</span>(gdp_df, <span class="fu">aes</span>(pc1, .fittedPC2)) <span class="sc">+</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize<span class="sc">/</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">'PCA Line'</span>), <span class="at">linetype=</span><span class="st">'solid'</span>, <span class="at">size=</span>g_linesize) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">geom_rug</span>(<span class="at">sides =</span> <span class="st">"b"</span>, <span class="at">linewidth=</span>g_linewidth<span class="sc">/</span><span class="fl">1.2</span>, <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>), <span class="at">color=</span>cbPalette[<span class="dv">3</span>]) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>    <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&#39;PCA Line&#39;</span>), <span class="at">linetype=</span><span class="st">&#39;solid&#39;</span>, <span class="at">size=</span>g_linesize) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">geom_rug</span>(<span class="at">sides =</span> <span class="st">&quot;b&quot;</span>, <span class="at">linewidth=</span>g_linewidth<span class="sc">/</span><span class="fl">1.2</span>, <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;npc&quot;</span>), <span class="at">color=</span>cbPalette[<span class="dv">3</span>]) <span class="sc">+</span></span>
 <span id="cb4-5"><a href="#cb4-5"></a>    <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="sc">-</span><span class="fl">1.6</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="fu">scale_color_manual</span>(<span class="fu">element_blank</span>(), <span class="at">values=</span><span class="fu">c</span>(<span class="st">"PCA Line"</span><span class="ot">=</span>cbPalette[<span class="dv">2</span>])) <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>    <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="fu">scale_color_manual</span>(<span class="fu">element_blank</span>(), <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;PCA Line&quot;</span><span class="ot">=</span>cbPalette[<span class="dv">2</span>])) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>    <span class="fu">dsan_theme</span>(<span class="st">&quot;half&quot;</span>) <span class="sc">+</span></span>
 <span id="cb4-8"><a href="#cb4-8"></a>    <span class="fu">remove_legend_title</span>() <span class="sc">+</span></span>
 <span id="cb4-9"><a href="#cb4-9"></a>    <span class="fu">labs</span>(</span>
-<span id="cb4-10"><a href="#cb4-10"></a>      <span class="at">title =</span> <span class="st">"Exports vs. Industry in Principal Component Space"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11"></a>      <span class="at">x =</span> <span class="st">"First Principal Component (Axis of Greatest Variance)"</span>,</span>
-<span id="cb4-12"><a href="#cb4-12"></a>      <span class="at">y =</span> <span class="st">"Second PC"</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10"></a>      <span class="at">title =</span> <span class="st">&quot;Exports vs. Industry in Principal Component Space&quot;</span>,</span>
+<span id="cb4-11"><a href="#cb4-11"></a>      <span class="at">x =</span> <span class="st">&quot;First Principal Component (Axis of Greatest Variance)&quot;</span>,</span>
+<span id="cb4-12"><a href="#cb4-12"></a>      <span class="at">y =</span> <span class="st">&quot;Second PC&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a>    )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/pca-plot-1.png" width="960"></p>
+<p><img data-src="index_files/figure-revealjs/pca-plot-1.png" width="960" /></p>
 </figure>
 </div>
 </div>
@@ -843,37 +828,37 @@ Jeff Jacobs
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb5-3"><a href="#cb5-3"></a>plot_df <span class="ot">&lt;-</span> gdp_df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(country_code, pc1, agriculture, military))</span>
-<span id="cb5-4"><a href="#cb5-4"></a>long_df <span class="ot">&lt;-</span> plot_df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="sc">!</span><span class="fu">c</span>(country_code, pc1), <span class="at">names_to =</span> <span class="st">"var"</span>, <span class="at">values_to =</span> <span class="st">"val"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>long_df <span class="ot">&lt;-</span> plot_df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="sc">!</span><span class="fu">c</span>(country_code, pc1), <span class="at">names_to =</span> <span class="st">&quot;var&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;val&quot;</span>)</span>
 <span id="cb5-5"><a href="#cb5-5"></a>long_df <span class="ot">&lt;-</span> long_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
 <span id="cb5-6"><a href="#cb5-6"></a>  <span class="at">var =</span> <span class="fu">case_match</span>(</span>
 <span id="cb5-7"><a href="#cb5-7"></a>    var,</span>
-<span id="cb5-8"><a href="#cb5-8"></a>    <span class="st">"agriculture"</span> <span class="sc">~</span> <span class="st">"Agricultural Production"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9"></a>    <span class="st">"military"</span> <span class="sc">~</span> <span class="st">"Military Spending"</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="st">&quot;agriculture&quot;</span> <span class="sc">~</span> <span class="st">&quot;Agricultural Production&quot;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    <span class="st">&quot;military&quot;</span> <span class="sc">~</span> <span class="st">&quot;Military Spending&quot;</span></span>
 <span id="cb5-10"><a href="#cb5-10"></a>  )</span>
 <span id="cb5-11"><a href="#cb5-11"></a>)</span>
 <span id="cb5-12"><a href="#cb5-12"></a><span class="fu">ggplot</span>(long_df, <span class="fu">aes</span>(<span class="at">x =</span> pc1, <span class="at">y =</span> val, <span class="at">facet =</span> var)) <span class="sc">+</span></span>
 <span id="cb5-13"><a href="#cb5-13"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(var), <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a>    <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(var), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a>    <span class="fu">dsan_theme</span>(<span class="st">&quot;full&quot;</span>) <span class="sc">+</span></span>
 <span id="cb5-16"><a href="#cb5-16"></a>    <span class="fu">labs</span>(</span>
-<span id="cb5-17"><a href="#cb5-17"></a>        <span class="at">x =</span> <span class="st">"Industrial-Export Dimension (First Principal Component)"</span>,</span>
-<span id="cb5-18"><a href="#cb5-18"></a>        <span class="at">y =</span> <span class="st">"% of GDP"</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-17"><a href="#cb5-17"></a>        <span class="at">x =</span> <span class="st">&quot;Industrial-Export Dimension (First Principal Component)&quot;</span>,</span>
+<span id="cb5-18"><a href="#cb5-18"></a>        <span class="at">y =</span> <span class="st">&quot;% of GDP&quot;</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a>    )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/pca-facet-plot-1.png" width="1632"></p>
+<p><img data-src="index_files/figure-revealjs/pca-facet-plot-1.png" width="1632" /></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
 <section id="pca-math-magic" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-quarto-layout-panel">
-<h2>PCA Math Magic</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-code crunch-quarto-layout-panel">PCA Math Magic</h2>
 <ul>
 <li>Remember that our <strong>goal</strong> is to find the <strong>axes</strong> along which the data has <strong>greatest variance</strong> (out of all possible axes)</li>
 <li>Let’s create a dataset using a <strong>known</strong> data-generating process: one dimension with 75% of the total variance, and the second with 25%:</li>
@@ -883,7 +868,7 @@ Jeff Jacobs
 <div class="cell quarto-layout-cell" style="flex-basis: 66.7%;justify-content: center;">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="fu">library</span>(MASS)</span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="fu">library</span>(ggforce)</span>
 <span id="cb6-4"><a href="#cb6-4"></a>N <span class="ot">&lt;-</span> <span class="dv">300</span></span>
@@ -892,7 +877,7 @@ Jeff Jacobs
 <span id="cb6-7"><a href="#cb6-7"></a>var_y <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb6-8"><a href="#cb6-8"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(var_x, <span class="dv">0</span>, <span class="dv">0</span>, var_y), <span class="at">nrow=</span><span class="dv">2</span>)</span>
 <span id="cb6-9"><a href="#cb6-9"></a>data_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu, Sigma, <span class="at">empirical=</span><span class="cn">TRUE</span>))</span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="fu">colnames</span>(data_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x"</span>,<span class="st">"y"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="fu">colnames</span>(data_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
 <span id="cb6-11"><a href="#cb6-11"></a><span class="co"># data_df &lt;- data_df |&gt; mutate(</span></span>
 <span id="cb6-12"><a href="#cb6-12"></a><span class="co">#   within_5 = x &lt; 5,</span></span>
 <span id="cb6-13"><a href="#cb6-13"></a><span class="co">#   within_sq5 = x &lt; sqrt(5)</span></span>
@@ -902,8 +887,8 @@ Jeff Jacobs
 <span id="cb6-17"><a href="#cb6-17"></a><span class="co"># And plot</span></span>
 <span id="cb6-18"><a href="#cb6-18"></a><span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
 <span id="cb6-19"><a href="#cb6-19"></a>  <span class="co"># 68% ellipse</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a>  <span class="co"># stat_ellipse(geom="polygon", type="norm", linewidth=g_linewidth, level=0.68, fill=cbPalette[1], alpha=0.5) +</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a>  <span class="co"># stat_ellipse(type="norm", linewidth=g_linewidth, level=0.68) +</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a>  <span class="co"># stat_ellipse(geom=&quot;polygon&quot;, type=&quot;norm&quot;, linewidth=g_linewidth, level=0.68, fill=cbPalette[1], alpha=0.5) +</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>  <span class="co"># stat_ellipse(type=&quot;norm&quot;, linewidth=g_linewidth, level=0.68) +</span></span>
 <span id="cb6-22"><a href="#cb6-22"></a>  <span class="fu">geom_ellipse</span>(</span>
 <span id="cb6-23"><a href="#cb6-23"></a>    <span class="fu">aes</span>(<span class="at">x0=</span><span class="dv">0</span>, <span class="at">y0=</span><span class="dv">0</span>, <span class="at">a=</span>var_x, <span class="at">b=</span>var_y, <span class="at">angle=</span><span class="dv">0</span>),</span>
 <span id="cb6-24"><a href="#cb6-24"></a>    <span class="at">linewidth =</span> g_linewidth</span>
@@ -911,46 +896,46 @@ Jeff Jacobs
 <span id="cb6-26"><a href="#cb6-26"></a>  <span class="co"># geom_ellipse(</span></span>
 <span id="cb6-27"><a href="#cb6-27"></a>  <span class="co">#   aes(x0=0, y0=0, a=sqrt(5), b=1, angle=0),</span></span>
 <span id="cb6-28"><a href="#cb6-28"></a>  <span class="co">#   linewidth = g_linewidth,</span></span>
-<span id="cb6-29"><a href="#cb6-29"></a>  <span class="co">#   geom="polygon",</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a>  <span class="co">#   geom=&quot;polygon&quot;,</span></span>
 <span id="cb6-30"><a href="#cb6-30"></a>  <span class="co">#   fill=cbPalette[1], alpha=0.2</span></span>
 <span id="cb6-31"><a href="#cb6-31"></a>  <span class="co"># ) +</span></span>
 <span id="cb6-32"><a href="#cb6-32"></a>  <span class="co"># # 95% ellipse</span></span>
-<span id="cb6-33"><a href="#cb6-33"></a>  <span class="co"># stat_ellipse(geom="polygon", type="norm", linewidth=g_linewidth, level=0.95, fill=cbPalette[1], alpha=0.25) +</span></span>
-<span id="cb6-34"><a href="#cb6-34"></a>  <span class="co"># stat_ellipse(type="norm", linewidth=g_linewidth, level=0.95) +</span></span>
+<span id="cb6-33"><a href="#cb6-33"></a>  <span class="co"># stat_ellipse(geom=&quot;polygon&quot;, type=&quot;norm&quot;, linewidth=g_linewidth, level=0.95, fill=cbPalette[1], alpha=0.25) +</span></span>
+<span id="cb6-34"><a href="#cb6-34"></a>  <span class="co"># stat_ellipse(type=&quot;norm&quot;, linewidth=g_linewidth, level=0.95) +</span></span>
 <span id="cb6-35"><a href="#cb6-35"></a>  <span class="co"># # 99.7% ellipse</span></span>
-<span id="cb6-36"><a href="#cb6-36"></a>  <span class="co"># stat_ellipse(geom='polygon', type="norm", linewidth=g_linewidth, level=0.997, fill=cbPalette[1], alpha=0.125) +</span></span>
-<span id="cb6-37"><a href="#cb6-37"></a>  <span class="co"># stat_ellipse(type="norm", linewidth=g_linewidth, level=0.997) +</span></span>
+<span id="cb6-36"><a href="#cb6-36"></a>  <span class="co"># stat_ellipse(geom=&#39;polygon&#39;, type=&quot;norm&quot;, linewidth=g_linewidth, level=0.997, fill=cbPalette[1], alpha=0.125) +</span></span>
+<span id="cb6-37"><a href="#cb6-37"></a>  <span class="co"># stat_ellipse(type=&quot;norm&quot;, linewidth=g_linewidth, level=0.997) +</span></span>
 <span id="cb6-38"><a href="#cb6-38"></a>  <span class="co"># Lines at x=0 and y=0</span></span>
-<span id="cb6-39"><a href="#cb6-39"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">linewidth=</span>g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-40"><a href="#cb6-40"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">linewidth =</span> g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb6-39"><a href="#cb6-39"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth=</span>g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb6-40"><a href="#cb6-40"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth =</span> g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb6-41"><a href="#cb6-41"></a>  <span class="fu">geom_point</span>(</span>
 <span id="cb6-42"><a href="#cb6-42"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">3</span>,</span>
 <span id="cb6-43"><a href="#cb6-43"></a>    <span class="co">#alpha=0.5</span></span>
 <span id="cb6-44"><a href="#cb6-44"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-45"><a href="#cb6-45"></a>  <span class="fu">geom_rug</span>(<span class="at">length=</span><span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"cm"</span>), <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb6-45"><a href="#cb6-45"></a>  <span class="fu">geom_rug</span>(<span class="at">length=</span><span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;cm&quot;</span>), <span class="at">alpha=</span><span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb6-46"><a href="#cb6-46"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb6-47"><a href="#cb6-47"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="sc">-</span>var_x, <span class="at">y=</span><span class="dv">0</span>, <span class="at">xend=</span>var_x, <span class="at">yend=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">'PC1'</span>),</span>
+<span id="cb6-47"><a href="#cb6-47"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="sc">-</span>var_x, <span class="at">y=</span><span class="dv">0</span>, <span class="at">xend=</span>var_x, <span class="at">yend=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">&#39;PC1&#39;</span>),</span>
 <span id="cb6-48"><a href="#cb6-48"></a>    <span class="at">linewidth =</span> <span class="fl">1.5</span> <span class="sc">*</span> g_linewidth,</span>
-<span id="cb6-49"><a href="#cb6-49"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>))</span>
+<span id="cb6-49"><a href="#cb6-49"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;npc&quot;</span>))</span>
 <span id="cb6-50"><a href="#cb6-50"></a>  ) <span class="sc">+</span></span>
 <span id="cb6-51"><a href="#cb6-51"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb6-52"><a href="#cb6-52"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="sc">-</span>var_y, <span class="at">xend=</span><span class="dv">0</span>, <span class="at">yend=</span>var_y, <span class="at">color=</span><span class="st">'PC2'</span>),</span>
+<span id="cb6-52"><a href="#cb6-52"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="sc">-</span>var_y, <span class="at">xend=</span><span class="dv">0</span>, <span class="at">yend=</span>var_y, <span class="at">color=</span><span class="st">&#39;PC2&#39;</span>),</span>
 <span id="cb6-53"><a href="#cb6-53"></a>    <span class="at">linewidth =</span> <span class="fl">1.5</span> <span class="sc">*</span> g_linewidth,</span>
-<span id="cb6-54"><a href="#cb6-54"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>))</span>
+<span id="cb6-54"><a href="#cb6-54"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;npc&quot;</span>))</span>
 <span id="cb6-55"><a href="#cb6-55"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-56"><a href="#cb6-56"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb6-56"><a href="#cb6-56"></a>  <span class="fu">dsan_theme</span>(<span class="st">&quot;half&quot;</span>) <span class="sc">+</span></span>
 <span id="cb6-57"><a href="#cb6-57"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
 <span id="cb6-58"><a href="#cb6-58"></a>  <span class="fu">remove_legend_title</span>() <span class="sc">+</span></span>
 <span id="cb6-59"><a href="#cb6-59"></a>  <span class="fu">scale_color_manual</span>(</span>
-<span id="cb6-60"><a href="#cb6-60"></a>    <span class="st">"PC Vectors"</span>,</span>
-<span id="cb6-61"><a href="#cb6-61"></a>    <span class="at">values=</span><span class="fu">c</span>(<span class="st">'PC1'</span><span class="ot">=</span>cbPalette[<span class="dv">1</span>], <span class="st">'PC2'</span><span class="ot">=</span>cbPalette[<span class="dv">2</span>])</span>
+<span id="cb6-60"><a href="#cb6-60"></a>    <span class="st">&quot;PC Vectors&quot;</span>,</span>
+<span id="cb6-61"><a href="#cb6-61"></a>    <span class="at">values=</span><span class="fu">c</span>(<span class="st">&#39;PC1&#39;</span><span class="ot">=</span>cbPalette[<span class="dv">1</span>], <span class="st">&#39;PC2&#39;</span><span class="ot">=</span>cbPalette[<span class="dv">2</span>])</span>
 <span id="cb6-62"><a href="#cb6-62"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-63"><a href="#cb6-63"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-63"><a href="#cb6-63"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/pca-dgp-no-covar-1.png" width="960"></p>
+<p><img data-src="index_files/figure-revealjs/pca-dgp-no-covar-1.png" width="960" /></p>
 </figure>
 </div>
 </div>
@@ -972,7 +957,7 @@ Jeff Jacobs
 </div>
 </section>
 <section id="now-with-pca-lines-neq-axes" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-quarto-layout-panel shift-footnotes-20">
-<h2>Now With PCA Lines <span class="math inline">\(\neq\)</span> Axes</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-code crunch-quarto-layout-panel shift-footnotes-20">Now With PCA Lines <span class="math inline">\(\neq\)</span> Axes</h2>
 <ul>
 <li>We now introduce <strong>covariance</strong> between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates of our data:</li>
 </ul>
@@ -981,13 +966,13 @@ Jeff Jacobs
 <div class="cell quarto-layout-cell" style="flex-basis: 66.7%;justify-content: center;">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="fu">library</span>(MASS)</span>
 <span id="cb7-3"><a href="#cb7-3"></a>N <span class="ot">&lt;-</span> <span class="dv">250</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a>Mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
 <span id="cb7-5"><a href="#cb7-5"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow=</span><span class="dv">2</span>)</span>
 <span id="cb7-6"><a href="#cb7-6"></a>data_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu, Sigma))</span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">colnames</span>(data_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x"</span>,<span class="st">"y"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">colnames</span>(data_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
 <span id="cb7-8"><a href="#cb7-8"></a><span class="co"># Start+end coordinates for the transformed vectors</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a>pc1_rc <span class="ot">&lt;-</span> (<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span>)</span>
 <span id="cb7-10"><a href="#cb7-10"></a>pc2_rc <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span>)</span>
@@ -995,48 +980,48 @@ Jeff Jacobs
 <span id="cb7-12"><a href="#cb7-12"></a>  <span class="fu">geom_ellipse</span>(</span>
 <span id="cb7-13"><a href="#cb7-13"></a>    <span class="fu">aes</span>(<span class="at">x0=</span><span class="dv">0</span>, <span class="at">y0=</span><span class="dv">0</span>, <span class="at">a=</span>var_x, <span class="at">b=</span>var_y, <span class="at">angle=</span>pi<span class="sc">/</span><span class="dv">4</span>),</span>
 <span id="cb7-14"><a href="#cb7-14"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
-<span id="cb7-15"><a href="#cb7-15"></a>    <span class="co">#fill='grey', alpha=0.0075</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>    <span class="co">#fill=&#39;grey&#39;, alpha=0.0075</span></span>
 <span id="cb7-16"><a href="#cb7-16"></a>  ) <span class="sc">+</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">linewidth=</span>g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">linewidth =</span> g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth=</span>g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth =</span> g_linewidth <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb7-19"><a href="#cb7-19"></a>  <span class="fu">geom_point</span>(</span>
 <span id="cb7-20"><a href="#cb7-20"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">3</span>,</span>
 <span id="cb7-21"><a href="#cb7-21"></a>    <span class="co">#alpha=0.7</span></span>
 <span id="cb7-22"><a href="#cb7-22"></a>  ) <span class="sc">+</span></span>
 <span id="cb7-23"><a href="#cb7-23"></a>  <span class="fu">geom_rug</span>(</span>
-<span id="cb7-24"><a href="#cb7-24"></a>    <span class="at">length=</span><span class="fu">unit</span>(<span class="fl">0.35</span>, <span class="st">"cm"</span>), <span class="at">alpha=</span><span class="fl">0.75</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>    <span class="at">length=</span><span class="fu">unit</span>(<span class="fl">0.35</span>, <span class="st">&quot;cm&quot;</span>), <span class="at">alpha=</span><span class="fl">0.75</span></span>
 <span id="cb7-25"><a href="#cb7-25"></a>  ) <span class="sc">+</span></span>
 <span id="cb7-26"><a href="#cb7-26"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb7-27"><a href="#cb7-27"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="sc">-</span>pc1_rc, <span class="at">y=</span><span class="sc">-</span>pc1_rc, <span class="at">xend=</span>pc1_rc, <span class="at">yend=</span>pc1_rc, <span class="at">color=</span><span class="st">'PC1'</span>),</span>
+<span id="cb7-27"><a href="#cb7-27"></a>    <span class="fu">aes</span>(<span class="at">x=</span><span class="sc">-</span>pc1_rc, <span class="at">y=</span><span class="sc">-</span>pc1_rc, <span class="at">xend=</span>pc1_rc, <span class="at">yend=</span>pc1_rc, <span class="at">color=</span><span class="st">&#39;PC1&#39;</span>),</span>
 <span id="cb7-28"><a href="#cb7-28"></a>    <span class="at">linewidth =</span> <span class="fl">1.5</span> <span class="sc">*</span> g_linewidth,</span>
-<span id="cb7-29"><a href="#cb7-29"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>))</span>
+<span id="cb7-29"><a href="#cb7-29"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;npc&quot;</span>))</span>
 <span id="cb7-30"><a href="#cb7-30"></a>  ) <span class="sc">+</span></span>
 <span id="cb7-31"><a href="#cb7-31"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb7-32"><a href="#cb7-32"></a>    <span class="fu">aes</span>(<span class="at">x=</span>pc2_rc, <span class="at">y=</span><span class="sc">-</span>pc2_rc, <span class="at">xend=</span><span class="sc">-</span>pc2_rc, <span class="at">yend=</span>pc2_rc, <span class="at">color=</span><span class="st">'PC2'</span>),</span>
+<span id="cb7-32"><a href="#cb7-32"></a>    <span class="fu">aes</span>(<span class="at">x=</span>pc2_rc, <span class="at">y=</span><span class="sc">-</span>pc2_rc, <span class="at">xend=</span><span class="sc">-</span>pc2_rc, <span class="at">yend=</span>pc2_rc, <span class="at">color=</span><span class="st">&#39;PC2&#39;</span>),</span>
 <span id="cb7-33"><a href="#cb7-33"></a>    <span class="at">linewidth =</span> <span class="fl">1.5</span> <span class="sc">*</span> g_linewidth,</span>
-<span id="cb7-34"><a href="#cb7-34"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"npc"</span>))</span>
+<span id="cb7-34"><a href="#cb7-34"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">&quot;npc&quot;</span>))</span>
 <span id="cb7-35"><a href="#cb7-35"></a>  ) <span class="sc">+</span></span>
-<span id="cb7-36"><a href="#cb7-36"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a>  <span class="fu">dsan_theme</span>(<span class="st">&quot;half&quot;</span>) <span class="sc">+</span></span>
 <span id="cb7-37"><a href="#cb7-37"></a>  <span class="fu">remove_legend_title</span>() <span class="sc">+</span></span>
 <span id="cb7-38"><a href="#cb7-38"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
-<span id="cb7-39"><a href="#cb7-39"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-39"><a href="#cb7-39"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/pca-dgp-covar-1.png" width="672"></p>
+<p><img data-src="index_files/figure-revealjs/pca-dgp-covar-1.png" width="672" /></p>
 </figure>
 </div>
 </div>
 </div>
 <div id="pca-math-covar-right" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <p><span class="math display">\[
-\mathbf{\Sigma}' = \begin{bmatrix}
+\mathbf{\Sigma}&#39; = \begin{bmatrix}
 2 &amp; 1 \\
 1 &amp; 2
 \end{bmatrix}
 \]</span></p>
-<p>Still two solutions to <span class="math inline">\(\mathbf{\Sigma}'\mathbf{x} = \lambda \mathbf{x}\)</span>:</p>
+<p>Still two solutions to <span class="math inline">\(\mathbf{\Sigma}&#39;\mathbf{x} = \lambda \mathbf{x}\)</span>:</p>
 <ul>
 <li><span class="math inline">\({\color{#e69f00}\lambda_1} = 3, {\color{#e69f00}\mathbf{x}_1} = (1,1)^\top\)</span></li>
 <li><span class="math inline">\({\color{#56b4e9}\lambda_2} = 1, {\color{#56b4e9}\mathbf{x}_2} = (-1,1)^\top\)</span></li>
@@ -1044,10 +1029,10 @@ Jeff Jacobs
 </div>
 </div>
 </div>
-
-<aside><div><div>
-<p>For those interested in how we obtained <span class="math inline">\(\mathbf{\Sigma}'\)</span> with same eigen<strong>values</strong> but different eigen<strong>vectors</strong> from <span class="math inline">\(\mathbf{\Sigma}\)</span>, see the <a href="#/appendix-covariance-matrix-magic">appendix slide</a>.</p>
-</div></div></aside></section>
+<div class="aside">
+<p>For those interested in how we obtained <span class="math inline">\(\mathbf{\Sigma}&#39;\)</span> with same eigen<strong>values</strong> but different eigen<strong>vectors</strong> from <span class="math inline">\(\mathbf{\Sigma}\)</span>, see the <a href="#/appendix-covariance-matrix-magic">appendix slide</a>.</p>
+</div>
+</section>
 <section id="pca-and-eigenvalues" class="slide level2">
 <h2>PCA and Eigenvalues</h2>
 <p><em>Takeaway 1</em>: <strong>Regardless of the coordinate system</strong>,</p>
@@ -1057,7 +1042,7 @@ Jeff Jacobs
 </ul>
 </section>
 <section id="pca-as-swiss-army-knife" class="slide level2 smaller crunch-title crunch-quarto-layout-panel crunch-math crunch-ul">
-<h2>PCA as Swiss Army Knife</h2>
+<h2 class="smaller crunch-title crunch-quarto-layout-panel crunch-math crunch-ul">PCA as Swiss Army Knife</h2>
 <ul>
 <li>PCA can be used for both <strong>reinterpretation</strong> and <strong>reduction</strong> of dimensions!</li>
 <li>Consider dataset <span class="math inline">\(\mathbf{X} = (X_1, \ldots, X_n)\)</span>, with <span class="math inline">\(X_i \in \mathbb{R}^N\)</span></li>
@@ -1072,7 +1057,7 @@ Jeff Jacobs
 <ul>
 <li><p>Datapoints in PC space are <strong>linear combinations</strong> of the original datapoints! (← <em>Takeaway 2a</em>)</p>
 <p><span class="math display">\[
-  X'_i = \alpha_1X_1 + \cdots + \alpha_nX_n,
+  X&#39;_i = \alpha_1X_1 + \cdots + \alpha_nX_n,
   \]</span></p>
 <p>where <span class="math inline">\(\forall i \left[\alpha_i \neq 0\right]\)</span></p></li>
 <li><p>We are just “re-plotting” our original data in PC space via <strong>change of coordinates</strong></p></li>
@@ -1094,11 +1079,11 @@ Jeff Jacobs
 </div>
 </section>
 <section id="t-sne-for-dimensionality-reduction" class="slide level2 smaller">
-<h2>t-SNE for Dimensionality Reduction</h2>
+<h2 class="smaller">t-SNE for Dimensionality Reduction</h2>
 <ul>
-<li><strong>t</strong>-Distributed <strong>S</strong>tochastic <strong>N</strong>eighbor <strong>E</strong>mbedding <span class="citation" data-cites="vandermaaten_visualizing_2008">(<a href="#/references" role="doc-biblioref" onclick="">Van der Maaten and Hinton 2008</a>)</span></li>
+<li><strong>t</strong>-Distributed <strong>S</strong>tochastic <strong>N</strong>eighbor <strong>E</strong>mbedding <span class="citation" data-cites="vandermaaten_visualizing_2008">(<a href="#/ref-vandermaaten_visualizing_2008" role="doc-biblioref">Van der Maaten and Hinton 2008</a>)</span></li>
 <li>If <span class="math inline">\(x, y\)</span> are <strong>neighbors</strong> in <span class="math inline">\(\mathbb{R}^{1000}\)</span>, t-SNE “succeeds” if they <strong>remain neighbors</strong> in <span class="math inline">\(\mathbb{R}^2\)</span></li>
-<li>Key hyperparameter: <strong>perplexity</strong>! Roughly, this affects the “tradeoff” between preserving <strong>local structure</strong> vs.&nbsp;<strong>global structure</strong> in the lower-dimensional space</li>
+<li>Key hyperparameter: <strong>perplexity</strong>! Roughly, this affects the “tradeoff” between preserving <strong>local structure</strong> vs. <strong>global structure</strong> in the lower-dimensional space</li>
 <li>Choose <span class="math inline">\(x_i \in \mathbb{R}^{1000}\)</span>, and treat it as the center of a <strong>Gaussian ball</strong> with variance <span class="math inline">\(\sigma_i\)</span></li>
 <li>The choice of <span class="math inline">\(\sigma_i\)</span> induces a <strong>probability distribution</strong> <span class="math inline">\(P_i\)</span> over <strong>all other points</strong> (what is the probability of drawing <span class="math inline">\(x_j\)</span> from <span class="math inline">\(\mathcal{N}(x_i, \sigma_i)\)</span>?)</li>
 </ul>
@@ -1107,17 +1092,17 @@ Jeff Jacobs
 \]</span></p>
 <ul>
 <li><p>High perplexity <span class="math inline">\(\iff\)</span> high entropy (eventually Gaussian ball will grow so big that <strong>all other points will be equally likely!</strong>). So, <strong>vary</strong> perplexity, see how plot changes</p></li>
-<li><p>See <a href="https://distill.pub/2016/misread-tsne/" target="_blank">here</a> for an absolutely incredible interactive walkthrough of t-SNE!</p></li>
+<li><p>See <a href='https://distill.pub/2016/misread-tsne/' target='_blank'>here</a> for an absolutely incredible interactive walkthrough of t-SNE!</p></li>
 </ul>
 </section>
 <section id="what-happens-as-we-vary-perplexity" class="slide level2 smaller crunch-title crunch-figures crunch-quarto-layout-panel">
-<h2>What Happens As We Vary Perplexity?</h2>
+<h2 class="smaller crunch-title crunch-figures crunch-quarto-layout-panel">What Happens As We Vary Perplexity?</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/tsne_00.png"></p>
+<p><img data-src="images/tsne_00.png" /></p>
 <figcaption>Original Dataset</figcaption>
 </figure>
 </div>
@@ -1127,7 +1112,7 @@ Jeff Jacobs
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/tsne_01.png"></p>
+<p><img data-src="images/tsne_01.png" /></p>
 <figcaption>Perplexity = 2</figcaption>
 </figure>
 </div>
@@ -1135,7 +1120,7 @@ Jeff Jacobs
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/tsne_02.png"></p>
+<p><img data-src="images/tsne_02.png" /></p>
 <figcaption>Perplexity = 5</figcaption>
 </figure>
 </div>
@@ -1143,7 +1128,7 @@ Jeff Jacobs
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/tsne_03.png"></p>
+<p><img data-src="images/tsne_03.png" /></p>
 <figcaption>Perplexity = 30</figcaption>
 </figure>
 </div>
@@ -1151,29 +1136,29 @@ Jeff Jacobs
 </div>
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 11.1%;justify-content: center;">
-<p>&nbsp;</p>
+<p> </p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/tsne_04.png"></p>
+<p><img data-src="images/tsne_04.png" /></p>
 <figcaption>Perplexity = 50</figcaption>
 </figure>
 </div>
 </div>
 <div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 11.1%;justify-content: center;">
-<p>&nbsp;</p>
+<p> </p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/tsne_05.png"></p>
+<p><img data-src="images/tsne_05.png" /></p>
 <figcaption>Perplexity = 100</figcaption>
 </figure>
 </div>
 </div>
 <div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 11.1%;justify-content: center;">
-<p>&nbsp;</p>
+<p> </p>
 </div>
 </div>
 </div>
@@ -1183,18 +1168,18 @@ Jeff Jacobs
 <section id="quiz-time" class="slide level2">
 <h2>Quiz Time!</h2>
 <ul>
-<li><a href="https://georgetown.instructure.com/courses/173310/quizzes/203758?module_item_id=3453375" target="_blank">Quiz 5.1 Link <i class="bi bi-box-arrow-up-right"></i></a></li>
+<li><a href='https://georgetown.instructure.com/courses/173310/quizzes/203758?module_item_id=3453375' target='_blank'>Quiz 5.1 Link <i class='bi bi-box-arrow-up-right'></i></a></li>
 </ul>
 </section></section>
 <section>
-<section id="decision-trees" class="title-slide slide level1 center" data-stack-name="Decision Trees">
-<h1>Decision Trees</h1>
+<section id="decision-trees" class="title-slide slide level1" data-stack-name="Decision Trees">
+<h1 data-stack-name="Decision Trees">Decision Trees</h1>
 
 </section>
 <section id="questions" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-quarto-layout-panel crunch-images crunch-figures">
-<h2>20 Questions</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-code crunch-quarto-layout-panel crunch-images crunch-figures">20 Questions</h2>
 <ul>
-<li>I am thinking of some <a href="http://wordnetweb.princeton.edu/perl/webwn?s=entity&amp;sub=Search+WordNet&amp;o2=&amp;o0=1&amp;o8=1&amp;o1=1&amp;o7=&amp;o5=&amp;o9=&amp;o6=&amp;o3=&amp;o4=&amp;h=10" target="_blank">entity</a>. What is it?</li>
+<li>I am thinking of some <a href='http://wordnetweb.princeton.edu/perl/webwn?s=entity&sub=Search+WordNet&o2=&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=&h=10' target='_blank'>entity</a>. What is it?</li>
 <li>What questions should we ask initially?</li>
 <li>Why might questions on the left be more helpful than questions on the right?</li>
 </ul>
@@ -1216,16 +1201,16 @@ Jeff Jacobs
 </tr>
 <tr class="odd">
 <td><em>Is it <strong>bigger than a house</strong></em>?</td>
-<td><em>Is it the planet <strong>Mercury</strong>?</em></td>
+<td><em>Is it a <strong>planet</strong>?</em></td>
 </tr>
 </tbody>
 </table>
-
-<aside><div><div>
-<p>For linguistics fans: if a word <span class="math inline">\(x\)</span> is one level “more general” than another word <span class="math inline">\(y\)</span> (e.g., the word “camel” is one level more general than “bactrian camel”, a camel with two humps), we say that <span class="math inline">\(x\)</span> is a <strong>hypernym</strong> of <span class="math inline">\(y\)</span>, and that <span class="math inline">\(y\)</span> is a <strong>hyponym</strong> of <span class="math inline">\(x\)</span>. The <a href="https://wordnet.princeton.edu/" target="_blank">WordNet project</a> is a big tree of hypernym/hyponym relationships among all English words, where “entity” is the root node of the tree.</p>
-</div></div></aside></section>
+<div class="aside">
+<p>For linguistics fans: if a word <span class="math inline">\(x\)</span> is one level “more general” than another word <span class="math inline">\(y\)</span> (e.g., the word “camel” is one level more general than “bactrian camel”, a camel with two humps), we say that <span class="math inline">\(x\)</span> is a <strong>hypernym</strong> of <span class="math inline">\(y\)</span>, and that <span class="math inline">\(y\)</span> is a <strong>hyponym</strong> of <span class="math inline">\(x\)</span>. The <a href='https://wordnet.princeton.edu/' target='_blank'>WordNet project</a> is a big tree of hypernym/hyponym relationships among all English words, where “entity” is the root node of the tree.</p>
+</div>
+</section>
 <section id="we-can-quantify-how-good-a-sequence-of-questions-is" class="slide level2 smaller crunch-title title-09 nostretch">
-<h2>We Can Quantify How Good a Sequence of Questions Is!</h2>
+<h2 class="smaller crunch-title title-09 nostretch">We Can Quantify How Good a Sequence of Questions Is!</h2>
 <ul>
 <li>Assume we’re playing with someone who only knows three objects <span class="math inline">\(S = \{\text{Tree}, \text{Bird}, \text{Car}\}\)</span>, and they randomize among these such that</li>
 </ul>
@@ -1417,12 +1402,12 @@ car-&gt;guessTree
 </div>
 </div>
 </div>
-
-<aside><div><div>
-<p>Example adapted from <a href="https://sites.santafe.edu/~simon/it.pdf" target="_blank">this essay</a> by Simon DeDeo!</p>
-</div></div></aside></section>
+<div class="aside">
+<p>Example adapted from <a href='https://sites.santafe.edu/~simon/it.pdf' target='_blank'>this essay</a> by Simon DeDeo!</p>
+</div>
+</section>
 <section id="lets-use-math" class="slide level2 smaller crunch-title math-70 crunch-quarto-layout-panel crunch-quarto-layout-cell crunch-ul">
-<h2>Let’s Use Math</h2>
+<h2 class="smaller crunch-title math-70 crunch-quarto-layout-panel crunch-quarto-layout-cell crunch-ul">Let’s Use Math</h2>
 <ul>
 <li>An <strong>optimal</strong> script minimizes <strong>average number of questions required</strong> to reach answer</li>
 </ul>
@@ -1630,7 +1615,7 @@ car-&gt;guessTree
 </div>
 </section>
 <section id="lets-use-different-math" class="slide level2 smaller small-math crunch-ul crunch-title">
-<h2>Let’s Use (Different) Math</h2>
+<h2 class="smaller small-math crunch-ul crunch-title">Let’s Use (Different) Math</h2>
 <ul>
 <li>Forgetting about the individual trees for a moment, let’s compute the <strong>entropy</strong> of the RV representing the opponent’s choice.</li>
 <li>In general, if <span class="math inline">\(X\)</span> represents the opponent’s choice and <span class="math inline">\(\mathcal{R}_X = \{1, 2, \ldots, N\}\)</span>, the <strong>entropy</strong> of <span class="math inline">\(X\)</span> is:</li>
@@ -1653,7 +1638,7 @@ H(X) &amp;= -\left[ \Pr(X = \text{Car}) \log_2\Pr(X = \text{Car}) \right. \\
 \]</span></p>
 </section>
 <section id="entropy-seems-helpful-here" class="slide level2 smaller">
-<h2>Entropy Seems Helpful Here…</h2>
+<h2 class="smaller">Entropy Seems Helpful Here…</h2>
 <ul>
 <li>Now let’s imagine our opponent randomizes between all three options:</li>
 </ul>
@@ -1687,7 +1672,7 @@ L^* = \lceil H(X) \rceil
 \]</span></p>
 </section>
 <section id="decision-tree-structure" class="slide level2 crunch-title crunch-ul">
-<h2>Decision Tree Structure</h2>
+<h2 class="crunch-title crunch-ul">Decision Tree Structure</h2>
 <ul>
 <li><strong>Leaf Nodes</strong> represent <strong>outcomes</strong></li>
 <li><strong>Branch Nodes</strong> represent <strong>questions</strong></li>
@@ -1777,16 +1762,16 @@ branch2-&gt;leaf6
 </div>
 </section>
 <section id="how-are-they-built" class="slide level2 smaller crunch-title crunch-code crunch-figures">
-<h2>How Are They Built?</h2>
+<h2 class="smaller crunch-title crunch-code crunch-figures">How Are They Built?</h2>
 <ul>
 <li>Example: we find ourselves at some point on the globe, at some time during the year, and we’re trying to see whether this point+time are <strong>good for skiing</strong></li>
 </ul>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb8-3"><a href="#cb8-3"></a>day <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>),<span class="fu">ymd</span>(<span class="st">'2023-12-31'</span>),<span class="at">by=</span><span class="st">'weeks'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>day <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">ymd</span>(<span class="st">&#39;2023-01-01&#39;</span>),<span class="fu">ymd</span>(<span class="st">&#39;2023-12-31&#39;</span>),<span class="at">by=</span><span class="st">&#39;weeks&#39;</span>)</span>
 <span id="cb8-4"><a href="#cb8-4"></a>longitude <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by=</span><span class="dv">5</span>)</span>
 <span id="cb8-5"><a href="#cb8-5"></a>ski_df <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(day, longitude)</span>
 <span id="cb8-6"><a href="#cb8-6"></a><span class="co">#ski_df |&gt; head()</span></span>
@@ -1795,9 +1780,9 @@ branch2-&gt;leaf6
 <span id="cb8-9"><a href="#cb8-9"></a>  <span class="at">near_equator =</span> <span class="fu">abs</span>(longitude) <span class="sc">&lt;=</span> <span class="dv">30</span>,</span>
 <span id="cb8-10"><a href="#cb8-10"></a>  <span class="at">northern =</span> longitude <span class="sc">&gt;</span> <span class="dv">30</span>,</span>
 <span id="cb8-11"><a href="#cb8-11"></a>  <span class="at">southern =</span> longitude <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>,</span>
-<span id="cb8-12"><a href="#cb8-12"></a>  <span class="at">first_3m =</span> day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>),</span>
-<span id="cb8-13"><a href="#cb8-13"></a>  <span class="at">last_3m =</span> day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>),</span>
-<span id="cb8-14"><a href="#cb8-14"></a>  <span class="at">middle_6m =</span> (day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>)) <span class="sc">&amp;</span> (day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>)),</span>
+<span id="cb8-12"><a href="#cb8-12"></a>  <span class="at">first_3m =</span> day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">&#39;2023-04-01&#39;</span>),</span>
+<span id="cb8-13"><a href="#cb8-13"></a>  <span class="at">last_3m =</span> day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">&#39;2023-10-01&#39;</span>),</span>
+<span id="cb8-14"><a href="#cb8-14"></a>  <span class="at">middle_6m =</span> (day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">&#39;2023-04-01&#39;</span>)) <span class="sc">&amp;</span> (day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">&#39;2023-10-01&#39;</span>)),</span>
 <span id="cb8-15"><a href="#cb8-15"></a>  <span class="at">snowfall =</span> <span class="dv">0</span></span>
 <span id="cb8-16"><a href="#cb8-16"></a>)</span>
 <span id="cb8-17"><a href="#cb8-17"></a><span class="co"># Update the non-zero sections</span></span>
@@ -1805,52 +1790,59 @@ branch2-&gt;leaf6
 <span id="cb8-19"><a href="#cb8-19"></a>sd_snow <span class="ot">&lt;-</span> <span class="fl">2.5</span></span>
 <span id="cb8-20"><a href="#cb8-20"></a><span class="co"># How many northern + first 3 months</span></span>
 <span id="cb8-21"><a href="#cb8-21"></a>num_north_first_3 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>first_3m,])</span>
-<span id="cb8-22"><a href="#cb8-22"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>first_3m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_first_3, mu_snow, sd_snow)</span>
+<span id="cb8-22"><a href="#cb8-22"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>first_3m, <span class="st">&#39;snowfall&#39;</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_first_3, mu_snow, sd_snow)</span>
 <span id="cb8-23"><a href="#cb8-23"></a><span class="co"># Northerns + last 3 months</span></span>
 <span id="cb8-24"><a href="#cb8-24"></a>num_north_last_3 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>last_3m,])</span>
-<span id="cb8-25"><a href="#cb8-25"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>last_3m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_last_3, mu_snow, sd_snow)</span>
+<span id="cb8-25"><a href="#cb8-25"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>last_3m, <span class="st">&#39;snowfall&#39;</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_last_3, mu_snow, sd_snow)</span>
 <span id="cb8-26"><a href="#cb8-26"></a><span class="co"># How many southern + middle 6 months</span></span>
 <span id="cb8-27"><a href="#cb8-27"></a>num_south_mid_6 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>southern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>middle_6m,])</span>
-<span id="cb8-28"><a href="#cb8-28"></a>ski_df[ski_df<span class="sc">$</span>southern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>middle_6m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_south_mid_6, mu_snow, sd_snow)</span>
+<span id="cb8-28"><a href="#cb8-28"></a>ski_df[ski_df<span class="sc">$</span>southern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>middle_6m, <span class="st">&#39;snowfall&#39;</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_south_mid_6, mu_snow, sd_snow)</span>
 <span id="cb8-29"><a href="#cb8-29"></a><span class="co"># And collapse into binary var</span></span>
-<span id="cb8-30"><a href="#cb8-30"></a>ski_df[<span class="st">'good_skiing'</span>] <span class="ot">=</span> ski_df<span class="sc">$</span>snowfall <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb8-30"><a href="#cb8-30"></a>ski_df[<span class="st">&#39;good_skiing&#39;</span>] <span class="ot">=</span> ski_df<span class="sc">$</span>snowfall <span class="sc">&gt;</span> <span class="dv">0</span></span>
 <span id="cb8-31"><a href="#cb8-31"></a><span class="co"># This converts day into an int</span></span>
 <span id="cb8-32"><a href="#cb8-32"></a>ski_df <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
 <span id="cb8-33"><a href="#cb8-33"></a>  <span class="at">day_num =</span> lubridate<span class="sc">::</span><span class="fu">yday</span>(day)</span>
 <span id="cb8-34"><a href="#cb8-34"></a>)</span>
 <span id="cb8-35"><a href="#cb8-35"></a><span class="co">#print(nrow(ski_df))</span></span>
 <span id="cb8-36"><a href="#cb8-36"></a>ski_sample <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="dv">100</span>)</span>
-<span id="cb8-37"><a href="#cb8-37"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/ski.csv"</span>)</span>
+<span id="cb8-37"><a href="#cb8-37"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">&quot;assets/ski.csv&quot;</span>)</span>
 <span id="cb8-38"><a href="#cb8-38"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>longitude, <span class="at">shape=</span>good_skiing, <span class="at">color=</span>good_skiing)) <span class="sc">+</span></span>
 <span id="cb8-39"><a href="#cb8-39"></a>  <span class="fu">geom_point</span>(</span>
 <span id="cb8-40"><a href="#cb8-40"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>, <span class="at">stroke=</span><span class="fl">1.5</span>,</span>
 <span id="cb8-41"><a href="#cb8-41"></a>  ) <span class="sc">+</span></span>
 <span id="cb8-42"><a href="#cb8-42"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
 <span id="cb8-43"><a href="#cb8-43"></a>  <span class="fu">labs</span>(</span>
-<span id="cb8-44"><a href="#cb8-44"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
-<span id="cb8-45"><a href="#cb8-45"></a>    <span class="at">y =</span> <span class="st">"Longitude"</span>,</span>
-<span id="cb8-46"><a href="#cb8-46"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
+<span id="cb8-44"><a href="#cb8-44"></a>    <span class="at">x =</span> <span class="st">&quot;Time of Year&quot;</span>,</span>
+<span id="cb8-45"><a href="#cb8-45"></a>    <span class="at">y =</span> <span class="st">&quot;Longitude&quot;</span>,</span>
+<span id="cb8-46"><a href="#cb8-46"></a>    <span class="at">shape =</span> <span class="st">&quot;Good Skiing?&quot;</span></span>
 <span id="cb8-47"><a href="#cb8-47"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-48"><a href="#cb8-48"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">"Good Skiing?"</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
-<span id="cb8-49"><a href="#cb8-49"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">"Good Skiing?"</span>, <span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>])) <span class="sc">+</span></span>
+<span id="cb8-48"><a href="#cb8-48"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">&quot;Good Skiing?&quot;</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb8-49"><a href="#cb8-49"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">&quot;Good Skiing?&quot;</span>, <span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>])) <span class="sc">+</span></span>
 <span id="cb8-50"><a href="#cb8-50"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb8-51"><a href="#cb8-51"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-02-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-05-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-06-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-07-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-08-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-09-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-11-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-12-01'</span>)),</span>
-<span id="cb8-52"><a href="#cb8-52"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
+<span id="cb8-51"><a href="#cb8-51"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">&#39;2023-01-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-02-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-03-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-04-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-05-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-06-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-07-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-08-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-09-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-10-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-11-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-12-01&#39;</span>)),</span>
+<span id="cb8-52"><a href="#cb8-52"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Jan&quot;</span>, <span class="st">&quot;Feb&quot;</span>, <span class="st">&quot;Mar&quot;</span>, <span class="st">&quot;Apr&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;Jun&quot;</span>, <span class="st">&quot;Jul&quot;</span>, <span class="st">&quot;Aug&quot;</span>, <span class="st">&quot;Sep&quot;</span>, <span class="st">&quot;Oct&quot;</span>, <span class="st">&quot;Nov&quot;</span>, <span class="st">&quot;Dec&quot;</span>)</span>
 <span id="cb8-53"><a href="#cb8-53"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-54"><a href="#cb8-54"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-54"><a href="#cb8-54"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code></pre></div>
 </details>
-
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/ski-plot-binary-1.png" width="960" /></p>
+<figcaption><em>(Example adapted from CS229: Machine Learning, Stanford University)</em></figcaption>
+</figure>
 </div>
-<img data-src="index_files/figure-revealjs/ski-plot-binary-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"><em>(Example adapted from CS229: Machine Learning, Stanford University)</em></p></section>
+</div>
+</div>
+</section>
 <section id="zero-splits" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-math">
-<h2>Zero Splits</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-code crunch-math">Zero Splits</h2>
 <ul>
 <li>Starting out: no splits at all, just guess <strong>most frequent class</strong>: <strong>bad</strong> skiing</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="kable-table">
@@ -1891,7 +1883,7 @@ branch2-&gt;leaf6
 \]</span></p>
 </section>
 <section id="judging-split-options" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-math">
-<h2>Judging Split Options</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-code crunch-math">Judging Split Options</h2>
 <p>Let’s think through two choices for the first split:</p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-center">
@@ -1902,10 +1894,10 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>ski_sample <span class="ot">&lt;-</span> ski_sample <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>ski_sample <span class="ot">&lt;-</span> ski_sample <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="at">lon_gt_n30 =</span> longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">30</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(lon_gt_n30) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(lon_gt_n30) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="kable-table">
@@ -1958,10 +1950,10 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>ski_sample <span class="ot">&lt;-</span> ski_sample <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb11-2"><a href="#cb11-2"></a>  <span class="at">month_lt_oct =</span> day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>)</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>ski_sample <span class="ot">&lt;-</span> ski_sample <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="at">month_lt_oct =</span> day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">&#39;2023-10-01&#39;</span>)</span>
 <span id="cb11-3"><a href="#cb11-3"></a>)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(month_lt_oct) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(month_lt_oct) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="kable-table">
@@ -2012,79 +2004,92 @@ branch2-&gt;leaf6
 <p>So, if we judge purely on <strong>acuracy scores</strong>… it seems like we’re <strong>not getting anywhere here</strong> (but, we know we <strong>are</strong> getting somewhere!)</p>
 </section>
 <section id="scikit-learn" class="slide level2 smaller">
-<h2>Scikit-Learn</h2>
+<h2 class="smaller">Scikit-Learn</h2>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python cell-code number-lines"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb12-2"><a href="#cb12-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-3"><a href="#cb12-3"></a><span class="im">import</span> sklearn</span>
 <span id="cb12-4"><a href="#cb12-4"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
-<span id="cb12-5"><a href="#cb12-5"></a>sklearn.set_config(display<span class="op">=</span><span class="st">'text'</span>)</span>
-<span id="cb12-6"><a href="#cb12-6"></a>ski_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/ski.csv"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7"></a>ski_df[<span class="st">'good_skiing'</span>] <span class="op">=</span> ski_df[<span class="st">'good_skiing'</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb12-8"><a href="#cb12-8"></a>X <span class="op">=</span> ski_df[[<span class="st">'day_num'</span>, <span class="st">'longitude'</span>]]</span>
-<span id="cb12-9"><a href="#cb12-9"></a>y <span class="op">=</span> ski_df[[<span class="st">'good_skiing'</span>]].values</span>
+<span id="cb12-5"><a href="#cb12-5"></a>sklearn.set_config(display<span class="op">=</span><span class="st">&#39;text&#39;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>ski_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;assets/ski.csv&quot;</span>)</span>
+<span id="cb12-7"><a href="#cb12-7"></a>ski_df[<span class="st">&#39;good_skiing&#39;</span>] <span class="op">=</span> ski_df[<span class="st">&#39;good_skiing&#39;</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb12-8"><a href="#cb12-8"></a>X <span class="op">=</span> ski_df[[<span class="st">&#39;day_num&#39;</span>, <span class="st">&#39;longitude&#39;</span>]]</span>
+<span id="cb12-9"><a href="#cb12-9"></a>y <span class="op">=</span> ski_df[[<span class="st">&#39;good_skiing&#39;</span>]].values</span>
 <span id="cb12-10"><a href="#cb12-10"></a>dtc <span class="op">=</span> DecisionTreeClassifier(</span>
-<span id="cb12-11"><a href="#cb12-11"></a>  criterion <span class="op">=</span> <span class="st">"entropy"</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a>  criterion <span class="op">=</span> <span class="st">&quot;entropy&quot;</span></span>
 <span id="cb12-12"><a href="#cb12-12"></a>)</span>
-<span id="cb12-13"><a href="#cb12-13"></a>dtc.fit(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-13"><a href="#cb12-13"></a>dtc.fit(X, y)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>DecisionTreeClassifier(criterion='entropy')</code></pre>
+<pre><code>DecisionTreeClassifier(criterion=&#39;entropy&#39;)</code></pre>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>sklearn.tree.plot_tree(dtc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python cell-code number-lines"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>sklearn.tree.plot_tree(dtc)</span></code></pre></div>
 </details>
-
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/sklearn-ski-1.png" width="614" /></p>
+</figure>
 </div>
-<img data-src="index_files/figure-revealjs/sklearn-ski-1.png" width="614" class="r-stretch quarto-figure-center"></section>
+</div>
+</div>
+</section>
 <section id="continuous-values" class="slide level2 smaller">
-<h2>Continuous Values</h2>
+<h2 class="smaller">Continuous Values</h2>
 <ul>
 <li>What if we replace binary labels with <strong>continuous values</strong>: in this case, <strong>cm of snow</strong>?</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#format_snow &lt;- function(x) sprintf('%.2f', x)</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#format_snow &lt;- function(x) sprintf(&#39;%.2f&#39;, x)</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a>format_snow <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="dv">2</span>)</span>
-<span id="cb15-3"><a href="#cb15-3"></a>ski_sample[<span class="st">'snowfall_str'</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(ski_sample<span class="sc">$</span>snowfall, format_snow)</span>
+<span id="cb15-3"><a href="#cb15-3"></a>ski_sample[<span class="st">&#39;snowfall_str&#39;</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(ski_sample<span class="sc">$</span>snowfall, format_snow)</span>
 <span id="cb15-4"><a href="#cb15-4"></a><span class="co">#ski_df |&gt; head()</span></span>
 <span id="cb15-5"><a href="#cb15-5"></a><span class="co">#print(nrow(ski_df))</span></span>
 <span id="cb15-6"><a href="#cb15-6"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>longitude, <span class="at">label=</span>snowfall_str)) <span class="sc">+</span></span>
 <span id="cb15-7"><a href="#cb15-7"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
 <span id="cb15-8"><a href="#cb15-8"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
 <span id="cb15-9"><a href="#cb15-9"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-10"><a href="#cb15-10"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
-<span id="cb15-11"><a href="#cb15-11"></a>    <span class="at">y =</span> <span class="st">"Longitude"</span>,</span>
-<span id="cb15-12"><a href="#cb15-12"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a>    <span class="at">x =</span> <span class="st">&quot;Time of Year&quot;</span>,</span>
+<span id="cb15-11"><a href="#cb15-11"></a>    <span class="at">y =</span> <span class="st">&quot;Longitude&quot;</span>,</span>
+<span id="cb15-12"><a href="#cb15-12"></a>    <span class="at">shape =</span> <span class="st">&quot;Good Skiing?&quot;</span></span>
 <span id="cb15-13"><a href="#cb15-13"></a>  ) <span class="sc">+</span></span>
 <span id="cb15-14"><a href="#cb15-14"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
 <span id="cb15-15"><a href="#cb15-15"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb15-16"><a href="#cb15-16"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-02-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-05-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-06-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-07-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-08-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-09-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-11-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-12-01'</span>)),</span>
-<span id="cb15-17"><a href="#cb15-17"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
+<span id="cb15-16"><a href="#cb15-16"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">&#39;2023-01-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-02-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-03-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-04-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-05-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-06-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-07-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-08-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-09-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-10-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-11-01&#39;</span>), <span class="fu">ymd</span>(<span class="st">&#39;2023-12-01&#39;</span>)),</span>
+<span id="cb15-17"><a href="#cb15-17"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Jan&quot;</span>, <span class="st">&quot;Feb&quot;</span>, <span class="st">&quot;Mar&quot;</span>, <span class="st">&quot;Apr&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;Jun&quot;</span>, <span class="st">&quot;Jul&quot;</span>, <span class="st">&quot;Aug&quot;</span>, <span class="st">&quot;Sep&quot;</span>, <span class="st">&quot;Oct&quot;</span>, <span class="st">&quot;Nov&quot;</span>, <span class="st">&quot;Dec&quot;</span>)</span>
 <span id="cb15-18"><a href="#cb15-18"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-19"><a href="#cb15-19"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-19"><a href="#cb15-19"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code></pre></div>
 </details>
-
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/ski-plot-continuous-3.png" width="960" /></p>
+<figcaption><em>(Example adapted from CS229: Machine Learning, Stanford University)</em></figcaption>
+</figure>
 </div>
-<img data-src="index_files/figure-revealjs/ski-plot-continuous-3.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"><em>(Example adapted from CS229: Machine Learning, Stanford University)</em></p></section>
+</div>
+</div>
+</section>
 <section id="looking-towards-regression" class="slide level2 smaller">
-<h2>Looking Towards Regression</h2>
+<h2 class="smaller">Looking Towards Regression</h2>
 <ul>
 <li>How could we make a <strong>decision tree</strong> to predict <span class="math inline">\(y\)</span> from <span class="math inline">\(x\)</span> for this data?</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb16-2"><a href="#cb16-2"></a><span class="fu">library</span>(latex2exp)</span>
-<span id="cb16-3"><a href="#cb16-3"></a>expr_pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">frac{</span><span class="sc">\\</span><span class="st">pi}{2}$"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4"></a>expr_pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">pi$"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5"></a>expr_3pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">frac{3</span><span class="sc">\\</span><span class="st">pi}{2}$"</span>)</span>
-<span id="cb16-6"><a href="#cb16-6"></a>expr_2pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$2</span><span class="sc">\\</span><span class="st">pi$"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3"></a>expr_pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">frac{</span><span class="sc">\\</span><span class="st">pi}{2}$&quot;</span>)</span>
+<span id="cb16-4"><a href="#cb16-4"></a>expr_pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">pi$&quot;</span>)</span>
+<span id="cb16-5"><a href="#cb16-5"></a>expr_3pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">frac{3</span><span class="sc">\\</span><span class="st">pi}{2}$&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6"></a>expr_2pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">&quot;$2</span><span class="sc">\\</span><span class="st">pi$&quot;</span>)</span>
 <span id="cb16-7"><a href="#cb16-7"></a>x_range <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> pi</span>
 <span id="cb16-8"><a href="#cb16-8"></a>x_coords <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_range, <span class="at">by =</span> x_range <span class="sc">/</span> <span class="dv">100</span>)</span>
 <span id="cb16-9"><a href="#cb16-9"></a>num_x_coords <span class="ot">&lt;-</span> <span class="fu">length</span>(x_coords)</span>
@@ -2101,41 +2106,47 @@ branch2-&gt;leaf6
 <span id="cb16-20"><a href="#cb16-20"></a><span class="co">#data_df &lt;- tibble(x = x, y = y)</span></span>
 <span id="cb16-21"><a href="#cb16-21"></a>reg_tree_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
 <span id="cb16-22"><a href="#cb16-22"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb16-23"><a href="#cb16-23"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb16-23"><a href="#cb16-23"></a>  <span class="fu">dsan_theme</span>(<span class="st">&quot;half&quot;</span>) <span class="sc">+</span></span>
 <span id="cb16-24"><a href="#cb16-24"></a>  <span class="fu">labs</span>(</span>
-<span id="cb16-25"><a href="#cb16-25"></a>    <span class="at">x =</span> <span class="st">"Feature"</span>,</span>
-<span id="cb16-26"><a href="#cb16-26"></a>    <span class="at">y =</span> <span class="st">"Label"</span></span>
+<span id="cb16-25"><a href="#cb16-25"></a>    <span class="at">x =</span> <span class="st">&quot;Feature&quot;</span>,</span>
+<span id="cb16-26"><a href="#cb16-26"></a>    <span class="at">y =</span> <span class="st">&quot;Label&quot;</span></span>
 <span id="cb16-27"><a href="#cb16-27"></a>  ) <span class="sc">+</span></span>
 <span id="cb16-28"><a href="#cb16-28"></a>  <span class="fu">geom_vline</span>(</span>
 <span id="cb16-29"><a href="#cb16-29"></a>    <span class="at">xintercept =</span> pi,</span>
 <span id="cb16-30"><a href="#cb16-30"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
-<span id="cb16-31"><a href="#cb16-31"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb16-31"><a href="#cb16-31"></a>    <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span></span>
 <span id="cb16-32"><a href="#cb16-32"></a>  ) <span class="sc">+</span></span>
 <span id="cb16-33"><a href="#cb16-33"></a>  <span class="fu">scale_x_continuous</span>(</span>
 <span id="cb16-34"><a href="#cb16-34"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,pi<span class="sc">/</span><span class="dv">2</span>,pi,(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi,<span class="dv">2</span><span class="sc">*</span>pi),</span>
-<span id="cb16-35"><a href="#cb16-35"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"0"</span>,expr_pi2,expr_pi,expr_3pi2,expr_2pi)</span>
+<span id="cb16-35"><a href="#cb16-35"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;0&quot;</span>,expr_pi2,expr_pi,expr_3pi2,expr_2pi)</span>
 <span id="cb16-36"><a href="#cb16-36"></a>  )</span>
-<span id="cb16-37"><a href="#cb16-37"></a>reg_tree_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-37"><a href="#cb16-37"></a>reg_tree_plot</span></code></pre></div>
 </details>
-
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/sine-wave-tree-1.png" width="960" /></p>
+</figure>
 </div>
-<img data-src="index_files/figure-revealjs/sine-wave-tree-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+</div>
+</div>
+</section>
 <section id="a-zero-level-tree" class="slide level2 smaller">
-<h2>A Zero-Level Tree</h2>
+<h2 class="smaller">A Zero-Level Tree</h2>
 <ul>
 <li>Trivial example: <span class="math inline">\(\widehat{y}(x) = 0\)</span>. How well does this do?</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(ggtext)</span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(ggtext)</span>
 <span id="cb17-2"><a href="#cb17-2"></a><span class="co"># x_lt_pi = data_df |&gt; filter(x &lt; pi)</span></span>
 <span id="cb17-3"><a href="#cb17-3"></a><span class="co"># mean(x_lt_pi$y)</span></span>
 <span id="cb17-4"><a href="#cb17-4"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
 <span id="cb17-5"><a href="#cb17-5"></a>  <span class="at">pred_sq_err0 =</span> (y <span class="sc">-</span> <span class="dv">0</span>)<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb17-6"><a href="#cb17-6"></a>)</span>
 <span id="cb17-7"><a href="#cb17-7"></a>mse0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err0)</span>
-<span id="cb17-8"><a href="#cb17-8"></a>mse0_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse0)</span>
+<span id="cb17-8"><a href="#cb17-8"></a>mse0_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, mse0)</span>
 <span id="cb17-9"><a href="#cb17-9"></a>reg_tree_plot <span class="sc">+</span></span>
 <span id="cb17-10"><a href="#cb17-10"></a>  <span class="fu">geom_hline</span>(</span>
 <span id="cb17-11"><a href="#cb17-11"></a>    <span class="at">yintercept =</span> <span class="dv">0</span>,</span>
@@ -2146,16 +2157,22 @@ branch2-&gt;leaf6
 <span id="cb17-16"><a href="#cb17-16"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend=</span>y)</span>
 <span id="cb17-17"><a href="#cb17-17"></a>  ) <span class="sc">+</span></span>
 <span id="cb17-18"><a href="#cb17-18"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb17-19"><a href="#cb17-19"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse0_str)),</span>
+<span id="cb17-19"><a href="#cb17-19"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">&quot;MSE = &quot;</span>,mse0_str)),</span>
 <span id="cb17-20"><a href="#cb17-20"></a>    <span class="at">size =</span> <span class="dv">10</span>,</span>
-<span id="cb17-21"><a href="#cb17-21"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb17-22"><a href="#cb17-22"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-21"><a href="#cb17-21"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), &quot;pt&quot;)</span></span>
+<span id="cb17-22"><a href="#cb17-22"></a>  )</span></code></pre></div>
 </details>
-
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/constant-guess-1.png" width="960" /></p>
+</figure>
 </div>
-<img data-src="index_files/figure-revealjs/constant-guess-1.png" width="960" class="r-stretch quarto-figure-center"></section>
+</div>
+</div>
+</section>
 <section id="a-one-level-binary-tree" class="slide level2 smaller crunch-title crunch-ul crunch-quarto-layout-panel crunch-code crunch-images nostretch">
-<h2>A One-Level Binary Tree</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-quarto-layout-panel crunch-code crunch-images nostretch">A One-Level Binary Tree</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div id="binary-tree-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -2172,7 +2189,7 @@ branch2-&gt;leaf6
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/binary_tree.svg" width="360"></p>
+<p><img data-src="images/binary_tree.svg" width="360" /></p>
 </figure>
 </div>
 </div>
@@ -2181,12 +2198,12 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi)</span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi)</span>
 <span id="cb18-2"><a href="#cb18-2"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
 <span id="cb18-3"><a href="#cb18-3"></a>  <span class="at">pred_sq_err1 =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb18-4"><a href="#cb18-4"></a>)</span>
 <span id="cb18-5"><a href="#cb18-5"></a>mse1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1)</span>
-<span id="cb18-6"><a href="#cb18-6"></a>mse1_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1)</span>
+<span id="cb18-6"><a href="#cb18-6"></a>mse1_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, mse1)</span>
 <span id="cb18-7"><a href="#cb18-7"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
 <span id="cb18-8"><a href="#cb18-8"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
 <span id="cb18-9"><a href="#cb18-9"></a>  <span class="dv">0</span>, pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="dv">2</span><span class="sc">/</span>pi,</span>
@@ -2203,22 +2220,22 @@ branch2-&gt;leaf6
 <span id="cb18-20"><a href="#cb18-20"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
 <span id="cb18-21"><a href="#cb18-21"></a>  ) <span class="sc">+</span></span>
 <span id="cb18-22"><a href="#cb18-22"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb18-23"><a href="#cb18-23"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1_str)),</span>
+<span id="cb18-23"><a href="#cb18-23"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">&quot;MSE = &quot;</span>,mse1_str)),</span>
 <span id="cb18-24"><a href="#cb18-24"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
-<span id="cb18-25"><a href="#cb18-25"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb18-26"><a href="#cb18-26"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-25"><a href="#cb18-25"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), &quot;pt&quot;)</span></span>
+<span id="cb18-26"><a href="#cb18-26"></a>  )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/one-level-tree-1.png" width="960"></p>
+<p><img data-src="index_files/figure-revealjs/one-level-tree-1.png" width="960" /></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
 <section id="a-one-level-ternary-tree" class="slide level2 smaller crunch-title crunch-ul crunch-quarto-layout-panel crunch-code crunch-images nostretch">
-<h2>A One-Level Ternary Tree</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-quarto-layout-panel crunch-code crunch-images nostretch">A One-Level Ternary Tree</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div id="binary-tree-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -2236,7 +2253,7 @@ branch2-&gt;leaf6
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/ternary_tree.svg" width="400"></p>
+<p><img data-src="images/ternary_tree.svg" width="400" /></p>
 </figure>
 </div>
 </div>
@@ -2245,7 +2262,7 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>cut1 <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> pi</span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>cut1 <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> pi</span>
 <span id="cb19-2"><a href="#cb19-2"></a>cut2 <span class="ot">&lt;-</span> (<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> pi</span>
 <span id="cb19-3"><a href="#cb19-3"></a>pos_mean <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">/</span> (<span class="dv">4</span><span class="sc">*</span>pi)</span>
 <span id="cb19-4"><a href="#cb19-4"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut1, pos_mean, <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut2, <span class="dv">0</span>, <span class="sc">-</span>pos_mean))</span>
@@ -2253,7 +2270,7 @@ branch2-&gt;leaf6
 <span id="cb19-6"><a href="#cb19-6"></a>  <span class="at">pred_sq_err1b =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb19-7"><a href="#cb19-7"></a>)</span>
 <span id="cb19-8"><a href="#cb19-8"></a>mse1b <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1b)</span>
-<span id="cb19-9"><a href="#cb19-9"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1b)</span>
+<span id="cb19-9"><a href="#cb19-9"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, mse1b)</span>
 <span id="cb19-10"><a href="#cb19-10"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
 <span id="cb19-11"><a href="#cb19-11"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
 <span id="cb19-12"><a href="#cb19-12"></a>  <span class="dv">0</span>, (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, pos_mean, pos_mean,</span>
@@ -2271,22 +2288,22 @@ branch2-&gt;leaf6
 <span id="cb19-24"><a href="#cb19-24"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
 <span id="cb19-25"><a href="#cb19-25"></a>  ) <span class="sc">+</span></span>
 <span id="cb19-26"><a href="#cb19-26"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb19-27"><a href="#cb19-27"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1b_str)),</span>
+<span id="cb19-27"><a href="#cb19-27"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">&quot;MSE = &quot;</span>,mse1b_str)),</span>
 <span id="cb19-28"><a href="#cb19-28"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
-<span id="cb19-29"><a href="#cb19-29"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb19-30"><a href="#cb19-30"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-29"><a href="#cb19-29"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), &quot;pt&quot;)</span></span>
+<span id="cb19-30"><a href="#cb19-30"></a>  )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/one-level-ternary-1.png" width="960"></p>
+<p><img data-src="index_files/figure-revealjs/one-level-ternary-1.png" width="960" /></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
 <section id="another-one-level-ternary-tree" class="slide level2 smaller crunch-title crunch-ul crunch-quarto-layout-panel crunch-code crunch-images nostretch">
-<h2>Another One-Level Ternary Tree</h2>
+<h2 class="smaller crunch-title crunch-ul crunch-quarto-layout-panel crunch-code crunch-images nostretch">Another One-Level Ternary Tree</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div id="binary-tree-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -2305,7 +2322,7 @@ branch2-&gt;leaf6
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/ternary_tree_uneven.svg" width="400"></p>
+<p><img data-src="images/ternary_tree_uneven.svg" width="400" /></p>
 </figure>
 </div>
 </div>
@@ -2314,7 +2331,7 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.113</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource r cell-code number-lines"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.113</span></span>
 <span id="cb20-2"><a href="#cb20-2"></a>cut1 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> c) <span class="sc">*</span> pi</span>
 <span id="cb20-3"><a href="#cb20-3"></a>cut2 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">+</span> c) <span class="sc">*</span> pi</span>
 <span id="cb20-4"><a href="#cb20-4"></a>pos_mean <span class="ot">&lt;-</span> <span class="fl">0.695</span></span>
@@ -2323,7 +2340,7 @@ branch2-&gt;leaf6
 <span id="cb20-7"><a href="#cb20-7"></a>  <span class="at">pred_sq_err1b =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb20-8"><a href="#cb20-8"></a>)</span>
 <span id="cb20-9"><a href="#cb20-9"></a>mse1b <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1b)</span>
-<span id="cb20-10"><a href="#cb20-10"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1b)</span>
+<span id="cb20-10"><a href="#cb20-10"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, mse1b)</span>
 <span id="cb20-11"><a href="#cb20-11"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
 <span id="cb20-12"><a href="#cb20-12"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
 <span id="cb20-13"><a href="#cb20-13"></a>  <span class="dv">0</span>, cut1, pos_mean, pos_mean,</span>
@@ -2341,15 +2358,15 @@ branch2-&gt;leaf6
 <span id="cb20-25"><a href="#cb20-25"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
 <span id="cb20-26"><a href="#cb20-26"></a>  ) <span class="sc">+</span></span>
 <span id="cb20-27"><a href="#cb20-27"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb20-28"><a href="#cb20-28"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1b_str)),</span>
+<span id="cb20-28"><a href="#cb20-28"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">&quot;MSE = &quot;</span>,mse1b_str)),</span>
 <span id="cb20-29"><a href="#cb20-29"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
-<span id="cb20-30"><a href="#cb20-30"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb20-31"><a href="#cb20-31"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-30"><a href="#cb20-30"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), &quot;pt&quot;)</span></span>
+<span id="cb20-31"><a href="#cb20-31"></a>  )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/one-level-ternary-uneven-1.png" width="960"></p>
+<p><img data-src="index_files/figure-revealjs/one-level-ternary-uneven-1.png" width="960" /></p>
 </figure>
 </div>
 </div>
@@ -2358,23 +2375,23 @@ branch2-&gt;leaf6
 <section id="on-to-the-code" class="slide level2">
 <h2>On to the Code!</h2>
 <ul>
-<li>Scikit-learn has both <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html" target="_blank"><code>DecisionTreeClassifier</code> </a><a class="bi bi-box-arrow-up-right"></a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html" target="_blank"><code>DecisionTreeRegressor</code> <i class="bi bi-box-arrow-up-right"></i></a> classes!</li>
+<li>Scikit-learn has both <a href='https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html' target='_blank'><code>DecisionTreeClassifier</code> <a class='bi bi-box-arrow-up-right'></i></a> and <a href='https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html' target='_blank'><code>DecisionTreeRegressor</code> <i class='bi bi-box-arrow-up-right'></i></a> classes!</li>
 </ul>
 </section></section>
 <section>
-<section id="random-forests" class="title-slide slide level1 center" data-stack-name="Random Forests">
-<h1>Random Forests</h1>
+<section id="random-forests" class="title-slide slide level1" data-stack-name="Random Forests">
+<h1 data-stack-name="Random Forests">Random Forests</h1>
 
 </section>
 <section id="the-wisdom-of-crowds" class="slide level2 smaller">
-<h2>The Wisdom of Crowds</h2>
+<h2 class="smaller">The Wisdom of Crowds</h2>
 <ul>
 <li>Imagine you’re assembling a <strong>darts team</strong>. You can choose a <strong>team of 4</strong> from among the following 8 players:</li>
 </ul>
 <table>
 <colgroup>
-<col style="width: 30%">
-<col style="width: 70%">
+<col style="width: 30%" />
+<col style="width: 70%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2420,43 +2437,53 @@ branch2-&gt;leaf6
 </section>
 <section id="your-opponents" class="slide level2">
 <h2>Your Opponents</h2>
-
-<img data-src="images/japanese_baseball_game.jpg" class="r-stretch quarto-figure-center"></section>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/japanese_baseball_game.jpg" /></p>
+</figure>
+</div>
+</section>
 <section id="high-variance-low-bias" class="slide level2">
 <h2>High Variance, Low Bias</h2>
-
-<img data-src="images/var-high-bias-low.svg" class="r-stretch quarto-figure-center"></section>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/var-high-bias-low.svg" /></p>
+</figure>
+</div>
+</section>
 <section id="the-wisdom-of-sheep" class="slide level2">
 <h2>The Wisdom of Sheep</h2>
 <ul>
 <li>Unfortunately, the “wisdom of crowds” phenomenon only works if everyone in the crowd is <strong>unable to communicate</strong></li>
-<li>The minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders <img data-src="images/thinking_transparent.png" style="display: inline-flex;" width="60">, and the effect goes away (biases no longer cancel out)</li>
+<li>The minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders <img data-src="images/thinking_transparent.png" style="display: inline-flex;" width="60" />, and the effect goes away (biases no longer cancel out)</li>
 <li>The takeaway for effectively training <strong>random forests</strong>: ensure that each tree has a <strong>separate (ideally orthogonal) slice</strong> of the full dataset, and has to infer labels from only that slice!</li>
 </ul>
 </section>
 <section id="appendix-covariance-matrix-magic" class="slide level2 smaller">
-<h2>Appendix: Covariance Matrix Magic</h2>
+<h2 class="smaller">Appendix: Covariance Matrix Magic</h2>
 <ul>
 <li>For those interested (skipping over lots of matrix math): say you have a 2D covariance matrix <span class="math inline">\(\mathbf{\Sigma}\)</span> with eigensystem <span class="math inline">\((\lambda_1, \mathbf{x}_1), (\lambda_2, \mathbf{x}_2)\)</span></li>
-<li>You can obtain a <strong>new</strong> covariance matrix <span class="math inline">\(\mathbf{\Sigma}'\)</span> which has the <strong>same eigenvalues</strong> as <span class="math inline">\(\mathbf{\Sigma}\)</span> but has eigen<strong>vectors</strong> <span class="math inline">\(\mathbf{x}'_1\)</span> and <span class="math inline">\(\mathbf{x}'_2\)</span>, so long as these two eigenvectors are <strong>orthogonal</strong>.</li>
-<li>Example: you want to retain the eigenvalues <span class="math inline">\(\lambda_1 = 3\)</span> and <span class="math inline">\(\lambda_2 = 1\)</span> from the <a href="#/pca-math-magic">quiz-review slides</a>, but want the data’s <strong>first</strong> principal component to be <span class="math inline">\(\mathbf{x}'_1 = (2,1)^\top\)</span> and its <strong>second</strong> principal component to be <span class="math inline">\(\mathbf{x}'_2 = (-1,2)^\top\)</span>.</li>
-<li>By constructing the Eigenmatrix <span class="math inline">\(\mathbf{V} = \left[\begin{smallmatrix} \mathbf{x}'_1 &amp; \mathbf{x}'_2\end{smallmatrix}\right]\)</span> (the matrix whose columns are <span class="math inline">\(\mathbf{x}'_1\)</span> and <span class="math inline">\(\mathbf{x}'_2\)</span>), we can obtain <span class="math inline">\(\mathbf{\Sigma}'\)</span> by computing:</li>
+<li>You can obtain a <strong>new</strong> covariance matrix <span class="math inline">\(\mathbf{\Sigma}&#39;\)</span> which has the <strong>same eigenvalues</strong> as <span class="math inline">\(\mathbf{\Sigma}\)</span> but has eigen<strong>vectors</strong> <span class="math inline">\(\mathbf{x}&#39;_1\)</span> and <span class="math inline">\(\mathbf{x}&#39;_2\)</span>, so long as these two eigenvectors are <strong>orthogonal</strong>.</li>
+<li>Example: you want to retain the eigenvalues <span class="math inline">\(\lambda_1 = 3\)</span> and <span class="math inline">\(\lambda_2 = 1\)</span> from the <a href="#/pca-math-magic">quiz-review slides</a>, but want the data’s <strong>first</strong> principal component to be <span class="math inline">\(\mathbf{x}&#39;_1 = (2,1)^\top\)</span> and its <strong>second</strong> principal component to be <span class="math inline">\(\mathbf{x}&#39;_2 = (-1,2)^\top\)</span>.</li>
+<li>By constructing the Eigenmatrix <span class="math inline">\(\mathbf{V} = \left[\begin{smallmatrix} \mathbf{x}&#39;_1 &amp; \mathbf{x}&#39;_2\end{smallmatrix}\right]\)</span> (the matrix whose columns are <span class="math inline">\(\mathbf{x}&#39;_1\)</span> and <span class="math inline">\(\mathbf{x}&#39;_2\)</span>), we can obtain <span class="math inline">\(\mathbf{\Sigma}&#39;\)</span> by computing:</li>
 </ul>
 <p><span class="math display">\[
-\mathbf{\Sigma}' = \mathbf{V}\mathbf{\Sigma}\mathbf{V}^{-1}.
+\mathbf{\Sigma}&#39; = \mathbf{V}\mathbf{\Sigma}\mathbf{V}^{-1}.
 \]</span></p>
 <ul>
-<li>(Exercise: recreate the plot from the earlier PCA slides, but with these desired first and second principal components! <a href="https://www.visiondummy.com/2014/04/geometric-interpretation-covariance-matrix/" target="_blank">See here</a> for a deeper dive into why this works!)</li>
+<li>(Exercise: recreate the plot from the earlier PCA slides, but with these desired first and second principal components! <a href='https://www.visiondummy.com/2014/04/geometric-interpretation-covariance-matrix/' target='_blank'>See here</a> for a deeper dive into why this works!)</li>
 </ul>
 </section>
-<section id="references" class="slide level2 smaller scrollable">
+<section id="references" class="slide level2">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-vandermaaten_visualizing_2008" class="csl-entry" role="listitem">
 Van der Maaten, Laurens, and Geoffrey Hinton. 2008. <span>“Visualizing Data Using t-<span>SNE</span>.”</span> <em>Journal of Machine Learning Research</em> 9 (11).
 </div>
 </div>
-
+<div id="quarto-meta-markdown" class="hidden">
+<p><span class="hidden" data-render-id="quarto-metatitle">DSAN 5000 - Week 11: Decision Trees</span> <span class="hidden" data-render-id="quarto-twittercardtitle">DSAN 5000 - Week 11: Decision Trees</span> <span class="hidden" data-render-id="quarto-ogcardtitle">DSAN 5000 - Week 11: Decision Trees</span> <span class="hidden" data-render-id="quarto-metasitename">DSAN 5000</span> <span class="hidden" data-render-id="quarto-twittercarddesc"><em>DSAN 5000: Data Science and Analytics</em><br>Section <span class="sec-num">02</span></span> <span class="hidden" data-render-id="quarto-ogcardddesc"><em>DSAN 5000: Data Science and Analytics</em><br>Section <span class="sec-num">02</span></span></p>
+</div>
 <div class="footer footer-default">
 <p>DSAN 5000-<span class="sec-num">02</span> Week 11: Decision Trees</p>
 </div>
@@ -2485,29 +2512,7 @@ Van der Maaten, Laurens, and Geoffrey Hinton. 2008. <span>“Visualizing Data Us
 
       // Full list of configuration options available at:
       // https://revealjs.com/config/
-      Reveal.initialize({
-'controlsAuto': true,
-'previewLinksAuto': false,
-'smaller': false,
-'pdfSeparateFragments': false,
-'autoAnimateEasing': "ease",
-'autoAnimateDuration': 1,
-'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'simplemenu': {"menubarclass":"menubar","menuclass":"menu","activeclass":"active","activeelement":"li","flat":true,"barhtml":{"header":"<div class='menubar'>\n  <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>\n  \n  <span style='position: absolute; right: 0; padding-right: 8px; z-index: 10; display: inline-flex !important;'>\n    <a id='toggle-02-label' href='#' onclick=\"window.toggleSectionClicked('02'); return(false);\" class='no-decoration'>02 </a>\n    <a href='#' onclick=\"window.toggleIconClicked(); return(false);\" class='no-decoration'><i id='section-toggle-icon' class='bi bi-toggle-off pt-0 ps-1 pe-1'></i></a>\n    <a id='toggle-03-label' href='#' onclick=\"window.toggleSectionClicked('03'); return(false);\" class='no-decoration'> 03</a>\n  </span>\n  <ul class='menu'></ul>\n</div>\n","footer":""},"scale":0.5},
-'smaller': false,
-
-'controlsAuto': true,
-'previewLinksAuto': false,
-'smaller': false,
-'pdfSeparateFragments': false,
-'autoAnimateEasing': "ease",
-'autoAnimateDuration': 1,
-'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'simplemenu': {"menubarclass":"menubar","menuclass":"menu","activeclass":"active","activeelement":"li","flat":true,"barhtml":{"header":"<div class='menubar'>\n  <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>\n  \n  <span style='position: absolute; right: 0; padding-right: 8px; z-index: 10; display: inline-flex !important;'>\n    <a id='toggle-02-label' href='#' onclick=\"window.toggleSectionClicked('02'); return(false);\" class='no-decoration'>02 </a>\n    <a href='#' onclick=\"window.toggleIconClicked(); return(false);\" class='no-decoration'><i id='section-toggle-icon' class='bi bi-toggle-off pt-0 ps-1 pe-1'></i></a>\n    <a id='toggle-03-label' href='#' onclick=\"window.toggleSectionClicked('03'); return(false);\" class='no-decoration'> 03</a>\n  </span>\n  <ul class='menu'></ul>\n</div>\n","footer":""},"scale":0.5},
-'smaller': false,
- 
+      Reveal.initialize({ 
         // Display controls in the bottom right corner
         controls: false,
 
@@ -2526,7 +2531,7 @@ Van der Maaten, Laurens, and Geoffrey Hinton. 2008. <span>“Visualizing Data Us
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: c/t,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -2676,9 +2681,7 @@ Van der Maaten, Laurens, and Geoffrey Hinton. 2008. <span>“Visualizing Data Us
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Simplemenu, QuartoSupport,
-QuartoLineHighlight, PdfExport, RevealMenu, Simplemenu, QuartoSupport,
-
+        plugins: [
           RevealMath,
           RevealNotes,
           RevealSearch,
@@ -2724,7 +2727,7 @@ QuartoLineHighlight, PdfExport, RevealMenu, Simplemenu, QuartoSupport,
       })();
     </script>
 
-    <script id="quarto-html-after-body" type="application/javascript">
+    <script id = "quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
         const mode = bsSheetEl.getAttribute("data-mode");
@@ -2870,6 +2873,5 @@ QuartoLineHighlight, PdfExport, RevealMenu, Simplemenu, QuartoSupport,
       }
     });
     </script>
-    
-
-</body></html>
+    </body>
+</html>
