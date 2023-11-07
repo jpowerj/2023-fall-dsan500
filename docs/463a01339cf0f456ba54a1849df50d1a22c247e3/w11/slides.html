@@ -1834,7 +1834,7 @@ branch2-&gt;leaf6
 
 </div>
 <img data-src="index_files/figure-revealjs/ski-plot-binary-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"><em>(Example adapted from CS229: Machine Learning, Stanford University)</em></p></section>
-<section id="zero-splits" class="slide level2 smaller crunch-title crunch-ul crunch-code">
+<section id="zero-splits" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-math">
 <h2>Zero Splits</h2>
 <ul>
 <li>Starting out: no splits at all, just guess <strong>most frequent class</strong>: <strong>bad</strong> skiing</li>
@@ -1870,8 +1870,17 @@ branch2-&gt;leaf6
 <ul>
 <li>This gives us <span class="math inline">\(\Pr(\text{Correct Guess}) = 0.66\)</span></li>
 <li>Let <span class="math inline">\(R_i\)</span> denote the <strong>region</strong> we’re considering at level <span class="math inline">\(i\)</span>, and <span class="math inline">\(\widehat{p}_c(R_i)\)</span> be the proportion of points in region <span class="math inline">\(R_i\)</span> that are of class <span class="math inline">\(c\)</span></li>
-<li>Here, since we’re not splitting the region up at all (yet),</li>
+<li>The (nearly) <strong>unique measure</strong> is, you guessed it: <strong>entropy</strong>:</li>
 </ul>
+<p><span class="math display">\[
+\mathscr{L}(R_i) = -\sum_{c}\widehat{p}_c(R_i)\log_2(\widehat{p}_c(R_i))
+\]</span></p>
+<ul>
+<li>Here, since we’re not splitting the region up at all (yet), the entropy is just</li>
+</ul>
+<p><span class="math display">\[
+\mathscr{L}(R_i) = -[(0.66)\log_2(0.66) + (0.34)\log_2(0.34)] \approx 0.925
+\]</span></p>
 </section>
 <section id="judging-split-options" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-math">
 <h2>Judging Split Options</h2>
@@ -2356,8 +2365,8 @@ branch2-&gt;leaf6
 </ul>
 <table>
 <colgroup>
-<col style="width: 25%">
-<col style="width: 75%">
+<col style="width: 30%">
+<col style="width: 70%">
 </colgroup>
 <thead>
 <tr class="header">

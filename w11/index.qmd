@@ -909,7 +909,7 @@ ggplot(ski_sample, aes(x=day, y=longitude, shape=good_skiing, color=good_skiing)
   scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))
 ```
 
-## Zero Splits {.smaller .crunch-title .crunch-ul .crunch-code}
+## Zero Splits {.smaller .crunch-title .crunch-ul .crunch-code .crunch-math}
 
 * Starting out: no splits at all, just guess **most frequent class**: **bad** skiing
 
@@ -920,7 +920,17 @@ ski_sample |> count(good_skiing)
 
 * This gives us $\Pr(\text{Correct Guess}) = 0.66$
 * Let $R_i$ denote the **region** we're considering at level $i$, and $\widehat{p}_c(R_i)$ be the proportion of points in region $R_i$ that are of class $c$
-* Here, since we're not splitting the region up at all (yet), 
+* The (nearly) **unique measure** is, you guessed it: **entropy**:
+
+$$
+\mathscr{L}(R_i) = -\sum_{c}\widehat{p}_c(R_i)\log_2(\widehat{p}_c(R_i))
+$$
+
+* Here, since we're not splitting the region up at all (yet), the entropy is just
+
+$$
+\mathscr{L}(R_i) = -[(0.66)\log_2(0.66) + (0.34)\log_2(0.34)] \approx 0.925
+$$
 
 ## Judging Split Options {.smaller .crunch-title .crunch-ul .crunch-code .crunch-math}
 
@@ -1298,7 +1308,7 @@ reg_tree_plot +
 | Gregor "the GOAT" Gregorsson | Hits bullseye 99.9% of time, other 0.1% hits random point |
 | Craig | Top 25 Craigs of 2023 |
 
-: {tbl-colwidths="[25,75]"}
+: {tbl-colwidths="[30,70]"}
 
 ## Your Opponents
 

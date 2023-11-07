@@ -8,3 +8,6 @@ H(X_0) &= -[(0.34)\log_2(0.34) + (0.66)\log_2(0.66)] = 0.9248 \\
 H(X_{1a}) &= -[\frac{21}{34}\log_2\frac{21}{34} + \frac{45}{66}\log_2\frac{45}{66}]
 \end{align*}
 $$ -->
+
+
+^[Technically there are several measures you could use---for example, Scikit-learn allows you to choose between Gini coefficient and entropy---but they are all slight variations on entropy, in terms of the shape of the functions.]
