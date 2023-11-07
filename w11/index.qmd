@@ -1,6 +1,6 @@
 ---
 title: "Week 11: Decision Trees"
-date: "Tuesday, October 31, 2023"
+date: "Tuesday, November 7, 2023"
 date-format: full
 lecnum: 11
 categories:
