@@ -39,9 +39,1295 @@ metadata-files:
 
 Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
-{{< include ../_components/sched-w10.qmd >}}
+{{< include ../_components/sched-w11.qmd >}}
 
 # Quiz Prep {data-stack-name="Quiz Prep"}
 
-##  {.smaller .crunch-title .crunch-ul .crunch-code .crunch-quarto-layout-panel .crunch-images .crunch-figures}
+## Reducing Dimensionality {.smaller .crunch-title .small-math .crunch-quarto-layout-cell}
 
+```{=html}
+<style>
+.xout {
+  background: 
+    linear-gradient(to top left,
+      rgba(0,0,0,0) 10%,
+      rgba(0,0,0,0) calc(50% - 0.8px),
+      rgba(255,0,0,1) 50%,
+      rgba(0,0,0,0) calc(50% + 0.8px),
+      rgba(0,0,0,0) 100%),
+    linear-gradient(to top right,
+      rgba(0,0,0,0) 10%,
+      rgba(0,0,0,0) calc(50% - 0.8px),
+      rgba(255,0,0,1) 50%,
+      rgba(0,0,0,0) calc(50% + 0.8px),
+      rgba(0,0,0,0) 100%);
+}
+</style>
+```
+
+* Method 1: Feature **Selection**. Selecting a **subset** of **existing** features:
+
+::: {layout="[4,1,4,1,4]" layout-valign="center" layout-align="center"}
+
+```{=html}
+<table id="fs1" class="fwt ctable">
+<thead>
+<tr>
+  <th><span data-qmd="$F_1$"></span></th>
+  <th><span data-qmd="$F_2$"></span></th>
+  <th><span data-qmd="$F_3$"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>0.8</td>
+  <td>0.9</td>
+  <td>0.1</td>
+</tr>
+<tr>
+  <td>0.6</td>
+  <td>0.4</td>
+  <td>0.1</td>
+</tr>
+</tbody>
+</table>
+```
+
+[&rarr;]{style="display: block; text-align: center;"}
+
+```{=html}
+<table id="fs2" class="fwt ctable">
+<thead>
+<tr>
+  <th><span data-qmd="$F_1$"></span></th>
+  <th class="xout" align="center"><span data-qmd="$F_2$"></span></th>
+  <th><span data-qmd="$F_3$"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>0.8</td>
+  <td class="xout">0.9</td>
+  <td>0.1</td>
+</tr>
+<tr>
+  <td>0.6</td>
+  <td class='xout'>0.4</td>
+  <td>0.1</td>
+</tr>
+</tbody>
+</table>
+```
+
+[&rarr;]{style="display: block; text-align: center;"}
+
+```{=html}
+<table id="fs3">
+<thead>
+<tr>
+  <th><span data-qmd="$F_1$"></span></th>
+  <th><span data-qmd="$F_3$"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>0.8</td>
+  <td>0.1</td>
+</tr>
+<tr>
+  <td>0.6</td>
+  <td>0.1</td>
+</tr>
+</tbody>
+</table>
+```
+
+:::
+
+* Method 2: Feature **Extraction**. Constructing **new features** as combinations/functions of the original features
+
+::: {layout="[4,1,4,1,4]" layout-valign="center" layout-align="center"}
+
+```{=html}
+<table id="fe1" class="fwt ctable">
+<thead>
+<tr>
+  <th><span data-qmd="[$F_1$]{.cb1}"></span></th>
+  <th><span data-qmd="[$F_2$]{.cb1}"></span></th>
+  <th><span data-qmd="[$F_3$]{.cb1}"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>0.8</td>
+  <td>0.9</td>
+  <td>0.1</td>
+</tr>
+<tr>
+  <td>0.6</td>
+  <td>0.4</td>
+  <td>0.1</td>
+</tr>
+</tbody>
+</table>
+```
+
+[&rarr;]{style="display: block; text-align: center;"}
+
+$$
+\begin{align*}
+{\color{#56b4e9}F'_{12}} &= \frac{{\color{#e69f00}F_1} + {\color{#e69f00}F_2}}{2} \\
+{\color{#56b4e9}F'_{23}} &= \frac{{\color{#e69f00}F_2} + {\color{#e69f00}F_3}}{2}
+\end{align*}
+$$
+
+[&rarr;]{style="display: block; text-align: center;"}
+
+```{=html}
+<table id="fe3">
+<thead>
+<tr>
+  <th><span data-qmd="[$F'_{12}$]{.cb2}"></span></th>
+  <th><span data-qmd="[$F'_{23}$]{.cb2}"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>0.85</td>
+  <td>0.50</td>
+</tr>
+<tr>
+  <td>0.50</td>
+  <td>0.25</td>
+</tr>
+</tbody>
+</table>
+```
+
+:::
+
+## Principal Component Analysis (PCA) {.smaller .crunch-title .crunch-code .crunch-figures .crunch-quarto-layout-panel .crunch-ul}
+
+* We know this is feature **extraction** since we obtain **new dimensions**:
+
+::: {layout="[1,1]" layout-valign="center"}
+
+```{r}
+#| label: gdp-plot
+#| warning: false
+#| fig-width: 10
+#| fig-height: 4
+library(readr)
+library(ggplot2)
+gdp_df <- read_csv("assets/gdp_pca.csv")
+
+dist_to_line <- function(x0, y0, a, c) {
+    numer <- abs(a * x0 - y0 + c)
+    denom <- sqrt(a * a + 1)
+    return(numer / denom)
+}
+# Finding PCA line for industrial vs. exports
+x <- gdp_df$industrial
+y <- gdp_df$exports
+lossFn <- function(lineParams, x0, y0) {
+    a <- lineParams[1]
+    c <- lineParams[2]
+    return(sum(dist_to_line(x0, y0, a, c)))
+}
+o <- optim(c(0, 0), lossFn, x0 = x, y0 = y)
+ggplot(gdp_df, aes(x = industrial, y = exports)) +
+    geom_point(size=g_pointsize/2) +
+    geom_abline(aes(slope = o$par[1], intercept = o$par[2], color="pca"), linewidth=g_linewidth, show.legend = TRUE) +
+    geom_smooth(aes(color="lm"), method = "lm", se = FALSE, linewidth=g_linewidth, key_glyph = "blank") +
+    scale_color_manual(element_blank(), values=c("pca"=cbPalette[2],"lm"=cbPalette[1]), labels=c("Regression","PCA")) +
+    dsan_theme("half") +
+    remove_legend_title() +
+    labs(
+      title = "PCA Line vs. Regression Line",
+	    x = "Industrial Production (% of GDP)",
+	    y = "Exports (% of GDP)"
+    )
+```
+
+```{r}
+#| label: pca-plot
+#| warning: false
+#| fig-width: 10
+#| fig-height: 4
+ggplot(gdp_df, aes(pc1, .fittedPC2)) +
+    geom_point(size = g_pointsize/2) +
+    geom_hline(aes(yintercept=0, color='PCA Line'), linetype='solid', size=g_linesize) +
+    geom_rug(sides = "b", linewidth=g_linewidth/1.2, length = unit(0.1, "npc"), color=cbPalette[3]) +
+    expand_limits(y=-1.6) +
+    scale_color_manual(element_blank(), values=c("PCA Line"=cbPalette[2])) +
+    dsan_theme("half") +
+    remove_legend_title() +
+    labs(
+      title = "Exports vs. Industry in Principal Component Space",
+      x = "First Principal Component (Axis of Greatest Variance)",
+      y = "Second PC"
+    )
+```
+
+:::
+
+```{r}
+#| label: pca-facet-plot
+#| warning: false
+#| fig-height: 4
+#| fig-width: 17
+library(dplyr)
+library(tidyr)
+plot_df <- gdp_df %>% select(c(country_code, pc1, agriculture, military))
+long_df <- plot_df %>% pivot_longer(!c(country_code, pc1), names_to = "var", values_to = "val")
+long_df <- long_df |> mutate(
+  var = case_match(
+    var,
+    "agriculture" ~ "Agricultural Production",
+    "military" ~ "Military Spending"
+  )
+)
+ggplot(long_df, aes(x = pc1, y = val, facet = var)) +
+    geom_point() +
+    facet_wrap(vars(var), scales = "free") +
+	dsan_theme("full") +
+	labs(
+		x = "Industrial-Export Dimension (First Principal Component)",
+		y = "% of GDP"
+	)
+```
+
+## PCA Math Magic {.smaller .crunch-title .crunch-ul .crunch-code .crunch-quarto-layout-panel}
+
+* Remember that our **goal** is to find the **axes** along which the data has **greatest variance** (out of all possible axes)
+* Let's create a dataset using a **known** data-generating process: one dimension with 75% of the total variance, and the second with 25%:
+
+::: {layout="[2,1]" layout-valign="center"}
+
+```{r}
+#| label: pca-dgp-no-covar
+library(tidyverse)
+library(MASS)
+library(ggforce)
+N <- 300
+Mu <- c(0, 0)
+var_x <- 3
+var_y <- 1
+Sigma <- matrix(c(var_x, 0, 0, var_y), nrow=2)
+data_df <- as_tibble(mvrnorm(N, Mu, Sigma, empirical=TRUE))
+colnames(data_df) <- c("x","y")
+# data_df <- data_df |> mutate(
+#   within_5 = x < 5,
+#   within_sq5 = x < sqrt(5)
+# )
+#nrow(data_df |> filter(within_5)) / nrow(data_df)
+#nrow(data_df |> filter(within_sq5)) / nrow(data_df)
+# And plot
+ggplot(data_df, aes(x=x, y=y)) +
+  # 68% ellipse
+  # stat_ellipse(geom="polygon", type="norm", linewidth=g_linewidth, level=0.68, fill=cbPalette[1], alpha=0.5) +
+  # stat_ellipse(type="norm", linewidth=g_linewidth, level=0.68) +
+  geom_ellipse(
+    aes(x0=0, y0=0, a=var_x, b=var_y, angle=0),
+    linewidth = g_linewidth
+  ) +
+  # geom_ellipse(
+  #   aes(x0=0, y0=0, a=sqrt(5), b=1, angle=0),
+  #   linewidth = g_linewidth,
+  #   geom="polygon",
+  #   fill=cbPalette[1], alpha=0.2
+  # ) +
+  # # 95% ellipse
+  # stat_ellipse(geom="polygon", type="norm", linewidth=g_linewidth, level=0.95, fill=cbPalette[1], alpha=0.25) +
+  # stat_ellipse(type="norm", linewidth=g_linewidth, level=0.95) +
+  # # 99.7% ellipse
+  # stat_ellipse(geom='polygon', type="norm", linewidth=g_linewidth, level=0.997, fill=cbPalette[1], alpha=0.125) +
+  # stat_ellipse(type="norm", linewidth=g_linewidth, level=0.997) +
+  # Lines at x=0 and y=0
+  geom_vline(xintercept=0, linetype="dashed", linewidth=g_linewidth / 2) +
+  geom_hline(yintercept=0, linetype="dashed", linewidth = g_linewidth / 2) +
+  geom_point(
+    size = g_pointsize / 3,
+    #alpha=0.5
+  ) +
+  geom_rug(length=unit(0.5, "cm"), alpha=0.75) +
+  geom_segment(
+    aes(x=-var_x, y=0, xend=var_x, yend=0, color='PC1'),
+    linewidth = 1.5 * g_linewidth,
+    arrow = arrow(length = unit(0.1, "npc"))
+  ) +
+  geom_segment(
+    aes(x=0, y=-var_y, xend=0, yend=var_y, color='PC2'),
+    linewidth = 1.5 * g_linewidth,
+    arrow = arrow(length = unit(0.1, "npc"))
+  ) +
+  dsan_theme("half") +
+  coord_fixed() +
+  remove_legend_title() +
+  scale_color_manual(
+    "PC Vectors",
+    values=c('PC1'=cbPalette[1], 'PC2'=cbPalette[2])
+  ) +
+  scale_x_continuous(breaks=seq(-5,5,1), limits=c(-5,5))
+```
+
+::: {#pca-math-right}
+
+$$
+\mathbf{\Sigma} = \begin{bmatrix}
+{\color{#e69f00}3} & 0 \\
+0 & {\color{#56b4e9}1}
+\end{bmatrix}
+$$
+
+Two solutions to $\mathbf{\Sigma}\mathbf{x} = \lambda \mathbf{x}$:
+
+* ${\color{#e69f00}\lambda_1} = 3, {\color{#e69f00}\mathbf{x}_1} = (1, 0)^\top$
+* ${\color{#56b4e9}\lambda_2} = 1, {\color{#56b4e9}\mathbf{x}_2} = (0, 1)^\top$
+
+:::
+
+:::
+
+## Now With PCA Lines $\neq$ Axes {.smaller .crunch-title .crunch-ul .crunch-code .crunch-quarto-layout-panel .shift-footnotes-20}
+
+* We now introduce **covariance** between $x$ and $y$ coordinates of our data:
+
+::: {layout="[2,1]" layout-valign="center"}
+
+```{r}
+#| label: pca-dgp-covar
+#| fig-width: 7
+library(tidyverse)
+library(MASS)
+N <- 250
+Mu <- c(0,0)
+Sigma <- matrix(c(2,1,1,2), nrow=2)
+data_df <- as_tibble(mvrnorm(N, Mu, Sigma))
+colnames(data_df) <- c("x","y")
+# Start+end coordinates for the transformed vectors
+pc1_rc <- (3/2)*sqrt(2)
+pc2_rc <- (1/2)*sqrt(2)
+ggplot(data_df, aes(x=x, y=y)) +
+  geom_ellipse(
+    aes(x0=0, y0=0, a=var_x, b=var_y, angle=pi/4),
+    linewidth = g_linewidth,
+    #fill='grey', alpha=0.0075
+  ) +
+  geom_vline(xintercept=0, linetype="dashed", linewidth=g_linewidth / 2) +
+  geom_hline(yintercept=0, linetype="dashed", linewidth = g_linewidth / 2) +
+  geom_point(
+    size = g_pointsize / 3,
+    #alpha=0.7
+  ) +
+  geom_rug(
+    length=unit(0.35, "cm"), alpha=0.75
+  ) +
+  geom_segment(
+    aes(x=-pc1_rc, y=-pc1_rc, xend=pc1_rc, yend=pc1_rc, color='PC1'),
+    linewidth = 1.5 * g_linewidth,
+    arrow = arrow(length = unit(0.1, "npc"))
+  ) +
+  geom_segment(
+    aes(x=pc2_rc, y=-pc2_rc, xend=-pc2_rc, yend=pc2_rc, color='PC2'),
+    linewidth = 1.5 * g_linewidth,
+    arrow = arrow(length = unit(0.1, "npc"))
+  ) +
+  dsan_theme("half") +
+  remove_legend_title() +
+  coord_fixed() +
+  scale_x_continuous(breaks=seq(-4,4,2))
+```
+
+::: {#pca-math-covar-right}
+
+$$
+\mathbf{\Sigma}' = \begin{bmatrix}
+2 & 1 \\
+1 & 2
+\end{bmatrix}
+$$
+
+Still two solutions to $\mathbf{\Sigma}'\mathbf{x} = \lambda \mathbf{x}$:
+
+* ${\color{#e69f00}\lambda_1} = 3, {\color{#e69f00}\mathbf{x}_1} = (1,1)^\top$
+* ${\color{#56b4e9}\lambda_2} = 1, {\color{#56b4e9}\mathbf{x}_2} = (-1,1)^\top$
+
+:::
+
+:::
+
+::: {.aside}
+
+For those interested in how we obtained $\mathbf{\Sigma}'$ with same eigen**values** but different eigen**vectors** from $\mathbf{\Sigma}$, see the [appendix slide](#appendix-covariance-matrix-magic).
+
+:::
+
+## PCA and Eigenvalues
+
+*Takeaway 1*: **Regardless of the coordinate system**,
+
+* Eigen**vectors** give us **axes of greatest variance**: $\mathbf{x}_1$ is axis of greatest variance, $\mathbf{x}_2$ is axis of 2nd-greatest variance, etc.
+* The corresponding Eigen**values** tell us **how much of the total variance is explained by** this axis
+
+## PCA as Swiss Army Knife {.smaller .crunch-title .crunch-quarto-layout-panel .crunch-math .crunch-ul}
+
+* PCA can be used for both **reinterpretation** and **reduction** of dimensions!
+* Consider dataset $\mathbf{X} = (X_1, \ldots, X_n)$, with $X_i \in \mathbb{R}^N$
+
+::: {layout="[1,1]" layout-valign="top"}
+
+::: {#pca-reinterpretation-text}
+
+<center>
+**Reinterpretation**
+</center>
+
+If we project each $X_i$ onto $N$ principal component axes:
+
+* Datapoints in PC space are **linear combinations** of the original datapoints! (&larr; *Takeaway 2a*)
+
+    $$
+    X'_i = \alpha_1X_1 + \cdots + \alpha_nX_n,
+    $$
+
+    where $\forall i \left[\alpha_i \neq 0\right]$
+
+* We are just "re-plotting" our original data in PC space via **change of coordinates**
+* Thus we can **recover** the original data from the PC data
+
+:::
+::: {#pca-reduction-text}
+
+<center>
+**Reduction**
+</center>
+
+If we project $X_i$ onto $M < N$ principal component axes:
+
+* Datapoints in PC space are **still linear combinations** of the original datapoints (&larr; *Takeaway 2b*), but now some of the scalars (weights) are 0
+* We have performed statistically-principled **dimensionality reduction** (&larr; *Takeaway 3*)
+* However, original data cannot be recovered
+
+:::
+:::
+
+## t-SNE for Dimensionality Reduction {.smaller}
+
+* **t**-Distributed **S**tochastic **N**eighbor **E**mbedding [@vandermaaten_visualizing_2008]
+* If $x, y$ are **neighbors** in $\mathbb{R}^{1000}$, t-SNE "succeeds" if they **remain neighbors** in $\mathbb{R}^2$
+* Key hyperparameter: **perplexity**! Roughly, this affects the "tradeoff" between preserving **local structure** vs. **global structure** in the lower-dimensional space
+* Choose $x_i \in \mathbb{R}^{1000}$, and treat it as the center of a **Gaussian ball** with variance $\sigma_i$
+* The choice of $\sigma_i$ induces a **probability distribution** $P_i$ over **all other points** (what is the probability of drawing $x_j$ from $\mathcal{N}(x_i, \sigma_i)$?)
+
+$$
+\text{Perp}(P_i) = 2^{H(P_i)}
+$$
+
+* High perplexity $\iff$ high entropy (eventually Gaussian ball will grow so big that **all other points will be equally likely!**). So, **vary** perplexity, see how plot changes
+
+* See <a href='https://distill.pub/2016/misread-tsne/' target='_blank'>here</a> for an absolutely incredible interactive walkthrough of t-SNE!
+
+## What Happens As We Vary Perplexity? {.smaller .crunch-title .crunch-figures .crunch-quarto-layout-panel}
+
+::: {layout="[1,3]" layout-valign="center"}
+
+![Original Dataset](images/tsne_00.png)
+
+::: {layout="[[3,3,3],[-1,3,-1,3,-1]]" layout-valign="center"}
+
+![Perplexity = 2](images/tsne_01.png)
+
+![Perplexity = 5](images/tsne_02.png)
+
+![Perplexity = 30](images/tsne_03.png)
+
+![Perplexity = 50](images/tsne_04.png)
+
+![Perplexity = 100](images/tsne_05.png)
+
+:::
+
+:::
+
+## Quiz Time!
+
+* <a href='https://georgetown.instructure.com/courses/173310/quizzes/203758?module_item_id=3453375' target='_blank'>Quiz 5.1 Link <i class='bi bi-box-arrow-up-right'></i></a>
+
+# Decision Trees {data-stack-name="Decision Trees"}
+
+## 20 Questions {.smaller .crunch-title .crunch-ul .crunch-code .crunch-quarto-layout-panel .crunch-images .crunch-figures}
+
+* I am thinking of some <a href='http://wordnetweb.princeton.edu/perl/webwn?s=entity&sub=Search+WordNet&o2=&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=&h=10' target='_blank'>entity</a>. What is it?
+* What questions should we ask initially?
+* Why might questions on the left be more helpful than questions on the right?
+
+| General Questions | Specific Questions |
+| - | - |
+| *Is it a **physical object***? | *Is it a **soda can**?* |
+| *Is it an **animal***? | Is it a **cat**?
+| *Is it **bigger than a house***? | *Is it the planet **Mercury**?* |
+
+::: {.aside}
+
+For linguistics fans: if a word $x$ is one level "more general" than another word $y$ (e.g., the word "camel" is one level more general than "bactrian camel", a camel with two humps), we say that $x$ is a **hypernym** of $y$, and that $y$ is a **hyponym** of $x$. The <a href='https://wordnet.princeton.edu/' target='_blank'>WordNet project</a> is a big tree of hypernym/hyponym relationships among all English words, where "entity" is the root node of the tree.
+
+:::
+
+## We Can Quantify How Good a Sequence of Questions Is! {.smaller .crunch-title .title-09 .nostretch}
+
+* Assume we're playing with someone who only knows three objects $S = \{\text{Tree}, \text{Bird}, \text{Car}\}$, and they randomize among these such that
+
+| | | | |
+| - | - | - | - |
+| $\text{Choice}$ | **Tree** | **Bird** | **Car** |
+| $\Pr(\text{Choice})$ | 0.25 | 0.25 | 0.50 |
+
+* Why might the "script" on the left be a better choice than script in the middle? Why are left and middle both better than right?
+
+::: {layout="[1,1,1]" layout-valign="center"}
+
+```{dot}
+//| fig-width: 3
+//| fig-height: 3
+//| echo: false
+//| label: opt-script
+digraph G {
+  node [label="Car?"] car;
+  node [label="Guess Car", shape="rect"] guessCar;
+  car -> guessCar [label="Yes"];
+  node [label="Bird?", shape="ellipse"] bird;
+  car -> bird [label="No"];
+  node [label="Guess Bird", shape="rect"] guessBird;
+  node [label="Guess Tree", shape="rect"] guessTree;
+  bird -> guessBird [label="Yes"];
+  bird -> guessTree [label="No"];
+}
+```
+
+```{dot}
+//| fig-width: 3
+//| fig-height: 3
+//| echo: false
+//| label: subopt-script
+digraph G {
+  node [label="Bird?"] bird;
+  node [label="Guess Bird", shape="rect"] guessBird;
+  bird -> guessBird [label="Yes"];
+  node [label="Car?", shape="ellipse"] car;
+  bird -> car [label="No"];
+  node [label="Guess Car", shape="rect"] guessCar;
+  node [label="Guess Tree", shape="rect"] guessBird;
+  car -> guessTree [label="No"];
+  car -> guessCar [label="Yes"];
+}
+```
+
+```{dot}
+//| fig-width: 3
+//| fig-height: 3
+//| echo: false
+//| label: longer-script
+digraph G {
+  node [label="Bird?"] bird;
+  node [label="Guess Bird", shape="rect"] guessBird;
+  bird -> guessBird [label="Yes"];
+  node [label="Bird?", shape="ellipse"] bird2;
+  bird -> bird2 [label="No"];
+  bird2 -> guessBird [label="Yes", constraint=false];
+  // Ask car
+  node [label="Car?", shape="ellipse"] car;
+  bird2 -> car [label="No"];
+  node [label="Guess Car", shape="rect"] guessCar;
+  node [label="Guess Tree", shape="rect"] guessBird;
+  car -> guessTree [label="No"];
+  car -> guessCar [label="Yes"];
+}
+```
+
+:::
+
+::: {.aside}
+
+Example adapted from <a href='https://sites.santafe.edu/~simon/it.pdf' target='_blank'>this essay</a> by Simon DeDeo!
+
+:::
+
+## Let's Use Math {.smaller .crunch-title .math-70 .crunch-quarto-layout-panel .crunch-quarto-layout-cell .crunch-ul}
+
+* An **optimal** script minimizes **average number of questions required** to reach answer
+
+::: {layout="[1,1,1]" layout-valign="center"}
+
+::: {#tree1-math}
+
+```{dot}
+//| fig-width: 2.5
+//| fig-height: 2.5
+//| echo: false
+//| label: opt-script-again
+digraph G {
+  node [label="Car?"] car;
+  node [label="Guess Car", shape="rect"] guessCar;
+  car -> guessCar [label="Yes"];
+  node [label="Bird?", shape="ellipse"] bird;
+  car -> bird [label="No"];
+  node [label="Guess Bird", shape="rect"] guessBird;
+  node [label="Guess Tree", shape="rect"] guessTree;
+  bird -> guessBird [label="Yes"];
+  bird -> guessTree [label="No"];
+}
+```
+
+$$
+\begin{align*}
+&\mathbb{E}[\text{\# Moves}] \\
+=\,&1 \cdot \Pr(\text{Car}) + 2 \cdot \Pr(\text{Bird}) \\
+&+ 2 \cdot \Pr(\text{Tree}) \\
+=\,&1 \cdot 0.5 + 2\cdot 0.25 + 2\cdot 0.25 \\
+=\,&1.5
+\end{align*}
+$$
+
+:::
+::: {#tree2-math}
+
+```{dot}
+//| fig-width: 2.5
+//| fig-height: 2.5
+//| echo: false
+//| label: subopt-script-again
+digraph G {
+  node [label="Bird?"] bird;
+  node [label="Guess Bird", shape="rect"] guessBird;
+  bird -> guessBird [label="Yes"];
+  node [label="Car?", shape="ellipse"] car;
+  bird -> car [label="No"];
+  node [label="Guess Car", shape="rect"] guessCar;
+  node [label="Guess Tree", shape="rect"] guessBird;
+  car -> guessTree [label="No"];
+  car -> guessCar [label="Yes"];
+}
+```
+
+$$
+\begin{align*}
+&\mathbb{E}[\text{\# Moves}] \\
+=\,&1 \cdot \Pr(\text{Bird}) + 2 \cdot \Pr(\text{Car}) \\
+&+ 2 \cdot \Pr(\text{Tree}) \\
+=\,&1 \cdot 0.25 + 2\cdot 0.5 + 2\cdot 0.25 \\
+=\,&1.75
+\end{align*}
+$$
+
+:::
+::: {#tree3-math}
+
+```{dot}
+//| fig-width: 2.5
+//| fig-height: 3
+//| echo: false
+//| label: longer-script-again
+digraph G {
+  node [label="Bird?"] bird;
+  node [label="Guess Bird", shape="rect"] guessBird;
+  bird -> guessBird [label="Yes"];
+  node [label="Bird?", shape="ellipse"] bird2;
+  bird -> bird2 [label="No"];
+  bird2 -> guessBird [label="Yes", constraint=false];
+  // Ask car
+  node [label="Car?", shape="ellipse"] car;
+  bird2 -> car [label="No"];
+  node [label="Guess Car", shape="rect"] guessCar;
+  node [label="Guess Tree", shape="rect"] guessBird;
+  car -> guessTree [label="No"];
+  car -> guessCar [label="Yes"];
+}
+```
+
+$$
+\begin{align*}
+&\mathbb{E}[\text{\# Moves}] \\
+=\,&1 \cdot \Pr(\text{Bird}) + 3 \cdot \Pr(\text{Car}) \\
+&+ 3 \cdot \Pr(\text{Tree}) \\
+=\,&1 \cdot 0.25 + 3\cdot 0.5 + 3\cdot 0.25 \\
+=\,&2.5
+\end{align*}
+$$
+
+:::
+
+:::
+
+## Let's Use (Different) Math {.smaller .small-math .crunch-ul .crunch-title}
+
+* Forgetting about the individual trees for a moment, let's compute the **entropy** of the RV representing the opponent's choice.
+* In general, if $X$ represents the opponent's choice and $\mathcal{R}_X = \{1, 2, \ldots, N\}$, the **entropy** of $X$ is:
+
+$$
+\begin{align*}
+H(X) &= -\sum_{i=1}^N \Pr(X = i)\log_2\Pr(X = i)
+\end{align*}
+$$
+
+* So in our case we have:
+
+$$
+\begin{align*}
+H(X) &= -\left[ \Pr(X = \text{Car}) \log_2\Pr(X = \text{Car}) \right. \\
+&\phantom{= -[ } + \Pr(X = \text{Bird})\log_2\Pr(X = \text{Bird}) \\
+&\phantom{= -[ } + \left. \Pr(X = \text{Tree})\log_2\Pr(X = \text{Tree})\right] \\
+&= -\left[ (0.5)(-1) + (0.25)(-2) + (0.25)(-2) \right] = 1.5~🧐
+\end{align*}
+$$
+
+## Entropy Seems Helpful Here... {.smaller}
+
+* Now let's imagine our opponent randomizes between all three options:
+
+$$
+\begin{align*}
+\mathbb{E}[\text{\# Moves}] &= 1 \cdot (1/3) + 2 \cdot (1/3) + 2 \cdot (1/3) \\
+&= \frac{5}{3} \approx 1.667
+\end{align*}
+$$
+
+$$
+\begin{align*}
+H(X) &= -\left[ \Pr(X = \text{Car}) \log_2\Pr(X = \text{Car}) \right. \\
+&\phantom{= -[ } + \Pr(X = \text{Bird})\log_2\Pr(X = \text{Bird}) \\
+&\phantom{= -[ } + \left. \Pr(X = \text{Tree})\log_2\Pr(X = \text{Tree})\right] \\
+&= -\left[ \frac{1}{3}\log_2\left(\frac{1}{3}\right) + \frac{1}{3}\log_2\left(\frac{1}{3}\right) + \frac{1}{3}\log_2\left(\frac{1}{3}\right) \right] \approx 1.585~🧐
+\end{align*}
+$$
+
+## The Mathematical Relationship
+
+1. The **smallest possible number of levels** $L^*$ for a script based on RV $X$ is exactly
+
+    $$
+    L^* = \lceil H(X) \rceil
+    $$
+
+    *Intuition*: Although $\mathbb{E}[\text{\# Moves}] = 1.5$, we cannot have a tree with 1.5 levels!
+
+2. Entropy provides a lower bound on $\mathbb{E}[\text{\# Moves}]$:
+
+$$
+\mathbb{E}[\text{\# Moves}] \geq H(X)
+$$
+
+## Decision Tree Structure {.crunch-title .crunch-ul}
+
+* **Leaf Nodes** represent **outcomes**
+* **Branch Nodes** represent **questions**
+
+```{dot}
+//| echo: false
+digraph G {
+  root [label="Root Node", shape="ellipse"];
+  leaf1 [label="Leaf Node 1", shape="rect"];
+  branch1 [label="Branch Node 1", shape="ellipse"];
+  node [label="Branch Node 2", shape="ellipse"] branch2;
+  root -> leaf1 [xlabel="Answer 1", labelloc="left"];
+  root -> branch1 [label="Answer 2"];
+  root -> branch2 [label="Answer 3"];
+  // Level 3
+  leaf2 [label="Leaf Node 2", shape="rect"];
+  leaf3 [label="Leaf Node 3", shape="rect"];
+  leaf4 [label="Leaf Node 4", shape="rect"];
+  leaf5 [label="Leaf Node 5", shape="rect"];
+  leaf6 [label="Leaf Node 6", shape="rect"];
+  branch1 -> leaf2 [xlabel="Answer 1"];
+  branch1 -> leaf3 [label="Answer 2"];
+  branch1 -> leaf4 [label="Answer 3"];
+  branch2 -> leaf5 [xlabel="Answer 1"];
+  branch2 -> leaf6 [label="Answer 2"];
+}
+```
+
+## How Are They Built? {.smaller .crunch-title .crunch-code .crunch-figures}
+
+* Example: we find ourselves at some point on the globe, at some time during the year, and we're trying to see whether this point+time are **good for skiing**
+
+```{r}
+#| label: ski-plot-binary
+#| fig-cap: "*(Example adapted from CS229: Machine Learning, Stanford University)*"
+library(tidyverse)
+library(lubridate)
+day <- seq(ymd('2023-01-01'),ymd('2023-12-31'),by='weeks')
+longitude <- seq(-90, 90, by=5)
+ski_df <- expand_grid(day, longitude)
+#ski_df |> head()
+# Data-generating process
+ski_df <- ski_df |> mutate(
+  near_equator = abs(longitude) <= 30,
+  northern = longitude > 30,
+  southern = longitude < -30,
+  first_3m = day < ymd('2023-04-01'),
+  last_3m = day >= ymd('2023-10-01'),
+  middle_6m = (day >= ymd('2023-04-01')) & (day < ymd('2023-10-01')),
+  snowfall = 0
+)
+# Update the non-zero sections
+mu_snow <- 10
+sd_snow <- 2.5
+# How many northern + first 3 months
+num_north_first_3 <- nrow(ski_df[ski_df$northern & ski_df$first_3m,])
+ski_df[ski_df$northern & ski_df$first_3m, 'snowfall'] = rnorm(num_north_first_3, mu_snow, sd_snow)
+# Northerns + last 3 months
+num_north_last_3 <- nrow(ski_df[ski_df$northern & ski_df$last_3m,])
+ski_df[ski_df$northern & ski_df$last_3m, 'snowfall'] = rnorm(num_north_last_3, mu_snow, sd_snow)
+# How many southern + middle 6 months
+num_south_mid_6 <- nrow(ski_df[ski_df$southern & ski_df$middle_6m,])
+ski_df[ski_df$southern & ski_df$middle_6m, 'snowfall'] = rnorm(num_south_mid_6, mu_snow, sd_snow)
+# And collapse into binary var
+ski_df['good_skiing'] = ski_df$snowfall > 0
+# This converts day into an int
+ski_df <- ski_df |> mutate(
+  day_num = lubridate::yday(day)
+)
+#print(nrow(ski_df))
+ski_sample <- ski_df |> sample_n(100)
+ski_sample |> write_csv("assets/ski.csv")
+ggplot(ski_sample, aes(x=day, y=longitude, shape=good_skiing, color=good_skiing)) +
+  geom_point(
+    size = g_pointsize / 2, stroke=1.5,
+  ) +
+  dsan_theme() +
+  labs(
+    x = "Time of Year",
+    y = "Longitude",
+    shape = "Good Skiing?"
+  ) +
+  scale_shape_manual(name="Good Skiing?", values=c(1, 3)) +
+  scale_color_manual(name="Good Skiing?", values=c(cbPalette[1], cbPalette[2])) +
+  scale_x_continuous(
+    breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),
+    labels=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  ) +
+  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))
+```
+
+## Zero Splits {.smaller .crunch-title .crunch-ul .crunch-code}
+
+* Starting out: no splits at all, just guess **most frequent class**: **bad** skiing
+
+```{r}
+#| label: ski-zero-splits
+ski_sample |> count(good_skiing)
+```
+
+* This gives us $\Pr(\text{Correct Guess}) = 0.66$
+* Let $R_i$ denote the **region** we're considering at level $i$, and $\widehat{p}_c(R_i)$ be the proportion of points in region $R_i$ that are of class $c$
+* Here, since we're not splitting the region up at all (yet), 
+
+## Judging Split Options {.smaller .crunch-title .crunch-ul .crunch-code .crunch-math}
+
+Let's think through two choices for the first split:
+
+::: {layout="[1,1]" layout-valign="center" layout-align="center"}
+
+::: {#split-choice-left}
+
+<center>
+
+$\text{longitude} \geq -30$:
+
+</center>
+
+```{r}
+#| label: ski-split-longitude
+#| fig-align: center
+ski_sample <- ski_sample |> mutate(
+  lon_gt_n30 = longitude >= -30
+)
+ski_sample |> group_by(lon_gt_n30) |> count(good_skiing)
+```
+
+This gives us the rule
+
+$$
+\widehat{C}(x) = \begin{cases}
+0 &\text{if }\text{longitude} \geq -30, \\
+0 &\text{otherwise}
+\end{cases}
+$$
+
+:::
+::: {#split-choice-right}
+
+<center>
+
+$\text{month} < \text{October}$
+
+</center>
+
+```{r}
+#| label: ski-split-month
+ski_sample <- ski_sample |> mutate(
+  month_lt_oct = day < ymd('2023-10-01')
+)
+ski_sample |> group_by(month_lt_oct) |> count(good_skiing)
+```
+
+This gives us the rule
+
+$$
+\widehat{C}(x) = \begin{cases}
+0 &\text{if }\text{month} < \text{October}, \\
+0 &\text{otherwise}
+\end{cases}
+$$
+
+:::
+:::
+
+So, if we judge purely on **acuracy scores**... it seems like we're **not getting anywhere here** (but, we know we **are** getting somewhere!)
+
+## Scikit-Learn {.smaller}
+
+```{python}
+#| label: sklearn-ski
+import pandas as pd
+import numpy as np
+import sklearn
+from sklearn.tree import DecisionTreeClassifier
+sklearn.set_config(display='text')
+ski_df = pd.read_csv("assets/ski.csv")
+ski_df['good_skiing'] = ski_df['good_skiing'].astype(int)
+X = ski_df[['day_num', 'longitude']]
+y = ski_df[['good_skiing']].values
+dtc = DecisionTreeClassifier(
+  criterion = "entropy"
+)
+dtc.fit(X, y)
+sklearn.tree.plot_tree(dtc)
+```
+
+## Continuous Values {.smaller}
+
+* What if we replace binary labels with **continuous values**: in this case, **cm of snow**?
+
+```{r}
+#| label: ski-plot-continuous
+#| fig-cap: "*(Example adapted from CS229: Machine Learning, Stanford University)*"
+#format_snow <- function(x) sprintf('%.2f', x)
+format_snow <- function(x) round(x, 2)
+ski_sample['snowfall_str'] <- sapply(ski_sample$snowfall, format_snow)
+#ski_df |> head()
+#print(nrow(ski_df))
+ggplot(ski_sample, aes(x=day, y=longitude, label=snowfall_str)) +
+  geom_text(size = 6) +
+  dsan_theme() +
+  labs(
+    x = "Time of Year",
+    y = "Longitude",
+    shape = "Good Skiing?"
+  ) +
+  scale_shape_manual(values=c(1, 3)) +
+  scale_x_continuous(
+    breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),
+    labels=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  ) +
+  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))
+```
+
+## Looking Towards Regression {.smaller}
+
+* How could we make a **decision tree** to predict $y$ from $x$ for this data?
+
+```{r}
+#| label: sine-wave-tree
+library(tidyverse)
+library(latex2exp)
+expr_pi2 <- TeX("$\\frac{\\pi}{2}$")
+expr_pi <- TeX("$\\pi$")
+expr_3pi2 <- TeX("$\\frac{3\\pi}{2}$")
+expr_2pi <- TeX("$2\\pi$")
+x_range <- 2 * pi
+x_coords <- seq(0, x_range, by = x_range / 100)
+num_x_coords <- length(x_coords)
+data_df <- tibble(x = x_coords)
+data_df <- data_df |> mutate(
+  y_raw = sin(x),
+  y_noise = rnorm(num_x_coords, 0, 0.15)
+)
+data_df <- data_df |> mutate(
+  y = y_raw + y_noise
+)
+#y_coords <- y_raw_coords + y_noise
+#y_coords <- y_raw_coords
+#data_df <- tibble(x = x, y = y)
+reg_tree_plot <- ggplot(data_df, aes(x=x, y=y)) +
+  geom_point(size = g_pointsize / 2) +
+  dsan_theme("half") +
+  labs(
+    x = "Feature",
+    y = "Label"
+  ) +
+  geom_vline(
+    xintercept = pi,
+    linewidth = g_linewidth,
+    linetype = "dashed"
+  ) +
+  scale_x_continuous(
+    breaks=c(0,pi/2,pi,(3/2)*pi,2*pi),
+    labels=c("0",expr_pi2,expr_pi,expr_3pi2,expr_2pi)
+  )
+reg_tree_plot
+```
+
+## A Zero-Level Tree {.smaller}
+
+* Trivial example: $\widehat{y}(x) = 0$. How well does this do?
+
+```{r}
+#| label: constant-guess
+library(ggtext)
+# x_lt_pi = data_df |> filter(x < pi)
+# mean(x_lt_pi$y)
+data_df <- data_df |> mutate(
+  pred_sq_err0 = (y - 0)^2
+)
+mse0 <- mean(data_df$pred_sq_err0)
+mse0_str <- sprintf("%.3f", mse0)
+reg_tree_plot +
+  geom_hline(
+    yintercept = 0,
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=0, yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse0_str)),
+    size = 10,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+```
+
+## A One-Level Binary Tree {.smaller .crunch-title .crunch-ul .crunch-quarto-layout-panel .crunch-code .crunch-images .nostretch}
+
+::: {layout="[1,1]" layout-valign="center"}
+
+::: {#binary-tree-left}
+
+* Let's introduce a single branch node:
+
+$$
+\widehat{y}(x) = \begin{cases}
+\phantom{-}\frac{2}{\pi} &\text{if }x < \pi, \\
+-\frac{2}{\pi} &\text{otherwise.}
+\end{cases}
+$$
+
+:::
+
+![](images/binary_tree.svg){fig-align="center" width="360"}
+
+:::
+
+```{r}
+#| label: one-level-tree
+#| fig-height: 3.5
+get_y_pred <- function(x) ifelse(x < pi, 2/pi, -2/pi)
+data_df <- data_df |> mutate(
+  pred_sq_err1 = (y - get_y_pred(x))^2
+)
+mse1 <- mean(data_df$pred_sq_err1)
+mse1_str <- sprintf("%.3f", mse1)
+decision_df <- tribble(
+  ~x, ~xend, ~y, ~yend,
+  0, pi, 2/pi, 2/pi,
+  pi, 2*pi, -2/pi, -2/pi
+)
+reg_tree_plot +
+  geom_segment(
+    data=decision_df,
+    aes(x=x, xend=xend, y=y, yend=yend),
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=get_y_pred(x), yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse1_str)),
+    size = 9,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+```
+
+## A One-Level Ternary Tree {.smaller .crunch-title .crunch-ul .crunch-quarto-layout-panel .crunch-code .crunch-images .nostretch}
+
+::: {layout="[1,1]" layout-valign="center"}
+
+::: {#binary-tree-left}
+
+* Now let's allow three answers:
+
+$$
+\widehat{y}(x) = \begin{cases}
+\phantom{-}\frac{9}{4\pi} &\text{if }x < \frac{2\pi}{3}, \\
+\phantom{-}0 &\text{if }\frac{2\pi}{3} \leq x \leq \frac{4\pi}{3} \\
+-\frac{9}{4\pi} &\text{otherwise.}
+\end{cases}
+$$
+
+:::
+
+![](images/ternary_tree.svg){fig-align="center" width="400"}
+
+:::
+
+```{r}
+#| label: one-level-ternary
+#| fig-height: 3.5
+cut1 <- (2/3) * pi
+cut2 <- (4/3) * pi
+pos_mean <- 9 / (4*pi)
+get_y_pred <- function(x) ifelse(x < cut1, pos_mean, ifelse(x < cut2, 0, -pos_mean))
+data_df <- data_df |> mutate(
+  pred_sq_err1b = (y - get_y_pred(x))^2
+)
+mse1b <- mean(data_df$pred_sq_err1b)
+mse1b_str <- sprintf("%.3f", mse1b)
+decision_df <- tribble(
+  ~x, ~xend, ~y, ~yend,
+  0, (2/3)*pi, pos_mean, pos_mean,
+  (2/3)*pi, (4/3)*pi, 0, 0,
+  (4/3)*pi, 2*pi, -pos_mean, -pos_mean
+)
+reg_tree_plot +
+  geom_segment(
+    data=decision_df,
+    aes(x=x, xend=xend, y=y, yend=yend),
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=get_y_pred(x), yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse1b_str)),
+    size = 9,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+```
+
+## Another One-Level Ternary Tree {.smaller .crunch-title .crunch-ul .crunch-quarto-layout-panel .crunch-code .crunch-images .nostretch}
+
+::: {layout="[1,1]" layout-valign="center"}
+
+::: {#binary-tree-left}
+
+* Now let's allow an **uneven** split:
+
+$$
+\widehat{y}(x) = \begin{cases}
+\phantom{-}0.695 &\text{if }x < (1-c)\pi, \\
+\phantom{-}0 &\text{if }(1-c)\pi \leq x \leq (1+c)\pi \\
+-0.695 &\text{otherwise,}
+\end{cases}
+$$
+
+with $c \approx 0.113$, gives us:
+
+:::
+
+![](images/ternary_tree_uneven.svg){fig-align="center" width="400"}
+
+:::
+
+```{r}
+#| label: one-level-ternary-uneven
+#| fig-height: 3.5
+c <- 0.113
+cut1 <- (1 - c) * pi
+cut2 <- (1 + c) * pi
+pos_mean <- 0.695
+get_y_pred <- function(x) ifelse(x < cut1, pos_mean, ifelse(x < cut2, 0, -pos_mean))
+data_df <- data_df |> mutate(
+  pred_sq_err1b = (y - get_y_pred(x))^2
+)
+mse1b <- mean(data_df$pred_sq_err1b)
+mse1b_str <- sprintf("%.3f", mse1b)
+decision_df <- tribble(
+  ~x, ~xend, ~y, ~yend,
+  0, cut1, pos_mean, pos_mean,
+  cut1, cut2, 0, 0,
+  cut2, 2*pi, -pos_mean, -pos_mean
+)
+reg_tree_plot +
+  geom_segment(
+    data=decision_df,
+    aes(x=x, xend=xend, y=y, yend=yend),
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=get_y_pred(x), yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse1b_str)),
+    size = 9,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+```
+
+## On to the Code!
+
+* Scikit-learn has both <a href='https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html' target='_blank'>`DecisionTreeClassifier` <a class='bi bi-box-arrow-up-right'></i></a> and <a href='https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html' target='_blank'>`DecisionTreeRegressor` <i class='bi bi-box-arrow-up-right'></i></a> classes!
+
+# Random Forests {data-stack-name="Random Forests"}
+
+## The Wisdom of Crowds {.smaller}
+
+* Imagine you're assembling a **darts team**. You can choose a **team of 4** from among the following 8 players:
+
+| Player | Skill |
+| - | - |
+| Larry "Lefty" Lechuga | Always hits 5cm left of bullseye |
+| Rico Righty | Always hits 5cm right of bullseye |
+| Lil Uppy Vert | Always hits 5cm above bullseye |
+| Inconsistent Inkyung | Hits bullseye 50% of time, other 50% hits random point |
+| Diagonal Dave | Always hits 5cm above right of bullseye |
+| Dobert Downy Jr. | Always hits 5cm below bullseye |
+| Gregor "the GOAT" Gregorsson | Hits bullseye 99.9% of time, other 0.1% hits random point |
+| Craig | Top 25 Craigs of 2023 |
+
+: {tbl-colwidths="[25,75]"}
+
+## Your Opponents
+
+![](images/japanese_baseball_game.jpg){fig-align="center"}
+
+## High Variance, Low Bias
+
+![](images/var-high-bias-low.svg){fig-align="center"}
+
+## The Wisdom of Sheep
+
+* Unfortunately, the "wisdom of crowds" phenomenon only works if everyone in the crowd is **unable to communicate**
+* The minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders ![](images/thinking_transparent.png){width="60" style="display: inline-flex;"}, and the effect goes away (biases no longer cancel out)
+* The takeaway for effectively training **random forests**: ensure that each tree has a **separate (ideally orthogonal) slice** of the full dataset, and has to infer labels from only that slice!
+
+## Appendix: Covariance Matrix Magic {.smaller}
+
+* For those interested (skipping over lots of matrix math): say you have a 2D covariance matrix $\mathbf{\Sigma}$ with eigensystem $(\lambda_1, \mathbf{x}_1), (\lambda_2, \mathbf{x}_2)$
+* You can obtain a **new** covariance matrix $\mathbf{\Sigma}'$ which has the **same eigenvalues** as $\mathbf{\Sigma}$ but has eigen**vectors** $\mathbf{x}'_1$ and $\mathbf{x}'_2$, so long as these two eigenvectors are **orthogonal**.
+* Example: you want to retain the eigenvalues $\lambda_1 = 3$ and $\lambda_2 = 1$ from the [quiz-review slides](#pca-math-magic), but want the data's **first** principal component to be $\mathbf{x}'_1 = (2,1)^\top$ and its **second** principal component to be $\mathbf{x}'_2 = (-1,2)^\top$.
+* By constructing the Eigenmatrix $\mathbf{V} = \left[\begin{smallmatrix} \mathbf{x}'_1 & \mathbf{x}'_2\end{smallmatrix}\right]$ (the matrix whose columns are $\mathbf{x}'_1$ and $\mathbf{x}'_2$), we can obtain $\mathbf{\Sigma}'$ by computing:
+
+$$
+\mathbf{\Sigma}' = \mathbf{V}\mathbf{\Sigma}\mathbf{V}^{-1}.
+$$
+
+* (Exercise: recreate the plot from the earlier PCA slides, but with these desired first and second principal components! <a href='https://www.visiondummy.com/2014/04/geometric-interpretation-covariance-matrix/' target='_blank'>See here</a> for a deeper dive into why this works!)
+
+## References
+
+::: {#refs}
+:::

@@ -1,0 +1,10 @@
+<!-- ## Defining a Loss Function {.smaller}
+
+* Intuition: We are doing better to the extent that our split **adds order** to the data:
+
+$$
+\begin{align*}
+H(X_0) &= -[(0.34)\log_2(0.34) + (0.66)\log_2(0.66)] = 0.9248 \\
+H(X_{1a}) &= -[\frac{21}{34}\log_2\frac{21}{34} + \frac{45}{66}\log_2\frac{45}{66}]
+\end{align*}
+$$ -->

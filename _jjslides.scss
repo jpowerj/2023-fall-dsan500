@@ -46,6 +46,11 @@ figcaption {
   color: #F0E442 !important;
 }
 
+.ctable td, .ctable th {
+  text-align: center !important;
+  align-items: center !important;
+}
+
 .coef-table {
   font-family: 'Courier New', Courier, monospace !important;
   font-size: 1.5rem !important;
@@ -114,6 +119,8 @@ figcaption {
 .crunch-layout-panel .quarto-layout-panel {
   margin-bottom: 0px !important;
 }
+
+// lists
 .crunch-lists li {
     margin-top: 4px !important;
     margin-bottom: 4px !important;
@@ -136,6 +143,8 @@ figcaption {
   margin-top: 3px !important;
   margin-bottom: 3px !important;
 }
+
+// quarto-figure
 .crunch-quarto-figure .quarto-figure {
   margin-top: 0px !important;
   margin-bottom: 0px !important;
@@ -145,6 +154,13 @@ figcaption {
   margin-bottom: 0px !important;
   margin-right: 0px !important;
 }
+
+// quarto-layout-cell
+.crunch-quarto-layout-cell .quarto-layout-cell {
+  margin: 0px !important;
+}
+
+// quarto-layout-panel
 .crunch-quarto-layout-panel .quarto-layout-panel {
   margin-top: 0px !important;
   margin-bottom: 0px !important;
@@ -175,14 +191,23 @@ figcaption {
   font-size: 1em !important;
 }
 
+// full-width
+
+// callout
 .full-width-callout .callout-body {
   width: 100% !important;
 }
-
 .full-width-callout .callout-content {
   width: 100% !important;
 }
+
+// ol
 .full-width-ol ol {
+  width: 100% !important;
+}
+
+// table
+.fwt {
   width: 100% !important;
 }
 
@@ -242,6 +267,9 @@ figcaption {
 }
 .math-75 .math.display {
   font-size: 75% !important;
+}
+.math-70 .math.display {
+  font-size: 70% !important;
 }
 .smaller-inline .math.inline {
   font-size: 80% !important;

@@ -1,0 +1,176 @@
+---
+title: "Ski Examples"
+format: html
+---
+
+```{r}
+#| label: ski-plot
+library(tidyverse)
+library(lubridate)
+day <- seq(ymd('2023-01-01'),ymd('2023-12-31'),by='months')
+longitude <- seq(-90, 90, by=10)
+ski_df <- expand_grid(day, longitude)
+#ski_df |> head()
+# Data-generating process
+ski_df <- ski_df |> mutate(
+  near_equator = abs(longitude) <= 30,
+  northern = longitude > 30,
+  southern = longitude < -30,
+  first_3m = day < ymd('2023-04-01'),
+  last_3m = day >= ymd('2023-10-01'),
+  middle_6m = (day >= ymd('2023-04-01')) & (day < ymd('2023-10-01')),
+  snowfall = 0
+)
+# Update the non-zero sections
+mu_snow <- 10
+sd_snow <- 2.5
+# How many northern + first 3 months
+num_north_first_3 <- nrow(ski_df[ski_df$northern & ski_df$first_3m,])
+ski_df[ski_df$northern & ski_df$first_3m, 'snowfall'] = rnorm(num_north_first_3, mu_snow, sd_snow)
+# Northerns + last 3 months
+num_north_last_3 <- nrow(ski_df[ski_df$northern & ski_df$last_3m,])
+ski_df[ski_df$northern & ski_df$last_3m, 'snowfall'] = rnorm(num_north_last_3, mu_snow, sd_snow)
+# How many southern + middle 6 months
+num_south_mid_6 <- nrow(ski_df[ski_df$southern & ski_df$middle_6m,])
+ski_df[ski_df$southern & ski_df$middle_6m, 'snowfall'] = rnorm(num_south_mid_6, mu_snow, sd_snow)
+# And collapse into binary var
+ski_df['good_skiing'] = ski_df$snowfall > 0
+print(nrow(ski_df))
+ski_sample <- ski_df |> sample_n(100)
+ggplot(ski_sample, aes(x=day, y=longitude, shape=good_skiing)) +
+  geom_point(size = g_pointsize / 2, stroke=1.5) +
+  dsan_theme() +
+  labs(
+    x = "Time of Year",
+    y = "Longitude",
+    shape = "Good Skiing?"
+  ) +
+  scale_shape_manual(values=c(1, 3)) +
+  scale_x_continuous(
+    breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),
+    labels=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  ) +
+  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))
+```
+
+```{r}
+ski_df |> mutate(
+  day_num = lubridate::yday(day)
+)
+```
+
+```{r}
+#| label: load-sample
+# Load the sample
+ski_sample <- read_csv("../../w11/assets/ski.csv")
+ski_sample
+```
+
+```{r}
+ski_sample |> filter(longitude <= 32.5) |> count(good_skiing)
+```
+
+## Now PCA
+
+```{r}
+#| label: pca-dgp
+library(tidyverse)
+library(MASS)
+N <- 250
+Mu <- c(0,0)
+Sigma <- matrix(c(1,0.8,0.8,1), nrow=2)
+eigen(Sigma)
+data_df <- as_tibble(mvrnorm(N, Mu, Sigma))
+colnames(data_df) <- c("x","y")
+ggplot(data_df, aes(x=x, y=y)) +
+  geom_point(size = g_pointsize / 2) +
+  stat_ellipse(type="norm", linewidth=g_linewidth) +
+  dsan_theme()
+```
+
+```{r}
+#| label: pca-dgp-no-covar
+library(tidyverse)
+library(MASS)
+library(ggforce)
+N <- 5000
+Mu <- c(0, 0)
+var_x <- 3
+var_y <- 1
+Sigma <- matrix(c(var_x, 0, 0, var_y), nrow=2)
+data_df <- as_tibble(mvrnorm(N, Mu, Sigma, empirical=TRUE))
+colnames(data_df) <- c("x","y")
+# data_df <- data_df |> mutate(
+#   within_5 = x < 5,
+#   within_sq5 = x < sqrt(5)
+# )
+#nrow(data_df |> filter(within_5)) / nrow(data_df)
+#nrow(data_df |> filter(within_sq5)) / nrow(data_df)
+# And plot
+# ggplot(data_df, aes(x=x, y=y)) +
+#   # 68% ellipse
+#   # stat_ellipse(geom="polygon", type="norm", linewidth=g_linewidth, level=0.68, fill=cbPalette[1], alpha=0.5) +
+#   # stat_ellipse(type="norm", linewidth=g_linewidth, level=0.68) +
+#   geom_ellipse(
+#     aes(x0=0, y0=0, a=3, b=1, angle=0),
+#     linewidth = g_linewidth
+#   ) +
+#   # geom_ellipse(
+#   #   aes(x0=0, y0=0, a=sqrt(5), b=1, angle=0),
+#   #   linewidth = g_linewidth,
+#   #   geom="polygon",
+#   #   fill=cbPalette[1], alpha=0.2
+#   # ) +
+#   # # 95% ellipse
+#   # stat_ellipse(geom="polygon", type="norm", linewidth=g_linewidth, level=0.95, fill=cbPalette[1], alpha=0.25) +
+#   # stat_ellipse(type="norm", linewidth=g_linewidth, level=0.95) +
+#   # # 99.7% ellipse
+#   # stat_ellipse(geom='polygon', type="norm", linewidth=g_linewidth, level=0.997, fill=cbPalette[1], alpha=0.125) +
+#   # stat_ellipse(type="norm", linewidth=g_linewidth, level=0.997) +
+#   # Lines at x=0 and y=0
+#   geom_vline(xintercept=0, linetype="dashed", linewidth=g_linewidth) +
+#   geom_hline(yintercept=0, linetype="dashed", linewidth = g_linewidth) +
+#   geom_point(
+#     size = g_pointsize / 3,
+#     #alpha=0.5
+#   ) +
+#   geom_segment(
+#     aes(x=0, y=-1, xend=0, yend=1),
+#     linewidth = g_linewidth,
+#     arrow = arrow(length = unit(0.1, "npc")),
+#     color=cbPalette[1]
+#   ) +
+#   geom_segment(
+#     aes(x=-3, y=0, xend=3, yend=0),
+#     linewidth = g_linewidth,
+#     arrow = arrow(length = unit(0.1, "npc")),
+#     color=cbPalette[2]
+#   ) +
+#   dsan_theme() +
+#   coord_fixed()
+```
+
+```{r}
+sqrt(5)
+quantile(data_df$y, probs=c(0.16, 0.84))
+sd(data_df$y)
+```
+
+```{r}
+eigen(Sigma)
+```
+
+```{r}
+Sigma_rot <- matrix(c(3,0,0,1), nrow=2)
+eigen(Sigma_rot)
+Sigma_rot <- matrix(c(5/2,3/2,3/2,5/2), nrow=2)
+eigen(Sigma_rot)
+Sigma_rot <- matrix(c(2,1,1,2), nrow=2)
+eigen(Sigma_rot)
+```
+
+```{r}
+(var_x <- var(data_df$x))
+(var_y <- var(data_df$y))
+var_x + var_y
+```

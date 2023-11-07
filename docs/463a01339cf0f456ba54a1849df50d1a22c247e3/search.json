@@ -679,11 +679,235 @@
     "text": "Appendix: Uniform Sampling From A Triangle\n\nSee here for how the K-Means Clustering: Centroids slide sampled uniformly from \\(\\triangle\\)!\nIf you don’t use the Barycentric coordinate transformation (right), your points will be clustered more heavily towards the bottom-right of the triangle (left), and the centroid of the sampled points will not be the actual centroid of the triangle!\n\n\n\n\n\nCode\nN &lt;- 250\nx_coords &lt;- runif(N, 0, 1)\ny_coords &lt;- runif(N, 0, 1 - x_coords)\ndata_df &lt;- tibble(x=x_coords, y=y_coords)\ncent_x &lt;- mean(x_coords)\ncent_y &lt;- mean(y_coords)\ncent_df &lt;- tibble(x=cent_x, y=cent_y)\ntriangle_plot &lt;- ggplot(\n    data_df,\n    aes(x=x, y=y)\n  ) +\n  geom_point(\n    size = g_pointsize / 2,\n    color=cbPalette[1]\n  ) +\n  geom_point(\n    data=cent_df,\n    aes(x=x, y=y),\n    shape=4, stroke=4, color='black',\n    size = g_pointsize * 1.5) +\n  geom_point(\n    data=cent_df,\n    aes(x=x, y=y),\n    shape=19, color='white',\n    size = g_pointsize / 2) +\n  dsan_theme('quarter')\n# Now a rectangle\nx_coords_rect &lt;- runif(N, 0.5, 1)\ny_coords_rect &lt;- runif(N, 0.5, 1)\nrect_df &lt;- tibble(x=x_coords_rect, y=y_coords_rect)\ncent_x_rect &lt;- mean(x_coords_rect)\ncent_y_rect &lt;- mean(y_coords_rect)\ncent_df_rect &lt;- tibble(x=cent_x_rect, y=cent_y_rect)\nrect_plot &lt;- triangle_plot +\n  geom_point(\n    data=rect_df,\n    aes(x=x, y=y),\n    size = g_pointsize / 2,\n    color=cbPalette[2]\n  ) +\n  geom_point(\n    data=cent_df_rect,\n    aes(x=x, y=y),\n    shape=4, stroke=4, color='black',\n    size = g_pointsize * 1.5) +\n  geom_point(\n    data=cent_df_rect,\n    aes(x=x, y=y),\n    shape=19, color='white',\n    size = g_pointsize / 2) +\n  dsan_theme('half') +\n  labs(\n    title = \"Centroids for N=250 Points: Y ~ U[0,X]\"\n  )\nrect_plot \n\n\n\n\n\n\n\n\n\n\n\nCode\nN &lt;- 250\nr1_vals &lt;- runif(N, 0, 1)\nr2_vals &lt;- runif(N, 0, 1)\ntriangle_df &lt;- tibble(r1=r1_vals, r2=r2_vals)\nv1 &lt;- c(0,0)\nv2 &lt;- c(1,0)\nv3 &lt;- c(0,1)\ntriangle_df &lt;- triangle_df |&gt; mutate(\n    bary_w1 = 1 - sqrt(r1),\n    bary_w2 = sqrt(r1) * (1 - r2),\n    bary_w3 = sqrt(r1) * r2\n)\ntriangle_df &lt;- triangle_df |&gt; mutate(\n    x = bary_w1 * v1[1] + bary_w2 * v2[1] + bary_w3 * v3[1],\n    y = bary_w1 * v1[2] + bary_w2 * v2[2] + bary_w3 * v3[2]\n)\ntriangle_cent_x &lt;- mean(triangle_df$x)\ntriangle_cent_y &lt;- mean(triangle_df$y)\ntriangle_cent_df &lt;- tibble(x=triangle_cent_x, y=triangle_cent_y)\ntriangle_plot &lt;- ggplot(\n    triangle_df,\n    aes(x=x, y=y)\n  ) +\n  geom_point(\n    size = g_pointsize / 2,\n    color=cbPalette[1]\n  ) +\n  geom_point(\n    data=triangle_cent_df,\n    aes(x=x, y=y),\n    shape=4, stroke=4, color='black',\n    size = g_pointsize * 1.5) +\n  geom_point(\n    data=triangle_cent_df,\n    aes(x=x, y=y),\n    shape=19, color='white',\n    size = g_pointsize / 2) +\n  dsan_theme('quarter')\n# Now a rectangle\nx_coords_rect &lt;- runif(N, 0.5, 1)\ny_coords_rect &lt;- runif(N, 0.5, 1)\nrect_df &lt;- tibble(x=x_coords_rect, y=y_coords_rect)\ncent_x_rect &lt;- mean(x_coords_rect)\ncent_y_rect &lt;- mean(y_coords_rect)\ncent_df_rect &lt;- tibble(x=cent_x_rect, y=cent_y_rect)\nrect_plot &lt;- triangle_plot +\n  geom_point(\n    data=rect_df,\n    aes(x=x, y=y),\n    size = g_pointsize / 2,\n    color=cbPalette[2]\n  ) +\n  geom_point(\n    data=cent_df_rect,\n    aes(x=x, y=y),\n    shape=4, stroke=4, color='black',\n    size = g_pointsize * 1.5) +\n  geom_point(\n    data=cent_df_rect,\n    aes(x=x, y=y),\n    shape=19, color='white',\n    size = g_pointsize / 2) +\n  dsan_theme('half') +\n  labs(\n    title = \"Centroids for N=250 Points via Barycentric Coordinates\"\n  )\nrect_plot"
   },
   {
-    "objectID": "w11/slides.html#section",
-    "href": "w11/slides.html#section",
+    "objectID": "w11/slides.html#reducing-dimensionality",
+    "href": "w11/slides.html#reducing-dimensionality",
     "title": "Week 11: Decision Trees",
-    "section": "",
-    "text": "DSAN 5000-02 Week 11: Decision Trees"
+    "section": "Reducing Dimensionality",
+    "text": "Reducing Dimensionality\n\n\nMethod 1: Feature Selection. Selecting a subset of existing features:\n\n\n\n\n\n\n\n\\(F_1\\)\n\\(F_2\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.9\n0.1\n\n\n0.6\n0.4\n0.1\n\n\n\n\n\n→\n\n\n\n\n\n\\(F_1\\)\n\\(F_2\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.9\n0.1\n\n\n0.6\n0.4\n0.1\n\n\n\n\n\n→\n\n\n\n\n\n\\(F_1\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.1\n\n\n0.6\n0.1\n\n\n\n\n\n\n\nMethod 2: Feature Extraction. Constructing new features as combinations/functions of the original features\n\n\n\n\n\n\n\n\\(F_1\\)\n\\(F_2\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.9\n0.1\n\n\n0.6\n0.4\n0.1\n\n\n\n\n\n→\n\n\n\\[\n\\begin{align*}\n{\\color{#56b4e9}F'_{12}} &= \\frac{{\\color{#e69f00}F_1} + {\\color{#e69f00}F_2}}{2} \\\\\n{\\color{#56b4e9}F'_{23}} &= \\frac{{\\color{#e69f00}F_2} + {\\color{#e69f00}F_3}}{2}\n\\end{align*}\n\\]\n\n\n→\n\n\n\n\n\n\\(F'_{12}\\)\n\\(F'_{23}\\)\n\n\n\n\n0.85\n0.50\n\n\n0.50\n0.25"
+  },
+  {
+    "objectID": "w11/slides.html#principal-component-analysis-pca",
+    "href": "w11/slides.html#principal-component-analysis-pca",
+    "title": "Week 11: Decision Trees",
+    "section": "Principal Component Analysis (PCA)",
+    "text": "Principal Component Analysis (PCA)\n\nWe know this is feature extraction since we obtain new dimensions:\n\n\n\n\n\nCode\nlibrary(readr)\nlibrary(ggplot2)\ngdp_df &lt;- read_csv(\"assets/gdp_pca.csv\")\n\ndist_to_line &lt;- function(x0, y0, a, c) {\n    numer &lt;- abs(a * x0 - y0 + c)\n    denom &lt;- sqrt(a * a + 1)\n    return(numer / denom)\n}\n# Finding PCA line for industrial vs. exports\nx &lt;- gdp_df$industrial\ny &lt;- gdp_df$exports\nlossFn &lt;- function(lineParams, x0, y0) {\n    a &lt;- lineParams[1]\n    c &lt;- lineParams[2]\n    return(sum(dist_to_line(x0, y0, a, c)))\n}\no &lt;- optim(c(0, 0), lossFn, x0 = x, y0 = y)\nggplot(gdp_df, aes(x = industrial, y = exports)) +\n    geom_point(size=g_pointsize/2) +\n    geom_abline(aes(slope = o$par[1], intercept = o$par[2], color=\"pca\"), linewidth=g_linewidth, show.legend = TRUE) +\n    geom_smooth(aes(color=\"lm\"), method = \"lm\", se = FALSE, linewidth=g_linewidth, key_glyph = \"blank\") +\n    scale_color_manual(element_blank(), values=c(\"pca\"=cbPalette[2],\"lm\"=cbPalette[1]), labels=c(\"Regression\",\"PCA\")) +\n    dsan_theme(\"half\") +\n    remove_legend_title() +\n    labs(\n      title = \"PCA Line vs. Regression Line\",\n        x = \"Industrial Production (% of GDP)\",\n        y = \"Exports (% of GDP)\"\n    )\n\n\n\n\n\n\n\n\n\n\n\nCode\nggplot(gdp_df, aes(pc1, .fittedPC2)) +\n    geom_point(size = g_pointsize/2) +\n    geom_hline(aes(yintercept=0, color='PCA Line'), linetype='solid', size=g_linesize) +\n    geom_rug(sides = \"b\", linewidth=g_linewidth/1.2, length = unit(0.1, \"npc\"), color=cbPalette[3]) +\n    expand_limits(y=-1.6) +\n    scale_color_manual(element_blank(), values=c(\"PCA Line\"=cbPalette[2])) +\n    dsan_theme(\"half\") +\n    remove_legend_title() +\n    labs(\n      title = \"Exports vs. Industry in Principal Component Space\",\n      x = \"First Principal Component (Axis of Greatest Variance)\",\n      y = \"Second PC\"\n    )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nlibrary(dplyr)\nlibrary(tidyr)\nplot_df &lt;- gdp_df %&gt;% select(c(country_code, pc1, agriculture, military))\nlong_df &lt;- plot_df %&gt;% pivot_longer(!c(country_code, pc1), names_to = \"var\", values_to = \"val\")\nlong_df &lt;- long_df |&gt; mutate(\n  var = case_match(\n    var,\n    \"agriculture\" ~ \"Agricultural Production\",\n    \"military\" ~ \"Military Spending\"\n  )\n)\nggplot(long_df, aes(x = pc1, y = val, facet = var)) +\n    geom_point() +\n    facet_wrap(vars(var), scales = \"free\") +\n    dsan_theme(\"full\") +\n    labs(\n        x = \"Industrial-Export Dimension (First Principal Component)\",\n        y = \"% of GDP\"\n    )"
+  },
+  {
+    "objectID": "w11/slides.html#pca-math-magic",
+    "href": "w11/slides.html#pca-math-magic",
+    "title": "Week 11: Decision Trees",
+    "section": "PCA Math Magic",
+    "text": "PCA Math Magic\n\nRemember that our goal is to find the axes along which the data has greatest variance (out of all possible axes)\nLet’s create a dataset using a known data-generating process: one dimension with 75% of the total variance, and the second with 25%:\n\n\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(MASS)\nlibrary(ggforce)\nN &lt;- 300\nMu &lt;- c(0, 0)\nvar_x &lt;- 3\nvar_y &lt;- 1\nSigma &lt;- matrix(c(var_x, 0, 0, var_y), nrow=2)\ndata_df &lt;- as_tibble(mvrnorm(N, Mu, Sigma, empirical=TRUE))\ncolnames(data_df) &lt;- c(\"x\",\"y\")\n# data_df &lt;- data_df |&gt; mutate(\n#   within_5 = x &lt; 5,\n#   within_sq5 = x &lt; sqrt(5)\n# )\n#nrow(data_df |&gt; filter(within_5)) / nrow(data_df)\n#nrow(data_df |&gt; filter(within_sq5)) / nrow(data_df)\n# And plot\nggplot(data_df, aes(x=x, y=y)) +\n  # 68% ellipse\n  # stat_ellipse(geom=\"polygon\", type=\"norm\", linewidth=g_linewidth, level=0.68, fill=cbPalette[1], alpha=0.5) +\n  # stat_ellipse(type=\"norm\", linewidth=g_linewidth, level=0.68) +\n  geom_ellipse(\n    aes(x0=0, y0=0, a=var_x, b=var_y, angle=0),\n    linewidth = g_linewidth\n  ) +\n  # geom_ellipse(\n  #   aes(x0=0, y0=0, a=sqrt(5), b=1, angle=0),\n  #   linewidth = g_linewidth,\n  #   geom=\"polygon\",\n  #   fill=cbPalette[1], alpha=0.2\n  # ) +\n  # # 95% ellipse\n  # stat_ellipse(geom=\"polygon\", type=\"norm\", linewidth=g_linewidth, level=0.95, fill=cbPalette[1], alpha=0.25) +\n  # stat_ellipse(type=\"norm\", linewidth=g_linewidth, level=0.95) +\n  # # 99.7% ellipse\n  # stat_ellipse(geom='polygon', type=\"norm\", linewidth=g_linewidth, level=0.997, fill=cbPalette[1], alpha=0.125) +\n  # stat_ellipse(type=\"norm\", linewidth=g_linewidth, level=0.997) +\n  # Lines at x=0 and y=0\n  geom_vline(xintercept=0, linetype=\"dashed\", linewidth=g_linewidth / 2) +\n  geom_hline(yintercept=0, linetype=\"dashed\", linewidth = g_linewidth / 2) +\n  geom_point(\n    size = g_pointsize / 3,\n    #alpha=0.5\n  ) +\n  geom_rug(length=unit(0.5, \"cm\"), alpha=0.75) +\n  geom_segment(\n    aes(x=-var_x, y=0, xend=var_x, yend=0, color='PC1'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  geom_segment(\n    aes(x=0, y=-var_y, xend=0, yend=var_y, color='PC2'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  dsan_theme(\"half\") +\n  coord_fixed() +\n  remove_legend_title() +\n  scale_color_manual(\n    \"PC Vectors\",\n    values=c('PC1'=cbPalette[1], 'PC2'=cbPalette[2])\n  ) +\n  scale_x_continuous(breaks=seq(-5,5,1), limits=c(-5,5))\n\n\n\n\n\n\n\n\n\n\n\\[\n\\mathbf{\\Sigma} = \\begin{bmatrix}\n{\\color{#e69f00}3} & 0 \\\\\n0 & {\\color{#56b4e9}1}\n\\end{bmatrix}\n\\]\nTwo solutions to \\(\\mathbf{\\Sigma}\\mathbf{x} = \\lambda \\mathbf{x}\\):\n\n\\({\\color{#e69f00}\\lambda_1} = 3, {\\color{#e69f00}\\mathbf{x}_1} = (1, 0)^\\top\\)\n\\({\\color{#56b4e9}\\lambda_2} = 1, {\\color{#56b4e9}\\mathbf{x}_2} = (0, 1)^\\top\\)"
+  },
+  {
+    "objectID": "w11/slides.html#now-with-pca-lines-neq-axes",
+    "href": "w11/slides.html#now-with-pca-lines-neq-axes",
+    "title": "Week 11: Decision Trees",
+    "section": "Now With PCA Lines \\(\\neq\\) Axes",
+    "text": "Now With PCA Lines \\(\\neq\\) Axes\n\nWe now introduce covariance between \\(x\\) and \\(y\\) coordinates of our data:\n\n\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(MASS)\nN &lt;- 250\nMu &lt;- c(0,0)\nSigma &lt;- matrix(c(2,1,1,2), nrow=2)\ndata_df &lt;- as_tibble(mvrnorm(N, Mu, Sigma))\ncolnames(data_df) &lt;- c(\"x\",\"y\")\n# Start+end coordinates for the transformed vectors\npc1_rc &lt;- (3/2)*sqrt(2)\npc2_rc &lt;- (1/2)*sqrt(2)\nggplot(data_df, aes(x=x, y=y)) +\n  geom_ellipse(\n    aes(x0=0, y0=0, a=var_x, b=var_y, angle=pi/4),\n    linewidth = g_linewidth,\n    #fill='grey', alpha=0.0075\n  ) +\n  geom_vline(xintercept=0, linetype=\"dashed\", linewidth=g_linewidth / 2) +\n  geom_hline(yintercept=0, linetype=\"dashed\", linewidth = g_linewidth / 2) +\n  geom_point(\n    size = g_pointsize / 3,\n    #alpha=0.7\n  ) +\n  geom_rug(\n    length=unit(0.35, \"cm\"), alpha=0.75\n  ) +\n  geom_segment(\n    aes(x=-pc1_rc, y=-pc1_rc, xend=pc1_rc, yend=pc1_rc, color='PC1'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  geom_segment(\n    aes(x=pc2_rc, y=-pc2_rc, xend=-pc2_rc, yend=pc2_rc, color='PC2'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  dsan_theme(\"half\") +\n  remove_legend_title() +\n  coord_fixed() +\n  scale_x_continuous(breaks=seq(-4,4,2))\n\n\n\n\n\n\n\n\n\n\n\\[\n\\mathbf{\\Sigma}' = \\begin{bmatrix}\n2 & 1 \\\\\n1 & 2\n\\end{bmatrix}\n\\]\nStill two solutions to \\(\\mathbf{\\Sigma}'\\mathbf{x} = \\lambda \\mathbf{x}\\):\n\n\\({\\color{#e69f00}\\lambda_1} = 3, {\\color{#e69f00}\\mathbf{x}_1} = (1,1)^\\top\\)\n\\({\\color{#56b4e9}\\lambda_2} = 1, {\\color{#56b4e9}\\mathbf{x}_2} = (-1,1)^\\top\\)\n\n\n\n\n\n\nFor those interested in how we obtained \\(\\mathbf{\\Sigma}'\\) with same eigenvalues but different eigenvectors from \\(\\mathbf{\\Sigma}\\), see the appendix slide."
+  },
+  {
+    "objectID": "w11/slides.html#pca-and-eigenvalues",
+    "href": "w11/slides.html#pca-and-eigenvalues",
+    "title": "Week 11: Decision Trees",
+    "section": "PCA and Eigenvalues",
+    "text": "PCA and Eigenvalues\nTakeaway 1: Regardless of the coordinate system,\n\nEigenvectors give us axes of greatest variance: \\(\\mathbf{x}_1\\) is axis of greatest variance, \\(\\mathbf{x}_2\\) is axis of 2nd-greatest variance, etc.\nThe corresponding Eigenvalues tell us how much of the total variance is explained by this axis"
+  },
+  {
+    "objectID": "w11/slides.html#pca-as-swiss-army-knife",
+    "href": "w11/slides.html#pca-as-swiss-army-knife",
+    "title": "Week 11: Decision Trees",
+    "section": "PCA as Swiss Army Knife",
+    "text": "PCA as Swiss Army Knife\n\nPCA can be used for both reinterpretation and reduction of dimensions!\nConsider dataset \\(\\mathbf{X} = (X_1, \\ldots, X_n)\\), with \\(X_i \\in \\mathbb{R}^N\\)\n\n\n\n\n\nReinterpretation\n\nIf we project each \\(X_i\\) onto \\(N\\) principal component axes:\n\nDatapoints in PC space are linear combinations of the original datapoints! (← Takeaway 2a)\n\\[\n  X'_i = \\alpha_1X_1 + \\cdots + \\alpha_nX_n,\n  \\]\nwhere \\(\\forall i \\left[\\alpha_i \\neq 0\\right]\\)\nWe are just “re-plotting” our original data in PC space via change of coordinates\nThus we can recover the original data from the PC data\n\n\n\n\nReduction\n\nIf we project \\(X_i\\) onto \\(M &lt; N\\) principal component axes:\n\nDatapoints in PC space are still linear combinations of the original datapoints (← Takeaway 2b), but now some of the scalars (weights) are 0\nWe have performed statistically-principled dimensionality reduction (← Takeaway 3)\nHowever, original data cannot be recovered"
+  },
+  {
+    "objectID": "w11/slides.html#t-sne-for-dimensionality-reduction",
+    "href": "w11/slides.html#t-sne-for-dimensionality-reduction",
+    "title": "Week 11: Decision Trees",
+    "section": "t-SNE for Dimensionality Reduction",
+    "text": "t-SNE for Dimensionality Reduction\n\nt-Distributed Stochastic Neighbor Embedding (Van der Maaten and Hinton 2008)\nIf \\(x, y\\) are neighbors in \\(\\mathbb{R}^{1000}\\), t-SNE “succeeds” if they remain neighbors in \\(\\mathbb{R}^2\\)\nKey hyperparameter: perplexity! Roughly, this affects the “tradeoff” between preserving local structure vs. global structure in the lower-dimensional space\nChoose \\(x_i \\in \\mathbb{R}^{1000}\\), and treat it as the center of a Gaussian ball with variance \\(\\sigma_i\\)\nThe choice of \\(\\sigma_i\\) induces a probability distribution \\(P_i\\) over all other points (what is the probability of drawing \\(x_j\\) from \\(\\mathcal{N}(x_i, \\sigma_i)\\)?)\n\n\\[\n\\text{Perp}(P_i) = 2^{H(P_i)}\n\\]\n\nHigh perplexity \\(\\iff\\) high entropy (eventually Gaussian ball will grow so big that all other points will be equally likely!). So, vary perplexity, see how plot changes\nSee here for an absolutely incredible interactive walkthrough of t-SNE!"
+  },
+  {
+    "objectID": "w11/slides.html#what-happens-as-we-vary-perplexity",
+    "href": "w11/slides.html#what-happens-as-we-vary-perplexity",
+    "title": "Week 11: Decision Trees",
+    "section": "What Happens As We Vary Perplexity?",
+    "text": "What Happens As We Vary Perplexity?\n\n\n\n\n\n\nOriginal Dataset\n\n\n\n\n\n\n\n\n\nPerplexity = 2\n\n\n\n\n\n\n\nPerplexity = 5\n\n\n\n\n\n\n\nPerplexity = 30\n\n\n\n\n\n\n \n\n\n\n\n\nPerplexity = 50\n\n\n\n\n \n\n\n\n\n\nPerplexity = 100"
+  },
+  {
+    "objectID": "w11/slides.html#quiz-time",
+    "href": "w11/slides.html#quiz-time",
+    "title": "Week 11: Decision Trees",
+    "section": "Quiz Time!",
+    "text": "Quiz Time!\n\nQuiz 5.1 Link"
+  },
+  {
+    "objectID": "w11/slides.html#questions",
+    "href": "w11/slides.html#questions",
+    "title": "Week 11: Decision Trees",
+    "section": "20 Questions",
+    "text": "20 Questions\n\nI am thinking of some entity. What is it?\nWhat questions should we ask initially?\nWhy might questions on the left be more helpful than questions on the right?\n\n\n\n\nGeneral Questions\nSpecific Questions\n\n\n\n\nIs it a physical object?\nIs it a soda can?\n\n\nIs it an animal?\nIs it a cat?\n\n\nIs it bigger than a house?\nIs it the planet Mercury?\n\n\n\n\n\nFor linguistics fans: if a word \\(x\\) is one level “more general” than another word \\(y\\) (e.g., the word “camel” is one level more general than “bactrian camel”, a camel with two humps), we say that \\(x\\) is a hypernym of \\(y\\), and that \\(y\\) is a hyponym of \\(x\\). The WordNet project is a big tree of hypernym/hyponym relationships among all English words, where “entity” is the root node of the tree."
+  },
+  {
+    "objectID": "w11/slides.html#we-can-quantify-how-good-a-sequence-of-questions-is",
+    "href": "w11/slides.html#we-can-quantify-how-good-a-sequence-of-questions-is",
+    "title": "Week 11: Decision Trees",
+    "section": "We Can Quantify How Good a Sequence of Questions Is!",
+    "text": "We Can Quantify How Good a Sequence of Questions Is!\n\nAssume we’re playing with someone who only knows three objects \\(S = \\{\\text{Tree}, \\text{Bird}, \\text{Car}\\}\\), and they randomize among these such that\n\n\n\n\n\\(\\text{Choice}\\)\nTree\nBird\nCar\n\n\n\\(\\Pr(\\text{Choice})\\)\n0.25\n0.25\n0.50\n\n\n\n\nWhy might the “script” on the left be a better choice than script in the middle? Why are left and middle both better than right?\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\ncar\n\n Car?   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nbird\n\n Bird?   \n\ncar-&gt;bird\n\n  No   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\nbird-&gt;guessTree\n\n  No  \n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nbird2\n\n Bird?   \n\nbird-&gt;bird2\n\n  No   \n\nbird2-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird2-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\n\n\n\nExample adapted from this essay by Simon DeDeo!"
+  },
+  {
+    "objectID": "w11/slides.html#lets-use-math",
+    "href": "w11/slides.html#lets-use-math",
+    "title": "Week 11: Decision Trees",
+    "section": "Let’s Use Math",
+    "text": "Let’s Use Math\n\nAn optimal script minimizes average number of questions required to reach answer\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\ncar\n\n Car?   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nbird\n\n Bird?   \n\ncar-&gt;bird\n\n  No   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\nbird-&gt;guessTree\n\n  No  \n\n\n\n\n\n\\[\n\\begin{align*}\n&\\mathbb{E}[\\text{\\# Moves}] \\\\\n=\\,&1 \\cdot \\Pr(\\text{Car}) + 2 \\cdot \\Pr(\\text{Bird}) \\\\\n&+ 2 \\cdot \\Pr(\\text{Tree}) \\\\\n=\\,&1 \\cdot 0.5 + 2\\cdot 0.25 + 2\\cdot 0.25 \\\\\n=\\,&1.5\n\\end{align*}\n\\]\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\\[\n\\begin{align*}\n&\\mathbb{E}[\\text{\\# Moves}] \\\\\n=\\,&1 \\cdot \\Pr(\\text{Bird}) + 2 \\cdot \\Pr(\\text{Car}) \\\\\n&+ 2 \\cdot \\Pr(\\text{Tree}) \\\\\n=\\,&1 \\cdot 0.25 + 2\\cdot 0.5 + 2\\cdot 0.25 \\\\\n=\\,&1.75\n\\end{align*}\n\\]\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nbird2\n\n Bird?   \n\nbird-&gt;bird2\n\n  No   \n\nbird2-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird2-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\\[\n\\begin{align*}\n&\\mathbb{E}[\\text{\\# Moves}] \\\\\n=\\,&1 \\cdot \\Pr(\\text{Bird}) + 3 \\cdot \\Pr(\\text{Car}) \\\\\n&+ 3 \\cdot \\Pr(\\text{Tree}) \\\\\n=\\,&1 \\cdot 0.25 + 3\\cdot 0.5 + 3\\cdot 0.25 \\\\\n=\\,&2.5\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w11/slides.html#lets-use-different-math",
+    "href": "w11/slides.html#lets-use-different-math",
+    "title": "Week 11: Decision Trees",
+    "section": "Let’s Use (Different) Math",
+    "text": "Let’s Use (Different) Math\n\nForgetting about the individual trees for a moment, let’s compute the entropy of the RV representing the opponent’s choice.\nIn general, if \\(X\\) represents the opponent’s choice and \\(\\mathcal{R}_X = \\{1, 2, \\ldots, N\\}\\), the entropy of \\(X\\) is:\n\n\\[\n\\begin{align*}\nH(X) &= -\\sum_{i=1}^N \\Pr(X = i)\\log_2\\Pr(X = i)\n\\end{align*}\n\\]\n\nSo in our case we have:\n\n\\[\n\\begin{align*}\nH(X) &= -\\left[ \\Pr(X = \\text{Car}) \\log_2\\Pr(X = \\text{Car}) \\right. \\\\\n&\\phantom{= -[ } + \\Pr(X = \\text{Bird})\\log_2\\Pr(X = \\text{Bird}) \\\\\n&\\phantom{= -[ } + \\left. \\Pr(X = \\text{Tree})\\log_2\\Pr(X = \\text{Tree})\\right] \\\\\n&= -\\left[ (0.5)(-1) + (0.25)(-2) + (0.25)(-2) \\right] = 1.5~🧐\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w11/slides.html#entropy-seems-helpful-here",
+    "href": "w11/slides.html#entropy-seems-helpful-here",
+    "title": "Week 11: Decision Trees",
+    "section": "Entropy Seems Helpful Here…",
+    "text": "Entropy Seems Helpful Here…\n\nNow let’s imagine our opponent randomizes between all three options:\n\n\\[\n\\begin{align*}\n\\mathbb{E}[\\text{\\# Moves}] &= 1 \\cdot (1/3) + 2 \\cdot (1/3) + 2 \\cdot (1/3) \\\\\n&= \\frac{5}{3} \\approx 1.667\n\\end{align*}\n\\]\n\\[\n\\begin{align*}\nH(X) &= -\\left[ \\Pr(X = \\text{Car}) \\log_2\\Pr(X = \\text{Car}) \\right. \\\\\n&\\phantom{= -[ } + \\Pr(X = \\text{Bird})\\log_2\\Pr(X = \\text{Bird}) \\\\\n&\\phantom{= -[ } + \\left. \\Pr(X = \\text{Tree})\\log_2\\Pr(X = \\text{Tree})\\right] \\\\\n&= -\\left[ \\frac{1}{3}\\log_2\\left(\\frac{1}{3}\\right) + \\frac{1}{3}\\log_2\\left(\\frac{1}{3}\\right) + \\frac{1}{3}\\log_2\\left(\\frac{1}{3}\\right) \\right] \\approx 1.585~🧐\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w11/slides.html#the-mathematical-relationship",
+    "href": "w11/slides.html#the-mathematical-relationship",
+    "title": "Week 11: Decision Trees",
+    "section": "The Mathematical Relationship",
+    "text": "The Mathematical Relationship\n\nThe smallest possible number of levels \\(L^*\\) for a script based on RV \\(X\\) is exactly\n\\[\nL^* = \\lceil H(X) \\rceil\n\\]\nIntuition: Although \\(\\mathbb{E}[\\text{\\# Moves}] = 1.5\\), we cannot have a tree with 1.5 levels!\nEntropy provides a lower bound on \\(\\mathbb{E}[\\text{\\# Moves}]\\):\n\n\\[\n\\mathbb{E}[\\text{\\# Moves}] \\geq H(X)\n\\]"
+  },
+  {
+    "objectID": "w11/slides.html#decision-tree-structure",
+    "href": "w11/slides.html#decision-tree-structure",
+    "title": "Week 11: Decision Trees",
+    "section": "Decision Tree Structure",
+    "text": "Decision Tree Structure\n\nLeaf Nodes represent outcomes\nBranch Nodes represent questions\n\n\n\n\n\n\n\n\nG\n\n  \n\nroot\n\n Root Node   \n\nleaf1\n\n Leaf Node 1   \n\nroot-&gt;leaf1\n\n  Answer 1   \n\nbranch1\n\n Branch Node 1   \n\nroot-&gt;branch1\n\n  Answer 2   \n\nbranch2\n\n Branch Node 2   \n\nroot-&gt;branch2\n\n  Answer 3   \n\nleaf2\n\n Leaf Node 2   \n\nbranch1-&gt;leaf2\n\n  Answer 1   \n\nleaf3\n\n Leaf Node 3   \n\nbranch1-&gt;leaf3\n\n  Answer 2   \n\nleaf4\n\n Leaf Node 4   \n\nbranch1-&gt;leaf4\n\n  Answer 3   \n\nleaf5\n\n Leaf Node 5   \n\nbranch2-&gt;leaf5\n\n  Answer 1   \n\nleaf6\n\n Leaf Node 6   \n\nbranch2-&gt;leaf6\n\n  Answer 2"
+  },
+  {
+    "objectID": "w11/slides.html#how-are-they-built",
+    "href": "w11/slides.html#how-are-they-built",
+    "title": "Week 11: Decision Trees",
+    "section": "How Are They Built?",
+    "text": "How Are They Built?\n\nExample: we find ourselves at some point on the globe, at some time during the year, and we’re trying to see whether this point+time are good for skiing\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(lubridate)\nday &lt;- seq(ymd('2023-01-01'),ymd('2023-12-31'),by='weeks')\nlongitude &lt;- seq(-90, 90, by=5)\nski_df &lt;- expand_grid(day, longitude)\n#ski_df |&gt; head()\n# Data-generating process\nski_df &lt;- ski_df |&gt; mutate(\n  near_equator = abs(longitude) &lt;= 30,\n  northern = longitude &gt; 30,\n  southern = longitude &lt; -30,\n  first_3m = day &lt; ymd('2023-04-01'),\n  last_3m = day &gt;= ymd('2023-10-01'),\n  middle_6m = (day &gt;= ymd('2023-04-01')) & (day &lt; ymd('2023-10-01')),\n  snowfall = 0\n)\n# Update the non-zero sections\nmu_snow &lt;- 10\nsd_snow &lt;- 2.5\n# How many northern + first 3 months\nnum_north_first_3 &lt;- nrow(ski_df[ski_df$northern & ski_df$first_3m,])\nski_df[ski_df$northern & ski_df$first_3m, 'snowfall'] = rnorm(num_north_first_3, mu_snow, sd_snow)\n# Northerns + last 3 months\nnum_north_last_3 &lt;- nrow(ski_df[ski_df$northern & ski_df$last_3m,])\nski_df[ski_df$northern & ski_df$last_3m, 'snowfall'] = rnorm(num_north_last_3, mu_snow, sd_snow)\n# How many southern + middle 6 months\nnum_south_mid_6 &lt;- nrow(ski_df[ski_df$southern & ski_df$middle_6m,])\nski_df[ski_df$southern & ski_df$middle_6m, 'snowfall'] = rnorm(num_south_mid_6, mu_snow, sd_snow)\n# And collapse into binary var\nski_df['good_skiing'] = ski_df$snowfall &gt; 0\n# This converts day into an int\nski_df &lt;- ski_df |&gt; mutate(\n  day_num = lubridate::yday(day)\n)\n#print(nrow(ski_df))\nski_sample &lt;- ski_df |&gt; sample_n(100)\nski_sample |&gt; write_csv(\"assets/ski.csv\")\nggplot(ski_sample, aes(x=day, y=longitude, shape=good_skiing, color=good_skiing)) +\n  geom_point(\n    size = g_pointsize / 2, stroke=1.5,\n  ) +\n  dsan_theme() +\n  labs(\n    x = \"Time of Year\",\n    y = \"Longitude\",\n    shape = \"Good Skiing?\"\n  ) +\n  scale_shape_manual(name=\"Good Skiing?\", values=c(1, 3)) +\n  scale_color_manual(name=\"Good Skiing?\", values=c(cbPalette[1], cbPalette[2])) +\n  scale_x_continuous(\n    breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),\n    labels=c(\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\")\n  ) +\n  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))\n\n\n\n(Example adapted from CS229: Machine Learning, Stanford University)"
+  },
+  {
+    "objectID": "w11/slides.html#zero-splits",
+    "href": "w11/slides.html#zero-splits",
+    "title": "Week 11: Decision Trees",
+    "section": "Zero Splits",
+    "text": "Zero Splits\n\nStarting out: no splits at all, just guess most frequent class: bad skiing\n\n\n\nCode\nski_sample |&gt; count(good_skiing)\n\n\n\n\n\n\ngood_skiing\nn\n\n\n\n\nFALSE\n66\n\n\nTRUE\n34\n\n\n\n\n\n\n\nThis gives us \\(\\Pr(\\text{Correct Guess}) = 0.66\\)\nLet \\(R_i\\) denote the region we’re considering at level \\(i\\), and \\(\\widehat{p}_c(R_i)\\) be the proportion of points in region \\(R_i\\) that are of class \\(c\\)\nHere, since we’re not splitting the region up at all (yet),"
+  },
+  {
+    "objectID": "w11/slides.html#judging-split-options",
+    "href": "w11/slides.html#judging-split-options",
+    "title": "Week 11: Decision Trees",
+    "section": "Judging Split Options",
+    "text": "Judging Split Options\nLet’s think through two choices for the first split:\n\n\n\n\n\\(\\text{longitude} \\geq -30\\):\n\n\n\nCode\nski_sample &lt;- ski_sample |&gt; mutate(\n  lon_gt_n30 = longitude &gt;= -30\n)\nski_sample |&gt; group_by(lon_gt_n30) |&gt; count(good_skiing)\n\n\n\n\n\n\nlon_gt_n30\ngood_skiing\nn\n\n\n\n\nFALSE\nFALSE\n17\n\n\nFALSE\nTRUE\n19\n\n\nTRUE\nFALSE\n49\n\n\nTRUE\nTRUE\n15\n\n\n\n\n\n\nThis gives us the rule\n\\[\n\\widehat{C}(x) = \\begin{cases}\n0 &\\text{if }\\text{longitude} \\geq -30, \\\\\n0 &\\text{otherwise}\n\\end{cases}\n\\]\n\n\n\n\\(\\text{month} &lt; \\text{October}\\)\n\n\n\nCode\nski_sample &lt;- ski_sample |&gt; mutate(\n  month_lt_oct = day &lt; ymd('2023-10-01')\n)\nski_sample |&gt; group_by(month_lt_oct) |&gt; count(good_skiing)\n\n\n\n\n\n\nmonth_lt_oct\ngood_skiing\nn\n\n\n\n\nFALSE\nFALSE\n16\n\n\nFALSE\nTRUE\n7\n\n\nTRUE\nFALSE\n50\n\n\nTRUE\nTRUE\n27\n\n\n\n\n\n\nThis gives us the rule\n\\[\n\\widehat{C}(x) = \\begin{cases}\n0 &\\text{if }\\text{month} &lt; \\text{October}, \\\\\n0 &\\text{otherwise}\n\\end{cases}\n\\]\n\n\n\nSo, if we judge purely on acuracy scores… it seems like we’re not getting anywhere here (but, we know we are getting somewhere!)"
+  },
+  {
+    "objectID": "w11/slides.html#scikit-learn",
+    "href": "w11/slides.html#scikit-learn",
+    "title": "Week 11: Decision Trees",
+    "section": "Scikit-Learn",
+    "text": "Scikit-Learn\n\n\nCode\nimport pandas as pd\nimport numpy as np\nimport sklearn\nfrom sklearn.tree import DecisionTreeClassifier\nsklearn.set_config(display='text')\nski_df = pd.read_csv(\"assets/ski.csv\")\nski_df['good_skiing'] = ski_df['good_skiing'].astype(int)\nX = ski_df[['day_num', 'longitude']]\ny = ski_df[['good_skiing']].values\ndtc = DecisionTreeClassifier(\n  criterion = \"entropy\"\n)\ndtc.fit(X, y)\n\n\nDecisionTreeClassifier(criterion='entropy')\n\n\nCode\nsklearn.tree.plot_tree(dtc)"
+  },
+  {
+    "objectID": "w11/slides.html#continuous-values",
+    "href": "w11/slides.html#continuous-values",
+    "title": "Week 11: Decision Trees",
+    "section": "Continuous Values",
+    "text": "Continuous Values\n\nWhat if we replace binary labels with continuous values: in this case, cm of snow?\n\n\n\nCode\n#format_snow &lt;- function(x) sprintf('%.2f', x)\nformat_snow &lt;- function(x) round(x, 2)\nski_sample['snowfall_str'] &lt;- sapply(ski_sample$snowfall, format_snow)\n#ski_df |&gt; head()\n#print(nrow(ski_df))\nggplot(ski_sample, aes(x=day, y=longitude, label=snowfall_str)) +\n  geom_text(size = 6) +\n  dsan_theme() +\n  labs(\n    x = \"Time of Year\",\n    y = \"Longitude\",\n    shape = \"Good Skiing?\"\n  ) +\n  scale_shape_manual(values=c(1, 3)) +\n  scale_x_continuous(\n    breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),\n    labels=c(\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\")\n  ) +\n  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))\n\n\n\n(Example adapted from CS229: Machine Learning, Stanford University)"
+  },
+  {
+    "objectID": "w11/slides.html#looking-towards-regression",
+    "href": "w11/slides.html#looking-towards-regression",
+    "title": "Week 11: Decision Trees",
+    "section": "Looking Towards Regression",
+    "text": "Looking Towards Regression\n\nHow could we make a decision tree to predict \\(y\\) from \\(x\\) for this data?\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(latex2exp)\nexpr_pi2 &lt;- TeX(\"$\\\\frac{\\\\pi}{2}$\")\nexpr_pi &lt;- TeX(\"$\\\\pi$\")\nexpr_3pi2 &lt;- TeX(\"$\\\\frac{3\\\\pi}{2}$\")\nexpr_2pi &lt;- TeX(\"$2\\\\pi$\")\nx_range &lt;- 2 * pi\nx_coords &lt;- seq(0, x_range, by = x_range / 100)\nnum_x_coords &lt;- length(x_coords)\ndata_df &lt;- tibble(x = x_coords)\ndata_df &lt;- data_df |&gt; mutate(\n  y_raw = sin(x),\n  y_noise = rnorm(num_x_coords, 0, 0.15)\n)\ndata_df &lt;- data_df |&gt; mutate(\n  y = y_raw + y_noise\n)\n#y_coords &lt;- y_raw_coords + y_noise\n#y_coords &lt;- y_raw_coords\n#data_df &lt;- tibble(x = x, y = y)\nreg_tree_plot &lt;- ggplot(data_df, aes(x=x, y=y)) +\n  geom_point(size = g_pointsize / 2) +\n  dsan_theme(\"half\") +\n  labs(\n    x = \"Feature\",\n    y = \"Label\"\n  ) +\n  geom_vline(\n    xintercept = pi,\n    linewidth = g_linewidth,\n    linetype = \"dashed\"\n  ) +\n  scale_x_continuous(\n    breaks=c(0,pi/2,pi,(3/2)*pi,2*pi),\n    labels=c(\"0\",expr_pi2,expr_pi,expr_3pi2,expr_2pi)\n  )\nreg_tree_plot"
+  },
+  {
+    "objectID": "w11/slides.html#a-zero-level-tree",
+    "href": "w11/slides.html#a-zero-level-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "A Zero-Level Tree",
+    "text": "A Zero-Level Tree\n\nTrivial example: \\(\\widehat{y}(x) = 0\\). How well does this do?\n\n\n\nCode\nlibrary(ggtext)\n# x_lt_pi = data_df |&gt; filter(x &lt; pi)\n# mean(x_lt_pi$y)\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err0 = (y - 0)^2\n)\nmse0 &lt;- mean(data_df$pred_sq_err0)\nmse0_str &lt;- sprintf(\"%.3f\", mse0)\nreg_tree_plot +\n  geom_hline(\n    yintercept = 0,\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=0, yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse0_str)),\n    size = 10,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/slides.html#a-one-level-binary-tree",
+    "href": "w11/slides.html#a-one-level-binary-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "A One-Level Binary Tree",
+    "text": "A One-Level Binary Tree\n\n\n\n\nLet’s introduce a single branch node:\n\n\\[\n\\widehat{y}(x) = \\begin{cases}\n\\phantom{-}\\frac{2}{\\pi} &\\text{if }x &lt; \\pi, \\\\\n-\\frac{2}{\\pi} &\\text{otherwise.}\n\\end{cases}\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nget_y_pred &lt;- function(x) ifelse(x &lt; pi, 2/pi, -2/pi)\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err1 = (y - get_y_pred(x))^2\n)\nmse1 &lt;- mean(data_df$pred_sq_err1)\nmse1_str &lt;- sprintf(\"%.3f\", mse1)\ndecision_df &lt;- tribble(\n  ~x, ~xend, ~y, ~yend,\n  0, pi, 2/pi, 2/pi,\n  pi, 2*pi, -2/pi, -2/pi\n)\nreg_tree_plot +\n  geom_segment(\n    data=decision_df,\n    aes(x=x, xend=xend, y=y, yend=yend),\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=get_y_pred(x), yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse1_str)),\n    size = 9,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/slides.html#a-one-level-ternary-tree",
+    "href": "w11/slides.html#a-one-level-ternary-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "A One-Level Ternary Tree",
+    "text": "A One-Level Ternary Tree\n\n\n\n\nNow let’s allow three answers:\n\n\\[\n\\widehat{y}(x) = \\begin{cases}\n\\phantom{-}\\frac{9}{4\\pi} &\\text{if }x &lt; \\frac{2\\pi}{3}, \\\\\n\\phantom{-}0 &\\text{if }\\frac{2\\pi}{3} \\leq x \\leq \\frac{4\\pi}{3} \\\\\n-\\frac{9}{4\\pi} &\\text{otherwise.}\n\\end{cases}\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\nCode\ncut1 &lt;- (2/3) * pi\ncut2 &lt;- (4/3) * pi\npos_mean &lt;- 9 / (4*pi)\nget_y_pred &lt;- function(x) ifelse(x &lt; cut1, pos_mean, ifelse(x &lt; cut2, 0, -pos_mean))\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err1b = (y - get_y_pred(x))^2\n)\nmse1b &lt;- mean(data_df$pred_sq_err1b)\nmse1b_str &lt;- sprintf(\"%.3f\", mse1b)\ndecision_df &lt;- tribble(\n  ~x, ~xend, ~y, ~yend,\n  0, (2/3)*pi, pos_mean, pos_mean,\n  (2/3)*pi, (4/3)*pi, 0, 0,\n  (4/3)*pi, 2*pi, -pos_mean, -pos_mean\n)\nreg_tree_plot +\n  geom_segment(\n    data=decision_df,\n    aes(x=x, xend=xend, y=y, yend=yend),\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=get_y_pred(x), yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse1b_str)),\n    size = 9,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/slides.html#another-one-level-ternary-tree",
+    "href": "w11/slides.html#another-one-level-ternary-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "Another One-Level Ternary Tree",
+    "text": "Another One-Level Ternary Tree\n\n\n\n\nNow let’s allow an uneven split:\n\n\\[\n\\widehat{y}(x) = \\begin{cases}\n\\phantom{-}0.695 &\\text{if }x &lt; (1-c)\\pi, \\\\\n\\phantom{-}0 &\\text{if }(1-c)\\pi \\leq x \\leq (1+c)\\pi \\\\\n-0.695 &\\text{otherwise,}\n\\end{cases}\n\\]\nwith \\(c \\approx 0.113\\), gives us:\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nc &lt;- 0.113\ncut1 &lt;- (1 - c) * pi\ncut2 &lt;- (1 + c) * pi\npos_mean &lt;- 0.695\nget_y_pred &lt;- function(x) ifelse(x &lt; cut1, pos_mean, ifelse(x &lt; cut2, 0, -pos_mean))\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err1b = (y - get_y_pred(x))^2\n)\nmse1b &lt;- mean(data_df$pred_sq_err1b)\nmse1b_str &lt;- sprintf(\"%.3f\", mse1b)\ndecision_df &lt;- tribble(\n  ~x, ~xend, ~y, ~yend,\n  0, cut1, pos_mean, pos_mean,\n  cut1, cut2, 0, 0,\n  cut2, 2*pi, -pos_mean, -pos_mean\n)\nreg_tree_plot +\n  geom_segment(\n    data=decision_df,\n    aes(x=x, xend=xend, y=y, yend=yend),\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=get_y_pred(x), yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse1b_str)),\n    size = 9,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/slides.html#on-to-the-code",
+    "href": "w11/slides.html#on-to-the-code",
+    "title": "Week 11: Decision Trees",
+    "section": "On to the Code!",
+    "text": "On to the Code!\n\nScikit-learn has both DecisionTreeClassifier  and DecisionTreeRegressor  classes!"
+  },
+  {
+    "objectID": "w11/slides.html#the-wisdom-of-crowds",
+    "href": "w11/slides.html#the-wisdom-of-crowds",
+    "title": "Week 11: Decision Trees",
+    "section": "The Wisdom of Crowds",
+    "text": "The Wisdom of Crowds\n\nImagine you’re assembling a darts team. You can choose a team of 4 from among the following 8 players:\n\n\n\n\n\n\n\n\nPlayer\nSkill\n\n\n\n\nLarry “Lefty” Lechuga\nAlways hits 5cm left of bullseye\n\n\nRico Righty\nAlways hits 5cm right of bullseye\n\n\nLil Uppy Vert\nAlways hits 5cm above bullseye\n\n\nInconsistent Inkyung\nHits bullseye 50% of time, other 50% hits random point\n\n\nDiagonal Dave\nAlways hits 5cm above right of bullseye\n\n\nDobert Downy Jr.\nAlways hits 5cm below bullseye\n\n\nGregor “the GOAT” Gregorsson\nHits bullseye 99.9% of time, other 0.1% hits random point\n\n\nCraig\nTop 25 Craigs of 2023"
+  },
+  {
+    "objectID": "w11/slides.html#your-opponents",
+    "href": "w11/slides.html#your-opponents",
+    "title": "Week 11: Decision Trees",
+    "section": "Your Opponents",
+    "text": "Your Opponents"
+  },
+  {
+    "objectID": "w11/slides.html#high-variance-low-bias",
+    "href": "w11/slides.html#high-variance-low-bias",
+    "title": "Week 11: Decision Trees",
+    "section": "High Variance, Low Bias",
+    "text": "High Variance, Low Bias"
+  },
+  {
+    "objectID": "w11/slides.html#the-wisdom-of-sheep",
+    "href": "w11/slides.html#the-wisdom-of-sheep",
+    "title": "Week 11: Decision Trees",
+    "section": "The Wisdom of Sheep",
+    "text": "The Wisdom of Sheep\n\nUnfortunately, the “wisdom of crowds” phenomenon only works if everyone in the crowd is unable to communicate\nThe minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders , and the effect goes away (biases no longer cancel out)\nThe takeaway for effectively training random forests: ensure that each tree has a separate (ideally orthogonal) slice of the full dataset, and has to infer labels from only that slice!"
+  },
+  {
+    "objectID": "w11/slides.html#appendix-covariance-matrix-magic",
+    "href": "w11/slides.html#appendix-covariance-matrix-magic",
+    "title": "Week 11: Decision Trees",
+    "section": "Appendix: Covariance Matrix Magic",
+    "text": "Appendix: Covariance Matrix Magic\n\nFor those interested (skipping over lots of matrix math): say you have a 2D covariance matrix \\(\\mathbf{\\Sigma}\\) with eigensystem \\((\\lambda_1, \\mathbf{x}_1), (\\lambda_2, \\mathbf{x}_2)\\)\nYou can obtain a new covariance matrix \\(\\mathbf{\\Sigma}'\\) which has the same eigenvalues as \\(\\mathbf{\\Sigma}\\) but has eigenvectors \\(\\mathbf{x}'_1\\) and \\(\\mathbf{x}'_2\\), so long as these two eigenvectors are orthogonal.\nExample: you want to retain the eigenvalues \\(\\lambda_1 = 3\\) and \\(\\lambda_2 = 1\\) from the quiz-review slides, but want the data’s first principal component to be \\(\\mathbf{x}'_1 = (2,1)^\\top\\) and its second principal component to be \\(\\mathbf{x}'_2 = (-1,2)^\\top\\).\nBy constructing the Eigenmatrix \\(\\mathbf{V} = \\left[\\begin{smallmatrix} \\mathbf{x}'_1 & \\mathbf{x}'_2\\end{smallmatrix}\\right]\\) (the matrix whose columns are \\(\\mathbf{x}'_1\\) and \\(\\mathbf{x}'_2\\)), we can obtain \\(\\mathbf{\\Sigma}'\\) by computing:\n\n\\[\n\\mathbf{\\Sigma}' = \\mathbf{V}\\mathbf{\\Sigma}\\mathbf{V}^{-1}.\n\\]\n\n(Exercise: recreate the plot from the earlier PCA slides, but with these desired first and second principal components! See here for a deeper dive into why this works!)"
+  },
+  {
+    "objectID": "w11/slides.html#references",
+    "href": "w11/slides.html#references",
+    "title": "Week 11: Decision Trees",
+    "section": "References",
+    "text": "References\n\n\nVan der Maaten, Laurens, and Geoffrey Hinton. 2008. “Visualizing Data Using t-SNE.” Journal of Machine Learning Research 9 (11).\n\n\n\n\nDSAN 5000-02 Week 11: Decision Trees"
   },
   {
     "objectID": "w11/index.html",
@@ -691,6 +915,237 @@
     "title": "Week 11: Decision Trees",
     "section": "",
     "text": "Open slides in new window →"
+  },
+  {
+    "objectID": "w11/index.html#reducing-dimensionality",
+    "href": "w11/index.html#reducing-dimensionality",
+    "title": "Week 11: Decision Trees",
+    "section": "Reducing Dimensionality",
+    "text": "Reducing Dimensionality\n\n\nMethod 1: Feature Selection. Selecting a subset of existing features:\n\n\n\n\n\n\n\n\\(F_1\\)\n\\(F_2\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.9\n0.1\n\n\n0.6\n0.4\n0.1\n\n\n\n\n\n→\n\n\n\n\n\n\\(F_1\\)\n\\(F_2\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.9\n0.1\n\n\n0.6\n0.4\n0.1\n\n\n\n\n\n→\n\n\n\n\n\n\\(F_1\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.1\n\n\n0.6\n0.1\n\n\n\n\n\n\n\nMethod 2: Feature Extraction. Constructing new features as combinations/functions of the original features\n\n\n\n\n\n\n\n\\(F_1\\)\n\\(F_2\\)\n\\(F_3\\)\n\n\n\n\n0.8\n0.9\n0.1\n\n\n0.6\n0.4\n0.1\n\n\n\n\n\n→\n\n\n\\[\n\\begin{align*}\n{\\color{#56b4e9}F'_{12}} &= \\frac{{\\color{#e69f00}F_1} + {\\color{#e69f00}F_2}}{2} \\\\\n{\\color{#56b4e9}F'_{23}} &= \\frac{{\\color{#e69f00}F_2} + {\\color{#e69f00}F_3}}{2}\n\\end{align*}\n\\]\n\n\n→\n\n\n\n\n\n\\(F'_{12}\\)\n\\(F'_{23}\\)\n\n\n\n\n0.85\n0.50\n\n\n0.50\n0.25"
+  },
+  {
+    "objectID": "w11/index.html#principal-component-analysis-pca",
+    "href": "w11/index.html#principal-component-analysis-pca",
+    "title": "Week 11: Decision Trees",
+    "section": "Principal Component Analysis (PCA)",
+    "text": "Principal Component Analysis (PCA)\n\nWe know this is feature extraction since we obtain new dimensions:\n\n\n\n\n\nCode\nlibrary(readr)\nlibrary(ggplot2)\ngdp_df &lt;- read_csv(\"assets/gdp_pca.csv\")\n\ndist_to_line &lt;- function(x0, y0, a, c) {\n    numer &lt;- abs(a * x0 - y0 + c)\n    denom &lt;- sqrt(a * a + 1)\n    return(numer / denom)\n}\n# Finding PCA line for industrial vs. exports\nx &lt;- gdp_df$industrial\ny &lt;- gdp_df$exports\nlossFn &lt;- function(lineParams, x0, y0) {\n    a &lt;- lineParams[1]\n    c &lt;- lineParams[2]\n    return(sum(dist_to_line(x0, y0, a, c)))\n}\no &lt;- optim(c(0, 0), lossFn, x0 = x, y0 = y)\nggplot(gdp_df, aes(x = industrial, y = exports)) +\n    geom_point(size=g_pointsize/2) +\n    geom_abline(aes(slope = o$par[1], intercept = o$par[2], color=\"pca\"), linewidth=g_linewidth, show.legend = TRUE) +\n    geom_smooth(aes(color=\"lm\"), method = \"lm\", se = FALSE, linewidth=g_linewidth, key_glyph = \"blank\") +\n    scale_color_manual(element_blank(), values=c(\"pca\"=cbPalette[2],\"lm\"=cbPalette[1]), labels=c(\"Regression\",\"PCA\")) +\n    dsan_theme(\"half\") +\n    remove_legend_title() +\n    labs(\n      title = \"PCA Line vs. Regression Line\",\n        x = \"Industrial Production (% of GDP)\",\n        y = \"Exports (% of GDP)\"\n    )\n\n\n\n\n\n\n\n\n\n\n\nCode\nggplot(gdp_df, aes(pc1, .fittedPC2)) +\n    geom_point(size = g_pointsize/2) +\n    geom_hline(aes(yintercept=0, color='PCA Line'), linetype='solid', size=g_linesize) +\n    geom_rug(sides = \"b\", linewidth=g_linewidth/1.2, length = unit(0.1, \"npc\"), color=cbPalette[3]) +\n    expand_limits(y=-1.6) +\n    scale_color_manual(element_blank(), values=c(\"PCA Line\"=cbPalette[2])) +\n    dsan_theme(\"half\") +\n    remove_legend_title() +\n    labs(\n      title = \"Exports vs. Industry in Principal Component Space\",\n      x = \"First Principal Component (Axis of Greatest Variance)\",\n      y = \"Second PC\"\n    )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nlibrary(dplyr)\nlibrary(tidyr)\nplot_df &lt;- gdp_df %&gt;% select(c(country_code, pc1, agriculture, military))\nlong_df &lt;- plot_df %&gt;% pivot_longer(!c(country_code, pc1), names_to = \"var\", values_to = \"val\")\nlong_df &lt;- long_df |&gt; mutate(\n  var = case_match(\n    var,\n    \"agriculture\" ~ \"Agricultural Production\",\n    \"military\" ~ \"Military Spending\"\n  )\n)\nggplot(long_df, aes(x = pc1, y = val, facet = var)) +\n    geom_point() +\n    facet_wrap(vars(var), scales = \"free\") +\n    dsan_theme(\"full\") +\n    labs(\n        x = \"Industrial-Export Dimension (First Principal Component)\",\n        y = \"% of GDP\"\n    )"
+  },
+  {
+    "objectID": "w11/index.html#pca-math-magic",
+    "href": "w11/index.html#pca-math-magic",
+    "title": "Week 11: Decision Trees",
+    "section": "PCA Math Magic",
+    "text": "PCA Math Magic\n\nRemember that our goal is to find the axes along which the data has greatest variance (out of all possible axes)\nLet’s create a dataset using a known data-generating process: one dimension with 75% of the total variance, and the second with 25%:\n\n\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(MASS)\nlibrary(ggforce)\nN &lt;- 300\nMu &lt;- c(0, 0)\nvar_x &lt;- 3\nvar_y &lt;- 1\nSigma &lt;- matrix(c(var_x, 0, 0, var_y), nrow=2)\ndata_df &lt;- as_tibble(mvrnorm(N, Mu, Sigma, empirical=TRUE))\ncolnames(data_df) &lt;- c(\"x\",\"y\")\n# data_df &lt;- data_df |&gt; mutate(\n#   within_5 = x &lt; 5,\n#   within_sq5 = x &lt; sqrt(5)\n# )\n#nrow(data_df |&gt; filter(within_5)) / nrow(data_df)\n#nrow(data_df |&gt; filter(within_sq5)) / nrow(data_df)\n# And plot\nggplot(data_df, aes(x=x, y=y)) +\n  # 68% ellipse\n  # stat_ellipse(geom=\"polygon\", type=\"norm\", linewidth=g_linewidth, level=0.68, fill=cbPalette[1], alpha=0.5) +\n  # stat_ellipse(type=\"norm\", linewidth=g_linewidth, level=0.68) +\n  geom_ellipse(\n    aes(x0=0, y0=0, a=var_x, b=var_y, angle=0),\n    linewidth = g_linewidth\n  ) +\n  # geom_ellipse(\n  #   aes(x0=0, y0=0, a=sqrt(5), b=1, angle=0),\n  #   linewidth = g_linewidth,\n  #   geom=\"polygon\",\n  #   fill=cbPalette[1], alpha=0.2\n  # ) +\n  # # 95% ellipse\n  # stat_ellipse(geom=\"polygon\", type=\"norm\", linewidth=g_linewidth, level=0.95, fill=cbPalette[1], alpha=0.25) +\n  # stat_ellipse(type=\"norm\", linewidth=g_linewidth, level=0.95) +\n  # # 99.7% ellipse\n  # stat_ellipse(geom='polygon', type=\"norm\", linewidth=g_linewidth, level=0.997, fill=cbPalette[1], alpha=0.125) +\n  # stat_ellipse(type=\"norm\", linewidth=g_linewidth, level=0.997) +\n  # Lines at x=0 and y=0\n  geom_vline(xintercept=0, linetype=\"dashed\", linewidth=g_linewidth / 2) +\n  geom_hline(yintercept=0, linetype=\"dashed\", linewidth = g_linewidth / 2) +\n  geom_point(\n    size = g_pointsize / 3,\n    #alpha=0.5\n  ) +\n  geom_rug(length=unit(0.5, \"cm\"), alpha=0.75) +\n  geom_segment(\n    aes(x=-var_x, y=0, xend=var_x, yend=0, color='PC1'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  geom_segment(\n    aes(x=0, y=-var_y, xend=0, yend=var_y, color='PC2'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  dsan_theme(\"half\") +\n  coord_fixed() +\n  remove_legend_title() +\n  scale_color_manual(\n    \"PC Vectors\",\n    values=c('PC1'=cbPalette[1], 'PC2'=cbPalette[2])\n  ) +\n  scale_x_continuous(breaks=seq(-5,5,1), limits=c(-5,5))\n\n\n\n\n\n\n\n\n\n\n\\[\n\\mathbf{\\Sigma} = \\begin{bmatrix}\n{\\color{#e69f00}3} & 0 \\\\\n0 & {\\color{#56b4e9}1}\n\\end{bmatrix}\n\\]\nTwo solutions to \\(\\mathbf{\\Sigma}\\mathbf{x} = \\lambda \\mathbf{x}\\):\n\n\\({\\color{#e69f00}\\lambda_1} = 3, {\\color{#e69f00}\\mathbf{x}_1} = (1, 0)^\\top\\)\n\\({\\color{#56b4e9}\\lambda_2} = 1, {\\color{#56b4e9}\\mathbf{x}_2} = (0, 1)^\\top\\)"
+  },
+  {
+    "objectID": "w11/index.html#now-with-pca-lines-neq-axes",
+    "href": "w11/index.html#now-with-pca-lines-neq-axes",
+    "title": "Week 11: Decision Trees",
+    "section": "Now With PCA Lines \\(\\neq\\) Axes",
+    "text": "Now With PCA Lines \\(\\neq\\) Axes\n\nWe now introduce covariance between \\(x\\) and \\(y\\) coordinates of our data:\n\n\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(MASS)\nN &lt;- 250\nMu &lt;- c(0,0)\nSigma &lt;- matrix(c(2,1,1,2), nrow=2)\ndata_df &lt;- as_tibble(mvrnorm(N, Mu, Sigma))\ncolnames(data_df) &lt;- c(\"x\",\"y\")\n# Start+end coordinates for the transformed vectors\npc1_rc &lt;- (3/2)*sqrt(2)\npc2_rc &lt;- (1/2)*sqrt(2)\nggplot(data_df, aes(x=x, y=y)) +\n  geom_ellipse(\n    aes(x0=0, y0=0, a=var_x, b=var_y, angle=pi/4),\n    linewidth = g_linewidth,\n    #fill='grey', alpha=0.0075\n  ) +\n  geom_vline(xintercept=0, linetype=\"dashed\", linewidth=g_linewidth / 2) +\n  geom_hline(yintercept=0, linetype=\"dashed\", linewidth = g_linewidth / 2) +\n  geom_point(\n    size = g_pointsize / 3,\n    #alpha=0.7\n  ) +\n  geom_rug(\n    length=unit(0.35, \"cm\"), alpha=0.75\n  ) +\n  geom_segment(\n    aes(x=-pc1_rc, y=-pc1_rc, xend=pc1_rc, yend=pc1_rc, color='PC1'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  geom_segment(\n    aes(x=pc2_rc, y=-pc2_rc, xend=-pc2_rc, yend=pc2_rc, color='PC2'),\n    linewidth = 1.5 * g_linewidth,\n    arrow = arrow(length = unit(0.1, \"npc\"))\n  ) +\n  dsan_theme(\"half\") +\n  remove_legend_title() +\n  coord_fixed() +\n  scale_x_continuous(breaks=seq(-4,4,2))\n\n\n\n\n\n\n\n\n\n\n\\[\n\\mathbf{\\Sigma}' = \\begin{bmatrix}\n2 & 1 \\\\\n1 & 2\n\\end{bmatrix}\n\\]\nStill two solutions to \\(\\mathbf{\\Sigma}'\\mathbf{x} = \\lambda \\mathbf{x}\\):\n\n\\({\\color{#e69f00}\\lambda_1} = 3, {\\color{#e69f00}\\mathbf{x}_1} = (1,1)^\\top\\)\n\\({\\color{#56b4e9}\\lambda_2} = 1, {\\color{#56b4e9}\\mathbf{x}_2} = (-1,1)^\\top\\)\n\n\n\n\n\n\nFor those interested in how we obtained \\(\\mathbf{\\Sigma}'\\) with same eigenvalues but different eigenvectors from \\(\\mathbf{\\Sigma}\\), see the appendix slide."
+  },
+  {
+    "objectID": "w11/index.html#pca-and-eigenvalues",
+    "href": "w11/index.html#pca-and-eigenvalues",
+    "title": "Week 11: Decision Trees",
+    "section": "PCA and Eigenvalues",
+    "text": "PCA and Eigenvalues\nTakeaway 1: Regardless of the coordinate system,\n\nEigenvectors give us axes of greatest variance: \\(\\mathbf{x}_1\\) is axis of greatest variance, \\(\\mathbf{x}_2\\) is axis of 2nd-greatest variance, etc.\nThe corresponding Eigenvalues tell us how much of the total variance is explained by this axis"
+  },
+  {
+    "objectID": "w11/index.html#pca-as-swiss-army-knife",
+    "href": "w11/index.html#pca-as-swiss-army-knife",
+    "title": "Week 11: Decision Trees",
+    "section": "PCA as Swiss Army Knife",
+    "text": "PCA as Swiss Army Knife\n\nPCA can be used for both reinterpretation and reduction of dimensions!\nConsider dataset \\(\\mathbf{X} = (X_1, \\ldots, X_n)\\), with \\(X_i \\in \\mathbb{R}^N\\)\n\n\n\n\n\nReinterpretation\n\nIf we project each \\(X_i\\) onto \\(N\\) principal component axes:\n\nDatapoints in PC space are linear combinations of the original datapoints! (← Takeaway 2a)\n\\[\n  X'_i = \\alpha_1X_1 + \\cdots + \\alpha_nX_n,\n  \\]\nwhere \\(\\forall i \\left[\\alpha_i \\neq 0\\right]\\)\nWe are just “re-plotting” our original data in PC space via change of coordinates\nThus we can recover the original data from the PC data\n\n\n\n\nReduction\n\nIf we project \\(X_i\\) onto \\(M &lt; N\\) principal component axes:\n\nDatapoints in PC space are still linear combinations of the original datapoints (← Takeaway 2b), but now some of the scalars (weights) are 0\nWe have performed statistically-principled dimensionality reduction (← Takeaway 3)\nHowever, original data cannot be recovered"
+  },
+  {
+    "objectID": "w11/index.html#t-sne-for-dimensionality-reduction",
+    "href": "w11/index.html#t-sne-for-dimensionality-reduction",
+    "title": "Week 11: Decision Trees",
+    "section": "t-SNE for Dimensionality Reduction",
+    "text": "t-SNE for Dimensionality Reduction\n\nt-Distributed Stochastic Neighbor Embedding (Van der Maaten and Hinton 2008)\nIf \\(x, y\\) are neighbors in \\(\\mathbb{R}^{1000}\\), t-SNE “succeeds” if they remain neighbors in \\(\\mathbb{R}^2\\)\nKey hyperparameter: perplexity! Roughly, this affects the “tradeoff” between preserving local structure vs. global structure in the lower-dimensional space\nChoose \\(x_i \\in \\mathbb{R}^{1000}\\), and treat it as the center of a Gaussian ball with variance \\(\\sigma_i\\)\nThe choice of \\(\\sigma_i\\) induces a probability distribution \\(P_i\\) over all other points (what is the probability of drawing \\(x_j\\) from \\(\\mathcal{N}(x_i, \\sigma_i)\\)?)\n\n\\[\n\\text{Perp}(P_i) = 2^{H(P_i)}\n\\]\n\nHigh perplexity \\(\\iff\\) high entropy (eventually Gaussian ball will grow so big that all other points will be equally likely!). So, vary perplexity, see how plot changes\nSee here for an absolutely incredible interactive walkthrough of t-SNE!"
+  },
+  {
+    "objectID": "w11/index.html#what-happens-as-we-vary-perplexity",
+    "href": "w11/index.html#what-happens-as-we-vary-perplexity",
+    "title": "Week 11: Decision Trees",
+    "section": "What Happens As We Vary Perplexity?",
+    "text": "What Happens As We Vary Perplexity?\n\n\n\n\n\n\nOriginal Dataset\n\n\n\n\n\n\n\n\n\nPerplexity = 2\n\n\n\n\n\n\n\nPerplexity = 5\n\n\n\n\n\n\n\nPerplexity = 30\n\n\n\n\n\n\n \n\n\n\n\n\nPerplexity = 50\n\n\n\n\n \n\n\n\n\n\nPerplexity = 100"
+  },
+  {
+    "objectID": "w11/index.html#quiz-time",
+    "href": "w11/index.html#quiz-time",
+    "title": "Week 11: Decision Trees",
+    "section": "Quiz Time!",
+    "text": "Quiz Time!\n\nQuiz 5.1 Link"
+  },
+  {
+    "objectID": "w11/index.html#questions",
+    "href": "w11/index.html#questions",
+    "title": "Week 11: Decision Trees",
+    "section": "20 Questions",
+    "text": "20 Questions\n\nI am thinking of some entity. What is it?\nWhat questions should we ask initially?\nWhy might questions on the left be more helpful than questions on the right?\n\n\n\n\nGeneral Questions\nSpecific Questions\n\n\n\n\nIs it a physical object?\nIs it a soda can?\n\n\nIs it an animal?\nIs it a cat?\n\n\nIs it bigger than a house?\nIs it the planet Mercury?\n\n\n\n\n\nFor linguistics fans: if a word \\(x\\) is one level “more general” than another word \\(y\\) (e.g., the word “camel” is one level more general than “bactrian camel”, a camel with two humps), we say that \\(x\\) is a hypernym of \\(y\\), and that \\(y\\) is a hyponym of \\(x\\). The WordNet project is a big tree of hypernym/hyponym relationships among all English words, where “entity” is the root node of the tree."
+  },
+  {
+    "objectID": "w11/index.html#we-can-quantify-how-good-a-sequence-of-questions-is",
+    "href": "w11/index.html#we-can-quantify-how-good-a-sequence-of-questions-is",
+    "title": "Week 11: Decision Trees",
+    "section": "We Can Quantify How Good a Sequence of Questions Is!",
+    "text": "We Can Quantify How Good a Sequence of Questions Is!\n\nAssume we’re playing with someone who only knows three objects \\(S = \\{\\text{Tree}, \\text{Bird}, \\text{Car}\\}\\), and they randomize among these such that\n\n\n\n\n\\(\\text{Choice}\\)\nTree\nBird\nCar\n\n\n\\(\\Pr(\\text{Choice})\\)\n0.25\n0.25\n0.50\n\n\n\n\nWhy might the “script” on the left be a better choice than script in the middle? Why are left and middle both better than right?\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\ncar\n\n Car?   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nbird\n\n Bird?   \n\ncar-&gt;bird\n\n  No   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\nbird-&gt;guessTree\n\n  No  \n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nbird2\n\n Bird?   \n\nbird-&gt;bird2\n\n  No   \n\nbird2-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird2-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\n\n\n\nExample adapted from this essay by Simon DeDeo!"
+  },
+  {
+    "objectID": "w11/index.html#lets-use-math",
+    "href": "w11/index.html#lets-use-math",
+    "title": "Week 11: Decision Trees",
+    "section": "Let’s Use Math",
+    "text": "Let’s Use Math\n\nAn optimal script minimizes average number of questions required to reach answer\n\n\n\n\n\n\n\n\n\n\n\nG\n\n  \n\ncar\n\n Car?   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nbird\n\n Bird?   \n\ncar-&gt;bird\n\n  No   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\nbird-&gt;guessTree\n\n  No  \n\n\n\n\n\n\\[\n\\begin{align*}\n&\\mathbb{E}[\\text{\\# Moves}] \\\\\n=\\,&1 \\cdot \\Pr(\\text{Car}) + 2 \\cdot \\Pr(\\text{Bird}) \\\\\n&+ 2 \\cdot \\Pr(\\text{Tree}) \\\\\n=\\,&1 \\cdot 0.5 + 2\\cdot 0.25 + 2\\cdot 0.25 \\\\\n=\\,&1.5\n\\end{align*}\n\\]\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\\[\n\\begin{align*}\n&\\mathbb{E}[\\text{\\# Moves}] \\\\\n=\\,&1 \\cdot \\Pr(\\text{Bird}) + 2 \\cdot \\Pr(\\text{Car}) \\\\\n&+ 2 \\cdot \\Pr(\\text{Tree}) \\\\\n=\\,&1 \\cdot 0.25 + 2\\cdot 0.5 + 2\\cdot 0.25 \\\\\n=\\,&1.75\n\\end{align*}\n\\]\n\n\n\n\n\n\n\n\n\nG\n\n  \n\nbird\n\n Bird?   \n\nguessBird\n\n Guess Bird   \n\nbird-&gt;guessBird\n\n  Yes   \n\nbird2\n\n Bird?   \n\nbird-&gt;bird2\n\n  No   \n\nbird2-&gt;guessBird\n\n  Yes   \n\ncar\n\n Car?   \n\nbird2-&gt;car\n\n  No   \n\nguessCar\n\n Guess Car   \n\ncar-&gt;guessCar\n\n  Yes   \n\nguessTree\n\n Guess Tree   \n\ncar-&gt;guessTree\n\n  No  \n\n\n\n\n\n\\[\n\\begin{align*}\n&\\mathbb{E}[\\text{\\# Moves}] \\\\\n=\\,&1 \\cdot \\Pr(\\text{Bird}) + 3 \\cdot \\Pr(\\text{Car}) \\\\\n&+ 3 \\cdot \\Pr(\\text{Tree}) \\\\\n=\\,&1 \\cdot 0.25 + 3\\cdot 0.5 + 3\\cdot 0.25 \\\\\n=\\,&2.5\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w11/index.html#lets-use-different-math",
+    "href": "w11/index.html#lets-use-different-math",
+    "title": "Week 11: Decision Trees",
+    "section": "Let’s Use (Different) Math",
+    "text": "Let’s Use (Different) Math\n\nForgetting about the individual trees for a moment, let’s compute the entropy of the RV representing the opponent’s choice.\nIn general, if \\(X\\) represents the opponent’s choice and \\(\\mathcal{R}_X = \\{1, 2, \\ldots, N\\}\\), the entropy of \\(X\\) is:\n\n\\[\n\\begin{align*}\nH(X) &= -\\sum_{i=1}^N \\Pr(X = i)\\log_2\\Pr(X = i)\n\\end{align*}\n\\]\n\nSo in our case we have:\n\n\\[\n\\begin{align*}\nH(X) &= -\\left[ \\Pr(X = \\text{Car}) \\log_2\\Pr(X = \\text{Car}) \\right. \\\\\n&\\phantom{= -[ } + \\Pr(X = \\text{Bird})\\log_2\\Pr(X = \\text{Bird}) \\\\\n&\\phantom{= -[ } + \\left. \\Pr(X = \\text{Tree})\\log_2\\Pr(X = \\text{Tree})\\right] \\\\\n&= -\\left[ (0.5)(-1) + (0.25)(-2) + (0.25)(-2) \\right] = 1.5~🧐\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w11/index.html#entropy-seems-helpful-here",
+    "href": "w11/index.html#entropy-seems-helpful-here",
+    "title": "Week 11: Decision Trees",
+    "section": "Entropy Seems Helpful Here…",
+    "text": "Entropy Seems Helpful Here…\n\nNow let’s imagine our opponent randomizes between all three options:\n\n\\[\n\\begin{align*}\n\\mathbb{E}[\\text{\\# Moves}] &= 1 \\cdot (1/3) + 2 \\cdot (1/3) + 2 \\cdot (1/3) \\\\\n&= \\frac{5}{3} \\approx 1.667\n\\end{align*}\n\\]\n\\[\n\\begin{align*}\nH(X) &= -\\left[ \\Pr(X = \\text{Car}) \\log_2\\Pr(X = \\text{Car}) \\right. \\\\\n&\\phantom{= -[ } + \\Pr(X = \\text{Bird})\\log_2\\Pr(X = \\text{Bird}) \\\\\n&\\phantom{= -[ } + \\left. \\Pr(X = \\text{Tree})\\log_2\\Pr(X = \\text{Tree})\\right] \\\\\n&= -\\left[ \\frac{1}{3}\\log_2\\left(\\frac{1}{3}\\right) + \\frac{1}{3}\\log_2\\left(\\frac{1}{3}\\right) + \\frac{1}{3}\\log_2\\left(\\frac{1}{3}\\right) \\right] \\approx 1.585~🧐\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w11/index.html#the-mathematical-relationship",
+    "href": "w11/index.html#the-mathematical-relationship",
+    "title": "Week 11: Decision Trees",
+    "section": "The Mathematical Relationship",
+    "text": "The Mathematical Relationship\n\nThe smallest possible number of levels \\(L^*\\) for a script based on RV \\(X\\) is exactly\n\\[\nL^* = \\lceil H(X) \\rceil\n\\]\nIntuition: Although \\(\\mathbb{E}[\\text{\\# Moves}] = 1.5\\), we cannot have a tree with 1.5 levels!\nEntropy provides a lower bound on \\(\\mathbb{E}[\\text{\\# Moves}]\\):\n\n\\[\n\\mathbb{E}[\\text{\\# Moves}] \\geq H(X)\n\\]"
+  },
+  {
+    "objectID": "w11/index.html#decision-tree-structure",
+    "href": "w11/index.html#decision-tree-structure",
+    "title": "Week 11: Decision Trees",
+    "section": "Decision Tree Structure",
+    "text": "Decision Tree Structure\n\nLeaf Nodes represent outcomes\nBranch Nodes represent questions\n\n\n\n\n\n\n\n\nG\n\n  \n\nroot\n\n Root Node   \n\nleaf1\n\n Leaf Node 1   \n\nroot-&gt;leaf1\n\n  Answer 1   \n\nbranch1\n\n Branch Node 1   \n\nroot-&gt;branch1\n\n  Answer 2   \n\nbranch2\n\n Branch Node 2   \n\nroot-&gt;branch2\n\n  Answer 3   \n\nleaf2\n\n Leaf Node 2   \n\nbranch1-&gt;leaf2\n\n  Answer 1   \n\nleaf3\n\n Leaf Node 3   \n\nbranch1-&gt;leaf3\n\n  Answer 2   \n\nleaf4\n\n Leaf Node 4   \n\nbranch1-&gt;leaf4\n\n  Answer 3   \n\nleaf5\n\n Leaf Node 5   \n\nbranch2-&gt;leaf5\n\n  Answer 1   \n\nleaf6\n\n Leaf Node 6   \n\nbranch2-&gt;leaf6\n\n  Answer 2"
+  },
+  {
+    "objectID": "w11/index.html#how-are-they-built",
+    "href": "w11/index.html#how-are-they-built",
+    "title": "Week 11: Decision Trees",
+    "section": "How Are They Built?",
+    "text": "How Are They Built?\n\nExample: we find ourselves at some point on the globe, at some time during the year, and we’re trying to see whether this point+time are good for skiing\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(lubridate)\nday &lt;- seq(ymd('2023-01-01'),ymd('2023-12-31'),by='weeks')\nlongitude &lt;- seq(-90, 90, by=5)\nski_df &lt;- expand_grid(day, longitude)\n#ski_df |&gt; head()\n# Data-generating process\nski_df &lt;- ski_df |&gt; mutate(\n  near_equator = abs(longitude) &lt;= 30,\n  northern = longitude &gt; 30,\n  southern = longitude &lt; -30,\n  first_3m = day &lt; ymd('2023-04-01'),\n  last_3m = day &gt;= ymd('2023-10-01'),\n  middle_6m = (day &gt;= ymd('2023-04-01')) & (day &lt; ymd('2023-10-01')),\n  snowfall = 0\n)\n# Update the non-zero sections\nmu_snow &lt;- 10\nsd_snow &lt;- 2.5\n# How many northern + first 3 months\nnum_north_first_3 &lt;- nrow(ski_df[ski_df$northern & ski_df$first_3m,])\nski_df[ski_df$northern & ski_df$first_3m, 'snowfall'] = rnorm(num_north_first_3, mu_snow, sd_snow)\n# Northerns + last 3 months\nnum_north_last_3 &lt;- nrow(ski_df[ski_df$northern & ski_df$last_3m,])\nski_df[ski_df$northern & ski_df$last_3m, 'snowfall'] = rnorm(num_north_last_3, mu_snow, sd_snow)\n# How many southern + middle 6 months\nnum_south_mid_6 &lt;- nrow(ski_df[ski_df$southern & ski_df$middle_6m,])\nski_df[ski_df$southern & ski_df$middle_6m, 'snowfall'] = rnorm(num_south_mid_6, mu_snow, sd_snow)\n# And collapse into binary var\nski_df['good_skiing'] = ski_df$snowfall &gt; 0\n# This converts day into an int\nski_df &lt;- ski_df |&gt; mutate(\n  day_num = lubridate::yday(day)\n)\n#print(nrow(ski_df))\nski_sample &lt;- ski_df |&gt; sample_n(100)\nski_sample |&gt; write_csv(\"assets/ski.csv\")\nggplot(ski_sample, aes(x=day, y=longitude, shape=good_skiing, color=good_skiing)) +\n  geom_point(\n    size = g_pointsize / 2, stroke=1.5,\n  ) +\n  dsan_theme() +\n  labs(\n    x = \"Time of Year\",\n    y = \"Longitude\",\n    shape = \"Good Skiing?\"\n  ) +\n  scale_shape_manual(name=\"Good Skiing?\", values=c(1, 3)) +\n  scale_color_manual(name=\"Good Skiing?\", values=c(cbPalette[1], cbPalette[2])) +\n  scale_x_continuous(\n    breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),\n    labels=c(\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\")\n  ) +\n  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))\n\n\n\n\n\n(Example adapted from CS229: Machine Learning, Stanford University)"
+  },
+  {
+    "objectID": "w11/index.html#zero-splits",
+    "href": "w11/index.html#zero-splits",
+    "title": "Week 11: Decision Trees",
+    "section": "Zero Splits",
+    "text": "Zero Splits\n\nStarting out: no splits at all, just guess most frequent class: bad skiing\n\n\n\nCode\nski_sample |&gt; count(good_skiing)\n\n\n# A tibble: 2 × 2\n  good_skiing     n\n  &lt;lgl&gt;       &lt;int&gt;\n1 FALSE          66\n2 TRUE           34\n\n\n\nThis gives us \\(\\Pr(\\text{Correct Guess}) = 0.66\\)\nLet \\(R_i\\) denote the region we’re considering at level \\(i\\), and \\(\\widehat{p}_c(R_i)\\) be the proportion of points in region \\(R_i\\) that are of class \\(c\\)\nHere, since we’re not splitting the region up at all (yet),"
+  },
+  {
+    "objectID": "w11/index.html#judging-split-options",
+    "href": "w11/index.html#judging-split-options",
+    "title": "Week 11: Decision Trees",
+    "section": "Judging Split Options",
+    "text": "Judging Split Options\nLet’s think through two choices for the first split:\n\n\n\n\n\\(\\text{longitude} \\geq -30\\):\n\n\n\nCode\nski_sample &lt;- ski_sample |&gt; mutate(\n  lon_gt_n30 = longitude &gt;= -30\n)\nski_sample |&gt; group_by(lon_gt_n30) |&gt; count(good_skiing)\n\n\n# A tibble: 4 × 3\n# Groups:   lon_gt_n30 [2]\n  lon_gt_n30 good_skiing     n\n  &lt;lgl&gt;      &lt;lgl&gt;       &lt;int&gt;\n1 FALSE      FALSE          17\n2 FALSE      TRUE           19\n3 TRUE       FALSE          49\n4 TRUE       TRUE           15\n\n\nThis gives us the rule\n\\[\n\\widehat{C}(x) = \\begin{cases}\n0 &\\text{if }\\text{longitude} \\geq -30, \\\\\n0 &\\text{otherwise}\n\\end{cases}\n\\]\n\n\n\n\\(\\text{month} &lt; \\text{October}\\)\n\n\n\nCode\nski_sample &lt;- ski_sample |&gt; mutate(\n  month_lt_oct = day &lt; ymd('2023-10-01')\n)\nski_sample |&gt; group_by(month_lt_oct) |&gt; count(good_skiing)\n\n\n# A tibble: 4 × 3\n# Groups:   month_lt_oct [2]\n  month_lt_oct good_skiing     n\n  &lt;lgl&gt;        &lt;lgl&gt;       &lt;int&gt;\n1 FALSE        FALSE          16\n2 FALSE        TRUE            7\n3 TRUE         FALSE          50\n4 TRUE         TRUE           27\n\n\nThis gives us the rule\n\\[\n\\widehat{C}(x) = \\begin{cases}\n0 &\\text{if }\\text{month} &lt; \\text{October}, \\\\\n0 &\\text{otherwise}\n\\end{cases}\n\\]\n\n\n\nSo, if we judge purely on acuracy scores… it seems like we’re not getting anywhere here (but, we know we are getting somewhere!)"
+  },
+  {
+    "objectID": "w11/index.html#scikit-learn",
+    "href": "w11/index.html#scikit-learn",
+    "title": "Week 11: Decision Trees",
+    "section": "Scikit-Learn",
+    "text": "Scikit-Learn\n\n\nCode\nimport pandas as pd\nimport numpy as np\nimport sklearn\nfrom sklearn.tree import DecisionTreeClassifier\nsklearn.set_config(display='text')\nski_df = pd.read_csv(\"assets/ski.csv\")\nski_df['good_skiing'] = ski_df['good_skiing'].astype(int)\nX = ski_df[['day_num', 'longitude']]\ny = ski_df[['good_skiing']].values\ndtc = DecisionTreeClassifier(\n  criterion = \"entropy\"\n)\ndtc.fit(X, y)\n\n\nDecisionTreeClassifier(criterion='entropy')\n\n\nCode\nsklearn.tree.plot_tree(dtc)"
+  },
+  {
+    "objectID": "w11/index.html#continuous-values",
+    "href": "w11/index.html#continuous-values",
+    "title": "Week 11: Decision Trees",
+    "section": "Continuous Values",
+    "text": "Continuous Values\n\nWhat if we replace binary labels with continuous values: in this case, cm of snow?\n\n\n\nCode\n#format_snow &lt;- function(x) sprintf('%.2f', x)\nformat_snow &lt;- function(x) round(x, 2)\nski_sample['snowfall_str'] &lt;- sapply(ski_sample$snowfall, format_snow)\n#ski_df |&gt; head()\n#print(nrow(ski_df))\nggplot(ski_sample, aes(x=day, y=longitude, label=snowfall_str)) +\n  geom_text(size = 6) +\n  dsan_theme() +\n  labs(\n    x = \"Time of Year\",\n    y = \"Longitude\",\n    shape = \"Good Skiing?\"\n  ) +\n  scale_shape_manual(values=c(1, 3)) +\n  scale_x_continuous(\n    breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),\n    labels=c(\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\")\n  ) +\n  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))\n\n\n\n\n\n(Example adapted from CS229: Machine Learning, Stanford University)"
+  },
+  {
+    "objectID": "w11/index.html#looking-towards-regression",
+    "href": "w11/index.html#looking-towards-regression",
+    "title": "Week 11: Decision Trees",
+    "section": "Looking Towards Regression",
+    "text": "Looking Towards Regression\n\nHow could we make a decision tree to predict \\(y\\) from \\(x\\) for this data?\n\n\n\nCode\nlibrary(tidyverse)\nlibrary(latex2exp)\nexpr_pi2 &lt;- TeX(\"$\\\\frac{\\\\pi}{2}$\")\nexpr_pi &lt;- TeX(\"$\\\\pi$\")\nexpr_3pi2 &lt;- TeX(\"$\\\\frac{3\\\\pi}{2}$\")\nexpr_2pi &lt;- TeX(\"$2\\\\pi$\")\nx_range &lt;- 2 * pi\nx_coords &lt;- seq(0, x_range, by = x_range / 100)\nnum_x_coords &lt;- length(x_coords)\ndata_df &lt;- tibble(x = x_coords)\ndata_df &lt;- data_df |&gt; mutate(\n  y_raw = sin(x),\n  y_noise = rnorm(num_x_coords, 0, 0.15)\n)\ndata_df &lt;- data_df |&gt; mutate(\n  y = y_raw + y_noise\n)\n#y_coords &lt;- y_raw_coords + y_noise\n#y_coords &lt;- y_raw_coords\n#data_df &lt;- tibble(x = x, y = y)\nreg_tree_plot &lt;- ggplot(data_df, aes(x=x, y=y)) +\n  geom_point(size = g_pointsize / 2) +\n  dsan_theme(\"half\") +\n  labs(\n    x = \"Feature\",\n    y = \"Label\"\n  ) +\n  geom_vline(\n    xintercept = pi,\n    linewidth = g_linewidth,\n    linetype = \"dashed\"\n  ) +\n  scale_x_continuous(\n    breaks=c(0,pi/2,pi,(3/2)*pi,2*pi),\n    labels=c(\"0\",expr_pi2,expr_pi,expr_3pi2,expr_2pi)\n  )\nreg_tree_plot"
+  },
+  {
+    "objectID": "w11/index.html#a-zero-level-tree",
+    "href": "w11/index.html#a-zero-level-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "A Zero-Level Tree",
+    "text": "A Zero-Level Tree\n\nTrivial example: \\(\\widehat{y}(x) = 0\\). How well does this do?\n\n\n\nCode\nlibrary(ggtext)\n# x_lt_pi = data_df |&gt; filter(x &lt; pi)\n# mean(x_lt_pi$y)\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err0 = (y - 0)^2\n)\nmse0 &lt;- mean(data_df$pred_sq_err0)\nmse0_str &lt;- sprintf(\"%.3f\", mse0)\nreg_tree_plot +\n  geom_hline(\n    yintercept = 0,\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=0, yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse0_str)),\n    size = 10,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/index.html#a-one-level-binary-tree",
+    "href": "w11/index.html#a-one-level-binary-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "A One-Level Binary Tree",
+    "text": "A One-Level Binary Tree\n\n\n\n\nLet’s introduce a single branch node:\n\n\\[\n\\widehat{y}(x) = \\begin{cases}\n\\phantom{-}\\frac{2}{\\pi} &\\text{if }x &lt; \\pi, \\\\\n-\\frac{2}{\\pi} &\\text{otherwise.}\n\\end{cases}\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nget_y_pred &lt;- function(x) ifelse(x &lt; pi, 2/pi, -2/pi)\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err1 = (y - get_y_pred(x))^2\n)\nmse1 &lt;- mean(data_df$pred_sq_err1)\nmse1_str &lt;- sprintf(\"%.3f\", mse1)\ndecision_df &lt;- tribble(\n  ~x, ~xend, ~y, ~yend,\n  0, pi, 2/pi, 2/pi,\n  pi, 2*pi, -2/pi, -2/pi\n)\nreg_tree_plot +\n  geom_segment(\n    data=decision_df,\n    aes(x=x, xend=xend, y=y, yend=yend),\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=get_y_pred(x), yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse1_str)),\n    size = 9,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/index.html#a-one-level-ternary-tree",
+    "href": "w11/index.html#a-one-level-ternary-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "A One-Level Ternary Tree",
+    "text": "A One-Level Ternary Tree\n\n\n\n\nNow let’s allow three answers:\n\n\\[\n\\widehat{y}(x) = \\begin{cases}\n\\phantom{-}\\frac{9}{4\\pi} &\\text{if }x &lt; \\frac{2\\pi}{3}, \\\\\n\\phantom{-}0 &\\text{if }\\frac{2\\pi}{3} \\leq x \\leq \\frac{4\\pi}{3} \\\\\n-\\frac{9}{4\\pi} &\\text{otherwise.}\n\\end{cases}\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\nCode\ncut1 &lt;- (2/3) * pi\ncut2 &lt;- (4/3) * pi\npos_mean &lt;- 9 / (4*pi)\nget_y_pred &lt;- function(x) ifelse(x &lt; cut1, pos_mean, ifelse(x &lt; cut2, 0, -pos_mean))\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err1b = (y - get_y_pred(x))^2\n)\nmse1b &lt;- mean(data_df$pred_sq_err1b)\nmse1b_str &lt;- sprintf(\"%.3f\", mse1b)\ndecision_df &lt;- tribble(\n  ~x, ~xend, ~y, ~yend,\n  0, (2/3)*pi, pos_mean, pos_mean,\n  (2/3)*pi, (4/3)*pi, 0, 0,\n  (4/3)*pi, 2*pi, -pos_mean, -pos_mean\n)\nreg_tree_plot +\n  geom_segment(\n    data=decision_df,\n    aes(x=x, xend=xend, y=y, yend=yend),\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=get_y_pred(x), yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse1b_str)),\n    size = 9,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/index.html#another-one-level-ternary-tree",
+    "href": "w11/index.html#another-one-level-ternary-tree",
+    "title": "Week 11: Decision Trees",
+    "section": "Another One-Level Ternary Tree",
+    "text": "Another One-Level Ternary Tree\n\n\n\n\nNow let’s allow an uneven split:\n\n\\[\n\\widehat{y}(x) = \\begin{cases}\n\\phantom{-}0.695 &\\text{if }x &lt; (1-c)\\pi, \\\\\n\\phantom{-}0 &\\text{if }(1-c)\\pi \\leq x \\leq (1+c)\\pi \\\\\n-0.695 &\\text{otherwise,}\n\\end{cases}\n\\]\nwith \\(c \\approx 0.113\\), gives us:\n\n\n\n\n\n\n\n\n\n\n\n\nCode\nc &lt;- 0.113\ncut1 &lt;- (1 - c) * pi\ncut2 &lt;- (1 + c) * pi\npos_mean &lt;- 0.695\nget_y_pred &lt;- function(x) ifelse(x &lt; cut1, pos_mean, ifelse(x &lt; cut2, 0, -pos_mean))\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err1b = (y - get_y_pred(x))^2\n)\nmse1b &lt;- mean(data_df$pred_sq_err1b)\nmse1b_str &lt;- sprintf(\"%.3f\", mse1b)\ndecision_df &lt;- tribble(\n  ~x, ~xend, ~y, ~yend,\n  0, cut1, pos_mean, pos_mean,\n  cut1, cut2, 0, 0,\n  cut2, 2*pi, -pos_mean, -pos_mean\n)\nreg_tree_plot +\n  geom_segment(\n    data=decision_df,\n    aes(x=x, xend=xend, y=y, yend=yend),\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=get_y_pred(x), yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse1b_str)),\n    size = 9,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )"
+  },
+  {
+    "objectID": "w11/index.html#on-to-the-code",
+    "href": "w11/index.html#on-to-the-code",
+    "title": "Week 11: Decision Trees",
+    "section": "On to the Code!",
+    "text": "On to the Code!\n\nScikit-learn has both DecisionTreeClassifier  and DecisionTreeRegressor  classes!"
+  },
+  {
+    "objectID": "w11/index.html#the-wisdom-of-crowds",
+    "href": "w11/index.html#the-wisdom-of-crowds",
+    "title": "Week 11: Decision Trees",
+    "section": "The Wisdom of Crowds",
+    "text": "The Wisdom of Crowds\n\nImagine you’re assembling a darts team. You can choose a team of 4 from among the following 8 players:\n\n\n\n\n\n\n\n\nPlayer\nSkill\n\n\n\n\nLarry “Lefty” Lechuga\nAlways hits 5cm left of bullseye\n\n\nRico Righty\nAlways hits 5cm right of bullseye\n\n\nLil Uppy Vert\nAlways hits 5cm above bullseye\n\n\nInconsistent Inkyung\nHits bullseye 50% of time, other 50% hits random point\n\n\nDiagonal Dave\nAlways hits 5cm above right of bullseye\n\n\nDobert Downy Jr.\nAlways hits 5cm below bullseye\n\n\nGregor “the GOAT” Gregorsson\nHits bullseye 99.9% of time, other 0.1% hits random point\n\n\nCraig\nTop 25 Craigs of 2023"
+  },
+  {
+    "objectID": "w11/index.html#your-opponents",
+    "href": "w11/index.html#your-opponents",
+    "title": "Week 11: Decision Trees",
+    "section": "Your Opponents",
+    "text": "Your Opponents"
+  },
+  {
+    "objectID": "w11/index.html#high-variance-low-bias",
+    "href": "w11/index.html#high-variance-low-bias",
+    "title": "Week 11: Decision Trees",
+    "section": "High Variance, Low Bias",
+    "text": "High Variance, Low Bias"
+  },
+  {
+    "objectID": "w11/index.html#the-wisdom-of-sheep",
+    "href": "w11/index.html#the-wisdom-of-sheep",
+    "title": "Week 11: Decision Trees",
+    "section": "The Wisdom of Sheep",
+    "text": "The Wisdom of Sheep\n\nUnfortunately, the “wisdom of crowds” phenomenon only works if everyone in the crowd is unable to communicate\nThe minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders , and the effect goes away (biases no longer cancel out)\nThe takeaway for effectively training random forests: ensure that each tree has a separate (ideally orthogonal) slice of the full dataset, and has to infer labels from only that slice!"
+  },
+  {
+    "objectID": "w11/index.html#appendix-covariance-matrix-magic",
+    "href": "w11/index.html#appendix-covariance-matrix-magic",
+    "title": "Week 11: Decision Trees",
+    "section": "Appendix: Covariance Matrix Magic",
+    "text": "Appendix: Covariance Matrix Magic\n\nFor those interested (skipping over lots of matrix math): say you have a 2D covariance matrix \\(\\mathbf{\\Sigma}\\) with eigensystem \\((\\lambda_1, \\mathbf{x}_1), (\\lambda_2, \\mathbf{x}_2)\\)\nYou can obtain a new covariance matrix \\(\\mathbf{\\Sigma}'\\) which has the same eigenvalues as \\(\\mathbf{\\Sigma}\\) but has eigenvectors \\(\\mathbf{x}'_1\\) and \\(\\mathbf{x}'_2\\), so long as these two eigenvectors are orthogonal.\nExample: you want to retain the eigenvalues \\(\\lambda_1 = 3\\) and \\(\\lambda_2 = 1\\) from the quiz-review slides, but want the data’s first principal component to be \\(\\mathbf{x}'_1 = (2,1)^\\top\\) and its second principal component to be \\(\\mathbf{x}'_2 = (-1,2)^\\top\\).\nBy constructing the Eigenmatrix \\(\\mathbf{V} = \\left[\\begin{smallmatrix} \\mathbf{x}'_1 & \\mathbf{x}'_2\\end{smallmatrix}\\right]\\) (the matrix whose columns are \\(\\mathbf{x}'_1\\) and \\(\\mathbf{x}'_2\\)), we can obtain \\(\\mathbf{\\Sigma}'\\) by computing:\n\n\\[\n\\mathbf{\\Sigma}' = \\mathbf{V}\\mathbf{\\Sigma}\\mathbf{V}^{-1}.\n\\]\n\n(Exercise: recreate the plot from the earlier PCA slides, but with these desired first and second principal components! See here for a deeper dive into why this works!)"
+  },
+  {
+    "objectID": "w11/index.html#references",
+    "href": "w11/index.html#references",
+    "title": "Week 11: Decision Trees",
+    "section": "References",
+    "text": "References\n\n\nVan der Maaten, Laurens, and Geoffrey Hinton. 2008. “Visualizing Data Using t-SNE.” Journal of Machine Learning Research 9 (11)."
   },
   {
     "objectID": "writeups/empty-files-error/index.html",
@@ -4078,7 +4533,7 @@
     "href": "w06/index.html#the-scariest-dataset-of-all-time",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "The Scariest Dataset of All Time",
-    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x12055d120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x12055d120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x12055d260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x12055d260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
+    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1209cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1209cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1209cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1209cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
   },
   {
     "objectID": "w06/index.html#it-doesnt-end-there",
@@ -4316,7 +4771,7 @@
     "href": "w06/slides.html#exploratory-data-analysis-eda",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "Exploratory Data Analysis (EDA)",
-    "text": "Exploratory Data Analysis (EDA)\n\nIn contrast to confirmatory data analysis\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_understand\n\n Understand  \n\ncluster_expl\n\n Exploratory  \n\ncluster_conf\n\n Confirmatory  \n\ncluster_clean\n\n Clean  \n\ncluster_import\n\n    \n\ncluster_tidy\n\n     \n\nImport\n\n Import   \n\nTidy\n\n Tidy   \n\nImport-&gt;Tidy\n\n    \n\nimportLibs\n\n R:  read_csv() Python:  pd.read_csv()   \n\nV\n\n Visualize   \n\nTidy-&gt;V\n\n    \n\ntidyLibraries\n\n R:  tidyverse Python:  Pandas   \n\nModel\n\n Model   \n\nV-&gt;Model\n\n    \n\nvizLibraries\n\n R:  ggplot2 Python:  seaborn   \n\nModel-&gt;V\n\n    \n\nCommunicate\n\n Communicate   \n\nModel-&gt;Communicate\n\n    \n\nconfLibraries\n\n R:  e1071 Python:  scikit-learn"
+    "text": "Exploratory Data Analysis (EDA)\n\nIn contrast to confirmatory data analysis\n\n\n\n\n\n\n\n\nG\n\n \n\ncluster_understand\n\n Understand  \n\ncluster_conf\n\n Confirmatory  \n\ncluster_expl\n\n Exploratory  \n\ncluster_clean\n\n Clean  \n\ncluster_tidy\n\n    \n\ncluster_import\n\n     \n\nImport\n\n Import   \n\nTidy\n\n Tidy   \n\nImport-&gt;Tidy\n\n    \n\nimportLibs\n\n R:  read_csv() Python:  pd.read_csv()   \n\nV\n\n Visualize   \n\nTidy-&gt;V\n\n    \n\ntidyLibraries\n\n R:  tidyverse Python:  Pandas   \n\nModel\n\n Model   \n\nV-&gt;Model\n\n    \n\nvizLibraries\n\n R:  ggplot2 Python:  seaborn   \n\nModel-&gt;V\n\n    \n\nCommunicate\n\n Communicate   \n\nModel-&gt;Communicate\n\n    \n\nconfLibraries\n\n R:  e1071 Python:  scikit-learn"
   },
   {
     "objectID": "w06/slides.html#exploratory-data-analysis-eda-1",
