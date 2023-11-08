@@ -1778,58 +1778,69 @@ branch2-&gt;leaf6
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb8-3"><a href="#cb8-3"></a>day <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>),<span class="fu">ymd</span>(<span class="st">'2023-12-31'</span>),<span class="at">by=</span><span class="st">'weeks'</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a>latitude <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by=</span><span class="dv">5</span>)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>ski_df <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(day, latitude)</span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#ski_df |&gt; head()</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co"># Data-generating process</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>ski_df <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb8-9"><a href="#cb8-9"></a>  <span class="at">near_equator =</span> <span class="fu">abs</span>(latitude) <span class="sc">&lt;=</span> <span class="dv">30</span>,</span>
-<span id="cb8-10"><a href="#cb8-10"></a>  <span class="at">northern =</span> latitude <span class="sc">&gt;</span> <span class="dv">30</span>,</span>
-<span id="cb8-11"><a href="#cb8-11"></a>  <span class="at">southern =</span> latitude <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">30</span>,</span>
-<span id="cb8-12"><a href="#cb8-12"></a>  <span class="at">first_3m =</span> day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>),</span>
-<span id="cb8-13"><a href="#cb8-13"></a>  <span class="at">last_3m =</span> day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>),</span>
-<span id="cb8-14"><a href="#cb8-14"></a>  <span class="at">middle_6m =</span> (day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>)) <span class="sc">&amp;</span> (day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>)),</span>
-<span id="cb8-15"><a href="#cb8-15"></a>  <span class="at">snowfall =</span> <span class="dv">0</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a>)</span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co"># Update the non-zero sections</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a>mu_snow <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a>sd_snow <span class="ot">&lt;-</span> <span class="fl">2.5</span></span>
-<span id="cb8-20"><a href="#cb8-20"></a><span class="co"># How many northern + first 3 months</span></span>
-<span id="cb8-21"><a href="#cb8-21"></a>num_north_first_3 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>first_3m,])</span>
-<span id="cb8-22"><a href="#cb8-22"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>first_3m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_first_3, mu_snow, sd_snow)</span>
-<span id="cb8-23"><a href="#cb8-23"></a><span class="co"># Northerns + last 3 months</span></span>
-<span id="cb8-24"><a href="#cb8-24"></a>num_north_last_3 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>last_3m,])</span>
-<span id="cb8-25"><a href="#cb8-25"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>last_3m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_last_3, mu_snow, sd_snow)</span>
-<span id="cb8-26"><a href="#cb8-26"></a><span class="co"># How many southern + middle 6 months</span></span>
-<span id="cb8-27"><a href="#cb8-27"></a>num_south_mid_6 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>southern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>middle_6m,])</span>
-<span id="cb8-28"><a href="#cb8-28"></a>ski_df[ski_df<span class="sc">$</span>southern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>middle_6m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_south_mid_6, mu_snow, sd_snow)</span>
-<span id="cb8-29"><a href="#cb8-29"></a><span class="co"># And collapse into binary var</span></span>
-<span id="cb8-30"><a href="#cb8-30"></a>ski_df[<span class="st">'good_skiing'</span>] <span class="ot">=</span> ski_df<span class="sc">$</span>snowfall <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb8-31"><a href="#cb8-31"></a><span class="co"># This converts day into an int</span></span>
-<span id="cb8-32"><a href="#cb8-32"></a>ski_df <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb8-33"><a href="#cb8-33"></a>  <span class="at">day_num =</span> lubridate<span class="sc">::</span><span class="fu">yday</span>(day)</span>
-<span id="cb8-34"><a href="#cb8-34"></a>)</span>
-<span id="cb8-35"><a href="#cb8-35"></a><span class="co">#print(nrow(ski_df))</span></span>
-<span id="cb8-36"><a href="#cb8-36"></a>ski_sample <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="dv">100</span>)</span>
-<span id="cb8-37"><a href="#cb8-37"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/ski.csv"</span>)</span>
-<span id="cb8-38"><a href="#cb8-38"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>latitude, <span class="at">shape=</span>good_skiing, <span class="at">color=</span>good_skiing)) <span class="sc">+</span></span>
-<span id="cb8-39"><a href="#cb8-39"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb8-40"><a href="#cb8-40"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>, <span class="at">stroke=</span><span class="fl">1.5</span>,</span>
-<span id="cb8-41"><a href="#cb8-41"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-42"><a href="#cb8-42"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
-<span id="cb8-43"><a href="#cb8-43"></a>  <span class="fu">labs</span>(</span>
-<span id="cb8-44"><a href="#cb8-44"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
-<span id="cb8-45"><a href="#cb8-45"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>,</span>
-<span id="cb8-46"><a href="#cb8-46"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
-<span id="cb8-47"><a href="#cb8-47"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-48"><a href="#cb8-48"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">"Good Skiing?"</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
-<span id="cb8-49"><a href="#cb8-49"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">"Good Skiing?"</span>, <span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>])) <span class="sc">+</span></span>
-<span id="cb8-50"><a href="#cb8-50"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb8-51"><a href="#cb8-51"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-02-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-05-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-06-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-07-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-08-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-09-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-11-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-12-01'</span>)),</span>
-<span id="cb8-52"><a href="#cb8-52"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
-<span id="cb8-53"><a href="#cb8-53"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-54"><a href="#cb8-54"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>day <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>),<span class="fu">ymd</span>(<span class="st">'2023-12-31'</span>),<span class="at">by=</span><span class="st">'weeks'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a>lat_bw <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>latitude <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by=</span>lat_bw)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>ski_df <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(day, latitude)</span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#ski_df |&gt; head()</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co"># Data-generating process</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>lat_cutoff <span class="ot">&lt;-</span> <span class="dv">35</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>ski_df <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb8-12"><a href="#cb8-12"></a>  <span class="at">near_equator =</span> <span class="fu">abs</span>(latitude) <span class="sc">&lt;=</span> lat_cutoff,</span>
+<span id="cb8-13"><a href="#cb8-13"></a>  <span class="at">northern =</span> latitude <span class="sc">&gt;</span> lat_cutoff,</span>
+<span id="cb8-14"><a href="#cb8-14"></a>  <span class="at">southern =</span> latitude <span class="sc">&lt;</span> <span class="sc">-</span>lat_cutoff,</span>
+<span id="cb8-15"><a href="#cb8-15"></a>  <span class="at">first_3m =</span> day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>),</span>
+<span id="cb8-16"><a href="#cb8-16"></a>  <span class="at">last_3m =</span> day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>),</span>
+<span id="cb8-17"><a href="#cb8-17"></a>  <span class="at">middle_6m =</span> (day <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>)) <span class="sc">&amp;</span> (day <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>)),</span>
+<span id="cb8-18"><a href="#cb8-18"></a>  <span class="at">snowfall =</span> <span class="dv">0</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a>)</span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="co"># Update the non-zero sections</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a>mu_snow <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a>sd_snow <span class="ot">&lt;-</span> <span class="fl">2.5</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="co"># How many northern + first 3 months</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a>num_north_first_3 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>first_3m,])</span>
+<span id="cb8-25"><a href="#cb8-25"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>first_3m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_first_3, mu_snow, sd_snow)</span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="co"># Northerns + last 3 months</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a>num_north_last_3 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>last_3m,])</span>
+<span id="cb8-28"><a href="#cb8-28"></a>ski_df[ski_df<span class="sc">$</span>northern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>last_3m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_north_last_3, mu_snow, sd_snow)</span>
+<span id="cb8-29"><a href="#cb8-29"></a><span class="co"># How many southern + middle 6 months</span></span>
+<span id="cb8-30"><a href="#cb8-30"></a>num_south_mid_6 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(ski_df[ski_df<span class="sc">$</span>southern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>middle_6m,])</span>
+<span id="cb8-31"><a href="#cb8-31"></a>ski_df[ski_df<span class="sc">$</span>southern <span class="sc">&amp;</span> ski_df<span class="sc">$</span>middle_6m, <span class="st">'snowfall'</span>] <span class="ot">=</span> <span class="fu">rnorm</span>(num_south_mid_6, mu_snow, sd_snow)</span>
+<span id="cb8-32"><a href="#cb8-32"></a><span class="co"># And collapse into binary var</span></span>
+<span id="cb8-33"><a href="#cb8-33"></a>ski_df[<span class="st">'good_skiing'</span>] <span class="ot">=</span> ski_df<span class="sc">$</span>snowfall <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb8-34"><a href="#cb8-34"></a><span class="co"># This converts day into an int</span></span>
+<span id="cb8-35"><a href="#cb8-35"></a>ski_df <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb8-36"><a href="#cb8-36"></a>  <span class="at">day_num =</span> lubridate<span class="sc">::</span><span class="fu">yday</span>(day)</span>
+<span id="cb8-37"><a href="#cb8-37"></a>)</span>
+<span id="cb8-38"><a href="#cb8-38"></a><span class="co">#print(nrow(ski_df))</span></span>
+<span id="cb8-39"><a href="#cb8-39"></a>ski_sample <span class="ot">&lt;-</span> ski_df <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> sample_size)</span>
+<span id="cb8-40"><a href="#cb8-40"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/ski.csv"</span>)</span>
+<span id="cb8-41"><a href="#cb8-41"></a><span class="fu">ggplot</span>(</span>
+<span id="cb8-42"><a href="#cb8-42"></a>  ski_sample,</span>
+<span id="cb8-43"><a href="#cb8-43"></a>  <span class="fu">aes</span>(</span>
+<span id="cb8-44"><a href="#cb8-44"></a>    <span class="at">x=</span>day,</span>
+<span id="cb8-45"><a href="#cb8-45"></a>    <span class="at">y=</span>latitude,</span>
+<span id="cb8-46"><a href="#cb8-46"></a>    <span class="co">#shape=good_skiing,</span></span>
+<span id="cb8-47"><a href="#cb8-47"></a>    <span class="at">color=</span>good_skiing</span>
+<span id="cb8-48"><a href="#cb8-48"></a>  )) <span class="sc">+</span></span>
+<span id="cb8-49"><a href="#cb8-49"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb8-50"><a href="#cb8-50"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>,</span>
+<span id="cb8-51"><a href="#cb8-51"></a>    <span class="co">#stroke=1.5</span></span>
+<span id="cb8-52"><a href="#cb8-52"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-53"><a href="#cb8-53"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb8-54"><a href="#cb8-54"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-55"><a href="#cb8-55"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
+<span id="cb8-56"><a href="#cb8-56"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>,</span>
+<span id="cb8-57"><a href="#cb8-57"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
+<span id="cb8-58"><a href="#cb8-58"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-59"><a href="#cb8-59"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">"Good Skiing?"</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb8-60"><a href="#cb8-60"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">"Good Skiing?"</span>, <span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"No (Sunny)"</span>,<span class="st">"Yes (Snowy)"</span>)) <span class="sc">+</span></span>
+<span id="cb8-61"><a href="#cb8-61"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb8-62"><a href="#cb8-62"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-02-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-05-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-06-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-07-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-08-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-09-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-11-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-12-01'</span>)),</span>
+<span id="cb8-63"><a href="#cb8-63"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
+<span id="cb8-64"><a href="#cb8-64"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-65"><a href="#cb8-65"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
@@ -1856,11 +1867,11 @@ branch2-&gt;leaf6
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">FALSE</td>
-<td style="text-align: right;">66</td>
+<td style="text-align: right;">74</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">TRUE</td>
-<td style="text-align: right;">34</td>
+<td style="text-align: right;">26</td>
 </tr>
 </tbody>
 </table>
@@ -1882,29 +1893,29 @@ branch2-&gt;leaf6
 \mathscr{L}(R_i) = -[(0.66)\log_2(0.66) + (0.34)\log_2(0.34)] \approx 0.925
 \]</span></p>
 </section>
-<section id="judging-split-options" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-math">
+<section id="judging-split-options" class="slide level2 smaller crunch-title crunch-ul crunch-code crunch-math fwtables">
 <h2>Judging Split Options</h2>
 <p>Let’s think through two choices for the first split:</p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div id="split-choice-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="split-choice-left" class="quarto-layout-cell" style="flex-basis: 47.6%;justify-content: center;">
 <center>
-<p><span class="math inline">\(\text{latitude} \geq -30\)</span>:</p>
+<p><span class="math inline">\(\text{latitude} \leq -47.5\)</span>:</p>
 </center>
-<div class="cell" data-layout-align="center">
+<div class="cell fwt" data-layout-align="center">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>ski_sample <span class="ot">&lt;-</span> ski_sample <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb10-2"><a href="#cb10-2"></a>  <span class="at">lat_gt_n30 =</span> latitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">30</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="at">lat_lt_475 =</span> latitude <span class="sc">&lt;=</span> <span class="fl">47.5</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(lat_gt_n30) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4"></a>ski_sample <span class="sc">|&gt;</span> <span class="fu">group_by</span>(lat_lt_475) <span class="sc">|&gt;</span> <span class="fu">count</span>(good_skiing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="kable-table">
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">lat_gt_n30</th>
+<th style="text-align: left;">lat_lt_475</th>
 <th style="text-align: left;">good_skiing</th>
 <th style="text-align: right;">n</th>
 </tr>
@@ -1913,22 +1924,22 @@ branch2-&gt;leaf6
 <tr class="odd">
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">FALSE</td>
-<td style="text-align: right;">17</td>
+<td style="text-align: right;">14</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">TRUE</td>
-<td style="text-align: right;">19</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">FALSE</td>
-<td style="text-align: right;">49</td>
+<td style="text-align: right;">60</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">16</td>
 </tr>
 </tbody>
 </table>
@@ -1938,12 +1949,15 @@ branch2-&gt;leaf6
 <p>This gives us the rule</p>
 <p><span class="math display">\[
 \widehat{C}(x) = \begin{cases}
-0 &amp;\text{if }\text{latitude} \geq -30, \\
+0 &amp;\text{if }\text{latitude} \leq 47.5, \\
 0 &amp;\text{otherwise}
 \end{cases}
 \]</span></p>
 </div>
-<div id="split-choice-right" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 4.8%;justify-content: center;">
+<p>&nbsp;</p>
+</div>
+<div id="split-choice-right" class="quarto-layout-cell" style="flex-basis: 47.6%;justify-content: center;">
 <center>
 <p><span class="math inline">\(\text{month} &lt; \text{October}\)</span></p>
 </center>
@@ -1969,22 +1983,22 @@ branch2-&gt;leaf6
 <tr class="odd">
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">FALSE</td>
-<td style="text-align: right;">16</td>
+<td style="text-align: right;">17</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">TRUE</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">FALSE</td>
-<td style="text-align: right;">50</td>
+<td style="text-align: right;">57</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
-<td style="text-align: right;">27</td>
+<td style="text-align: right;">18</td>
 </tr>
 </tbody>
 </table>
@@ -2003,35 +2017,180 @@ branch2-&gt;leaf6
 </div>
 <p>So, if we judge purely on <strong>acuracy scores</strong>… it seems like we’re <strong>not getting anywhere here</strong> (but, we know we <strong>are</strong> getting somewhere!)</p>
 </section>
-<section id="scikit-learn" class="slide level2 smaller">
-<h2>Scikit-Learn</h2>
+<section id="scikit-learn-growing-the-tree" class="slide level2 smaller crunch-title crunch-quarto-layout-panel crunch-math smaller-math fwtables crunch-code">
+<h2>Scikit-Learn: Growing the Tree</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="sk-dt-left" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<center>
+<strong>The Estimated Tree:</strong>
+</center>
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="im">import</span> sklearn</span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
-<span id="cb12-5"><a href="#cb12-5"></a>sklearn.set_config(display<span class="op">=</span><span class="st">'text'</span>)</span>
-<span id="cb12-6"><a href="#cb12-6"></a>ski_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/ski.csv"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7"></a>ski_df[<span class="st">'good_skiing'</span>] <span class="op">=</span> ski_df[<span class="st">'good_skiing'</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb12-8"><a href="#cb12-8"></a>X <span class="op">=</span> ski_df[[<span class="st">'day_num'</span>, <span class="st">'latitude'</span>]]</span>
-<span id="cb12-9"><a href="#cb12-9"></a>y <span class="op">=</span> ski_df[[<span class="st">'good_skiing'</span>]].values</span>
-<span id="cb12-10"><a href="#cb12-10"></a>dtc <span class="op">=</span> DecisionTreeClassifier(</span>
-<span id="cb12-11"><a href="#cb12-11"></a>  criterion <span class="op">=</span> <span class="st">"entropy"</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a>)</span>
-<span id="cb12-13"><a href="#cb12-13"></a>dtc.fit(X, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> json</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="im">import</span> sklearn</span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb12-6"><a href="#cb12-6"></a>sklearn.set_config(display<span class="op">=</span><span class="st">'text'</span>)</span>
+<span id="cb12-7"><a href="#cb12-7"></a>ski_df <span class="op">=</span> pd.read_csv(<span class="st">"assets/ski.csv"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8"></a>ski_df[<span class="st">'good_skiing'</span>] <span class="op">=</span> ski_df[<span class="st">'good_skiing'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb12-9"><a href="#cb12-9"></a>X <span class="op">=</span> ski_df[[<span class="st">'day_num'</span>, <span class="st">'latitude'</span>]]</span>
+<span id="cb12-10"><a href="#cb12-10"></a>y <span class="op">=</span> ski_df[<span class="st">'good_skiing'</span>]</span>
+<span id="cb12-11"><a href="#cb12-11"></a>dtc <span class="op">=</span> DecisionTreeClassifier(</span>
+<span id="cb12-12"><a href="#cb12-12"></a>  max_depth <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb12-13"><a href="#cb12-13"></a>  criterion <span class="op">=</span> <span class="st">"entropy"</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a>)</span>
+<span id="cb12-15"><a href="#cb12-15"></a>dtc.fit(X, y)<span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16"></a>y_pred <span class="op">=</span> pd.Series(dtc.predict(X), name<span class="op">=</span><span class="st">"y_pred"</span>)</span>
+<span id="cb12-17"><a href="#cb12-17"></a>result_df <span class="op">=</span> pd.concat([X,y,y_pred], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-18"><a href="#cb12-18"></a>result_df[<span class="st">'correct'</span>] <span class="op">=</span> result_df[<span class="st">'good_skiing'</span>] <span class="op">==</span> result_df[<span class="st">'y_pred'</span>]</span>
+<span id="cb12-19"><a href="#cb12-19"></a>result_df.to_csv(<span class="st">"assets/ski_predictions.csv"</span>)</span>
+<span id="cb12-20"><a href="#cb12-20"></a>sklearn.tree.plot_tree(dtc, feature_names <span class="op">=</span> X.columns)</span>
+<span id="cb12-21"><a href="#cb12-21"></a>n_nodes <span class="op">=</span> dtc.tree_.node_count</span>
+<span id="cb12-22"><a href="#cb12-22"></a>children_left <span class="op">=</span> dtc.tree_.children_left</span>
+<span id="cb12-23"><a href="#cb12-23"></a>children_right <span class="op">=</span> dtc.tree_.children_right</span>
+<span id="cb12-24"><a href="#cb12-24"></a>feature <span class="op">=</span> dtc.tree_.feature</span>
+<span id="cb12-25"><a href="#cb12-25"></a>feat_index <span class="op">=</span> feature[<span class="dv">0</span>]</span>
+<span id="cb12-26"><a href="#cb12-26"></a>feat_name <span class="op">=</span> X.columns[feat_index]</span>
+<span id="cb12-27"><a href="#cb12-27"></a>thresholds <span class="op">=</span> dtc.tree_.threshold</span>
+<span id="cb12-28"><a href="#cb12-28"></a>feat_threshold <span class="op">=</span> thresholds[<span class="dv">0</span>]</span>
+<span id="cb12-29"><a href="#cb12-29"></a><span class="co">#print(f"Feature: {feat_name}\nThreshold: &lt;= {feat_threshold}")</span></span>
+<span id="cb12-30"><a href="#cb12-30"></a>values <span class="op">=</span> dtc.tree_.value</span>
+<span id="cb12-31"><a href="#cb12-31"></a><span class="co">#print(values)</span></span>
+<span id="cb12-32"><a href="#cb12-32"></a>dt_data <span class="op">=</span> {</span>
+<span id="cb12-33"><a href="#cb12-33"></a>  <span class="st">'feat_index'</span>: feat_index,</span>
+<span id="cb12-34"><a href="#cb12-34"></a>  <span class="st">'feat_name'</span>: feat_name,</span>
+<span id="cb12-35"><a href="#cb12-35"></a>  <span class="st">'feat_threshold'</span>: feat_threshold</span>
+<span id="cb12-36"><a href="#cb12-36"></a>}</span>
+<span id="cb12-37"><a href="#cb12-37"></a>dt_df <span class="op">=</span> pd.DataFrame([dt_data])</span>
+<span id="cb12-38"><a href="#cb12-38"></a>dt_df.to_feather(<span class="st">'assets/ski_dt.feather'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>DecisionTreeClassifier(criterion='entropy')</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/sklearn-ski-1.png" width="614"></p>
+</figure>
 </div>
+</div>
+</div>
+</div>
+<div id="sk-dt-right" class="quarto-layout-cell" style="flex-basis: 66.7%;justify-content: center;">
+<center>
+<strong>Performance:</strong>
+</center>
+<div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>sklearn.tree.plot_tree(dtc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># Load the dataset</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>ski_result_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/ski_predictions.csv"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="co"># Load the DT info</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>dt_df <span class="ot">&lt;-</span> <span class="fu">read_feather</span>(<span class="st">"assets/ski_dt.feather"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># Here we only have one value, so just read that</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="co"># value directly</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>lat_thresh <span class="ot">&lt;-</span> dt_df<span class="sc">$</span>feat_threshold</span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="fu">ggplot</span>(ski_result_df, <span class="fu">aes</span>(<span class="at">x=</span>day_num, <span class="at">y=</span>latitude, <span class="at">color=</span><span class="fu">factor</span>(good_skiing), <span class="at">shape=</span>correct)) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb13-12"><a href="#cb13-12"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="fl">1.5</span>,</span>
+<span id="cb13-13"><a href="#cb13-13"></a>    <span class="at">stroke =</span> <span class="fl">1.5</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb13-16"><a href="#cb13-16"></a>    <span class="at">yintercept =</span> lat_thresh,</span>
+<span id="cb13-17"><a href="#cb13-17"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-21"><a href="#cb13-21"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
+<span id="cb13-22"><a href="#cb13-22"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23"></a>    <span class="at">color =</span> <span class="st">"True Class"</span>,</span>
+<span id="cb13-24"><a href="#cb13-24"></a>    <span class="co">#shape = "Correct?"</span></span>
+<span id="cb13-25"><a href="#cb13-25"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a>  <span class="fu">scale_shape_manual</span>(<span class="st">"DT Prediction"</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Incorrect"</span>,<span class="st">"Correct"</span>)) <span class="sc">+</span></span>
+<span id="cb13-27"><a href="#cb13-27"></a>  <span class="fu">scale_color_manual</span>(<span class="st">"True Class"</span>, <span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Bad (Sunny)"</span>,<span class="st">"Good (Snowy)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/sklearn-ski-results-3.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>ski_result_df <span class="sc">|&gt;</span> <span class="fu">count</span>(correct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">correct</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">74</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 66.7%;justify-content: center;">
+<p><span class="math display">\[
+\begin{align*}
+\mathscr{L}(R_1) &amp;= -\left[ \frac{13}{25}\log_2\left(\frac{13}{25}\right) + \frac{12}{25}\log_2\left(\frac{12}{25}\right) \right] \approx 0.999 \\
+\mathscr{L}(R_2) &amp;= -\left[ \frac{61}{75}\log_2\left(\frac{61}{75}\right) + \frac{14}{75}\log_2\left(\frac{14}{75}\right) \right] \approx 0.694 \\
+%\mathscr{L}(R \rightarrow (R_1, R_2)) &amp;= \Pr(x_i \in R_1)\mathscr{L}(R_1) + \Pr(x_i \in R_2)\mathscr{L}(R_2) \\
+\mathscr{L}(R_1, R_2) &amp;= \frac{1}{4}(0.999) + \frac{3}{4}(0.694) \approx 0.77 &lt; 0.827~😻
+\end{align*}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="chopping-the-feature-space-always-reduces-entropy" class="slide level2 smaller">
+<h2>Chopping the Feature Space Always Reduces Entropy (!)</h2>
+<ul>
+<li>Visual proof:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>my_ent <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="sc">-</span>(x <span class="sc">*</span> <span class="fu">log2</span>(x) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>x)<span class="sc">*</span><span class="fu">log2</span>(<span class="dv">1</span><span class="sc">-</span>x))</span>
+<span id="cb15-3"><a href="#cb15-3"></a>loss_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="sc">~</span>x, <span class="sc">~</span>label,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>  <span class="fl">0.5</span>, <span class="st">"L(R1)"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6"></a>  <span class="fl">0.9</span>, <span class="st">"L(R2)"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="fl">0.7</span>, <span class="st">"L(R)"</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>)</span>
+<span id="cb15-9"><a href="#cb15-9"></a>loss_df <span class="ot">&lt;-</span> loss_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb15-10"><a href="#cb15-10"></a>  <span class="at">y =</span> <span class="fu">my_ent</span>(x)</span>
+<span id="cb15-11"><a href="#cb15-11"></a>)</span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="fu">ggplot</span>(<span class="at">data=</span><span class="fu">tibble</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))) <span class="sc">+</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>  <span class="fu">stat_function</span>(<span class="at">fun=</span>my_ent, <span class="at">linewidth =</span> g_linewidth) <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>loss_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label)) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb15-16"><a href="#cb15-16"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
-<img data-src="index_files/figure-revealjs/sklearn-ski-1.png" width="614" class="r-stretch quarto-figure-center"></section>
+<img data-src="index_files/figure-revealjs/lower-entropy-proof-1.png" width="960" class="r-stretch quarto-figure-center"></section>
 <section id="continuous-values" class="slide level2 smaller">
 <h2>Continuous Values</h2>
 <ul>
@@ -2040,29 +2199,29 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#format_snow &lt;- function(x) sprintf('%.2f', x)</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>format_snow <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="dv">2</span>)</span>
-<span id="cb15-3"><a href="#cb15-3"></a>ski_sample[<span class="st">'snowfall_str'</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(ski_sample<span class="sc">$</span>snowfall, format_snow)</span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#ski_df |&gt; head()</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#print(nrow(ski_df))</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>latitude, <span class="at">label=</span>snowfall_str)) <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-10"><a href="#cb15-10"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
-<span id="cb15-11"><a href="#cb15-11"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>,</span>
-<span id="cb15-12"><a href="#cb15-12"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
-<span id="cb15-15"><a href="#cb15-15"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb15-16"><a href="#cb15-16"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-02-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-05-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-06-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-07-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-08-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-09-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-11-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-12-01'</span>)),</span>
-<span id="cb15-17"><a href="#cb15-17"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
-<span id="cb15-18"><a href="#cb15-18"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-19"><a href="#cb15-19"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">#format_snow &lt;- function(x) sprintf('%.2f', x)</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>format_snow <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="dv">2</span>)</span>
+<span id="cb16-3"><a href="#cb16-3"></a>ski_sample[<span class="st">'snowfall_str'</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(ski_sample<span class="sc">$</span>snowfall, format_snow)</span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="co">#ski_df |&gt; head()</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#print(nrow(ski_df))</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="fu">ggplot</span>(ski_sample, <span class="fu">aes</span>(<span class="at">x=</span>day, <span class="at">y=</span>latitude, <span class="at">label=</span>snowfall_str)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a>  <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-10"><a href="#cb16-10"></a>    <span class="at">x =</span> <span class="st">"Time of Year"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11"></a>    <span class="at">y =</span> <span class="st">"Latitude"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12"></a>    <span class="at">shape =</span> <span class="st">"Good Skiing?"</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-14"><a href="#cb16-14"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb16-16"><a href="#cb16-16"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="fu">ymd</span>(<span class="st">'2023-01-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-02-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-03-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-04-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-05-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-06-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-07-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-08-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-09-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-10-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-11-01'</span>), <span class="fu">ymd</span>(<span class="st">'2023-12-01'</span>)),</span>
+<span id="cb16-17"><a href="#cb16-17"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
+<span id="cb16-18"><a href="#cb16-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
-<img data-src="index_files/figure-revealjs/ski-plot-continuous-3.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"><em>(Example adapted from CS229: Machine Learning, Stanford University)</em></p></section>
+<img data-src="index_files/figure-revealjs/ski-plot-continuous-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"><em>(Example adapted from CS229: Machine Learning, Stanford University)</em></p></section>
 <section id="looking-towards-regression" class="slide level2 smaller">
 <h2>Looking Towards Regression</h2>
 <ul>
@@ -2071,43 +2230,43 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">library</span>(latex2exp)</span>
-<span id="cb16-3"><a href="#cb16-3"></a>expr_pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">frac{</span><span class="sc">\\</span><span class="st">pi}{2}$"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4"></a>expr_pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">pi$"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5"></a>expr_3pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">frac{3</span><span class="sc">\\</span><span class="st">pi}{2}$"</span>)</span>
-<span id="cb16-6"><a href="#cb16-6"></a>expr_2pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$2</span><span class="sc">\\</span><span class="st">pi$"</span>)</span>
-<span id="cb16-7"><a href="#cb16-7"></a>x_range <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> pi</span>
-<span id="cb16-8"><a href="#cb16-8"></a>x_coords <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_range, <span class="at">by =</span> x_range <span class="sc">/</span> <span class="dv">100</span>)</span>
-<span id="cb16-9"><a href="#cb16-9"></a>num_x_coords <span class="ot">&lt;-</span> <span class="fu">length</span>(x_coords)</span>
-<span id="cb16-10"><a href="#cb16-10"></a>data_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_coords)</span>
-<span id="cb16-11"><a href="#cb16-11"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb16-12"><a href="#cb16-12"></a>  <span class="at">y_raw =</span> <span class="fu">sin</span>(x),</span>
-<span id="cb16-13"><a href="#cb16-13"></a>  <span class="at">y_noise =</span> <span class="fu">rnorm</span>(num_x_coords, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
-<span id="cb16-14"><a href="#cb16-14"></a>)</span>
-<span id="cb16-15"><a href="#cb16-15"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb16-16"><a href="#cb16-16"></a>  <span class="at">y =</span> y_raw <span class="sc">+</span> y_noise</span>
-<span id="cb16-17"><a href="#cb16-17"></a>)</span>
-<span id="cb16-18"><a href="#cb16-18"></a><span class="co">#y_coords &lt;- y_raw_coords + y_noise</span></span>
-<span id="cb16-19"><a href="#cb16-19"></a><span class="co">#y_coords &lt;- y_raw_coords</span></span>
-<span id="cb16-20"><a href="#cb16-20"></a><span class="co">#data_df &lt;- tibble(x = x, y = y)</span></span>
-<span id="cb16-21"><a href="#cb16-21"></a>reg_tree_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
-<span id="cb16-22"><a href="#cb16-22"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb16-23"><a href="#cb16-23"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb16-24"><a href="#cb16-24"></a>  <span class="fu">labs</span>(</span>
-<span id="cb16-25"><a href="#cb16-25"></a>    <span class="at">x =</span> <span class="st">"Feature"</span>,</span>
-<span id="cb16-26"><a href="#cb16-26"></a>    <span class="at">y =</span> <span class="st">"Label"</span></span>
-<span id="cb16-27"><a href="#cb16-27"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-28"><a href="#cb16-28"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb16-29"><a href="#cb16-29"></a>    <span class="at">xintercept =</span> pi,</span>
-<span id="cb16-30"><a href="#cb16-30"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
-<span id="cb16-31"><a href="#cb16-31"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
-<span id="cb16-32"><a href="#cb16-32"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-33"><a href="#cb16-33"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb16-34"><a href="#cb16-34"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,pi<span class="sc">/</span><span class="dv">2</span>,pi,(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi,<span class="dv">2</span><span class="sc">*</span>pi),</span>
-<span id="cb16-35"><a href="#cb16-35"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"0"</span>,expr_pi2,expr_pi,expr_3pi2,expr_2pi)</span>
-<span id="cb16-36"><a href="#cb16-36"></a>  )</span>
-<span id="cb16-37"><a href="#cb16-37"></a>reg_tree_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb17-3"><a href="#cb17-3"></a>expr_pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">frac{</span><span class="sc">\\</span><span class="st">pi}{2}$"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4"></a>expr_pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">pi$"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5"></a>expr_3pi2 <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$</span><span class="sc">\\</span><span class="st">frac{3</span><span class="sc">\\</span><span class="st">pi}{2}$"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6"></a>expr_2pi <span class="ot">&lt;-</span> <span class="fu">TeX</span>(<span class="st">"$2</span><span class="sc">\\</span><span class="st">pi$"</span>)</span>
+<span id="cb17-7"><a href="#cb17-7"></a>x_range <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> pi</span>
+<span id="cb17-8"><a href="#cb17-8"></a>x_coords <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_range, <span class="at">by =</span> x_range <span class="sc">/</span> <span class="dv">100</span>)</span>
+<span id="cb17-9"><a href="#cb17-9"></a>num_x_coords <span class="ot">&lt;-</span> <span class="fu">length</span>(x_coords)</span>
+<span id="cb17-10"><a href="#cb17-10"></a>data_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_coords)</span>
+<span id="cb17-11"><a href="#cb17-11"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb17-12"><a href="#cb17-12"></a>  <span class="at">y_raw =</span> <span class="fu">sin</span>(x),</span>
+<span id="cb17-13"><a href="#cb17-13"></a>  <span class="at">y_noise =</span> <span class="fu">rnorm</span>(num_x_coords, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
+<span id="cb17-14"><a href="#cb17-14"></a>)</span>
+<span id="cb17-15"><a href="#cb17-15"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb17-16"><a href="#cb17-16"></a>  <span class="at">y =</span> y_raw <span class="sc">+</span> y_noise</span>
+<span id="cb17-17"><a href="#cb17-17"></a>)</span>
+<span id="cb17-18"><a href="#cb17-18"></a><span class="co">#y_coords &lt;- y_raw_coords + y_noise</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a><span class="co">#y_coords &lt;- y_raw_coords</span></span>
+<span id="cb17-20"><a href="#cb17-20"></a><span class="co">#data_df &lt;- tibble(x = x, y = y)</span></span>
+<span id="cb17-21"><a href="#cb17-21"></a>reg_tree_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb17-22"><a href="#cb17-22"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb17-23"><a href="#cb17-23"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb17-24"><a href="#cb17-24"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-25"><a href="#cb17-25"></a>    <span class="at">x =</span> <span class="st">"Feature"</span>,</span>
+<span id="cb17-26"><a href="#cb17-26"></a>    <span class="at">y =</span> <span class="st">"Label"</span></span>
+<span id="cb17-27"><a href="#cb17-27"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-28"><a href="#cb17-28"></a>  <span class="fu">geom_vline</span>(</span>
+<span id="cb17-29"><a href="#cb17-29"></a>    <span class="at">xintercept =</span> pi,</span>
+<span id="cb17-30"><a href="#cb17-30"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb17-31"><a href="#cb17-31"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb17-32"><a href="#cb17-32"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-33"><a href="#cb17-33"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb17-34"><a href="#cb17-34"></a>    <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,pi<span class="sc">/</span><span class="dv">2</span>,pi,(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi,<span class="dv">2</span><span class="sc">*</span>pi),</span>
+<span id="cb17-35"><a href="#cb17-35"></a>    <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"0"</span>,expr_pi2,expr_pi,expr_3pi2,expr_2pi)</span>
+<span id="cb17-36"><a href="#cb17-36"></a>  )</span>
+<span id="cb17-37"><a href="#cb17-37"></a>reg_tree_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
@@ -2120,28 +2279,28 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(ggtext)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># x_lt_pi = data_df |&gt; filter(x &lt; pi)</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="co"># mean(x_lt_pi$y)</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb17-5"><a href="#cb17-5"></a>  <span class="at">pred_sq_err0 =</span> (y <span class="sc">-</span> <span class="dv">0</span>)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb17-6"><a href="#cb17-6"></a>)</span>
-<span id="cb17-7"><a href="#cb17-7"></a>mse0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err0)</span>
-<span id="cb17-8"><a href="#cb17-8"></a>mse0_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse0)</span>
-<span id="cb17-9"><a href="#cb17-9"></a>reg_tree_plot <span class="sc">+</span></span>
-<span id="cb17-10"><a href="#cb17-10"></a>  <span class="fu">geom_hline</span>(</span>
-<span id="cb17-11"><a href="#cb17-11"></a>    <span class="at">yintercept =</span> <span class="dv">0</span>,</span>
-<span id="cb17-12"><a href="#cb17-12"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
-<span id="cb17-13"><a href="#cb17-13"></a>    <span class="at">linewidth =</span> g_linewidth</span>
-<span id="cb17-14"><a href="#cb17-14"></a>  ) <span class="sc">+</span></span>
-<span id="cb17-15"><a href="#cb17-15"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb17-16"><a href="#cb17-16"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend=</span>y)</span>
-<span id="cb17-17"><a href="#cb17-17"></a>  ) <span class="sc">+</span></span>
-<span id="cb17-18"><a href="#cb17-18"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb17-19"><a href="#cb17-19"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse0_str)),</span>
-<span id="cb17-20"><a href="#cb17-20"></a>    <span class="at">size =</span> <span class="dv">10</span>,</span>
-<span id="cb17-21"><a href="#cb17-21"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb17-22"><a href="#cb17-22"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># x_lt_pi = data_df |&gt; filter(x &lt; pi)</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="co"># mean(x_lt_pi$y)</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb18-5"><a href="#cb18-5"></a>  <span class="at">pred_sq_err0 =</span> (y <span class="sc">-</span> <span class="dv">0</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7"></a>mse0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err0)</span>
+<span id="cb18-8"><a href="#cb18-8"></a>mse0_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse0)</span>
+<span id="cb18-9"><a href="#cb18-9"></a>reg_tree_plot <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb18-11"><a href="#cb18-11"></a>    <span class="at">yintercept =</span> <span class="dv">0</span>,</span>
+<span id="cb18-12"><a href="#cb18-12"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
+<span id="cb18-13"><a href="#cb18-13"></a>    <span class="at">linewidth =</span> g_linewidth</span>
+<span id="cb18-14"><a href="#cb18-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-15"><a href="#cb18-15"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb18-16"><a href="#cb18-16"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend=</span>y)</span>
+<span id="cb18-17"><a href="#cb18-17"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-18"><a href="#cb18-18"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb18-19"><a href="#cb18-19"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse0_str)),</span>
+<span id="cb18-20"><a href="#cb18-20"></a>    <span class="at">size =</span> <span class="dv">10</span>,</span>
+<span id="cb18-21"><a href="#cb18-21"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
+<span id="cb18-22"><a href="#cb18-22"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
@@ -2173,32 +2332,32 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi)</span>
-<span id="cb18-2"><a href="#cb18-2"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb18-3"><a href="#cb18-3"></a>  <span class="at">pred_sq_err1 =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>)</span>
-<span id="cb18-5"><a href="#cb18-5"></a>mse1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1)</span>
-<span id="cb18-6"><a href="#cb18-6"></a>mse1_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1)</span>
-<span id="cb18-7"><a href="#cb18-7"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb18-8"><a href="#cb18-8"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
-<span id="cb18-9"><a href="#cb18-9"></a>  <span class="dv">0</span>, pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="dv">2</span><span class="sc">/</span>pi,</span>
-<span id="cb18-10"><a href="#cb18-10"></a>  pi, <span class="dv">2</span><span class="sc">*</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi</span>
-<span id="cb18-11"><a href="#cb18-11"></a>)</span>
-<span id="cb18-12"><a href="#cb18-12"></a>reg_tree_plot <span class="sc">+</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb18-14"><a href="#cb18-14"></a>    <span class="at">data=</span>decision_df,</span>
-<span id="cb18-15"><a href="#cb18-15"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>xend, <span class="at">y=</span>y, <span class="at">yend=</span>yend),</span>
-<span id="cb18-16"><a href="#cb18-16"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
-<span id="cb18-17"><a href="#cb18-17"></a>    <span class="at">linewidth =</span> g_linewidth</span>
-<span id="cb18-18"><a href="#cb18-18"></a>  ) <span class="sc">+</span></span>
-<span id="cb18-19"><a href="#cb18-19"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb18-20"><a href="#cb18-20"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
-<span id="cb18-21"><a href="#cb18-21"></a>  ) <span class="sc">+</span></span>
-<span id="cb18-22"><a href="#cb18-22"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb18-23"><a href="#cb18-23"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1_str)),</span>
-<span id="cb18-24"><a href="#cb18-24"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
-<span id="cb18-25"><a href="#cb18-25"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb18-26"><a href="#cb18-26"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb19-3"><a href="#cb19-3"></a>  <span class="at">pred_sq_err1 =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a>mse1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1)</span>
+<span id="cb19-6"><a href="#cb19-6"></a>mse1_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1)</span>
+<span id="cb19-7"><a href="#cb19-7"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb19-8"><a href="#cb19-8"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
+<span id="cb19-9"><a href="#cb19-9"></a>  <span class="dv">0</span>, pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="dv">2</span><span class="sc">/</span>pi,</span>
+<span id="cb19-10"><a href="#cb19-10"></a>  pi, <span class="dv">2</span><span class="sc">*</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi</span>
+<span id="cb19-11"><a href="#cb19-11"></a>)</span>
+<span id="cb19-12"><a href="#cb19-12"></a>reg_tree_plot <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb19-14"><a href="#cb19-14"></a>    <span class="at">data=</span>decision_df,</span>
+<span id="cb19-15"><a href="#cb19-15"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>xend, <span class="at">y=</span>y, <span class="at">yend=</span>yend),</span>
+<span id="cb19-16"><a href="#cb19-16"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
+<span id="cb19-17"><a href="#cb19-17"></a>    <span class="at">linewidth =</span> g_linewidth</span>
+<span id="cb19-18"><a href="#cb19-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-19"><a href="#cb19-19"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb19-20"><a href="#cb19-20"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
+<span id="cb19-21"><a href="#cb19-21"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-22"><a href="#cb19-22"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb19-23"><a href="#cb19-23"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1_str)),</span>
+<span id="cb19-24"><a href="#cb19-24"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
+<span id="cb19-25"><a href="#cb19-25"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
+<span id="cb19-26"><a href="#cb19-26"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -2237,36 +2396,36 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>cut1 <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> pi</span>
-<span id="cb19-2"><a href="#cb19-2"></a>cut2 <span class="ot">&lt;-</span> (<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> pi</span>
-<span id="cb19-3"><a href="#cb19-3"></a>pos_mean <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">/</span> (<span class="dv">4</span><span class="sc">*</span>pi)</span>
-<span id="cb19-4"><a href="#cb19-4"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut1, pos_mean, <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut2, <span class="dv">0</span>, <span class="sc">-</span>pos_mean))</span>
-<span id="cb19-5"><a href="#cb19-5"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb19-6"><a href="#cb19-6"></a>  <span class="at">pred_sq_err1b =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a>)</span>
-<span id="cb19-8"><a href="#cb19-8"></a>mse1b <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1b)</span>
-<span id="cb19-9"><a href="#cb19-9"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1b)</span>
-<span id="cb19-10"><a href="#cb19-10"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb19-11"><a href="#cb19-11"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
-<span id="cb19-12"><a href="#cb19-12"></a>  <span class="dv">0</span>, (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, pos_mean, pos_mean,</span>
-<span id="cb19-13"><a href="#cb19-13"></a>  (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, (<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb19-14"><a href="#cb19-14"></a>  (<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, <span class="dv">2</span><span class="sc">*</span>pi, <span class="sc">-</span>pos_mean, <span class="sc">-</span>pos_mean</span>
-<span id="cb19-15"><a href="#cb19-15"></a>)</span>
-<span id="cb19-16"><a href="#cb19-16"></a>reg_tree_plot <span class="sc">+</span></span>
-<span id="cb19-17"><a href="#cb19-17"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb19-18"><a href="#cb19-18"></a>    <span class="at">data=</span>decision_df,</span>
-<span id="cb19-19"><a href="#cb19-19"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>xend, <span class="at">y=</span>y, <span class="at">yend=</span>yend),</span>
-<span id="cb19-20"><a href="#cb19-20"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
-<span id="cb19-21"><a href="#cb19-21"></a>    <span class="at">linewidth =</span> g_linewidth</span>
-<span id="cb19-22"><a href="#cb19-22"></a>  ) <span class="sc">+</span></span>
-<span id="cb19-23"><a href="#cb19-23"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb19-24"><a href="#cb19-24"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
-<span id="cb19-25"><a href="#cb19-25"></a>  ) <span class="sc">+</span></span>
-<span id="cb19-26"><a href="#cb19-26"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb19-27"><a href="#cb19-27"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1b_str)),</span>
-<span id="cb19-28"><a href="#cb19-28"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
-<span id="cb19-29"><a href="#cb19-29"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb19-30"><a href="#cb19-30"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>cut1 <span class="ot">&lt;-</span> (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> pi</span>
+<span id="cb20-2"><a href="#cb20-2"></a>cut2 <span class="ot">&lt;-</span> (<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> pi</span>
+<span id="cb20-3"><a href="#cb20-3"></a>pos_mean <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">/</span> (<span class="dv">4</span><span class="sc">*</span>pi)</span>
+<span id="cb20-4"><a href="#cb20-4"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut1, pos_mean, <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut2, <span class="dv">0</span>, <span class="sc">-</span>pos_mean))</span>
+<span id="cb20-5"><a href="#cb20-5"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb20-6"><a href="#cb20-6"></a>  <span class="at">pred_sq_err1b =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>)</span>
+<span id="cb20-8"><a href="#cb20-8"></a>mse1b <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1b)</span>
+<span id="cb20-9"><a href="#cb20-9"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1b)</span>
+<span id="cb20-10"><a href="#cb20-10"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb20-11"><a href="#cb20-11"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
+<span id="cb20-12"><a href="#cb20-12"></a>  <span class="dv">0</span>, (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, pos_mean, pos_mean,</span>
+<span id="cb20-13"><a href="#cb20-13"></a>  (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, (<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb20-14"><a href="#cb20-14"></a>  (<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>pi, <span class="dv">2</span><span class="sc">*</span>pi, <span class="sc">-</span>pos_mean, <span class="sc">-</span>pos_mean</span>
+<span id="cb20-15"><a href="#cb20-15"></a>)</span>
+<span id="cb20-16"><a href="#cb20-16"></a>reg_tree_plot <span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb20-18"><a href="#cb20-18"></a>    <span class="at">data=</span>decision_df,</span>
+<span id="cb20-19"><a href="#cb20-19"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>xend, <span class="at">y=</span>y, <span class="at">yend=</span>yend),</span>
+<span id="cb20-20"><a href="#cb20-20"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
+<span id="cb20-21"><a href="#cb20-21"></a>    <span class="at">linewidth =</span> g_linewidth</span>
+<span id="cb20-22"><a href="#cb20-22"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-23"><a href="#cb20-23"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb20-24"><a href="#cb20-24"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
+<span id="cb20-25"><a href="#cb20-25"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-26"><a href="#cb20-26"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb20-27"><a href="#cb20-27"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1b_str)),</span>
+<span id="cb20-28"><a href="#cb20-28"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
+<span id="cb20-29"><a href="#cb20-29"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
+<span id="cb20-30"><a href="#cb20-30"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -2306,37 +2465,37 @@ branch2-&gt;leaf6
 <div class="cell" data-layout-align="center">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.113</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a>cut1 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> c) <span class="sc">*</span> pi</span>
-<span id="cb20-3"><a href="#cb20-3"></a>cut2 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">+</span> c) <span class="sc">*</span> pi</span>
-<span id="cb20-4"><a href="#cb20-4"></a>pos_mean <span class="ot">&lt;-</span> <span class="fl">0.695</span></span>
-<span id="cb20-5"><a href="#cb20-5"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut1, pos_mean, <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut2, <span class="dv">0</span>, <span class="sc">-</span>pos_mean))</span>
-<span id="cb20-6"><a href="#cb20-6"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb20-7"><a href="#cb20-7"></a>  <span class="at">pred_sq_err1b =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb20-8"><a href="#cb20-8"></a>)</span>
-<span id="cb20-9"><a href="#cb20-9"></a>mse1b <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1b)</span>
-<span id="cb20-10"><a href="#cb20-10"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1b)</span>
-<span id="cb20-11"><a href="#cb20-11"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb20-12"><a href="#cb20-12"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
-<span id="cb20-13"><a href="#cb20-13"></a>  <span class="dv">0</span>, cut1, pos_mean, pos_mean,</span>
-<span id="cb20-14"><a href="#cb20-14"></a>  cut1, cut2, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb20-15"><a href="#cb20-15"></a>  cut2, <span class="dv">2</span><span class="sc">*</span>pi, <span class="sc">-</span>pos_mean, <span class="sc">-</span>pos_mean</span>
-<span id="cb20-16"><a href="#cb20-16"></a>)</span>
-<span id="cb20-17"><a href="#cb20-17"></a>reg_tree_plot <span class="sc">+</span></span>
-<span id="cb20-18"><a href="#cb20-18"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb20-19"><a href="#cb20-19"></a>    <span class="at">data=</span>decision_df,</span>
-<span id="cb20-20"><a href="#cb20-20"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>xend, <span class="at">y=</span>y, <span class="at">yend=</span>yend),</span>
-<span id="cb20-21"><a href="#cb20-21"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
-<span id="cb20-22"><a href="#cb20-22"></a>    <span class="at">linewidth =</span> g_linewidth</span>
-<span id="cb20-23"><a href="#cb20-23"></a>  ) <span class="sc">+</span></span>
-<span id="cb20-24"><a href="#cb20-24"></a>  <span class="fu">geom_segment</span>(</span>
-<span id="cb20-25"><a href="#cb20-25"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
-<span id="cb20-26"><a href="#cb20-26"></a>  ) <span class="sc">+</span></span>
-<span id="cb20-27"><a href="#cb20-27"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb20-28"><a href="#cb20-28"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1b_str)),</span>
-<span id="cb20-29"><a href="#cb20-29"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
-<span id="cb20-30"><a href="#cb20-30"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
-<span id="cb20-31"><a href="#cb20-31"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>c <span class="ot">&lt;-</span> <span class="fl">0.113</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>cut1 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> c) <span class="sc">*</span> pi</span>
+<span id="cb21-3"><a href="#cb21-3"></a>cut2 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">+</span> c) <span class="sc">*</span> pi</span>
+<span id="cb21-4"><a href="#cb21-4"></a>pos_mean <span class="ot">&lt;-</span> <span class="fl">0.695</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut1, pos_mean, <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> cut2, <span class="dv">0</span>, <span class="sc">-</span>pos_mean))</span>
+<span id="cb21-6"><a href="#cb21-6"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb21-7"><a href="#cb21-7"></a>  <span class="at">pred_sq_err1b =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>)</span>
+<span id="cb21-9"><a href="#cb21-9"></a>mse1b <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1b)</span>
+<span id="cb21-10"><a href="#cb21-10"></a>mse1b_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1b)</span>
+<span id="cb21-11"><a href="#cb21-11"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb21-12"><a href="#cb21-12"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
+<span id="cb21-13"><a href="#cb21-13"></a>  <span class="dv">0</span>, cut1, pos_mean, pos_mean,</span>
+<span id="cb21-14"><a href="#cb21-14"></a>  cut1, cut2, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb21-15"><a href="#cb21-15"></a>  cut2, <span class="dv">2</span><span class="sc">*</span>pi, <span class="sc">-</span>pos_mean, <span class="sc">-</span>pos_mean</span>
+<span id="cb21-16"><a href="#cb21-16"></a>)</span>
+<span id="cb21-17"><a href="#cb21-17"></a>reg_tree_plot <span class="sc">+</span></span>
+<span id="cb21-18"><a href="#cb21-18"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb21-19"><a href="#cb21-19"></a>    <span class="at">data=</span>decision_df,</span>
+<span id="cb21-20"><a href="#cb21-20"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>xend, <span class="at">y=</span>y, <span class="at">yend=</span>yend),</span>
+<span id="cb21-21"><a href="#cb21-21"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
+<span id="cb21-22"><a href="#cb21-22"></a>    <span class="at">linewidth =</span> g_linewidth</span>
+<span id="cb21-23"><a href="#cb21-23"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-24"><a href="#cb21-24"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb21-25"><a href="#cb21-25"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
+<span id="cb21-26"><a href="#cb21-26"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-27"><a href="#cb21-27"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb21-28"><a href="#cb21-28"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1b_str)),</span>
+<span id="cb21-29"><a href="#cb21-29"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
+<span id="cb21-30"><a href="#cb21-30"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
+<span id="cb21-31"><a href="#cb21-31"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">

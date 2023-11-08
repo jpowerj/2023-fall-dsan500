@@ -855,15 +855,18 @@ digraph G {
 #| fig-cap: "*(Example adapted from CS229: Machine Learning, Stanford University)*"
 library(tidyverse)
 library(lubridate)
+sample_size <- 100
 day <- seq(ymd('2023-01-01'),ymd('2023-12-31'),by='weeks')
-latitude <- seq(-90, 90, by=5)
+lat_bw <- 5
+latitude <- seq(-90, 90, by=lat_bw)
 ski_df <- expand_grid(day, latitude)
 #ski_df |> head()
 # Data-generating process
+lat_cutoff <- 35
 ski_df <- ski_df |> mutate(
-  near_equator = abs(latitude) <= 30,
-  northern = latitude > 30,
-  southern = latitude < -30,
+  near_equator = abs(latitude) <= lat_cutoff,
+  northern = latitude > lat_cutoff,
+  southern = latitude < -lat_cutoff,
   first_3m = day < ymd('2023-04-01'),
   last_3m = day >= ymd('2023-10-01'),
   middle_6m = (day >= ymd('2023-04-01')) & (day < ymd('2023-10-01')),
@@ -888,11 +891,19 @@ ski_df <- ski_df |> mutate(
   day_num = lubridate::yday(day)
 )
 #print(nrow(ski_df))
-ski_sample <- ski_df |> sample_n(100)
+ski_sample <- ski_df |> slice_sample(n = sample_size)
 ski_sample |> write_csv("assets/ski.csv")
-ggplot(ski_sample, aes(x=day, y=latitude, shape=good_skiing, color=good_skiing)) +
+ggplot(
+  ski_sample,
+  aes(
+    x=day,
+    y=latitude,
+    #shape=good_skiing,
+    color=good_skiing
+  )) +
   geom_point(
-    size = g_pointsize / 2, stroke=1.5,
+    size = g_pointsize / 1.5,
+    #stroke=1.5
   ) +
   dsan_theme() +
   labs(
@@ -901,7 +912,7 @@ ggplot(ski_sample, aes(x=day, y=latitude, shape=good_skiing, color=good_skiing))
     shape = "Good Skiing?"
   ) +
   scale_shape_manual(name="Good Skiing?", values=c(1, 3)) +
-  scale_color_manual(name="Good Skiing?", values=c(cbPalette[1], cbPalette[2])) +
+  scale_color_manual(name="Good Skiing?", values=c(cbPalette[1], cbPalette[2]), labels=c("No (Sunny)","Yes (Snowy)")) +
   scale_x_continuous(
     breaks=c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01')),
     labels=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
@@ -932,34 +943,35 @@ $$
 \mathscr{L}(R_i) = -[(0.66)\log_2(0.66) + (0.34)\log_2(0.34)] \approx 0.925
 $$
 
-## Judging Split Options {.smaller .crunch-title .crunch-ul .crunch-code .crunch-math}
+## Judging Split Options {.smaller .crunch-title .crunch-ul .crunch-code .crunch-math .fwtables}
 
 Let's think through two choices for the first split:
 
-::: {layout="[1,1]" layout-valign="center" layout-align="center"}
+::: {layout="[10,-1,10]" layout-valign="center" layout-align="center"}
 
 ::: {#split-choice-left}
 
 <center>
 
-$\text{latitude} \geq -30$:
+$\text{latitude} \leq -47.5$:
 
 </center>
 
 ```{r}
 #| label: ski-split-latitude
 #| fig-align: center
+#| classes: fwt
 ski_sample <- ski_sample |> mutate(
-  lat_gt_n30 = latitude >= -30
+  lat_lt_475 = latitude <= 47.5
 )
-ski_sample |> group_by(lat_gt_n30) |> count(good_skiing)
+ski_sample |> group_by(lat_lt_475) |> count(good_skiing)
 ```
 
 This gives us the rule
 
 $$
 \widehat{C}(x) = \begin{cases}
-0 &\text{if }\text{latitude} \geq -30, \\
+0 &\text{if }\text{latitude} \leq 47.5, \\
 0 &\text{otherwise}
 \end{cases}
 $$
@@ -995,10 +1007,19 @@ $$
 
 So, if we judge purely on **acuracy scores**... it seems like we're **not getting anywhere here** (but, we know we **are** getting somewhere!)
 
-## Scikit-Learn {.smaller}
+## Scikit-Learn: Growing the Tree {.smaller .crunch-title .crunch-quarto-layout-panel .crunch-math .smaller-math .fwtables .crunch-code}
+
+::: {layout="[[1,2],[1,2]]" layout-valign="top" layout-align="center"}
+
+::: {#sk-dt-left}
+
+<center>
+**The Estimated Tree:**
+</center>
 
 ```{python}
 #| label: sklearn-ski
+import json
 import pandas as pd
 import numpy as np
 import sklearn
@@ -1007,12 +1028,115 @@ sklearn.set_config(display='text')
 ski_df = pd.read_csv("assets/ski.csv")
 ski_df['good_skiing'] = ski_df['good_skiing'].astype(int)
 X = ski_df[['day_num', 'latitude']]
-y = ski_df[['good_skiing']].values
+y = ski_df['good_skiing']
 dtc = DecisionTreeClassifier(
+  max_depth = 1,
   criterion = "entropy"
 )
-dtc.fit(X, y)
-sklearn.tree.plot_tree(dtc)
+dtc.fit(X, y);
+y_pred = pd.Series(dtc.predict(X), name="y_pred")
+result_df = pd.concat([X,y,y_pred], axis=1)
+result_df['correct'] = result_df['good_skiing'] == result_df['y_pred']
+result_df.to_csv("assets/ski_predictions.csv")
+sklearn.tree.plot_tree(dtc, feature_names = X.columns)
+n_nodes = dtc.tree_.node_count
+children_left = dtc.tree_.children_left
+children_right = dtc.tree_.children_right
+feature = dtc.tree_.feature
+feat_index = feature[0]
+feat_name = X.columns[feat_index]
+thresholds = dtc.tree_.threshold
+feat_threshold = thresholds[0]
+#print(f"Feature: {feat_name}\nThreshold: <= {feat_threshold}")
+values = dtc.tree_.value
+#print(values)
+dt_data = {
+  'feat_index': feat_index,
+  'feat_name': feat_name,
+  'feat_threshold': feat_threshold
+}
+dt_df = pd.DataFrame([dt_data])
+dt_df.to_feather('assets/ski_dt.feather')
+```
+
+:::
+::: {#sk-dt-right}
+
+<center>
+**Performance:**
+</center>
+
+```{r}
+#| label: sklearn-ski-results
+library(tidyverse)
+library(arrow)
+# Load the dataset
+ski_result_df <- read_csv("assets/ski_predictions.csv")
+# Load the DT info
+dt_df <- read_feather("assets/ski_dt.feather")
+# Here we only have one value, so just read that
+# value directly
+lat_thresh <- dt_df$feat_threshold
+ggplot(ski_result_df, aes(x=day_num, y=latitude, color=factor(good_skiing), shape=correct)) +
+  geom_point(
+    size = g_pointsize / 1.5,
+    stroke = 1.5
+  ) +
+  geom_hline(
+    yintercept = lat_thresh,
+    linetype = "dashed"
+  ) +
+  dsan_theme("half") +
+  labs(
+    x = "Time of Year",
+    y = "Latitude",
+    color = "True Class",
+    #shape = "Correct?"
+  ) +
+  scale_shape_manual("DT Prediction", values=c(1,3), labels=c("Incorrect","Correct")) +
+  scale_color_manual("True Class", values=c(cbPalette[1], cbPalette[2]), labels=c("Bad (Sunny)","Good (Snowy)"))
+```
+
+:::
+
+```{r}
+#| label: ski-acc-vs-entropy
+ski_result_df |> count(correct)
+```
+
+$$
+\begin{align*}
+\mathscr{L}(R_1) &= -\left[ \frac{13}{25}\log_2\left(\frac{13}{25}\right) + \frac{12}{25}\log_2\left(\frac{12}{25}\right) \right] \approx 0.999 \\
+\mathscr{L}(R_2) &= -\left[ \frac{61}{75}\log_2\left(\frac{61}{75}\right) + \frac{14}{75}\log_2\left(\frac{14}{75}\right) \right] \approx 0.694 \\
+%\mathscr{L}(R \rightarrow (R_1, R_2)) &= \Pr(x_i \in R_1)\mathscr{L}(R_1) + \Pr(x_i \in R_2)\mathscr{L}(R_2) \\
+\mathscr{L}(R_1, R_2) &= \frac{1}{4}(0.999) + \frac{3}{4}(0.694) \approx 0.77 < 0.827~😻
+\end{align*}
+$$
+
+:::
+
+## Chopping the Feature Space Always Reduces Entropy (!) {.smaller}
+
+* Visual proof:
+
+```{r}
+#| label: lower-entropy-proof
+library(tidyverse)
+my_ent <- function(x) -(x * log2(x) + (1-x)*log2(1-x))
+loss_df <- tribble(
+  ~x, ~label,
+  0.5, "L(R1)",
+  0.9, "L(R2)",
+  0.7, "L(R)"
+)
+loss_df <- loss_df |> mutate(
+  y = my_ent(x)
+)
+ggplot(data=tibble(x=c(0,1))) +
+  stat_function(fun=my_ent, linewidth = g_linewidth) +
+  geom_text(data=loss_df, aes(x=x, y=y, label=label)) +
+  xlim(c(0,1)) +
+  dsan_theme("half")
 ```
 
 ## Continuous Values {.smaller}
