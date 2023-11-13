@@ -246,6 +246,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../w12/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 12: <span class="sec-w12-date">Nov 14</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../recordings/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture Recordings</span></a>
   </div>
@@ -338,13 +344,6 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <li><a href="#a-one-level-ternary-tree" id="toc-a-one-level-ternary-tree" class="nav-link" data-scroll-target="#a-one-level-ternary-tree">A One-Level Ternary Tree</a></li>
   <li><a href="#another-one-level-ternary-tree" id="toc-another-one-level-ternary-tree" class="nav-link" data-scroll-target="#another-one-level-ternary-tree">Another One-Level Ternary Tree</a></li>
   <li><a href="#on-to-the-code" id="toc-on-to-the-code" class="nav-link" data-scroll-target="#on-to-the-code">On to the Code!</a></li>
-  </ul></li>
-  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests">Random Forests</a>
-  <ul class="collapse">
-  <li><a href="#the-wisdom-of-crowds" id="toc-the-wisdom-of-crowds" class="nav-link" data-scroll-target="#the-wisdom-of-crowds">The Wisdom of Crowds</a></li>
-  <li><a href="#your-opponents" id="toc-your-opponents" class="nav-link" data-scroll-target="#your-opponents">Your Opponents</a></li>
-  <li><a href="#high-variance-low-bias" id="toc-high-variance-low-bias" class="nav-link" data-scroll-target="#high-variance-low-bias">High Variance, Low Bias</a></li>
-  <li><a href="#the-wisdom-of-sheep" id="toc-the-wisdom-of-sheep" class="nav-link" data-scroll-target="#the-wisdom-of-sheep">The Wisdom of Sheep</a></li>
   <li><a href="#appendix-covariance-matrix-magic" id="toc-appendix-covariance-matrix-magic" class="nav-link" data-scroll-target="#appendix-covariance-matrix-magic">Appendix: Covariance Matrix Magic</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
@@ -2415,85 +2414,6 @@ branch2-&gt;leaf6
 <h2 class="anchored" data-anchor-id="on-to-the-code">On to the Code!</h2>
 <ul>
 <li>Scikit-learn has both <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html" target="_blank"><code>DecisionTreeClassifier</code> </a><a class="bi bi-box-arrow-up-right"></a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html" target="_blank"><code>DecisionTreeRegressor</code> <i class="bi bi-box-arrow-up-right"></i></a> classes!</li>
-</ul>
-</section>
-</section>
-<section id="random-forests" class="level1" data-stack-name="Random Forests">
-<h1 data-stack-name="Random Forests">Random Forests</h1>
-<section id="the-wisdom-of-crowds" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="the-wisdom-of-crowds">The Wisdom of Crowds</h2>
-<ul>
-<li>Imagine you’re assembling a <strong>darts team</strong>. You can choose a <strong>team of 4</strong> from among the following 8 players:</li>
-</ul>
-<table class="table">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 70%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Player</th>
-<th>Skill</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Larry “Lefty” Lechuga</td>
-<td>Always hits 5cm left of bullseye</td>
-</tr>
-<tr class="even">
-<td>Rico Righty</td>
-<td>Always hits 5cm right of bullseye</td>
-</tr>
-<tr class="odd">
-<td>Lil Uppy Vert</td>
-<td>Always hits 5cm above bullseye</td>
-</tr>
-<tr class="even">
-<td>Inconsistent Inkyung</td>
-<td>Hits bullseye 50% of time, other 50% hits random point</td>
-</tr>
-<tr class="odd">
-<td>Diagonal Dave</td>
-<td>Always hits 5cm above right of bullseye</td>
-</tr>
-<tr class="even">
-<td>Dobert Downy Jr.</td>
-<td>Always hits 5cm below bullseye</td>
-</tr>
-<tr class="odd">
-<td>Gregor “the GOAT” Gregorsson</td>
-<td>Hits bullseye 99.9% of time, other 0.1% hits random point</td>
-</tr>
-<tr class="even">
-<td>Craig</td>
-<td>Top 25 Craigs of 2023</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="your-opponents" class="level2">
-<h2 class="anchored" data-anchor-id="your-opponents">Your Opponents</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/japanese_baseball_game.jpg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</section>
-<section id="high-variance-low-bias" class="level2">
-<h2 class="anchored" data-anchor-id="high-variance-low-bias">High Variance, Low Bias</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/var-high-bias-low.svg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</section>
-<section id="the-wisdom-of-sheep" class="level2">
-<h2 class="anchored" data-anchor-id="the-wisdom-of-sheep">The Wisdom of Sheep</h2>
-<ul>
-<li>Unfortunately, the “wisdom of crowds” phenomenon only works if everyone in the crowd is <strong>unable to communicate</strong></li>
-<li>The minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders <img src="images/thinking_transparent.png" class="img-fluid" style="display: inline-flex;" width="60">, and the effect goes away (biases no longer cancel out)</li>
-<li>The takeaway for effectively training <strong>random forests</strong>: ensure that each tree has a <strong>separate (ideally orthogonal) slice</strong> of the full dataset, and has to infer labels from only that slice!</li>
 </ul>
 </section>
 <section id="appendix-covariance-matrix-magic" class="level2 smaller">

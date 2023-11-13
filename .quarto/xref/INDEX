@@ -164,5 +164,9 @@
   "w11/index.qmd": {
     "slides.html": "39f6ba31",
     "index.html": "78d75c3c"
+  },
+  "w12/index.qmd": {
+    "slides.html": "6772e97e",
+    "index.html": "59b7ee03"
   }
 }

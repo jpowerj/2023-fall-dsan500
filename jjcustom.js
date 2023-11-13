@@ -69,6 +69,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w09-date': 'Oct 24',
       '.sec-w10-date': 'Oct 31',
       '.sec-w11-date': 'Nov 7',
+      '.sec-w12-date': 'Nov 14',
       '.sec-start': '12:30pm',
       '.sec-p10': '12:40pm',
       '.sec-p15': '12:45pm',
@@ -92,7 +93,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.rec-link-w06': '../recordings/recording-w06s02-1.html',
       '.rec-link-w07': '../recordings/recording-w07s02-1.html',
       '.rec-link-w08': '../recordings/recording-w08s02-1.html',
-      '.rec-link-w09': '../recordings/recording-w09s02-1.html'
+      '.rec-link-w09': '../recordings/recording-w09s02-1.html',
+      '.rec-link-w10': '../recordings/recording-w10s02-1.html',
+      '.rec-link-w11': '../recordings/recording-w11s02-1.html',
+      '.rec-link-w12': '../recordings/recording-w12s02-1.html',
     },
     '03': {
       '.sec-num': '03',
@@ -112,6 +116,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w09-date': 'Oct 25',
       '.sec-w10-date': 'Nov 1',
       '.sec-w11-date': 'Nov 8',
+      '.sec-w12-date': 'Nov 15',
       '.sec-start': '3:30pm',
       '.sec-p10': '3:40pm',
       '.sec-p15': '3:45pm',
@@ -135,7 +140,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.rec-link-w06': '../recordings/recording-w06s03-1.html',
       '.rec-link-w07': '../recordings/recording-w07s03-1.html',
       '.rec-link-w08': '../recordings/recording-w08s03-1.html',
-      '.rec-link-w09': '../recordings/recording-w09s03-1.html'
+      '.rec-link-w09': '../recordings/recording-w09s03-1.html',
+      '.rec-link-w10': '../recordings/recording-w10s03-1.html',
+      '.rec-link-w11': '../recordings/recording-w11s03-1.html',
+      '.rec-link-w12': '../recordings/recording-w12s03-1.html'
     }
   }
 
@@ -179,7 +187,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       // w10
       'Wednesday, November 1, 2023': 'Tuesday, October 31, 2023',
       // w11
-      'Wednesday, November 8, 2023': 'Tuesday, November 7, 2023'
+      'Wednesday, November 8, 2023': 'Tuesday, November 7, 2023',
+      // w12
+      'Wednesday, November 15, 2023': 'Tuesday, November 14, 2023'
     };
     const s03Replace = {
       // w01
@@ -203,7 +213,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       // w10
       'Tuesday, October 31, 2023': 'Wednesday, November 1, 2023',
       // w11
-      'Tuesday, November 7, 2023': 'Wednesday, November 8, 2023'
+      'Tuesday, November 7, 2023': 'Wednesday, November 8, 2023',
+      // w12
+      'Tuesday, November 14, 2023': 'Wednesday, November 15, 2023'
     };
     let shownDate = $('p.date').text();
     //console.log(shownDate);

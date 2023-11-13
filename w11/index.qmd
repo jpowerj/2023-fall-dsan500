@@ -1415,39 +1415,6 @@ reg_tree_plot +
 
 * Scikit-learn has both <a href='https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html' target='_blank'>`DecisionTreeClassifier` <a class='bi bi-box-arrow-up-right'></i></a> and <a href='https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html' target='_blank'>`DecisionTreeRegressor` <i class='bi bi-box-arrow-up-right'></i></a> classes!
 
-# Random Forests {data-stack-name="Random Forests"}
-
-## The Wisdom of Crowds {.smaller}
-
-* Imagine you're assembling a **darts team**. You can choose a **team of 4** from among the following 8 players:
-
-| Player | Skill |
-| - | - |
-| Larry "Lefty" Lechuga | Always hits 5cm left of bullseye |
-| Rico Righty | Always hits 5cm right of bullseye |
-| Lil Uppy Vert | Always hits 5cm above bullseye |
-| Inconsistent Inkyung | Hits bullseye 50% of time, other 50% hits random point |
-| Diagonal Dave | Always hits 5cm above right of bullseye |
-| Dobert Downy Jr. | Always hits 5cm below bullseye |
-| Gregor "the GOAT" Gregorsson | Hits bullseye 99.9% of time, other 0.1% hits random point |
-| Craig | Top 25 Craigs of 2023 |
-
-: {tbl-colwidths="[30,70]"}
-
-## Your Opponents
-
-![](images/japanese_baseball_game.jpg){fig-align="center"}
-
-## High Variance, Low Bias
-
-![](images/var-high-bias-low.svg){fig-align="center"}
-
-## The Wisdom of Sheep
-
-* Unfortunately, the "wisdom of crowds" phenomenon only works if everyone in the crowd is **unable to communicate**
-* The minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders ![](images/thinking_transparent.png){width="60" style="display: inline-flex;"}, and the effect goes away (biases no longer cancel out)
-* The takeaway for effectively training **random forests**: ensure that each tree has a **separate (ideally orthogonal) slice** of the full dataset, and has to infer labels from only that slice!
-
 ## Appendix: Covariance Matrix Magic {.smaller}
 
 * For those interested (skipping over lots of matrix math): say you have a 2D covariance matrix $\mathbf{\Sigma}$ with eigensystem $(\lambda_1, \mathbf{x}_1), (\lambda_2, \mathbf{x}_2)$
