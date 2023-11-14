@@ -1,0 +1,2625 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jeff Jacobs">
+<meta name="dcterms.date" content="2023-11-13">
+
+<title>DSAN 5000 - Decision Trees for Musical Genre Classification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-ETYTX4E16L"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../../jjcustom.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      DSAN 5000
+      </li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">DSAN 5000</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://jfh.georgetown.domains/dsan5000/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w01/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1: <span class="sec-w01-date">Aug 23</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w02/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: <span class="sec-w02-date">Aug 29</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w03/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3: <span class="sec-w03-date">Sep 6</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w04/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4: <span class="sec-w04-date">Sep 12</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w05/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: <span class="sec-w05-date">Sep 19</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w06/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6: <span class="sec-w06-date">Sep 26</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w07/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7: <span class="sec-w07-date">Oct 3</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w08/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8: <span class="sec-w08-date">Oct 17</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w09/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9: <span class="sec-w09-date">Oct 24</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w10/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10: <span class="sec-w10-date">Oct 31</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w11/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 11: <span class="sec-w11-date">Nov 7</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w12/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 12: <span class="sec-w12-date">Nov 14</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../recordings/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture Recordings</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../extra-videos/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Videos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../writeups/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Writeups</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../cheatsheet-code/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Cheatsheet</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../presentations/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Presentations</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://georgetown.instructure.com/courses/173310" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://calendar.app.google/yMnESMtMNPdKEaPz5" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://forms.gle/TH1yLitU9dTfB4sg8" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#decision-trees-for-musical-genre-classification" id="toc-decision-trees-for-musical-genre-classification" class="nav-link active" data-scroll-target="#decision-trees-for-musical-genre-classification">Decision Trees for Musical Genre Classification</a>
+  <ul class="collapse">
+  <li><a href="#data-scraping" id="toc-data-scraping" class="nav-link" data-scroll-target="#data-scraping">(1) Data Scraping</a></li>
+  <li><a href="#decision-tree" id="toc-decision-tree" class="nav-link" data-scroll-target="#decision-tree">(2) Decision Tree</a></li>
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests">(3) Random Forests</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Decision Trees for Musical Genre Classification</h1>
+<p class="subtitle lead"><em>DSAN5000: Data Science and Analytics</em></p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Extra Writeups</div>
+  </div>
+  </div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jeff Jacobs </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 13, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-note callout-titled" title="Colab Link">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Colab Link
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<center>
+<p><a href="https://colab.research.google.com/drive/1D53LJxDkRYedqqM-twlww6Lwaspv4gf0" target="_blank"><img src="images/colab-badge.svg" class="img-fluid"><br>Click here to <strong>open in Colab</strong></a></p>
+</center>
+</div>
+</div>
+<section id="decision-trees-for-musical-genre-classification" class="level1">
+<h1>Decision Trees for Musical Genre Classification</h1>
+<p>What musical characteristics distinguish Hip Hop songs from Jazz songs? EDM songs from Ambient songs?</p>
+<p>Arguments over these types of questions can occupy fans of music (especially chronically-overthinking ones like myself) for hours at a time, but in this lab we’ll take a different approach: as a step towards <strong>adjudicating</strong> these arguments, we’ll ask a <strong>computer</strong> to discover the relationship between individual songs and their genres, from two different perspectives represented by two different questions we can ask:</p>
+<ul>
+<li><strong>Question 1</strong>: Which features of a song are <strong>most predictive</strong> of the song’s genre?</li>
+<li><strong>Question 2</strong>: What line(s) could we draw to <strong>segment</strong> the space of all songs into subspaces representing Jazz, Hip Hop, etc.? For example, are there particular ranges of <strong>tempo</strong>, <strong>song duration</strong>, or <strong>loudness</strong> which most Jazz songs adopt?</li>
+</ul>
+<p>While <strong>Question 1</strong> represents a task you could already approach using methods we’ve learned in class to this point (specifically, the <em>Feature Selction</em> methods we’ve discussed), <strong>Question 2</strong> is a new kind of task: a task for which <strong>Decision Trees</strong> (<strong>DTs</strong>) are particularly helpful!</p>
+<p>The reason DTs are so helpful for answering <strong>Question 2</strong> is that, while other methods like <strong>Naïve Bayes</strong> or <strong>Neural Networks</strong> can usually achieve greater accuracy on classification tasks than DTs (and can be more helpful for answering <strong>Question 1</strong> specifically), DTs answer <strong>both</strong> of our questions simultaneously: given a feature matrix <span class="math inline">\(\mathbf{X}\)</span> and a label vector <span class="math inline">\(\mathbf{y}\)</span>, they tell us</p>
+<ol type="1">
+<li><strong>Which features</strong> in <span class="math inline">\(\mathbf{X}\)</span> are most important for predicting the labels in <span class="math inline">\(\mathbf{y}\)</span>, but also</li>
+<li>Precisely where we should <strong>“cut” the feature values in <span class="math inline">\(\mathbf{X}\)</span></strong> if we want to split the feature space into regions which distinguish (say) points with <strong>positive</strong> labels from points with <strong>negative</strong> labels</li>
+</ol>
+<p>In last week’s slides, for example, I introduced a scenario where we found ourselves dropped somewhere on the planet at some time of year, and we wanted to know whether or this place and time had <strong>good skiing</strong>, on the basis of the following dataset:</p>
+<p><img src="https://jjacobs.me/dsan5000/463a01339cf0f456ba54a1849df50d1a22c247e3/w12/index_files/figure-revealjs/ski-plot-binary-1.png" class="img-fluid"></p>
+<p>For this data, while methods we already know like Naïve Bayes or Support Vector Machines may be able to <strong>classify the points with high accuracy</strong>, these methods do <strong>not</strong> give us an interpretable set of <strong>decision boundaries</strong>, telling us how we could “chop” this Month-Latitude space up into sub-regions to separate good-skiing regions from bad-skiing regions<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>In other words, what we lose in terms of the <strong>efficiency</strong> or <strong>accuracy</strong> of DTs relative to other algorithms, we gain in terms of <strong>interpretability</strong>: while a Support Vector Machine approach may find that computing the value</p>
+<p><span class="math display">\[
+f_i^* = \frac{\text{Tempo}_i^7 + \pi \cdot \sqrt{\text{SongDuration}_i}}{\lceil e^{\text{Danceability}_i} + \sqrt{2}\rceil !}
+\]</span></p>
+<p>is extremely predictive of the genre of a song, this does not help us much as humans in terms of <strong>understanding</strong> what it is in a song that distinguishes its genre.</p>
+<p>DTs help us here, therefore, in that they are <strong>restricted</strong> to learning <strong>trees</strong> which are determined solely by a collection of pairs <span class="math inline">\((f,s)\)</span>, where <span class="math inline">\(f\)</span> is a feature and <span class="math inline">\(s\)</span> is a cutpoint, at each level of the tree. Thus, continuing the song-classification example, a one-level DT would only be allowed to learn a single rule <span class="math inline">\((f,s)\)</span>, which would be interpretable as:</p>
+<blockquote class="blockquote">
+<p>If you can only make a single “cut” in the feature space, you should cut it into a subregion <span class="math inline">\(R_1\)</span> containing all points <span class="math inline">\(X_i\)</span> for which feature <span class="math inline">\(f\)</span> is less than <span class="math inline">\(s\)</span> (<span class="math inline">\(X_{i,f} &lt; s\)</span>), and a subregion <span class="math inline">\(R_2\)</span> containing all points where feature <span class="math inline">\(f\)</span> is greater than <span class="math inline">\(s\)</span> (<span class="math inline">\(X_{i,f} \geq s\)</span>)</p>
+</blockquote>
+<p>So that, using the particular features we have for songs, this could translate to:</p>
+<blockquote class="blockquote">
+<p>The single feature which is most predictive of a song’s genre is <span class="math inline">\(\text{Tempo}\)</span>: if a song’s tempo is greater than 120bpm, you should classify it as EDM, while if the song’s tempo is less than 120bpm you should classify it as Jazz.</p>
+</blockquote>
+<section id="data-scraping" class="level2">
+<h2 class="anchored" data-anchor-id="data-scraping">(1) Data Scraping</h2>
+<p>For the actual dataset, we’re going to use Spotify’s Web API, which is very cool in general but specifically cool because it allows us to access a bunch of <a href="https://developer.spotify.com/documentation/web-api/reference/get-audio-features" target="_blank">Spotify-generated <strong>“audio features”</strong></a> for each track, consisting of the following information about the track:</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>acousticness</code></td>
+<td>A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.</td>
+</tr>
+<tr class="even">
+<td><code>danceability</code></td>
+<td>Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.</td>
+</tr>
+<tr class="odd">
+<td><code>duration_ms</code></td>
+<td>The duration of the track in milliseconds.</td>
+</tr>
+<tr class="even">
+<td><code>energy</code></td>
+<td>Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.</td>
+</tr>
+<tr class="odd">
+<td><code>instrumentalness</code></td>
+<td>Predicts whether a track contains no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.</td>
+</tr>
+<tr class="even">
+<td><code>key</code></td>
+<td>The key the track is in. Integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.</td>
+</tr>
+<tr class="odd">
+<td><code>liveness</code></td>
+<td>Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.</td>
+</tr>
+<tr class="even">
+<td><code>loudness</code></td>
+<td>The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.</td>
+</tr>
+<tr class="odd">
+<td><code>mode</code></td>
+<td>Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.</td>
+</tr>
+<tr class="even">
+<td><code>speechiness</code></td>
+<td>Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g.&nbsp;talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.</td>
+</tr>
+<tr class="odd">
+<td><code>tempo</code></td>
+<td>The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.</td>
+</tr>
+<tr class="even">
+<td><code>time_signature</code></td>
+<td>An estimated time signature. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure). The time signature ranges from 3 to 7 indicating time signatures of “3/4”, to “7/4”.</td>
+</tr>
+<tr class="odd">
+<td><code>valence</code></td>
+<td>A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g.&nbsp;happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g.&nbsp;sad, depressed, angry).</td>
+</tr>
+</tbody>
+</table>
+<p>Here we need Spotify API keys, which we load:</p>
+<ul>
+<li>(In Colab) using Colab’s new Secrets functionality (accessible in the sidebar on the left, by clicking the key icon, above the folder icon)</li>
+<li>(Otherwise) using a <code>.env</code> file in the base directory of our project (which we make sure to <strong>not</strong> commit to GitHub!)</li>
+</ul>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> google.colab</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  IN_COLAB <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  IN_COLAB <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> IN_COLAB:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="im">from</span> google.colab <span class="im">import</span> userdata</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  client_id <span class="op">=</span> userdata.get(<span class="st">'SPOTIFY_CLIENT_ID'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  secret_id <span class="op">=</span> userdata.get(<span class="st">'SPOTIFY_SECRET_ID'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  redirect_url <span class="op">=</span> userdata.get(<span class="st">'SPOTIFY_REDIRECT_URL'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> dotenv</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> os</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  dotenv.load_dotenv(override<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  client_id <span class="op">=</span> os.getenv(<span class="st">'SPOTIFY_CLIENT_ID'</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  secret_id <span class="op">=</span> os.getenv(<span class="st">'SPOTIFY_CLIENT_SECRET'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  redirect_uri <span class="op">=</span> os.getenv(<span class="st">'SPOTIFY_REDIRECT_URI'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we create a <strong>session</strong>, since we’re going to want to send an authorization header with every request we make to the Spotify API. Using a session object allows us to set the headers just once, rather than having to provide a <code>headers</code> argument to every <code>requests</code> call.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>my_session <span class="op">=</span> requests.session()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we request an <strong>access token</strong>, which we will be able to use to make calls to the Spotify API for one hour (at which point we’ll have to request another access token, by re-running this code)</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>token_request_url <span class="op">=</span> <span class="st">"https://accounts.spotify.com/api/token"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tr_headers <span class="op">=</span> {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Content-Type'</span>: <span class="st">'application/x-www-form-urlencoded'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>tr_data <span class="op">=</span> {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'grant_type'</span>: <span class="st">'client_credentials'</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'client_id'</span>: client_id,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'client_secret'</span>: secret_id</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> my_session.post(token_request_url, headers<span class="op">=</span>tr_headers, data<span class="op">=</span>tr_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="655f3b91-7e6a-4402-d23f-0024e92b817c" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>response_json <span class="op">=</span> response.json()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>my_token <span class="op">=</span> response_json[<span class="st">'access_token'</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>my_token</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>'BQCdGe1KQxEr1O81AQecb2b1feic_oyxVAqgZBemtInfYqTIuTJT_S96ks40VFxYcBWx6_83pLTA232N0Q0Xi322c92-r5FYUhGDR1gLRAN3PwTeBXk'</code></pre>
+</div>
+</div>
+<p>Now we can include this access token in our session’s header settings, so that from now on all calls to the Spotify API will include this token as our authorization:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>session_header <span class="op">=</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Authorization'</span>: <span class="ss">f'Bearer </span><span class="sc">{</span>my_token<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>my_session.headers.update(session_header)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>genre_map <span class="op">=</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># https://musicalyst.com/genre/jazz</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Jazz'</span>: [</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Chet Baker'</span>, <span class="st">'Ella Fitzgerald'</span>, <span class="st">'Stan Getz'</span>, <span class="st">'Billie Holiday'</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Miles Davis'</span>, <span class="st">'John Coltrane'</span>, <span class="st">'Bill Evans'</span>, <span class="st">'Duke Ellington'</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Herbie Hancock'</span>, <span class="st">'Bill Evans Trio'</span>, <span class="st">'Charles Mingus'</span>, <span class="st">'Wes Montgomery'</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Hip Hop'</span>: [</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Drake'</span>, <span class="st">'Kanye West'</span>, <span class="st">'Kendrick Lamar'</span>, <span class="st">'Tyler, The Creator'</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Metro Boomin'</span>, <span class="st">'Travis Scott'</span>, <span class="st">'Mac Miller'</span>, <span class="st">'J. Cole'</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Eminem'</span>, <span class="st">'Lil Uzi Vert'</span>, <span class="st">'21 Savage'</span>, <span class="st">'Future'</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Rock'</span>: [</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Arctic Monkeys'</span>, <span class="st">'Radiohead'</span>, <span class="st">'Deftones'</span>, <span class="st">'Tame Impala'</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'The Smiths'</span>, <span class="st">'Nirvana'</span>, <span class="st">'Queen'</span>, <span class="st">'The Beatles'</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Paramore'</span>, <span class="st">'The 1975'</span>, <span class="st">'Gorillaz'</span>, <span class="st">'My Chemical Romance'</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'EDM'</span>: [</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Calvin Harris'</span>, <span class="st">'David Guetta'</span>, <span class="st">'Avicii'</span>, <span class="st">'Fred again..'</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Tiësto'</span>, <span class="st">'Marshmello'</span>, <span class="st">'Skrillex'</span>, <span class="st">'Kygo'</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'ILLENIUM'</span>, <span class="st">'Martin Garrix'</span>, <span class="st">'Flume'</span>, <span class="st">'Zedd'</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'R&amp;B'</span>: [</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">'SZA'</span>, <span class="st">'Beyoncé'</span>, <span class="st">'Brent Faiyaz'</span>, <span class="st">'Michael Jackson'</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Summer Walker'</span>, <span class="st">'Tory Lanez'</span>, <span class="st">'Bryson Tiller'</span>, <span class="st">'PARTYNEXTDOOR'</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Chris Brown'</span>, <span class="st">'Miguel'</span>, <span class="st">'Giveon'</span>, <span class="st">'Jhené Aiko'</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Country'</span>: [</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Luke Combs'</span>, <span class="st">'Luke Bryan'</span>, <span class="st">'Zac Brown Band'</span>, <span class="st">'Jason Aldean'</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Jon Pardi'</span>, <span class="st">'Thomas Rhett'</span>, <span class="st">'Florida Georgia Line'</span>, <span class="st">'Kenny Chesney'</span>,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Carrie Underwood'</span>, <span class="st">'George Strait'</span>, <span class="st">'Kelsea Ballerini'</span>, <span class="st">'Sam Hunt'</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Ambient'</span>: [</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Aphex Twin'</span>, <span class="st">'Grouper'</span>, <span class="st">'Brian Eno'</span>, <span class="st">'Tim Hecker'</span>,</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Oneohtrix Point Never'</span>, <span class="st">'Harold Budd'</span>, <span class="st">'William Basinski'</span>, <span class="st">'Chihei Hatakeyama'</span>,</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Hiroshi Yoshimura'</span>, <span class="st">'Marconi Union'</span>, <span class="st">'Susumu Yokota'</span>, <span class="st">'Stars Of The Lid'</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="9d85805d-9531-4c0a-c5de-aaa38ba99bd1" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_rows <span class="op">=</span> []</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cur_genre, artist_list <span class="kw">in</span> genre_map.items():</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cur_artist <span class="kw">in</span> artist_list:</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        cur_data <span class="op">=</span> {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">'artist'</span>: cur_artist,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">'genre'</span>: cur_genre</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        data_rows.append(cur_data)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>artist_df <span class="op">=</span> pd.DataFrame(data_rows)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>artist_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">artist</th>
+<th data-quarto-table-cell-role="th">genre</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Ella Fitzgerald</td>
+<td>Jazz</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Stan Getz</td>
+<td>Jazz</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Billie Holiday</td>
+<td>Jazz</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Miles Davis</td>
+<td>Jazz</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">79</td>
+<td>Chihei Hatakeyama</td>
+<td>Ambient</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">80</td>
+<td>Hiroshi Yoshimura</td>
+<td>Ambient</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">81</td>
+<td>Marconi Union</td>
+<td>Ambient</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">82</td>
+<td>Susumu Yokota</td>
+<td>Ambient</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">83</td>
+<td>Stars Of The Lid</td>
+<td>Ambient</td>
+</tr>
+</tbody>
+</table>
+
+<p>84 rows × 2 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get spotify id for each artist</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>artist_search_template <span class="op">=</span> <span class="st">"https://api.spotify.com/v1/search?q=</span><span class="sc">{query}</span><span class="st">&amp;type=artist"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_artist_id(artist_name):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    artist_search_url <span class="op">=</span> artist_search_template.<span class="bu">format</span>(query<span class="op">=</span>artist_name)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    artist_search_response <span class="op">=</span> my_session.get(artist_search_url)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    artist_response_json <span class="op">=</span> artist_search_response.json()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    response_artists <span class="op">=</span> artist_response_json[<span class="st">'artists'</span>]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#response_artists.keys()</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    artist_id <span class="op">=</span> response_artists[<span class="st">'items'</span>][<span class="dv">0</span>][<span class="st">'id'</span>]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> artist_id</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>artist_df[<span class="st">'artist_id'</span>] <span class="op">=</span> artist_df[<span class="st">'artist'</span>].<span class="bu">apply</span>(get_artist_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And save this information to a <code>.csv</code> file, so we don’t have to make redundant API calls:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>artist_df.to_csv(<span class="st">"artist_ids.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="86f0f37d-b248-4871-94d2-0f2959e7e0c5" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>artist_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">artist</th>
+<th data-quarto-table-cell-role="th">genre</th>
+<th data-quarto-table-cell-role="th">artist_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Ella Fitzgerald</td>
+<td>Jazz</td>
+<td>5V0MlUE1Bft0mbLlND7FJz</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Stan Getz</td>
+<td>Jazz</td>
+<td>0FMucZsEnCxs5pqBjHjIc8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Billie Holiday</td>
+<td>Jazz</td>
+<td>1YzCsTRb22dQkh9lghPIrp</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Miles Davis</td>
+<td>Jazz</td>
+<td>0kbYTNQb4Pb1rPbbaF0pT4</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Now we can request the most popular songs for each artist. To see how this works, first we request the most popular songs for the first artist in our DataFrame, Chet Baker:</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>first_artist_id <span class="op">=</span> artist_df.iloc[<span class="dv">0</span>][<span class="st">'artist_id'</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>artist_api_template <span class="op">=</span> <span class="st">'https://api.spotify.com/v1/artists/</span><span class="sc">{artist_id}</span><span class="st">/top-tracks?market=US'</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>artist_api_url <span class="op">=</span> artist_api_template.<span class="bu">format</span>(artist_id <span class="op">=</span> first_artist_id)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> my_session.get(artist_api_url)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>response_json <span class="op">=</span> response.json()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="a25700af-96d2-4a16-b16f-fa4b4ad2f76c" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>response_tracks <span class="op">=</span> response_json[<span class="st">'tracks'</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(response_tracks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>10</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="9d0309ab-3df5-4694-f13e-f90ed3bbb793" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>response_tracks</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>[{'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/5JJ779nrbHx0KB2lBrMMa4'},
+   'href': 'https://api.spotify.com/v1/albums/5JJ779nrbHx0KB2lBrMMa4',
+   'id': '5JJ779nrbHx0KB2lBrMMa4',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273bcaf6f097b310e20504f2de0',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02bcaf6f097b310e20504f2de0',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851bcaf6f097b310e20504f2de0',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings',
+   'release_date': '1956',
+   'release_date_precision': 'year',
+   'total_tracks': 14,
+   'type': 'album',
+   'uri': 'spotify:album:5JJ779nrbHx0KB2lBrMMa4'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 201440,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900070'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/0F845nujLVqCb0XMZCh5Pc'},
+  'href': 'https://api.spotify.com/v1/tracks/0F845nujLVqCb0XMZCh5Pc',
+  'id': '0F845nujLVqCb0XMZCh5Pc',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'I Fall In Love Too Easily',
+  'popularity': 69,
+  'preview_url': None,
+  'track_number': 13,
+  'type': 'track',
+  'uri': 'spotify:track:0F845nujLVqCb0XMZCh5Pc'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/5JJ779nrbHx0KB2lBrMMa4'},
+   'href': 'https://api.spotify.com/v1/albums/5JJ779nrbHx0KB2lBrMMa4',
+   'id': '5JJ779nrbHx0KB2lBrMMa4',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273bcaf6f097b310e20504f2de0',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02bcaf6f097b310e20504f2de0',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851bcaf6f097b310e20504f2de0',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings',
+   'release_date': '1956',
+   'release_date_precision': 'year',
+   'total_tracks': 14,
+   'type': 'album',
+   'uri': 'spotify:album:5JJ779nrbHx0KB2lBrMMa4'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 141133,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900073'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/4l9hml2UCnxoNI3yCdL1BW'},
+  'href': 'https://api.spotify.com/v1/tracks/4l9hml2UCnxoNI3yCdL1BW',
+  'id': '4l9hml2UCnxoNI3yCdL1BW',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'My Funny Valentine',
+  'popularity': 67,
+  'preview_url': None,
+  'track_number': 10,
+  'type': 'track',
+  'uri': 'spotify:track:4l9hml2UCnxoNI3yCdL1BW'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/5JJ779nrbHx0KB2lBrMMa4'},
+   'href': 'https://api.spotify.com/v1/albums/5JJ779nrbHx0KB2lBrMMa4',
+   'id': '5JJ779nrbHx0KB2lBrMMa4',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273bcaf6f097b310e20504f2de0',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02bcaf6f097b310e20504f2de0',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851bcaf6f097b310e20504f2de0',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings',
+   'release_date': '1956',
+   'release_date_precision': 'year',
+   'total_tracks': 14,
+   'type': 'album',
+   'uri': 'spotify:album:5JJ779nrbHx0KB2lBrMMa4'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 166760,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900129'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/4m6OC8u2rC6LMFtFWsME7d'},
+  'href': 'https://api.spotify.com/v1/tracks/4m6OC8u2rC6LMFtFWsME7d',
+  'id': '4m6OC8u2rC6LMFtFWsME7d',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'Time After Time - Vocal Version',
+  'popularity': 63,
+  'preview_url': None,
+  'track_number': 8,
+  'type': 'track',
+  'uri': 'spotify:track:4m6OC8u2rC6LMFtFWsME7d'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/3Cnj43AyRQy21WQWsngNDs'},
+   'href': 'https://api.spotify.com/v1/albums/3Cnj43AyRQy21WQWsngNDs',
+   'id': '3Cnj43AyRQy21WQWsngNDs',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b2733e4457449e2f1b31de4d45e7',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e023e4457449e2f1b31de4d45e7',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d000048513e4457449e2f1b31de4d45e7',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Jazz Moods - Cool',
+   'release_date': '1974',
+   'release_date_precision': 'year',
+   'total_tracks': 7,
+   'type': 'album',
+   'uri': 'spotify:album:3Cnj43AyRQy21WQWsngNDs'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 422640,
+  'explicit': False,
+  'external_ids': {'isrc': 'USSM10021825'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/1QlTNF43OyKK9BorIRsJ8o'},
+  'href': 'https://api.spotify.com/v1/tracks/1QlTNF43OyKK9BorIRsJ8o',
+  'id': '1QlTNF43OyKK9BorIRsJ8o',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'Autumn Leaves',
+  'popularity': 56,
+  'preview_url': 'https://p.scdn.co/mp3-preview/ec82c66610e033e81e0c615edb2ddf5f2575d54c?cid=5f6ccd4e666f48f9856ea6e6f078666a',
+  'track_number': 3,
+  'type': 'track',
+  'uri': 'spotify:track:1QlTNF43OyKK9BorIRsJ8o'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/5JJ779nrbHx0KB2lBrMMa4'},
+   'href': 'https://api.spotify.com/v1/albums/5JJ779nrbHx0KB2lBrMMa4',
+   'id': '5JJ779nrbHx0KB2lBrMMa4',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273bcaf6f097b310e20504f2de0',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02bcaf6f097b310e20504f2de0',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851bcaf6f097b310e20504f2de0',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings',
+   'release_date': '1956',
+   'release_date_precision': 'year',
+   'total_tracks': 14,
+   'type': 'album',
+   'uri': 'spotify:album:5JJ779nrbHx0KB2lBrMMa4'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 179640,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900074'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/4gFlHAye7To29Fs4UszQUH'},
+  'href': 'https://api.spotify.com/v1/tracks/4gFlHAye7To29Fs4UszQUH',
+  'id': '4gFlHAye7To29Fs4UszQUH',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'I Get Along Without You Very Well (Except Sometimes) - Vocal Version',
+  'popularity': 62,
+  'preview_url': None,
+  'track_number': 9,
+  'type': 'track',
+  'uri': 'spotify:track:4gFlHAye7To29Fs4UszQUH'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/5JJ779nrbHx0KB2lBrMMa4'},
+   'href': 'https://api.spotify.com/v1/albums/5JJ779nrbHx0KB2lBrMMa4',
+   'id': '5JJ779nrbHx0KB2lBrMMa4',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273bcaf6f097b310e20504f2de0',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02bcaf6f097b310e20504f2de0',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851bcaf6f097b310e20504f2de0',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings',
+   'release_date': '1956',
+   'release_date_precision': 'year',
+   'total_tracks': 14,
+   'type': 'album',
+   'uri': 'spotify:album:5JJ779nrbHx0KB2lBrMMa4'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 215466,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900078'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/06UkYE0SZ3Y8zGRFOuWGAe'},
+  'href': 'https://api.spotify.com/v1/tracks/06UkYE0SZ3Y8zGRFOuWGAe',
+  'id': '06UkYE0SZ3Y8zGRFOuWGAe',
+  'is_local': False,
+  'is_playable': True,
+  'name': "It's Always You - Vocal Version",
+  'popularity': 62,
+  'preview_url': None,
+  'track_number': 2,
+  'type': 'track',
+  'uri': 'spotify:track:06UkYE0SZ3Y8zGRFOuWGAe'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/5JJ779nrbHx0KB2lBrMMa4'},
+   'href': 'https://api.spotify.com/v1/albums/5JJ779nrbHx0KB2lBrMMa4',
+   'id': '5JJ779nrbHx0KB2lBrMMa4',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273bcaf6f097b310e20504f2de0',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02bcaf6f097b310e20504f2de0',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851bcaf6f097b310e20504f2de0',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings',
+   'release_date': '1956',
+   'release_date_precision': 'year',
+   'total_tracks': 14,
+   'type': 'album',
+   'uri': 'spotify:album:5JJ779nrbHx0KB2lBrMMa4'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 184466,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900093'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/3pfbQmD5xGH9Tcc7GqGfSL'},
+  'href': 'https://api.spotify.com/v1/tracks/3pfbQmD5xGH9Tcc7GqGfSL',
+  'id': '3pfbQmD5xGH9Tcc7GqGfSL',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'But Not For Me - Vocal Version',
+  'popularity': 60,
+  'preview_url': None,
+  'track_number': 7,
+  'type': 'track',
+  'uri': 'spotify:track:3pfbQmD5xGH9Tcc7GqGfSL'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/5JJ779nrbHx0KB2lBrMMa4'},
+   'href': 'https://api.spotify.com/v1/albums/5JJ779nrbHx0KB2lBrMMa4',
+   'id': '5JJ779nrbHx0KB2lBrMMa4',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273bcaf6f097b310e20504f2de0',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02bcaf6f097b310e20504f2de0',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851bcaf6f097b310e20504f2de0',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings',
+   'release_date': '1956',
+   'release_date_precision': 'year',
+   'total_tracks': 14,
+   'type': 'album',
+   'uri': 'spotify:album:5JJ779nrbHx0KB2lBrMMa4'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 183893,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900117'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/2d64G7VaZdHQuAquz5HQNu'},
+  'href': 'https://api.spotify.com/v1/tracks/2d64G7VaZdHQuAquz5HQNu',
+  'id': '2d64G7VaZdHQuAquz5HQNu',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'That Old Feeling',
+  'popularity': 58,
+  'preview_url': None,
+  'track_number': 1,
+  'type': 'track',
+  'uri': 'spotify:track:2d64G7VaZdHQuAquz5HQNu'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/6UEhnkt6B9hfACniByRiEm'},
+   'href': 'https://api.spotify.com/v1/albums/6UEhnkt6B9hfACniByRiEm',
+   'id': '6UEhnkt6B9hfACniByRiEm',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b2731cb6a101d306a562d210f334',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e021cb6a101d306a562d210f334',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d000048511cb6a101d306a562d210f334',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Essential Standards (eBooklet)',
+   'release_date': '2009-01-01',
+   'release_date_precision': 'day',
+   'total_tracks': 12,
+   'type': 'album',
+   'uri': 'spotify:album:6UEhnkt6B9hfACniByRiEm'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 304906,
+  'explicit': False,
+  'external_ids': {'isrc': 'USFI85800035'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/00jqmEUSISjkugkuFxGiTo'},
+  'href': 'https://api.spotify.com/v1/tracks/00jqmEUSISjkugkuFxGiTo',
+  'id': '00jqmEUSISjkugkuFxGiTo',
+  'is_local': False,
+  'is_playable': True,
+  'name': 'Everything Happens To Me',
+  'popularity': 54,
+  'preview_url': None,
+  'track_number': 11,
+  'type': 'track',
+  'uri': 'spotify:track:00jqmEUSISjkugkuFxGiTo'},
+ {'album': {'album_type': 'album',
+   'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+     'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+     'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+     'name': 'Chet Baker',
+     'type': 'artist',
+     'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+   'external_urls': {'spotify': 'https://open.spotify.com/album/6NVtIIsVMTuphtcAN9FxCc'},
+   'href': 'https://api.spotify.com/v1/albums/6NVtIIsVMTuphtcAN9FxCc',
+   'id': '6NVtIIsVMTuphtcAN9FxCc',
+   'images': [{'height': 640,
+     'url': 'https://i.scdn.co/image/ab67616d0000b273139959676bd3da09a14b40c3',
+     'width': 640},
+    {'height': 300,
+     'url': 'https://i.scdn.co/image/ab67616d00001e02139959676bd3da09a14b40c3',
+     'width': 300},
+    {'height': 64,
+     'url': 'https://i.scdn.co/image/ab67616d00004851139959676bd3da09a14b40c3',
+     'width': 64}],
+   'is_playable': True,
+   'name': 'Chet Baker Sings And Plays (Remastered 2004)',
+   'release_date': '1955-01-01',
+   'release_date_precision': 'day',
+   'total_tracks': 11,
+   'type': 'album',
+   'uri': 'spotify:album:6NVtIIsVMTuphtcAN9FxCc'},
+  'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/3rxeQlsv0Sc2nyYaZ5W71T'},
+    'href': 'https://api.spotify.com/v1/artists/3rxeQlsv0Sc2nyYaZ5W71T',
+    'id': '3rxeQlsv0Sc2nyYaZ5W71T',
+    'name': 'Chet Baker',
+    'type': 'artist',
+    'uri': 'spotify:artist:3rxeQlsv0Sc2nyYaZ5W71T'}],
+  'disc_number': 1,
+  'duration_ms': 223706,
+  'explicit': False,
+  'external_ids': {'isrc': 'USBN28900080'},
+  'external_urls': {'spotify': 'https://open.spotify.com/track/0UZFhlhUMrYyzzyOHkylM3'},
+  'href': 'https://api.spotify.com/v1/tracks/0UZFhlhUMrYyzzyOHkylM3',
+  'id': '0UZFhlhUMrYyzzyOHkylM3',
+  'is_local': False,
+  'is_playable': True,
+  'name': "Let's Get Lost",
+  'popularity': 56,
+  'preview_url': None,
+  'track_number': 1,
+  'type': 'track',
+  'uri': 'spotify:track:0UZFhlhUMrYyzzyOHkylM3'}]</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="65d2a3f6-9354-48d1-e59f-74783298608c" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>track_ids <span class="op">=</span> [track_data[<span class="st">'id'</span>] <span class="cf">for</span> track_data <span class="kw">in</span> response_tracks]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>track_ids_str <span class="op">=</span> <span class="st">','</span>.join(track_ids)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>track_ids_str</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>'0F845nujLVqCb0XMZCh5Pc,4l9hml2UCnxoNI3yCdL1BW,4m6OC8u2rC6LMFtFWsME7d,1QlTNF43OyKK9BorIRsJ8o,4gFlHAye7To29Fs4UszQUH,06UkYE0SZ3Y8zGRFOuWGAe,3pfbQmD5xGH9Tcc7GqGfSL,2d64G7VaZdHQuAquz5HQNu,00jqmEUSISjkugkuFxGiTo,0UZFhlhUMrYyzzyOHkylM3'</code></pre>
+</div>
+</div>
+<p>And now we can get the <strong>features</strong> for these tracks:</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>aud_feature_template <span class="op">=</span> <span class="st">'https://api.spotify.com/v1/audio-features?ids=</span><span class="sc">{track_ids}</span><span class="st">'</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>aud_feature_url <span class="op">=</span> aud_feature_template.<span class="bu">format</span>(track_ids <span class="op">=</span> track_ids_str)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>aud_feature_response <span class="op">=</span> my_session.get(aud_feature_url)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>aud_feat_list <span class="op">=</span> aud_feature_response.json()[<span class="st">'audio_features'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For each track, we now have feature info, so we add each track’s info to a list, which we then convert to a DataFrame</p>
+<div class="cell" data-outputid="44338da7-0451-4b27-f2c6-f98c260b9e41" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>aud_feat_list[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>{'danceability': 0.438,
+ 'energy': 0.00756,
+ 'key': 0,
+ 'loudness': -26.44,
+ 'mode': 0,
+ 'speechiness': 0.0382,
+ 'acousticness': 0.941,
+ 'instrumentalness': 0.00643,
+ 'liveness': 0.109,
+ 'valence': 0.277,
+ 'tempo': 133.32,
+ 'type': 'audio_features',
+ 'id': '4l9hml2UCnxoNI3yCdL1BW',
+ 'uri': 'spotify:track:4l9hml2UCnxoNI3yCdL1BW',
+ 'track_href': 'https://api.spotify.com/v1/tracks/4l9hml2UCnxoNI3yCdL1BW',
+ 'analysis_url': 'https://api.spotify.com/v1/audio-analysis/4l9hml2UCnxoNI3yCdL1BW',
+ 'duration_ms': 141133,
+ 'time_signature': 4}</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="1fdc7b8c-a91a-4bdb-e109-bbd3ad5deb78" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>artist_df[artist_df[<span class="st">'artist'</span>] <span class="op">==</span> <span class="st">"Tory Lanez"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">artist</th>
+<th data-quarto-table-cell-role="th">genre</th>
+<th data-quarto-table-cell-role="th">artist_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">53</td>
+<td>Tory Lanez</td>
+<td>R&amp;B</td>
+<td>2jku7tDXc6XoB6MO2hFuqg</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Now we can do this in a loop, for <strong>all</strong> of the artists!</p>
+<div class="cell" data-outputid="f228bcb6-586f-48de-8268-3288a12d0d3a" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>all_track_data <span class="op">=</span> []</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row_index, row <span class="kw">in</span> artist_df.iterrows():</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  cur_artist <span class="op">=</span> row[<span class="st">'artist'</span>]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(cur_artist)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  cur_genre <span class="op">=</span> row[<span class="st">'genre'</span>]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  cur_artist_id <span class="op">=</span> row[<span class="st">'artist_id'</span>]</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get the artist's top songs</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  artist_api_url <span class="op">=</span> artist_api_template.<span class="bu">format</span>(artist_id <span class="op">=</span> cur_artist_id)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  artist_response <span class="op">=</span> my_session.get(artist_api_url)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  artist_response_json <span class="op">=</span> artist_response.json()</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(artist_response_json.keys())</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  artist_response_tracks <span class="op">=</span> artist_response_json[<span class="st">'tracks'</span>]</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  track_names <span class="op">=</span> [track_data[<span class="st">'name'</span>] <span class="cf">for</span> track_data <span class="kw">in</span> artist_response_tracks]</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  track_ids <span class="op">=</span> [track_data[<span class="st">'id'</span>] <span class="cf">for</span> track_data <span class="kw">in</span> artist_response_tracks]</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  track_ids_str <span class="op">=</span> <span class="st">','</span>.join(track_ids)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Now we query the audio features API with this list of tracks</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  aud_feature_url <span class="op">=</span> aud_feature_template.<span class="bu">format</span>(track_ids <span class="op">=</span> track_ids_str)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  aud_feature_response <span class="op">=</span> my_session.get(aud_feature_url)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="st">'audio_features'</span> <span class="kw">not</span> <span class="kw">in</span> aud_feature_response.json():</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>  aud_feat_list <span class="op">=</span> aud_feature_response.json()[<span class="st">'audio_features'</span>]</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Each entry in aud_feat_list contains info for the track, so we create a dict</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># object for each entry, and add each one to all_track_data</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> track_index, cur_aud_feats <span class="kw">in</span> <span class="bu">enumerate</span>(aud_feat_list):</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cur_aud_feats <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>      <span class="cf">continue</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    cur_track_data <span class="op">=</span> {</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">'artist'</span>: cur_artist,</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">'genre'</span>: cur_genre,</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">'artist_id'</span>: cur_artist_id,</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">'name'</span>: track_names[track_index]</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>    cur_track_data.update(cur_aud_feats)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    all_track_data.append(cur_track_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Chet Baker
+dict_keys(['tracks'])
+Ella Fitzgerald
+dict_keys(['tracks'])
+Stan Getz
+dict_keys(['tracks'])
+Billie Holiday
+dict_keys(['tracks'])
+Miles Davis
+dict_keys(['tracks'])
+John Coltrane
+dict_keys(['tracks'])
+Bill Evans
+dict_keys(['tracks'])
+Duke Ellington
+dict_keys(['tracks'])
+Herbie Hancock
+dict_keys(['tracks'])
+Bill Evans Trio
+dict_keys(['tracks'])
+Charles Mingus
+dict_keys(['tracks'])
+Wes Montgomery
+dict_keys(['tracks'])
+Drake
+dict_keys(['tracks'])
+Kanye West
+dict_keys(['tracks'])
+Kendrick Lamar
+dict_keys(['tracks'])
+Tyler, The Creator
+dict_keys(['tracks'])
+Metro Boomin
+dict_keys(['tracks'])
+Travis Scott
+dict_keys(['tracks'])
+Mac Miller
+dict_keys(['tracks'])
+J. Cole
+dict_keys(['tracks'])
+Eminem
+dict_keys(['tracks'])
+Lil Uzi Vert
+dict_keys(['tracks'])
+21 Savage
+dict_keys(['tracks'])
+Future
+dict_keys(['tracks'])
+Arctic Monkeys
+dict_keys(['tracks'])
+Radiohead
+dict_keys(['tracks'])
+Deftones
+dict_keys(['tracks'])
+Tame Impala
+dict_keys(['tracks'])
+The Smiths
+dict_keys(['tracks'])
+Nirvana
+dict_keys(['tracks'])
+Queen
+dict_keys(['tracks'])
+The Beatles
+dict_keys(['tracks'])
+Paramore
+dict_keys(['tracks'])
+The 1975
+dict_keys(['tracks'])
+Gorillaz
+dict_keys(['tracks'])
+My Chemical Romance
+dict_keys(['tracks'])
+Calvin Harris
+dict_keys(['tracks'])
+David Guetta
+dict_keys(['tracks'])
+Avicii
+dict_keys(['tracks'])
+Fred again..
+dict_keys(['tracks'])
+Tiësto
+dict_keys(['tracks'])
+Marshmello
+dict_keys(['tracks'])
+Skrillex
+dict_keys(['tracks'])
+Kygo
+dict_keys(['tracks'])
+ILLENIUM
+dict_keys(['tracks'])
+Martin Garrix
+dict_keys(['tracks'])
+Flume
+dict_keys(['tracks'])
+Zedd
+dict_keys(['tracks'])
+SZA
+dict_keys(['tracks'])
+Beyoncé
+dict_keys(['tracks'])
+Brent Faiyaz
+dict_keys(['tracks'])
+Michael Jackson
+dict_keys(['tracks'])
+Summer Walker
+dict_keys(['tracks'])
+Tory Lanez
+dict_keys(['tracks'])
+Bryson Tiller
+dict_keys(['tracks'])
+PARTYNEXTDOOR
+dict_keys(['tracks'])
+Chris Brown
+dict_keys(['tracks'])
+Miguel
+dict_keys(['tracks'])
+Giveon
+dict_keys(['tracks'])
+Jhené Aiko
+dict_keys(['tracks'])
+Luke Combs
+dict_keys(['tracks'])
+Luke Bryan
+dict_keys(['tracks'])
+Zac Brown Band
+dict_keys(['tracks'])
+Jason Aldean
+dict_keys(['tracks'])
+Jon Pardi
+dict_keys(['tracks'])
+Thomas Rhett
+dict_keys(['tracks'])
+Florida Georgia Line
+dict_keys(['tracks'])
+Kenny Chesney
+dict_keys(['tracks'])
+Carrie Underwood
+dict_keys(['tracks'])
+George Strait
+dict_keys(['tracks'])
+Kelsea Ballerini
+dict_keys(['tracks'])
+Sam Hunt
+dict_keys(['tracks'])
+Aphex Twin
+dict_keys(['tracks'])
+Grouper
+dict_keys(['tracks'])
+Brian Eno
+dict_keys(['tracks'])
+Tim Hecker
+dict_keys(['tracks'])
+Oneohtrix Point Never
+dict_keys(['tracks'])
+Harold Budd
+dict_keys(['tracks'])
+William Basinski
+dict_keys(['tracks'])
+Chihei Hatakeyama
+dict_keys(['tracks'])
+Hiroshi Yoshimura
+dict_keys(['tracks'])
+Marconi Union
+dict_keys(['tracks'])
+Susumu Yokota
+dict_keys(['tracks'])
+Stars Of The Lid
+dict_keys(['tracks'])</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="fb37f017-e33d-475f-8b83-3b1ed89f4b6f" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>track_df <span class="op">=</span> pd.DataFrame(all_track_data)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>track_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">artist</th>
+<th data-quarto-table-cell-role="th">genre</th>
+<th data-quarto-table-cell-role="th">artist_id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">danceability</th>
+<th data-quarto-table-cell-role="th">energy</th>
+<th data-quarto-table-cell-role="th">key</th>
+<th data-quarto-table-cell-role="th">loudness</th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">speechiness</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">liveness</th>
+<th data-quarto-table-cell-role="th">valence</th>
+<th data-quarto-table-cell-role="th">tempo</th>
+<th data-quarto-table-cell-role="th">type</th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">uri</th>
+<th data-quarto-table-cell-role="th">track_href</th>
+<th data-quarto-table-cell-role="th">analysis_url</th>
+<th data-quarto-table-cell-role="th">duration_ms</th>
+<th data-quarto-table-cell-role="th">time_signature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>I Fall In Love Too Easily</td>
+<td>0.532</td>
+<td>0.06570</td>
+<td>0</td>
+<td>-19.136</td>
+<td>0</td>
+<td>0.0406</td>
+<td>...</td>
+<td>0.0946</td>
+<td>0.292</td>
+<td>128.607</td>
+<td>audio_features</td>
+<td>0F845nujLVqCb0XMZCh5Pc</td>
+<td>spotify:track:0F845nujLVqCb0XMZCh5Pc</td>
+<td>https://api.spotify.com/v1/tracks/0F845nujLVqC...</td>
+<td>https://api.spotify.com/v1/audio-analysis/0F84...</td>
+<td>201440</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>My Funny Valentine</td>
+<td>0.438</td>
+<td>0.00756</td>
+<td>0</td>
+<td>-26.440</td>
+<td>0</td>
+<td>0.0382</td>
+<td>...</td>
+<td>0.1090</td>
+<td>0.277</td>
+<td>133.320</td>
+<td>audio_features</td>
+<td>4l9hml2UCnxoNI3yCdL1BW</td>
+<td>spotify:track:4l9hml2UCnxoNI3yCdL1BW</td>
+<td>https://api.spotify.com/v1/tracks/4l9hml2UCnxo...</td>
+<td>https://api.spotify.com/v1/audio-analysis/4l9h...</td>
+<td>141133</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>Time After Time - Vocal Version</td>
+<td>0.501</td>
+<td>0.04540</td>
+<td>0</td>
+<td>-18.783</td>
+<td>1</td>
+<td>0.0388</td>
+<td>...</td>
+<td>0.2000</td>
+<td>0.255</td>
+<td>99.783</td>
+<td>audio_features</td>
+<td>4m6OC8u2rC6LMFtFWsME7d</td>
+<td>spotify:track:4m6OC8u2rC6LMFtFWsME7d</td>
+<td>https://api.spotify.com/v1/tracks/4m6OC8u2rC6L...</td>
+<td>https://api.spotify.com/v1/audio-analysis/4m6O...</td>
+<td>166760</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>Autumn Leaves</td>
+<td>0.350</td>
+<td>0.60700</td>
+<td>5</td>
+<td>-11.141</td>
+<td>0</td>
+<td>0.0498</td>
+<td>...</td>
+<td>0.1160</td>
+<td>0.597</td>
+<td>187.101</td>
+<td>audio_features</td>
+<td>1QlTNF43OyKK9BorIRsJ8o</td>
+<td>spotify:track:1QlTNF43OyKK9BorIRsJ8o</td>
+<td>https://api.spotify.com/v1/tracks/1QlTNF43OyKK...</td>
+<td>https://api.spotify.com/v1/audio-analysis/1QlT...</td>
+<td>422640</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>I Get Along Without You Very Well (Except Some...</td>
+<td>0.442</td>
+<td>0.03300</td>
+<td>10</td>
+<td>-23.063</td>
+<td>1</td>
+<td>0.0410</td>
+<td>...</td>
+<td>0.1510</td>
+<td>0.210</td>
+<td>103.340</td>
+<td>audio_features</td>
+<td>4gFlHAye7To29Fs4UszQUH</td>
+<td>spotify:track:4gFlHAye7To29Fs4UszQUH</td>
+<td>https://api.spotify.com/v1/tracks/4gFlHAye7To2...</td>
+<td>https://api.spotify.com/v1/audio-analysis/4gFl...</td>
+<td>179640</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 22 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>track_df.to_csv(<span class="st">"track_features.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="decision-tree" class="level2">
+<h2 class="anchored" data-anchor-id="decision-tree">(2) Decision Tree</h2>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comment out the following lines if you modified the above code, to use your own</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># artists/genres/features. Otherwise, this loads a pre-scraped dataset</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>track_features_url <span class="op">=</span> <span class="st">"https://jpj.georgetown.domains/dsan5000-scratch/dt/track_features.csv"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>track_df <span class="op">=</span> pd.read_csv(track_features_url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="12bed7c4-f178-422a-c681-b1cf509696c1" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>track_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">artist</th>
+<th data-quarto-table-cell-role="th">genre</th>
+<th data-quarto-table-cell-role="th">artist_id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">danceability</th>
+<th data-quarto-table-cell-role="th">energy</th>
+<th data-quarto-table-cell-role="th">key</th>
+<th data-quarto-table-cell-role="th">loudness</th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">speechiness</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">liveness</th>
+<th data-quarto-table-cell-role="th">valence</th>
+<th data-quarto-table-cell-role="th">tempo</th>
+<th data-quarto-table-cell-role="th">type</th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">uri</th>
+<th data-quarto-table-cell-role="th">track_href</th>
+<th data-quarto-table-cell-role="th">analysis_url</th>
+<th data-quarto-table-cell-role="th">duration_ms</th>
+<th data-quarto-table-cell-role="th">time_signature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>I Fall In Love Too Easily</td>
+<td>0.532</td>
+<td>0.06570</td>
+<td>0</td>
+<td>-19.136</td>
+<td>0</td>
+<td>0.0406</td>
+<td>...</td>
+<td>0.0946</td>
+<td>0.292</td>
+<td>128.607</td>
+<td>audio_features</td>
+<td>0F845nujLVqCb0XMZCh5Pc</td>
+<td>spotify:track:0F845nujLVqCb0XMZCh5Pc</td>
+<td>https://api.spotify.com/v1/tracks/0F845nujLVqC...</td>
+<td>https://api.spotify.com/v1/audio-analysis/0F84...</td>
+<td>201440</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>My Funny Valentine</td>
+<td>0.438</td>
+<td>0.00756</td>
+<td>0</td>
+<td>-26.440</td>
+<td>0</td>
+<td>0.0382</td>
+<td>...</td>
+<td>0.1090</td>
+<td>0.277</td>
+<td>133.320</td>
+<td>audio_features</td>
+<td>4l9hml2UCnxoNI3yCdL1BW</td>
+<td>spotify:track:4l9hml2UCnxoNI3yCdL1BW</td>
+<td>https://api.spotify.com/v1/tracks/4l9hml2UCnxo...</td>
+<td>https://api.spotify.com/v1/audio-analysis/4l9h...</td>
+<td>141133</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>Time After Time - Vocal Version</td>
+<td>0.501</td>
+<td>0.04540</td>
+<td>0</td>
+<td>-18.783</td>
+<td>1</td>
+<td>0.0388</td>
+<td>...</td>
+<td>0.2000</td>
+<td>0.255</td>
+<td>99.783</td>
+<td>audio_features</td>
+<td>4m6OC8u2rC6LMFtFWsME7d</td>
+<td>spotify:track:4m6OC8u2rC6LMFtFWsME7d</td>
+<td>https://api.spotify.com/v1/tracks/4m6OC8u2rC6L...</td>
+<td>https://api.spotify.com/v1/audio-analysis/4m6O...</td>
+<td>166760</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>Autumn Leaves</td>
+<td>0.350</td>
+<td>0.60700</td>
+<td>5</td>
+<td>-11.141</td>
+<td>0</td>
+<td>0.0498</td>
+<td>...</td>
+<td>0.1160</td>
+<td>0.597</td>
+<td>187.101</td>
+<td>audio_features</td>
+<td>1QlTNF43OyKK9BorIRsJ8o</td>
+<td>spotify:track:1QlTNF43OyKK9BorIRsJ8o</td>
+<td>https://api.spotify.com/v1/tracks/1QlTNF43OyKK...</td>
+<td>https://api.spotify.com/v1/audio-analysis/1QlT...</td>
+<td>422640</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Chet Baker</td>
+<td>Jazz</td>
+<td>3rxeQlsv0Sc2nyYaZ5W71T</td>
+<td>I Get Along Without You Very Well (Except Some...</td>
+<td>0.442</td>
+<td>0.03300</td>
+<td>10</td>
+<td>-23.063</td>
+<td>1</td>
+<td>0.0410</td>
+<td>...</td>
+<td>0.1510</td>
+<td>0.210</td>
+<td>103.340</td>
+<td>audio_features</td>
+<td>4gFlHAye7To29Fs4UszQUH</td>
+<td>spotify:track:4gFlHAye7To29Fs4UszQUH</td>
+<td>https://api.spotify.com/v1/tracks/4gFlHAye7To2...</td>
+<td>https://api.spotify.com/v1/audio-analysis/4gFl...</td>
+<td>179640</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 22 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn.tree</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn.model_selection</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Exclude specific genres, if desired</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>exclude_genres <span class="op">=</span> [<span class="st">'Rock'</span>, <span class="st">'Country'</span>, <span class="st">'R&amp;B'</span>]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#exclude_genres = []</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>track_df_sub <span class="op">=</span> track_df[<span class="op">~</span>track_df[<span class="st">'genre'</span>].isin(exclude_genres)].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s create <strong>numeric</strong> codes for our label variable (<code>genre</code>), by just assigning each genre a number representing its place in alphabetical order:</p>
+<div class="cell" data-outputid="e535c61e-f4d0-4888-d9de-f6e256c0bf33" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sorted_genres <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">list</span>(track_df_sub[<span class="st">'genre'</span>].value_counts().index))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>genre_map <span class="op">=</span> {genre_name: sorted_genres.index(genre_name) <span class="cf">for</span> genre_name <span class="kw">in</span> sorted_genres}</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>genre_map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>{'Ambient': 0, 'EDM': 1, 'Hip Hop': 2, 'Jazz': 3}</code></pre>
+</div>
+</div>
+<p>And now we can create <code>genre_code</code> as our numeric label variable</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>track_df_sub[<span class="st">'genre_code'</span>] <span class="op">=</span> track_df_sub[<span class="st">'genre'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: genre_map[x])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next let’s specify the columns we want to include in our derived <strong>feature matrix</strong></p>
+<div class="cell" data-outputid="92570ba8-7f13-4986-b637-7c53c7dd6ee3" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>track_df_sub.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>Index(['artist', 'genre', 'artist_id', 'name', 'danceability', 'energy', 'key',
+       'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness',
+       'liveness', 'valence', 'tempo', 'type', 'id', 'uri', 'track_href',
+       'analysis_url', 'duration_ms', 'time_signature', 'genre_code'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<p>Quick thing: so that we can take its log, we make a new feature “quietness” which is just the negative of loudness (since loudness is measured in dB)</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'log_loudness'</span> <span class="kw">not</span> <span class="kw">in</span> track_df_sub.columns:</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  track_df_sub[<span class="st">'quietness'</span>] <span class="op">=</span> track_df_sub[<span class="st">'loudness'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="op">-</span>x)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># And now we drop loudness</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  track_df_sub.drop(columns<span class="op">=</span>[<span class="st">'loudness'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  track_df_sub[<span class="st">'log_quiet'</span>] <span class="op">=</span> track_df_sub[<span class="st">'quietness'</span>].<span class="bu">apply</span>(np.log)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># And now we drop quietness</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  track_df_sub.drop(columns<span class="op">=</span>[<span class="st">'quietness'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Finally, we can now "reconstruct" log_loud</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  max_quiet <span class="op">=</span> track_df_sub[<span class="st">'log_quiet'</span>].<span class="bu">max</span>()</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  track_df_sub[<span class="st">'log_loudness'</span>] <span class="op">=</span> track_df_sub[<span class="st">'log_quiet'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: max_quiet <span class="op">-</span> x)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># And drop log_quiet</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>  track_df_sub.drop(columns<span class="op">=</span>[<span class="st">'log_quiet'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="op">=</span> [</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'danceability'</span>, <span class="st">'energy'</span>, <span class="st">'key'</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#'loudness',</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'log_loudness'</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#'log_quiet',</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#'mode',</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#'speechiness',</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'acousticness'</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#'instrumentalness',</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'liveness'</span>, <span class="st">'valence'</span>, <span class="st">'tempo'</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'duration_ms'</span>, <span class="st">'time_signature'</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>label_col <span class="op">=</span> <span class="st">'genre_code'</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>non_label_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> track_df_sub.columns <span class="cf">if</span> c <span class="op">!=</span> label_col]</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, just so that the train-test split is clean, we include *everything*,</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co"># then split, then subset to only the numeric columns</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>X_df <span class="op">=</span> track_df_sub[non_label_cols].copy()</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> track_df_sub[label_col]</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="co"># And perform train-test split</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> sklearn.model_selection.train_test_split(</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>    X_df, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">5000</span></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a><span class="co"># And now we subset X_train and X_test to contain just the numeric features</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>X_train_num <span class="op">=</span> X_train[feature_cols].copy()</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>X_test_num <span class="op">=</span> X_test[feature_cols].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="f1b3b234-51b1-4165-f5ab-c8990854dbae" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>X_train_num</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">danceability</th>
+<th data-quarto-table-cell-role="th">energy</th>
+<th data-quarto-table-cell-role="th">key</th>
+<th data-quarto-table-cell-role="th">log_loudness</th>
+<th data-quarto-table-cell-role="th">acousticness</th>
+<th data-quarto-table-cell-role="th">liveness</th>
+<th data-quarto-table-cell-role="th">valence</th>
+<th data-quarto-table-cell-role="th">tempo</th>
+<th data-quarto-table-cell-role="th">duration_ms</th>
+<th data-quarto-table-cell-role="th">time_signature</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">87</td>
+<td>0.7390</td>
+<td>0.8820</td>
+<td>11</td>
+<td>1.227378</td>
+<td>0.1090</td>
+<td>0.0185</td>
+<td>0.9410</td>
+<td>98.424</td>
+<td>482720</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">52</td>
+<td>0.3720</td>
+<td>0.1870</td>
+<td>0</td>
+<td>1.105307</td>
+<td>0.9420</td>
+<td>0.1610</td>
+<td>0.2170</td>
+<td>70.334</td>
+<td>319733</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">103</td>
+<td>0.4880</td>
+<td>0.4760</td>
+<td>5</td>
+<td>1.374079</td>
+<td>0.4380</td>
+<td>0.1100</td>
+<td>0.5830</td>
+<td>110.951</td>
+<td>482960</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">377</td>
+<td>0.6260</td>
+<td>0.8640</td>
+<td>8</td>
+<td>2.569942</td>
+<td>0.0682</td>
+<td>0.0870</td>
+<td>0.5550</td>
+<td>123.833</td>
+<td>161387</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">463</td>
+<td>0.5440</td>
+<td>0.5790</td>
+<td>8</td>
+<td>1.565358</td>
+<td>0.1930</td>
+<td>0.1170</td>
+<td>0.2940</td>
+<td>109.769</td>
+<td>303661</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">773</td>
+<td>0.2440</td>
+<td>0.0621</td>
+<td>9</td>
+<td>0.774876</td>
+<td>0.9930</td>
+<td>0.1190</td>
+<td>0.0358</td>
+<td>65.540</td>
+<td>62947</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">129</td>
+<td>0.5610</td>
+<td>0.5200</td>
+<td>11</td>
+<td>1.473254</td>
+<td>0.0503</td>
+<td>0.3550</td>
+<td>0.4240</td>
+<td>153.150</td>
+<td>239360</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">97</td>
+<td>0.6080</td>
+<td>0.1580</td>
+<td>5</td>
+<td>0.747203</td>
+<td>0.9000</td>
+<td>0.0996</td>
+<td>0.1460</td>
+<td>120.055</td>
+<td>211467</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">810</td>
+<td>0.0746</td>
+<td>0.1560</td>
+<td>9</td>
+<td>0.529429</td>
+<td>0.8630</td>
+<td>0.1050</td>
+<td>0.0463</td>
+<td>80.494</td>
+<td>458907</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">771</td>
+<td>0.1920</td>
+<td>0.4250</td>
+<td>0</td>
+<td>1.028536</td>
+<td>0.2700</td>
+<td>0.2140</td>
+<td>0.1360</td>
+<td>159.614</td>
+<td>257867</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<p>383 rows × 10 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-outputid="3042ed60-9247-45fb-a12e-7a4a99d8f5fd" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>X_train_num.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>(383, 10)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="f6b9adb7-b664-4891-9655-b057dda5b93b" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>y_train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>87     3
+52     3
+103    3
+377    1
+463    1
+Name: genre_code, dtype: int64</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="102ae18d-4419-4869-ba41-c3f9cbe08fa0" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>y_train.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>(383,)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="81547664-375a-40b6-f90a-06cdb16282b4" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dtc <span class="op">=</span> sklearn.tree.DecisionTreeClassifier(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    max_depth <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">5000</span>,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#min_samples_leaf=8,</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    min_impurity_decrease<span class="op">=</span><span class="fl">0.02</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>dtc.fit(X_train_num, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(max_depth=2, min_impurity_decrease=0.02,
+                       random_state=5000)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier(max_depth=2, min_impurity_decrease=0.02,
+                       random_state=5000)</pre></div></div></div></div></div>
+</div>
+</div>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>y_train_pred <span class="op">=</span> dtc.predict(X_train_num)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>y_test_pred <span class="op">=</span> dtc.predict(X_test_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>Xy_train <span class="op">=</span> pd.concat([X_train, y_train], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>Xy_train[<span class="st">'prediction'</span>] <span class="op">=</span> y_train_pred</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>Xy_test <span class="op">=</span> pd.concat([X_test, y_test], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>Xy_test[<span class="st">'prediction'</span>] <span class="op">=</span> y_test_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="31b6e58f-b8b3-4d94-99ec-d600708ffef0" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>genre_map.keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>dict_keys(['Ambient', 'EDM', 'Hip Hop', 'Jazz'])</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="c78afa1b-2d8f-471a-82b2-42e56f42b0cd" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> graphviz</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_tree(dtc_object):</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  dot_data <span class="op">=</span> sklearn.tree.export_graphviz(dtc_object, out_file<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>                      feature_names<span class="op">=</span>X_train_num.columns,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>                      class_names<span class="op">=</span><span class="bu">list</span>(genre_map.keys()),</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>                      filled<span class="op">=</span><span class="va">True</span>, rounded<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>                      special_characters<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  graph <span class="op">=</span> graphviz.Source(dot_data)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  graph.render(outfile<span class="op">=</span><span class="st">"test.svg"</span>)</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> graph</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>visualize_tree(dtc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<p><img src="DSAN5000_Decision_Trees_files/figure-html/cell-40-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Let’s make an interactive plot visualizing these cutpoints, so that we can hover over the points to see what songs they represent!</p>
+<div class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objs <span class="im">as</span> go</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="8a2dc74f-d6d4-4332-f618-8ddce91354f1" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>track_fig <span class="op">=</span> px.scatter(X_train, x<span class="op">=</span><span class="st">'log_loudness'</span>, y<span class="op">=</span><span class="st">'danceability'</span>, color<span class="op">=</span><span class="st">'genre'</span>,</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                       hover_data<span class="op">=</span>[<span class="st">'name'</span>,<span class="st">'artist'</span>], template<span class="op">=</span><span class="st">'simple_white'</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>track_fig.update_layout(title_text<span class="op">=</span><span class="st">'All Songs'</span>, title_x<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>loudness_cutoff <span class="op">=</span> <span class="fl">1.345</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>dance_cutoff <span class="op">=</span> <span class="fl">0.312</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>energy_cutoff <span class="op">=</span> <span class="fl">0.777</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [loudness_cutoff, loudness_cutoff]</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">1.0</span>]</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>track_fig.add_trace(go.Scatter(name<span class="op">=</span><span class="st">'Decision Boundary'</span>,x<span class="op">=</span>x0, y<span class="op">=</span>y0))</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>track_fig.add_annotation(x<span class="op">=</span>loudness_cutoff <span class="op">-</span> <span class="fl">0.3</span>, y<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"← Quiet Songs"</span>,</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>            showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>            yshift<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>track_fig.add_annotation(x<span class="op">=</span>loudness_cutoff <span class="op">+</span> <span class="fl">0.3</span>, y<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"Loud Songs →"</span>,</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>            showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>            yshift<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>track_fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>track_df_quiet <span class="op">=</span> track_df_sub[track_df_sub[<span class="st">'log_loudness'</span>] <span class="op">&lt;=</span> loudness_cutoff].copy()</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>track_df_loud <span class="op">=</span> track_df_sub[track_df_sub[<span class="st">'log_loudness'</span>] <span class="op">&gt;</span> loudness_cutoff].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="3765a61b-87cf-470f-9f30-90a285876a1c" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>quiet_fig <span class="op">=</span> px.scatter(track_df_quiet, x<span class="op">=</span><span class="st">'log_loudness'</span>, y<span class="op">=</span><span class="st">'danceability'</span>, color<span class="op">=</span><span class="st">'genre'</span>,</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>                       hover_data<span class="op">=</span>[<span class="st">'name'</span>,<span class="st">'artist'</span>], template<span class="op">=</span><span class="st">'simple_white'</span>)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>quiet_fig.update_layout(title_text<span class="op">=</span><span class="st">'Quiet Songs'</span>, title_x<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.add_vrect(x0=0.9, x1=2)</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> [<span class="dv">0</span>, loudness_cutoff]</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> [dance_cutoff, dance_cutoff]</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>quiet_fig.add_trace(go.Scatter(name<span class="op">=</span><span class="st">'Decision Boundary'</span>, x<span class="op">=</span>x1, y<span class="op">=</span>y1))</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>quiet_fig.add_annotation(x<span class="op">=</span><span class="fl">0.3</span>, y<span class="op">=</span>dance_cutoff <span class="op">+</span> <span class="fl">0.005</span>,</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"↑ Predict Jazz"</span>,</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>            showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>            yshift<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>quiet_fig.add_annotation(x<span class="op">=</span><span class="fl">0.3</span>, y<span class="op">=</span>dance_cutoff <span class="op">-</span> <span class="fl">0.05</span>,</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"↓ Predict Ambient"</span>,</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>            showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>            yshift<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>quiet_fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="a27c11c3-0a9a-4db1-bc07-178a5da71fad" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>loud_fig <span class="op">=</span> px.scatter(track_df_loud, x<span class="op">=</span><span class="st">'log_loudness'</span>, y<span class="op">=</span><span class="st">'energy'</span>, color<span class="op">=</span><span class="st">'genre'</span>,</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                       hover_data<span class="op">=</span>[<span class="st">'name'</span>,<span class="st">'artist'</span>], template<span class="op">=</span><span class="st">'simple_white'</span>)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>loud_fig.update_layout(title_text<span class="op">=</span><span class="st">'Loud Songs'</span>, title_x<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> [loudness_cutoff, track_df_loud[<span class="st">'log_loudness'</span>].<span class="bu">max</span>()]</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> [energy_cutoff, energy_cutoff]</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>loud_fig.add_trace(go.Scatter(name<span class="op">=</span><span class="st">'Decision Boundary'</span>, x<span class="op">=</span>x1, y<span class="op">=</span>y1))</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="co"># track_fig.add_trace(go.Scatter(x=x1, y=y1))</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a><span class="co">#track_fig.add_trace(go.Scatter(x=x2, y=y2))</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>loud_fig.add_annotation(x<span class="op">=</span><span class="fl">3.3</span>, y<span class="op">=</span>energy_cutoff <span class="op">+</span> <span class="fl">0.01</span>,</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"↑ Predict EDM"</span>,</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>            showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>            yshift<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>loud_fig.add_annotation(x<span class="op">=</span><span class="fl">3.3</span>, y<span class="op">=</span>energy_cutoff <span class="op">-</span> <span class="fl">0.045</span>,</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"↓ Predict Hip Hop"</span>,</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>            showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>            yshift<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>loud_fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
+</div>
+</div>
+<p>Now let’s check accuracy</p>
+<div class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>Xy_train <span class="op">=</span> pd.concat([X_train,y_train], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>Xy_test <span class="op">=</span> pd.concat([X_test,y_test], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>Xy_train[<span class="st">'prediction'</span>] <span class="op">=</span> y_train_pred</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>Xy_test[<span class="st">'prediction'</span>] <span class="op">=</span> y_test_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>Xy_train[<span class="st">'correct'</span>] <span class="op">=</span> Xy_train[<span class="st">'prediction'</span>] <span class="op">==</span> Xy_train[<span class="st">'genre_code'</span>]</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>Xy_test[<span class="st">'correct'</span>] <span class="op">=</span> Xy_test[<span class="st">'prediction'</span>] <span class="op">==</span> Xy_test[<span class="st">'genre_code'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="027d11ac-7b5e-4f40-afc7-6bc365805606" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>Xy_train[<span class="st">'correct'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>correct
+True     0.723238
+False    0.276762
+Name: proportion, dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="1f733c94-af09-4012-b5c5-e5a987670abb" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>Xy_test[<span class="st">'correct'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>correct
+True     0.708333
+False    0.291667
+Name: proportion, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="random-forests" class="level2">
+<h2 class="anchored" data-anchor-id="random-forests">(3) Random Forests</h2>
+<div class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn.ensemble</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we define a function that takes in a range of values for the <code>n_estimators</code> hyperparameter, and a range of values for the <code>max_depth</code> hyperparameter, and generates a DataFrame containing information on the training and test accuracies for a <code>RandomForestClassifier</code> trained using these values.</p>
+<div class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accuracy_over_range(est_range, depth_range, long_format<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  result_data <span class="op">=</span> []</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> cur_estimators <span class="kw">in</span> est_range:</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cur_depth <span class="kw">in</span> depth_range:</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>      cur_rfc <span class="op">=</span> sklearn.ensemble.RandomForestClassifier(</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>        n_estimators <span class="op">=</span> cur_estimators,</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>        max_depth <span class="op">=</span> cur_depth,</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>        random_state <span class="op">=</span> <span class="dv">5000</span></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>      cur_rfc.fit(X_train_num, y_train)</span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>      y_train_pred_rfc <span class="op">=</span> cur_rfc.predict(X_train_num)</span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>      y_test_pred_rfc <span class="op">=</span> cur_rfc.predict(X_test_num)</span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>      y_train_correct <span class="op">=</span> y_train_pred_rfc <span class="op">==</span> Xy_train[<span class="st">'genre_code'</span>]</span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>      y_test_correct <span class="op">=</span> y_test_pred_rfc <span class="op">==</span> Xy_test[<span class="st">'genre_code'</span>]</span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>      train_accuracy <span class="op">=</span> <span class="bu">sum</span>(y_train_correct) <span class="op">/</span> <span class="bu">len</span>(y_train_correct)</span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a>      test_accuracy <span class="op">=</span> <span class="bu">sum</span>(y_test_correct) <span class="op">/</span> <span class="bu">len</span>(y_test_correct)</span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a>      cur_result <span class="op">=</span> {</span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a>          <span class="st">'n_estimators'</span>: cur_estimators,</span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">'max_depth'</span>: cur_depth,</span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>          <span class="st">'train_accuracy'</span>: train_accuracy,</span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>          <span class="st">'test_accuracy'</span>: test_accuracy</span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>      result_data.append(cur_result)</span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>  rfc_result_df <span class="op">=</span> pd.DataFrame(result_data)</span>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> long_format:</span>
+<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert to long so we can plot train and test accuracies together</span></span>
+<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>    rfc_long_df <span class="op">=</span> pd.melt(rfc_result_df, id_vars<span class="op">=</span>[<span class="st">'n_estimators'</span>,<span class="st">'max_depth'</span>])</span>
+<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rfc_long_df</span>
+<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> rfc_result_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, let’s see what values we’d want to use if we were optimizing for <strong>(test) accuracy</strong>, by considering a wide range of possible values:</p>
+<div class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>estimators_range <span class="op">=</span> np.arange(<span class="dv">20</span>, <span class="dv">220</span>, <span class="dv">20</span>)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>depth_range <span class="op">=</span> [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>]</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>rfc_result_df <span class="op">=</span> accuracy_over_range(estimators_range, depth_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="b320ccec-44c3-4d6c-daa6-d01105ba3b81" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_hyperparam_grid(result_df, wrap<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  g <span class="op">=</span> sns.FacetGrid(result_df, col<span class="op">=</span><span class="st">"max_depth"</span>, col_wrap<span class="op">=</span>wrap)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  g.map_dataframe(sns.lineplot, x<span class="op">=</span><span class="st">"n_estimators"</span>, y<span class="op">=</span><span class="st">"value"</span>, hue<span class="op">=</span><span class="st">'variable'</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>plot_hyperparam_grid(rfc_result_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="DSAN5000_Decision_Trees_files/figure-html/cell-54-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>From these plots we can see that, while we’re always able to improve <strong>training accuracy</strong> by choosing higher values for <code>max_depth</code>, we’re not able to obtain a <strong>test accuracy</strong> much higher than 0.75 or 0.80 no matter what parameter values we choose.</p>
+<p>If our goal was solely to train a model with high accuracy, we might stop here and report our results (though, this would be a questionable choice, since as mentioned above you can almost always obtain higher accuracies using other ML algorithms like Neural Networks). Here, since we’re focusing on <strong>interpretability</strong>, let’s narrow our range of hyperparameters down to much smaller values, find an optimal RF within these ranges, and then actually <strong>look at</strong> the individual DTs which make up our optimal RF!</p>
+<div class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>estimators_range <span class="op">=</span> np.arange(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">2</span>)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>depth_range <span class="op">=</span> [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>]</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>rfc_result_df_small <span class="op">=</span> accuracy_over_range(estimators_range, depth_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="8d8dffad-c8b3-4f4d-ae2c-ec02dd262006" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>plot_hyperparam_grid(rfc_result_df_small, wrap<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="DSAN5000_Decision_Trees_files/figure-html/cell-56-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="0bd519ff-564a-4ec3-a962-fe071e387cf0" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose the "best" estimator with max_depth == 2</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>is_depth_2 <span class="op">=</span> rfc_result_df_small[<span class="st">'max_depth'</span>] <span class="op">==</span> <span class="dv">2</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>is_test_acc <span class="op">=</span> rfc_result_df_small[<span class="st">'variable'</span>] <span class="op">==</span> <span class="st">"test_accuracy"</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>n2_test_df <span class="op">=</span> rfc_result_df_small[is_depth_2 <span class="op">&amp;</span> is_test_acc].copy()</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>n2_test_df.loc[n2_test_df[<span class="st">'value'</span>].idxmax(),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>n_estimators                3
+max_depth                   2
+variable        test_accuracy
+value                0.697917
+Name: 12, dtype: object</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the "optimal" predictor</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>rfc_opt <span class="op">=</span> sklearn.ensemble.RandomForestClassifier(</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    n_estimators <span class="op">=</span> <span class="dv">3</span>,</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    max_depth <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>    random_state <span class="op">=</span> <span class="dv">5000</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="1f82f733-3c7f-4275-bf3a-73a9cd3ea5f5" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>rfc_opt.fit(X_train_num, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="63">
+<style>#sk-container-id-2 {color: black;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>RandomForestClassifier(max_depth=2, n_estimators=3, random_state=5000)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" checked=""><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">RandomForestClassifier</label><div class="sk-toggleable__content"><pre>RandomForestClassifier(max_depth=2, n_estimators=3, random_state=5000)</pre></div></div></div></div></div>
+</div>
+</div>
+<div class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>y_pred_train <span class="op">=</span> rfc_opt.predict(X_train_num)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>y_pred_test <span class="op">=</span> rfc_opt.predict(X_test_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>subtrees <span class="op">=</span> rfc_opt.estimators_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>vis_objects <span class="op">=</span> [visualize_tree(cur_subtree) <span class="cf">for</span> cur_subtree <span class="kw">in</span> subtrees]</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="co">#vis_obj = visualize_tree(cur_subtree)</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co">#print(type(vis_obj))</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="co">#display(vis_obj)</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="co">#from IPython.display import HTML</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="0cee637e-afff-4346-8bcc-48f9c9d6b5d9" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> vis_index, cur_vis <span class="kw">in</span> <span class="bu">enumerate</span>(vis_objects):</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f"Subtree #</span><span class="sc">{</span>vis_index <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  display(cur_vis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Subtree #1
+Subtree #2
+Subtree #3</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="DSAN5000_Decision_Trees_files/figure-html/cell-63-output-2.svg" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="DSAN5000_Decision_Trees_files/figure-html/cell-63-output-3.svg" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="DSAN5000_Decision_Trees_files/figure-html/cell-63-output-4.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>And from these visualizations we can start to see, roughly, how a <code>RandomForestClassifier</code> (as an <strong>ensemble</strong> of multiple Decision Trees) could beat out a single <code>DecisionTreeClassifier</code>: just like how a pair of darts players where one player always hits slightly above the bullseye and the other player always hits slightly below the bullseye would “average out” to be a bullseye-every-time team, an ensemble of decision trees, each focusing on minimizing errors for a given <strong>subset</strong> of the full feature space, will “average out” to be more accurate than any individual tree could be. <strong>Subtree #2</strong> in this case, for example, finds that <code>valence</code> rather than <code>log_loudness</code> was the most important feature, with respect to the subset of the feature matrix that it was given.</p>
+
+
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>The Support Vector Machine algorithm comes close, but this method learns a <strong>separating hyperplane</strong> between the two classes, i.e., a “line” in some high-dimensional space, which is therefore less easily-interpretable than the 1-dimensional cutpoints that DTs learn.]<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

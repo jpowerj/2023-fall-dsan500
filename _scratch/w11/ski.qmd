@@ -174,3 +174,77 @@ eigen(Sigma_rot)
 (var_y <- var(data_df$y))
 var_x + var_y
 ```
+
+```{r}
+#| label: ski-plot-binary
+#| fig-cap: "*(Example adapted from CS229: Machine Learning, Stanford University)*"
+library(tidyverse)
+library(lubridate)
+sample_size <- 100
+day <- seq(ymd('2023-01-01'),ymd('2023-12-31'),by='weeks')
+lat_bw <- 5
+latitude <- seq(-90, 90, by=lat_bw)
+ski_df <- expand_grid(day, latitude)
+ski_df <- tibble::rowid_to_column(ski_df, var='obs_id')
+#ski_df |> head()
+# Data-generating process
+lat_cutoff <- 35
+ski_df <- ski_df |> mutate(
+  near_equator = abs(latitude) <= lat_cutoff,
+  northern = latitude > lat_cutoff,
+  southern = latitude < -lat_cutoff,
+  first_3m = day < ymd('2023-04-01'),
+  last_3m = day >= ymd('2023-10-01'),
+  middle_6m = (day >= ymd('2023-04-01')) & (day < ymd('2023-10-01')),
+  snowfall = 0
+)
+# Update the non-zero sections
+mu_snow <- 10
+sd_snow <- 2.5
+# How many northern + first 3 months
+num_north_first_3 <- nrow(ski_df[ski_df$northern & ski_df$first_3m,])
+ski_df[ski_df$northern & ski_df$first_3m, 'snowfall'] = rnorm(num_north_first_3, mu_snow, sd_snow)
+# Northerns + last 3 months
+num_north_last_3 <- nrow(ski_df[ski_df$northern & ski_df$last_3m,])
+ski_df[ski_df$northern & ski_df$last_3m, 'snowfall'] = rnorm(num_north_last_3, mu_snow, sd_snow)
+# How many southern + middle 6 months
+num_south_mid_6 <- nrow(ski_df[ski_df$southern & ski_df$middle_6m,])
+ski_df[ski_df$southern & ski_df$middle_6m, 'snowfall'] = rnorm(num_south_mid_6, mu_snow, sd_snow)
+# And collapse into binary var
+ski_df['good_skiing'] = ski_df$snowfall > 0
+# This converts day into an int
+ski_df <- ski_df |> mutate(
+  day_num = lubridate::yday(day)
+)
+#print(nrow(ski_df))
+ski_sample <- ski_df |> slice_sample(n = sample_size)
+#ski_sample |> write_csv("assets/ski.csv")
+month_vec <- c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01'))
+month_labels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+lat_vec <- c(-90, -60, -30, 0, 30, 60, 90)
+ggplot(
+  ski_sample,
+  aes(
+    x=day,
+    y=latitude,
+    #shape=good_skiing,
+    color=good_skiing
+  )) +
+  geom_point(
+    size = g_pointsize / 1.5,
+    #stroke=1.5
+  ) +
+  dsan_theme() +
+  labs(
+    x = "Time of Year",
+    y = "Latitude",
+    shape = "Good Skiing?"
+  ) +
+  scale_shape_manual(name="Good Skiing?", values=c(1, 3)) +
+  scale_color_manual(name="Good Skiing?", values=c(cbPalette[1], cbPalette[2]), labels=c("No (Sunny)","Yes (Snowy)")) +
+  scale_x_continuous(
+    breaks=c(month_vec,ymd('2024-01-01')),
+    labels=c(month_labels,"Jan")
+  ) +
+  scale_y_continuous(breaks=lat_vec)
+```

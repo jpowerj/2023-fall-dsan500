@@ -23,6 +23,7 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/decision-trees/DSAN5000_Decision_Trees.html",
       "/writeups/data-cleaning/clean_data.html",
       "/writeups/eda-seaborn/THOR_EDA_with_Seaborn.html",
       "/writeups/feature-selection/DSAN5000_Feature_Selection_Full.html",
@@ -49,11 +50,11 @@
     ]
   },
   {
-    "listing": "/writeups/quiz-status/index.html",
+    "listing": "/recordings/index.html",
     "items": []
   },
   {
-    "listing": "/recordings/index.html",
+    "listing": "/writeups/quiz-status/index.html",
     "items": []
   },
   {
