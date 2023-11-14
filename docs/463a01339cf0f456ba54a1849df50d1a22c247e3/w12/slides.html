@@ -1557,44 +1557,157 @@ R_2^B &amp;= \{X_i \mid X_{i,\text{month}} \geq \text{October}\}
 <li>The minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders <img data-src="images/thinking_transparent.png" style="display: inline-flex;" width="60">, and the effect goes away (biases no longer cancel out)</li>
 <li>The takeaway for effectively training <strong>random forests</strong>: ensure that each tree has a <strong>separate (ideally orthogonal) slice</strong> of the full dataset, and has to infer labels from only that slice!</li>
 </ul>
-</section>
-<section id="in-practice" class="slide level2">
-<h2>In Practice</h2>
-<ul>
-<li>We have a dataset and a decision tree… now what?</li>
-</ul>
-</section>
-<section id="two-moving-parts" class="slide level2">
-<h2>Two “Moving Parts”</h2>
-<p>Two ways to obtain new datasets (and hence new decision trees):</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="moving-parts-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<center>
-<strong>Dropping Columns:</strong>
-</center>
-<ul>
-<li>We could obtain new datasets by <strong>dropping columns</strong></li>
-</ul>
-</div>
-<div id="moving-parts-right" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<center>
-<strong>Dropping Rows:</strong>
-</center>
-<ul>
-<li>We could obtain new datasets by <strong>dropping/resampling rows</strong></li>
-</ul>
-</div>
-</div>
-</div>
 </section></section>
 <section>
 <section id="bagging-and-boosting" class="title-slide slide level1 center" data-stack-name="Bagging and Boosting">
 <h1>Bagging and Boosting</h1>
 
 </section>
-<section id="in-practice-1" class="slide level2">
-<h2>In Practice</h2>
+<section id="decision-trees-what-now" class="slide level2 crunch-title crunch-lists crunch-ul crunch-quarto-layout-panel">
+<h2>Decision Trees: What Now?</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div id="what-now-left" class="quarto-layout-cell" style="flex-basis: 42.0%;justify-content: center;">
+<ul>
+<li>We have a dataset and a decision tree… now what?</li>
+<li>If our only goal is <strong>interpretability</strong>, we’re done</li>
+<li>If we want to <strong>increase accuracy/efficiency</strong>, however, we can do better!</li>
+</ul>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 58.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/spotify_tree.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="bootstrapped-trees" class="slide level2">
+<h2>Bootstrapped Trees</h2>
+
+<img data-src="images/bootstrap.svg" class="r-stretch quarto-figure-center"></section>
+<section id="doing-even-better" class="slide level2">
+<h2>Doing Even Better</h2>
+<ul>
+<li>Issue: Each bootstrapped tree will be <strong>highly correlated</strong></li>
+<li>If there is one extremely strong <strong>signal</strong> (think of the RateMyProfessors example!), associated with one (or a few) feature(s), all of the trees will focus on that feature</li>
+<li>How can we ensure that some trees pick up on more <strong>subtle</strong> signals within the dataset?</li>
+</ul>
+</section>
+<section id="decorrelating-trees" class="slide level2">
+<h2>Decorrelating Trees</h2>
+<ul>
+<li>Long story short: give each subtree only a <strong>subset of the features</strong>, of size <span class="math inline">\(M_i \approx \sqrt{M}\)</span></li>
+<li>Can prove that:
+<ul>
+<li>Smaller subsets <span class="math inline">\(\implies\)</span> too much uncorrelated info to aggregate</li>
+<li>Larger subsets <span class="math inline">\(\implies\)</span> trees become correlated</li>
+</ul></li>
+</ul>
+</section>
+<section id="but-wait" class="slide level2">
+<h2>But Wait…</h2>
+<ul>
+<li>We’re giving each subtree a portion of the features, <strong>hoping</strong> that each one picks up on some important “sub-signal” in the data</li>
+<li>Instead of hoping, why don’t we <strong>make sure</strong> that each subtree is tasked with <strong>explaining the so-far-unexplained variation</strong>?</li>
+<li>Enter <strong>boosting</strong> 😎</li>
+</ul>
+</section>
+<section id="boosting" class="slide level2 smaller crunch-code crunch-quarto-layout-panel">
+<h2>Boosting</h2>
+<ul>
+<li>Rather than giving each subtree a random subset of features, we grow trees <strong>sequentially</strong>, asking each subtree to <strong>explain the unexplained variance</strong> which remains from the previous step</li>
+<li>Step 1: <span class="math inline">\(\widehat{f}_1(X)\)</span> = DT for <span class="math inline">\(X \rightarrow Y\)</span></li>
+<li>Step <span class="math inline">\(t+1\)</span>: <span class="math inline">\(\widehat{f}_{t+1}(X)\)</span> = DT for <span class="math inline">\(X \rightarrow \left(\widehat{f}_t(X) - Y\right)\)</span></li>
+</ul>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="boosting-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ol type="1">
+<li>Explain the error here:</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co"># x_lt_pi = data_df |&gt; filter(x &lt; pi)</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="co"># mean(x_lt_pi$y)</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb16-5"><a href="#cb16-5"></a>  <span class="at">pred_sq_err0 =</span> (y <span class="sc">-</span> <span class="dv">0</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>)</span>
+<span id="cb16-7"><a href="#cb16-7"></a>mse0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err0)</span>
+<span id="cb16-8"><a href="#cb16-8"></a>mse0_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse0)</span>
+<span id="cb16-9"><a href="#cb16-9"></a>reg_tree_plot <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb16-11"><a href="#cb16-11"></a>    <span class="at">yintercept =</span> <span class="dv">0</span>,</span>
+<span id="cb16-12"><a href="#cb16-12"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
+<span id="cb16-13"><a href="#cb16-13"></a>    <span class="at">linewidth =</span> g_linewidth</span>
+<span id="cb16-14"><a href="#cb16-14"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb16-16"><a href="#cb16-16"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend=</span>y)</span>
+<span id="cb16-17"><a href="#cb16-17"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-18"><a href="#cb16-18"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb16-19"><a href="#cb16-19"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse0_str)),</span>
+<span id="cb16-20"><a href="#cb16-20"></a>    <span class="at">size =</span> <span class="dv">10</span>,</span>
+<span id="cb16-21"><a href="#cb16-21"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
+<span id="cb16-22"><a href="#cb16-22"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/boosting-zero-level-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="boosting-right" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<ol start="2" type="1">
+<li>Explain remaining error:</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>get_y_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi)</span>
+<span id="cb17-2"><a href="#cb17-2"></a>data_df <span class="ot">&lt;-</span> data_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3"></a>  <span class="at">pred_sq_err1 =</span> (y <span class="sc">-</span> <span class="fu">get_y_pred</span>(x))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a>)</span>
+<span id="cb17-5"><a href="#cb17-5"></a>mse1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data_df<span class="sc">$</span>pred_sq_err1)</span>
+<span id="cb17-6"><a href="#cb17-6"></a>mse1_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, mse1)</span>
+<span id="cb17-7"><a href="#cb17-7"></a>decision_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb17-8"><a href="#cb17-8"></a>  <span class="sc">~</span>x, <span class="sc">~</span>xend, <span class="sc">~</span>y, <span class="sc">~</span>yend,</span>
+<span id="cb17-9"><a href="#cb17-9"></a>  <span class="dv">0</span>, pi, <span class="dv">2</span><span class="sc">/</span>pi, <span class="dv">2</span><span class="sc">/</span>pi,</span>
+<span id="cb17-10"><a href="#cb17-10"></a>  pi, <span class="dv">2</span><span class="sc">*</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi, <span class="sc">-</span><span class="dv">2</span><span class="sc">/</span>pi</span>
+<span id="cb17-11"><a href="#cb17-11"></a>)</span>
+<span id="cb17-12"><a href="#cb17-12"></a>reg_tree_plot <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb17-14"><a href="#cb17-14"></a>    <span class="at">data=</span>decision_df,</span>
+<span id="cb17-15"><a href="#cb17-15"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>xend, <span class="at">y=</span>y, <span class="at">yend=</span>yend),</span>
+<span id="cb17-16"><a href="#cb17-16"></a>    <span class="at">color=</span>cbPalette[<span class="dv">1</span>],</span>
+<span id="cb17-17"><a href="#cb17-17"></a>    <span class="at">linewidth =</span> g_linewidth</span>
+<span id="cb17-18"><a href="#cb17-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a>  <span class="fu">geom_segment</span>(</span>
+<span id="cb17-20"><a href="#cb17-20"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">xend=</span>x, <span class="at">y=</span><span class="fu">get_y_pred</span>(x), <span class="at">yend=</span>y)</span>
+<span id="cb17-21"><a href="#cb17-21"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-22"><a href="#cb17-22"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb17-23"><a href="#cb17-23"></a>    <span class="fu">aes</span>(<span class="at">x=</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span>pi, <span class="at">y=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"MSE = "</span>,mse1_str)),</span>
+<span id="cb17-24"><a href="#cb17-24"></a>    <span class="at">size =</span> <span class="dv">9</span>,</span>
+<span id="cb17-25"><a href="#cb17-25"></a>    <span class="co">#box.padding = unit(c(2,2,2,2), "pt")</span></span>
+<span id="cb17-26"><a href="#cb17-26"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/boosting-one-level-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <div class="footer footer-default">
 <p>DSAN 5000-<span class="sec-num">02</span> Week 12: Random Forests</p>

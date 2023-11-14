@@ -820,37 +820,120 @@ $$
 * The minute people tasked with making decisions as a group begin to communicate (long story short), they begin to follow charismatic leaders ![](images/thinking_transparent.png){width="60" style="display: inline-flex;"}, and the effect goes away (biases no longer cancel out)
 * The takeaway for effectively training **random forests**: ensure that each tree has a **separate (ideally orthogonal) slice** of the full dataset, and has to infer labels from only that slice!
 
-## In Practice
-
-* We have a dataset and a decision tree... now what?
-
-## Two "Moving Parts"
-
-Two ways to obtain new datasets (and hence new decision trees):
-
-::: {layout="[1,1]"}
-
-::: {#moving-parts-left}
-
-<center>
-**Dropping Columns:**
-</center>
-
-* We could obtain new datasets by **dropping columns**
-
-:::
-::: {#moving-parts-right}
-
-<center>
-**Dropping Rows:**
-</center>
-
-* We could obtain new datasets by **dropping/resampling rows**
-
-:::
-:::
-
 # Bagging and Boosting {data-stack-name="Bagging and Boosting"}
 
-## In Practice
+## Decision Trees: What Now? {.crunch-title .crunch-lists .crunch-ul .crunch-quarto-layout-panel}
 
+::: {layout="[42,58]" layout-valign="center"}
+
+::: {#what-now-left}
+
+* We have a dataset and a decision tree... now what?
+* If our only goal is **interpretability**, we're done
+* If we want to **increase accuracy/efficiency**, however, we can do better!
+
+:::
+
+![](images/spotify_tree.svg){fig-align="center"}
+
+:::
+
+## Bootstrapped Trees
+
+![](images/bootstrap.svg){fig-align="center"}
+
+## Doing Even Better
+
+* Issue: Each bootstrapped tree will be **highly correlated**
+* If there is one extremely strong **signal** (think of the RateMyProfessors example!), associated with one (or a few) feature(s), all of the trees will focus on that feature
+* How can we ensure that some trees pick up on more **subtle** signals within the dataset?
+
+## Decorrelating Trees
+
+* Long story short: give each subtree only a **subset of the features**, of size $M_i \approx \sqrt{M}$
+* Can prove that:
+  * Smaller subsets $\implies$ too much uncorrelated info to aggregate
+  * Larger subsets $\implies$ trees become correlated
+
+## But Wait...
+
+* We're giving each subtree a portion of the features, **hoping** that each one picks up on some important "sub-signal" in the data
+* Instead of hoping, why don't we **make sure** that each subtree is tasked with **explaining the so-far-unexplained variation**?
+* Enter **boosting** 😎
+
+## Boosting {.smaller .crunch-code .crunch-quarto-layout-panel}
+
+* Rather than giving each subtree a random subset of features, we grow trees **sequentially**, asking each subtree to **explain the unexplained variance** which remains from the previous step
+* Step 1: $\widehat{f}_1(X)$ = DT for $X \rightarrow Y$
+* Step $t+1$: $\widehat{f}_{t+1}(X)$ = DT for $X \rightarrow \left(\widehat{f}_t(X) - Y\right)$
+
+::: {layout="[1,1]" layout-valign="top"}
+
+::: {#boosting-left}
+
+1. Explain the error here:
+
+```{r}
+#| label: boosting-zero-level
+library(ggtext)
+# x_lt_pi = data_df |> filter(x < pi)
+# mean(x_lt_pi$y)
+data_df <- data_df |> mutate(
+  pred_sq_err0 = (y - 0)^2
+)
+mse0 <- mean(data_df$pred_sq_err0)
+mse0_str <- sprintf("%.3f", mse0)
+reg_tree_plot +
+  geom_hline(
+    yintercept = 0,
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=0, yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse0_str)),
+    size = 10,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+```
+
+:::
+::: {#boosting-right}
+
+2. Explain remaining error:
+
+
+```{r}
+#| label: boosting-one-level
+get_y_pred <- function(x) ifelse(x < pi, 2/pi, -2/pi)
+data_df <- data_df |> mutate(
+  pred_sq_err1 = (y - get_y_pred(x))^2
+)
+mse1 <- mean(data_df$pred_sq_err1)
+mse1_str <- sprintf("%.3f", mse1)
+decision_df <- tribble(
+  ~x, ~xend, ~y, ~yend,
+  0, pi, 2/pi, 2/pi,
+  pi, 2*pi, -2/pi, -2/pi
+)
+reg_tree_plot +
+  geom_segment(
+    data=decision_df,
+    aes(x=x, xend=xend, y=y, yend=yend),
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=get_y_pred(x), yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse1_str)),
+    size = 9,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+```
+
+:::
+:::

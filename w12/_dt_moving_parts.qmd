@@ -1,0 +1,25 @@
+## Two "Moving Parts"
+
+Two ways to obtain new datasets (and hence new decision trees):
+
+::: {layout="[1,1]"}
+
+::: {#moving-parts-left}
+
+<center>
+**Dropping Columns:**
+</center>
+
+* We could obtain new datasets by **dropping columns**
+
+:::
+::: {#moving-parts-right}
+
+<center>
+**Dropping Rows:**
+</center>
+
+* We could obtain new datasets by **dropping/resampling rows**
+
+:::
+:::
