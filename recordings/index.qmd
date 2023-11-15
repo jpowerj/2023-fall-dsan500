@@ -20,7 +20,7 @@ listing:
   field-display-names:
     week: "Week"
     title: "Title"
-    date: "Last Updated"
+    date: "Date"
     categories: "Category"
     section: "Section"
   sort:
