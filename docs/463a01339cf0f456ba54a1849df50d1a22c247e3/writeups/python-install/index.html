@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jeff Jacobs">
+<meta name="dcterms.date" content="2023-09-27">
+
+<title>DSAN 5000 - Managing Python Installations</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-ETYTX4E16L"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../../jjcustom.js"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      DSAN 5000
+      </li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">DSAN 5000</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://jfh.georgetown.domains/dsan5000/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w01/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1: <span class="sec-w01-date">Aug 23</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w02/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: <span class="sec-w02-date">Aug 29</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w03/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3: <span class="sec-w03-date">Sep 6</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w04/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4: <span class="sec-w04-date">Sep 12</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w05/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: <span class="sec-w05-date">Sep 19</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w06/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6: <span class="sec-w06-date">Sep 26</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w07/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7: <span class="sec-w07-date">Oct 3</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w08/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8: <span class="sec-w08-date">Oct 17</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w09/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9: <span class="sec-w09-date">Oct 24</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w10/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10: <span class="sec-w10-date">Oct 31</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w11/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 11: <span class="sec-w11-date">Nov 7</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w12/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 12: <span class="sec-w12-date">Nov 14</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../w13/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 13: <span class="sec-w13-date">Nov 21</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../recordings/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture Recordings</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../extra-videos/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Videos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../writeups/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra Writeups</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../cheatsheet-code/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Cheatsheet</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../presentations/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Presentations</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://georgetown.instructure.com/courses/173310" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://calendar.app.google/yMnESMtMNPdKEaPz5" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://forms.gle/TH1yLitU9dTfB4sg8" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-short-term-temporary-solution" id="toc-the-short-term-temporary-solution" class="nav-link active" data-scroll-target="#the-short-term-temporary-solution">The Short-Term, Temporary Solution</a></li>
+  <li><a href="#crawling-towards-a-longer-term-sustainable-solution" id="toc-crawling-towards-a-longer-term-sustainable-solution" class="nav-link" data-scroll-target="#crawling-towards-a-longer-term-sustainable-solution">Crawling Towards a Longer-Term, Sustainable Solution</a></li>
+  <li><a href="#windows-specifics" id="toc-windows-specifics" class="nav-link" data-scroll-target="#windows-specifics">Windows Specifics</a></li>
+  <li><a href="#so-what-are-all-these-different-moving-parts" id="toc-so-what-are-all-these-different-moving-parts" class="nav-link" data-scroll-target="#so-what-are-all-these-different-moving-parts">So What Are All These Different Moving Parts?</a>
+  <ul class="collapse">
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  <li><a href="#pip" id="toc-pip" class="nav-link" data-scroll-target="#pip"><code>pip</code></a></li>
+  <li><a href="#anaconda" id="toc-anaconda" class="nav-link" data-scroll-target="#anaconda">Anaconda</a></li>
+  <li><a href="#jupyter" id="toc-jupyter" class="nav-link" data-scroll-target="#jupyter">Jupyter</a></li>
+  <li><a href="#vscode" id="toc-vscode" class="nav-link" data-scroll-target="#vscode">VSCode</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Managing Python Installations</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Extra Writeups</div>
+  </div>
+  </div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jeff Jacobs </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 27, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p><img src="images/spiderman-crop.jpeg" class="img-fluid"></p>
+<p>This writeup is intended to help students who are having issues with <strong>multiple Python installations</strong> existing on their computer at the same time. This can give rise to issues when trying to install and use third-party libraries (meaning, libraries which are not built into Python).</p>
+<p>For example, you might encounter the following issue:</p>
+<ol type="1">
+<li>You execute <code>pip install numpy</code> in your terminal, and it shows that the library has successfully been installed.</li>
+<li>You open a Jupyter notebook to begin using <code>numpy</code>, for a homework assignment for example, and run a cell containing the code <code>import numpy as np</code></li>
+<li>The output from this Jupyter cell tells you that <code>numpy</code> is not installed:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ModuleNotFoundError</span>      Traceback <span class="er">(</span><span class="ex">most</span> recent call last<span class="kw">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>ipython-input-1-c177332b26a4<span class="op">&gt;</span> in <span class="op">&lt;</span>cell <span class="ex">line:</span> <span class="dv">1</span><span class="op">&gt;()</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">----</span><span class="op">&gt;</span> 1 import numpy as np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">ModuleNotFoundError:</span> No module named <span class="st">'numpy'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>So, you say, that’s weird, maybe it didn’t install after all? And you go back to your terminal and retry <code>pip install numpy</code>, only to get a message saying it’s already installed:</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Requirement</span> already satisfied: numpy in /usr/local/lib/python3.10/dist-packages <span class="er">(</span><span class="ex">1.23.5</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>And yet, you return to your Jupyter notebook, try executing the cell containing <code>import numpy as np</code> again, and once again get the same error:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ModuleNotFoundError</span>      Traceback <span class="er">(</span><span class="ex">most</span> recent call last<span class="kw">)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>ipython-input-1-c177332b26a4<span class="op">&gt;</span> in <span class="op">&lt;</span>cell <span class="ex">line:</span> <span class="dv">1</span><span class="op">&gt;()</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">----</span><span class="op">&gt;</span> 1 import numpy as np</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">ModuleNotFoundError:</span> No module named <span class="st">'numpy'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you have encountered this issue, there is a <strong>short-term solution</strong> which can sometimes fix it temporarily (if you really need to run the Python code <em>right now</em>), but it indicates that something is wrong with the way Python, Conda, and/or Jupyter are set up on your system<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, and you should really take the time to run through the <strong>sustainable solution</strong> later on in the writeup.</p>
+<section id="the-short-term-temporary-solution" class="level2">
+<h2 class="anchored" data-anchor-id="the-short-term-temporary-solution">The Short-Term, Temporary Solution</h2>
+<p>If you are panicking about this issue, and you really need to run the Python code right now, the following approach will temporarily “fix” the issue maybe 95% of the time:</p>
+<p>Add a cell to your <strong>notebook</strong> (as in, don’t run this command in the terminal) containing the following line, above the cell where you are trying to import <code>numpy</code> for example, and execute this cell. In 95% of cases, this will allow you to <code>import numpy as np</code> and continue with your work:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install numpy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="crawling-towards-a-longer-term-sustainable-solution" class="level2">
+<h2 class="anchored" data-anchor-id="crawling-towards-a-longer-term-sustainable-solution">Crawling Towards a Longer-Term, Sustainable Solution</h2>
+<p>This type of issue can be pretty tough to fix <strong>completely</strong>, so that it never happens again, but in most cases I think we can minimize the likelihood of it happening and affecting our work if we understand <strong>why</strong> it happens.</p>
+<p>In general, the issue comes from some number of “mismatches” between <strong>versions of the Python interpreter</strong>, on the one hand (on Windows, for example, this is a program literally just called <code>python.exe</code>), and <strong>things that <em>use</em> versions of Python</strong> on the other (Jupyter, for example, and/or VSCode). Ensuring that all of the different versions of Python are “synced up” correctly with these things that use Python (Jupyter, VSCode) gets even exponentially trickier when you create <strong>environments</strong> within a given Python installation, since now you have to ensure that Jupyter is running the commands you type into a cell within the correct <strong>environment</strong> of the correct <strong>version</strong> of Python that you want it to use.</p>
+<p>So, if you are just starting with Python, I highly recommend starting from the following barebones setup (we will learn what a lot of these terms mean, and how to “revert” to this setup if you already have a different one, in the next section):</p>
+<ul>
+<li><p>A <strong>single version of Python</strong> installed to a particular <strong>path</strong> on your computer that you <strong>write down</strong> somewhere, so that you know exactly <strong>which</strong> Python interpreter is being called when you type the <code>python</code> command in your terminal, for example.</p>
+<ul>
+<li>On Unix/Linux/MacOS, you can find out what executable at what path the <strong>terminal</strong> is running when you issue the command <code>python</code> by issuing the following command:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or (if that produces the output <code>python not found</code>)</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> python3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should output a <strong>filepath</strong> which tells you the full pathway to the particular <code>python</code> executable that your terminal runs whenever you type <code>python</code> (or <code>python3</code>). When I use UTM to create a brand-new Mac OSX installation without changing any settings, for example, it says <code>python not found</code> if I execute <code>which python</code> in the Terminal, but produces the following output if I excute <code>which python3</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/usr/bin/python3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This says, literally, that whenever I type <code>python3</code> into the Terminal, it immediately goes into the root directory of my computer (<code>/</code>), then goes into a subfolder called <code>usr</code>, then a subfolder of <code>/usr</code> called <code>bin</code>, within which there is an executable (program) called just <code>python</code> (without the <code>.exe</code>, which is what the program would be named on Windows).</p></li>
+<li><p>Don’t install <code>conda</code> until you are comfortable with the basics of (a) how to run <code>.py</code> files, (b) how to issue commands in an <strong>python shell</strong> (which is the program you see running, with a prompt at the bottom of your Terminal screen starting with <code>&gt;&gt;&gt;</code> into which you can type Python commands, if you just open the Terminal and execute the command <code>python</code> or <code>python3</code> without any additional arguments—see <a href="#fig-python-shell">Figure&nbsp;1</a>), and (c) how to <strong>link</strong> your Jupyter notebooks with the <strong>particular</strong> version of Python you have installed</p>
+<ul>
+<li>I know that this goes against what most data science courses/teachers suggest, and I’m happy to have my mind changed, but I suggest this because <strong>Installing <code>conda</code> means installing a <em>second</em> Python installation onto your computer</strong>: if you have a Mac this is for sure the case, since Macs actually come with Python pre-installed, and if you have Windows it is not always true but might be true, since some versions of Windows also come with Python pre-installed. For many of the students who I worked with on the above issues it turned out (after lots of digging) that their Jupyter or VSCode setup was using the <strong>Anaconda version</strong> of Python, while executing the <code>python</code> or <code>pip</code> command in their Terminal led OSX to run a completely different (non-<code>conda</code>) version of Python (usually the one that comes shipped with OSX).</li>
+</ul></li>
+</ul>
+<div id="fig-python-shell" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/python_shell.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: The <strong>python shell</strong>, which runs if you open a Terminal window and execute the command <code>python</code> or <code>python3</code> without any additional arugments. To exit this shell and return to the “normal” Terminal prompt, execute the Python command <code>quit()</code> within this Python shell, as shown in <a href="#fig-python-shell-quit">Figure&nbsp;2</a></figcaption>
+</figure>
+</div>
+<div id="fig-python-shell-quit" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/python_shell_quit.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: The same Terminal session as shown in <a href="#fig-python-shell">Figure&nbsp;1</a>, but where I have now executed a Python command (<code>1+1</code>) and quit the Python shell using <code>quit()</code>, returning me back to my Terminal (shell), where I can issue Unix commands at the prompt (after the <code>%</code> portion at the bottom) like <code>ls</code> or <code>cd</code>.</figcaption>
+</figure>
+</div>
+</section>
+<section id="windows-specifics" class="level2">
+<h2 class="anchored" data-anchor-id="windows-specifics">Windows Specifics</h2>
+<p>Opening my Windows 11 Virtual Machine, I find that Python does <strong>not</strong> seem to be pre-installed (again, it can differ based on what specific version of Windows you have, or what company you buy your PC from, in my experience), since neither the <code>python</code> or <code>python3</code> commands work when I open PowerShell. So, I went ahead and <a href="" target="_blank">installed Python directly from the Python website</a> (rather than the Anaconda version, for example), and it installed Python in the following location (my username on the VM is <code>dsanstudent</code>, so on your installation wherever you see <code>dsanstudent</code> replace that with your Windows username):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">C:\Users\dsanstudent\AppData\Local\Programs\Python\Python311\python.exe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Which is pretty long and difficult to remember, plus by default it did <strong>not</strong> add this to my Windows <code>PATH</code> Environment Variable, so I had to do it manually (tldr: press start, type “Environment Variables”, and use the UI that pops up to edit the <code>PATH</code> string, adding <code>C:\Users\dsanstudent\AppData\Local\Programs\Python\Python311</code> to the end of it). See <a href="#fig-windows-location">Figure&nbsp;3</a> for a screenshot of the contents of this location when I browse to this path using Windows Explorer.</p>
+<div id="fig-windows-location" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/python_windows_path.jpeg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: The path to which, by default, the Python installer installed the <code>python.exe</code> executable, when I downloaded and installed Python version 3.11 on a brand new Windows 11 Virtual Machine.</figcaption>
+</figure>
+</div>
+</section>
+<section id="so-what-are-all-these-different-moving-parts" class="level2">
+<h2 class="anchored" data-anchor-id="so-what-are-all-these-different-moving-parts">So What Are All These Different Moving Parts?</h2>
+<p>A lot of confusion can also be avoided if we always keep in mind the basics of <strong>what each “piece” of the Python development environment actually is/actually does</strong>:</p>
+<section id="python" class="level3">
+<h3 class="anchored" data-anchor-id="python">Python</h3>
+<p>At its core, Python is just an <strong>executable program</strong> (hence the <code>python.exe</code> filename in Windows) that takes in Python files (<code>.py</code> files) and <strong>runs them</strong>. Anything beyond this can be thought of as an <strong>extension</strong> that is built <strong>on top of</strong> this core functionality.</p>
+</section>
+<section id="pip" class="level3">
+<h3 class="anchored" data-anchor-id="pip"><code>pip</code></h3>
+<p>As external, third-party libraries like NumPy, Pandas, Jupyter, and so on became more and more central to the Python development process, the people who created Python also created <code>pip</code>, which stands for “<strong><code>pip</code> Installs Packages”</strong><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p><code>pip</code>, sadly, can also become “delinked” from the version of Python you want to use: if you have both Python 3.9 and Python 3.11 installed on your computer, for example, you need to be careful about <strong>which</strong> of these installations is having packages installed into it when you run <code>pip install</code> (and similarly for <code>pip3</code>).</p>
+</section>
+<section id="anaconda" class="level3">
+<h3 class="anchored" data-anchor-id="anaconda">Anaconda</h3>
+<p>Anaconda is a third-party package manager for Python, which works a lot better than <code>pip</code> in many ways, and comes with lots of nice data science packages built-in, but has the drawback that it <strong>exists somewhere on your computer separately from the “standard” Python installation</strong> if (a) you bought a Mac/PC with Python pre-installed, or (b) you downloaded Python from the <a href="https://python.org" data-taret="_blank">python.org</a> website.</p>
+</section>
+<section id="jupyter" class="level3">
+<h3 class="anchored" data-anchor-id="jupyter">Jupyter</h3>
+<p>Jupyter is essentially a <strong>wrapper</strong> around Python (whether “normal” Python or the Anaconda version of Python, or both), which takes the Python code that you enter into <strong>code cells</strong> and runs them within a Python <strong>kernel</strong>—basically an instance of the Python executable that sits and waits for commands to come in from Jupyter, runs them, and sends the output of the commands back to Jupyter so that Jupyter can show that output in your notebook, underneath the code cell.</p>
+</section>
+<section id="vscode" class="level3">
+<h3 class="anchored" data-anchor-id="vscode">VSCode</h3>
+<p><strong>VSCode</strong>: Just like how <strong>Python</strong> is just a <code>.py</code>-file-runner at its core, with fancy stuff built on top of it, <strong>VSCode</strong> is just a text editor at its core, with fancy stuff built on top of it (especially once you add extensions, like the <strong>Python</strong> or <strong>Jupyter</strong> or <strong>Quarto</strong> extensions we’re using in this class).</p>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>There is no deterministic fix-all algorithm for making sure that (e.g.) the version of Python <em>used as a kernel in Jupyter</em> is the same as the version of Python <em>used when you click the “run file” button at the top of a <code>.py</code> file in VSCode</em>, or that either of these are the same as the version of Python <em>used when you execute the <code>python</code> command in your Terminal</em>, for example, but I hope that maybe something I’ve included here can help you navigate this undeniably awful, headache-inducing, messy setup 🥴 Really, the best thing you can do if you keep running into these issues is to <a href="mailto:jj1088@georgetown.edu" target="_blank"><strong>email me</strong></a> or <a href="https://calendar.app.google/yMnESMtMNPdKEaPz5" target="_blank"><strong>schedule an office hours appointment</strong></a>, and we can work through the issue together 😸</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>It doesn’t mean <strong>you</strong> did something wrong! It’s just a result of the way that programs/apps get installed on a computer: despite the fact that computers have now existed for many decades, there is still no easy way for operating systems to keep track of (e.g.) <strong>which</strong> version/type of Python you’re hoping to run when you type <code>python</code> in your terminal, or when you run a command in Jupyter.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Computer scientists love recursive acronyms like this: if you’ve heard of the language <strong>PHP</strong>, that stands for <strong>P</strong>HP: <strong>H</strong>ypertext <strong>P</strong>reprocessor 🤓<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
