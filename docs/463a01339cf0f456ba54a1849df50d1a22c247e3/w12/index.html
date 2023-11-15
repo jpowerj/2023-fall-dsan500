@@ -326,10 +326,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <ul class="collapse">
   <li><a href="#decision-trees-what-now" id="toc-decision-trees-what-now" class="nav-link" data-scroll-target="#decision-trees-what-now">Decision Trees: What Now?</a></li>
   <li><a href="#bootstrapped-trees" id="toc-bootstrapped-trees" class="nav-link" data-scroll-target="#bootstrapped-trees">Bootstrapped Trees</a></li>
+  <li><a href="#making-up-for-lost-interpretability" id="toc-making-up-for-lost-interpretability" class="nav-link" data-scroll-target="#making-up-for-lost-interpretability">Making up for Lost Interpretability</a></li>
   <li><a href="#doing-even-better" id="toc-doing-even-better" class="nav-link" data-scroll-target="#doing-even-better">Doing Even Better</a></li>
   <li><a href="#decorrelating-trees" id="toc-decorrelating-trees" class="nav-link" data-scroll-target="#decorrelating-trees">Decorrelating Trees</a></li>
   <li><a href="#but-wait" id="toc-but-wait" class="nav-link" data-scroll-target="#but-wait">But Wait…</a></li>
   <li><a href="#boosting" id="toc-boosting" class="nav-link" data-scroll-target="#boosting">Boosting</a></li>
+  <li><a href="#boosted-tree-interpretation" id="toc-boosted-tree-interpretation" class="nav-link" data-scroll-target="#boosted-tree-interpretation">Boosted Tree Interpretation</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
@@ -1519,6 +1521,14 @@ R_2^B &amp;= \{X_i \mid X_{i,\text{month}} \geq \text{October}\}
 </figure>
 </div>
 </section>
+<section id="making-up-for-lost-interpretability" class="level2">
+<h2 class="anchored" data-anchor-id="making-up-for-lost-interpretability">Making up for Lost Interpretability</h2>
+<ul>
+<li>While we no longer have a nice single tree structure, we can still “back out” the most important features!</li>
+<li>Basic idea: for importance of feature <span class="math inline">\(j\)</span>, loop over all subtrees, and look at the <strong>average decrease in uncertainty</strong> when a tree splits on feature <span class="math inline">\(j\)</span></li>
+<li>Normalize such that</li>
+</ul>
+</section>
 <section id="doing-even-better" class="level2">
 <h2 class="anchored" data-anchor-id="doing-even-better">Doing Even Better</h2>
 <ul>
@@ -1639,6 +1649,12 @@ R_2^B &amp;= \{X_i \mid X_{i,\text{month}} \geq \text{October}\}
 </div>
 </div>
 </div>
+</section>
+<section id="boosted-tree-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="boosted-tree-interpretation">Boosted Tree Interpretation</h2>
+<ul>
+<li></li>
+</ul>
 
 
 </section>

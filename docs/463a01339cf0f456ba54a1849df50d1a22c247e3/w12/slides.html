@@ -1588,6 +1588,14 @@ R_2^B &amp;= \{X_i \mid X_{i,\text{month}} \geq \text{October}\}
 <h2>Bootstrapped Trees</h2>
 
 <img data-src="images/bootstrap.svg" class="r-stretch quarto-figure-center"></section>
+<section id="making-up-for-lost-interpretability" class="slide level2">
+<h2>Making up for Lost Interpretability</h2>
+<ul>
+<li>While we no longer have a nice single tree structure, we can still “back out” the most important features!</li>
+<li>Basic idea: for importance of feature <span class="math inline">\(j\)</span>, loop over all subtrees, and look at the <strong>average decrease in uncertainty</strong> when a tree splits on feature <span class="math inline">\(j\)</span></li>
+<li>Normalize such that</li>
+</ul>
+</section>
 <section id="doing-even-better" class="slide level2">
 <h2>Doing Even Better</h2>
 <ul>
@@ -1708,6 +1716,12 @@ R_2^B &amp;= \{X_i \mid X_{i,\text{month}} \geq \text{October}\}
 </div>
 </div>
 </div>
+</section>
+<section id="boosted-tree-interpretation" class="slide level2">
+<h2>Boosted Tree Interpretation</h2>
+<ul>
+<li></li>
+</ul>
 
 <div class="footer footer-default">
 <p>DSAN 5000-<span class="sec-num">02</span> Week 12: Random Forests</p>

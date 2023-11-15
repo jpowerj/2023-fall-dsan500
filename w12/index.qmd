@@ -842,6 +842,12 @@ $$
 
 ![](images/bootstrap.svg){fig-align="center"}
 
+## Making up for Lost Interpretability
+
+* While we no longer have a nice single tree structure, we can still "back out" the most important features!
+* Basic idea: for importance of feature $j$, loop over all subtrees, and look at the **average decrease in uncertainty** when a tree splits on feature $j$
+* Normalize such that 
+
 ## Doing Even Better
 
 * Issue: Each bootstrapped tree will be **highly correlated**
@@ -937,3 +943,7 @@ reg_tree_plot +
 
 :::
 :::
+
+## Boosted Tree Interpretation
+
+* 
