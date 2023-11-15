@@ -877,7 +877,7 @@ $$
 
 ::: {#boosting-left}
 
-1. Explain the error here:
+1. Original data
 
 ```{r}
 #| label: boosting-zero-level
@@ -908,7 +908,7 @@ reg_tree_plot +
 :::
 ::: {#boosting-right}
 
-2. Explain remaining error:
+2. One-level DT
 
 
 ```{r}

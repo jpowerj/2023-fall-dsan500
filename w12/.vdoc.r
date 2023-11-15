@@ -487,6 +487,7 @@ ski_sample <- ski_df |> slice_sample(n = sample_size)
 ski_sample |> write_csv("assets/ski.csv")
 month_vec <- c(ymd('2023-01-01'), ymd('2023-02-01'), ymd('2023-03-01'), ymd('2023-04-01'), ymd('2023-05-01'), ymd('2023-06-01'), ymd('2023-07-01'), ymd('2023-08-01'), ymd('2023-09-01'), ymd('2023-10-01'), ymd('2023-11-01'), ymd('2023-12-01'))
 month_labels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+lat_vec <- c(-90, -60, -30, 0, 30, 60, 90)
 ggplot(
   ski_sample,
   aes(
@@ -508,10 +509,10 @@ ggplot(
   scale_shape_manual(name="Good Skiing?", values=c(1, 3)) +
   scale_color_manual(name="Good Skiing?", values=c(cbPalette[1], cbPalette[2]), labels=c("No (Sunny)","Yes (Snowy)")) +
   scale_x_continuous(
-    breaks=month_vec,
-    labels=month_labels
+    breaks=c(month_vec,ymd('2024-01-01')),
+    labels=c(month_labels,"Jan")
   ) +
-  scale_y_continuous(breaks=c(-90, -60, -30, 0, 30, 60, 90))
+  scale_y_continuous(breaks=lat_vec)
 #
 #
 #
@@ -696,11 +697,15 @@ choice_b_df
 #| label: sklearn-ski-results
 library(tidyverse)
 library(arrow)
+library(latex2exp)
+r1_label <- TeX('$R_1 \\rightarrow +$')
+r2_label <- TeX('$R_2 \\rightarrow -$')
 # Load the dataset
 ski_result_df <- read_csv("assets/ski_predictions.csv")
 # Merge dates back in
 ski_sample_day_df <- ski_sample |> select(obs_id, day)
 ski_result_df <- ski_result_df |> left_join(ski_sample_day_df, by='obs_id')
+#print(sort(ski_result_df$day_num))
 # Load the DT info
 dt_df <- read_feather("assets/ski_dt.feather")
 # Here we only have one value, so just read that
@@ -709,6 +714,7 @@ lat_thresh <- dt_df$feat_threshold
 # And here we convert month_vec into a vector of
 # day numbers
 day_num_vec <- sapply(month_vec, lubridate::yday)
+#print(day_num_vec)
 ggplot() +
   geom_point(
     data=ski_result_df,
@@ -736,11 +742,18 @@ ggplot() +
     #shape = "Correct?"
   ) +
   scale_shape_manual("DT Result", values=c(1,3), labels=c("Incorrect","Correct")) +
-  scale_fill_manual("DT Prediction", values=c(cbPalette[4], cbPalette[5])) +
+  scale_fill_manual(
+    "DT Prediction",
+    values=c('R1'=cbPalette[2], 'R2'=cbPalette[1]),
+    labels=c('R1'=r1_label, 'R2'=r2_label)
+  ) +
   scale_color_manual("True Class", values=c(cbPalette[1], cbPalette[2]), labels=c("Bad (Sunny)","Good (Snowy)")) +
   scale_x_continuous(
-    breaks=day_num_vec,
-    labels=month_label_vec
+    breaks=c(day_num_vec,366),
+    labels=c(month_labels,"Jan")
+  ) +
+  scale_y_continuous(
+    breaks=lat_vec
   )
 #
 #
@@ -829,6 +842,153 @@ ski_result_df |> count(correct)
 #
 #
 #
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#| label: boosting-zero-level
+library(ggtext)
+# x_lt_pi = data_df |> filter(x < pi)
+# mean(x_lt_pi$y)
+data_df <- data_df |> mutate(
+  pred_sq_err0 = (y - 0)^2
+)
+mse0 <- mean(data_df$pred_sq_err0)
+mse0_str <- sprintf("%.3f", mse0)
+reg_tree_plot +
+  geom_hline(
+    yintercept = 0,
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=0, yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse0_str)),
+    size = 10,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#| label: boosting-one-level
+get_y_pred <- function(x) ifelse(x < pi, 2/pi, -2/pi)
+data_df <- data_df |> mutate(
+  pred_sq_err1 = (y - get_y_pred(x))^2
+)
+mse1 <- mean(data_df$pred_sq_err1)
+mse1_str <- sprintf("%.3f", mse1)
+decision_df <- tribble(
+  ~x, ~xend, ~y, ~yend,
+  0, pi, 2/pi, 2/pi,
+  pi, 2*pi, -2/pi, -2/pi
+)
+reg_tree_plot +
+  geom_segment(
+    data=decision_df,
+    aes(x=x, xend=xend, y=y, yend=yend),
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=get_y_pred(x), yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse1_str)),
+    size = 9,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
+#
+#
+#
+#
+#
+#
+#| label: boosting-right
+
+reg_tree_plot <- ggplot(data_df, aes(x=x, y=y)) +
+  geom_point(size = g_pointsize / 2) +
+  dsan_theme("half") +
+  labs(
+    x = "Feature",
+    y = "Label"
+  ) +
+  # geom_vline(
+  #   xintercept = pi,
+  #   linewidth = g_linewidth,
+  #   linetype = "dashed"
+  # ) +
+  scale_x_continuous(
+    breaks=c(0,pi/2,pi,(3/2)*pi,2*pi),
+    labels=c("0",expr_pi2,expr_pi,expr_3pi2,expr_2pi)
+  )
+get_y_pred <- function(x) ifelse(x < pi, 2/pi, -2/pi)
+data_df <- data_df |> mutate(
+  pred_sq_err1 = (y - get_y_pred(x))^2
+)
+mse1 <- mean(data_df$pred_sq_err1)
+mse1_str <- sprintf("%.3f", mse1)
+decision_df <- tribble(
+  ~x, ~xend, ~y, ~yend,
+  0, pi, 2/pi, 2/pi,
+  pi, 2*pi, -2/pi, -2/pi
+)
+reg_tree_plot +
+  geom_segment(
+    data=decision_df,
+    aes(x=x, xend=xend, y=y, yend=yend),
+    color=cbPalette[1],
+    linewidth = g_linewidth
+  ) +
+  geom_segment(
+    aes(x=x, xend=x, y=get_y_pred(x), yend=y)
+  ) +
+  geom_text(
+    aes(x=(3/2)*pi, y=0.5, label=paste0("MSE = ",mse1_str)),
+    size = 9,
+    #box.padding = unit(c(2,2,2,2), "pt")
+  )
 #
 #
 #
