@@ -1,5 +1,5 @@
 ---
-title: "Week 13"
+title: "Week 13: Association Rule Mining (ARM)"
 date: "Tuesday, November 21, 2023"
 date-format: full
 lecnum: 13
