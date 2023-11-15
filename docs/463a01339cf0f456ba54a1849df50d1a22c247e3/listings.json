@@ -23,11 +23,11 @@
   {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/clustering/DSAN5000_Clustering_Lab.html",
       "/writeups/decision-trees/DSAN5000_Decision_Trees.html",
       "/writeups/data-cleaning/clean_data.html",
       "/writeups/eda-seaborn/THOR_EDA_with_Seaborn.html",
       "/writeups/feature-selection/DSAN5000_Feature_Selection_Full.html",
-      "/writeups/clustering/DSAN5000_Clustering_Lab.html",
       "/writeups/selenium/Web_Scraping_With_Selenium.html",
       "/writeups/regression-vs-pca/index.html",
       "/writeups/machine-learning/index.html",
