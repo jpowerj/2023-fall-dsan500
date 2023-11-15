@@ -70,6 +70,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w10-date': 'Oct 31',
       '.sec-w11-date': 'Nov 7',
       '.sec-w12-date': 'Nov 14',
+      '.sec-w13-date': 'Nov 21',
       '.sec-start': '12:30pm',
       '.sec-p10': '12:40pm',
       '.sec-p15': '12:45pm',
@@ -97,6 +98,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.rec-link-w10': '../recordings/recording-w10s02-1.html',
       '.rec-link-w11': '../recordings/recording-w11s02-1.html',
       '.rec-link-w12': '../recordings/recording-w12s02-1.html',
+      '.rec-link-w13': '../recordings/recording-w13s02-1.html'
     },
     '03': {
       '.sec-num': '03',
@@ -117,6 +119,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.sec-w10-date': 'Nov 1',
       '.sec-w11-date': 'Nov 8',
       '.sec-w12-date': 'Nov 15',
+      '.sec-w13-date': 'Nov 21',
       '.sec-start': '3:30pm',
       '.sec-p10': '3:40pm',
       '.sec-p15': '3:45pm',
@@ -143,7 +146,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       '.rec-link-w09': '../recordings/recording-w09s03-1.html',
       '.rec-link-w10': '../recordings/recording-w10s03-1.html',
       '.rec-link-w11': '../recordings/recording-w11s03-1.html',
-      '.rec-link-w12': '../recordings/recording-w12s03-1.html'
+      '.rec-link-w12': '../recordings/recording-w12s03-1.html',
+      '.rec-link-w13': '../recordings/recording-w13s03-1.html'
     }
   }
 

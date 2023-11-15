@@ -46,6 +46,8 @@ website:
         text: "Week 11: <span class='sec-w11-date'>Nov 7</span>"
       - href: w12/index.qmd
         text: "Week 12: <span class='sec-w12-date'>Nov 14</span>"
+      - href: w13/index.qmd
+        text: "Week 13: <span class='sec-w13-date'>Nov 21</span>"
       - href: recordings/index.qmd
         text: "Lecture Recordings"
       - "---"

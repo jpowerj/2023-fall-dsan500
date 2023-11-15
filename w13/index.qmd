@@ -1,0 +1,20 @@
+---
+title: "Week 13"
+date: "Tuesday, November 21, 2023"
+date-format: full
+lecnum: 13
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+    cache: false
+    code-fold: true
+    warning: false
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+Combined section, with Sections 02, 03, and 04 meeting together on Nov 21st!

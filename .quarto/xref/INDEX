@@ -171,5 +171,9 @@
   },
   "writeups/decision-trees/DSAN5000_Decision_Trees.ipynb": {
     "DSAN5000_Decision_Trees.html": "fb8e343a"
+  },
+  "w13/index.qmd": {
+    "slides.html": "611d5e86",
+    "index.html": "cfbd75d6"
   }
 }
