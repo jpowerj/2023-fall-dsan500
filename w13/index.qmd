@@ -11,7 +11,7 @@ format:
   revealjs:
     output-file: slides.html
     cache: false
-    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 13: Association Rule Mining (ARM)"
+    footer: "DSAN 5000 Week 13: Association Rule Mining (ARM)"
   html:
     output-file: index.html
     html-math-method: mathjax
@@ -47,7 +47,296 @@ Today's Planned Schedule:
 
 : {tbl-colwidths="[14,12,12,50,12]"}
 
-# Association Rule Mining {data-stack-name="ARM"}
+# Network Analysis {data-stack-name="Networks"}
 
-## Association Rule Mining (ARM)
+## Review: Network Representations
 
+* Node list
+* Edge list
+
+## Common Network Topologies
+
+::: {layout="[1,1]"}
+
+
+::: {#fully-connected}
+
+<center>
+**Fully-Connected, $N = 5$**
+</center>
+
+```{python}
+#| label: fully-connected-graph
+import networkx as nx
+import matplotlib.pyplot as plt
+complete = nx.complete_graph(5)
+nx.draw_circular(complete)
+plt.show()
+```
+
+:::
+
+::: {#bipartite}
+
+<center>
+**Bipartite, $M = N = 4$**
+</center>
+
+```{python}
+import networkx as nx
+import matplotlib.pyplot as plt
+B = nx.complete_bipartite_graph(4, 5)
+top = nx.bipartite.sets(B)[0]
+pos = nx.bipartite_layout(B, top)
+nx.draw(
+  B, pos=pos, with_labels=True,
+  #node_color=['green','green','green','green','blue','blue','blue']
+)
+plt.show()
+```
+
+:::
+:::
+
+## Common Network Topologies II
+
+<center>
+**Path**
+</center>
+
+```{python}
+#| label: path-graph
+import networkx as nx
+import matplotlib.pyplot as plt
+path_graph = nx.path_graph(5)
+nx.draw(path_graph)
+plt.show()
+```
+
+# Association Rule Mining (ARM) {data-stack-name="ARM"}
+
+## Motivating Application: Market Basket Analysis {.smaller}
+
+::: {layout="[1,1]"}
+
+::: {#transaction-data}
+
+<center>
+**Transactions:**
+</center>
+
+| id | items |
+| - | - |
+| 1 | Bread, Coke, Milk |
+| 2 | Beer, Bread |
+| 3 | Beer, Coke, Diaper, Milk |
+| 4 | Beer, Bread, Diaper, Milk |
+| 5 | Coke, Diaper, Milk |
+
+:::
+::: {#arm-rules}
+
+<center>
+**Inferred Rules:**
+</center>
+
+* $\{\text{Diapers}\} \Rightarrow \{\text{Beer}\}$
+* $\{\text{Milk}, \text{Bread}\} \Rightarrow \{\text{Coke}\}$
+* $\{\text{Milk}, \text{Bread}\} \Rightarrow \{\text{Coke}, \text{Diapers}\}$
+* $\{\text{Diapers}\} \Rightarrow \{\text{Beer}, \text{Bread}\}$
+
+:::
+
+:::
+
+## Key Metrics: Support
+
+* Support: $\text{Supp}(A, B)$: Measures How often items in $A$ and items in $B$ occur together relative to all other transactions
+  * It gauges how common (important) an item-set is: (1=very important)(0=irrelevant)
+
+## Key Metrics: Confidence
+
+* Confidence: $\text{Conf}(A, B)$ Measures how often items in A and items in B occur together, relative to transactions that contain $A$
+  * It gauges how statistically “strong” a rule is (1=strong rule, Y is bought everytime X is)(0=no instance of rule occuring)
+
+## Key Metrics: Lift
+
+$$
+\text{Lift}(X \Rightarrow Y) = \frac{\text{Supp}(X \cap Y)}{\text{Supp}(X) \cdot \text{Supp}(Y)}
+$$
+
+* Lift = 1 (independent events) no associations between item-sets
+* Lift > 1 (positive relation) item-set is likely to be purchased if item-set is purchased
+* Lift < 1 (negative relation) item-set is unlikely to be purchased if item-set is purchased*
+
+## Lift Example {.smaller}
+
+* $\underbrace{\{\text{Milk}, \text{Bread}\}}_{X} \Rightarrow \underbrace{\{\text{Butter}\}}_{Y}$ has a lift of
+
+$$
+\frac{\text{Supp}(X \cap Y)}{\text{Supp}(X) \cdot \text{Supp}(Y)} = \frac{{\color{purple}\boxed{1/5}}}{{\color{green}\boxed{2/5}} \cdot {\color{orange}\boxed{2/5}}} = \frac{5}{4}
+$$
+
+```{=html}
+<style>
+.gc {
+  border: 4px solid green;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.oc {
+  border: 4px solid orange;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.pc-l {
+  border-left: 4px solid purple;
+  border-top: 4px solid purple;
+  border-bottom: 4px solid purple !important;
+}
+.pc-m {
+  border-top: 4px solid purple;
+  border-bottom: 4px solid purple !important;
+}
+.pc-r {
+  border-top: 4px solid purple;
+  border-right: 4px solid purple;
+  border-bottom: 4px solid purple !important;
+}
+</style>
+<table class='ctable'>
+<thead>
+<tr>
+  <th>ID</td>
+  <th>Milk</th>
+  <th>Bread</th>
+  <th>Butter</th>
+  <th>Beer</th>
+  <th>Diapers</th>
+  <th>Eggs</th>
+  <th>Fruit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><span class='gc'>1</span></td>
+  <td><span class='gc'>1</span></td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+  <td>1</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>0</td>
+  <td>0</td>
+  <td><span class='oc'>1</span></td>
+  <td>0</td>
+  <td>0</td>
+  <td>1</td>
+  <td>1</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+  <td>1</td>
+  <td>1</td>
+  <td>0</td>
+  <td>0</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td class="pc-l"><span class="gc">1</span></td>
+  <td class='pc-m'><span class='gc'>1</span></td>
+  <td class='pc-r'><span class='oc'>1</span></td>
+  <td>0</td>
+  <td>0</td>
+  <td>1</td>
+  <td>1</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>0</td>
+  <td>1</td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
+</tr>
+</tbody>
+</table>
+```
+
+## Computational Complexity
+
+* $d$ unique items $\implies 2^d$ itemsets
+* Number of possible rules $R$:
+
+$$
+R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^{d + 1} + 1
+$$
+
+* Example: $d = 5 \implies 32$ itemsets $\implies 3^5 - 2^6 + 1 = 180$ possible rules
+* We need some way to **efficiently** filter all possible rules!
+
+# Training ARM {data-stack-name="Algorithms"}
+
+## ARM in Python
+
+## ARM in R
+
+```{r}
+#| label: arm-in-r
+library(arules)
+library(arulesViz)
+library(plotly)
+```
+
+## Generating Transaction Data
+
+```{r}
+#| label: r-transaction-data
+market_basket <- list(
+  c("apple", "beer", "rice", "meat"),
+  c("apple", "beer", "rice"),
+  c("apple", "beer"),
+  c("apple", "pear"),
+  c("milk", "beer", "rice", "meat"),
+  c("milk", "beer", "rice"),
+  c("milk", "beer"),
+  c("milk", "pear")
+)
+names(market_basket) <- paste("T", c(1:8), sep="");
+transactions <- as(market_basket, "transactions")
+```
+
+## Training the Model
+
+```{r}
+#| label: train-arm-r
+# transactions <- read.transactions(
+#   "assets/basket.csv", format = "basket"
+# )
+rules <- apriori(
+  transactions,
+  parameter = list(
+    supp = 0.3,
+    conf = 0.5,
+    maxlen = 10,
+    minlen = 2,
+    target = "rules"
+  )
+)
+```
+
+## Results
+
+```{r}
+#| label: r-arm-results
+inspect(rules)
+```

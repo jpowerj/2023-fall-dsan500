@@ -5381,5 +5381,110 @@
     "title": "Week 12: Random Forests",
     "section": "Boosting",
     "text": "Boosting\n\nRather than giving each subtree a random subset of features, we grow trees sequentially, asking each subtree to explain the unexplained variance which remains from the previous step\nStep 1: \\(\\widehat{f}_1(X)\\) = DT for \\(X \\rightarrow Y\\)\nStep \\(t+1\\): \\(\\widehat{f}_{t+1}(X)\\) = DT for \\(X \\rightarrow \\left(\\widehat{f}_t(X) - Y\\right)\\)\n\n\n\n\n\nOriginal data\n\n\n\nCode\nlibrary(ggtext)\n# x_lt_pi = data_df |&gt; filter(x &lt; pi)\n# mean(x_lt_pi$y)\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err0 = (y - 0)^2\n)\nmse0 &lt;- mean(data_df$pred_sq_err0)\nmse0_str &lt;- sprintf(\"%.3f\", mse0)\nreg_tree_plot +\n  geom_hline(\n    yintercept = 0,\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=0, yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse0_str)),\n    size = 10,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )\n\n\n\n\n\n\n\n\n\n\n\n\nOne-level DT\n\n\n\nCode\nget_y_pred &lt;- function(x) ifelse(x &lt; pi, 2/pi, -2/pi)\ndata_df &lt;- data_df |&gt; mutate(\n  pred_sq_err1 = (y - get_y_pred(x))^2\n)\nmse1 &lt;- mean(data_df$pred_sq_err1)\nmse1_str &lt;- sprintf(\"%.3f\", mse1)\ndecision_df &lt;- tribble(\n  ~x, ~xend, ~y, ~yend,\n  0, pi, 2/pi, 2/pi,\n  pi, 2*pi, -2/pi, -2/pi\n)\nreg_tree_plot +\n  geom_segment(\n    data=decision_df,\n    aes(x=x, xend=xend, y=y, yend=yend),\n    color=cbPalette[1],\n    linewidth = g_linewidth\n  ) +\n  geom_segment(\n    aes(x=x, xend=x, y=get_y_pred(x), yend=y)\n  ) +\n  geom_text(\n    aes(x=(3/2)*pi, y=0.5, label=paste0(\"MSE = \",mse1_str)),\n    size = 9,\n    #box.padding = unit(c(2,2,2,2), \"pt\")\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDSAN 5000-02 Week 12: Random Forests"
+  },
+  {
+    "objectID": "w13/slides.html#review-network-representations",
+    "href": "w13/slides.html#review-network-representations",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Review: Network Representations",
+    "text": "Review: Network Representations\n\nNode list\nEdge list"
+  },
+  {
+    "objectID": "w13/slides.html#common-network-topologies",
+    "href": "w13/slides.html#common-network-topologies",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Common Network Topologies",
+    "text": "Common Network Topologies\n\n\n\n\nFully-Connected, \\(N = 5\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\ncomplete = nx.complete_graph(5)\nnx.draw_circular(complete)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\nBipartite, \\(M = N = 4\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\nB = nx.complete_bipartite_graph(4, 5)\ntop = nx.bipartite.sets(B)[0]\npos = nx.bipartite_layout(B, top)\nnx.draw(\n  B, pos=pos, with_labels=True,\n  #node_color=['green','green','green','green','blue','blue','blue']\n)\nplt.show()"
+  },
+  {
+    "objectID": "w13/slides.html#common-network-topologies-ii",
+    "href": "w13/slides.html#common-network-topologies-ii",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Common Network Topologies II",
+    "text": "Common Network Topologies II\n\nPath\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\npath_graph = nx.path_graph(5)\nnx.draw(path_graph)\nplt.show()"
+  },
+  {
+    "objectID": "w13/slides.html#motivating-application-market-basket-analysis",
+    "href": "w13/slides.html#motivating-application-market-basket-analysis",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Motivating Application: Market Basket Analysis",
+    "text": "Motivating Application: Market Basket Analysis\n\n\n\n\nTransactions:\n\n\n\n\nid\nitems\n\n\n\n\n1\nBread, Coke, Milk\n\n\n2\nBeer, Bread\n\n\n3\nBeer, Coke, Diaper, Milk\n\n\n4\nBeer, Bread, Diaper, Milk\n\n\n5\nCoke, Diaper, Milk\n\n\n\n\n\n\nInferred Rules:\n\n\n\\(\\{\\text{Diapers}\\} \\Rightarrow \\{\\text{Beer}\\}\\)\n\\(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Coke}\\}\\)\n\\(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Coke}, \\text{Diapers}\\}\\)\n\\(\\{\\text{Diapers}\\} \\Rightarrow \\{\\text{Beer}, \\text{Bread}\\}\\)"
+  },
+  {
+    "objectID": "w13/slides.html#key-metric-lift",
+    "href": "w13/slides.html#key-metric-lift",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Key Metric: Lift",
+    "text": "Key Metric: Lift\n\\[\n\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)}\n\\]\n\nLift = 1 (independent events) no associations between item-sets\nLift &gt; 1 (positive relation) item-set is likely to be purchased if item-set is purchased\nLift &lt; 1 (negative relation) item-set is unlikely to be purchased if item-set is purchased*"
+  },
+  {
+    "objectID": "w13/slides.html#arm-in-python",
+    "href": "w13/slides.html#arm-in-python",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "ARM in Python",
+    "text": "ARM in Python"
+  },
+  {
+    "objectID": "w13/slides.html#arm-in-r",
+    "href": "w13/slides.html#arm-in-r",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "ARM in R",
+    "text": "ARM in R\n\n\nCode\nlibrary(arules)\nlibrary(arulesViz)\nlibrary(plotly)"
+  },
+  {
+    "objectID": "w13/slides.html#key-metrics-support",
+    "href": "w13/slides.html#key-metrics-support",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Key Metrics: Support",
+    "text": "Key Metrics: Support\n\nSupport: \\(\\text{Supp}(A, B)\\): Measures How often items in \\(A\\) and items in \\(B\\) occur together relative to all other transactions\n\nIt gauges how common (important) an item-set is: (1=very important)(0=irrelevant)"
+  },
+  {
+    "objectID": "w13/slides.html#key-metrics-confidence",
+    "href": "w13/slides.html#key-metrics-confidence",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Key Metrics: Confidence",
+    "text": "Key Metrics: Confidence\n\nConfidence: \\(\\text{Conf}(A, B)\\) Measures how often items in A and items in B occur together, relative to transactions that contain \\(A\\)\n\nIt gauges how statistically “strong” a rule is (1=strong rule, Y is bought everytime X is)(0=no instance of rule occuring)"
+  },
+  {
+    "objectID": "w13/slides.html#key-metrics-lift",
+    "href": "w13/slides.html#key-metrics-lift",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Key Metrics: Lift",
+    "text": "Key Metrics: Lift\n\\[\n\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)}\n\\]\n\nLift = 1 (independent events) no associations between item-sets\nLift &gt; 1 (positive relation) item-set is likely to be purchased if item-set is purchased\nLift &lt; 1 (negative relation) item-set is unlikely to be purchased if item-set is purchased*"
+  },
+  {
+    "objectID": "w13/slides.html#lift-example",
+    "href": "w13/slides.html#lift-example",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Lift Example",
+    "text": "Lift Example\n\n\\(\\underbrace{\\{\\text{Milk}, \\text{Bread}\\}}_{X} \\Rightarrow \\underbrace{\\{\\text{Butter}\\}}_{Y}\\) has a lift of\n\n\\[\n\\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)} = \\frac{{\\color{purple}\\boxed{1/5}}}{{\\color{green}\\boxed{2/5}} \\cdot {\\color{orange}\\boxed{2/5}}} = \\frac{5}{4}\n\\]\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
+  },
+  {
+    "objectID": "w13/slides.html#computational-complexity",
+    "href": "w13/slides.html#computational-complexity",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Computational Complexity",
+    "text": "Computational Complexity\n\n\\(d\\) unique items \\(\\implies 2^d\\) itemsets\nNumber of possible rules \\(R\\):\n\n\\[\nR = \\sum_{k=1}^{d-1}\\binom{d}{k} \\cdot \\sum_{j=1}^{d-k}\\binom{d-k}{j} = 3^d - 2^{d + 1} + 1\n\\]\n\nExample: \\(d = 5 \\implies 32\\) itemsets \\(\\implies 3^5 - 2^6 + 1 = 180\\) possible rules\nWe need some way to efficiently filter all possible rules!"
+  },
+  {
+    "objectID": "w13/slides.html#training-the-model",
+    "href": "w13/slides.html#training-the-model",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Training the Model",
+    "text": "Training the Model\n\n\nCode\n# transactions &lt;- read.transactions(\n#   \"assets/basket.csv\", format = \"basket\"\n# )\nrules &lt;- apriori(\n  transactions,\n  parameter = list(\n    supp = 0.3,\n    conf = 0.5,\n    maxlen = 10,\n    minlen = 2,\n    target = \"rules\"\n  )\n)\n\n\nApriori\n\nParameter specification:\n confidence minval smax arem  aval originalSupport maxtime support minlen\n        0.5    0.1    1 none FALSE            TRUE       5     0.3      2\n maxlen target  ext\n     10  rules TRUE\n\nAlgorithmic control:\n filter tree heap memopt load sort verbose\n    0.1 TRUE TRUE  FALSE TRUE    2    TRUE\n\nAbsolute minimum support count: 2 \n\nset item appearances ...[0 item(s)] done [0.00s].\nset transactions ...[6 item(s), 8 transaction(s)] done [0.00s].\nsorting and recoding items ... [4 item(s)] done [0.00s].\ncreating transaction tree ... done [0.00s].\nchecking subsets of size 1 2 done [0.00s].\nwriting ... [6 rule(s)] done [0.00s].\ncreating S4 object  ... done [0.00s]."
+  },
+  {
+    "objectID": "w13/slides.html#generating-transaction-data",
+    "href": "w13/slides.html#generating-transaction-data",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Generating Transaction Data",
+    "text": "Generating Transaction Data\n\n\nCode\nmarket_basket &lt;- list(\n  c(\"apple\", \"beer\", \"rice\", \"meat\"),\n  c(\"apple\", \"beer\", \"rice\"),\n  c(\"apple\", \"beer\"),\n  c(\"apple\", \"pear\"),\n  c(\"milk\", \"beer\", \"rice\", \"meat\"),\n  c(\"milk\", \"beer\", \"rice\"),\n  c(\"milk\", \"beer\"),\n  c(\"milk\", \"pear\")\n)\nnames(market_basket) &lt;- paste(\"T\", c(1:8), sep=\"\");\ntransactions &lt;- as(market_basket, \"transactions\")"
+  },
+  {
+    "objectID": "w13/slides.html#results",
+    "href": "w13/slides.html#results",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Results",
+    "text": "Results\n\n\nCode\ninspect(rules)\n\n\n    lhs        rhs     support confidence coverage lift     count\n[1] {apple} =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    \n[2] {beer}  =&gt; {apple} 0.375   0.5000000  0.75     1.000000 3    \n[3] {milk}  =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    \n[4] {beer}  =&gt; {milk}  0.375   0.5000000  0.75     1.000000 3    \n[5] {rice}  =&gt; {beer}  0.500   1.0000000  0.50     1.333333 4    \n[6] {beer}  =&gt; {rice}  0.500   0.6666667  0.75     1.333333 4    \n\n\n\n\nDSAN 5000 Week 13: Association Rule Mining (ARM)"
   }
 ]

@@ -789,10 +789,6 @@ Jeff Jacobs
 <p><span class="math display">\[
 R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^{d + 1} + 1
 \]</span></p>
-<ul>
-<li>Example: <span class="math inline">\(d = 5 \implies 32\)</span> itemsets <span class="math inline">\(\implies 3^5 - 2^6 + 1 = 180\)</span> possible rules</li>
-<li>We need some way to <strong>efficiently</strong> filter all possible rules!</li>
-</ul>
 </section></section>
 <section>
 <section id="training-arm" class="title-slide slide level1 center" data-stack-name="Algorithms">
@@ -804,96 +800,6 @@ R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^
 </section>
 <section id="arm-in-r" class="slide level2">
 <h2>ARM in R</h2>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(arules)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">library</span>(arulesViz)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="generating-transaction-data" class="slide level2">
-<h2>Generating Transaction Data</h2>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>market_basket <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
-<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>),</span>
-<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"pear"</span>),</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
-<span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
-<span id="cb6-8"><a href="#cb6-8"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>),</span>
-<span id="cb6-9"><a href="#cb6-9"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"pear"</span>)</span>
-<span id="cb6-10"><a href="#cb6-10"></a>)</span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="fu">names</span>(market_basket) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"T"</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">sep=</span><span class="st">""</span>);</span>
-<span id="cb6-12"><a href="#cb6-12"></a>transactions <span class="ot">&lt;-</span> <span class="fu">as</span>(market_basket, <span class="st">"transactions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="training-the-model" class="slide level2">
-<h2>Training the Model</h2>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># transactions &lt;- read.transactions(</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#   "assets/basket.csv", format = "basket"</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co"># )</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(</span>
-<span id="cb7-5"><a href="#cb7-5"></a>  transactions,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="at">parameter =</span> <span class="fu">list</span>(</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    <span class="at">supp =</span> <span class="fl">0.3</span>,</span>
-<span id="cb7-8"><a href="#cb7-8"></a>    <span class="at">conf =</span> <span class="fl">0.5</span>,</span>
-<span id="cb7-9"><a href="#cb7-9"></a>    <span class="at">maxlen =</span> <span class="dv">10</span>,</span>
-<span id="cb7-10"><a href="#cb7-10"></a>    <span class="at">minlen =</span> <span class="dv">2</span>,</span>
-<span id="cb7-11"><a href="#cb7-11"></a>    <span class="at">target =</span> <span class="st">"rules"</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a>  )</span>
-<span id="cb7-13"><a href="#cb7-13"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Apriori
-
-Parameter specification:
- confidence minval smax arem  aval originalSupport maxtime support minlen
-        0.5    0.1    1 none FALSE            TRUE       5     0.3      2
- maxlen target  ext
-     10  rules TRUE
-
-Algorithmic control:
- filter tree heap memopt load sort verbose
-    0.1 TRUE TRUE  FALSE TRUE    2    TRUE
-
-Absolute minimum support count: 2 
-
-set item appearances ...[0 item(s)] done [0.00s].
-set transactions ...[6 item(s), 8 transaction(s)] done [0.00s].
-sorting and recoding items ... [4 item(s)] done [0.00s].
-creating transaction tree ... done [0.00s].
-checking subsets of size 1 2 done [0.00s].
-writing ... [6 rule(s)] done [0.00s].
-creating S4 object  ... done [0.00s].</code></pre>
-</div>
-</div>
-</section>
-<section id="results" class="slide level2">
-<h2>Results</h2>
-<div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">inspect</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>    lhs        rhs     support confidence coverage lift     count
-[1] {apple} =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    
-[2] {beer}  =&gt; {apple} 0.375   0.5000000  0.75     1.000000 3    
-[3] {milk}  =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    
-[4] {beer}  =&gt; {milk}  0.375   0.5000000  0.75     1.000000 3    
-[5] {rice}  =&gt; {beer}  0.500   1.0000000  0.50     1.333333 4    
-[6] {beer}  =&gt; {rice}  0.500   0.6666667  0.75     1.333333 4    </code></pre>
-</div>
-</div>
 
 <div class="footer footer-default">
 <p>DSAN 5000 Week 13: Association Rule Mining (ARM)</p>
