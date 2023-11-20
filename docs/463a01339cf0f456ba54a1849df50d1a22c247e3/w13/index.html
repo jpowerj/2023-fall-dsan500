@@ -298,9 +298,28 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#schedule" id="toc-schedule" class="nav-link active" data-scroll-target="#schedule">Schedule</a></li>
-  <li><a href="#association-rule-mining" id="toc-association-rule-mining" class="nav-link" data-scroll-target="#association-rule-mining">Association Rule Mining</a>
+  <li><a href="#network-analysis" id="toc-network-analysis" class="nav-link" data-scroll-target="#network-analysis">Network Analysis</a>
   <ul class="collapse">
-  <li><a href="#association-rule-mining-arm" id="toc-association-rule-mining-arm" class="nav-link" data-scroll-target="#association-rule-mining-arm">Association Rule Mining (ARM)</a></li>
+  <li><a href="#review-network-representations" id="toc-review-network-representations" class="nav-link" data-scroll-target="#review-network-representations">Review: Network Representations</a></li>
+  <li><a href="#common-network-topologies" id="toc-common-network-topologies" class="nav-link" data-scroll-target="#common-network-topologies">Common Network Topologies</a></li>
+  <li><a href="#common-network-topologies-ii" id="toc-common-network-topologies-ii" class="nav-link" data-scroll-target="#common-network-topologies-ii">Common Network Topologies II</a></li>
+  </ul></li>
+  <li><a href="#association-rule-mining-arm" id="toc-association-rule-mining-arm" class="nav-link" data-scroll-target="#association-rule-mining-arm">Association Rule Mining (ARM)</a>
+  <ul class="collapse">
+  <li><a href="#motivating-application-market-basket-analysis" id="toc-motivating-application-market-basket-analysis" class="nav-link" data-scroll-target="#motivating-application-market-basket-analysis">Motivating Application: Market Basket Analysis</a></li>
+  <li><a href="#key-metrics-support" id="toc-key-metrics-support" class="nav-link" data-scroll-target="#key-metrics-support">Key Metrics: Support</a></li>
+  <li><a href="#key-metrics-confidence" id="toc-key-metrics-confidence" class="nav-link" data-scroll-target="#key-metrics-confidence">Key Metrics: Confidence</a></li>
+  <li><a href="#key-metrics-lift" id="toc-key-metrics-lift" class="nav-link" data-scroll-target="#key-metrics-lift">Key Metrics: Lift</a></li>
+  <li><a href="#lift-example" id="toc-lift-example" class="nav-link" data-scroll-target="#lift-example">Lift Example</a></li>
+  <li><a href="#computational-complexity" id="toc-computational-complexity" class="nav-link" data-scroll-target="#computational-complexity">Computational Complexity</a></li>
+  </ul></li>
+  <li><a href="#training-arm" id="toc-training-arm" class="nav-link" data-scroll-target="#training-arm">Training ARM</a>
+  <ul class="collapse">
+  <li><a href="#arm-in-python" id="toc-arm-in-python" class="nav-link" data-scroll-target="#arm-in-python">ARM in Python</a></li>
+  <li><a href="#arm-in-r" id="toc-arm-in-r" class="nav-link" data-scroll-target="#arm-in-r">ARM in R</a></li>
+  <li><a href="#generating-transaction-data" id="toc-generating-transaction-data" class="nav-link" data-scroll-target="#generating-transaction-data">Generating Transaction Data</a></li>
+  <li><a href="#training-the-model" id="toc-training-the-model" class="nav-link" data-scroll-target="#training-the-model">Training the Model</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
@@ -437,10 +456,393 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </tbody>
 </table>
 </section>
-<section id="association-rule-mining" class="level1" data-stack-name="ARM">
-<h1 data-stack-name="ARM">Association Rule Mining</h1>
-<section id="association-rule-mining-arm" class="level2">
-<h2 class="anchored" data-anchor-id="association-rule-mining-arm">Association Rule Mining (ARM)</h2>
+<section id="network-analysis" class="level1" data-stack-name="Networks">
+<h1 data-stack-name="Networks">Network Analysis</h1>
+<section id="review-network-representations" class="level2">
+<h2 class="anchored" data-anchor-id="review-network-representations">Review: Network Representations</h2>
+<ul>
+<li>Node list</li>
+<li>Edge list</li>
+</ul>
+</section>
+<section id="common-network-topologies" class="level2">
+<h2 class="anchored" data-anchor-id="common-network-topologies">Common Network Topologies</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="fully-connected" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<center>
+<strong>Fully-Connected, <span class="math inline">\(N = 5\)</span></strong>
+</center>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>complete <span class="op">=</span> nx.complete_graph(<span class="dv">5</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nx.draw_circular(complete)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-revealjs/fully-connected-graph-1.png" class="img-fluid figure-img" width="614"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="bipartite" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<center>
+<strong>Bipartite, <span class="math inline">\(M = N = 4\)</span></strong>
+</center>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> nx.complete_bipartite_graph(<span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> nx.bipartite.sets(B)[<span class="dv">0</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.bipartite_layout(B, top)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  B, pos<span class="op">=</span>pos, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#node_color=['green','green','green','green','blue','blue','blue']</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-revealjs/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="common-network-topologies-ii" class="level2">
+<h2 class="anchored" data-anchor-id="common-network-topologies-ii">Common Network Topologies II</h2>
+<center>
+<strong>Path</strong>
+</center>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>path_graph <span class="op">=</span> nx.path_graph(<span class="dv">5</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nx.draw(path_graph)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-revealjs/path-graph-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="association-rule-mining-arm" class="level1" data-stack-name="ARM">
+<h1 data-stack-name="ARM">Association Rule Mining (ARM)</h1>
+<section id="motivating-application-market-basket-analysis" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="motivating-application-market-basket-analysis">Motivating Application: Market Basket Analysis</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="transaction-data" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<center>
+<strong>Transactions:</strong>
+</center>
+<table class="table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th>items</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Bread, Coke, Milk</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Beer, Bread</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Beer, Coke, Diaper, Milk</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Beer, Bread, Diaper, Milk</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Coke, Diaper, Milk</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="arm-rules" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<center>
+<strong>Inferred Rules:</strong>
+</center>
+<ul>
+<li><span class="math inline">\(\{\text{Diapers}\} \Rightarrow \{\text{Beer}\}\)</span></li>
+<li><span class="math inline">\(\{\text{Milk}, \text{Bread}\} \Rightarrow \{\text{Coke}\}\)</span></li>
+<li><span class="math inline">\(\{\text{Milk}, \text{Bread}\} \Rightarrow \{\text{Coke}, \text{Diapers}\}\)</span></li>
+<li><span class="math inline">\(\{\text{Diapers}\} \Rightarrow \{\text{Beer}, \text{Bread}\}\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="key-metrics-support" class="level2">
+<h2 class="anchored" data-anchor-id="key-metrics-support">Key Metrics: Support</h2>
+<ul>
+<li>Support: <span class="math inline">\(\text{Supp}(A, B)\)</span>: Measures How often items in <span class="math inline">\(A\)</span> and items in <span class="math inline">\(B\)</span> occur together relative to all other transactions
+<ul>
+<li>It gauges how common (important) an item-set is: (1=very important)(0=irrelevant)</li>
+</ul></li>
+</ul>
+</section>
+<section id="key-metrics-confidence" class="level2">
+<h2 class="anchored" data-anchor-id="key-metrics-confidence">Key Metrics: Confidence</h2>
+<ul>
+<li>Confidence: <span class="math inline">\(\text{Conf}(A, B)\)</span> Measures how often items in A and items in B occur together, relative to transactions that contain <span class="math inline">\(A\)</span>
+<ul>
+<li>It gauges how statistically “strong” a rule is (1=strong rule, Y is bought everytime X is)(0=no instance of rule occuring)</li>
+</ul></li>
+</ul>
+</section>
+<section id="key-metrics-lift" class="level2">
+<h2 class="anchored" data-anchor-id="key-metrics-lift">Key Metrics: Lift</h2>
+<p><span class="math display">\[
+\text{Lift}(X \Rightarrow Y) = \frac{\text{Supp}(X \cap Y)}{\text{Supp}(X) \cdot \text{Supp}(Y)}
+\]</span></p>
+<ul>
+<li>Lift = 1 (independent events) no associations between item-sets</li>
+<li>Lift &gt; 1 (positive relation) item-set is likely to be purchased if item-set is purchased</li>
+<li>Lift &lt; 1 (negative relation) item-set is unlikely to be purchased if item-set is purchased*</li>
+</ul>
+</section>
+<section id="lift-example" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="lift-example">Lift Example</h2>
+<ul>
+<li><span class="math inline">\(\underbrace{\{\text{Milk}, \text{Bread}\}}_{X} \Rightarrow \underbrace{\{\text{Butter}\}}_{Y}\)</span> has a lift of</li>
+</ul>
+<p><span class="math display">\[
+\frac{\text{Supp}(X \cap Y)}{\text{Supp}(X) \cdot \text{Supp}(Y)} = \frac{{\color{purple}\boxed{1/5}}}{{\color{green}\boxed{2/5}} \cdot {\color{orange}\boxed{2/5}}} = \frac{5}{4}
+\]</span></p>
+<style>
+.gc {
+  border: 4px solid green;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.oc {
+  border: 4px solid orange;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.pc-l {
+  border-left: 4px solid purple;
+  border-top: 4px solid purple;
+  border-bottom: 4px solid purple !important;
+}
+.pc-m {
+  border-top: 4px solid purple;
+  border-bottom: 4px solid purple !important;
+}
+.pc-r {
+  border-top: 4px solid purple;
+  border-right: 4px solid purple;
+  border-bottom: 4px solid purple !important;
+}
+</style>
+
+<table class="ctable table" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">ID</th>
+<th data-quarto-table-cell-role="th">Milk</th>
+<th data-quarto-table-cell-role="th">Bread</th>
+<th data-quarto-table-cell-role="th">Butter</th>
+<th data-quarto-table-cell-role="th">Beer</th>
+<th data-quarto-table-cell-role="th">Diapers</th>
+<th data-quarto-table-cell-role="th">Eggs</th>
+<th data-quarto-table-cell-role="th">Fruit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="gc">1</span></td>
+<td><span class="gc">1</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td><span class="oc">1</span></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td class="pc-l"><span class="gc">1</span></td>
+<td class="pc-m"><span class="gc">1</span></td>
+<td class="pc-r"><span class="oc">1</span></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="computational-complexity" class="level2">
+<h2 class="anchored" data-anchor-id="computational-complexity">Computational Complexity</h2>
+<ul>
+<li><span class="math inline">\(d\)</span> unique items <span class="math inline">\(\implies 2^d\)</span> itemsets</li>
+<li>Number of possible rules <span class="math inline">\(R\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^{d + 1} + 1
+\]</span></p>
+<ul>
+<li>Example: <span class="math inline">\(d = 5 \implies 32\)</span> itemsets <span class="math inline">\(\implies 3^5 - 2^6 + 1 = 180\)</span> possible rules</li>
+<li>We need some way to <strong>efficiently</strong> filter all possible rules!</li>
+</ul>
+</section>
+</section>
+<section id="training-arm" class="level1" data-stack-name="Algorithms">
+<h1 data-stack-name="Algorithms">Training ARM</h1>
+<section id="arm-in-python" class="level2">
+<h2 class="anchored" data-anchor-id="arm-in-python">ARM in Python</h2>
+</section>
+<section id="arm-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="arm-in-r">ARM in R</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arules)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arulesViz)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="generating-transaction-data" class="level2">
+<h2 class="anchored" data-anchor-id="generating-transaction-data">Generating Transaction Data</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>market_basket <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"pear"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"pear"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(market_basket) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"T"</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">sep=</span><span class="st">""</span>);</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>transactions <span class="ot">&lt;-</span> <span class="fu">as</span>(market_basket, <span class="st">"transactions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="training-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="training-the-model">Training the Model</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transactions &lt;- read.transactions(</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   "assets/basket.csv", format = "basket"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  transactions,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameter =</span> <span class="fu">list</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">supp =</span> <span class="fl">0.3</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">conf =</span> <span class="fl">0.5</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxlen =</span> <span class="dv">10</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">minlen =</span> <span class="dv">2</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">target =</span> <span class="st">"rules"</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Apriori
+
+Parameter specification:
+ confidence minval smax arem  aval originalSupport maxtime support minlen
+        0.5    0.1    1 none FALSE            TRUE       5     0.3      2
+ maxlen target  ext
+     10  rules TRUE
+
+Algorithmic control:
+ filter tree heap memopt load sort verbose
+    0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+
+Absolute minimum support count: 2 
+
+set item appearances ...[0 item(s)] done [0.00s].
+set transactions ...[6 item(s), 8 transaction(s)] done [0.00s].
+sorting and recoding items ... [4 item(s)] done [0.00s].
+creating transaction tree ... done [0.00s].
+checking subsets of size 1 2 done [0.00s].
+writing ... [6 rule(s)] done [0.00s].
+creating S4 object  ... done [0.00s].</code></pre>
+</div>
+</div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    lhs        rhs     support confidence coverage lift     count
+[1] {apple} =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    
+[2] {beer}  =&gt; {apple} 0.375   0.5000000  0.75     1.000000 3    
+[3] {milk}  =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    
+[4] {beer}  =&gt; {milk}  0.375   0.5000000  0.75     1.000000 3    
+[5] {rice}  =&gt; {beer}  0.500   1.0000000  0.50     1.333333 4    
+[6] {beer}  =&gt; {rice}  0.500   0.6666667  0.75     1.333333 4    </code></pre>
+</div>
+</div>
 
 
 </section>
