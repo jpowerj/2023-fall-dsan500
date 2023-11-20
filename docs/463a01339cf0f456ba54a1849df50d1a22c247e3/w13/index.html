@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -72,6 +106,8 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </script>
 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script><script src="../jjcustom.js"></script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -257,7 +293,17 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#schedule" id="toc-schedule" class="nav-link active" data-scroll-target="#schedule">Schedule</a></li>
+  <li><a href="#association-rule-mining" id="toc-association-rule-mining" class="nav-link" data-scroll-target="#association-rule-mining">Association Rule Mining</a>
+  <ul class="collapse">
+  <li><a href="#association-rule-mining-arm" id="toc-association-rule-mining-arm" class="nav-link" data-scroll-target="#association-rule-mining-arm">Association Rule Mining (ARM)</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -265,7 +311,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Week 13: Association Rule Mining (ARM)</h1>
-<p class="subtitle lead"><em>DSAN 5000: Data Science and Analytics</em><br>Section <span class="sec-num">02</span></p>
+<p class="subtitle lead"><em>Combined meeting: Sections 02, 03, and 04</em></p>
   <div class="quarto-categories">
     <div class="quarto-category">Class Sessions</div>
   </div>
@@ -302,9 +348,103 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 
 </header>
 
-<p>Combined section, with Sections 02, 03, and 04 meeting together on Nov 21st!</p>
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window →</a>
+</center>
+<section id="schedule" class="level1 smaller small-title crunch-title crunch-callout" data-name="Schedule">
+<h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
+<div class="hidden">
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div class="hidden">
+<p><span class="math display">\[
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\newcommand{\bigexpect}[1]{\mathbb{E}\mkern-4mu \left[ #1 \right]}
+\newcommand{\definedas}{\overset{\text{defn}}{=}}
+\newcommand{\definedalign}{\overset{\phantom{\text{defn}}}{=}}
+\newcommand{\eqeventual}{\overset{\text{eventually}}{=}}
+\newcommand{\expect}[1]{\mathbb{E}[#1]}
+\newcommand{\expectsq}[1]{\mathbb{E}^2[#1]}
+\newcommand{\fw}[1]{\texttt{#1}}
+\newcommand{\given}{\mid}
+\newcommand{\green}[1]{\color{green}{#1}}
+\newcommand{\heads}{\outcome{heads}}
+\newcommand{\iqr}{\text{IQR}}
+\newcommand{\kl}{\text{KL}}
+\newcommand{\lik}{\mathcal{L}}
+\newcommand{\mle}{\textsf{ML}}
+\newcommand{\orange}[1]{\color{orange}{#1}}
+\newcommand{\outcome}[1]{\textsf{#1}}
+\newcommand{\param}[1]{{\color{purple} #1}}
+\newcommand{\paramDist}{\param{\boldsymbol\theta_\mathcal{D}}}
+\newcommand{\pgsamplespace}{\{\green{1},\green{2},\green{3},\purp{4},\purp{5},\purp{6}\}}
+\newcommand{\prob}[1]{P\left( #1 \right)}
+\newcommand{\purp}[1]{\color{purple}{#1}}
+\newcommand{\red}[1]{\color{red}#1}
+\newcommand{\spacecap}{\; \cap \;}
+\newcommand{\spacewedge}{\; \wedge \;}
+\newcommand{\tails}{\outcome{tails}}
+\newcommand{\Var}[1]{\text{Var}[#1]}
+\newcommand{\bigVar}[1]{\text{Var}\mkern-4mu \left[ #1 \right]}
+\]</span></p>
+</div>
+<p>Today’s Planned Schedule:</p>
+<table class="table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 50%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Start</th>
+<th style="text-align: left;">End</th>
+<th style="text-align: left;">Topic</th>
+<th style="text-align: center;">Recording</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Lecture</strong></td>
+<td style="text-align: left;">12:30pm</td>
+<td style="text-align: left;">2:00pm</td>
+<td style="text-align: left;"><a href="#association-rule-mining">Association Rule Mining →</a></td>
+<td style="text-align: center;"><a id="rec-link-w13-1" href="../recordings/recording-w12s02-1.html" target="_blank"><i class="bi bi-film"></i></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Break!</strong></td>
+<td style="text-align: left;"><span class="sec-p90">2:00pm</span></td>
+<td style="text-align: left;"><span class="sec-p100">2:10pm</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="sec-p100">2:10pm</span></td>
+<td style="text-align: left;"><span class="sec-p130">3:00pm</span></td>
+<td style="text-align: left;"><a href="#clustering-and-dimensionality-reduction-for-text-data">ARM Lab →</a></td>
+<td style="text-align: center;"><a href="../recordings/recording-w13s02-1.html" target="_blank"><i class="bi bi-film"></i></a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="association-rule-mining" class="level1" data-stack-name="ARM">
+<h1 data-stack-name="ARM">Association Rule Mining</h1>
+<section id="association-rule-mining-arm" class="level2">
+<h2 class="anchored" data-anchor-id="association-rule-mining-arm">Association Rule Mining (ARM)</h2>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
