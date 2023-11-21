@@ -1,59 +1,87 @@
 [
   {
-    "objectID": "w13/slides.html#review-network-representations",
-    "href": "w13/slides.html#review-network-representations",
+    "objectID": "w13/slides.html#review-w05-network-representations",
+    "href": "w13/slides.html#review-w05-network-representations",
     "title": "Week 13: Association Rule Mining (ARM)",
-    "section": "Review: Network Representations",
-    "text": "Review: Network Representations\n\nNode list\nEdge list"
+    "section": "Review (W05): Network Representations",
+    "text": "Review (W05): Network Representations\n\nNetwork data form two tabular datasets: one for nodes and one for edges\nEx: Network on left could be represented via pair of tabular datasets on right\n\n\n\n\n\n\n\nFigure 1: Network of some sort of ancient kinship structure\n\n\n\n\n\n\n\n\nnode_id\nlabel\n\n\n\n\n1\nBulbasaur\n\n\n2\nIvysaur\n\n\n\\(\\vdots\\)\n\\(\\vdots\\)\n\n\n9\nBlastoise\n\n\n83\nFarfetch’d\n\n\n\nFigure 2: A tabular dataset representing the nodes in the network above\n\n\n\n\n\n\n\nedge_id\nsource\ntarget\nweight\n\n\n\n\n0\n1\n2\n16\n\n\n1\n2\n3\n32\n\n\n2\n4\n5\n16\n\n\n3\n5\n6\n36\n\n\n4\n7\n8\n16\n\n\n5\n8\n9\n36\n\n\n\nFigure 3: A tabular dataset representing the edges in the network above"
+  },
+  {
+    "objectID": "w13/slides.html#new-toy-over-break-networkx",
+    "href": "w13/slides.html#new-toy-over-break-networkx",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "New Toy Over Break: NetworkX!",
+    "text": "New Toy Over Break: NetworkX!\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\nG = nx.DiGraph()\nG.add_nodes_from(\n    [(\"Bulbasaur\", dict(subset=1)), (\"Ivysaur\", dict(subset=1)), (\"Venusaur\", dict(subset=1)),\n     (\"Charmander\", dict(subset=2)), (\"Charmeleon\", dict(subset=2)), (\"Charizard\", dict(subset=2)),\n     (\"Squirtle\", dict(subset=3)), (\"Wartortle\", dict(subset=3)), (\"Blastoise\", dict(subset=3)),\n     (\"Farfetch'd\", dict(subset=4))]\n)\nG.add_edge(\"Bulbasaur\", \"Ivysaur\", weight=16)\nG.add_edge(\"Ivysaur\", \"Venusaur\", weight=32)\nG.add_edge(\"Charmander\", \"Charmeleon\", weight=16)\nG.add_edge(\"Charmeleon\", \"Charizard\", weight=36)\nG.add_edge(\"Squirtle\", \"Wartortle\", weight=16)\nG.add_edge(\"Wartortle\", \"Blastoise\", weight=36)\nplt.figure(figsize=(6,7))\n#layout = nx.circular_layout(G)\n#layout = nx.spiral_layout(G)\n#layout = nx.kamada_kawai_layout(G)\n#layout = nx.random_layout(G)\n#layout = nx.shell_layout(G)\nlayout = nx.multipartite_layout(G)\nnx.draw_networkx_nodes(G, layout, node_size=4000, node_color='white', edgecolors='black')\nnx.draw_networkx_labels(G, layout, font_size=10);\nnx.draw_networkx_edges(G, layout, node_size=4000, arrows=True, arrowsize=30)\n#layout = nx.draw_circular(G, with_labels=True, node_size=2500, arrowsize=25)\nedge_labels = nx.get_edge_attributes(G, \"weight\")\nnx.draw_networkx_edge_labels(G, layout, edge_labels);\nplt.margins(x=0.2, y=0.1)\nplt.show()"
   },
   {
     "objectID": "w13/slides.html#common-network-topologies",
     "href": "w13/slides.html#common-network-topologies",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Common Network Topologies",
-    "text": "Common Network Topologies\n\n\n\n\nFully-Connected, \\(N = 5\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\ncomplete = nx.complete_graph(5)\nnx.draw_circular(complete)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\nBipartite, \\(M = N = 4\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\nB = nx.complete_bipartite_graph(4, 5)\ntop = nx.bipartite.sets(B)[0]\npos = nx.bipartite_layout(B, top)\nnx.draw(\n  B, pos=pos, with_labels=True,\n  #node_color=['green','green','green','green','blue','blue','blue']\n)\nplt.show()"
+    "text": "Common Network Topologies\n\n\n\n\nFully-Connected: \\(N = 5\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\ncomplete = nx.complete_graph(5)\nnx.draw_circular(\n  complete, with_labels = True,\n  node_color = 'lightblue',\n  node_size = 3000,\n  font_size = 32\n)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\nBipartite: \\(M = 4, N = 5\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\nB = nx.complete_bipartite_graph(4, 5)\ntop = nx.bipartite.sets(B)[0]\npos = nx.bipartite_layout(B, top)\nnx.draw(\n  B, pos=pos, with_labels=True,\n  node_color = 'lightblue',\n  node_size = 4000,\n  font_size = 32\n)\nplt.margins(y=0.1)\nplt.show()"
   },
   {
     "objectID": "w13/slides.html#common-network-topologies-ii",
     "href": "w13/slides.html#common-network-topologies-ii",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Common Network Topologies II",
-    "text": "Common Network Topologies II\n\nPath\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\npath_graph = nx.path_graph(5)\nnx.draw(path_graph)\nplt.show()"
+    "text": "Common Network Topologies II\n\n\n\n\nPath\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\npath_graph = nx.path_graph(5)\nnx.draw(\n  path_graph, with_labels = True,\n  node_color = 'lightblue',\n  node_size = 4500,\n  font_size = 32\n)\nplt.margins(y=0.1)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\nCycle\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\npath_graph = nx.cycle_graph(5)\nnx.draw(\n  path_graph, with_labels = True,\n  node_color = 'lightblue',\n  node_size = 4500,\n  font_size = 32\n)\nplt.margins(y=0.1)\nplt.show()"
   },
   {
     "objectID": "w13/slides.html#motivating-application-market-basket-analysis",
     "href": "w13/slides.html#motivating-application-market-basket-analysis",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Motivating Application: Market Basket Analysis",
-    "text": "Motivating Application: Market Basket Analysis\n\n\n\n\nTransactions:\n\n\n\n\nid\nitems\n\n\n\n\n1\nBread, Coke, Milk\n\n\n2\nBeer, Bread\n\n\n3\nBeer, Coke, Diaper, Milk\n\n\n4\nBeer, Bread, Diaper, Milk\n\n\n5\nCoke, Diaper, Milk\n\n\n\n\n\n\nInferred Rules:\n\n\n\\(\\{\\text{Diapers}\\} \\Rightarrow \\{\\text{Beer}\\}\\)\n\\(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Coke}\\}\\)\n\\(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Coke}, \\text{Diapers}\\}\\)\n\\(\\{\\text{Diapers}\\} \\Rightarrow \\{\\text{Beer}, \\text{Bread}\\}\\)"
+    "text": "Motivating Application: Market Basket Analysis\n\n\n\n\nTransactions (Cart):\n\n\n\n\nid\nitems\n\n\n\n\n1\nMilk, Bread, Fruit\n\n\n2\nButter, Eggs, Fruit\n\n\n3\nBeer, Diapers\n\n\n4\nMilk, Bread, Butter, Eggs, Fruit\n\n\n5\nBread\n\n\n\n\n\n\nTransactions (Matrix Format):\n\n\n\n\nid\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0\n\n\n\n\n\n\n\n\nWhat rules can we infer? How can we evaluate these?\n\n\n\n\n\n\\(R_1 = \\{\\text{Butter}\\} \\overset{?}{\\Rightarrow} \\{\\text{Eggs}\\}\\)\n\\(R_2 = \\{\\text{Milk}, \\text{Bread}\\} \\overset{?}{\\Rightarrow} \\{\\text{Butter}\\}\\)\n\n\n\n\n\\(R_3 = \\{\\text{Milk}, \\text{Bread}\\} \\overset{?}{\\Rightarrow} \\{\\text{Coke}, \\text{Fruit}\\}\\)\n\\(R_4 = \\{\\text{Beer}\\} \\overset{?}{\\Rightarrow} \\{\\text{Butter}\\}\\)"
+  },
+  {
+    "objectID": "w13/slides.html#market-basket-network",
+    "href": "w13/slides.html#market-basket-network",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Market Basket Network",
+    "text": "Market Basket Network\n\n\nCode\nimport numpy as np\nnp.random.seed(5000)\nbasket_graph = nx.Graph()\nnodes = ['Milk','Bread','Butter','Beer','Diapers','Eggs','Fruit']\nbasket_graph.add_edge('Milk','Bread',weight=2)\nbasket_graph.add_edge('Milk','Fruit',weight=2)\nbasket_graph.add_edge('Bread','Fruit',weight=2)\nbasket_graph.add_edge('Butter','Eggs',weight=2)\nbasket_graph.add_edge('Butter','Fruit',weight=2)\nbasket_graph.add_edge('Eggs','Fruit',weight=2)\nbasket_graph.add_edge('Beer','Diapers',weight=1)\nbasket_graph.add_edge('Milk','Butter',weight=1)\nbasket_graph.add_edge('Milk','Eggs',weight=1)\nbasket_graph.add_edge('Bread','Butter',weight=1)\nbasket_graph.add_edge('Bread','Eggs',weight=1)\nspring_pos = nx.spring_layout(\n  basket_graph,\n  #pos = {'Fruit': (0.5,0.3), 'Beer': (0.5,0.8)},\n  #fixed = ['Fruit','Beer'],\n  seed = 5000,\n  k = 2\n)\nnx.draw(\n  basket_graph, spring_pos, with_labels=True,\n  #node_color = 'lightblue',\n  node_size = 1200,\n  font_size = 16,\n  node_shape=\"s\",  node_color=\"none\",\n  bbox=dict(facecolor=\"lightblue\", edgecolor='black', boxstyle='round,pad=0.2')\n)\nedge_labels_dict=dict([((u,v,),d['weight']) for u,v,d in basket_graph.edges(data=True)])\nedge_labels = nx.draw_networkx_edge_labels(basket_graph, pos=spring_pos, edge_labels=edge_labels_dict, font_size=14, bbox=dict(facecolor=\"white\", edgecolor='none', boxstyle='round,pad=0.2'))\nplt.gca().set_aspect('equal')\nplt.margins(x = 0.4)\nplt.show()"
   },
   {
     "objectID": "w13/slides.html#key-metrics-support",
     "href": "w13/slides.html#key-metrics-support",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Key Metrics: Support",
-    "text": "Key Metrics: Support\n\nSupport: \\(\\text{Supp}(A, B)\\): Measures How often items in \\(A\\) and items in \\(B\\) occur together relative to all other transactions\n\nIt gauges how common (important) an item-set is: (1=very important)(0=irrelevant)"
+    "text": "Key Metrics: Support\n\n\\(\\text{Supp}(X)\\): Measures How often items in \\(X\\) occur together relative to all other transactions\n\\(\\text{Supp}({\\color{green}\\{\\text{Milk}, \\text{Bread}\\}}) = \\frac{2}{5}, \\text{Supp}({\\color{orange}\\{\\text{Butter}\\}}) = \\frac{2}{5}\\)\n\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
   },
   {
     "objectID": "w13/slides.html#key-metrics-confidence",
     "href": "w13/slides.html#key-metrics-confidence",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Key Metrics: Confidence",
-    "text": "Key Metrics: Confidence\n\nConfidence: \\(\\text{Conf}(A, B)\\) Measures how often items in A and items in B occur together, relative to transactions that contain \\(A\\)\n\nIt gauges how statistically “strong” a rule is (1=strong rule, Y is bought everytime X is)(0=no instance of rule occuring)"
+    "text": "Key Metrics: Confidence\n\n\\(\\text{Conf}(X \\Rightarrow Y) = \\Pr(Y \\mid X) = \\frac{\\Pr(X, Y)}{\\Pr(X)}\\)\n\n\\[\n\\begin{align*}\n&\\text{Conf}(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Butter}\\}) \\\\\n= &\\frac{\n  \\Pr({\\color{purple}\\{\\text{Milk}, \\text{Bread}, \\text{Butter}\\}})\n}{\n  \\Pr({\\color{green}\\{\\text{Milk}, \\text{Bread}\\}})\n} = \\frac{{\\color{purple}\\boxed{1/5}}}{{\\color{green}\\boxed{2/5}}} = \\frac{1}{2}\n\\end{align*}\n\\]\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
   },
   {
     "objectID": "w13/slides.html#key-metrics-lift",
     "href": "w13/slides.html#key-metrics-lift",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Key Metrics: Lift",
-    "text": "Key Metrics: Lift\n\\[\n\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)}\n\\]\n\nLift = 1 (independent events) no associations between item-sets\nLift &gt; 1 (positive relation) item-set is likely to be purchased if item-set is purchased\nLift &lt; 1 (negative relation) item-set is unlikely to be purchased if item-set is purchased*"
+    "text": "Key Metrics: Lift\n\\[\n\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)}\n\\] * \\(\\underbrace{\\{\\text{Milk}, \\text{Bread}\\}}_{X} \\Rightarrow \\underbrace{\\{\\text{Butter}\\}}_{Y}\\) has a lift of\n\\[\n\\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)} = \\frac{{\\color{purple}\\boxed{1/5}}}{{\\color{green}\\boxed{2/5}} \\cdot {\\color{orange}\\boxed{2/5}}} = \\frac{5}{4}\n\\]\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
   },
   {
-    "objectID": "w13/slides.html#lift-example",
-    "href": "w13/slides.html#lift-example",
+    "objectID": "w13/slides.html#lift-as-pointwise-mutual-information-pmi",
+    "href": "w13/slides.html#lift-as-pointwise-mutual-information-pmi",
     "title": "Week 13: Association Rule Mining (ARM)",
-    "section": "Lift Example",
-    "text": "Lift Example\n\n\\(\\underbrace{\\{\\text{Milk}, \\text{Bread}\\}}_{X} \\Rightarrow \\underbrace{\\{\\text{Butter}\\}}_{Y}\\) has a lift of\n\n\\[\n\\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)} = \\frac{{\\color{purple}\\boxed{1/5}}}{{\\color{green}\\boxed{2/5}} \\cdot {\\color{orange}\\boxed{2/5}}} = \\frac{5}{4}\n\\]\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
+    "section": "Lift as Pointwise Mutual Information (PMI)",
+    "text": "Lift as Pointwise Mutual Information (PMI)\n\nKey problem in NLP: identification of lexemes\nWhat is the relationship between meaning and words?\nThink of: [Chile], [Equatorial] [Guinea], [Nether][lands]1\nOr: [Wel][come!], [Will][kommen!], [Bien][venidos!]\nSometimes a word provides one “unit” of semantic meaning (one lexeme), sometimes more than one, and sometimes none unless combined with other words!\nHow can a computer determine whether \\(w_1w_2\\) contains one or two lexemes?\n\n\\[\n\\text{PMI}(w_1, w_2) = \\log_2\\left[ \\frac{\\Pr(w_1w_2)}{\\Pr(w_1)\\cdot \\Pr(w_2)} \\right]\n\\]\nThis last one never occurred to me until I learned French, where it’s called Les Pays-Bas 🤯"
+  },
+  {
+    "objectID": "w13/slides.html#computing-pmi",
+    "href": "w13/slides.html#computing-pmi",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Computing PMI",
+    "text": "Computing PMI\n\\[\n\\begin{align*}\n\\text{PMI}(\\text{Puerto}, \\text{Rico}) = \\log_2\\left[\\frac{f(\\text{Puerto Rico})}{f(\\text{Puerto})f(\\text{Rico})}\\right] = \\log_2\\left[ \\frac{6278}{11282 \\cdot 8332} \\right] &\\approx -13.87 \\\\\n\\text{PMI}(\\text{Hong}, \\text{Kong}) = \\log_2\\left[ \\frac{f(\\text{Hong Kong})}{f(\\text{Hong})f(\\text{Kong})} \\right] = \\log_2\\left[ \\frac{14141}{15959 \\cdot 16446} \\right] &\\approx -14.18 \\\\\n\\text{PMI}(\\text{Equatorial}, \\text{Guinea}) =  \\log_2\\left[ \\frac{f(\\text{Equatorial Guinea})}{f(\\text{Equatorial})f(\\text{Guinea})} \\right] = \\log_2\\left[ \\frac{237}{1505 \\cdot 4893} \\right] &\\approx -14.92 \\\\\n\\text{PMI}(\\text{New}, \\text{York}) = \\log_2\\left[ \\frac{f(\\text{New York})}{f(\\text{New})f(\\text{York})} \\right] = \\log_2\\left[ \\frac{264228}{1371071 \\cdot 270262} \\right] &\\approx -20.42 \\\\\n\\text{PMI}(\\text{and}, \\text{the}) = \\log_2\\left[ \\frac{f(\\text{and the})}{f(\\text{and})f(\\text{the})} \\right] = \\log_2\\left[ \\frac{1493660}{24814660 \\cdot 50067877} \\right] &\\approx -29.63\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w13/slides.html#thanksgiving-lesson-from-a-dc-native-settler",
+    "href": "w13/slides.html#thanksgiving-lesson-from-a-dc-native-settler",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Thanksgiving Lesson from a DC Native Settler",
+    "text": "Thanksgiving Lesson from a DC Native Settler\n\n\n\n\nBreaking words apart like this can reveal the “sediments of history”: consider Anacostia\nSince 1877: DC neighborhood + river →\n1608 - 1877: A whites-only town, until Frederick Douglass became the first black homeowner\nUntil 1608, denoted “trading” (Anaquash) “area” (eta), before Captain John Smith showed up \\(\\implies\\) [Anacos][tia]"
   },
   {
     "objectID": "w13/slides.html#computational-complexity",
@@ -67,7 +95,21 @@
     "href": "w13/slides.html#arm-in-python",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "ARM in Python",
-    "text": "ARM in Python"
+    "text": "ARM in Python\n\nUsing mlxtend\n\n\n\nCode\ndataset = [['Milk', 'Onion', 'Nutmeg', 'Kidney Beans', 'Eggs', 'Yogurt'],\n           ['Onion', 'Nutmeg', 'Kidney Beans', 'Eggs', 'Yogurt'],\n           ['Milk', 'Apple', 'Kidney Beans', 'Eggs'],\n           ['Milk', 'Corn', 'Kidney Beans', 'Yogurt'],\n           ['Corn', 'Onion', 'Onion', 'Kidney Beans', 'Ice cream', 'Eggs']]\nimport pandas as pd\nfrom mlxtend.preprocessing import TransactionEncoder\n\nte = TransactionEncoder()\nte_ary = te.fit(dataset).transform(dataset)\ndf = pd.DataFrame(te_ary, columns=te.columns_)\ndisp(df)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nApple\nCorn\nEggs\nIce cream\nKidney Beans\nMilk\nNutmeg\nOnion\nYogurt\n\n\n\n\n0\n0\n0\n1\n0\n1\n1\n1\n1\n1\n\n\n1\n0\n0\n1\n0\n1\n0\n1\n1\n1\n\n\n2\n1\n0\n1\n0\n1\n1\n0\n0\n0\n\n\n3\n0\n1\n0\n0\n1\n1\n0\n0\n1\n\n\n4\n0\n1\n1\n1\n1\n0\n0\n1\n0"
+  },
+  {
+    "objectID": "w13/slides.html#thresholding-support-geq-0.6",
+    "href": "w13/slides.html#thresholding-support-geq-0.6",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Thresholding: Support \\(\\geq\\) 0.6",
+    "text": "Thresholding: Support \\(\\geq\\) 0.6\n\n\n\n\nCode\nfrom mlxtend.frequent_patterns import apriori\napriori_df = apriori(df, min_support=0.6, use_colnames=True)\napriori_df['length'] = apriori_df['itemsets'].apply(len)\nformat_dict = {\n  'support': lambda x: format(x, '.2f'),\n  'itemsets': ', '.join\n}\n\n\n\n\n\nCode\napriori_df.style.format(format_dict)\n\n\n\n\n\n\n\n \nsupport\nitemsets\nlength\n\n\n\n\n0\n0.80\nEggs\n1\n\n\n1\n1.00\nKidney Beans\n1\n\n\n2\n0.60\nMilk\n1\n\n\n3\n0.60\nOnion\n1\n\n\n4\n0.60\nYogurt\n1\n\n\n5\n0.80\nEggs, Kidney Beans\n2\n\n\n6\n0.60\nOnion, Eggs\n2\n\n\n7\n0.60\nMilk, Kidney Beans\n2\n\n\n8\n0.60\nOnion, Kidney Beans\n2\n\n\n9\n0.60\nYogurt, Kidney Beans\n2\n\n\n10\n0.60\nOnion, Eggs, Kidney Beans\n3"
+  },
+  {
+    "objectID": "w13/slides.html#filtering",
+    "href": "w13/slides.html#filtering",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Filtering",
+    "text": "Filtering\n\n\nCode\nrules_df = apriori_df[ (apriori_df['length'] &gt;= 2) & (apriori_df['support'] &gt;= 0.8) ].copy()\nrules_df.style.format(format_dict)\n\n\n\n\n\n\n\n \nsupport\nitemsets\nlength\n\n\n\n\n5\n0.80\nEggs, Kidney Beans\n2"
   },
   {
     "objectID": "w13/slides.html#arm-in-r",
@@ -81,14 +123,14 @@
     "href": "w13/slides.html#generating-transaction-data",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Generating Transaction Data",
-    "text": "Generating Transaction Data\n\n\nCode\nmarket_basket &lt;- list(\n  c(\"apple\", \"beer\", \"rice\", \"meat\"),\n  c(\"apple\", \"beer\", \"rice\"),\n  c(\"apple\", \"beer\"),\n  c(\"apple\", \"pear\"),\n  c(\"milk\", \"beer\", \"rice\", \"meat\"),\n  c(\"milk\", \"beer\", \"rice\"),\n  c(\"milk\", \"beer\"),\n  c(\"milk\", \"pear\")\n)\nnames(market_basket) &lt;- paste(\"T\", c(1:8), sep=\"\");\ntransactions &lt;- as(market_basket, \"transactions\")"
+    "text": "Generating Transaction Data\n\n\nCode\nmarket_basket &lt;- list(\n  c(\"apple\", \"beer\", \"rice\", \"meat\"),\n  c(\"apple\", \"beer\", \"rice\"),\n  c(\"apple\", \"beer\"),\n  c(\"apple\", \"pear\"),\n  c(\"milk\", \"beer\", \"rice\", \"meat\"),\n  c(\"milk\", \"beer\", \"rice\"),\n  c(\"milk\", \"beer\"),\n  c(\"milk\", \"pear\")\n)\nnames(market_basket) &lt;- paste(\"T\", c(1:8), sep=\"\");\ntransactions &lt;- as(market_basket, \"transactions\")\ninspect(transactions)\n\n\n    items                     transactionID\n[1] {apple, beer, meat, rice} T1           \n[2] {apple, beer, rice}       T2           \n[3] {apple, beer}             T3           \n[4] {apple, pear}             T4           \n[5] {beer, meat, milk, rice}  T5           \n[6] {beer, milk, rice}        T6           \n[7] {beer, milk}              T7           \n[8] {milk, pear}              T8"
   },
   {
     "objectID": "w13/slides.html#training-the-model",
     "href": "w13/slides.html#training-the-model",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Training the Model",
-    "text": "Training the Model\n\n\nCode\n# transactions &lt;- read.transactions(\n#   \"assets/basket.csv\", format = \"basket\"\n# )\nrules &lt;- apriori(\n  transactions,\n  parameter = list(\n    supp = 0.3,\n    conf = 0.5,\n    maxlen = 10,\n    minlen = 2,\n    target = \"rules\"\n  )\n)\n\n\nApriori\n\nParameter specification:\n confidence minval smax arem  aval originalSupport maxtime support minlen\n        0.5    0.1    1 none FALSE            TRUE       5     0.3      2\n maxlen target  ext\n     10  rules TRUE\n\nAlgorithmic control:\n filter tree heap memopt load sort verbose\n    0.1 TRUE TRUE  FALSE TRUE    2    TRUE\n\nAbsolute minimum support count: 2 \n\nset item appearances ...[0 item(s)] done [0.00s].\nset transactions ...[6 item(s), 8 transaction(s)] done [0.00s].\nsorting and recoding items ... [4 item(s)] done [0.00s].\ncreating transaction tree ... done [0.00s].\nchecking subsets of size 1 2 done [0.00s].\nwriting ... [6 rule(s)] done [0.00s].\ncreating S4 object  ... done [0.00s]."
+    "text": "Training the Model\n\n\nCode\nrules &lt;- apriori(\n  transactions,\n  parameter = list(\n    supp = 0.3,\n    conf = 0.5,\n    maxlen = 10,\n    minlen = 2,\n    target = \"rules\"\n  )\n)\n\n\nApriori\n\nParameter specification:\n confidence minval smax arem  aval originalSupport maxtime support minlen\n        0.5    0.1    1 none FALSE            TRUE       5     0.3      2\n maxlen target  ext\n     10  rules TRUE\n\nAlgorithmic control:\n filter tree heap memopt load sort verbose\n    0.1 TRUE TRUE  FALSE TRUE    2    TRUE\n\nAbsolute minimum support count: 2 \n\nset item appearances ...[0 item(s)] done [0.00s].\nset transactions ...[6 item(s), 8 transaction(s)] done [0.00s].\nsorting and recoding items ... [4 item(s)] done [0.00s].\ncreating transaction tree ... done [0.00s].\nchecking subsets of size 1 2 done [0.00s].\nwriting ... [6 rule(s)] done [0.00s].\ncreating S4 object  ... done [0.00s]."
   },
   {
     "objectID": "w13/slides.html#results",
@@ -105,60 +147,88 @@
     "text": "Open slides in new window →"
   },
   {
-    "objectID": "w13/index.html#review-network-representations",
-    "href": "w13/index.html#review-network-representations",
+    "objectID": "w13/index.html#review-w05-network-representations",
+    "href": "w13/index.html#review-w05-network-representations",
     "title": "Week 13: Association Rule Mining (ARM)",
-    "section": "Review: Network Representations",
-    "text": "Review: Network Representations\n\nNode list\nEdge list"
+    "section": "Review (W05): Network Representations",
+    "text": "Review (W05): Network Representations\n\nNetwork data form two tabular datasets: one for nodes and one for edges\nEx: Network on left could be represented via pair of tabular datasets on right\n\n\n\n\n\n\n\nFigure 1: Network of some sort of ancient kinship structure\n\n\n\n\n\n\n\n\nnode_id\nlabel\n\n\n\n\n1\nBulbasaur\n\n\n2\nIvysaur\n\n\n\\(\\vdots\\)\n\\(\\vdots\\)\n\n\n9\nBlastoise\n\n\n83\nFarfetch’d\n\n\n\nFigure 2: A tabular dataset representing the nodes in the network above\n\n\n\n\n\n\n\nedge_id\nsource\ntarget\nweight\n\n\n\n\n0\n1\n2\n16\n\n\n1\n2\n3\n32\n\n\n2\n4\n5\n16\n\n\n3\n5\n6\n36\n\n\n4\n7\n8\n16\n\n\n5\n8\n9\n36\n\n\n\nFigure 3: A tabular dataset representing the edges in the network above"
+  },
+  {
+    "objectID": "w13/index.html#new-toy-over-break-networkx",
+    "href": "w13/index.html#new-toy-over-break-networkx",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "New Toy Over Break: NetworkX!",
+    "text": "New Toy Over Break: NetworkX!\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\nG = nx.DiGraph()\nG.add_nodes_from(\n    [(\"Bulbasaur\", dict(subset=1)), (\"Ivysaur\", dict(subset=1)), (\"Venusaur\", dict(subset=1)),\n     (\"Charmander\", dict(subset=2)), (\"Charmeleon\", dict(subset=2)), (\"Charizard\", dict(subset=2)),\n     (\"Squirtle\", dict(subset=3)), (\"Wartortle\", dict(subset=3)), (\"Blastoise\", dict(subset=3)),\n     (\"Farfetch'd\", dict(subset=4))]\n)\nG.add_edge(\"Bulbasaur\", \"Ivysaur\", weight=16)\nG.add_edge(\"Ivysaur\", \"Venusaur\", weight=32)\nG.add_edge(\"Charmander\", \"Charmeleon\", weight=16)\nG.add_edge(\"Charmeleon\", \"Charizard\", weight=36)\nG.add_edge(\"Squirtle\", \"Wartortle\", weight=16)\nG.add_edge(\"Wartortle\", \"Blastoise\", weight=36)\nplt.figure(figsize=(6,7))\n#layout = nx.circular_layout(G)\n#layout = nx.spiral_layout(G)\n#layout = nx.kamada_kawai_layout(G)\n#layout = nx.random_layout(G)\n#layout = nx.shell_layout(G)\nlayout = nx.multipartite_layout(G)\nnx.draw_networkx_nodes(G, layout, node_size=4000, node_color='white', edgecolors='black')\nnx.draw_networkx_labels(G, layout, font_size=10);\nnx.draw_networkx_edges(G, layout, node_size=4000, arrows=True, arrowsize=30)\n#layout = nx.draw_circular(G, with_labels=True, node_size=2500, arrowsize=25)\nedge_labels = nx.get_edge_attributes(G, \"weight\")\nnx.draw_networkx_edge_labels(G, layout, edge_labels);\nplt.margins(x=0.2, y=0.1)\nplt.show()"
   },
   {
     "objectID": "w13/index.html#common-network-topologies",
     "href": "w13/index.html#common-network-topologies",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Common Network Topologies",
-    "text": "Common Network Topologies\n\n\n\n\nFully-Connected, \\(N = 5\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\ncomplete = nx.complete_graph(5)\nnx.draw_circular(complete)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\nBipartite, \\(M = N = 4\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\nB = nx.complete_bipartite_graph(4, 5)\ntop = nx.bipartite.sets(B)[0]\npos = nx.bipartite_layout(B, top)\nnx.draw(\n  B, pos=pos, with_labels=True,\n  #node_color=['green','green','green','green','blue','blue','blue']\n)\nplt.show()"
+    "text": "Common Network Topologies\n\n\n\n\nFully-Connected: \\(N = 5\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\ncomplete = nx.complete_graph(5)\nnx.draw_circular(\n  complete, with_labels = True,\n  node_color = 'lightblue',\n  node_size = 3000,\n  font_size = 32\n)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\nBipartite: \\(M = 4, N = 5\\)\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\nB = nx.complete_bipartite_graph(4, 5)\ntop = nx.bipartite.sets(B)[0]\npos = nx.bipartite_layout(B, top)\nnx.draw(\n  B, pos=pos, with_labels=True,\n  node_color = 'lightblue',\n  node_size = 4000,\n  font_size = 32\n)\nplt.margins(y=0.1)\nplt.show()"
   },
   {
     "objectID": "w13/index.html#common-network-topologies-ii",
     "href": "w13/index.html#common-network-topologies-ii",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Common Network Topologies II",
-    "text": "Common Network Topologies II\n\nPath\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\npath_graph = nx.path_graph(5)\nnx.draw(path_graph)\nplt.show()"
+    "text": "Common Network Topologies II\n\n\n\n\nPath\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\npath_graph = nx.path_graph(5)\nnx.draw(\n  path_graph, with_labels = True,\n  node_color = 'lightblue',\n  node_size = 4500,\n  font_size = 32\n)\nplt.margins(y=0.1)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\nCycle\n\n\n\nCode\nimport networkx as nx\nimport matplotlib.pyplot as plt\npath_graph = nx.cycle_graph(5)\nnx.draw(\n  path_graph, with_labels = True,\n  node_color = 'lightblue',\n  node_size = 4500,\n  font_size = 32\n)\nplt.margins(y=0.1)\nplt.show()"
   },
   {
     "objectID": "w13/index.html#motivating-application-market-basket-analysis",
     "href": "w13/index.html#motivating-application-market-basket-analysis",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Motivating Application: Market Basket Analysis",
-    "text": "Motivating Application: Market Basket Analysis\n\n\n\n\nTransactions:\n\n\n\n\nid\nitems\n\n\n\n\n1\nBread, Coke, Milk\n\n\n2\nBeer, Bread\n\n\n3\nBeer, Coke, Diaper, Milk\n\n\n4\nBeer, Bread, Diaper, Milk\n\n\n5\nCoke, Diaper, Milk\n\n\n\n\n\n\nInferred Rules:\n\n\n\\(\\{\\text{Diapers}\\} \\Rightarrow \\{\\text{Beer}\\}\\)\n\\(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Coke}\\}\\)\n\\(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Coke}, \\text{Diapers}\\}\\)\n\\(\\{\\text{Diapers}\\} \\Rightarrow \\{\\text{Beer}, \\text{Bread}\\}\\)"
+    "text": "Motivating Application: Market Basket Analysis\n\n\n\n\nTransactions (Cart):\n\n\n\n\nid\nitems\n\n\n\n\n1\nMilk, Bread, Fruit\n\n\n2\nButter, Eggs, Fruit\n\n\n3\nBeer, Diapers\n\n\n4\nMilk, Bread, Butter, Eggs, Fruit\n\n\n5\nBread\n\n\n\n\n\n\nTransactions (Matrix Format):\n\n\n\n\nid\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0\n\n\n\n\n\n\n\n\nWhat rules can we infer? How can we evaluate these?\n\n\n\n\n\n\\(R_1 = \\{\\text{Butter}\\} \\overset{?}{\\Rightarrow} \\{\\text{Eggs}\\}\\)\n\\(R_2 = \\{\\text{Milk}, \\text{Bread}\\} \\overset{?}{\\Rightarrow} \\{\\text{Butter}\\}\\)\n\n\n\n\n\\(R_3 = \\{\\text{Milk}, \\text{Bread}\\} \\overset{?}{\\Rightarrow} \\{\\text{Coke}, \\text{Fruit}\\}\\)\n\\(R_4 = \\{\\text{Beer}\\} \\overset{?}{\\Rightarrow} \\{\\text{Butter}\\}\\)"
+  },
+  {
+    "objectID": "w13/index.html#market-basket-network",
+    "href": "w13/index.html#market-basket-network",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Market Basket Network",
+    "text": "Market Basket Network\n\n\nCode\nimport numpy as np\nnp.random.seed(5000)\nbasket_graph = nx.Graph()\nnodes = ['Milk','Bread','Butter','Beer','Diapers','Eggs','Fruit']\nbasket_graph.add_edge('Milk','Bread',weight=2)\nbasket_graph.add_edge('Milk','Fruit',weight=2)\nbasket_graph.add_edge('Bread','Fruit',weight=2)\nbasket_graph.add_edge('Butter','Eggs',weight=2)\nbasket_graph.add_edge('Butter','Fruit',weight=2)\nbasket_graph.add_edge('Eggs','Fruit',weight=2)\nbasket_graph.add_edge('Beer','Diapers',weight=1)\nbasket_graph.add_edge('Milk','Butter',weight=1)\nbasket_graph.add_edge('Milk','Eggs',weight=1)\nbasket_graph.add_edge('Bread','Butter',weight=1)\nbasket_graph.add_edge('Bread','Eggs',weight=1)\nspring_pos = nx.spring_layout(\n  basket_graph,\n  #pos = {'Fruit': (0.5,0.3), 'Beer': (0.5,0.8)},\n  #fixed = ['Fruit','Beer'],\n  seed = 5000,\n  k = 2\n)\nnx.draw(\n  basket_graph, spring_pos, with_labels=True,\n  #node_color = 'lightblue',\n  node_size = 1200,\n  font_size = 16,\n  node_shape=\"s\",  node_color=\"none\",\n  bbox=dict(facecolor=\"lightblue\", edgecolor='black', boxstyle='round,pad=0.2')\n)\nedge_labels_dict=dict([((u,v,),d['weight']) for u,v,d in basket_graph.edges(data=True)])\nedge_labels = nx.draw_networkx_edge_labels(basket_graph, pos=spring_pos, edge_labels=edge_labels_dict, font_size=14, bbox=dict(facecolor=\"white\", edgecolor='none', boxstyle='round,pad=0.2'))\nplt.gca().set_aspect('equal')\nplt.margins(x = 0.4)\nplt.show()"
   },
   {
     "objectID": "w13/index.html#key-metrics-support",
     "href": "w13/index.html#key-metrics-support",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Key Metrics: Support",
-    "text": "Key Metrics: Support\n\nSupport: \\(\\text{Supp}(A, B)\\): Measures How often items in \\(A\\) and items in \\(B\\) occur together relative to all other transactions\n\nIt gauges how common (important) an item-set is: (1=very important)(0=irrelevant)"
+    "text": "Key Metrics: Support\n\n\\(\\text{Supp}(X)\\): Measures How often items in \\(X\\) occur together relative to all other transactions\n\\(\\text{Supp}({\\color{green}\\{\\text{Milk}, \\text{Bread}\\}}) = \\frac{2}{5}, \\text{Supp}({\\color{orange}\\{\\text{Butter}\\}}) = \\frac{2}{5}\\)\n\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
   },
   {
     "objectID": "w13/index.html#key-metrics-confidence",
     "href": "w13/index.html#key-metrics-confidence",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Key Metrics: Confidence",
-    "text": "Key Metrics: Confidence\n\nConfidence: \\(\\text{Conf}(A, B)\\) Measures how often items in A and items in B occur together, relative to transactions that contain \\(A\\)\n\nIt gauges how statistically “strong” a rule is (1=strong rule, Y is bought everytime X is)(0=no instance of rule occuring)"
+    "text": "Key Metrics: Confidence\n\n\\(\\text{Conf}(X \\Rightarrow Y) = \\Pr(Y \\mid X) = \\frac{\\Pr(X, Y)}{\\Pr(X)}\\)\n\n\\[\n\\begin{align*}\n&\\text{Conf}(\\{\\text{Milk}, \\text{Bread}\\} \\Rightarrow \\{\\text{Butter}\\}) \\\\\n= &\\frac{\n  \\Pr({\\color{purple}\\{\\text{Milk}, \\text{Bread}, \\text{Butter}\\}})\n}{\n  \\Pr({\\color{green}\\{\\text{Milk}, \\text{Bread}\\}})\n} = \\frac{{\\color{purple}\\boxed{1/5}}}{{\\color{green}\\boxed{2/5}}} = \\frac{1}{2}\n\\end{align*}\n\\]\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
   },
   {
     "objectID": "w13/index.html#key-metrics-lift",
     "href": "w13/index.html#key-metrics-lift",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Key Metrics: Lift",
-    "text": "Key Metrics: Lift\n\\[\n\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)}\n\\]\n\nLift = 1 (independent events) no associations between item-sets\nLift &gt; 1 (positive relation) item-set is likely to be purchased if item-set is purchased\nLift &lt; 1 (negative relation) item-set is unlikely to be purchased if item-set is purchased*"
+    "text": "Key Metrics: Lift\n\\[\n\\text{Lift}(X \\Rightarrow Y) = \\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)}\n\\] * \\(\\underbrace{\\{\\text{Milk}, \\text{Bread}\\}}_{X} \\Rightarrow \\underbrace{\\{\\text{Butter}\\}}_{Y}\\) has a lift of\n\\[\n\\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)} = \\frac{{\\color{purple}\\boxed{1/5}}}{{\\color{green}\\boxed{2/5}} \\cdot {\\color{orange}\\boxed{2/5}}} = \\frac{5}{4}\n\\]\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
   },
   {
-    "objectID": "w13/index.html#lift-example",
-    "href": "w13/index.html#lift-example",
+    "objectID": "w13/index.html#lift-as-pointwise-mutual-information-pmi",
+    "href": "w13/index.html#lift-as-pointwise-mutual-information-pmi",
     "title": "Week 13: Association Rule Mining (ARM)",
-    "section": "Lift Example",
-    "text": "Lift Example\n\n\\(\\underbrace{\\{\\text{Milk}, \\text{Bread}\\}}_{X} \\Rightarrow \\underbrace{\\{\\text{Butter}\\}}_{Y}\\) has a lift of\n\n\\[\n\\frac{\\text{Supp}(X \\cap Y)}{\\text{Supp}(X) \\cdot \\text{Supp}(Y)} = \\frac{{\\color{purple}\\boxed{1/5}}}{{\\color{green}\\boxed{2/5}} \\cdot {\\color{orange}\\boxed{2/5}}} = \\frac{5}{4}\n\\]\n\n\n\n\n\nID\nMilk\nBread\nButter\nBeer\nDiapers\nEggs\nFruit\n\n\n\n\n1\n1\n1\n0\n0\n0\n0\n1\n\n\n2\n0\n0\n1\n0\n0\n1\n1\n\n\n3\n0\n0\n0\n1\n1\n0\n0\n\n\n4\n1\n1\n1\n0\n0\n1\n1\n\n\n5\n0\n1\n0\n0\n0\n0\n0"
+    "section": "Lift as Pointwise Mutual Information (PMI)",
+    "text": "Lift as Pointwise Mutual Information (PMI)\n\nKey problem in NLP: identification of lexemes\nWhat is the relationship between meaning and words?\nThink of: [Chile], [Equatorial] [Guinea], [Nether][lands]1\nOr: [Wel][come!], [Will][kommen!], [Bien][venidos!]\nSometimes a word provides one “unit” of semantic meaning (one lexeme), sometimes more than one, and sometimes none unless combined with other words!\nHow can a computer determine whether \\(w_1w_2\\) contains one or two lexemes?\n\n\\[\n\\text{PMI}(w_1, w_2) = \\log_2\\left[ \\frac{\\Pr(w_1w_2)}{\\Pr(w_1)\\cdot \\Pr(w_2)} \\right]\n\\]"
+  },
+  {
+    "objectID": "w13/index.html#computing-pmi",
+    "href": "w13/index.html#computing-pmi",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Computing PMI",
+    "text": "Computing PMI\n\\[\n\\begin{align*}\n\\text{PMI}(\\text{Puerto}, \\text{Rico}) = \\log_2\\left[\\frac{f(\\text{Puerto Rico})}{f(\\text{Puerto})f(\\text{Rico})}\\right] = \\log_2\\left[ \\frac{6278}{11282 \\cdot 8332} \\right] &\\approx -13.87 \\\\\n\\text{PMI}(\\text{Hong}, \\text{Kong}) = \\log_2\\left[ \\frac{f(\\text{Hong Kong})}{f(\\text{Hong})f(\\text{Kong})} \\right] = \\log_2\\left[ \\frac{14141}{15959 \\cdot 16446} \\right] &\\approx -14.18 \\\\\n\\text{PMI}(\\text{Equatorial}, \\text{Guinea}) =  \\log_2\\left[ \\frac{f(\\text{Equatorial Guinea})}{f(\\text{Equatorial})f(\\text{Guinea})} \\right] = \\log_2\\left[ \\frac{237}{1505 \\cdot 4893} \\right] &\\approx -14.92 \\\\\n\\text{PMI}(\\text{New}, \\text{York}) = \\log_2\\left[ \\frac{f(\\text{New York})}{f(\\text{New})f(\\text{York})} \\right] = \\log_2\\left[ \\frac{264228}{1371071 \\cdot 270262} \\right] &\\approx -20.42 \\\\\n\\text{PMI}(\\text{and}, \\text{the}) = \\log_2\\left[ \\frac{f(\\text{and the})}{f(\\text{and})f(\\text{the})} \\right] = \\log_2\\left[ \\frac{1493660}{24814660 \\cdot 50067877} \\right] &\\approx -29.63\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "w13/index.html#thanksgiving-lesson-from-a-dc-native-settler",
+    "href": "w13/index.html#thanksgiving-lesson-from-a-dc-native-settler",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Thanksgiving Lesson from a DC Native Settler",
+    "text": "Thanksgiving Lesson from a DC Native Settler\n\n\n\n\nBreaking words apart like this can reveal the “sediments of history”: consider Anacostia\nSince 1877: DC neighborhood + river →\n1608 - 1877: A whites-only town, until Frederick Douglass became the first black homeowner\nUntil 1608, denoted “trading” (Anaquash) “area” (eta), before Captain John Smith showed up \\(\\implies\\) [Anacos][tia]"
   },
   {
     "objectID": "w13/index.html#computational-complexity",
@@ -172,7 +242,21 @@
     "href": "w13/index.html#arm-in-python",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "ARM in Python",
-    "text": "ARM in Python"
+    "text": "ARM in Python\n\nUsing mlxtend\n\n\n\nCode\ndataset = [['Milk', 'Onion', 'Nutmeg', 'Kidney Beans', 'Eggs', 'Yogurt'],\n           ['Onion', 'Nutmeg', 'Kidney Beans', 'Eggs', 'Yogurt'],\n           ['Milk', 'Apple', 'Kidney Beans', 'Eggs'],\n           ['Milk', 'Corn', 'Kidney Beans', 'Yogurt'],\n           ['Corn', 'Onion', 'Onion', 'Kidney Beans', 'Ice cream', 'Eggs']]\nimport pandas as pd\nfrom mlxtend.preprocessing import TransactionEncoder\n\nte = TransactionEncoder()\nte_ary = te.fit(dataset).transform(dataset)\ndf = pd.DataFrame(te_ary, columns=te.columns_)\ndisp(df)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nApple\nCorn\nEggs\nIce cream\nKidney Beans\nMilk\nNutmeg\nOnion\nYogurt\n\n\n\n\n0\n0\n0\n1\n0\n1\n1\n1\n1\n1\n\n\n1\n0\n0\n1\n0\n1\n0\n1\n1\n1\n\n\n2\n1\n0\n1\n0\n1\n1\n0\n0\n0\n\n\n3\n0\n1\n0\n0\n1\n1\n0\n0\n1\n\n\n4\n0\n1\n1\n1\n1\n0\n0\n1\n0"
+  },
+  {
+    "objectID": "w13/index.html#thresholding-support-geq-0.6",
+    "href": "w13/index.html#thresholding-support-geq-0.6",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Thresholding: Support \\(\\geq\\) 0.6",
+    "text": "Thresholding: Support \\(\\geq\\) 0.6\n\n\n\n\nCode\nfrom mlxtend.frequent_patterns import apriori\napriori_df = apriori(df, min_support=0.6, use_colnames=True)\napriori_df['length'] = apriori_df['itemsets'].apply(len)\nformat_dict = {\n  'support': lambda x: format(x, '.2f'),\n  'itemsets': ', '.join\n}\n\n\n\n\n\nCode\napriori_df.style.format(format_dict)\n\n\n\n\n\n\n\n \nsupport\nitemsets\nlength\n\n\n\n\n0\n0.80\nEggs\n1\n\n\n1\n1.00\nKidney Beans\n1\n\n\n2\n0.60\nMilk\n1\n\n\n3\n0.60\nOnion\n1\n\n\n4\n0.60\nYogurt\n1\n\n\n5\n0.80\nKidney Beans, Eggs\n2\n\n\n6\n0.60\nEggs, Onion\n2\n\n\n7\n0.60\nKidney Beans, Milk\n2\n\n\n8\n0.60\nKidney Beans, Onion\n2\n\n\n9\n0.60\nYogurt, Kidney Beans\n2\n\n\n10\n0.60\nKidney Beans, Eggs, Onion\n3"
+  },
+  {
+    "objectID": "w13/index.html#filtering",
+    "href": "w13/index.html#filtering",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Filtering",
+    "text": "Filtering\n\n\nCode\nrules_df = apriori_df[ (apriori_df['length'] &gt;= 2) & (apriori_df['support'] &gt;= 0.8) ].copy()\nrules_df.style.format(format_dict)\n\n\n\n\n\n\n\n \nsupport\nitemsets\nlength\n\n\n\n\n5\n0.80\nKidney Beans, Eggs\n2"
   },
   {
     "objectID": "w13/index.html#arm-in-r",
@@ -186,14 +270,14 @@
     "href": "w13/index.html#generating-transaction-data",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Generating Transaction Data",
-    "text": "Generating Transaction Data\n\n\nCode\nmarket_basket &lt;- list(\n  c(\"apple\", \"beer\", \"rice\", \"meat\"),\n  c(\"apple\", \"beer\", \"rice\"),\n  c(\"apple\", \"beer\"),\n  c(\"apple\", \"pear\"),\n  c(\"milk\", \"beer\", \"rice\", \"meat\"),\n  c(\"milk\", \"beer\", \"rice\"),\n  c(\"milk\", \"beer\"),\n  c(\"milk\", \"pear\")\n)\nnames(market_basket) &lt;- paste(\"T\", c(1:8), sep=\"\");\ntransactions &lt;- as(market_basket, \"transactions\")"
+    "text": "Generating Transaction Data\n\n\nCode\nmarket_basket &lt;- list(\n  c(\"apple\", \"beer\", \"rice\", \"meat\"),\n  c(\"apple\", \"beer\", \"rice\"),\n  c(\"apple\", \"beer\"),\n  c(\"apple\", \"pear\"),\n  c(\"milk\", \"beer\", \"rice\", \"meat\"),\n  c(\"milk\", \"beer\", \"rice\"),\n  c(\"milk\", \"beer\"),\n  c(\"milk\", \"pear\")\n)\nnames(market_basket) &lt;- paste(\"T\", c(1:8), sep=\"\");\ntransactions &lt;- as(market_basket, \"transactions\")\ninspect(transactions)\n\n\n    items                     transactionID\n[1] {apple, beer, meat, rice} T1           \n[2] {apple, beer, rice}       T2           \n[3] {apple, beer}             T3           \n[4] {apple, pear}             T4           \n[5] {beer, meat, milk, rice}  T5           \n[6] {beer, milk, rice}        T6           \n[7] {beer, milk}              T7           \n[8] {milk, pear}              T8"
   },
   {
     "objectID": "w13/index.html#training-the-model",
     "href": "w13/index.html#training-the-model",
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Training the Model",
-    "text": "Training the Model\n\n\nCode\n# transactions &lt;- read.transactions(\n#   \"assets/basket.csv\", format = \"basket\"\n# )\nrules &lt;- apriori(\n  transactions,\n  parameter = list(\n    supp = 0.3,\n    conf = 0.5,\n    maxlen = 10,\n    minlen = 2,\n    target = \"rules\"\n  )\n)\n\n\nApriori\n\nParameter specification:\n confidence minval smax arem  aval originalSupport maxtime support minlen\n        0.5    0.1    1 none FALSE            TRUE       5     0.3      2\n maxlen target  ext\n     10  rules TRUE\n\nAlgorithmic control:\n filter tree heap memopt load sort verbose\n    0.1 TRUE TRUE  FALSE TRUE    2    TRUE\n\nAbsolute minimum support count: 2 \n\nset item appearances ...[0 item(s)] done [0.00s].\nset transactions ...[6 item(s), 8 transaction(s)] done [0.00s].\nsorting and recoding items ... [4 item(s)] done [0.00s].\ncreating transaction tree ... done [0.00s].\nchecking subsets of size 1 2 done [0.00s].\nwriting ... [6 rule(s)] done [0.00s].\ncreating S4 object  ... done [0.00s]."
+    "text": "Training the Model\n\n\nCode\nrules &lt;- apriori(\n  transactions,\n  parameter = list(\n    supp = 0.3,\n    conf = 0.5,\n    maxlen = 10,\n    minlen = 2,\n    target = \"rules\"\n  )\n)\n\n\nApriori\n\nParameter specification:\n confidence minval smax arem  aval originalSupport maxtime support minlen\n        0.5    0.1    1 none FALSE            TRUE       5     0.3      2\n maxlen target  ext\n     10  rules TRUE\n\nAlgorithmic control:\n filter tree heap memopt load sort verbose\n    0.1 TRUE TRUE  FALSE TRUE    2    TRUE\n\nAbsolute minimum support count: 2 \n\nset item appearances ...[0 item(s)] done [0.00s].\nset transactions ...[6 item(s), 8 transaction(s)] done [0.00s].\nsorting and recoding items ... [4 item(s)] done [0.00s].\ncreating transaction tree ... done [0.00s].\nchecking subsets of size 1 2 done [0.00s].\nwriting ... [6 rule(s)] done [0.00s].\ncreating S4 object  ... done [0.00s]."
   },
   {
     "objectID": "w13/index.html#results",
@@ -201,6 +285,13 @@
     "title": "Week 13: Association Rule Mining (ARM)",
     "section": "Results",
     "text": "Results\n\n\nCode\ninspect(rules)\n\n\n    lhs        rhs     support confidence coverage lift     count\n[1] {apple} =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    \n[2] {beer}  =&gt; {apple} 0.375   0.5000000  0.75     1.000000 3    \n[3] {milk}  =&gt; {beer}  0.375   0.7500000  0.50     1.000000 3    \n[4] {beer}  =&gt; {milk}  0.375   0.5000000  0.75     1.000000 3    \n[5] {rice}  =&gt; {beer}  0.500   1.0000000  0.50     1.333333 4    \n[6] {beer}  =&gt; {rice}  0.500   0.6666667  0.75     1.333333 4"
+  },
+  {
+    "objectID": "w13/index.html#footnotes",
+    "href": "w13/index.html#footnotes",
+    "title": "Week 13: Association Rule Mining (ARM)",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThis last one never occurred to me until I learned French, where it’s called Les Pays-Bas 🤯↩︎"
   },
   {
     "objectID": "concepts/bernoulli.html",
@@ -4729,7 +4820,7 @@
     "href": "w06/index.html#the-scariest-dataset-of-all-time",
     "title": "Week 6: Exploratory Data Analysis (EDA)",
     "section": "The Scariest Dataset of All Time",
-    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1173cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1173cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1173cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1173cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
+    "text": "The Scariest Dataset of All Time\n\n\n\n\n\n\n\n\n\n\n\n\nSummary statistics\n\n\n\n\n\n\n# Compute dataset means\nmy_round = lambda x: round(x,2)\ndata_means = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.mean),\n  y_mean = ('y', np.mean)\n).apply(my_round)\n\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1145cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n&lt;string&gt;:1: FutureWarning: The provided callable &lt;function mean at 0x1145cd120&gt; is currently using SeriesGroupBy.mean. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"mean\" instead.\n\ndisp(data_means, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n9.00\n7.50\n\n\nII\n9.00\n7.50\n\n\nIII\n9.00\n7.50\n\n\nIV\n9.00\n7.50\n\n\n\n\n\nFigure 4: Column means for each dataset\n\n\n\n\n\n# Compute dataset SDs\ndata_sds = anscombe_df.groupby('dataset').agg(\n  x_mean = ('x', np.std),\n  y_mean = ('y', np.std),\n).apply(my_round)\n\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1145cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n&lt;string&gt;:2: FutureWarning: The provided callable &lt;function std at 0x1145cd260&gt; is currently using SeriesGroupBy.std. In a future version of pandas, the provided callable will be used directly. To keep current behavior pass the string \"std\" instead.\n\ndisp(data_sds, floatfmt='.2f')\n\n\n\n\ndataset\nx_mean\ny_mean\n\n\n\n\nI\n3.32\n2.03\n\n\nII\n3.32\n2.03\n\n\nIII\n3.32\n2.03\n\n\nIV\n3.32\n2.03\n\n\n\n\n\nFigure 5: Column SDs for each dataset\n\n\n\n\n\n\n\n\n\n\n\n\nCorrelations\n\n\n\n\nimport tabulate\nfrom IPython.display import HTML\ncorr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)\n#Markdown(tabulate.tabulate(corr_matrix))\nHTML(corr_matrix.to_html())\n\n\n\n\n\n\nx\ny\n\n\ndataset\n\n\n\n\n\n\n\nI\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIII\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\nIV\nx\n1.00\n0.82\n\n\ny\n0.82\n1.00\n\n\n\n\n\nFigure 6: Correlation between \\(x\\) and \\(y\\) for each dataset"
   },
   {
     "objectID": "w06/index.html#it-doesnt-end-there",
