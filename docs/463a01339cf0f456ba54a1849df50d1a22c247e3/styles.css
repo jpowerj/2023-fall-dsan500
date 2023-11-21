@@ -22,6 +22,11 @@ a.disabled {
     box-shadow: none !important;
 }
 
+.ctable td, .ctable th {
+    text-align: center !important;
+    align-items: center !important;
+  }
+
 .subtitle {
     font-size: 13pt !important;
     line-height: 0.7em !important;
