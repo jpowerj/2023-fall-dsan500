@@ -4,16 +4,9 @@
     "items": []
   },
   {
-    "listing": "/writeups/quiz-status/index.html",
-    "items": []
-  },
-  {
-    "listing": "/recordings/index.html",
-    "items": []
-  },
-  {
     "listing": "/writeups/index.html",
     "items": [
+      "/writeups/plotly/index.html",
       "/writeups/clustering/DSAN5000_Clustering_Lab.html",
       "/writeups/decision-trees/DSAN5000_Decision_Trees.html",
       "/writeups/data-cleaning/clean_data.html",
@@ -39,6 +32,14 @@
       "/writeups/hw1-clarifications/index.html",
       "/writeups/refs-and-citations/index.html"
     ]
+  },
+  {
+    "listing": "/recordings/index.html",
+    "items": []
+  },
+  {
+    "listing": "/writeups/quiz-status/index.html",
+    "items": []
   },
   {
     "listing": "/cheatsheet-code/index.html",

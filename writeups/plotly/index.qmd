@@ -1,0 +1,70 @@
+---
+title: "Interactive Plots in Quarto with Plotly"
+date: last-modified
+categories:
+  - "Extra Writeups"
+format:
+  html:
+    df-print: kable
+    cache: false
+metadata-files: 
+  - ../../_doc-meta.yml
+---
+
+::: {.callout-note title="The Ultra-Quick Summary"}
+
+If your Plotly visualizations fail to display when you render your `.qmd` files, update your Plotly-importing code to also contain these two additional lines after the `import` statement:
+
+```python
+import plotly.express as px
+import plotly.io as pio
+pio.renderers.default = "notebook"
+```
+
+:::
+
+In the <a href='../clustering/' targetr='_blank'>writeup on clustering</a> we used Plotly to create visualizations of which observations had been placed into which clusters, and in the <a href='../decision-trees/' target='_blank'>writeup on decision Trees</a> we again used Plotly to visualize how decision trees work to "chop" the feature space into optimal subregions ("optimal" in the sense of reducing uncertainty!).
+
+But, to my horror, I realized that Plotly does not work nicely with Quarto by default, so that when you actually **render** Quarto documents and try to publish them online, the blocks containing Plotly visualization just show an error message 😰
+
+There are a lot of difficult ways to fix this, it turns out, but I've just found a simple approach which prompted me to make this writeup! The approach works as follows:
+
+**Originally**, in the code I was using to generate these visualizations, I was just importing Plotly as follows:
+
+```python
+import plotly.express as px
+```
+
+But, if you just **add the following two lines** after the import statement, it tells Plotly to set up the plots specifically to enable **interactive visualizations within notebooks**:
+
+```python
+import plotly.io as pio
+pio.renderers.default = "notebook"
+```
+
+In my case this successfully fixed the issue, so that in the two writeups linked above you should be able to see and interact with the Plotly-generated plots. But, let me know if you have any issues trying to get your interactive plots working! It seems that Quarto is regularly updating their code to make it more compatible with Plotly, so that in the future this fix may not be necessary.
+
+Here is a quick interactive plot of random data, to make sure that this fix still works :)
+
+*(Here I generate $N = 100$ random points, where each one also has a randomly-assigned **cluster** $c \in \{a, b, c\}$, which is used for the color of each point, plus a randomly assigned **label** $\ell \in \{\text{low}, \text{medium}, \text{high}\}$ which you should see in the tooltips which appear when you hover your mouse over the points)*
+
+```{python}
+#| label: plotly-render-test
+import pandas as pd
+import numpy as np
+rng = np.random.default_rng(seed = 5000)
+import plotly.express as px
+import plotly.io as pio
+pio.renderers.default = "notebook"
+N = 100
+x_vals = rng.uniform(low=0, high=1, size=N)
+y_vals = rng.uniform(low=0, high=1, size=N)
+cluster_vals = rng.choice(['a','b','c'], size=N)
+label_vals = rng.choice(['low','medium','high'], size=N)
+data_df = pd.DataFrame({'x': x_vals, 'y': y_vals, 'cluster': cluster_vals, 'label': label_vals})
+px.scatter(
+    data_df, x='x', y='y', color='cluster',
+    hover_data=['label'],
+    template='simple_white'
+)
+```
