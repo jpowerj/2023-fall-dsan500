@@ -60,6 +60,44 @@ figcaption {
   vertical-align: middle !important;
 }
 
+.col-box {
+  border: 2px solid black !important;
+  // margin-bottom: 20px !important;
+  align-self: stretch !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  // padding: 6px !important;
+  // margin: 4px !important;
+  // flex: 1 !important;
+  // display: inline-flex !important;
+  // flex-direction: column !important;
+  // align-items: stretch !important;
+}
+
+.col-boxes ul {
+  // list-style-position: inside;
+  padding-left: 0;
+}
+
+.col-boxes .quarto-layout-row:first-of-type {
+  padding-bottom: 20px !important;
+}
+
+.col-boxes-all .quarto-layout-row {
+  padding-bottom: 20px !important;
+}
+
+/* container */
+.two-columns-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* columns */
+.two-columns-grid > * {
+  padding:1rem;
+}
+
 // Fix the quarto table <-> python tabular thing
 // https://stackoverflow.com/questions/359821/styling-the-last-td-in-a-table-with-css
 .corr-table tbody > tr:last-of-type {
@@ -213,6 +251,10 @@ figcaption {
 
 .fwtables table {
   width: 100% !important;
+}
+
+.grow-content {
+  flex-grow: 1 !important;
 }
 
 .no-decoration {

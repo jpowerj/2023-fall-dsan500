@@ -178,5 +178,9 @@
   },
   "writeups/plotly/index.qmd": {
     "index.html": "b70f22ad"
+  },
+  "w14/index.qmd": {
+    "slides.html": "c7c87b20",
+    "index.html": "c7b830e6"
   }
 }

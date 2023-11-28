@@ -23,7 +23,7 @@ pio.renderers.default = "notebook"
 
 :::
 
-In the <a href='../clustering/' targetr='_blank'>writeup on clustering</a> we used Plotly to create visualizations of which observations had been placed into which clusters, and in the <a href='../decision-trees/' target='_blank'>writeup on decision Trees</a> we again used Plotly to visualize how decision trees work to "chop" the feature space into optimal subregions ("optimal" in the sense of reducing uncertainty!).
+In the <a href='../clustering/DSAN5000_Clustering_Lab.html' targetr='_blank'>writeup on clustering</a> we used Plotly to create visualizations of which observations had been placed into which clusters, and in the <a href='../decision-trees/DSAN5000_Decision_Trees.html' target='_blank'>writeup on decision Trees</a> we again used Plotly to visualize how decision trees work to "chop" the feature space into optimal subregions ("optimal" in the sense of reducing uncertainty!).
 
 But, to my horror, I realized that Plotly does not work nicely with Quarto by default, so that when you actually **render** Quarto documents and try to publish them online, the blocks containing Plotly visualization just show an error message 😰
 

@@ -1,0 +1,805 @@
+---
+title: "Week 14: Course Wrapup"
+date: "Tuesday, November 28, 2023"
+date-format: full
+lecnum: 14
+categories:
+  - "Class Sessions"
+bibliography: "../_DSAN5000.bib"
+format:
+  revealjs:
+    output-file: slides.html
+    cache: false
+    footer: "DSAN 5000-<span class='sec-num'>02</span> Week 14: Course Wrapup"
+  html:
+    output-file: index.html
+    html-math-method: mathjax
+    cache: false
+    code-fold: true
+    warning: false
+metadata-files: 
+  - "../_slide-meta.yml"
+---
+
+
+::: {.content-visible unless-format="revealjs"}
+
+<center>
+<a class="h2" href="./slides.html" target="_blank">Open slides in new window &rarr;</a>
+</center>
+
+:::
+
+# Schedule {.smaller .small-title .crunch-title .crunch-callout data-name="Schedule"}
+
+{{< include ../_r-globals.qmd >}}
+
+{{< include ../_py-globals.qmd >}}
+
+{{< include ../_tex-globals.qmd >}}
+
+Today's Planned Schedule (Section <span class='sec-num'>02</span>):
+
+| | Start | End | Topic | Recording |
+|:- |:- |:- |:- |:-:|
+| **Lecture** | <span class='sec-start'>12:30pm</span> | <span class='sec-p40'>1:00pm</a> | <a href="#student-presentations">Student Presentations! &rarr;</a> | |
+| | <span class='sec-p60'>1:30pm</span> | <span class='sec-p70'>2:00pm</a> | <a href="#random-forests-overview">What We Learned &rarr;</a> | <a id="rec-link-w11-3" href="../recordings/recording-w11s02-3.html" target="_blank"><i class="bi bi-film"></i></a> |
+| | <span class='sec-p60'>1:30pm</span> | <span class='sec-p70'>2:00pm</a> | <a href="#random-forests-overview">What We Should Learn Over Break &rarr;</a> | <a id="rec-link-w11-3" href="../recordings/recording-w11s02-3.html" target="_blank"><i class="bi bi-film"></i></a> |
+| **Break!** | <span class='sec-p90'>2:00pm</span> | <span class='sec-p100'>2:10pm</span> | | |
+| | <span class='sec-p100'>2:10pm</span> | <span class='sec-p130'>2:40pm</span> | <a href='#clustering-and-dimensionality-reduction-for-text-data'>Looking Forward! &rarr;</a> | <a href='../recordings/recording-w10s02-3.html' target='_blank'><i class='bi bi-film'></i></a> |
+
+: {tbl-colwidths="[14,12,12,50,12]"}
+
+# Student Presentations {data-name="Presentations"}
+
+# Course Recap {.not-title-slide .smaller .crunch-title .crunch-quarto-layout-panel data-stack-name="Recap"}
+
+::: {layout="[1,1]"}
+
+![](images/nuts_and_bolts.jpg){fig-align="center" width="330"}
+
+![](images/more_nuts_and_bolts.jpg){fig-align="center" width="340"}
+
+:::
+
+## Your Toolbox
+
+::: {layout="[1,1,1]"}
+
+::: {#basics}
+
+<center>
+**Basics**
+</center>
+
+* GitHub
+* File Formats
+* Web Scraping
+
+:::
+::: {#nuts-and-bolts}
+
+<center>
+**Nuts and Bolts**
+</center>
+
+* Data-Generating Processes (DGPs)
+* Distance Metrics
+* Entropy
+* Gaussian / Normal Distributions
+* Clustering
+* Dimensionality Reduction
+
+:::
+::: {#main-event}
+
+<center>
+**Drills and Saws**
+</center>
+
+* Decision Trees
+
+:::
+:::
+
+## GitHub (W03)
+
+<img src="https://mermaid.ink/svg/pako:eNqdU8FqwzAM_RWjcykO6Zwm50E72E4bO4xAUWw5MWvi4DmDUPrvc9aFpdB27Qy-SO9JjydpB9IqggxK41cO2ypv2OFJW9fGM6MylsNdnCglkhxOp4WI02gRT9KFw0ZWrDGSNprQd45-qRXJd9v5M9lp4TT0JbWc9h3JNZrmDImESFJ5inSy44_WT3L95rLgC5CpgEQvFPH4NtVC6SWX0dWqj8iF4lQUf_tUkyvpqN7omdYiksEz5rEcAq8smvM5HwJ9SxlbP6zWj-G__NuVOOEiiosbZ4k8wTQsHswgiA9AFZZ1N4Bz8BXVlMOAU6Sx2_qh-D5AsfP2uW8kZN51NIOuVejp3mDpsIZM4_YjREkZb93T4QC-72AGLTZv1o6Y_RdGMfVs"></img>
+
+
+## Data Structures: Simple $\rightarrow$ Complex (W04) {.smaller .crunch-title .crunch-figures}
+
+::: {layout="[[1,1],[1,1]]"}
+
+::: {#fig-record-data}
+
+| id | name | email |
+| - | - | - |
+| 0 | K. Desbrow | kd9@dailymail.com |
+| 1 | D. Minall | dminall1@wired.com |
+| 2 | C. Knight | ck2@microsoft.com |
+| 3 | M. McCaffrey | mccaf4@nhs.uk |
+
+Record Data
+:::
+
+::: {#fig-time-series-data}
+
+| year | month | points |
+| - | - | - |
+| 2023 | Jan | 65 |
+| 2023 | Feb | |
+| 2023 | Mar | 42 |
+| 2023 | Apr | 11 |
+
+Time-Series Data
+:::
+
+::: {#fig-panel-data}
+
+| id | date | rating | num_rides |
+| - | - | - | - |
+| 0 | 2023-01 | 0.75 | 45 |
+| 0 | 2023-02 | 0.89 | 63 |
+| 0 | 2023-03 | 0.97 | 7 |
+| 1 | 2023-06 | 0.07 | 10 |
+
+
+Panel Data
+:::
+
+::: {#fig-network-data}
+
+| id | Source | Target | Weight |
+| - | - | - | - |
+| 1 | IGF2 | IGF1R | 1 |
+| 2 | IGF1R | TP53 | 2 |
+| 3 | TP53 | EGFR | 0.5 |
+
+Network Data
+:::
+
+:::
+
+::: {.aside}
+
+Fake data via [Mockaroo](https://www.mockaroo.com/){target="_blank"} and [Random.org](https://www.random.org/integers/){target="_blank"}. Protein-protein interaction network from [@agrawal_largescale_2018](http://psb.stanford.edu/psb-online/proceedings/psb18/agrawal.pdf)
+
+:::
+
+## Web Scraping (W04) {.crunch-title}
+
+| | | How is data loaded? | Solution | Example |
+|:-:|-|-|-|:-:|
+| 😊 | **Easy** | Data in HTML source | "View Source" | [<i class="bi bi-box-arrow-up-right"></i>](https://ivanstat.com/en/gdp/ao.html){target="_blank"}
+| 😐 | **Medium** | Data loaded dynamically via API | "View Source", find API call, scrape programmatically | [<i class="bi bi-box-arrow-up-right"></i>](https://archive.org/details/killinghopeusmil0000blum/page/n3/mode/2up){target="_blank"}
+| 😳 | **Hard** | Data loaded dynamically [internally] via web framework | Use <a href="https://www.selenium.dev/" target="_blank">Selenium</a> | [<i class="bi bi-box-arrow-up-right"></i>](https://www.google.com/books/edition/Killing_Hope/-IbQvd13uToC?hl=en&gbpv=1&dq=killing%20hope&pg=PA215&printsec=frontcover){target="_blank"}
+
+: {tbl-colwidths="[5,10,45,35,5]"}
+
+## EDA: Why We Can't Just Skip It (W06) {.smaller .crunch-title .crunch-figures .crunch-ul .nostretch}
+
+* **Iterative process**: Ask questions of the data, find answers, generate more questions
+* You're probably already used to **Mean** and **Variance**: Fancier EDA/robustness methods build upon these two!
+* Why do we need to visualize? Can't we just use mean, $R^2$?
+* ...Enter <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" target="_blank">Anscombe's Quartet</a>
+
+```{python}
+#| label: anscombe-quartet
+#| fig-align: center
+#| fig-height: 3
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_theme(style="ticks")
+# https://towardsdatascience.com/how-to-use-your-own-color-palettes-with-seaborn-a45bf5175146
+sns.set_palette(sns.color_palette(cb_palette))
+
+# Load the example dataset for Anscombe's quartet
+anscombe_df = sns.load_dataset("anscombe")
+#print(anscombe_df)
+
+# Show the results of a linear regression within each dataset
+anscombe_plot = sns.lmplot(
+    data=anscombe_df, x="x", y="y", col="dataset", hue="dataset",
+    col_wrap=4, palette="muted", ci=None,
+    scatter_kws={"s": 50, "alpha": 1},
+    height=3
+);
+anscombe_plot;
+```
+
+## The Scariest Dataset of All Time {.smaller .smaller-table-text .crunch-title .crunch-code .small-captions .crunch-images .nostretch}
+
+```{python}
+#| label: anscombe-again
+#| echo: false
+anscombe_plot
+```
+
+::: columns
+::: {.column width="60%"}
+
+<center>
+**Summary statistics**
+</center>
+
+::: {layout-ncol=2}
+
+::: {#fig-anscombe-means}
+
+```{python}
+#| label: anscombe-means
+# Compute dataset means
+my_round = lambda x: round(x,2)
+data_means = anscombe_df.groupby('dataset').agg(
+  x_mean = ('x', np.mean),
+  y_mean = ('y', np.mean)
+).apply(my_round)
+disp(data_means, floatfmt='.2f')
+```
+
+Column means for each dataset
+:::
+
+::: {#fig-anscombe-sds}
+
+```{python}
+#| label: anscombe-sds
+# Compute dataset SDs
+data_sds = anscombe_df.groupby('dataset').agg(
+  x_mean = ('x', np.std),
+  y_mean = ('y', np.std),
+).apply(my_round)
+disp(data_sds, floatfmt='.2f')
+```
+
+Column SDs for each dataset
+:::
+
+<!-- end anscombe SDs -->
+
+:::
+
+<!-- end layout-ncol=2 -->
+
+:::
+
+<!-- end sumstats column -->
+
+::: {.column width="40%"}
+
+<center>
+**Correlations**
+</center>
+
+::: {#fig-anscombe-corrs}
+
+```{python}
+#| label: anscombe-corrs
+#| output: asis
+#| classes: corr-table
+import tabulate
+from IPython.display import HTML
+corr_matrix = anscombe_df.groupby('dataset').corr().apply(my_round)
+#Markdown(tabulate.tabulate(corr_matrix))
+HTML(corr_matrix.to_html())
+```
+
+Correlation between $x$ and $y$ for each dataset
+:::
+
+<!-- end anscombe corrs fig -->
+
+:::
+
+<!-- end corr column -->
+
+:::
+
+<!-- end columns -->
+
+## It Doesn't End There... {.smaller .smaller-table-text .nostretch}
+
+```{python}
+#| label: anscombe-yet-again
+#| echo: false
+anscombe_plot
+```
+
+::: {layout="[[1,1],[1,1]]"}
+
+```{python}
+#| label: anscombe-reg-0
+#| classes: corr-table
+import statsmodels.formula.api as smf
+summary_dfs = []
+for cur_ds in ['I','II','III','IV']:
+  ds1_df = anscombe_df.loc[anscombe_df['dataset'] == "I"].copy()
+  # Fit regression model (using the natural log of one of the regressors)
+  results = smf.ols('y ~ x', data=ds1_df).fit()
+  # Get R^2
+  rsq = round(results.rsquared, 2)
+  # Inspect the results
+  summary = results.summary()
+  summary.extra_txt = None
+  summary_df = summary_to_df(summary, corner_col = f'Dataset {cur_ds}<br>R^2 = {rsq}')
+  summary_dfs.append(summary_df)
+disp(summary_dfs[0], include_index=False)
+```
+
+```{python}
+#| label: anscombe-reg-1
+disp(summary_dfs[1], include_index=False)
+```
+
+```{python}
+#| label: anscombe-reg-2
+disp(summary_dfs[2], include_index=False)
+```
+
+```{python}
+#| label: anscombe-reg-3
+disp(summary_dfs[3], include_index=False)
+```
+
+:::
+
+## Naïve Bayes (W07)
+
+
+# Naïve Bayes Classifiers {data-stack-name="Naïve Bayes"}
+
+## What is "Naïve" About It? {.smaller}
+
+::: {layout-ncol=2}
+::: {#naive-bayes-info}
+
+**Guessing House Prices**:
+
+* If I tell you there's a house, what is your guess for number of bathrooms it has?
+* If I tell you the house is **50,000 sqft**, **does your guess go up?**
+
+**Guessing Word Frequencies**:
+
+* If I tell you there's a book, how often do you think the word "University" appears?
+* Now if I tell you that the word "Stanford" appears **2,000 times**, **does your guess go up?**
+
+:::
+::: {#naive-bayes-pic}
+
+<center>
+Naïve Bayes' Answer?
+</center>
+
+![](images/chief_keef_nah_full.jpg){fig-align="center" width="80%"}
+
+:::
+:::
+
+## In Math {.smaller .smaller-math .shift-footnotes-lesser}
+
+* Assume some email $E$ with $N = 5$ words, $E = (w_1, w_2, w_3, w_4, w_5)$. Say $E = (\texttt{you},\texttt{win},\texttt{a},\texttt{million},\texttt{dollars})$.
+* We're trying to **classify** $S = \begin{cases}1 &\text{if spam} \\ 0 &\text{otherwise}\end{cases}$ given $E$
+
+::: columns
+::: {.column width="50%"}
+
+* Normal person (marine biologist?)[^marine-economist]:
+
+$$
+\begin{align*}
+&\Pr(S = 1 \mid w_5 = \texttt{dollars}, w_4 = \texttt{million}) \\
+&> \Pr(S = 1 \mid w_5 = \texttt{dollars}, w_4 = \texttt{octopus})
+\end{align*}
+$$
+
+![](images/naive_bayes_langmodel.svg){fig-align="center"}
+
+:::
+::: {.column width="50%"}
+
+* Naïve Bayes classifier:
+
+$$
+\Pr(S = 1 \mid w_5) \perp \Pr(S = 1 \mid w_4)
+$$
+
+![](images/naive_bayes.svg){fig-align="center"}
+
+:::
+
+:::
+
+[^marine-economist]: (But we might have the **opposite** result for a marine **economist**... rly makes u think ![](images/thinking.png){width="35"})
+
+## "Unreasonable Effectiveness" {.crunch-title .crunch-images .crunch-ul .crunch-figures}
+
+* This must absolutely suck in practice, right?
+
+::: {layout="[2,3]" layout-valign="center"}
+
+!["But... how?"](images/huh_how.png){fig-align="center"}
+
+![Image Source: @banko_scaling_2001](images/naive_bayes_performance.png){fig-align="center" width="520"}
+
+:::
+
+## Clutering (W09) {.smaller .crunch-title .crunch-figures .crunch-code .crunch-p .crunch-quarto-figure-center .crunch-ul}
+
+* Let $\boldsymbol\mu_1 = (0.2, 0.8)^\top$, $\boldsymbol\mu_2 = (0.8, 0.2)^\top$, $\Sigma = \text{diag}(1/64)$, and $\mathbf{X} = (X_1, X_2)$.
+* $X_1 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_1, \Sigma)$, $X_2 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_2, \Sigma)$
+
+```{r}
+#| label: two-gaussian-clusters
+#| fig-align: center
+#| warning: false
+library(tidyverse)
+library(ggforce)
+library(MASS)
+library(patchwork)
+N <- 50
+Mu1 <- c(0.2, 0.8)
+Mu2 <- c(0.8, 0.2)
+sigma <- 1/24
+# Data for concentric circles
+circle_df <- tribble(
+  ~x0, ~y0, ~r, ~Cluster, ~whichR,
+  Mu1[1], Mu1[2], sqrt(sigma), "C1", 1,
+  Mu2[1], Mu2[2], sqrt(sigma), "C2", 1,
+  Mu1[1], Mu1[2], 2 * sqrt(sigma), "C1", 2,
+  Mu2[1], Mu2[2], 2 * sqrt(sigma), "C2", 2,
+  Mu1[1], Mu1[2], 3 * sqrt(sigma), "C1", 3,
+  Mu2[1], Mu2[2], 3 * sqrt(sigma), "C2", 3
+)
+#print(circle_df)
+Sigma <- matrix(c(sigma,0,0,sigma), nrow=2)
+#print(Sigma)
+x1_df <- as_tibble(mvrnorm(N, Mu1, Sigma))
+x1_df <- x1_df |> mutate(
+  Cluster='C1'
+)
+x2_df <- as_tibble(mvrnorm(N, Mu2, Sigma))
+x2_df <- x2_df |> mutate(
+  Cluster='C2'
+)
+cluster_df <- bind_rows(x1_df, x2_df)
+cluster_df <- cluster_df |> rename(
+  x=V1, y=V2
+)
+known_plot <- ggplot(cluster_df) +
+  geom_point(
+    data = circle_df,
+    aes(x=x0, y=y0)
+  ) +
+  geom_circle(
+    data = circle_df,
+    aes(x0=x0, y0=y0, r=r, fill=Cluster),
+    linewidth = g_linewidth,
+    alpha = 0.25
+  ) +
+  geom_point(
+    data=cluster_df,
+    aes(x=x, y=y, fill=Cluster),
+    size = g_pointsize / 2,
+    shape = 21
+  ) +
+  dsan_theme("full") +
+  coord_fixed() +
+  labs(
+    x = "x",
+    y = "y",
+    title = "Data with Known Clusters"
+  ) + 
+  scale_fill_manual(values=c(cbPalette[2], cbPalette[1], cbPalette[3], cbPalette[4])) +
+  scale_color_manual(values=c(cbPalette[1], cbPalette[2], cbPalette[3], cbPalette[4]))
+unknown_plot <- ggplot(cluster_df) +
+  geom_point(
+    data=cluster_df,
+    aes(x=x, y=y),
+    size = g_pointsize / 2,
+    #shape = 21
+  ) +
+  dsan_theme("full") +
+  coord_fixed() +
+  labs(
+    x = "x",
+    y = "y",
+    title = "Same Data with Unknown Clusters"
+  )
+cluster_df |> write_csv("assets/cluster_data.csv")
+known_plot + unknown_plot
+```
+
+## Clusters as Latent Variables
+
+* Recall the Hidden Markov Model (one of many examples):
+
+![](images/hmm.svg){fig-align="center"}
+
+## Modeling the Latent Distribution {.smaller .crunch-title .crunch-ul .crunch-figures .math-75 .small-inline .crunch-quarto-figure-center .crunch-ul-left}
+
+* This observed/latent distinction gives us a **modeling framework** for inferring "underlying" **distributions** from **data**!
+* Let's begin with an overly-simple model: only **one** cluster (all data drawn from a **single** normal distribution)
+
+
+::: columns
+::: {.column width="50%"}
+
+![](images/hmm_clusters_single_dist.svg){fig-align="center" width="75%"}
+
+:::
+::: {.column width="50%"}
+
+* Probability that RV $X_i$ takes on value $\mathbf{v}$:
+
+  $$
+  \begin{align*}
+  &\Pr(X_i = \mathbf{v} \mid \param{\boldsymbol\theta_\mathcal{D}}) =
+  \varphi_2(\mathbf{v}; \param{\boldsymbol\mu}, \param{\mathbf{\Sigma}})
+  \end{align*}
+  $$
+
+  where $\varphi_2(\mathbf{v}; \boldsymbol\mu, \mathbf{\Sigma})$ is pdf of $\boldsymbol{\mathcal{N}}_2(\boldsymbol\mu, \mathbf{\Sigma})$.
+
+* Let $\mathbf{X} = (X_1, \ldots, X_N)$, $\mathbf{V} = (\mathbf{v}_1, \ldots, \mathbf{v}_N)$
+* Probability that RV $\mathbf{X}$ takes on **values** $\mathbf{V}$:
+
+$$
+\begin{align*}
+&\Pr(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) \\
+&= \Pr(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \paramDist)
+\end{align*}
+$$
+
+:::
+:::
+
+## So How Do We *Infer* Latent Vars From Data? {.smaller .title-12}
+
+* If only we had some sort of method for estimating which values of our **unknown parameters** $\paramDist$ are *most likely* to produce our **observed data** $\mathbf{X}$ ![](images/thinking_transparent.png){width="42"}
+* The diagram on the previous slide gave us an equation
+
+  $$
+  \begin{align*}
+  \Pr(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \Pr(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \paramDist)
+  \end{align*}
+  $$
+
+* And we know that, when we consider the **data** as **given** and view this probability as a function of the **parameters**, we write it as
+
+  $$
+  \begin{align*}
+  \lik(\mathbf{X} = \mathbf{V} \mid \param{\boldsymbol\theta_\mathcal{D}}) = \lik(X_1 = \mathbf{v}_1 \mid \paramDist) \times \cdots \times \lik(X_N = \mathbf{v}_N \mid \paramDist)
+  \end{align*}
+  $$
+
+* We want to find the *most likely* $\paramDist$, that is, $\boldsymbol\theta^*_\mathcal{D} = \argmax_{\paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \paramDist)$
+
+* This value $\boldsymbol\theta^*_\mathcal{D}$ is called the **Maximum Likelihood Estimate** of $\paramDist$, and is easy to find using calculus tricks^[If you're in my DSAN5100 class, then you already know this! If not, [check out the MLE slides here<i class='bi bi-box-arrow-up-right ps-1'></i>](https://jjacobs.me/dsan5100-03/463a01339cf0f456ba54a1849df50d1a22c247e3/w09/slides.html#maximum-likelihood-estimation){target='_blank'} for more details]
+
+## Handling Multiple Clusters {.smaller .crunch-title .crunch-ul .crunch-ul-left .crunch-figures .smaller-math .smaller-inline}
+
+::: columns
+::: {.column width="50%"}
+
+![](images/hmm_clusters.svg){fig-align="center" width="85%"}
+
+:::
+::: {.column width="50%"}
+
+* Probability $X_i$ takes on value $\mathbf{v}$:
+
+  $$
+  \begin{align*}
+  &\Pr(X_i = \mathbf{v} \mid \param{C_i} = c_i; \; \param{\boldsymbol\theta_\mathcal{D}}) \\
+  &= \begin{cases}
+  \varphi_2(v; \param{\boldsymbol\mu_1}, \param{\mathbf{\Sigma}}) &\text{if }c_i = 1 \\
+  \varphi_2(v; \param{\boldsymbol\mu_2}, \param{\mathbf{\Sigma}}) &\text{otherwise,}
+  \end{cases}
+  \end{align*}
+  $$
+
+  where $\varphi_2(v; \boldsymbol\mu, \mathbf{\Sigma})$ is pdf of $\boldsymbol{\mathcal{N}}_2(\boldsymbol\mu, \mathbf{\Sigma})$.
+
+* Let $\mathbf{C} = (\underbrace{C_1}_{\text{RV}}, \ldots, C_N)$, $\mathbf{c} = (\underbrace{c_1}_{\mathclap{\text{scalar}}}, \ldots, c_N)$
+
+:::
+:::
+
+* Probability that RV $\mathbf{X}$ takes on **values** $\mathbf{V}$:
+
+$$
+\begin{align*}
+&\Pr(\mathbf{X} = \mathbf{V} \mid \param{\mathbf{C}} = \mathbf{c}; \; \param{\boldsymbol\theta_\mathcal{D}}) \\
+&= \Pr(X_1 = \mathbf{v}_1 \mid \param{C_1} = c_1; \; \paramDist) \times \cdots \times \Pr(X_N = \mathbf{v}_N \mid \param{C_N} = c_N; \; \paramDist)
+\end{align*}
+$$
+
+* *It's the same math as before!* Find $(\mathbf{C}^*, \boldsymbol\theta^*_\mathcal{D}) = \argmax_{\param{\mathbf{C}}, \, \paramDist}\mathcal{L}(\mathbf{X} = \mathbf{V} \mid \param{\mathbf{C}}; \; \param{\boldsymbol\theta_\mathcal{D}})$
+
+
+## Dimensionality Reduction (W10) {.smaller .crunch-title .crunch-ul}
+
+::: {.r-stretch}
+
+![](images/matrix_decomposition.svg){fig-align="center"}
+
+:::
+
+* *High-level goal*: **Retain** information about **word-context relationships** while **reducing** the $M$-dimensional representations of each word down to 3 dimensions.
+* *Low-level goal*: Generate **rank-$K$** matrix $\mathbf{W}$ which **best approximates** distances between words in $M$-dimensional space (rows in $\mathbf{X}$)
+
+# Looking Forward {data-stack-name="Next Steps"}
+
+## Backing Up: What is a Neural Network? {.smaller .title-10}
+
+* A **linked network** of $L$ **layers** each containing **nodes** $\nu_i^{[\ell]}$
+
+![](images/neural_network.svg){fig-align="center"}
+
+## What Do the Nodes Do?
+
+Each node $\nu_i^{[\ell]}$ in the network:
+
+* Takes in an **input**,
+* Transforms it using a **weight** $w^{[\ell]}_i$ and **bias** $b^{[\ell]}_i$, and
+* Produces an **output**, typically using a **sigmoid function** like $\sigma(x) = \frac{1}{1+e^{-x}}$:
+
+$$
+\text{output}^{[\ell]}_i = \sigma(w^{[\ell]}_i \cdot \text{input} + b^{[\ell]}_i)
+$$
+
+## How Does it "Learn"?
+
+* Need a **loss function** $\mathcal{L}(\widehat{y}, y)$
+* Starting from the end, we **backpropagate** the loss, updating **weights** and **biases** as we go
+* Higher loss $\implies$ greater change to weights and biases
+
+## Core Courses
+
+* DSAN 5200: Advanced Data Visualization
+* DSAN 5300: Statistical Learning
+* (DSAN 6000: Big Data and Cloud Computing)
+
+## Elective Courses {.smaller .crunch-title .col-boxes .crunch-quarto-layout-panel}
+
+::: {layout="[[1,1],[1,1,1]]" layout-valign="center"}
+::: {#ml .col-box}
+
+<center>
+**Computer Science in General**
+</center>
+
+::: {.grow-content}
+
+* DSAN 5500: Data Structures, Objects, and Algorithms in Python
+* DSAN 5700: Blockchain Technologies
+* DSAN 6800: Principles of Cybersecurity
+
+:::
+
+:::
+::: {#ml .col-box}
+
+<center>
+**AI/Machine Learning**
+</center>
+
+* DSAN 6550: Adaptive Measurement
+* DSAN 6600: Neural Networks and Deep Learning
+* DSAN 6650: Reinforcement Learning
+
+:::
+::: {#math-stats .col-box}
+
+<center>
+**Math/Stats**
+</center>
+
+* DSAN 5600: Applied Time Series for Data Science
+* DSAN 6200: Analytics and Math for Streaming and High Dimension Data
+
+:::
+::: {#applied .col-box}
+
+<center>
+**Language**
+</center>
+
+* DSAN 5400: Computational Linguistics, Advanced Python
+* DSAN 5810: NLP with Large Language Models
+
+:::
+::: {#society .col-box}
+
+<center>
+**Data Science in Society**
+</center>
+
+* DSAN 5450: Data Ethics and Policy
+* DSAN 5550: Data Science and Climate Change
+* DSAN 5900: Digital Storytelling
+
+:::
+
+:::
+
+## Types of Data {.smaller .crunch-title .col-boxes-all .crunch-quarto-layout-panel}
+
+::: {layout="[1,1]"}
+
+::: {#time .col-box}
+
+<center>
+**Data Over Time**
+</center>
+
+* DSAN 5600: Applied Time Series for Data Science
+
+:::
+::: {#text .col-box}
+
+<center>
+**Text Data**
+</center>
+
+* DSAN 5400: Computational Linguistics, Advanced Python
+* DSAN 5810: NLP with Large Language Models
+
+:::
+
+::: {#surveys .col-box}
+
+<center>
+**Surveys/Tests**
+</center>
+
+* DSAN 6550: Adaptive Measurement with AI
+
+:::
+::: {#geo .col-box}
+
+<center>
+**Geographic**
+</center>
+
+* DSAN 5550: Data Science and Climate Change
+
+:::
+:::
+
+::: {.col-box}
+
+<center>
+**All Of The Above**
+</center>
+
+::: {layout="[1,1]"}
+::: {#all-above-left}
+
+* DSAN 5500: Data Structures
+
+:::
+::: {#all-above-right}
+
+* DSAN 5900: Digital Storytelling
+
+:::
+:::
+:::
+
+## Future Electives!
+
+* DSAN 6100: Optimization
+* DSAN 6300: Database Systems and SQL
+* DSAN 6400: Network Analytics
+* DSAN 6500: Image Mining and Computer Vision Analytics
+* DSAN 6700: Machine Learning App Deployment
+* DSAN 6750: Geographic Information Systems (GIS) and Applications
+
+## References
+
+::: {#refs}
+:::

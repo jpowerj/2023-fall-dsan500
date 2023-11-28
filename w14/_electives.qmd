@@ -1,0 +1,49 @@
+
+## Elective Courses 1 {.smaller}
+
+```{=html}
+<table class='fwt' data-quarto-disable-processing="true" style="table-layout: fixed;">
+<tbody>
+<tr>
+  <td colspan="3">
+    <center>
+    <b>Computer Science in General</b>
+    </center>
+    <ul>
+      <li>DSAN 5500: Data Structures, Objects, and Algorithms in Python</li>
+      <li>DSAN 5700: Blockchain Technologies</li>
+      <li>DSAN 6800: Principles of Cybersecurity</li>
+    </ul>
+  </td>
+  <td colspan="3">
+    <center>
+      <b>AI/Machine Learning</b>
+    </center>
+  </td>
+</tr>
+<tr>
+  <td colspan="2">
+<center>
+<b>Math/Stats</b>
+</center>
+
+* DSAN 5600: Applied Time Series for Data Science
+* DSAN 6200: Analytics and Math for Streaming and High Dimension Data and Applications
+
+
+  </td>
+  <td colspan="2">
+    <center>
+      <b>Language</b>
+    </center>
+
+  </td>
+  <td colspan="2">
+    <center>
+      <b>Data and Society</b>
+    </center>
+  </td>
+</tr>
+</tbody>
+</table>
+```
