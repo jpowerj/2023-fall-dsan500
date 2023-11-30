@@ -62,7 +62,7 @@ Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
 :::
 
-## Your Toolbox
+## Your Toolbox {.smaller}
 
 ::: {layout="[1,1,1]"}
 
@@ -346,12 +346,7 @@ disp(summary_dfs[3], include_index=False)
 
 :::
 
-## Naïve Bayes (W07)
-
-
-# Naïve Bayes Classifiers {data-stack-name="Naïve Bayes"}
-
-## What is "Naïve" About It? {.smaller}
+## Naïve Bayes (W07) {.smaller}
 
 ::: {layout-ncol=2}
 ::: {#naive-bayes-info}
