@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
 
-<title>DSAN 5000 - Week 7: Supervised Learning</title>
+<title>DSAN 5000 – Week 7: Supervised Learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -59,6 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -100,7 +101,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -109,6 +116,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -128,6 +136,33 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../styles.css">
 </head>
 
@@ -137,12 +172,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w07/index.html">Week 7: <span class="sec-w07-date">Oct 3</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w07/index.html">Week 7: <span class="sec-w07-date">Oct 3</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -152,7 +187,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">DSAN 5000</a> 
@@ -315,7 +350,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -387,12 +422,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div class="quarto-title-meta-contents">
     <p class="author">Jeff Jacobs </p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -408,7 +443,9 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <center>
 <a class="h2" href="./slides.html" target="_blank">Open slides in new window →</a>
@@ -417,7 +454,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
 <div class="hidden">
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -425,7 +462,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 <div class="hidden">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -617,14 +654,14 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.2     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ forcats   1.0.0     ✔ stringr   1.5.1
 ✔ lubridate 1.9.2     ✔ tibble    3.2.1
 ✔ purrr     1.0.2     ✔ tidyr     1.3.0
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -632,7 +669,7 @@ y = e^{mx + b} \iff \log(y) = mx + b
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x_min <span class="ot">&lt;-</span> <span class="dv">1</span></span>
@@ -653,14 +690,14 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/linear-plot-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="index_files/figure-revealjs/linear-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log2 scaling of the y axis (with visually-equal spacing)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -679,7 +716,7 @@ Attaching package: 'scales'</code></pre>
 
     col_factor</code></pre>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
@@ -703,7 +740,7 @@ Attaching package: 'scales'</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/exp-plot-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="index_files/figure-revealjs/exp-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -723,7 +760,7 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span>
@@ -819,14 +856,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/collinear-cov-plot-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/collinear-cov-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -834,7 +874,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+  0 48</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>100 matches, 0 mismatches
 
@@ -846,7 +886,7 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_cov_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -859,14 +899,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/noisy-cov-plot-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/noisy-cov-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -874,7 +917,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+  5 41</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>88 matches, 12 mismatches
 
@@ -886,7 +929,7 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>y_noisy_neg <span class="ot">&lt;-</span> x_vals</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg)) {</span>
@@ -907,14 +950,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/neg-cov-plot-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/neg-cov-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -922,7 +968,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+ 40 11</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>23 matches, 77 mismatches
 
@@ -943,7 +989,7 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gen_rect_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
@@ -993,14 +1039,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/collinear-rect-plot-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/collinear-rect-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1008,7 +1057,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+  0 48</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>100 matches, 0 mismatches
 
@@ -1020,7 +1069,7 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -1033,14 +1082,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/noisy-rect-plot-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/noisy-rect-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1048,7 +1100,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+  5 41</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>88 matches, 12 mismatches
 
@@ -1060,7 +1112,7 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_rect_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -1073,14 +1125,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/neg-rect-plot-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/neg-rect-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1088,7 +1143,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+ 40 11</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>23 matches, 77 mismatches
 
@@ -1109,7 +1164,7 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Label vals above and below mean</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
@@ -1187,14 +1242,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/collinear-rect-plot-expanded-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/collinear-rect-plot-expanded-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1202,7 +1260,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+  0 48</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>100 matches, 0 mismatches
 
@@ -1214,7 +1272,7 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Force the points to be inside [-1,1]</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>y_noisy_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
@@ -1236,14 +1294,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/noisy-rect-plot-expanded-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/noisy-rect-plot-expanded-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1251,7 +1312,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+  8 43</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>87 matches, 13 mismatches
 
@@ -1263,7 +1324,7 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>gen_y_noisy_neg <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
@@ -1292,14 +1353,17 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/neg-rect-plot-expanded-1.png" class="img-fluid figure-img" width="364"></p>
+<p><img src="index_files/figure-revealjs/neg-rect-plot-expanded-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1307,7 +1371,7 @@ Adding another scale for y, which will replace the existing scale.</code></pre>
   y+ 47  8</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>13 matches, 87 mismatches
 
@@ -1322,15 +1386,18 @@ Covariance:
 </section>
 <section id="distance-metrics" class="level2 crunch-title crunch-ul crunch-images crunch-figures smaller">
 <h2 class="crunch-title crunch-ul crunch-images crunch-figures smaller anchored" data-anchor-id="distance-metrics">Distance Metrics</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
 <div id="cosine-dist" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <ul>
 <li>One More Important Metric! <strong>Cosine Distance</strong></li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/cosine_dist_projection.svg" class="img-fluid figure-img" width="360"></p>
+<p><img src="images/cosine_dist_projection.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="360"></p>
 </figure>
 </div>
 <p><span class="math display">\[
@@ -1340,7 +1407,7 @@ Covariance:
 \end{align*}
 \]</span></p>
 </div>
-<div id="new-names" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="new-names" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li><p>Plus <strong>new names</strong> for ones you already know!</p></li>
 <li><p><strong>“Levenshtein Distance”</strong>: Edit distance</p></li>
@@ -1364,16 +1431,19 @@ Covariance:
 <ul>
 <li><strong>Entropy</strong> (of <strong>one</strong> distribution): How uncertain are we about what we’re going to pull out of the bag?</li>
 </ul>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/entropy.png" class="img-fluid figure-img"></p>
+<p><img src="images/entropy.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
-<div id="entropy-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="entropy-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li>Think about:</li>
 <li><em>What exactly makes a boring {song,movie,book} boring?</em></li>
@@ -1389,17 +1459,24 @@ Covariance:
 <li><strong>KL-Divergence</strong> (<strong>Non-symmetric</strong>!): <span class="math inline">\(\kl(P \parallel Q) \neq \kl(Q \parallel P)\)</span></li>
 <li>Not <strong>distance</strong> but <strong>relative entropy</strong>: how <strong>surprised</strong> were we to see <span class="math inline">\(P\)</span> when we expected <span class="math inline">\(Q\)</span>? How much <strong>information is lost</strong> when we <strong>approximate</strong> <span class="math inline">\(P\)</span> with <span class="math inline">\(Q\)</span>?</li>
 </ul>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[2,1,2.5]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div class="column quarto-layout-cell" style="flex-basis: 36.4%;justify-content: center;">
-<div id="fig-empirical-dist" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/empirical-distribution-teeth.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: We can only communicate <strong>two numbers</strong> back to our space comrades, to warn them of the impending space worms w/tooth distribution <span class="math inline">\(\mathcal{O}\)</span><br>(Example from <a href="https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained" target="_blank"><em>Count Bayesie</em> Blog</a>)</figcaption>
+<div class="column quarto-layout-cell" style="flex-basis: 36.4%;justify-content: flex-start;">
+<div id="fig-empirical-dist" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-empirical-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/empirical-distribution-teeth.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-empirical-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: We can only communicate <strong>two numbers</strong> back to our space comrades, to warn them of the impending space worms w/tooth distribution <span class="math inline">\(\mathcal{O}\)</span><br>(Example from <a href="https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained" target="_blank"><em>Count Bayesie</em> Blog</a>)
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="column quarto-layout-cell" style="flex-basis: 18.2%;justify-content: center;">
+<div class="column quarto-layout-cell" style="flex-basis: 18.2%;justify-content: flex-start;">
 <center>
 <div style="padding-bottom: 40px !important;">
 <i class="bi bi-arrow-up-right"></i> Uniform approximation
@@ -1409,13 +1486,13 @@ Covariance:
 </div>
 </center>
 </div>
-<div class="column quarto-layout-cell" style="flex-basis: 45.5%;justify-content: center;">
+<div class="column quarto-layout-cell" style="flex-basis: 45.5%;justify-content: flex-start;">
 <p><span class="math inline">\(\mathcal{A} = \mathcal{U}\{0,10\}\)</span>? <span class="math inline">\(\kl​​(\mathcal{O} \parallel \mathcal{A})=0.338\)</span></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/worms-unif-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="index_files/figure-revealjs/worms-unif-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1425,7 +1502,7 @@ Covariance:
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/worms-binom-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="index_files/figure-revealjs/worms-binom-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1470,7 +1547,7 @@ Covariance:
 <p><strong>Supervised</strong> Learning: Dataset has both <span class="cb1"><em>explanatory</em> variables (“features”)</span> and <span class="cb2"><em>response</em> variables (“labels”)</span></p>
 <div class="suptable">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>sup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms, <span class="sc">~</span>rating,</span>
@@ -1498,7 +1575,7 @@ Covariance:
 <p><strong>Unsupervised</strong> Learning: Dataset has only <span class="cb1"><em>explanatory</em> variables (“features”)</span></p>
 <div class="unsuptable">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>unsup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms,</span>
@@ -1530,7 +1607,7 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
@@ -1546,14 +1623,14 @@ Covariance:
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/sup-data-plot-1.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="index_files/figure-revealjs/sup-data-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To force a legend</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>unsup_grouped <span class="ot">&lt;-</span> unsup_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">big=</span>bedrooms <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
@@ -1578,7 +1655,7 @@ Covariance:
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/unsup-data-plot-1.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="index_files/figure-revealjs/unsup-data-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1591,7 +1668,7 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
@@ -1614,18 +1691,18 @@ Covariance:
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/sup-data-outcomes-1.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="index_files/figure-revealjs/sup-data-outcomes-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
 </figure>
 </div>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms)) <span class="sc">+</span></span>
@@ -1647,11 +1724,11 @@ Covariance:
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/unsup-data-clustered-1.png" class="img-fluid figure-img" width="768"></p>
+<p><img src="index_files/figure-revealjs/unsup-data-clustered-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
 </figure>
 </div>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_manual(labels=c("?","?"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -1697,7 +1774,7 @@ Covariance:
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/knn.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Image credit: <a href="http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn" target="_blank">DataCamp tutorial</a></figcaption>
+<figcaption>Image credit: <a href="http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn" target="_blank">DataCamp tutorial</a></figcaption>
 </figure>
 </div>
 </section>
@@ -1706,9 +1783,12 @@ Covariance:
 <h1 data-stack-name="Naïve Bayes">Naïve Bayes Classifiers</h1>
 <section id="what-is-naïve-about-it" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="what-is-naïve-about-it">What is “Naïve” About It?</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="naive-bayes-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div id="naive-bayes-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <p><strong>Guessing House Prices</strong>:</p>
 <ul>
 <li>If I tell you there’s a house, what is your guess for number of bathrooms it has?</li>
@@ -1726,7 +1806,7 @@ Naïve Bayes’ Answer?
 </center>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/chief_keef_nah_full.jpg" class="img-fluid figure-img"></p>
+<p><img src="images/chief_keef_nah_full.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1752,7 +1832,7 @@ Naïve Bayes’ Answer?
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/naive_bayes_langmodel.svg" class="img-fluid figure-img"></p>
+<p><img src="images/naive_bayes_langmodel.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
@@ -1764,7 +1844,7 @@ Naïve Bayes’ Answer?
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/naive_bayes.svg" class="img-fluid figure-img"></p>
+<p><img src="images/naive_bayes.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1775,21 +1855,24 @@ Naïve Bayes’ Answer?
 <ul>
 <li>This must absolutely suck in practice, right?</li>
 </ul>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[2,3]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/huh_how.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">“But… how?”</figcaption>
+<figcaption>“But… how?”</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/naive_bayes_performance.png" class="img-fluid figure-img" width="520"></p>
-<figcaption class="figure-caption">Image Source: <span class="citation" data-cites="banko_scaling_2001">Banko and Brill (<a href="#ref-banko_scaling_2001" role="doc-biblioref">2001</a>)</span></figcaption>
+<figcaption>Image Source: <span class="citation" data-cites="banko_scaling_2001">Banko and Brill (<a href="#ref-banko_scaling_2001" role="doc-biblioref">2001</a>)</span></figcaption>
 </figure>
 </div>
 </div>
@@ -1817,7 +1900,7 @@ Naïve Bayes’ Answer?
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-banko_scaling_2001" class="csl-entry" role="listitem">
 Banko, Michele, and Eric Brill. 2001. <span>“Scaling to Very Very Large Corpora for Natural Language Disambiguation.”</span> In <em>Proceedings of the 39th <span>Annual Meeting</span> on <span>Association</span> for <span>Computational Linguistics</span></em>, 26–33. <span>ACL</span> ’01. <span>USA</span>: <span>Association for Computational Linguistics</span>. <a href="https://doi.org/10.3115/1073012.1073017">https://doi.org/10.3115/1073012.1073017</a>.
 </div>
@@ -1914,10 +1997,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1927,8 +2027,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1940,7 +2049,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1984,6 +2216,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -2009,6 +2242,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2069,6 +2328,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

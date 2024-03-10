@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
 
-<title>DSAN 5000 - Week 9: Clustering Analysis</title>
+<title>DSAN 5000 – Week 9: Clustering Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -59,6 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -100,7 +101,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -109,6 +116,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -128,6 +136,33 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../styles.css">
 </head>
 
@@ -137,12 +172,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w09/index.html">Week 9: <span class="sec-w09-date">Oct 24</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w09/index.html">Week 9: <span class="sec-w09-date">Oct 24</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -152,7 +187,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">DSAN 5000</a> 
@@ -315,7 +350,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -378,12 +413,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div class="quarto-title-meta-contents">
     <p class="author">Jeff Jacobs </p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -399,7 +434,9 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <center>
 <a class="h2" href="./slides.html" target="_blank">Open slides in new window →</a>
@@ -408,7 +445,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
 <div class="hidden">
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -416,7 +453,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 <div class="hidden">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -547,7 +584,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_homework.svg" class="img-fluid figure-img" width="300"></p>
+<p><img src="images/pgm_homework.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="300"></p>
 </figure>
 </div>
 <ul>
@@ -566,7 +603,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_hw_missing_at_random.svg" class="img-fluid figure-img"></p>
+<p><img src="images/pgm_hw_missing_at_random.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
@@ -574,13 +611,16 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <h2 class="smaller small-title nostretch anchored" data-anchor-id="my-dog-ate-my-homework-because-of-reasons">My Dog Ate My Homework Because of Reasons</h2>
 <p><img src="images/reasons_crop.jpeg" class="absolute img-fluid" data-top="-15" data-right="10%"></p>
 <p>There are scarier alternatives, though! What if…</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row">
 <div id="dog-study" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <p>Dogs eat homework because their owner studied so much that the dog got ignored?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_hw_missing_study.svg" class="img-fluid figure-img" width="280"></p>
+<p><img src="images/pgm_hw_missing_study.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="280"></p>
 </figure>
 </div>
 </div>
@@ -588,7 +628,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <p>Dogs hate sloppy work, and eat bad homework that would have gotten a low score</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_hw_missing_badhw.svg" class="img-fluid figure-img" width="280"></p>
+<p><img src="images/pgm_hw_missing_badhw.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="280"></p>
 </figure>
 </div>
 </div>
@@ -596,7 +636,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <p>Noisy homes (<span class="math inline">\(Z = 1\)</span>) cause dogs to get agitated and eat homework more often, <strong>and</strong> students do worse</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/pgm_hw_missing_noisy.svg" class="img-fluid figure-img" width="280"></p>
+<p><img src="images/pgm_hw_missing_noisy.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="280"></p>
 </figure>
 </div>
 </div>
@@ -605,29 +645,32 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </section>
 <section id="why-do-we-need-to-think-about-dgps" class="level2 nostretch">
 <h2 class="nostretch anchored" data-anchor-id="why-do-we-need-to-think-about-dgps">Why Do We Need To Think About DGPs?</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/kidnappings.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure (and DGP analysis) from <span class="citation" data-cites="dignazio_numbers_2020">D’Ignazio and Klein (<a href="#ref-dignazio_numbers_2020" role="doc-biblioref">2020</a>)</span></figcaption>
+<figcaption>Figure (and DGP analysis) from <span class="citation" data-cites="dignazio_numbers_2020">D’Ignazio and Klein (<a href="#ref-dignazio_numbers_2020" role="doc-biblioref">2020</a>)</span></figcaption>
 </figure>
 </div>
 </div>
-<div id="kidnapping-dgp" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="kidnapping-dgp" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <p>Presumed DGP:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/dgp_kidnappings.svg" class="img-fluid figure-img" width="300"></p>
-<figcaption class="figure-caption"><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+<figcaption><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
 </figure>
 </div>
 <p>Actual DGP:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/dgp_kidnappings_true.svg" class="img-fluid figure-img" width="300"></p>
-<figcaption class="figure-caption"><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(R\)</span> = <strong>News reports</strong> about kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
+<figcaption><span class="math inline">\(K\)</span> = Kidnappings, <span class="math inline">\(R\)</span> = <strong>News reports</strong> about kidnappings, <span class="math inline">\(C\)</span> = Counts</figcaption>
 </figure>
 </div>
 </div>
@@ -641,7 +684,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <li><span class="math inline">\(X_1 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_1, \Sigma)\)</span>, <span class="math inline">\(X_2 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_2, \Sigma)\)</span></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
@@ -722,7 +765,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/two-gaussian-clusters-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/two-gaussian-clusters-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -735,7 +778,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hmm.svg" class="img-fluid figure-img"></p>
+<p><img src="images/hmm.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
@@ -749,7 +792,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hmm_clusters_single_dist.svg" class="img-fluid figure-img" style="width:75.0%"></p>
+<p><img src="images/hmm_clusters_single_dist.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
@@ -800,7 +843,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hmm_clusters.svg" class="img-fluid figure-img" style="width:85.0%"></p>
+<p><img src="images/hmm_clusters.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
@@ -836,7 +879,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <section id="in-code" class="level2 smaller crunch-code">
 <h2 class="smaller crunch-code anchored" data-anchor-id="in-code">In Code!</h2>
 <div class="cell" data-layout-align="center">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -876,7 +919,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <section id="distribution-estimation-results" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="distribution-estimation-results">Distribution Estimation Results</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data for concentric circles</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mean_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/sklearn_mean_df.csv"</span>)</span>
@@ -974,7 +1017,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/compare-clusters-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/compare-clusters-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -983,7 +1026,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <section id="clustering-results" class="level2 smaller crunch-code crunch-figures crunch-p">
 <h2 class="smaller crunch-code crunch-figures crunch-p anchored" data-anchor-id="clustering-results">Clustering Results</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>est_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_point(</span></span>
@@ -1056,7 +1099,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/plot-gaussian-mixture-mle-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/plot-gaussian-mixture-mle-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1094,7 +1137,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/clustering-heuristics.jpeg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Image from <a href="http://courses.washington.edu/css490/2012.Winter/lecture_slides/10_clustering_basics_1.pdf" target="_blank"><em>Introduction to Machine Learning</em></a>, University of Washington (2012)</figcaption>
+<figcaption>Image from <a href="http://courses.washington.edu/css490/2012.Winter/lecture_slides/10_clustering_basics_1.pdf" target="_blank"><em>Introduction to Machine Learning</em></a>, University of Washington (2012)</figcaption>
 </figure>
 </div>
 </section>
@@ -1104,19 +1147,22 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <li>If our task is to <strong>partition</strong>, we’re done!</li>
 <li>If our task is to infer a <strong>hierarchy</strong>, we can also think about a spectrum of <strong>coarse-grained</strong> to <strong>fine-grained</strong> clusterings:</li>
 </ul>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hierarchical-clustering.png" class="img-fluid figure-img"></p>
+<p><img src="images/hierarchical-clustering.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hierarchical-flat-v2.svg" class="img-fluid figure-img"></p>
+<p><img src="images/hierarchical-flat-v2.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1125,9 +1171,12 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </section>
 <section id="hierarchical-clustering-rightarrow-multilevel-modeling" class="level2 smaller title-11 crunch-title crunch-quarto-figure crunch-figures crunch-fig-top crunch-images crunch-p">
 <h2 class="smaller title-11 crunch-title crunch-quarto-figure crunch-figures crunch-fig-top crunch-images crunch-p anchored" data-anchor-id="hierarchical-clustering-rightarrow-multilevel-modeling">Hierarchical Clustering <span class="math inline">\(\rightarrow\)</span> Multilevel Modeling</h2>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div id="multilevel-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="multilevel-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li><strong>Extremely powerful modeling tool</strong> for statistical inference!
 <ul>
@@ -1144,7 +1193,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/gelman-states.jpeg" class="img-fluid figure-img"></p>
+<p><img src="images/gelman-states.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1153,13 +1202,16 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </section>
 <section id="in-practice" class="level2 smaller crunch-title crunch-images crunch-fig-top crunch-quarto-figure crunch-figcaption">
 <h2 class="smaller crunch-title crunch-images crunch-fig-top crunch-quarto-figure crunch-figcaption anchored" data-anchor-id="in-practice">In Practice</h2>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[5,5]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/1960-1980_Katsakioris_RegionalTotals.PNG" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption"><em>Above</em>: Data from Soviet archives; <em>Above Right</em>: US Military archives; <em>Below Right</em>: NATO archives</figcaption>
+<figcaption><em>Above</em>: Data from Soviet archives; <em>Above Right</em>: US Military archives; <em>Below Right</em>: NATO archives</figcaption>
 </figure>
 </div>
 </div>
@@ -1182,10 +1234,14 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <li><strong>Minimizing</strong> between-cluster similarity</li>
 </ul></li>
 </ul>
-<div id="fig-voronoi" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="fig-voronoi" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-voronoi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <p><img src="images/voronoi_k2.png" class="img-fluid figure-img"></p>
 </div>
@@ -1197,7 +1253,10 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </div>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;1: Voronoi diagrams for <span class="math inline">\(K = 2\)</span> (left), <span class="math inline">\(K = 3\)</span> (center), and <span class="math inline">\(K = 5\)</span> (right) [<a href="https://antoinebrl.github.io/blog/kmeans/" target="_blank">Source</a>]</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-voronoi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Voronoi diagrams for <span class="math inline">\(K = 2\)</span> (left), <span class="math inline">\(K = 3\)</span> (center), and <span class="math inline">\(K = 5\)</span> (right) [<a href="https://antoinebrl.github.io/blog/kmeans/" target="_blank">Source</a>]
+</figcaption>
 </figure>
 </div>
 </section>
@@ -1262,7 +1321,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <section id="in-code-pictures" class="level2 smaller crunch-code crunch-title">
 <h2 class="smaller crunch-code crunch-title anchored" data-anchor-id="in-code-pictures">In Code + Pictures</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors</span>
@@ -1359,7 +1418,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="index_files/figure-revealjs/sklearn-kmc-1.png" class="img-fluid figure-img" width="614"></p>
-<figcaption class="figure-caption">Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py" target="_blank">Scikit-learn User Guide</a></figcaption>
+<figcaption>Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py" target="_blank">Scikit-learn User Guide</a></figcaption>
 </figure>
 </div>
 </div>
@@ -1371,7 +1430,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <section id="dbscan" class="level2 smaller crunch-code crunch-title">
 <h2 class="smaller crunch-code crunch-title anchored" data-anchor-id="dbscan">DBSCAN</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -1619,7 +1678,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="index_files/figure-revealjs/dbscan-grid-3.png" class="img-fluid figure-img" width="2016"></p>
-<figcaption class="figure-caption">Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html" target="_blank">Scikit-learn User Guide</a></figcaption>
+<figcaption>Adapted from <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html" target="_blank">Scikit-learn User Guide</a></figcaption>
 </figure>
 </div>
 </div>
@@ -1627,9 +1686,12 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </section>
 <section id="hyperparameter-tuning-more-heuristics" class="level2 smaller crunch-title">
 <h2 class="smaller crunch-title anchored" data-anchor-id="hyperparameter-tuning-more-heuristics">Hyperparameter Tuning: More Heuristics</h2>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div id="elbow-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="elbow-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li><strong>Inertia</strong>: A measure of how “well-clustered” a dataset is</li>
 <li>Sum of squared distances of samples to their closest cluster center</li>
@@ -1637,11 +1699,11 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 <li><strong>Elbow Method</strong>: Find the <span class="math inline">\(K\)</span> value after which <strong>decrease in inertia</strong> begins to slow →</li>
 </ul>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/elbow-method.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure from <a href="https://ankitajhumu.medium.com/selecting-number-of-clusters-in-k-mean-clustering-d60a1f85d65b" target="_blank">this blog post</a> by <a href="https://ankitajhumu.medium.com/" target="_blank">Ankita Banerji</a></figcaption>
+<figcaption>Figure from <a href="https://ankitajhumu.medium.com/selecting-number-of-clusters-in-k-mean-clustering-d60a1f85d65b" target="_blank">this blog post</a> by <a href="https://ankitajhumu.medium.com/" target="_blank">Ankita Banerji</a></figcaption>
 </figure>
 </div>
 </div>
@@ -1650,7 +1712,7 @@ h_i = \beta_0 + \beta_1 s_i + \varepsilon_i
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-dignazio_numbers_2020" class="csl-entry" role="listitem">
 D’Ignazio, Catherine, and Lauren Klein. 2020. <span>“6. <span>The Numbers Don</span>’t <span>Speak</span> for <span>Themselves</span>.”</span> <em>Data Feminism</em>, March.
 </div>
@@ -1749,10 +1811,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1762,8 +1841,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1775,7 +1863,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1819,6 +2030,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1844,6 +2056,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1904,6 +2142,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

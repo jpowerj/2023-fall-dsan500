@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
 
-<title>DSAN 5000 - Week 14: Course Wrapup</title>
+<title>DSAN 5000 – Week 14: Course Wrapup</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -59,6 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -100,7 +101,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -109,6 +116,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -128,6 +136,33 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../styles.css">
 </head>
 
@@ -137,12 +172,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w14/index.html">Week 14: <span class="sec-w14-date">Nov 28</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w14/index.html">Week 14: <span class="sec-w14-date">Nov 28</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -152,7 +187,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">DSAN 5000</a> 
@@ -315,7 +350,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -377,12 +412,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div class="quarto-title-meta-contents">
     <p class="author">Jeff Jacobs </p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -398,7 +433,9 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <center>
 <a class="h2" href="./slides.html" target="_blank">Open slides in new window →</a>
@@ -407,7 +444,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
 <div class="hidden">
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -415,7 +452,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 <div class="hidden">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -543,19 +580,22 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </section>
 <section id="course-recap" class="level1 not-title-slide smaller crunch-title crunch-quarto-layout-panel page-columns page-full" data-stack-name="Recap">
 <h1 class="not-title-slide smaller crunch-title crunch-quarto-layout-panel" data-stack-name="Recap">Course Recap</h1>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/nuts_and_bolts.jpg" class="img-fluid figure-img" width="330"></p>
+<p><img src="images/nuts_and_bolts.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="330"></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/more_nuts_and_bolts.jpg" class="img-fluid figure-img" width="340"></p>
+<p><img src="images/more_nuts_and_bolts.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="340"></p>
 </figure>
 </div>
 </div>
@@ -563,9 +603,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 <section id="your-toolbox" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="your-toolbox">Your Toolbox</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="basics" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1,1]">
+<div class="quarto-layout-row">
+<div id="basics" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <center>
 <strong>Basics</strong>
 </center>
@@ -575,7 +618,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li>Web Scraping</li>
 </ul>
 </div>
-<div id="nuts-and-bolts" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div id="nuts-and-bolts" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <center>
 <strong>Nuts and Bolts</strong>
 </center>
@@ -588,7 +631,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li>Dimensionality Reduction</li>
 </ul>
 </div>
-<div id="main-event" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div id="main-event" class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <center>
 <strong>Drills and Saws</strong>
 </center>
@@ -605,162 +648,189 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </section>
 <section id="data-structures-simple-rightarrow-complex-w04" class="level2 smaller crunch-title crunch-figures page-columns page-full">
 <h2 class="smaller crunch-title crunch-figures anchored" data-anchor-id="data-structures-simple-rightarrow-complex-w04">Data Structures: Simple <span class="math inline">\(\rightarrow\)</span> Complex (W04)</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="fig-record-data" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[1,1],[1,1]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-record-data" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-record-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>id</th>
-<th>name</th>
-<th>email</th>
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">email</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>K. Desbrow</td>
-<td>kd9@dailymail.com</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">K. Desbrow</td>
+<td style="text-align: left;">kd9@dailymail.com</td>
 </tr>
 <tr class="even">
-<td>1</td>
-<td>D. Minall</td>
-<td>dminall1@wired.com</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">D. Minall</td>
+<td style="text-align: left;">dminall1@wired.com</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td>C. Knight</td>
-<td>ck2@microsoft.com</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">C. Knight</td>
+<td style="text-align: left;">ck2@microsoft.com</td>
 </tr>
 <tr class="even">
-<td>3</td>
-<td>M. McCaffrey</td>
-<td>mccaf4@nhs.uk</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">M. McCaffrey</td>
+<td style="text-align: left;">mccaf4@nhs.uk</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;1: Record Data</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-record-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Record Data
+</figcaption>
 </figure>
 </div>
-<div id="fig-time-series-data" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-time-series-data" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-time-series-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>year</th>
-<th>month</th>
-<th>points</th>
+<th style="text-align: left;">year</th>
+<th style="text-align: left;">month</th>
+<th style="text-align: left;">points</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>2023</td>
-<td>Jan</td>
-<td>65</td>
+<td style="text-align: left;">2023</td>
+<td style="text-align: left;">Jan</td>
+<td style="text-align: left;">65</td>
 </tr>
 <tr class="even">
-<td>2023</td>
-<td>Feb</td>
-<td></td>
+<td style="text-align: left;">2023</td>
+<td style="text-align: left;">Feb</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td>2023</td>
-<td>Mar</td>
-<td>42</td>
+<td style="text-align: left;">2023</td>
+<td style="text-align: left;">Mar</td>
+<td style="text-align: left;">42</td>
 </tr>
 <tr class="even">
-<td>2023</td>
-<td>Apr</td>
-<td>11</td>
+<td style="text-align: left;">2023</td>
+<td style="text-align: left;">Apr</td>
+<td style="text-align: left;">11</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;2: Time-Series Data</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-time-series-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Time-Series Data
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="fig-panel-data" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-panel-data" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-panel-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>id</th>
-<th>date</th>
-<th>rating</th>
-<th>num_rides</th>
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">date</th>
+<th style="text-align: left;">rating</th>
+<th style="text-align: left;">num_rides</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>2023-01</td>
-<td>0.75</td>
-<td>45</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">2023-01</td>
+<td style="text-align: left;">0.75</td>
+<td style="text-align: left;">45</td>
 </tr>
 <tr class="even">
-<td>0</td>
-<td>2023-02</td>
-<td>0.89</td>
-<td>63</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">2023-02</td>
+<td style="text-align: left;">0.89</td>
+<td style="text-align: left;">63</td>
 </tr>
 <tr class="odd">
-<td>0</td>
-<td>2023-03</td>
-<td>0.97</td>
-<td>7</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">2023-03</td>
+<td style="text-align: left;">0.97</td>
+<td style="text-align: left;">7</td>
 </tr>
 <tr class="even">
-<td>1</td>
-<td>2023-06</td>
-<td>0.07</td>
-<td>10</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2023-06</td>
+<td style="text-align: left;">0.07</td>
+<td style="text-align: left;">10</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;3: Panel Data</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-panel-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Panel Data
+</figcaption>
 </figure>
 </div>
-<div id="fig-network-data" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-network-data" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-network-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>id</th>
-<th>Source</th>
-<th>Target</th>
-<th>Weight</th>
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">Target</th>
+<th style="text-align: left;">Weight</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>IGF2</td>
-<td>IGF1R</td>
-<td>1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">IGF2</td>
+<td style="text-align: left;">IGF1R</td>
+<td style="text-align: left;">1</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>IGF1R</td>
-<td>TP53</td>
-<td>2</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">IGF1R</td>
+<td style="text-align: left;">TP53</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td>TP53</td>
-<td>EGFR</td>
-<td>0.5</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">TP53</td>
+<td style="text-align: left;">EGFR</td>
+<td style="text-align: left;">0.5</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;4: Network Data</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-network-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Network Data
+</figcaption>
 </figure>
+</div>
 </div>
 </div>
 </div>
 
-<div class="no-row-height column-margin column-container"><div class="">
+<div class="no-row-height column-margin column-container"><div class="margin-aside">
 <p>Fake data via <a href="https://www.mockaroo.com/" target="_blank">Mockaroo</a> and <a href="https://www.random.org/integers/" target="_blank">Random.org</a>. Protein-protein interaction network from <a href="http://psb.stanford.edu/psb-online/proceedings/psb18/agrawal.pdf"><span class="citation" data-cites="agrawal_largescale_2018">Agrawal, Zitnik, and Leskovec (<span>2018</span>)</span></a></p>
 </div></div></section>
 <section id="web-scraping-w04" class="level2 crunch-title">
@@ -816,7 +886,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li>…Enter <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" target="_blank">Anscombe’s Quartet</a></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -842,7 +912,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/anscombe-quartet-1.png" class="img-fluid figure-img" width="1152"></p>
+<p><img src="index_files/figure-revealjs/anscombe-quartet-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -854,7 +924,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/anscombe-again-3.png" class="img-fluid figure-img" width="592"></p>
+<p><img src="index_files/figure-revealjs/anscombe-again-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="592"></p>
 </figure>
 </div>
 </div>
@@ -864,12 +934,13 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <center>
 <strong>Summary statistics</strong>
 </center>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="fig-anscombe-means" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
-<div class="cell" data-layout-align="center">
-<details>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute dataset means</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x,<span class="dv">2</span>)</span>
@@ -879,6 +950,10 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>disp(data_means, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div id="fig-anscombe-means" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anscombe-means-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -913,13 +988,15 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </table>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;5: Column means for each dataset</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anscombe-means-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Column means for each dataset
+</figcaption>
 </figure>
 </div>
-<div id="fig-anscombe-sds" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
-<div class="cell" data-layout-align="center">
-<details>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute dataset SDs</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data_sds <span class="op">=</span> anscombe_df.groupby(<span class="st">'dataset'</span>).agg(</span>
@@ -928,6 +1005,10 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>).<span class="bu">apply</span>(my_round)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>disp(data_sds, floatfmt<span class="op">=</span><span class="st">'.2f'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div id="fig-anscombe-sds" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anscombe-sds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -962,12 +1043,16 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </table>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;6: Column SDs for each dataset</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anscombe-sds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Column SDs for each dataset
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <!-- end anscombe SDs -->
 </div>
 </div>
@@ -977,10 +1062,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <center>
 <strong>Correlations</strong>
 </center>
-<div id="fig-anscombe-corrs" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<div class="cell corr-table" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tabulate</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
@@ -988,7 +1070,11 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Markdown(tabulate.tabulate(corr_matrix))</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>HTML(corr_matrix.to_html())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
+<div id="fig-anscombe-corrs" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anscombe-corrs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell corr-table" data-layout-align="center">
+<div>
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
@@ -1053,7 +1139,10 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </table>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;7: Correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> for each dataset</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anscombe-corrs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> for each dataset
+</figcaption>
 </figure>
 </div>
 <!-- end anscombe corrs fig -->
@@ -1067,15 +1156,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/anscombe-yet-again-5.png" class="img-fluid figure-img" width="592"></p>
+<p><img src="index_files/figure-revealjs/anscombe-yet-again-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="592"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell corr-table quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>summary_dfs <span class="op">=</span> []</span>
@@ -1090,8 +1176,14 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  summary.extra_txt <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  summary_df <span class="op">=</span> summary_to_df(summary, corner_col <span class="op">=</span> <span class="ss">f'Dataset </span><span class="sc">{</span>cur_ds<span class="sc">}</span><span class="ss">&lt;br&gt;R^2 = </span><span class="sc">{</span>rsq<span class="sc">}</span><span class="ss">'</span>)</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  summary_dfs.append(summary_df)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">0</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">0</span>], include_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">1</span>], include_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">2</span>], include_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">3</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="quarto-layout-panel" data-layout="[[1,1],[1,1]]">
+<div class="quarto-layout-row">
+<div class="cell corr-table quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -1138,10 +1230,6 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">1</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -1188,12 +1276,8 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-row">
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">2</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -1240,10 +1324,6 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 </div>
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>disp(summary_dfs[<span class="dv">3</span>], include_index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -1294,9 +1374,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </section>
 <section id="naïve-bayes-w07" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="naïve-bayes-w07">Naïve Bayes (W07)</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="naive-bayes-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div id="naive-bayes-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <p><strong>Guessing House Prices</strong>:</p>
 <ul>
 <li>If I tell you there’s a house, what is your guess for number of bathrooms it has?</li>
@@ -1314,7 +1397,7 @@ Naïve Bayes’ Answer?
 </center>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/chief_keef_nah_full.jpg" class="img-fluid figure-img"></p>
+<p><img src="images/chief_keef_nah_full.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1340,7 +1423,7 @@ Naïve Bayes’ Answer?
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/naive_bayes_langmodel.svg" class="img-fluid figure-img"></p>
+<p><img src="images/naive_bayes_langmodel.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
@@ -1352,7 +1435,7 @@ Naïve Bayes’ Answer?
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/naive_bayes.svg" class="img-fluid figure-img"></p>
+<p><img src="images/naive_bayes.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1363,21 +1446,24 @@ Naïve Bayes’ Answer?
 <ul>
 <li>This must absolutely suck in practice, right?</li>
 </ul>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[2,3]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/huh_how.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">“But… how?”</figcaption>
+<figcaption>“But… how?”</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/naive_bayes_performance.png" class="img-fluid figure-img" width="520"></p>
-<figcaption class="figure-caption">Image Source: <span class="citation" data-cites="banko_scaling_2001">Banko and Brill (<a href="#ref-banko_scaling_2001" role="doc-biblioref">2001</a>)</span></figcaption>
+<figcaption>Image Source: <span class="citation" data-cites="banko_scaling_2001">Banko and Brill (<a href="#ref-banko_scaling_2001" role="doc-biblioref">2001</a>)</span></figcaption>
 </figure>
 </div>
 </div>
@@ -1391,88 +1477,88 @@ Naïve Bayes’ Answer?
 <li><span class="math inline">\(X_1 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_1, \Sigma)\)</span>, <span class="math inline">\(X_2 \sim \boldsymbol{\mathcal{N}}_2(\boldsymbol\mu_2, \Sigma)\)</span></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Mu1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>Mu2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">24</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Data for concentric circles</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>circle_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>x0, <span class="sc">~</span>y0, <span class="sc">~</span>r, <span class="sc">~</span>Cluster, <span class="sc">~</span>whichR,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">1</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">1</span>,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">2</span>,</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">2</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">3</span>,</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">3</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#print(circle_df)</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(sigma,<span class="dv">0</span>,<span class="dv">0</span>,sigma), <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#print(Sigma)</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>x1_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu1, Sigma))</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>x1_df <span class="ot">&lt;-</span> x1_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Cluster=</span><span class="st">'C1'</span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>x2_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu2, Sigma))</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>x2_df <span class="ot">&lt;-</span> x2_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">Cluster=</span><span class="st">'C2'</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>cluster_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(x1_df, x2_df)</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>cluster_df <span class="ot">&lt;-</span> cluster_df <span class="sc">|&gt;</span> <span class="fu">rename</span>(</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span>V1, <span class="at">y=</span>V2</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>known_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> circle_df,</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x0, <span class="at">y=</span>y0)</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_circle</span>(</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> circle_df,</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x0=</span>x0, <span class="at">y0=</span>y0, <span class="at">r=</span>r, <span class="at">fill=</span>Cluster),</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>cluster_df,</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">fill=</span>Cluster),</span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">21</span></span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
-<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
-<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
-<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Data with Known Clusters"</span></span>
-<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
-<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">2</span>], cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>])) <span class="sc">+</span></span>
-<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>], cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>]))</span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>unknown_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>cluster_df,</span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y),</span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>    <span class="co">#shape = 21</span></span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
-<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
-<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
-<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
-<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Same Data with Unknown Clusters"</span></span>
-<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>cluster_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/cluster_data.csv"</span>)</span>
-<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>known_plot <span class="sc">+</span> unknown_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>Mu1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Mu2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">24</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Data for concentric circles</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>circle_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>x0, <span class="sc">~</span>y0, <span class="sc">~</span>r, <span class="sc">~</span>Cluster, <span class="sc">~</span>whichR,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">1</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">1</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">2</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">2</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  Mu1[<span class="dv">1</span>], Mu1[<span class="dv">2</span>], <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C1"</span>, <span class="dv">3</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  Mu2[<span class="dv">1</span>], Mu2[<span class="dv">2</span>], <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sqrt</span>(sigma), <span class="st">"C2"</span>, <span class="dv">3</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#print(circle_df)</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(sigma,<span class="dv">0</span>,<span class="dv">0</span>,sigma), <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#print(Sigma)</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>x1_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu1, Sigma))</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>x1_df <span class="ot">&lt;-</span> x1_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Cluster=</span><span class="st">'C1'</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>x2_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">mvrnorm</span>(N, Mu2, Sigma))</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>x2_df <span class="ot">&lt;-</span> x2_df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">Cluster=</span><span class="st">'C2'</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>cluster_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(x1_df, x2_df)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>cluster_df <span class="ot">&lt;-</span> cluster_df <span class="sc">|&gt;</span> <span class="fu">rename</span>(</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span>V1, <span class="at">y=</span>V2</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>known_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> circle_df,</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x0, <span class="at">y=</span>y0)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_circle</span>(</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> circle_df,</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x0=</span>x0, <span class="at">y0=</span>y0, <span class="at">r=</span>r, <span class="at">fill=</span>Cluster),</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> g_linewidth,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.25</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>cluster_df,</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">fill=</span>Cluster),</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">21</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Data with Known Clusters"</span></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">2</span>], cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>])) <span class="sc">+</span></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">1</span>], cbPalette[<span class="dv">2</span>], cbPalette[<span class="dv">3</span>], cbPalette[<span class="dv">4</span>]))</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>unknown_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_df) <span class="sc">+</span></span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>cluster_df,</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y),</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>    <span class="co">#shape = 21</span></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>) <span class="sc">+</span></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"y"</span>,</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Same Data with Unknown Clusters"</span></span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>cluster_df <span class="sc">|&gt;</span> <span class="fu">write_csv</span>(<span class="st">"assets/cluster_data.csv"</span>)</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>known_plot <span class="sc">+</span> unknown_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/two-gaussian-clusters-7.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/two-gaussian-clusters-7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1485,7 +1571,7 @@ Naïve Bayes’ Answer?
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hmm.svg" class="img-fluid figure-img"></p>
+<p><img src="images/hmm.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
@@ -1499,7 +1585,7 @@ Naïve Bayes’ Answer?
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hmm_clusters_single_dist.svg" class="img-fluid figure-img" style="width:75.0%"></p>
+<p><img src="images/hmm_clusters_single_dist.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
@@ -1550,7 +1636,7 @@ Naïve Bayes’ Answer?
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/hmm_clusters.svg" class="img-fluid figure-img" style="width:85.0%"></p>
+<p><img src="images/hmm_clusters.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
@@ -1588,7 +1674,7 @@ Naïve Bayes’ Answer?
 <div class="r-stretch">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/matrix_decomposition.svg" class="img-fluid figure-img"></p>
+<p><img src="images/matrix_decomposition.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1607,7 +1693,7 @@ Naïve Bayes’ Answer?
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/neural_network.svg" class="img-fluid figure-img"></p>
+<p><img src="images/neural_network.svg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </section>
@@ -1641,9 +1727,12 @@ Naïve Bayes’ Answer?
 </section>
 <section id="elective-courses" class="level2 smaller crunch-title col-boxes crunch-quarto-layout-panel">
 <h2 class="smaller crunch-title col-boxes crunch-quarto-layout-panel anchored" data-anchor-id="elective-courses">Elective Courses</h2>
-<div class="quarto-layout-panel">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[1,1],[1,1,1]]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div id="ml" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="ml" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Computer Science in General</strong>
 </center>
@@ -1655,7 +1744,7 @@ Naïve Bayes’ Answer?
 </ul>
 </div>
 </div>
-<div id="ml" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="ml" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>AI/Machine Learning</strong>
 </center>
@@ -1667,7 +1756,7 @@ Naïve Bayes’ Answer?
 </div>
 </div>
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div id="math-stats" class="col-box quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div id="math-stats" class="col-box quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <center>
 <strong>Math/Stats</strong>
 </center>
@@ -1676,7 +1765,7 @@ Naïve Bayes’ Answer?
 <li>DSAN 6200: Analytics and Math for Streaming and High Dimension Data</li>
 </ul>
 </div>
-<div id="applied" class="col-box quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div id="applied" class="col-box quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <center>
 <strong>Language</strong>
 </center>
@@ -1685,7 +1774,7 @@ Naïve Bayes’ Answer?
 <li>DSAN 5810: NLP with Large Language Models</li>
 </ul>
 </div>
-<div id="society" class="col-box quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div id="society" class="col-box quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
 <center>
 <strong>Data Science in Society</strong>
 </center>
@@ -1700,9 +1789,12 @@ Naïve Bayes’ Answer?
 </section>
 <section id="types-of-data" class="level2 smaller crunch-title col-boxes-all crunch-quarto-layout-panel">
 <h2 class="smaller crunch-title col-boxes-all crunch-quarto-layout-panel anchored" data-anchor-id="types-of-data">Types of Data</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="time" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="time" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Data Over Time</strong>
 </center>
@@ -1710,7 +1802,7 @@ Naïve Bayes’ Answer?
 <li>DSAN 5600: Applied Time Series for Data Science</li>
 </ul>
 </div>
-<div id="text" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="text" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Text Data</strong>
 </center>
@@ -1720,8 +1812,8 @@ Naïve Bayes’ Answer?
 </ul>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="surveys" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-row">
+<div id="surveys" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Surveys/Tests</strong>
 </center>
@@ -1729,7 +1821,7 @@ Naïve Bayes’ Answer?
 <li>DSAN 6550: Adaptive Measurement with AI</li>
 </ul>
 </div>
-<div id="geo" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="geo" class="col-box quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Geographic</strong>
 </center>
@@ -1743,14 +1835,17 @@ Naïve Bayes’ Answer?
 <center>
 <strong>All Of The Above</strong>
 </center>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="all-above-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="all-above-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li>DSAN 5500: Data Structures</li>
 </ul>
 </div>
-<div id="all-above-right" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="all-above-right" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li>DSAN 5900: Digital Storytelling</li>
 </ul>
@@ -1772,7 +1867,7 @@ Naïve Bayes’ Answer?
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-agrawal_largescale_2018" class="csl-entry" role="listitem">
 Agrawal, Monica, Marinka Zitnik, and Jure Leskovec. 2018. <span>“Large-Scale Analysis of Disease Pathways in the Human Interactome.”</span> In <em><span>PACIFIC SYMPOSIUM</span> on <span>BIOCOMPUTING</span> 2018: <span>Proceedings</span> of the Pacific Symposium</em>, 111–22. <span>World Scientific</span>.
 </div>
@@ -1872,10 +1967,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1885,8 +1997,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1898,7 +2019,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1942,6 +2186,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1967,6 +2212,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2027,6 +2298,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

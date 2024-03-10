@@ -9,10 +9,10 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.5.23">
 
   <meta name="author" content="Jeff Jacobs">
-  <title>DSAN 5000 - Week 7: Supervised Learning</title>
+  <title>DSAN 5000 – Week 7: Supervised Learning</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -32,7 +32,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -71,7 +71,7 @@
     code span.at { color: #657422; } /* Attribute */
     code span.bn { color: #ad0000; } /* BaseN */
     code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #20794d; } /* Char */
     code span.cn { color: #8f5902; } /* Constant */
     code span.co { color: #5e5e5e; } /* Comment */
@@ -85,7 +85,7 @@
     code span.fu { color: #4758ab; } /* Function */
     code span.im { color: #00769e; } /* Import */
     code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; } /* Keyword */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
     code span.op { color: #5e5e5e; } /* Operator */
     code span.ot { color: #003b4f; } /* Other */
     code span.pp { color: #ad0000; } /* Preprocessor */
@@ -99,6 +99,7 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -251,7 +252,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -442,44 +444,44 @@ Jeff Jacobs
 <h1>Schedule</h1>
 <div class="hidden">
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
 <div class="hidden">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">def</span> disp(df, floatfmt<span class="op">=</span><span class="st">'g'</span>, include_index<span class="op">=</span><span class="va">True</span>):</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="cf">return</span> Markdown(</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    df.to_markdown(</span>
-<span id="cb2-7"><a href="#cb2-7"></a>      floatfmt<span class="op">=</span>floatfmt,</span>
-<span id="cb2-8"><a href="#cb2-8"></a>      index<span class="op">=</span>include_index</span>
-<span id="cb2-9"><a href="#cb2-9"></a>    )</span>
-<span id="cb2-10"><a href="#cb2-10"></a>  )</span>
-<span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">def</span> summary_to_df(summary_obj, corner_col <span class="op">=</span> <span class="st">''</span>):</span>
-<span id="cb2-13"><a href="#cb2-13"></a>    reg_df <span class="op">=</span> pd.DataFrame(summary_obj.tables[<span class="dv">1</span>].data)</span>
-<span id="cb2-14"><a href="#cb2-14"></a>    reg_df.columns <span class="op">=</span> reg_df.iloc[<span class="dv">0</span>]</span>
-<span id="cb2-15"><a href="#cb2-15"></a>    reg_df <span class="op">=</span> reg_df.iloc[<span class="dv">1</span>:].copy()</span>
-<span id="cb2-16"><a href="#cb2-16"></a>    <span class="co"># Save index col</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a>    index_col <span class="op">=</span> reg_df[<span class="st">''</span>]</span>
-<span id="cb2-18"><a href="#cb2-18"></a>    <span class="co"># Drop for now, so it's all numeric</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a>    reg_df.drop(columns<span class="op">=</span>[<span class="st">''</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-20"><a href="#cb2-20"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(pd.to_numeric)</span>
-<span id="cb2-21"><a href="#cb2-21"></a>    my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x, <span class="dv">2</span>)</span>
-<span id="cb2-22"><a href="#cb2-22"></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(my_round)</span>
-<span id="cb2-23"><a href="#cb2-23"></a>    numeric_cols <span class="op">=</span> reg_df.columns</span>
-<span id="cb2-24"><a href="#cb2-24"></a>    <span class="co"># Add index col back in</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a>    reg_df.insert(loc<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span>corner_col, value<span class="op">=</span>index_col)</span>
-<span id="cb2-26"><a href="#cb2-26"></a>    <span class="co"># Sigh. Have to escape | characters?</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">"|"</span>,<span class="st">"\|"</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
-<span id="cb2-28"><a href="#cb2-28"></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb2-4"><a></a><span class="kw">def</span> disp(df, floatfmt<span class="op">=</span><span class="st">'g'</span>, include_index<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb2-5"><a></a>  <span class="cf">return</span> Markdown(</span>
+<span id="cb2-6"><a></a>    df.to_markdown(</span>
+<span id="cb2-7"><a></a>      floatfmt<span class="op">=</span>floatfmt,</span>
+<span id="cb2-8"><a></a>      index<span class="op">=</span>include_index</span>
+<span id="cb2-9"><a></a>    )</span>
+<span id="cb2-10"><a></a>  )</span>
+<span id="cb2-11"><a></a></span>
+<span id="cb2-12"><a></a><span class="kw">def</span> summary_to_df(summary_obj, corner_col <span class="op">=</span> <span class="st">''</span>):</span>
+<span id="cb2-13"><a></a>    reg_df <span class="op">=</span> pd.DataFrame(summary_obj.tables[<span class="dv">1</span>].data)</span>
+<span id="cb2-14"><a></a>    reg_df.columns <span class="op">=</span> reg_df.iloc[<span class="dv">0</span>]</span>
+<span id="cb2-15"><a></a>    reg_df <span class="op">=</span> reg_df.iloc[<span class="dv">1</span>:].copy()</span>
+<span id="cb2-16"><a></a>    <span class="co"># Save index col</span></span>
+<span id="cb2-17"><a></a>    index_col <span class="op">=</span> reg_df[<span class="st">''</span>]</span>
+<span id="cb2-18"><a></a>    <span class="co"># Drop for now, so it's all numeric</span></span>
+<span id="cb2-19"><a></a>    reg_df.drop(columns<span class="op">=</span>[<span class="st">''</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-20"><a></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(pd.to_numeric)</span>
+<span id="cb2-21"><a></a>    my_round <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">round</span>(x, <span class="dv">2</span>)</span>
+<span id="cb2-22"><a></a>    reg_df <span class="op">=</span> reg_df.<span class="bu">apply</span>(my_round)</span>
+<span id="cb2-23"><a></a>    numeric_cols <span class="op">=</span> reg_df.columns</span>
+<span id="cb2-24"><a></a>    <span class="co"># Add index col back in</span></span>
+<span id="cb2-25"><a></a>    reg_df.insert(loc<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span>corner_col, value<span class="op">=</span>index_col)</span>
+<span id="cb2-26"><a></a>    <span class="co"># Sigh. Have to escape | characters?</span></span>
+<span id="cb2-27"><a></a>    reg_df.columns <span class="op">=</span> [c.replace(<span class="st">"|"</span>,<span class="st">"\|"</span>) <span class="cf">for</span> c <span class="kw">in</span> reg_df.columns]</span>
+<span id="cb2-28"><a></a>    <span class="cf">return</span> reg_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -645,53 +647,53 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>x_min <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>x_max <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, x_min, x_max)</span>
-<span id="cb3-6"><a href="#cb3-6"></a>noise_vals <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fu">exp</span>(<span class="dv">5</span>))</span>
-<span id="cb3-7"><a href="#cb3-7"></a>my_exp <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="dv">3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb3-8"><a href="#cb3-8"></a>y_exp <span class="ot">&lt;-</span> <span class="fu">my_exp</span>(x_vals) <span class="sc">+</span> noise_vals</span>
-<span id="cb3-9"><a href="#cb3-9"></a>exp_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_exp)</span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-15"><a href="#cb3-15"></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Linear Scale"</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb3-3"><a></a>x_min <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-4"><a></a>x_max <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb3-5"><a></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, x_min, x_max)</span>
+<span id="cb3-6"><a></a>noise_vals <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fu">exp</span>(<span class="dv">5</span>))</span>
+<span id="cb3-7"><a></a>my_exp <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="dv">3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-8"><a></a>y_exp <span class="ot">&lt;-</span> <span class="fu">my_exp</span>(x_vals) <span class="sc">+</span> noise_vals</span>
+<span id="cb3-9"><a></a>exp_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_exp)</span>
+<span id="cb3-10"><a></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
+<span id="cb3-11"><a></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-13"><a></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb3-14"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-15"><a></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Linear Scale"</span></span>
+<span id="cb3-16"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/linear-plot-1.png" width="576"></p>
+<p><img data-src="index_files/figure-revealjs/linear-plot-1.png" class="quarto-figure quarto-figure-center" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Log2 scaling of the y axis (with visually-equal spacing)</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(scales)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="fu">log_trans</span>(),</span>
-<span id="cb4-8"><a href="#cb4-8"></a>    <span class="at">breaks =</span> <span class="fu">log_breaks</span>()) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-10"><a href="#cb4-10"></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Log Scale"</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="co"># Log2 scaling of the y axis (with visually-equal spacing)</span></span>
+<span id="cb4-2"><a></a><span class="fu">library</span>(scales)</span>
+<span id="cb4-3"><a></a><span class="fu">ggplot</span>(exp_df) <span class="sc">+</span></span>
+<span id="cb4-4"><a></a>  <span class="fu">stat_function</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(x_min,x_max)), <span class="at">fun =</span> my_exp, <span class="at">linewidth =</span> g_linewidth, <span class="at">linetype=</span><span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y), <span class="at">size =</span> g_pointsize <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="fu">log_trans</span>(),</span>
+<span id="cb4-8"><a></a>    <span class="at">breaks =</span> <span class="fu">log_breaks</span>()) <span class="sc">+</span></span>
+<span id="cb4-9"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-10"><a></a>    <span class="at">title=</span><span class="st">"y = exp(3x + 1), Log Scale"</span></span>
+<span id="cb4-11"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/exp-plot-1.png" width="576"></p>
+<p><img data-src="index_files/figure-revealjs/exp-plot-1.png" class="quarto-figure quarto-figure-center" width="576"></p>
 </figure>
 </div>
 </div>
@@ -711,104 +713,104 @@ y = e^{mx + b} \iff \log(y) = mx + b
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">library</span>(latex2exp)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>gen_y_noisy <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, eps) {</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="sc">-</span><span class="dv">1</span>, x_val <span class="sc">-</span> eps)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, x_val <span class="sc">+</span> eps)</span>
-<span id="cb5-6"><a href="#cb5-6"></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
-<span id="cb5-7"><a href="#cb5-7"></a>  <span class="fu">return</span>(y_noisy)</span>
-<span id="cb5-8"><a href="#cb5-8"></a>}</span>
-<span id="cb5-9"><a href="#cb5-9"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb5-11"><a href="#cb5-11"></a>x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x_vals)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>y_collinear <span class="ot">&lt;-</span> x_vals</span>
-<span id="cb5-13"><a href="#cb5-13"></a>y_coll_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_collinear, <span class="at">drop.na =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-14"><a href="#cb5-14"></a>df_collinear <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_collinear, <span class="at">rel=</span><span class="st">"collinear"</span>)</span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co"># Force the points to be inside [-1,1]</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a>y_noisy <span class="ot">&lt;-</span> x_vals</span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy)) {</span>
-<span id="cb5-18"><a href="#cb5-18"></a>  cur_x_val <span class="ot">&lt;-</span> x_vals[i]</span>
-<span id="cb5-19"><a href="#cb5-19"></a>  y_noisy[i] <span class="ot">&lt;-</span> <span class="fu">gen_y_noisy</span>(cur_x_val, <span class="fl">0.75</span>)</span>
-<span id="cb5-20"><a href="#cb5-20"></a>}</span>
-<span id="cb5-21"><a href="#cb5-21"></a>y_noisy_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-22"><a href="#cb5-22"></a><span class="co">#print(y_noisy_mean)</span></span>
-<span id="cb5-23"><a href="#cb5-23"></a>df_noisy <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals, <span class="at">y =</span> y_noisy, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
-<span id="cb5-24"><a href="#cb5-24"></a><span class="co"># Label vals above and below mean</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a>label_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb5-26"><a href="#cb5-26"></a>  <span class="sc">~</span>x, <span class="sc">~</span>y, <span class="sc">~</span>label,</span>
-<span id="cb5-27"><a href="#cb5-27"></a>  <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">"+"</span>,</span>
-<span id="cb5-28"><a href="#cb5-28"></a>  <span class="sc">-</span><span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="st">"+"</span>,</span>
-<span id="cb5-29"><a href="#cb5-29"></a>  <span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="st">"\u2212"</span>,</span>
-<span id="cb5-30"><a href="#cb5-30"></a>  <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">"\u2212"</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a>)</span>
-<span id="cb5-32"><a href="#cb5-32"></a>gen_cov_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
-<span id="cb5-33"><a href="#cb5-33"></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
-<span id="cb5-34"><a href="#cb5-34"></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
-<span id="cb5-35"><a href="#cb5-35"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
-<span id="cb5-36"><a href="#cb5-36"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb5-37"><a href="#cb5-37"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
-<span id="cb5-38"><a href="#cb5-38"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
-<span id="cb5-39"><a href="#cb5-39"></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
-<span id="cb5-40"><a href="#cb5-40"></a>    <span class="fu">geom_label</span>(</span>
-<span id="cb5-41"><a href="#cb5-41"></a>      <span class="at">data=</span>label_df,</span>
-<span id="cb5-42"><a href="#cb5-42"></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
-<span id="cb5-43"><a href="#cb5-43"></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
-<span id="cb5-44"><a href="#cb5-44"></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
-<span id="cb5-45"><a href="#cb5-45"></a>    ) <span class="sc">+</span></span>
-<span id="cb5-46"><a href="#cb5-46"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
-<span id="cb5-47"><a href="#cb5-47"></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
-<span id="cb5-48"><a href="#cb5-48"></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
-<span id="cb5-49"><a href="#cb5-49"></a>    <span class="fu">theme</span>(</span>
-<span id="cb5-50"><a href="#cb5-50"></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
-<span id="cb5-51"><a href="#cb5-51"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-52"><a href="#cb5-52"></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
-<span id="cb5-53"><a href="#cb5-53"></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
-<span id="cb5-54"><a href="#cb5-54"></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
-<span id="cb5-55"><a href="#cb5-55"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb5-56"><a href="#cb5-56"></a>    ) <span class="sc">+</span></span>
-<span id="cb5-57"><a href="#cb5-57"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb5-58"><a href="#cb5-58"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-59"><a href="#cb5-59"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, x_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>),<span class="st">"1"</span>)) <span class="sc">+</span></span>
-<span id="cb5-60"><a href="#cb5-60"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, y_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>),<span class="st">"1"</span>))</span>
-<span id="cb5-61"><a href="#cb5-61"></a>}</span>
-<span id="cb5-62"><a href="#cb5-62"></a>gen_cov_table <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">print_matches =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb5-63"><a href="#cb5-63"></a>  x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-64"><a href="#cb5-64"></a>  y_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-65"><a href="#cb5-65"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb5-66"><a href="#cb5-66"></a>    <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
-<span id="cb5-67"><a href="#cb5-67"></a>    <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
-<span id="cb5-68"><a href="#cb5-68"></a>    <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
-<span id="cb5-69"><a href="#cb5-69"></a>  )</span>
-<span id="cb5-70"><a href="#cb5-70"></a>  contrib_crosstab <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>y_contrib, df<span class="sc">$</span>x_contrib)</span>
-<span id="cb5-71"><a href="#cb5-71"></a>  <span class="fu">colnames</span>(contrib_crosstab) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x-"</span>, <span class="st">"x+"</span>)</span>
-<span id="cb5-72"><a href="#cb5-72"></a>  <span class="fu">rownames</span>(contrib_crosstab) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"y-"</span>, <span class="st">"y+"</span>)</span>
-<span id="cb5-73"><a href="#cb5-73"></a>  <span class="cf">if</span> (<span class="sc">!</span>print_matches) {</span>
-<span id="cb5-74"><a href="#cb5-74"></a>    <span class="fu">print</span>(contrib_crosstab)</span>
-<span id="cb5-75"><a href="#cb5-75"></a>  } <span class="cf">else</span> {</span>
-<span id="cb5-76"><a href="#cb5-76"></a>    <span class="co"># Num matches</span></span>
-<span id="cb5-77"><a href="#cb5-77"></a>    num_matches <span class="ot">&lt;-</span> <span class="fu">sum</span>(df<span class="sc">$</span>match)</span>
-<span id="cb5-78"><a href="#cb5-78"></a>    num_mismatch <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df) <span class="sc">-</span> num_matches</span>
-<span id="cb5-79"><a href="#cb5-79"></a>    <span class="fu">writeLines</span>(<span class="fu">paste0</span>(num_matches, <span class="st">" matches, "</span>,num_mismatch,<span class="st">" mismatches"</span>))</span>
-<span id="cb5-80"><a href="#cb5-80"></a>    <span class="fu">writeLines</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Covariance:"</span>)</span>
-<span id="cb5-81"><a href="#cb5-81"></a>    <span class="fu">writeLines</span>(<span class="fu">paste0</span>(<span class="fu">cov</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)))</span>
-<span id="cb5-82"><a href="#cb5-82"></a>  }</span>
-<span id="cb5-83"><a href="#cb5-83"></a>}</span>
-<span id="cb5-84"><a href="#cb5-84"></a><span class="fu">gen_cov_plot</span>(df_collinear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb5-3"><a></a>gen_y_noisy <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, eps) {</span>
+<span id="cb5-4"><a></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="sc">-</span><span class="dv">1</span>, x_val <span class="sc">-</span> eps)</span>
+<span id="cb5-5"><a></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, x_val <span class="sc">+</span> eps)</span>
+<span id="cb5-6"><a></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
+<span id="cb5-7"><a></a>  <span class="fu">return</span>(y_noisy)</span>
+<span id="cb5-8"><a></a>}</span>
+<span id="cb5-9"><a></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb5-10"><a></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-11"><a></a>x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(x_vals)</span>
+<span id="cb5-12"><a></a>y_collinear <span class="ot">&lt;-</span> x_vals</span>
+<span id="cb5-13"><a></a>y_coll_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_collinear, <span class="at">drop.na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-14"><a></a>df_collinear <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals, <span class="at">y=</span>y_collinear, <span class="at">rel=</span><span class="st">"collinear"</span>)</span>
+<span id="cb5-15"><a></a><span class="co"># Force the points to be inside [-1,1]</span></span>
+<span id="cb5-16"><a></a>y_noisy <span class="ot">&lt;-</span> x_vals</span>
+<span id="cb5-17"><a></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy)) {</span>
+<span id="cb5-18"><a></a>  cur_x_val <span class="ot">&lt;-</span> x_vals[i]</span>
+<span id="cb5-19"><a></a>  y_noisy[i] <span class="ot">&lt;-</span> <span class="fu">gen_y_noisy</span>(cur_x_val, <span class="fl">0.75</span>)</span>
+<span id="cb5-20"><a></a>}</span>
+<span id="cb5-21"><a></a>y_noisy_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-22"><a></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb5-23"><a></a>df_noisy <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals, <span class="at">y =</span> y_noisy, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb5-24"><a></a><span class="co"># Label vals above and below mean</span></span>
+<span id="cb5-25"><a></a>label_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb5-26"><a></a>  <span class="sc">~</span>x, <span class="sc">~</span>y, <span class="sc">~</span>label,</span>
+<span id="cb5-27"><a></a>  <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">"+"</span>,</span>
+<span id="cb5-28"><a></a>  <span class="sc">-</span><span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="st">"+"</span>,</span>
+<span id="cb5-29"><a></a>  <span class="fl">0.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="st">"\u2212"</span>,</span>
+<span id="cb5-30"><a></a>  <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">"\u2212"</span></span>
+<span id="cb5-31"><a></a>)</span>
+<span id="cb5-32"><a></a>gen_cov_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb5-33"><a></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
+<span id="cb5-34"><a></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
+<span id="cb5-35"><a></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb5-36"><a></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-37"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
+<span id="cb5-38"><a></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
+<span id="cb5-39"><a></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
+<span id="cb5-40"><a></a>    <span class="fu">geom_label</span>(</span>
+<span id="cb5-41"><a></a>      <span class="at">data=</span>label_df,</span>
+<span id="cb5-42"><a></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
+<span id="cb5-43"><a></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
+<span id="cb5-44"><a></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
+<span id="cb5-45"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-46"><a></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb5-47"><a></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb5-48"><a></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
+<span id="cb5-49"><a></a>    <span class="fu">theme</span>(</span>
+<span id="cb5-50"><a></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb5-51"><a></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-52"><a></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
+<span id="cb5-53"><a></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
+<span id="cb5-54"><a></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb5-55"><a></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb5-56"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb5-57"><a></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-58"><a></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-59"><a></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, x_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>),<span class="st">"1"</span>)) <span class="sc">+</span></span>
+<span id="cb5-60"><a></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, y_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>),<span class="st">"1"</span>))</span>
+<span id="cb5-61"><a></a>}</span>
+<span id="cb5-62"><a></a>gen_cov_table <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">print_matches =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb5-63"><a></a>  x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-64"><a></a>  y_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-65"><a></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb5-66"><a></a>    <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb5-67"><a></a>    <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb5-68"><a></a>    <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
+<span id="cb5-69"><a></a>  )</span>
+<span id="cb5-70"><a></a>  contrib_crosstab <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>y_contrib, df<span class="sc">$</span>x_contrib)</span>
+<span id="cb5-71"><a></a>  <span class="fu">colnames</span>(contrib_crosstab) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x-"</span>, <span class="st">"x+"</span>)</span>
+<span id="cb5-72"><a></a>  <span class="fu">rownames</span>(contrib_crosstab) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"y-"</span>, <span class="st">"y+"</span>)</span>
+<span id="cb5-73"><a></a>  <span class="cf">if</span> (<span class="sc">!</span>print_matches) {</span>
+<span id="cb5-74"><a></a>    <span class="fu">print</span>(contrib_crosstab)</span>
+<span id="cb5-75"><a></a>  } <span class="cf">else</span> {</span>
+<span id="cb5-76"><a></a>    <span class="co"># Num matches</span></span>
+<span id="cb5-77"><a></a>    num_matches <span class="ot">&lt;-</span> <span class="fu">sum</span>(df<span class="sc">$</span>match)</span>
+<span id="cb5-78"><a></a>    num_mismatch <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df) <span class="sc">-</span> num_matches</span>
+<span id="cb5-79"><a></a>    <span class="fu">writeLines</span>(<span class="fu">paste0</span>(num_matches, <span class="st">" matches, "</span>,num_mismatch,<span class="st">" mismatches"</span>))</span>
+<span id="cb5-80"><a></a>    <span class="fu">writeLines</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Covariance:"</span>)</span>
+<span id="cb5-81"><a></a>    <span class="fu">writeLines</span>(<span class="fu">paste0</span>(<span class="fu">cov</span>(df<span class="sc">$</span>x, df<span class="sc">$</span>y)))</span>
+<span id="cb5-82"><a></a>  }</span>
+<span id="cb5-83"><a></a>}</span>
+<span id="cb5-84"><a></a><span class="fu">gen_cov_plot</span>(df_collinear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/collinear-cov-plot-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/collinear-cov-plot-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -816,7 +818,7 @@ y = e^{mx + b} \iff \log(y) = mx + b
   y+  0 48</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>100 matches, 0 mismatches
 
@@ -828,21 +830,21 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">gen_cov_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">gen_cov_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/noisy-cov-plot-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/noisy-cov-plot-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -850,7 +852,7 @@ Covariance:
   y+  5 41</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>88 matches, 12 mismatches
 
@@ -862,29 +864,29 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>y_noisy_neg <span class="ot">&lt;-</span> x_vals</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg)) {</span>
-<span id="cb11-3"><a href="#cb11-3"></a>  cur_x_val <span class="ot">&lt;-</span> x_vals[i]</span>
-<span id="cb11-4"><a href="#cb11-4"></a>  y_noisy_neg[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">gen_y_noisy</span>(cur_x_val, <span class="fl">0.75</span>)</span>
-<span id="cb11-5"><a href="#cb11-5"></a>}</span>
-<span id="cb11-6"><a href="#cb11-6"></a>y_noisy_neg_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_neg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#print(y_noisy_mean)</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a>df_noisy_neg <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals, <span class="at">y =</span> y_noisy_neg, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="fu">gen_cov_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>y_noisy_neg <span class="ot">&lt;-</span> x_vals</span>
+<span id="cb11-2"><a></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg)) {</span>
+<span id="cb11-3"><a></a>  cur_x_val <span class="ot">&lt;-</span> x_vals[i]</span>
+<span id="cb11-4"><a></a>  y_noisy_neg[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">gen_y_noisy</span>(cur_x_val, <span class="fl">0.75</span>)</span>
+<span id="cb11-5"><a></a>}</span>
+<span id="cb11-6"><a></a>y_noisy_neg_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_neg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-7"><a></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb11-8"><a></a>df_noisy_neg <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals, <span class="at">y =</span> y_noisy_neg, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb11-9"><a></a><span class="fu">gen_cov_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/neg-cov-plot-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/neg-cov-plot-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -892,7 +894,7 @@ Covariance:
   y+ 40 11</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>23 matches, 77 mismatches
 
@@ -913,58 +915,58 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>gen_rect_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
-<span id="cb14-2"><a href="#cb14-2"></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
-<span id="cb14-3"><a href="#cb14-3"></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
-<span id="cb14-4"><a href="#cb14-4"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb14-5"><a href="#cb14-5"></a>      <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
-<span id="cb14-6"><a href="#cb14-6"></a>      <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
-<span id="cb14-7"><a href="#cb14-7"></a>      <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
-<span id="cb14-8"><a href="#cb14-8"></a>  )</span>
-<span id="cb14-9"><a href="#cb14-9"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb14-11"><a href="#cb14-11"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
-<span id="cb14-14"><a href="#cb14-14"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>x_mean, <span class="at">xmax=</span>x, <span class="at">ymin=</span>y_mean, <span class="at">ymax=</span>y, <span class="at">fill=</span>match), <span class="at">color=</span><span class="st">'black'</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>, <span class="at">alpha=</span><span class="fl">0.075</span>) <span class="sc">+</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
-<span id="cb14-16"><a href="#cb14-16"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>col_order) <span class="sc">+</span></span>
-<span id="cb14-17"><a href="#cb14-17"></a>    <span class="fu">geom_label</span>(</span>
-<span id="cb14-18"><a href="#cb14-18"></a>      <span class="at">data=</span>label_df,</span>
-<span id="cb14-19"><a href="#cb14-19"></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
-<span id="cb14-20"><a href="#cb14-20"></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
-<span id="cb14-21"><a href="#cb14-21"></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
-<span id="cb14-22"><a href="#cb14-22"></a>    ) <span class="sc">+</span></span>
-<span id="cb14-23"><a href="#cb14-23"></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
-<span id="cb14-24"><a href="#cb14-24"></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
-<span id="cb14-25"><a href="#cb14-25"></a>    <span class="fu">theme</span>(</span>
-<span id="cb14-26"><a href="#cb14-26"></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
-<span id="cb14-27"><a href="#cb14-27"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb14-28"><a href="#cb14-28"></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
-<span id="cb14-29"><a href="#cb14-29"></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
-<span id="cb14-30"><a href="#cb14-30"></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
-<span id="cb14-31"><a href="#cb14-31"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb14-32"><a href="#cb14-32"></a>    ) <span class="sc">+</span></span>
-<span id="cb14-33"><a href="#cb14-33"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb14-34"><a href="#cb14-34"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb14-35"><a href="#cb14-35"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, x_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>),<span class="st">"1"</span>)) <span class="sc">+</span></span>
-<span id="cb14-36"><a href="#cb14-36"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, y_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>),<span class="st">"1"</span>))</span>
-<span id="cb14-37"><a href="#cb14-37"></a>}</span>
-<span id="cb14-38"><a href="#cb14-38"></a><span class="fu">gen_rect_plot</span>(df_collinear, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>gen_rect_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
+<span id="cb14-2"><a></a>  x_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
+<span id="cb14-3"><a></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
+<span id="cb14-4"><a></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb14-5"><a></a>      <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb14-6"><a></a>      <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb14-7"><a></a>      <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
+<span id="cb14-8"><a></a>  )</span>
+<span id="cb14-9"><a></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb14-10"><a></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-11"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
+<span id="cb14-12"><a></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
+<span id="cb14-13"><a></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
+<span id="cb14-14"><a></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>x_mean, <span class="at">xmax=</span>x, <span class="at">ymin=</span>y_mean, <span class="at">ymax=</span>y, <span class="at">fill=</span>match), <span class="at">color=</span><span class="st">'black'</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>, <span class="at">alpha=</span><span class="fl">0.075</span>) <span class="sc">+</span></span>
+<span id="cb14-15"><a></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb14-16"><a></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>col_order) <span class="sc">+</span></span>
+<span id="cb14-17"><a></a>    <span class="fu">geom_label</span>(</span>
+<span id="cb14-18"><a></a>      <span class="at">data=</span>label_df,</span>
+<span id="cb14-19"><a></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
+<span id="cb14-20"><a></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
+<span id="cb14-21"><a></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
+<span id="cb14-22"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb14-23"><a></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb14-24"><a></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
+<span id="cb14-25"><a></a>    <span class="fu">theme</span>(</span>
+<span id="cb14-26"><a></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb14-27"><a></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb14-28"><a></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
+<span id="cb14-29"><a></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
+<span id="cb14-30"><a></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb14-31"><a></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb14-32"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb14-33"><a></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb14-34"><a></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb14-35"><a></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, x_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_x$)"</span>),<span class="st">"1"</span>)) <span class="sc">+</span></span>
+<span id="cb14-36"><a></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, y_mean, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-1"</span>,<span class="fu">TeX</span>(r<span class="st">"($\mu_y$)"</span>),<span class="st">"1"</span>))</span>
+<span id="cb14-37"><a></a>}</span>
+<span id="cb14-38"><a></a><span class="fu">gen_rect_plot</span>(df_collinear, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/collinear-rect-plot-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/collinear-rect-plot-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -972,7 +974,7 @@ Covariance:
   y+  0 48</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>100 matches, 0 mismatches
 
@@ -984,21 +986,21 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">gen_rect_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">gen_rect_plot</span>(df_noisy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/noisy-rect-plot-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/noisy-rect-plot-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1006,7 +1008,7 @@ Covariance:
   y+  5 41</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>88 matches, 12 mismatches
 
@@ -1018,21 +1020,21 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">gen_rect_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a><span class="fu">gen_rect_plot</span>(df_noisy_neg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/neg-rect-plot-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/neg-rect-plot-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1040,7 +1042,7 @@ Covariance:
   y+ 40 11</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>23 matches, 77 mismatches
 
@@ -1061,86 +1063,86 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># Label vals above and below mean</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a>x_min_expanded <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a>x_max_expanded <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb23-5"><a href="#cb23-5"></a>gen_y_noisy_expanded <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
-<span id="cb23-6"><a href="#cb23-6"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
-<span id="cb23-7"><a href="#cb23-7"></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(x_max, x_val <span class="sc">+</span> eps)</span>
-<span id="cb23-8"><a href="#cb23-8"></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
-<span id="cb23-9"><a href="#cb23-9"></a>  <span class="fu">return</span>(y_noisy)</span>
-<span id="cb23-10"><a href="#cb23-10"></a>}</span>
-<span id="cb23-11"><a href="#cb23-11"></a>x_vals_expanded <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, x_min_expanded, x_max_expanded)</span>
-<span id="cb23-12"><a href="#cb23-12"></a>x_mean_expanded <span class="ot">&lt;-</span> <span class="fu">mean</span>(x_vals_expanded)</span>
-<span id="cb23-13"><a href="#cb23-13"></a>y_collinear_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
-<span id="cb23-14"><a href="#cb23-14"></a>y_mean_collinear_expanded <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_collinear_expanded)</span>
-<span id="cb23-15"><a href="#cb23-15"></a>df_collinear_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals_expanded, <span class="at">y=</span>y_collinear_expanded, <span class="at">rel=</span><span class="st">"collinear"</span>)</span>
-<span id="cb23-16"><a href="#cb23-16"></a>gen_rect_plot_expanded <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
-<span id="cb23-17"><a href="#cb23-17"></a>  x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
-<span id="cb23-18"><a href="#cb23-18"></a>  x_mean_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, x_mean)</span>
-<span id="cb23-19"><a href="#cb23-19"></a>  x_mean_tex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"($</span><span class="sc">\\</span><span class="st">mu_x = "</span>,x_mean_str,<span class="st">"$)"</span>)</span>
-<span id="cb23-20"><a href="#cb23-20"></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
-<span id="cb23-21"><a href="#cb23-21"></a>  y_mean_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, y_mean)</span>
-<span id="cb23-22"><a href="#cb23-22"></a>  y_mean_tex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"($</span><span class="sc">\\</span><span class="st">mu_y = "</span>,y_mean_str,<span class="st">"$)"</span>)</span>
-<span id="cb23-23"><a href="#cb23-23"></a>  label_df_expanded <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb23-24"><a href="#cb23-24"></a>    <span class="sc">~</span>x, <span class="sc">~</span>y, <span class="sc">~</span>label,</span>
-<span id="cb23-25"><a href="#cb23-25"></a>    <span class="co"># Upper right</span></span>
-<span id="cb23-26"><a href="#cb23-26"></a>    (x_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, (y_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"+"</span>,</span>
-<span id="cb23-27"><a href="#cb23-27"></a>    (x_min_expanded <span class="sc">+</span> x_mean) <span class="sc">/</span> <span class="dv">2</span>, (x_min_expanded <span class="sc">+</span> y_mean) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"+"</span>,</span>
-<span id="cb23-28"><a href="#cb23-28"></a>    (x_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, (x_min_expanded <span class="sc">+</span> y_mean) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"\u2212"</span>,</span>
-<span id="cb23-29"><a href="#cb23-29"></a>    (x_min_expanded <span class="sc">+</span> x_mean) <span class="sc">/</span> <span class="dv">2</span>, (y_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"\u2212"</span></span>
-<span id="cb23-30"><a href="#cb23-30"></a>  )</span>
-<span id="cb23-31"><a href="#cb23-31"></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
-<span id="cb23-32"><a href="#cb23-32"></a>      <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
-<span id="cb23-33"><a href="#cb23-33"></a>      <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
-<span id="cb23-34"><a href="#cb23-34"></a>      <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
-<span id="cb23-35"><a href="#cb23-35"></a>  )</span>
-<span id="cb23-36"><a href="#cb23-36"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
-<span id="cb23-37"><a href="#cb23-37"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb23-38"><a href="#cb23-38"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
-<span id="cb23-39"><a href="#cb23-39"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
-<span id="cb23-40"><a href="#cb23-40"></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
-<span id="cb23-41"><a href="#cb23-41"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>x_mean, <span class="at">xmax=</span>x, <span class="at">ymin=</span>y_mean, <span class="at">ymax=</span>y, <span class="at">fill=</span>match), <span class="at">color=</span><span class="st">'black'</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>, <span class="at">alpha=</span><span class="fl">0.075</span>) <span class="sc">+</span></span>
-<span id="cb23-42"><a href="#cb23-42"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
-<span id="cb23-43"><a href="#cb23-43"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>col_order) <span class="sc">+</span></span>
-<span id="cb23-44"><a href="#cb23-44"></a>    <span class="fu">geom_label</span>(</span>
-<span id="cb23-45"><a href="#cb23-45"></a>      <span class="at">data=</span>label_df_expanded,</span>
-<span id="cb23-46"><a href="#cb23-46"></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
-<span id="cb23-47"><a href="#cb23-47"></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
-<span id="cb23-48"><a href="#cb23-48"></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
-<span id="cb23-49"><a href="#cb23-49"></a>    ) <span class="sc">+</span></span>
-<span id="cb23-50"><a href="#cb23-50"></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
-<span id="cb23-51"><a href="#cb23-51"></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
-<span id="cb23-52"><a href="#cb23-52"></a>    <span class="fu">theme</span>(</span>
-<span id="cb23-53"><a href="#cb23-53"></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
-<span id="cb23-54"><a href="#cb23-54"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb23-55"><a href="#cb23-55"></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
-<span id="cb23-56"><a href="#cb23-56"></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
-<span id="cb23-57"><a href="#cb23-57"></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
-<span id="cb23-58"><a href="#cb23-58"></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb23-59"><a href="#cb23-59"></a>    ) <span class="sc">+</span></span>
-<span id="cb23-60"><a href="#cb23-60"></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb23-61"><a href="#cb23-61"></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(x_min_expanded,x_max_expanded)) <span class="sc">+</span></span>
-<span id="cb23-62"><a href="#cb23-62"></a>    <span class="fu">ylim</span>(<span class="fu">c</span>(x_min_expanded,x_max_expanded)) <span class="sc">+</span></span>
-<span id="cb23-63"><a href="#cb23-63"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_min_expanded, x_mean, x_max_expanded), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-5"</span>,<span class="fu">TeX</span>(x_mean_tex),<span class="st">"15"</span>)) <span class="sc">+</span></span>
-<span id="cb23-64"><a href="#cb23-64"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_min_expanded, y_mean, x_max_expanded), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-5"</span>,<span class="fu">TeX</span>(y_mean_tex),<span class="st">"15"</span>))</span>
-<span id="cb23-65"><a href="#cb23-65"></a>}</span>
-<span id="cb23-66"><a href="#cb23-66"></a><span class="fu">gen_rect_plot_expanded</span>(df_collinear_expanded, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="co"># Label vals above and below mean</span></span>
+<span id="cb23-2"><a></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb23-3"><a></a>x_min_expanded <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span></span>
+<span id="cb23-4"><a></a>x_max_expanded <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb23-5"><a></a>gen_y_noisy_expanded <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
+<span id="cb23-6"><a></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
+<span id="cb23-7"><a></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(x_max, x_val <span class="sc">+</span> eps)</span>
+<span id="cb23-8"><a></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
+<span id="cb23-9"><a></a>  <span class="fu">return</span>(y_noisy)</span>
+<span id="cb23-10"><a></a>}</span>
+<span id="cb23-11"><a></a>x_vals_expanded <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, x_min_expanded, x_max_expanded)</span>
+<span id="cb23-12"><a></a>x_mean_expanded <span class="ot">&lt;-</span> <span class="fu">mean</span>(x_vals_expanded)</span>
+<span id="cb23-13"><a></a>y_collinear_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
+<span id="cb23-14"><a></a>y_mean_collinear_expanded <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_collinear_expanded)</span>
+<span id="cb23-15"><a></a>df_collinear_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>x_vals_expanded, <span class="at">y=</span>y_collinear_expanded, <span class="at">rel=</span><span class="st">"collinear"</span>)</span>
+<span id="cb23-16"><a></a>gen_rect_plot_expanded <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"darkgreen"</span>)) {</span>
+<span id="cb23-17"><a></a>  x_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>x)</span>
+<span id="cb23-18"><a></a>  x_mean_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, x_mean)</span>
+<span id="cb23-19"><a></a>  x_mean_tex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"($</span><span class="sc">\\</span><span class="st">mu_x = "</span>,x_mean_str,<span class="st">"$)"</span>)</span>
+<span id="cb23-20"><a></a>  y_mean <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>y)</span>
+<span id="cb23-21"><a></a>  y_mean_str <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%.2f"</span>, y_mean)</span>
+<span id="cb23-22"><a></a>  y_mean_tex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"($</span><span class="sc">\\</span><span class="st">mu_y = "</span>,y_mean_str,<span class="st">"$)"</span>)</span>
+<span id="cb23-23"><a></a>  label_df_expanded <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb23-24"><a></a>    <span class="sc">~</span>x, <span class="sc">~</span>y, <span class="sc">~</span>label,</span>
+<span id="cb23-25"><a></a>    <span class="co"># Upper right</span></span>
+<span id="cb23-26"><a></a>    (x_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, (y_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"+"</span>,</span>
+<span id="cb23-27"><a></a>    (x_min_expanded <span class="sc">+</span> x_mean) <span class="sc">/</span> <span class="dv">2</span>, (x_min_expanded <span class="sc">+</span> y_mean) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"+"</span>,</span>
+<span id="cb23-28"><a></a>    (x_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, (x_min_expanded <span class="sc">+</span> y_mean) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"\u2212"</span>,</span>
+<span id="cb23-29"><a></a>    (x_min_expanded <span class="sc">+</span> x_mean) <span class="sc">/</span> <span class="dv">2</span>, (y_mean <span class="sc">+</span> x_max_expanded) <span class="sc">/</span> <span class="dv">2</span>, <span class="st">"\u2212"</span></span>
+<span id="cb23-30"><a></a>  )</span>
+<span id="cb23-31"><a></a>  df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb23-32"><a></a>      <span class="at">x_contrib =</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;</span> x_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb23-33"><a></a>      <span class="at">y_contrib =</span> <span class="fu">ifelse</span>(y <span class="sc">&gt;</span> y_mean, <span class="st">"+"</span>, <span class="st">"-"</span>),</span>
+<span id="cb23-34"><a></a>      <span class="at">match =</span> x_contrib <span class="sc">==</span> y_contrib</span>
+<span id="cb23-35"><a></a>  )</span>
+<span id="cb23-36"><a></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb23-37"><a></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb23-38"><a></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_mean) <span class="sc">+</span></span>
+<span id="cb23-39"><a></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_mean) <span class="sc">+</span></span>
+<span id="cb23-40"><a></a>    <span class="co">#facet_grid(. ~ rel) + </span></span>
+<span id="cb23-41"><a></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>x_mean, <span class="at">xmax=</span>x, <span class="at">ymin=</span>y_mean, <span class="at">ymax=</span>y, <span class="at">fill=</span>match), <span class="at">color=</span><span class="st">'black'</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>, <span class="at">alpha=</span><span class="fl">0.075</span>) <span class="sc">+</span></span>
+<span id="cb23-42"><a></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb23-43"><a></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>col_order) <span class="sc">+</span></span>
+<span id="cb23-44"><a></a>    <span class="fu">geom_label</span>(</span>
+<span id="cb23-45"><a></a>      <span class="at">data=</span>label_df_expanded,</span>
+<span id="cb23-46"><a></a>      <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>label),</span>
+<span id="cb23-47"><a></a>      <span class="at">alpha=</span><span class="fl">0.75</span>,</span>
+<span id="cb23-48"><a></a>      <span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="fl">1.5</span></span>
+<span id="cb23-49"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb23-50"><a></a>    <span class="fu">dsan_theme</span>() <span class="sc">+</span></span>
+<span id="cb23-51"><a></a>    <span class="fu">remove_legend</span>() <span class="sc">+</span></span>
+<span id="cb23-52"><a></a>    <span class="fu">theme</span>(</span>
+<span id="cb23-53"><a></a>      <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb23-54"><a></a>      <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb23-55"><a></a>      <span class="co">#axis.ticks.x = element_blank(),</span></span>
+<span id="cb23-56"><a></a>      <span class="co">#axis.text.y = element_blank(),</span></span>
+<span id="cb23-57"><a></a>      <span class="co">#axis.ticks.y = element_blank(),</span></span>
+<span id="cb23-58"><a></a>      <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb23-59"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb23-60"><a></a>    <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb23-61"><a></a>    <span class="fu">xlim</span>(<span class="fu">c</span>(x_min_expanded,x_max_expanded)) <span class="sc">+</span></span>
+<span id="cb23-62"><a></a>    <span class="fu">ylim</span>(<span class="fu">c</span>(x_min_expanded,x_max_expanded)) <span class="sc">+</span></span>
+<span id="cb23-63"><a></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_min_expanded, x_mean, x_max_expanded), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-5"</span>,<span class="fu">TeX</span>(x_mean_tex),<span class="st">"15"</span>)) <span class="sc">+</span></span>
+<span id="cb23-64"><a></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(x_min_expanded, y_mean, x_max_expanded), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"-5"</span>,<span class="fu">TeX</span>(y_mean_tex),<span class="st">"15"</span>))</span>
+<span id="cb23-65"><a></a>}</span>
+<span id="cb23-66"><a></a><span class="fu">gen_rect_plot_expanded</span>(df_collinear_expanded, <span class="at">col_order=</span><span class="fu">c</span>(<span class="st">"darkgreen"</span>,<span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/collinear-rect-plot-expanded-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/collinear-rect-plot-expanded-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1148,7 +1150,7 @@ Covariance:
   y+  0 48</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>100 matches, 0 mismatches
 
@@ -1160,30 +1162,30 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Force the points to be inside [-1,1]</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a>y_noisy_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_expanded)) {</span>
-<span id="cb26-4"><a href="#cb26-4"></a>  cur_x_val_expanded <span class="ot">&lt;-</span> x_vals_expanded[i]</span>
-<span id="cb26-5"><a href="#cb26-5"></a>  y_noisy_expanded[i] <span class="ot">&lt;-</span> <span class="fu">gen_y_noisy_expanded</span>(cur_x_val_expanded, x_min_expanded, x_max_expanded, <span class="dv">5</span>)</span>
-<span id="cb26-6"><a href="#cb26-6"></a>}</span>
-<span id="cb26-7"><a href="#cb26-7"></a>y_noisy_expanded_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_expanded, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-8"><a href="#cb26-8"></a><span class="co">#print(y_noisy_mean)</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a>df_noisy_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
-<span id="cb26-10"><a href="#cb26-10"></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="co"># Force the points to be inside [-1,1]</span></span>
+<span id="cb26-2"><a></a>y_noisy_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
+<span id="cb26-3"><a></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_expanded)) {</span>
+<span id="cb26-4"><a></a>  cur_x_val_expanded <span class="ot">&lt;-</span> x_vals_expanded[i]</span>
+<span id="cb26-5"><a></a>  y_noisy_expanded[i] <span class="ot">&lt;-</span> <span class="fu">gen_y_noisy_expanded</span>(cur_x_val_expanded, x_min_expanded, x_max_expanded, <span class="dv">5</span>)</span>
+<span id="cb26-6"><a></a>}</span>
+<span id="cb26-7"><a></a>y_noisy_expanded_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_expanded, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb26-8"><a></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb26-9"><a></a>df_noisy_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb26-10"><a></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/noisy-rect-plot-expanded-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/noisy-rect-plot-expanded-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1191,7 +1193,7 @@ Covariance:
   y+  8 43</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>87 matches, 13 mismatches
 
@@ -1203,37 +1205,37 @@ Covariance:
 </div>
 </div><div class="column" style="width:33%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>gen_y_noisy_neg <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
-<span id="cb29-2"><a href="#cb29-2"></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
-<span id="cb29-3"><a href="#cb29-3"></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(x_max, x_val <span class="sc">+</span> eps)</span>
-<span id="cb29-4"><a href="#cb29-4"></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
-<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">return</span>(y_noisy)</span>
-<span id="cb29-6"><a href="#cb29-6"></a>}</span>
-<span id="cb29-7"><a href="#cb29-7"></a>y_noisy_neg_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg_expanded)) {</span>
-<span id="cb29-9"><a href="#cb29-9"></a>  cur_x_val_expanded <span class="ot">&lt;-</span> x_vals_expanded[i]</span>
-<span id="cb29-10"><a href="#cb29-10"></a>  <span class="co">#y_noisy_neg_expanded[i] &lt;- x_mean_expanded - (gen_y_noisy_expanded(cur_x_val_expanded, x_min_expanded, x_max_expanded, 5) - x_mean_expanded)</span></span>
-<span id="cb29-11"><a href="#cb29-11"></a>  y_noisy_neg_expanded[i] <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">-</span> <span class="fu">gen_y_noisy_expanded</span>(cur_x_val_expanded, x_min_expanded, x_max_expanded, <span class="dv">5</span>)</span>
-<span id="cb29-12"><a href="#cb29-12"></a>  <span class="co">#y_noisy_neg_expanded[i] &lt;- x_mean_expanded - (y_noisy_neg_expanded[i] - x_mean_expanded)</span></span>
-<span id="cb29-13"><a href="#cb29-13"></a>}</span>
-<span id="cb29-14"><a href="#cb29-14"></a>y_noisy_neg_expanded_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_neg_expanded, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-15"><a href="#cb29-15"></a><span class="co">#print(y_noisy_mean)</span></span>
-<span id="cb29-16"><a href="#cb29-16"></a>df_noisy_neg_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_neg_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
-<span id="cb29-17"><a href="#cb29-17"></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_neg_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a>gen_y_noisy_neg <span class="ot">&lt;-</span> <span class="cf">function</span>(x_val, x_min, x_max, eps) {</span>
+<span id="cb29-2"><a></a>  lower <span class="ot">&lt;-</span> <span class="fu">max</span>(x_min, x_val <span class="sc">-</span> eps)</span>
+<span id="cb29-3"><a></a>  upper <span class="ot">&lt;-</span> <span class="fu">min</span>(x_max, x_val <span class="sc">+</span> eps)</span>
+<span id="cb29-4"><a></a>  y_noisy <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, lower, upper)</span>
+<span id="cb29-5"><a></a>  <span class="fu">return</span>(y_noisy)</span>
+<span id="cb29-6"><a></a>}</span>
+<span id="cb29-7"><a></a>y_noisy_neg_expanded <span class="ot">&lt;-</span> x_vals_expanded</span>
+<span id="cb29-8"><a></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y_noisy_neg_expanded)) {</span>
+<span id="cb29-9"><a></a>  cur_x_val_expanded <span class="ot">&lt;-</span> x_vals_expanded[i]</span>
+<span id="cb29-10"><a></a>  <span class="co">#y_noisy_neg_expanded[i] &lt;- x_mean_expanded - (gen_y_noisy_expanded(cur_x_val_expanded, x_min_expanded, x_max_expanded, 5) - x_mean_expanded)</span></span>
+<span id="cb29-11"><a></a>  y_noisy_neg_expanded[i] <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">-</span> <span class="fu">gen_y_noisy_expanded</span>(cur_x_val_expanded, x_min_expanded, x_max_expanded, <span class="dv">5</span>)</span>
+<span id="cb29-12"><a></a>  <span class="co">#y_noisy_neg_expanded[i] &lt;- x_mean_expanded - (y_noisy_neg_expanded[i] - x_mean_expanded)</span></span>
+<span id="cb29-13"><a></a>}</span>
+<span id="cb29-14"><a></a>y_noisy_neg_expanded_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_noisy_neg_expanded, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-15"><a></a><span class="co">#print(y_noisy_mean)</span></span>
+<span id="cb29-16"><a></a>df_noisy_neg_expanded <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_vals_expanded, <span class="at">y =</span> y_noisy_neg_expanded, <span class="at">rel=</span><span class="st">"noise"</span>)</span>
+<span id="cb29-17"><a></a><span class="fu">gen_rect_plot_expanded</span>(df_noisy_neg_expanded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/neg-rect-plot-expanded-1.png" width="364"></p>
+<p><img data-src="index_files/figure-revealjs/neg-rect-plot-expanded-1.png" class="quarto-figure quarto-figure-center" width="364"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>    
      x- x+
@@ -1241,7 +1243,7 @@ Covariance:
   y+ 47  8</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>13 matches, 87 mismatches
 
@@ -1256,15 +1258,15 @@ Covariance:
 </section>
 <section id="distance-metrics" class="slide level2 crunch-title crunch-ul crunch-images crunch-figures smaller">
 <h2>Distance Metrics</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
 <div id="cosine-dist" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <ul>
 <li>One More Important Metric! <strong>Cosine Distance</strong></li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/cosine_dist_projection.svg" width="360"></p>
+<p><img data-src="images/cosine_dist_projection.svg" class="quarto-figure quarto-figure-center" width="360"></p>
 </figure>
 </div>
 <p><span class="math display">\[
@@ -1274,7 +1276,7 @@ Covariance:
 \end{align*}
 \]</span></p>
 </div>
-<div id="new-names" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="new-names" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li><p>Plus <strong>new names</strong> for ones you already know!</p></li>
 <li><p><strong>“Levenshtein Distance”</strong>: Edit distance</p></li>
@@ -1298,16 +1300,16 @@ Covariance:
 <ul>
 <li><strong>Entropy</strong> (of <strong>one</strong> distribution): How uncertain are we about what we’re going to pull out of the bag?</li>
 </ul>
-<div class="quarto-layout-panel">
+<div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/entropy.png"></p>
+<p><img data-src="images/entropy.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
-<div id="entropy-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="entropy-text" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li>Think about:</li>
 <li><em>What exactly makes a boring {song,movie,book} boring?</em></li>
@@ -1323,17 +1325,21 @@ Covariance:
 <li><strong>KL-Divergence</strong> (<strong>Non-symmetric</strong>!): <span class="math inline">\(\kl(P \parallel Q) \neq \kl(Q \parallel P)\)</span></li>
 <li>Not <strong>distance</strong> but <strong>relative entropy</strong>: how <strong>surprised</strong> were we to see <span class="math inline">\(P\)</span> when we expected <span class="math inline">\(Q\)</span>? How much <strong>information is lost</strong> when we <strong>approximate</strong> <span class="math inline">\(P\)</span> with <span class="math inline">\(Q\)</span>?</li>
 </ul>
-<div class="quarto-layout-panel">
+<div class="quarto-layout-panel" data-layout="[2,1,2.5]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div class="column quarto-layout-cell" style="flex-basis: 36.4%;justify-content: center;">
-<div id="fig-empirical-dist" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/empirical-distribution-teeth.png"></p>
-<figcaption>Figure&nbsp;1: We can only communicate <strong>two numbers</strong> back to our space comrades, to warn them of the impending space worms w/tooth distribution <span class="math inline">\(\mathcal{O}\)</span><br>(Example from <a href="https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained" target="_blank"><em>Count Bayesie</em> Blog</a>)</figcaption>
+<div class="column quarto-layout-cell" style="flex-basis: 36.4%;justify-content: flex-start;">
+<div id="fig-empirical-dist" class="quarto-figure quarto-figure-center quarto-float">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-empirical-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img data-src="images/empirical-distribution-teeth.png" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-empirical-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: We can only communicate <strong>two numbers</strong> back to our space comrades, to warn them of the impending space worms w/tooth distribution <span class="math inline">\(\mathcal{O}\)</span><br>(Example from <a href="https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained" target="_blank"><em>Count Bayesie</em> Blog</a>)
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="column quarto-layout-cell" style="flex-basis: 18.2%;justify-content: center;">
+<div class="column quarto-layout-cell" style="flex-basis: 18.2%;justify-content: flex-start;">
 <center>
 <div style="padding-bottom: 40px !important;">
 <i class="bi bi-arrow-up-right"></i> Uniform approximation
@@ -1343,13 +1349,13 @@ Covariance:
 </div>
 </center>
 </div>
-<div class="column quarto-layout-cell" style="flex-basis: 45.5%;justify-content: center;">
+<div class="column quarto-layout-cell" style="flex-basis: 45.5%;justify-content: flex-start;">
 <p><span class="math inline">\(\mathcal{A} = \mathcal{U}\{0,10\}\)</span>? <span class="math inline">\(\kl​​(\mathcal{O} \parallel \mathcal{A})=0.338\)</span></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/worms-unif-1.png" width="576"></p>
+<p><img data-src="index_files/figure-revealjs/worms-unif-1.png" class="quarto-figure quarto-figure-center" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1359,7 +1365,7 @@ Covariance:
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/worms-binom-1.png" width="576"></p>
+<p><img data-src="index_files/figure-revealjs/worms-binom-1.png" class="quarto-figure quarto-figure-center" width="576"></p>
 </figure>
 </div>
 </div>
@@ -1380,7 +1386,7 @@ Covariance:
 <h1>Machine Learning</h1>
 
 </section>
-<section id="supervised-vs.-unsupervised-learning" class="slide level2 smaller shift-footnotes-lesser crunch-title crunch-ul">
+<section id="supervised-vs.-unsupervised-learning" class="slide level2 smaller shift-footnotes-lesser crunch-title crunch-ul scrollable">
 <h2>Supervised vs.&nbsp;Unsupervised Learning</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -1407,17 +1413,17 @@ Covariance:
 <p><strong>Supervised</strong> Learning: Dataset has both <span class="cb1"><em>explanatory</em> variables (“features”)</span> and <span class="cb2"><em>response</em> variables (“labels”)</span></p>
 <div class="suptable">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>sup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
-<span id="cb32-2"><a href="#cb32-2"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms, <span class="sc">~</span>rating,</span>
-<span id="cb32-3"><a href="#cb32-3"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="st">"Disliked"</span>,</span>
-<span id="cb32-4"><a href="#cb32-4"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>, <span class="st">"Liked"</span>,</span>
-<span id="cb32-5"><a href="#cb32-5"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>, <span class="st">"Liked"</span>,</span>
-<span id="cb32-6"><a href="#cb32-6"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>, <span class="st">"Disliked"</span>,</span>
-<span id="cb32-7"><a href="#cb32-7"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span>, <span class="st">"Liked"</span></span>
-<span id="cb32-8"><a href="#cb32-8"></a>)</span>
-<span id="cb32-9"><a href="#cb32-9"></a>sup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a></a>sup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb32-2"><a></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms, <span class="sc">~</span>rating,</span>
+<span id="cb32-3"><a></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="st">"Disliked"</span>,</span>
+<span id="cb32-4"><a></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>, <span class="st">"Liked"</span>,</span>
+<span id="cb32-5"><a></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>, <span class="st">"Liked"</span>,</span>
+<span id="cb32-6"><a></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>, <span class="st">"Disliked"</span>,</span>
+<span id="cb32-7"><a></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span>, <span class="st">"Liked"</span></span>
+<span id="cb32-8"><a></a>)</span>
+<span id="cb32-9"><a></a>sup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="kable-table">
@@ -1471,17 +1477,17 @@ Covariance:
 <p><strong>Unsupervised</strong> Learning: Dataset has only <span class="cb1"><em>explanatory</em> variables (“features”)</span></p>
 <div class="unsuptable">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>unsup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
-<span id="cb33-2"><a href="#cb33-2"></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms,</span>
-<span id="cb33-3"><a href="#cb33-3"></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>,</span>
-<span id="cb33-4"><a href="#cb33-4"></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>,</span>
-<span id="cb33-5"><a href="#cb33-5"></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>,</span>
-<span id="cb33-6"><a href="#cb33-6"></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>,</span>
-<span id="cb33-7"><a href="#cb33-7"></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span></span>
-<span id="cb33-8"><a href="#cb33-8"></a>)</span>
-<span id="cb33-9"><a href="#cb33-9"></a>unsup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a>unsup_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb33-2"><a></a>  <span class="sc">~</span>home_id, <span class="sc">~</span>sqft, <span class="sc">~</span>bedrooms,</span>
+<span id="cb33-3"><a></a>  <span class="dv">0</span>, <span class="dv">1000</span>, <span class="dv">1</span>,</span>
+<span id="cb33-4"><a></a>  <span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">2</span>,</span>
+<span id="cb33-5"><a></a>  <span class="dv">2</span>, <span class="dv">2500</span>, <span class="dv">1</span>,</span>
+<span id="cb33-6"><a></a>  <span class="dv">3</span>, <span class="dv">1500</span>, <span class="dv">2</span>,</span>
+<span id="cb33-7"><a></a>  <span class="dv">4</span>, <span class="dv">2200</span>, <span class="dv">1</span></span>
+<span id="cb33-8"><a></a>)</span>
+<span id="cb33-9"><a></a>unsup_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="kable-table">
@@ -1533,55 +1539,55 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
-<span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a>  <span class="fu">labs</span>(</span>
-<span id="cb34-4"><a href="#cb34-4"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
-<span id="cb34-5"><a href="#cb34-5"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb34-6"><a href="#cb34-6"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb34-7"><a href="#cb34-7"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
-<span id="cb34-8"><a href="#cb34-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb34-9"><a href="#cb34-9"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb34-10"><a href="#cb34-10"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
+<span id="cb34-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb34-3"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-4"><a></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
+<span id="cb34-5"><a></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb34-6"><a></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb34-7"><a></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
+<span id="cb34-8"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb34-9"><a></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb34-10"><a></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/sup-data-plot-1.png" width="768"></p>
+<p><img data-src="index_files/figure-revealjs/sup-data-plot-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># To force a legend</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a>unsup_grouped <span class="ot">&lt;-</span> unsup_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">big=</span>bedrooms <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb35-3"><a href="#cb35-3"></a>unsup_grouped[[<span class="st">'big'</span>]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(unsup_grouped[[<span class="st">'big'</span>]], <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?1"</span>,<span class="st">"?2"</span>))</span>
-<span id="cb35-4"><a href="#cb35-4"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">fill=</span>big)) <span class="sc">+</span> </span>
-<span id="cb35-5"><a href="#cb35-5"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb35-6"><a href="#cb35-6"></a>  <span class="fu">labs</span>(</span>
-<span id="cb35-7"><a href="#cb35-7"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb35-8"><a href="#cb35-8"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb35-9"><a href="#cb35-9"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
-<span id="cb35-10"><a href="#cb35-10"></a>  ) <span class="sc">+</span></span>
-<span id="cb35-11"><a href="#cb35-11"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb35-12"><a href="#cb35-12"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb35-13"><a href="#cb35-13"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
-<span id="cb35-14"><a href="#cb35-14"></a>  <span class="fu">theme</span>(<span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>, <span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>), <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
-<span id="cb35-15"><a href="#cb35-15"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>)) <span class="sc">+</span></span>
-<span id="cb35-16"><a href="#cb35-16"></a>  <span class="co">#scale_color_discrete(values=c("white","white"))</span></span>
-<span id="cb35-17"><a href="#cb35-17"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="cn">NULL</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"white"</span>)) <span class="sc">+</span></span>
-<span id="cb35-18"><a href="#cb35-18"></a>  <span class="co">#scale_color_manual(values=c("?1"="white","?2"="white"))</span></span>
-<span id="cb35-19"><a href="#cb35-19"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="co"># To force a legend</span></span>
+<span id="cb35-2"><a></a>unsup_grouped <span class="ot">&lt;-</span> unsup_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">big=</span>bedrooms <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb35-3"><a></a>unsup_grouped[[<span class="st">'big'</span>]] <span class="ot">&lt;-</span> <span class="fu">factor</span>(unsup_grouped[[<span class="st">'big'</span>]], <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?1"</span>,<span class="st">"?2"</span>))</span>
+<span id="cb35-4"><a></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">fill=</span>big)) <span class="sc">+</span> </span>
+<span id="cb35-5"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb35-6"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb35-7"><a></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb35-8"><a></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb35-9"><a></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
+<span id="cb35-10"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb35-11"><a></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb35-12"><a></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb35-13"><a></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
+<span id="cb35-14"><a></a>  <span class="fu">theme</span>(<span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>, <span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.box.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>), <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"white"</span>), <span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb35-15"><a></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>)) <span class="sc">+</span></span>
+<span id="cb35-16"><a></a>  <span class="co">#scale_color_discrete(values=c("white","white"))</span></span>
+<span id="cb35-17"><a></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="cn">NULL</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"white"</span>)) <span class="sc">+</span></span>
+<span id="cb35-18"><a></a>  <span class="co">#scale_color_manual(values=c("?1"="white","?2"="white"))</span></span>
+<span id="cb35-19"><a></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="cn">NA</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/unsup-data-plot-1.png" width="768"></p>
+<p><img data-src="index_files/figure-revealjs/unsup-data-plot-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
 </figure>
 </div>
 </div>
@@ -1594,65 +1600,65 @@ Covariance:
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
-<span id="cb36-2"><a href="#cb36-2"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3"></a>  <span class="fu">labs</span>(</span>
-<span id="cb36-4"><a href="#cb36-4"></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
-<span id="cb36-5"><a href="#cb36-5"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb36-6"><a href="#cb36-6"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb36-7"><a href="#cb36-7"></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
-<span id="cb36-8"><a href="#cb36-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb36-9"><a href="#cb36-9"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb36-10"><a href="#cb36-10"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb36-11"><a href="#cb36-11"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1750</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb36-12"><a href="#cb36-12"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax=</span><span class="dv">1750</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
-<span id="cb36-13"><a href="#cb36-13"></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="dv">1750</span>, <span class="at">xmax=</span><span class="cn">Inf</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a><span class="fu">ggplot</span>(sup_data, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms, <span class="at">color=</span>rating)) <span class="sc">+</span> </span>
+<span id="cb36-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> g_pointsize <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb36-3"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-4"><a></a>    <span class="at">title =</span> <span class="st">"Supervised Data: House Listings"</span>,</span>
+<span id="cb36-5"><a></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb36-6"><a></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb36-7"><a></a>    <span class="at">color =</span> <span class="st">"Outcome"</span></span>
+<span id="cb36-8"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb36-9"><a></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb36-10"><a></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb36-11"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1750</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb36-12"><a></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax=</span><span class="dv">1750</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb36-13"><a></a>  <span class="fu">annotate</span>(<span class="st">'rect'</span>, <span class="at">xmin=</span><span class="dv">1750</span>, <span class="at">xmax=</span><span class="cn">Inf</span>, <span class="at">ymin=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax=</span><span class="cn">Inf</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">fill=</span>cbPalette[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/sup-data-outcomes-1.png" width="768"></p>
+<p><img data-src="index_files/figure-revealjs/sup-data-outcomes-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
 </figure>
 </div>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>  <span class="co">#geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a></a>  <span class="co">#geom_rect(aes(xmin=-Inf, xmax=Inf, ymin=0, ymax=Inf, alpha=.2, fill='red'))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">library</span>(ggforce)</span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms)) <span class="sc">+</span></span>
-<span id="cb38-3"><a href="#cb38-3"></a>  <span class="co">#scale_color_brewer(palette = "PuOr") +</span></span>
-<span id="cb38-4"><a href="#cb38-4"></a>  <span class="fu">geom_mark_ellipse</span>(<span class="at">expand=</span><span class="fl">0.1</span>, <span class="fu">aes</span>(<span class="at">fill=</span>big), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb38-5"><a href="#cb38-5"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
-<span id="cb38-6"><a href="#cb38-6"></a>  <span class="fu">labs</span>(</span>
-<span id="cb38-7"><a href="#cb38-7"></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
-<span id="cb38-8"><a href="#cb38-8"></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
-<span id="cb38-9"><a href="#cb38-9"></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
-<span id="cb38-10"><a href="#cb38-10"></a>  ) <span class="sc">+</span></span>
-<span id="cb38-11"><a href="#cb38-11"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb38-12"><a href="#cb38-12"></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
-<span id="cb38-13"><a href="#cb38-13"></a>  <span class="co">#theme(legend.position = "none") +</span></span>
-<span id="cb38-14"><a href="#cb38-14"></a>  <span class="co">#theme(legend.title = text_element("?"))</span></span>
-<span id="cb38-15"><a href="#cb38-15"></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
-<span id="cb38-16"><a href="#cb38-16"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>],cbPalette[<span class="dv">4</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a></a><span class="fu">library</span>(ggforce)</span>
+<span id="cb38-2"><a></a><span class="fu">ggplot</span>(unsup_grouped, <span class="fu">aes</span>(<span class="at">x=</span>sqft, <span class="at">y=</span>bedrooms)) <span class="sc">+</span></span>
+<span id="cb38-3"><a></a>  <span class="co">#scale_color_brewer(palette = "PuOr") +</span></span>
+<span id="cb38-4"><a></a>  <span class="fu">geom_mark_ellipse</span>(<span class="at">expand=</span><span class="fl">0.1</span>, <span class="fu">aes</span>(<span class="at">fill=</span>big), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb38-5"><a></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb38-6"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb38-7"><a></a>    <span class="at">x =</span> <span class="st">"Square Footage"</span>,</span>
+<span id="cb38-8"><a></a>    <span class="at">y =</span> <span class="st">"Number of Bedrooms"</span>,</span>
+<span id="cb38-9"><a></a>    <span class="at">fill =</span> <span class="st">"?"</span></span>
+<span id="cb38-10"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb38-11"><a></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb38-12"><a></a>  <span class="fu">ggtitle</span>(<span class="st">"Unsupervised Data: House Listings"</span>) <span class="sc">+</span></span>
+<span id="cb38-13"><a></a>  <span class="co">#theme(legend.position = "none") +</span></span>
+<span id="cb38-14"><a></a>  <span class="co">#theme(legend.title = text_element("?"))</span></span>
+<span id="cb38-15"><a></a>  <span class="fu">expand_limits</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">800</span>,<span class="dv">2700</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">2.2</span>)) <span class="sc">+</span></span>
+<span id="cb38-16"><a></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(cbPalette[<span class="dv">3</span>],cbPalette[<span class="dv">4</span>]), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"?"</span>,<span class="st">"?"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/unsup-data-clustered-1.png" width="768"></p>
+<p><img data-src="index_files/figure-revealjs/unsup-data-clustered-1.png" class="quarto-figure quarto-figure-center" width="768"></p>
 </figure>
 </div>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>  <span class="co">#scale_fill_manual(labels=c("?","?"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a>  <span class="co">#scale_fill_manual(labels=c("?","?"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div>
@@ -1704,9 +1710,9 @@ Covariance:
 </section>
 <section id="what-is-naïve-about-it" class="slide level2 smaller">
 <h2>What is “Naïve” About It?</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="naive-bayes-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div id="naive-bayes-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <p><strong>Guessing House Prices</strong>:</p>
 <ul>
 <li>If I tell you there’s a house, what is your guess for number of bathrooms it has?</li>
@@ -1724,14 +1730,14 @@ Naïve Bayes’ Answer?
 </center>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/chief_keef_nah_full.jpg"></p>
+<p><img data-src="images/chief_keef_nah_full.jpg" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="in-math" class="slide level2 smaller smaller-math shift-footnotes-lesser">
+<section id="in-math" class="slide level2 smaller smaller-math shift-footnotes-lesser scrollable">
 <h2>In Math</h2>
 <ul>
 <li>Assume some email <span class="math inline">\(E\)</span> with <span class="math inline">\(N = 5\)</span> words, <span class="math inline">\(E = (w_1, w_2, w_3, w_4, w_5)\)</span>. Say <span class="math inline">\(E = (\texttt{you},\texttt{win},\texttt{a},\texttt{million},\texttt{dollars})\)</span>.</li>
@@ -1750,7 +1756,7 @@ Naïve Bayes’ Answer?
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/naive_bayes_langmodel.svg"></p>
+<p><img data-src="images/naive_bayes_langmodel.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
@@ -1762,7 +1768,7 @@ Naïve Bayes’ Answer?
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/naive_bayes.svg"></p>
+<p><img data-src="images/naive_bayes.svg" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -1773,9 +1779,9 @@ Naïve Bayes’ Answer?
 <ul>
 <li>This must absolutely suck in practice, right?</li>
 </ul>
-<div class="quarto-layout-panel">
+<div class="quarto-layout-panel" data-layout="[2,3]">
 <div class="quarto-layout-row quarto-layout-valign-center">
-<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/huh_how.png"></p>
@@ -1783,7 +1789,7 @@ Naïve Bayes’ Answer?
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/naive_bayes_performance.png" width="520"></p>
@@ -1817,14 +1823,16 @@ Naïve Bayes’ Answer?
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-banko_scaling_2001" class="csl-entry" role="listitem">
 Banko, Michele, and Eric Brill. 2001. <span>“Scaling to Very Very Large Corpora for Natural Language Disambiguation.”</span> In <em>Proceedings of the 39th <span>Annual Meeting</span> on <span>Association</span> for <span>Computational Linguistics</span></em>, 26–33. <span>ACL</span> ’01. <span>USA</span>: <span>Association for Computational Linguistics</span>. <a href="https://doi.org/10.3115/1073012.1073017">https://doi.org/10.3115/1073012.1073017</a>.
 </div>
 </div>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 <p>DSAN 5000-<span class="sec-num">02</span> Week 7: Supervised Learning</p>
+</div>
 </div>
 </section></section>
 
@@ -1855,7 +1863,6 @@ Banko, Michele, and Eric Brill. 2001. <span>“Scaling to Very Very Large Corpor
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -2155,10 +2162,27 @@ Banko, Michele, and Eric Brill. 2001. <span>“Scaling to Very Very Large Corpor
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -2168,8 +2192,17 @@ Banko, Michele, and Eric Brill. 2001. <span>“Scaling to Very Very Large Corpor
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
@@ -2183,7 +2216,11 @@ Banko, Michele, and Eric Brill. 2001. <span>“Scaling to Very Very Large Corpor
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          return note.innerHTML;
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
         });
       }
       const findCites = (el) => {

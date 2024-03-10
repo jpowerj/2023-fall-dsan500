@@ -330,9 +330,6 @@ data
 
 ## Building and Testing RegEx Strings {.smaller .crunch-title .crunch-iframe}
 
-```{=html}
-<iframe src="https://regexr.com/" height="80%" width="100%"></iframe>
-```
 [RegExr.com &rarr;](https://regexr.com){target="_blank"}
 
 ## Tidy Data {.smaller data-name="Tidy Data"}

@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
 <meta name="dcterms.date" content="2023-10-16">
 
-<title>DSAN 5000 - Midterm Prep Practice Problems</title>
+<title>DSAN 5000 – Midterm Prep Practice Problems</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,7 +24,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -82,7 +82,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,6 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -110,196 +117,42 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      DSAN 5000
-      </li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="../../">DSAN 5000</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="https://jfh.georgetown.domains/dsan5000/" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><i class="bi bi-arrow-left" style="margin-right: 4px"></i>Main Course Page</span></a>
-  </div>
-</li>
-        <li class="px-0"><hr class="sidebar-divider hi "></li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><i class="bi bi-house pe-1"></i> Section <span class="sec-num">02</span> Home</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w01/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 1: <span class="sec-w01-date">Aug 23</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w02/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 2: <span class="sec-w02-date">Aug 29</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w03/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 3: <span class="sec-w03-date">Sep 6</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w04/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 4: <span class="sec-w04-date">Sep 12</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w05/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 5: <span class="sec-w05-date">Sep 19</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w06/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 6: <span class="sec-w06-date">Sep 26</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w07/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 7: <span class="sec-w07-date">Oct 3</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w08/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 8: <span class="sec-w08-date">Oct 17</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w09/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 9: <span class="sec-w09-date">Oct 24</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w10/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 10: <span class="sec-w10-date">Oct 31</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w11/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 11: <span class="sec-w11-date">Nov 7</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w12/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 12: <span class="sec-w12-date">Nov 14</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w13/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 13: <span class="sec-w13-date">Nov 21</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../w14/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Week 14: <span class="sec-w14-date">Nov 28</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../recordings/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lecture Recordings</span></a>
-  </div>
-</li>
-        <li class="px-0"><hr class="sidebar-divider hi "></li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../extra-videos/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Extra Videos</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../writeups/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Extra Writeups</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../cheatsheet-code/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Coding Cheatsheet</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../presentations/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab Presentations</span></a>
-  </div>
-</li>
-        <li class="px-0"><hr class="sidebar-divider hi "></li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="https://georgetown.instructure.com/courses/173310" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Course Canvas Page <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="https://calendar.app.google/yMnESMtMNPdKEaPz5" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Book Office Hours <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="https://forms.gle/TH1yLitU9dTfB4sg8" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Suggestion Box <i class="bi bi-box-arrow-up-right ps-1"></i></span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -356,12 +209,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div class="quarto-title-meta-contents">
     <p class="author">Jeff Jacobs </p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -377,7 +230,9 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <div class="hidden">
 <div class="cell">
@@ -447,46 +302,79 @@ Update Log
 <section id="filepaths" class="level3">
 <h3 class="anchored" data-anchor-id="filepaths">Filepaths</h3>
 <p>For these practice problems, assume we have a directory structure on our computer that looks as follows, and that <strong>this is the entire directory structure</strong> (that is, there are no additional files or folders on the computer that are not displayed in the diagram).</p>
-<div class="cell">
+<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <svg width="672" height="480" viewbox="0.00 0.00 260.50 398.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 394)">
-<title>
-G
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-394 256.5,-394 256.5,4 -4,4"></polygon> <!-- nodeRoot --> <g id="node1" class="node">
-<title>
-nodeRoot
-</title>
-<text text-anchor="start" x="126.8" y="-369.4" font-family="Courier New" font-weight="bold" font-size="14.00">/</text> <polygon fill="none" stroke="black" points="73.5,-339 73.5,-361 188.5,-361 188.5,-339 73.5,-339"></polygon> <text text-anchor="start" x="93.19" y="-345.4" font-family="Courier New" font-size="14.00">file1.txt</text> <polygon fill="none" stroke="black" points="73.5,-315 73.5,-337 188.5,-337 188.5,-315 73.5,-315"></polygon> <text text-anchor="start" x="93.19" y="-321.4" font-family="Courier New" font-size="14.00">file2.txt</text> <polygon fill="none" stroke="black" points="73.5,-291 73.5,-313 188.5,-313 188.5,-291 73.5,-291"></polygon> <text text-anchor="start" x="76.39" y="-297.4" font-family="Courier New" font-size="14.00">rootImage.jpg</text> <polygon fill="none" stroke="black" points="70,-288 70,-386 191,-386 191,-288 70,-288"></polygon> </g> <!-- nodeUsers --> <g id="node2" class="node">
-<title>
-nodeUsers
-</title>
-<text text-anchor="start" x="51.5" y="-191.4" font-family="Courier New" font-weight="bold" font-size="14.00">Users</text> <polygon fill="none" stroke="black" points="46.5,-182 46.5,-208 98.5,-208 98.5,-182 46.5,-182"></polygon> </g> <!-- nodeRoot&#45;&gt;nodeUsers --> <g id="edge1" class="edge">
-<title>
-nodeRoot-&gt;nodeUsers
-</title>
-<path fill="none" stroke="black" d="M108.9,-283.87C100.29,-263.07 90.74,-240.02 83.58,-222.75"></path> <polygon fill="black" stroke="black" points="86.73,-221.21 79.67,-213.31 80.26,-223.89 86.73,-221.21"></polygon> </g> <!-- nodeApps --> <g id="node3" class="node">
-<title>
-nodeApps
-</title>
-<text text-anchor="start" x="138.09" y="-227.4" font-family="Courier New" font-weight="bold" font-size="14.00">Applications</text> <polygon fill="none" stroke="black" points="135.5,-197 135.5,-219 241.5,-219 241.5,-197 135.5,-197"></polygon> <text text-anchor="start" x="154.89" y="-203.4" font-family="Courier New" font-size="14.00">App1.app</text> <polygon fill="none" stroke="black" points="135.5,-173 135.5,-195 241.5,-195 241.5,-173 135.5,-173"></polygon> <text text-anchor="start" x="154.89" y="-179.4" font-family="Courier New" font-size="14.00">App2.app</text> <polygon fill="none" stroke="black" points="135.5,-149 135.5,-171 241.5,-171 241.5,-149 135.5,-149"></polygon> <text text-anchor="start" x="138.09" y="-155.4" font-family="Courier New" font-size="14.00">appImage.png</text> <polygon fill="none" stroke="black" points="132.5,-146 132.5,-244 244.5,-244 244.5,-146 132.5,-146"></polygon> </g> <!-- nodeRoot&#45;&gt;nodeApps --> <g id="edge2" class="edge">
-<title>
-nodeRoot-&gt;nodeApps
-</title>
-<path fill="none" stroke="black" d="M152.1,-283.87C155.64,-275.31 159.35,-266.36 162.98,-257.59"></path> <polygon fill="black" stroke="black" points="166.29,-258.75 166.88,-248.17 159.82,-256.07 166.29,-258.75"></polygon> </g> <!-- nodeJeff --> <g id="node4" class="node">
-<title>
-nodeJeff
-</title>
-<text text-anchor="start" x="60.4" y="-85.4" font-family="Courier New" font-weight="bold" font-size="14.00">jpj</text> <polygon fill="none" stroke="black" points="11.5,-55 11.5,-77 134.5,-77 134.5,-55 11.5,-55"></polygon> <text text-anchor="start" x="39.39" y="-61.4" font-family="Courier New" font-size="14.00">doc1.qmd</text> <polygon fill="none" stroke="black" points="11.5,-31 11.5,-53 134.5,-53 134.5,-31 11.5,-31"></polygon> <text text-anchor="start" x="39.39" y="-37.4" font-family="Courier New" font-size="14.00">doc2.qmd</text> <polygon fill="none" stroke="black" points="11.5,-7 11.5,-29 134.5,-29 134.5,-7 11.5,-7"></polygon> <text text-anchor="start" x="14.19" y="-13.4" font-family="Courier New" font-size="14.00">jeffImage.jpeg</text> <polygon fill="none" stroke="black" points="8,-4 8,-102 137,-102 137,-4 8,-4"></polygon> </g> <!-- nodeUsers&#45;&gt;nodeJeff --> <g id="edge3" class="edge">
-<title>
-nodeUsers-&gt;nodeJeff
-</title>
-<path fill="none" stroke="black" d="M72.5,-176.83C72.5,-161.57 72.5,-138.31 72.5,-116.11"></path> <polygon fill="black" stroke="black" points="76,-116.02 72.5,-106.02 69,-116.02 76,-116.02"></polygon> </g> </g>
+<title>G</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-394 256.5,-394 256.5,4 -4,4"></polygon>
+<!-- nodeRoot -->
+<g id="node1" class="node">
+<title>nodeRoot</title>
+<text text-anchor="start" x="126.8" y="-369.4" font-family="Courier New" font-weight="bold" font-size="14.00">/</text>
+<polygon fill="none" stroke="black" points="73.5,-339 73.5,-361 188.5,-361 188.5,-339 73.5,-339"></polygon>
+<text text-anchor="start" x="93.19" y="-345.4" font-family="Courier New" font-size="14.00">file1.txt</text>
+<polygon fill="none" stroke="black" points="73.5,-315 73.5,-337 188.5,-337 188.5,-315 73.5,-315"></polygon>
+<text text-anchor="start" x="93.19" y="-321.4" font-family="Courier New" font-size="14.00">file2.txt</text>
+<polygon fill="none" stroke="black" points="73.5,-291 73.5,-313 188.5,-313 188.5,-291 73.5,-291"></polygon>
+<text text-anchor="start" x="76.39" y="-297.4" font-family="Courier New" font-size="14.00">rootImage.jpg</text>
+<polygon fill="none" stroke="black" points="70,-288 70,-386 191,-386 191,-288 70,-288"></polygon>
+</g>
+<!-- nodeUsers -->
+<g id="node2" class="node">
+<title>nodeUsers</title>
+<text text-anchor="start" x="51.5" y="-191.4" font-family="Courier New" font-weight="bold" font-size="14.00">Users</text>
+<polygon fill="none" stroke="black" points="46.5,-182 46.5,-208 98.5,-208 98.5,-182 46.5,-182"></polygon>
+</g>
+<!-- nodeRoot&#45;&gt;nodeUsers -->
+<g id="edge1" class="edge">
+<title>nodeRoot-&gt;nodeUsers</title>
+<path fill="none" stroke="black" d="M108.9,-283.87C100.29,-263.07 90.74,-240.02 83.58,-222.75"></path>
+<polygon fill="black" stroke="black" points="86.73,-221.21 79.67,-213.31 80.26,-223.89 86.73,-221.21"></polygon>
+</g>
+<!-- nodeApps -->
+<g id="node3" class="node">
+<title>nodeApps</title>
+<text text-anchor="start" x="138.09" y="-227.4" font-family="Courier New" font-weight="bold" font-size="14.00">Applications</text>
+<polygon fill="none" stroke="black" points="135.5,-197 135.5,-219 241.5,-219 241.5,-197 135.5,-197"></polygon>
+<text text-anchor="start" x="154.89" y="-203.4" font-family="Courier New" font-size="14.00">App1.app</text>
+<polygon fill="none" stroke="black" points="135.5,-173 135.5,-195 241.5,-195 241.5,-173 135.5,-173"></polygon>
+<text text-anchor="start" x="154.89" y="-179.4" font-family="Courier New" font-size="14.00">App2.app</text>
+<polygon fill="none" stroke="black" points="135.5,-149 135.5,-171 241.5,-171 241.5,-149 135.5,-149"></polygon>
+<text text-anchor="start" x="138.09" y="-155.4" font-family="Courier New" font-size="14.00">appImage.png</text>
+<polygon fill="none" stroke="black" points="132.5,-146 132.5,-244 244.5,-244 244.5,-146 132.5,-146"></polygon>
+</g>
+<!-- nodeRoot&#45;&gt;nodeApps -->
+<g id="edge2" class="edge">
+<title>nodeRoot-&gt;nodeApps</title>
+<path fill="none" stroke="black" d="M152.1,-283.87C155.64,-275.31 159.35,-266.36 162.98,-257.59"></path>
+<polygon fill="black" stroke="black" points="166.29,-258.75 166.88,-248.17 159.82,-256.07 166.29,-258.75"></polygon>
+</g>
+<!-- nodeJeff -->
+<g id="node4" class="node">
+<title>nodeJeff</title>
+<text text-anchor="start" x="60.4" y="-85.4" font-family="Courier New" font-weight="bold" font-size="14.00">jpj</text>
+<polygon fill="none" stroke="black" points="11.5,-55 11.5,-77 134.5,-77 134.5,-55 11.5,-55"></polygon>
+<text text-anchor="start" x="39.39" y="-61.4" font-family="Courier New" font-size="14.00">doc1.qmd</text>
+<polygon fill="none" stroke="black" points="11.5,-31 11.5,-53 134.5,-53 134.5,-31 11.5,-31"></polygon>
+<text text-anchor="start" x="39.39" y="-37.4" font-family="Courier New" font-size="14.00">doc2.qmd</text>
+<polygon fill="none" stroke="black" points="11.5,-7 11.5,-29 134.5,-29 134.5,-7 11.5,-7"></polygon>
+<text text-anchor="start" x="14.19" y="-13.4" font-family="Courier New" font-size="14.00">jeffImage.jpeg</text>
+<polygon fill="none" stroke="black" points="8,-4 8,-102 137,-102 137,-4 8,-4"></polygon>
+</g>
+<!-- nodeUsers&#45;&gt;nodeJeff -->
+<g id="edge3" class="edge">
+<title>nodeUsers-&gt;nodeJeff</title>
+<path fill="none" stroke="black" d="M72.5,-176.83C72.5,-161.57 72.5,-138.31 72.5,-116.11"></path>
+<polygon fill="black" stroke="black" points="76,-116.02 72.5,-106.02 69,-116.02 76,-116.02"></polygon>
+</g>
+</g>
 </svg>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
@@ -566,8 +454,11 @@ Solution (Click to expand)
 <section id="http" class="level3">
 <h3 class="anchored" data-anchor-id="http">HTTP</h3>
 <p>Please match each of the following <strong>HTTP codes</strong> on the left to their <strong>meanings</strong> on the right (that is, what it means if we receive that code as a response to our call to the server):</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,2]">
+<div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <table class="table">
 <thead>
@@ -664,8 +555,11 @@ Solution (Click to expand)
 <section id="gitgithub" class="level3">
 <h3 class="anchored" data-anchor-id="gitgithub">Git/GitHub</h3>
 <p>[From <a href="../../w04/index.html" target="_blank">Week 04 Slides</a>] Please match each of the following <code>git</code> commands with the description of what it does:</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,2]">
+<div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <table class="table">
 <thead>
@@ -896,8 +790,11 @@ Solution (Click to expand)
 <h3 class="anchored" data-anchor-id="conda">Conda</h3>
 <p><em>(Material from <a href="https://jfh.georgetown.domains/dsan5000/slides-and-labs/_site/content/slides/coding-methods/notes.html#conda" target="_blank"><strong>Week-02 course notes</strong></a>)</em></p>
 <p>Please match each of the <code>conda</code> <strong>commands</strong> on the left with their corresponding <strong>descriptions</strong> on the right:</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <table class="table">
 <thead>
@@ -1092,7 +989,7 @@ Solution (Click to expand)
 </ul>
 <p>For example, if the unit of observation is a <strong>country</strong>, then the following dataset is in <strong>long</strong> format, since it contains <strong>two rows</strong> for each country:</p>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>long_df <span class="ot">&lt;-</span> table2 <span class="sc">|&gt;</span> <span class="fu">filter</span>(</span>
@@ -1500,25 +1397,25 @@ Solution
 <div class="code-with-filename-file">
 <pre><strong>A.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Green eggs are sweet.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34" data-filename="A.txt"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Green eggs are sweet.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>B.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Ham is sour.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35" data-filename="B.txt"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Ham is sour.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>C.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Cats love sweet food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36" data-filename="C.txt"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Cats love sweet food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>D.txt</strong></pre>
 </div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Dogs love sour food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37" data-filename="D.txt"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Dogs love sour food.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Which of the following matrices represents the <strong>document-term matrix</strong> encoding these four documents (assuming that we have performed <strong>lowercasing</strong>, <strong>word tokenization</strong>, and <strong>stopword removal</strong> on each document before vectorizing it)?</p>
 <p><em>(Note: The name for each table is contained in the upper-left-most cell of the table: since (A) appears in the upper-left-most cell of the first table below, for example, this table represents choice (A))</em></p></li>
@@ -2206,7 +2103,7 @@ Solution (Click to expand)
 <p><strong>Visualizing Loss Functions</strong></p>
 <p>Programmatically, we can visualize this loss function by considering a simulated dataset where the true value <span class="math inline">\(y_i\)</span> is always exactly <span class="math inline">\(0\)</span>, but where the predictions <span class="math inline">\(\widehat{y_i}\)</span> vary around this true value, and seeing how predictions are penalized as they <strong>get further and further from the true value</strong>:</p>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of datapoints we want to simulate</span></span>
@@ -2242,7 +2139,7 @@ Solution (Click to expand)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/mse-viz-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/mse-viz-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2374,7 +2271,7 @@ Solution (Click to expand)
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/knn.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Image credit: <a href="http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn" target="_blank">DataCamp tutorial</a></figcaption>
+<figcaption>Image credit: <a href="http://web.archive.org/web/20220912121258/https://www.datacamp.com/tutorial/k-nearest-neighbor-classification-scikit-learn" target="_blank">DataCamp tutorial</a></figcaption>
 </figure>
 </div>
 <p>By finding the 3 nearest datapoints (on the basis of some appropriate distance metric) and having them take a “majority vote” on the label for the unseen datapoint, we obtain a prediction for the unseen datapoint’s class:</p>
@@ -2390,7 +2287,7 @@ Solution (Click to expand)
 <p>Note that the reason I’m leveraging the previous figure rather than creating a new one is because it becomes difficult (or at least, much less intuitive) to <strong>visualize</strong> the KNN algorithm in a continuous setting, since now we’re now using (for example) the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates of an unseen datapoint to find its nearest neighbors, but then taking the mean of the <span class="math inline">\(z\)</span> coordinates of these <span class="math inline">\(K\)</span> neighbors. As long as you understand this distinction (that here, rather than an unknown <strong>discrete class</strong>, which can be represented simply using symbols like red stars or green triangles, we have an unknown <strong>real-valued label</strong>), however, we can visualize the KNN algorithm as used in regression settings in the following way:</p>
 <p>Assume we have a set of (feature, label) pairs <span class="math inline">\((x_i, y_i)\)</span>, where <span class="math inline">\(x_i\)</span> is a single scalar value representing the sole <strong>feature value</strong> for observation <span class="math inline">\(i\)</span> (that is, there is only <strong>one feature</strong> in this case) and <span class="math inline">\(y_i\)</span> is a single scalar value representing the <strong>label</strong> for observation <span class="math inline">\(i\)</span>. We can plot an observed dataset like this as follows, where we’re being careful to distinguish between the <strong>feature value</strong> (plotted using the <span class="math inline">\(x\)</span>-axis) and the <strong>labels</strong> (plotted using the <span class="math inline">\(y\)</span>-axis):</p>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">25</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)</span>
@@ -2408,14 +2305,14 @@ Solution (Click to expand)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/knn-regression-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/knn-regression-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Now, if we encounter a new datapoint <span class="math inline">\(x_i\)</span> in this context (say, <span class="math inline">\(x_i = 0.75\)</span>, a datapoint for which we want to predict a label value <span class="math inline">\(y_i\)</span>), notice that such a datapoint would <strong>not</strong> be plotted as a point in the above plot but as a <strong>vertical line</strong>, like the following:</p>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">25</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>x_vals <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)</span>
@@ -2442,7 +2339,7 @@ Solution (Click to expand)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/knn-regression-new-point-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/knn-regression-new-point-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2450,7 +2347,7 @@ Solution (Click to expand)
 <p>Here I have also included a <strong>band</strong> around the new <span class="math inline">\(x_i\)</span> value (0.75) to illustrate how <strong>distance on the <span class="math inline">\(x\)</span>-axis is the only consideration</strong> when we find the 3 closest points to <span class="math inline">\(x_i = 0.75\)</span>: the <span class="math inline">\(y\)</span>-values are only taken into consideration <strong>after</strong> we choose our <span class="math inline">\(K = 3\)</span> closest points in this case, at which point we take the <strong>mean of the <span class="math inline">\(y\)</span>-values</strong> of these three points as our predicted <span class="math inline">\(y_i\)</span> value!<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>In this case, using some additional code to programmatically identify these 3 nearest neighbors (using the <strong>absolute deviation</strong> metric):</p>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>knn_df <span class="ot">&lt;-</span> knn_df <span class="sc">|&gt;</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -2478,7 +2375,7 @@ Solution (Click to expand)
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-html/compute-knn-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/compute-knn-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2586,10 +2483,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -2599,8 +2513,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -2612,7 +2535,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -2656,6 +2702,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -2681,6 +2728,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2741,6 +2814,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

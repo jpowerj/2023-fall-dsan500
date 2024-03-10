@@ -1,42 +1,44 @@
 ---
 title: "Week 4: Data Gathering and APIs"
-subtitle: "*DSAN 5100: Data Science and Analytics*<br>Section <span class='sec-num'>02</span>"
-date: 2023-09-12
+date: "Tuesday, September 12, 2023"
 date-format: full
-author: "Jeff Jacobs"
-institute: "<a href=\"mailto:jj1088@georgetown.edu\" target=\"_blank\">jj1088@georgetown.edu</a>"
-#date: last-modified
-#date-format: "dddd MMM D, YYYY, HH:mm:ss"
 lecnum: 4
 categories:
   - "Class Sessions"
 bibliography: "../_DSAN5000.bib"
 format:
   revealjs:
+    footer: "DSAN 5000 Week 4: Data Gathering and APIs"
     html-math-method: mathjax
-    # sadly, caching breaks this one -__-
-    # cache: true
-    cache: false
-    scrollable: false
+    df-print: kable
+    scrollable: true
     slide-number: true
     output-file: slides.html
     section-divs: false
+    theme: [default, "../_jjslides.scss"]
+    include-in-header:
+      text: "<script src='https://code.jquery.com/jquery-3.7.1.slim.min.js'></script><script src='/jjcustom.js'></script><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css' integrity='sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65' crossorigin='anonymous'><link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css'>"
     simplemenu:
       flat: true
       barhtml:
-        header: "<div class='menubar'><span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span><ul class='menu'></ul></div>"
+        header: >
+          <div class='menubar'>
+            <span style='position: absolute; left: 8; padding-left: 8px;'><a href='./index.html'>&larr; Return to Notes</a></span>
+            
+            <span style='position: absolute; right: 0; padding-right: 8px; z-index: 10; display: inline-flex !important;'>
+              <a id='toggle-02-label' href='#' onclick="window.toggleSectionClicked('02'); return(false);" class='no-decoration'>02 </a>
+              <a href='#' onclick="window.toggleIconClicked(); return(false);" class='no-decoration'><i id='section-toggle-icon' class='bi bi-toggle-off pt-0 ps-1 pe-1'></i></a>
+              <a id='toggle-03-label' href='#' onclick="window.toggleSectionClicked('03'); return(false);" class='no-decoration'> 03</a>
+            </span>
+            <ul class='menu'></ul>
+          </div>
       scale: 0.5
-    theme: [default, "../_jjslides.scss"]
     revealjs-plugins:
       - simplemenu
   html:
     output-file: index.html
     html-math-method: mathjax
-    cache: false
-metadata-files: 
-  - "../_slide-meta.yml"
 ---
-
 
 ::: {.content-visible unless-format="revealjs"}
 
@@ -138,9 +140,8 @@ Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
 ## Opening Datasets With Your Terminator Glasses On
 
-::: {layout-ncol=2}
-
-::: {.smallish}
+::: {layout="[1,1]"}
+::: {#terminator-left .smallish}
 * What does a **row** represent?
 * What does a **column** represent?
 * What does a value in a **cell** represent?
@@ -170,7 +171,6 @@ Today's Planned Schedule (Section <span class='sec-num'>02</span>):
 
 Record Data
 :::
-
 ::: {#fig-time-series-data}
 
 | year | month | points |
@@ -182,7 +182,6 @@ Record Data
 
 Time-Series Data
 :::
-
 ::: {#fig-panel-data}
 
 | id | date | rating | num_rides |
@@ -195,7 +194,6 @@ Time-Series Data
 
 Panel Data
 :::
-
 ::: {#fig-network-data}
 
 | Source | Target | Weight |
@@ -206,7 +204,6 @@ Panel Data
 
 Network Data
 :::
-
 :::
 
 ::: {.aside}
@@ -221,8 +218,7 @@ Fake data via [Mockaroo](https://www.mockaroo.com/){target="_blank"} and [Random
 * Databases like SQLite, MySQL, require us to think about relationships **within** and **between** tabular datasets
 * Imagine you're creating the **backend** for a social network. How would you record **users** and **friendships**? Your intuition may be **record data**:
 
-::: {layout-ncol=2}
-
+::: {layout="[1,1]"}
 ::: {#fig-user-table}
 
 ```{=html}
@@ -278,7 +274,6 @@ Fake data via [Mockaroo](https://www.mockaroo.com/){target="_blank"} and [Random
 
 Our first attempt at a **data structure** for our social network app's backend
 :::
-
 ::: {#friend-table-desc}
 
 Long story short...
@@ -288,7 +283,6 @@ Long story short...
 * Redundant information: Have to store friendship between **A** and **B** in both **A**'s row and **B**'s row
 
 :::
-
 :::
 
 ## A Better Approach {.smaller .crunch-title .crunch-figures .crunch-layout-panel}
@@ -296,8 +290,7 @@ Long story short...
 * Move the **friendship** data into its own table!
 * This table now represents **relational data**, (**user** table still corresponds to **records**):
 
-::: {layout="[50,50]"}
-
+::: {layout="[1,1]"}
 ::: {#fig-user-table}
 
 ```{=html}
@@ -345,9 +338,7 @@ Long story short...
 
 The **user** table in our relational structure
 :::
-
 ::: {#fig-relational-friendships}
-
 
 ```{=html}
 <style>
@@ -402,7 +393,6 @@ The **friendships** table in our relational structure
 * In either case, data is spread over **many files**, so that to obtain a single dataset we use **queries**.
 
 ::: {layout="[1,2]"}
-
 ::: {#fig-data-files}
 
 ```{dot}
@@ -420,7 +410,6 @@ digraph G {
 
 **Statically** datasets (as **individual files** on disk)
 :::
-
 ::: {#fig-data-queries}
 
 ```{dot}
@@ -451,7 +440,6 @@ digraph G {
 
 Datasets formed **dynamically** via **database queries**
 :::
-
 :::
 
 [^prisma]: For (much) more on this topic, see [this page](https://www.prisma.io/dataguide/types/relational-vs-document-databases){target="_blank"} from **Prisma**, a high-level "wrapper" that auto-syncs your DB structure with a TypeScript **schema**, so your code knows exactly "what's inside" a variable whose content was retrieved from the DB...
@@ -467,7 +455,7 @@ Datasets formed **dynamically** via **database queries**
 
 ## `.csv` / `.tsv` {.smaller}
 
-::: columns
+::: {.columns}
 ::: {.column width="47%"}
 
 👍
@@ -496,11 +484,12 @@ D val_D1  val_D2  val_D3
 
 :::
 ::: {.column width="6%"}
+
 &rarr;
+
 :::
 
 ::: {.column width="47%"}
-
 ::: {.fw-table .small-table .r-stretch}
 
 ```{r}
@@ -518,7 +507,6 @@ disp(data)
 ```
 
 :::
-
 :::
 :::
 
@@ -579,7 +567,7 @@ disp(data)
 
 <a href="https://requests.readthedocs.io/en/latest/" target="_blank">`requests` Documentation</a> | <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank">BeautifulSoup Documentation</a>
 
-```{python, reticulate=FALSE}
+```{python}
 #| label: requests-example
 #| echo: true
 #| code-fold: show
@@ -609,7 +597,27 @@ all_headers = soup.find_all("h2")
 
 ## The Power of `find_all()` {.smaller}
 
-::: {layout="[[1,1],[0.75,1]]"}
+```{python}
+#| label: page-html-to-var
+#| echo: false
+#| code-fold: false
+page_html = """<div class="all-the-data">
+    <div class="data-1">
+        <div class="dataval">1</div>
+        <div class="dataval">2</div>
+        <div class="dataval">3</div>
+    </div>
+    <div class="data-2">
+        <ul>
+            <li>4.0</li>
+            <li>5.5</li>
+            <li>6.7</li>
+        </ul>
+    </div>
+</div>"""
+```
+
+::: {layout="[[4,4],[3,4]]"}
 
 ::: {#fig-page-html}
 
@@ -634,7 +642,6 @@ all_headers = soup.find_all("h2")
 
 Data in page elements (`<div>`, `<li>`)
 :::
-
 ::: {#fig-page-rendered fig-align="left"}
 
 ```{=html}
@@ -656,28 +663,7 @@ Data in page elements (`<div>`, `<li>`)
 
 The code from @fig-page-html, rendered by your browser
 :::
-
 ::: {#fig-page-parse-code}
-
-```{python}
-#| label: page-html-to-var
-#| echo: false
-#| code-fold: false
-page_html = """<div class="all-the-data">
-    <div class="data-1">
-        <div class="dataval">1</div>
-        <div class="dataval">2</div>
-        <div class="dataval">3</div>
-    </div>
-    <div class="data-2">
-        <ul>
-            <li>4.0</li>
-            <li>5.5</li>
-            <li>6.7</li>
-        </ul>
-    </div>
-</div>"""
-```
 
 ```{python}
 #| label: bs4-parse-page
@@ -694,7 +680,6 @@ ds2 = [e.text for e in ds2_elt.find_all("li")]
 
 The BeautifulSoup code used to parse the HTML
 :::
-
 ::: {#fig-page-parsed}
 
 ```{python}
@@ -705,13 +690,31 @@ print(f"dataset-1: {ds1}\ndataset-2: {ds2}")
 
 Contents of the Python variables holding the parsed data
 :::
-
 :::
 
 ## Parsing HTML Tables {.smaller}
 
-::: {layout="[[1,1],[1,1]]"}
+```{python}
+#| label: table-html-to-var
+#| echo: false
+table_html = """<table>
+<thead>
+  <tr>
+    <th>X1</th><th>X2</th><th>X3</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1</td><td>3</td><td>5</td>
+  </tr>
+  <tr>
+    <td>2</td><td>4</td><td>6</td>
+  </tr>
+</tbody>
+</table>"""
+```
 
+::: {layout="[[1,1],[1,1]]"}
 ::: {#fig-table-html}
 
 ```html {filename="table_data.html"}
@@ -732,10 +735,8 @@ Contents of the Python variables holding the parsed data
 </table>
 ```
 
-
 Data in HTML table format
 :::
-
 ::: {#fig-table-rendered}
 
 ```{=html}
@@ -762,28 +763,7 @@ Data in HTML table format
 
 The HTML table code, as rendered by your browser
 :::
-
 ::: {#fig-table-parse-code}
-
-```{python}
-#| label: table-html-to-var
-#| echo: false
-table_html = """<table>
-<thead>
-  <tr>
-    <th>X1</th><th>X2</th><th>X3</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>1</td><td>3</td><td>5</td>
-  </tr>
-  <tr>
-    <td>2</td><td>4</td><td>6</td>
-  </tr>
-</tbody>
-</table>"""
-```
 
 ```{python}
 #| label: bs4-parse-table
@@ -800,7 +780,6 @@ data = [[e.text for e in r.find_all("td")]
 
 The BeautifulSoup code used to parse the table HTML
 :::
-
 ::: {#fig-table-parsed}
 
 ```{python}
@@ -811,7 +790,6 @@ print(f"headers: {headers}\ndata: {data}")
 
 Contents of the Python variables holding the parsed data
 :::
-
 :::
 
 # APIs {.small-title .not-title-slide data-stack-name="APIs"}
@@ -907,38 +885,31 @@ pip install PyGithub
 
 `PyGithub` can handle authentication for you. Example: <a href="https://github.com/jpowerj/private-repo-test/" target="_blank">this private repo</a> in my account does **not** show up unless the request is **authenticated** (via a Personal Access Token)[^security]:
 
-::: {layout-ncol=2}
-
-
+::: {layout="[1,1]"}
 ::: {#fig-github-noauth}
 
-```{python}
-#| label: pygithub-noauth
-#| echo: true
-# import github
-# g = github.Github()
-# try:
-#   g.get_repo("jpowerj/private-repo-test")
-# except Exception as e:
-#   print(e)
+```python
+import github
+g = github.Github()
+try:
+  g.get_repo("jpowerj/private-repo-test")
+except Exception as e:
+  print(e)
 ```
 
 Using the GitHub API **without** authentication
 :::
-
 ::: {#fig-gh-auth}
 
-```{python}
-#| label: pygithub-auth
-#| echo: true
+```python
 # Load the access token securely
-# import os
-# my_access_token = os.getenv('GITHUB_TOKEN')
-# import github
-# # Use the access token to make an API request
-# auth = github.Auth.Token(my_access_token)
-# g = github.Github(auth=auth)
-# g.get_user().get_repo("private-repo-test")
+import os
+my_access_token = os.getenv('GITHUB_TOKEN')
+import github
+# Use the access token to make an API request
+auth = github.Auth.Token(my_access_token)
+g = github.Github(auth=auth)
+g.get_user().get_repo("private-repo-test")
 ```
 
 Using the GitHub API **with** authentication
@@ -958,7 +929,9 @@ Using the GitHub API **with** authentication
 
 ## Scraping HTML with `httr2` and `xml2`
 
+```{=html}
 <a href="https://httr2.r-lib.org/" target="_blank">`httr2` Documentation</a> | <a href="https://xml2.r-lib.org/" target="_blank">`xml2` Documentation</a>
+```
 
 ```{r}
 #| label: httr2-example

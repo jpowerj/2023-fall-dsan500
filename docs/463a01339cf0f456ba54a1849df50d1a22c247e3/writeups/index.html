@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DSAN 5000 - Extra Writeups</title>
+<title>DSAN 5000 – Extra Writeups</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -48,7 +48,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -57,6 +63,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -105,6 +112,33 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../styles.css">
 </head>
 
@@ -114,12 +148,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../writeups/index.html">Extra Writeups</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../writeups/index.html">Extra Writeups</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -129,7 +163,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">DSAN 5000</a> 
@@ -292,7 +326,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
@@ -315,7 +349,9 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 
 
@@ -344,7 +380,6 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
       <input type="text" class="search form-control" placeholder="Filter">
     </div>
 </div>
-
 <table class="quarto-listing-table table table-hover">
 <thead>
 <tr>
@@ -360,19 +395,19 @@ Category
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-categories="Extra Writeups" data-listing-date-sort="1701055064000" data-listing-file-modified-sort="1701055064178" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-title-sort="Interactive Plots in Quarto with Plotly" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="0" data-categories="Extra Writeups" data-listing-date-sort="1710036979000" data-listing-file-modified-sort="1710036979099" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="421" data-listing-title-sort="Interactive Plots in Quarto with Plotly" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/plotly/index.html" class="title listing-title">Interactive Plots in Quarto with Plotly</a>
 </td>
 <td>
-<span class="listing-date">Sunday, November 26, 2023</span>
+<span class="listing-date">Saturday, March 9, 2024</span>
 </td>
 <td>
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="1" data-categories="Extra Writeups" data-listing-date-sort="1700020353000" data-listing-file-modified-sort="1700020353589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-title-sort="Unsupervised Clustering and Visualization of Clusters with Text Data" data-listing-filename-sort="DSAN5000_Clustering_Lab.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="1" data-categories="Extra Writeups" data-listing-date-sort="1700020353000" data-listing-file-modified-sort="1700020353589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3339" data-listing-title-sort="Unsupervised Clustering and Visualization of Clusters with Text Data" data-listing-filename-sort="DSAN5000_Clustering_Lab.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/clustering/DSAN5000_Clustering_Lab.html" class="title listing-title">Unsupervised Clustering and Visualization of Clusters with Text Data</a>
@@ -384,7 +419,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="2" data-categories="Extra Writeups" data-listing-date-sort="1700009565000" data-listing-file-modified-sort="1700009565654" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-title-sort="Decision Trees for Musical Genre Classification" data-listing-filename-sort="DSAN5000_Decision_Trees.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="2" data-categories="Extra Writeups" data-listing-date-sort="1700009565000" data-listing-file-modified-sort="1700009565654" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1955" data-listing-title-sort="Decision Trees for Musical Genre Classification" data-listing-filename-sort="DSAN5000_Decision_Trees.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/decision-trees/DSAN5000_Decision_Trees.html" class="title listing-title">Decision Trees for Musical Genre Classification</a>
@@ -396,7 +431,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="3" data-categories="Extra Writeups" data-listing-date-sort="1699059021000" data-listing-file-modified-sort="1699059021040" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-title-sort="Data Cleaning with Python" data-listing-filename-sort="clean_data.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="3" data-categories="Extra Writeups" data-listing-date-sort="1699059017000" data-listing-file-modified-sort="1699059017000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="68" data-listing-title-sort="Data Cleaning with Python" data-listing-filename-sort="clean_data.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/data-cleaning/clean_data.html" class="title listing-title">Data Cleaning with Python</a>
@@ -408,7 +443,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="4" data-categories="Extra Writeups" data-listing-date-sort="1699058968000" data-listing-file-modified-sort="1699058968979" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="34" data-listing-title-sort="Exploratory Data Analysis of the THOR Dataset in Seaborn" data-listing-filename-sort="THOR_EDA_with_Seaborn.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="4" data-categories="Extra Writeups" data-listing-date-sort="1699058968000" data-listing-file-modified-sort="1699058968979" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="34" data-listing-word-count-sort="6787" data-listing-title-sort="Exploratory Data Analysis of the THOR Dataset in Seaborn" data-listing-filename-sort="THOR_EDA_with_Seaborn.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/eda-seaborn/THOR_EDA_with_Seaborn.html" class="title listing-title">Exploratory Data Analysis of the THOR Dataset in Seaborn</a>
@@ -420,7 +455,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="5" data-categories="Extra Writeups" data-listing-date-sort="1699058945000" data-listing-file-modified-sort="1699058945641" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="33" data-listing-title-sort="Feature Selection in Python" data-listing-filename-sort="DSAN5000_Feature_Selection_Full.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="5" data-categories="Extra Writeups" data-listing-date-sort="1699058940000" data-listing-file-modified-sort="1699058940000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="33" data-listing-word-count-sort="6579" data-listing-title-sort="Feature Selection in Python" data-listing-filename-sort="DSAN5000_Feature_Selection_Full.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/feature-selection/DSAN5000_Feature_Selection_Full.html" class="title listing-title">Feature Selection in Python</a>
@@ -432,7 +467,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="6" data-categories="Extra Writeups" data-listing-date-sort="1699058814000" data-listing-file-modified-sort="1699058814796" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-title-sort="Scraping *B'Tselem (בצלם)*'s Data on the Ethnic Cleansing of Palestine with Selenium" data-listing-filename-sort="Web_Scraping_With_Selenium.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="6" data-categories="Extra Writeups" data-listing-date-sort="1699058814000" data-listing-file-modified-sort="1699058814796" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1037" data-listing-title-sort="Scraping *B'Tselem (בצלם)*'s Data on the Ethnic Cleansing of Palestine with Selenium" data-listing-filename-sort="Web_Scraping_With_Selenium.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/selenium/Web_Scraping_With_Selenium.html" class="title listing-title">Scraping <em>B’Tselem (בצלם)</em>’s Data on the Ethnic Cleansing of Palestine with Selenium</a>
@@ -444,7 +479,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="7" data-categories="Extra Writeups" data-listing-date-sort="1698866283000" data-listing-file-modified-sort="1698866283796" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-title-sort="Regression vs. PCA" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="7" data-categories="Extra Writeups" data-listing-date-sort="1698866283000" data-listing-file-modified-sort="1698866283796" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2058" data-listing-title-sort="Regression vs. PCA" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/regression-vs-pca/index.html" class="title listing-title">Regression vs.&nbsp;PCA</a>
@@ -456,19 +491,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="8" data-categories="Extra Writeups" data-listing-date-sort="1698797010000" data-listing-file-modified-sort="1698797010824" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-title-sort="Extra Slides: A Slightly Deeper Dive Into Machine Learning" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<a href="../writeups/machine-learning/index.html" class="title listing-title">Extra Slides: A Slightly Deeper Dive Into Machine Learning</a>
-</td>
-<td>
-<span class="listing-date">Tuesday, October 31, 2023</span>
-</td>
-<td>
-<span class="listing-categories">Extra Writeups</span>
-</td>
-</tr>
-<tr data-index="9" data-categories="Extra Writeups" data-listing-date-sort="1698187169000" data-listing-file-modified-sort="1698187169301" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-title-sort="Left-Right Shifts of a Function" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="8" data-categories="Extra Writeups" data-listing-date-sort="1698187167000" data-listing-file-modified-sort="1698187167000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="556" data-listing-title-sort="Left-Right Shifts of a Function" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/left-right-shifts/index.html" class="title listing-title">Left-Right Shifts of a Function</a>
@@ -480,7 +503,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="10" data-categories="Extra Writeups" data-listing-date-sort="1697431259000" data-listing-file-modified-sort="1697431259894" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="54" data-listing-title-sort="Midterm Prep Practice Problems" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="9" data-categories="Extra Writeups" data-listing-date-sort="1697431259000" data-listing-file-modified-sort="1697431259894" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="54" data-listing-word-count-sort="10783" data-listing-title-sort="Midterm Prep Practice Problems" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/midterm-prep/index.html" class="title listing-title">Midterm Prep Practice Problems</a>
@@ -492,7 +515,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="11" data-categories="Clarifications" data-listing-date-sort="1697320313000" data-listing-file-modified-sort="1697320313508" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-title-sort="Lab 3.2 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="10" data-categories="Clarifications" data-listing-date-sort="1697320313000" data-listing-file-modified-sort="1697320313508" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1167" data-listing-title-sort="Lab 3.2 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/lab-3-2-clarifications/index.html" class="title listing-title">Lab 3.2 Clarifications</a>
@@ -504,7 +527,7 @@ Category
 <span class="listing-categories">Clarifications</span>
 </td>
 </tr>
-<tr data-index="12" data-categories="Clarifications" data-listing-date-sort="1696984216000" data-listing-file-modified-sort="1696984216370" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-title-sort="Homework-2 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="11" data-categories="Clarifications" data-listing-date-sort="1696984121000" data-listing-file-modified-sort="1696984121000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1129" data-listing-title-sort="Homework-2 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/hw2-clarifications/index.html" class="title listing-title">Homework-2 Clarifications</a>
@@ -516,7 +539,19 @@ Category
 <span class="listing-categories">Clarifications</span>
 </td>
 </tr>
-<tr data-index="13" data-categories="Extra Writeups" data-listing-date-sort="1696207501000" data-listing-file-modified-sort="1696207501148" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-title-sort="Melting Data in Python and R" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="12" data-categories="Extra Writeups" data-listing-date-sort="1696730454000" data-listing-file-modified-sort="1696730454000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3491" data-listing-title-sort="Extra Slides: A Slightly Deeper Dive Into Machine Learning" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<a href="../writeups/machine-learning/index.html" class="title listing-title">Extra Slides: A Slightly Deeper Dive Into Machine Learning</a>
+</td>
+<td>
+<span class="listing-date">Saturday, October 7, 2023</span>
+</td>
+<td>
+<span class="listing-categories">Extra Writeups</span>
+</td>
+</tr>
+<tr data-index="13" data-categories="Extra Writeups" data-listing-date-sort="1696206480000" data-listing-file-modified-sort="1696206480000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1387" data-listing-title-sort="Melting Data in Python and R" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/melt-and-pivot/index.html" class="title listing-title">Melting Data in Python and R</a>
@@ -528,7 +563,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="14" data-categories="Extra Writeups" data-listing-date-sort="1695961325000" data-listing-file-modified-sort="1695961325397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-title-sort="Splitting a String Column in Tidyverse" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="14" data-categories="Extra Writeups" data-listing-date-sort="1695961325000" data-listing-file-modified-sort="1695961325397" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="570" data-listing-title-sort="Splitting a String Column in Tidyverse" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/tidyverse-split-column/index.html" class="title listing-title">Splitting a String Column in Tidyverse</a>
@@ -540,7 +575,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="15" data-categories="Extra Writeups" data-listing-date-sort="1695959788000" data-listing-file-modified-sort="1695959788988" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-title-sort="Multiple-Column Layout in Quarto" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="15" data-categories="Extra Writeups" data-listing-date-sort="1695959788000" data-listing-file-modified-sort="1695959788988" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="50" data-listing-title-sort="Multiple-Column Layout in Quarto" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/columns/index.html" class="title listing-title">Multiple-Column Layout in Quarto</a>
@@ -552,7 +587,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="16" data-categories="Extra Writeups" data-listing-date-sort="1695959429000" data-listing-file-modified-sort="1695959429541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-title-sort="DSAN 5000 Quiz Status Sheet" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="16" data-categories="Extra Writeups" data-listing-date-sort="1695959429000" data-listing-file-modified-sort="1695959429541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1" data-listing-title-sort="DSAN 5000 Quiz Status Sheet" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/quiz-status/index.html" class="title listing-title">DSAN 5000 Quiz Status Sheet</a>
@@ -564,7 +599,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="17" data-categories="Extra Writeups" data-listing-date-sort="1695796560000" data-listing-file-modified-sort="1695796560191" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-title-sort="Managing Python Installations" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="17" data-categories="Extra Writeups" data-listing-date-sort="1695796560000" data-listing-file-modified-sort="1695796560191" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1902" data-listing-title-sort="Managing Python Installations" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/python-install/index.html" class="title listing-title">Managing Python Installations</a>
@@ -576,7 +611,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="18" data-categories="Extra Writeups" data-listing-date-sort="1695783302000" data-listing-file-modified-sort="1695783302820" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-title-sort="Regular Expressions for Data Cleaning" data-listing-filename-sort="index.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="18" data-categories="Extra Writeups" data-listing-date-sort="1695783302000" data-listing-file-modified-sort="1695783302820" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1612" data-listing-title-sort="Regular Expressions for Data Cleaning" data-listing-filename-sort="index.ipynb" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/regex/index.html" class="title listing-title">Regular Expressions for Data Cleaning</a>
@@ -588,7 +623,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="19" data-categories="Extra Writeups" data-listing-date-sort="1695171268000" data-listing-file-modified-sort="1695171268536" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-title-sort="The Final Boss of Quarto Errors" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="19" data-categories="Extra Writeups" data-listing-date-sort="1695171268000" data-listing-file-modified-sort="1695171268536" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="423" data-listing-title-sort="The Final Boss of Quarto Errors" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/empty-files-error/index.html" class="title listing-title">The Final Boss of Quarto Errors</a>
@@ -600,7 +635,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="20" data-categories="Clarifications" data-listing-date-sort="1694915599000" data-listing-file-modified-sort="1694915599588" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-title-sort="Lab 1.2 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="20" data-categories="Clarifications" data-listing-date-sort="1694915599000" data-listing-file-modified-sort="1694915599588" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2934" data-listing-title-sort="Lab 1.2 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/lab-1-2-clarifications/index.html" class="title listing-title">Lab 1.2 Clarifications</a>
@@ -612,7 +647,7 @@ Category
 <span class="listing-categories">Clarifications</span>
 </td>
 </tr>
-<tr data-index="21" data-categories="Extra Writeups" data-listing-date-sort="1694760056000" data-listing-file-modified-sort="1694760056927" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-title-sort="Using Quarto's Reference Manager with Zotero" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="21" data-categories="Extra Writeups" data-listing-date-sort="1694760056000" data-listing-file-modified-sort="1694760056927" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="918" data-listing-title-sort="Using Quarto's Reference Manager with Zotero" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/zotero/index.html" class="title listing-title">Using Quarto’s Reference Manager with Zotero</a>
@@ -624,7 +659,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="22" data-categories="Extra Writeups" data-listing-date-sort="1694746927000" data-listing-file-modified-sort="1694746927933" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-title-sort="Troubleshooting SSH/SCP/rsync on Georgetown Domains" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="22" data-categories="Extra Writeups" data-listing-date-sort="1694746927000" data-listing-file-modified-sort="1694746927933" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4116" data-listing-title-sort="Troubleshooting SSH/SCP/rsync on Georgetown Domains" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/domains-ssh/index.html" class="title listing-title">Troubleshooting SSH/SCP/rsync on Georgetown Domains</a>
@@ -636,7 +671,7 @@ Category
 <span class="listing-categories">Extra Writeups</span>
 </td>
 </tr>
-<tr data-index="23" data-categories="Clarifications" data-listing-date-sort="1694582098000" data-listing-file-modified-sort="1694582098272" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-title-sort="Homework 1 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="23" data-categories="Clarifications" data-listing-date-sort="1694582098000" data-listing-file-modified-sort="1694582098272" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="300" data-listing-title-sort="Homework 1 Clarifications" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/hw1-clarifications/index.html" class="title listing-title">Homework 1 Clarifications</a>
@@ -648,7 +683,7 @@ Category
 <span class="listing-categories">Clarifications</span>
 </td>
 </tr>
-<tr data-index="24" data-categories="Extra Writeups" data-listing-date-sort="1694581441000" data-listing-file-modified-sort="1694581441201" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-title-sort="Using Quarto's Reference Manager with Google Scholar" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="24" data-categories="Extra Writeups" data-listing-date-sort="1694581441000" data-listing-file-modified-sort="1694581441201" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1604" data-listing-title-sort="Using Quarto's Reference Manager with Google Scholar" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <a href="../writeups/refs-and-citations/index.html" class="title listing-title">Using Quarto’s Reference Manager with Google Scholar</a>
@@ -661,7 +696,6 @@ Category
 </td>
 </tr>
 </tbody>
-
 </table>
 <div class="listing-no-matching d-none">
 No matching items
@@ -746,10 +780,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -759,8 +810,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -772,7 +832,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -816,6 +999,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -841,6 +1025,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -901,6 +1111,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

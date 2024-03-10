@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
 
-<title>DSAN 5000 - Week 5: Data Cleaning</title>
+<title>DSAN 5000 – Week 5: Data Cleaning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -59,6 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -100,7 +101,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -109,6 +116,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -128,6 +136,33 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../styles.css">
 </head>
 
@@ -137,12 +172,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w05/index.html">Week 5: <span class="sec-w05-date">Sep 19</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w05/index.html">Week 5: <span class="sec-w05-date">Sep 19</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -152,7 +187,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">DSAN 5000</a> 
@@ -315,7 +350,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -397,12 +432,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div class="quarto-title-meta-contents">
     <p class="author">Jeff Jacobs </p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -418,7 +453,9 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <center>
 <a class="h2" href="./slides.html" target="_blank">Open slides in new window →</a>
@@ -426,7 +463,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <section id="schedule" class="level1 smaller small-title crunch-title crunch-callout" data-stack-name="Schedule">
 <h1 class="smaller small-title crunch-title crunch-callout" data-stack-name="Schedule">Schedule</h1>
 <div class="hidden">
-<div class="cell" data-hash="index_cache/html/r-source-globals_fe92f3f10cd48b5a39c149291d71cc91">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -521,99 +558,118 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li>Network data form <strong>two</strong> tabular datasets: one for <strong>nodes</strong> and one for <strong>edges</strong></li>
 <li>Ex: Network on left could be represented via pair of tabular datasets on right</li>
 </ul>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-pokemon" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pokemon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/pokemon_graph_subsets.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pokemon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Network of some sort of ancient kinship structure
+</figcaption>
+</figure>
+</div>
+</div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<div id="fig-pokemon" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/pokemon_graph_subsets.png" class="img-fluid figure-img" width="500"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Network of some sort of ancient kinship structure</figcaption>
-</figure>
-</div>
-</div>
-<div id="fig-nodes" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 33.3%;justify-content: center;">
-<figure class="figure">
+<div id="fig-nodes" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nodes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>node_id</th>
-<th>label</th>
+<th style="text-align: left;">node_id</th>
+<th style="text-align: left;">label</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>Bulbasaur</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Bulbasaur</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>Ivysaur</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Ivysaur</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\vdots\)</span></td>
 </tr>
 <tr class="even">
-<td>9</td>
-<td>Blastoise</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Blastoise</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;2: A tabular dataset representing the <strong>nodes</strong> in the network above</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nodes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: A tabular dataset representing the <strong>nodes</strong> in the network above
+</figcaption>
 </figure>
 </div>
-<div id="fig-edges" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 33.3%;justify-content: center;">
-<figure class="figure">
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div id="fig-edges" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>edge_id</th>
-<th>source</th>
-<th>target</th>
-<th>weight</th>
+<th style="text-align: left;">edge_id</th>
+<th style="text-align: left;">source</th>
+<th style="text-align: left;">target</th>
+<th style="text-align: left;">weight</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>1</td>
-<td>2</td>
-<td>16</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">16</td>
 </tr>
 <tr class="even">
-<td>1</td>
-<td>2</td>
-<td>3</td>
-<td>32</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">32</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td>4</td>
-<td>5</td>
-<td>16</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">16</td>
 </tr>
 <tr class="even">
-<td>3</td>
-<td>5</td>
-<td>6</td>
-<td>36</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">36</td>
 </tr>
 <tr class="odd">
-<td>4</td>
-<td>7</td>
-<td>8</td>
-<td>16</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">16</td>
 </tr>
 <tr class="even">
-<td>5</td>
-<td>8</td>
-<td>9</td>
-<td>36</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">36</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;3: A tabular dataset representing the <strong>edges</strong> in the network above</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: A tabular dataset representing the <strong>edges</strong> in the network above
+</figcaption>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -719,11 +775,16 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li><strong>REST</strong> (<strong>RE</strong>presentational <strong>S</strong>tate <strong>T</strong>ransfer): Uses standard HTTP, wide range of formats</li>
 <li><strong>GraphQL</strong> (<strong>Graph</strong> <strong>Q</strong>uery <strong>L</strong>anguage): Rather than exposing several endpoints, each performing a single function, GraphQL exposes a <strong>single</strong> endpoint for queries (so that the <strong>server</strong> then goes and figures out how to satisfy these queries)</li>
 </ul>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="fig-rest" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
-<div class="cell" data-fig-width="5" data-fig-height="3">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-rest" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-fig-width="5" data-fig-height="3" data-layout-align="default">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode dot code-with-copy"><code class="sourceCode dot"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">digraph</span> <span class="va">G1</span> <span class="ot">{</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="at">rankdir</span><span class="ot">=</span><span class="va">TB</span><span class="ot">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="kw">subgraph</span><span class="co"> </span><span class="va">cluster_00</span><span class="co"> </span><span class="ot">{</span></span>
@@ -742,64 +803,92 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ot">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <svg width="480" height="288" viewbox="0.00 0.00 497.45 189.60" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 185.6)">
-<title>
-G1
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-185.6 493.45,-185.6 493.45,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_00
-</title>
-<polygon fill="none" stroke="black" points="8,-8 8,-173.6 246,-173.6 246,-8 8,-8"></polygon> <text text-anchor="middle" x="127" y="-16.2" font-family="Times,serif" font-size="14.00">Endpoints</text> </g> <!-- dev --> <g id="node1" class="node">
-<title>
-dev
-</title>
-<ellipse fill="none" stroke="black" cx="139" cy="-147.6" rx="51.01" ry="18"></ellipse> <text text-anchor="middle" x="139" y="-143.4" font-family="Times,serif" font-size="14.00">Developer</text> </g> <!-- api1 --> <g id="node2" class="node">
-<title>
-api1
-</title>
-<ellipse fill="none" stroke="black" cx="64" cy="-58.8" rx="47.52" ry="18"></ellipse> <text text-anchor="middle" x="64" y="-54.6" font-family="Times,serif" font-size="14.00">get_users</text> </g> <!-- dev&#45;&gt;api1 --> <g id="edge1" class="edge">
-<title>
-dev-&gt;api1
-</title>
-<path fill="none" stroke="black" d="M97.45,-136.83C84.4,-131.59 71.41,-123.63 63.73,-111.6 59.18,-104.46 58.01,-95.55 58.36,-87.16"></path> <polygon fill="black" stroke="black" points="61.86,-87.28 59.46,-76.96 54.9,-86.52 61.86,-87.28"></polygon> <text text-anchor="middle" x="87.13" y="-99" font-family="Times,serif" font-size="14.00">API call</text> </g> <!-- api2 --> <g id="node3" class="node">
-<title>
-api2
-</title>
-<ellipse fill="none" stroke="black" cx="184" cy="-58.8" rx="54.46" ry="18"></ellipse> <text text-anchor="middle" x="184" y="-54.6" font-family="Times,serif" font-size="14.00">get_friends</text> </g> <!-- dev&#45;&gt;api2 --> <g id="edge3" class="edge">
-<title>
-dev-&gt;api2
-</title>
-<path fill="none" stroke="black" d="M135.83,-129.4C134.72,-118.88 134.86,-105.44 140.12,-94.8 142.5,-90.01 145.86,-85.67 149.69,-81.8"></path> <polygon fill="black" stroke="black" points="152.29,-84.18 157.49,-74.95 147.66,-78.92 152.29,-84.18"></polygon> <text text-anchor="middle" x="186.94" y="-99" font-family="Times,serif" font-size="14.00">API call (id = 5)</text> </g> <!-- figureOut --> <g id="node4" class="node">
-<title>
-figureOut
-</title>
-<ellipse fill="none" stroke="black" cx="373" cy="-58.8" rx="116.39" ry="18"></ellipse> <text text-anchor="middle" x="373" y="-54.6" font-family="Times,serif" font-size="14.00">is User 5 friends w Pitbull?</text> </g> <!-- dev&#45;&gt;figureOut --> <g id="edge5" class="edge">
-<title>
-dev-&gt;figureOut
-</title>
-<path fill="none" stroke="black" d="M174.36,-134.35C193.28,-127.74 216.96,-119.35 238,-111.6 266.2,-101.21 297.54,-89.21 322.93,-79.38"></path> <polygon fill="black" stroke="black" points="324.29,-82.6 332.34,-75.72 321.75,-76.08 324.29,-82.6"></polygon> </g> <!-- api1&#45;&gt;dev --> <g id="edge2" class="edge">
-<title>
-api1-&gt;dev
-</title>
-<path fill="none" stroke="black" d="M87.57,-74.86C95.3,-80.51 103.55,-87.38 110,-94.8 116.65,-102.46 122.48,-111.88 127.12,-120.58"></path> <polygon fill="black" stroke="black" points="124.06,-122.27 131.69,-129.62 130.31,-119.12 124.06,-122.27"></polygon> </g> <!-- api2&#45;&gt;dev --> <g id="edge4" class="edge">
-<title>
-api2-&gt;dev
-</title>
-<path fill="none" stroke="black" d="M212.35,-74.46C227.56,-84.33 241.42,-97.99 232,-111.6 223.46,-123.93 210,-131.92 195.94,-137.1"></path> <polygon fill="black" stroke="black" points="194.61,-133.86 186.16,-140.26 196.76,-140.52 194.61,-133.86"></polygon> </g> </g>
+<title>G1</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-185.6 493.45,-185.6 493.45,4 -4,4"></polygon>
+<g id="clust1" class="cluster">
+<title>cluster_00</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-173.6 246,-173.6 246,-8 8,-8"></polygon>
+<text text-anchor="middle" x="127" y="-16.2" font-family="Times,serif" font-size="14.00">Endpoints</text>
+</g>
+<!-- dev -->
+<g id="node1" class="node">
+<title>dev</title>
+<ellipse fill="none" stroke="black" cx="139" cy="-147.6" rx="51.01" ry="18"></ellipse>
+<text text-anchor="middle" x="139" y="-143.4" font-family="Times,serif" font-size="14.00">Developer</text>
+</g>
+<!-- api1 -->
+<g id="node2" class="node">
+<title>api1</title>
+<ellipse fill="none" stroke="black" cx="64" cy="-58.8" rx="47.52" ry="18"></ellipse>
+<text text-anchor="middle" x="64" y="-54.6" font-family="Times,serif" font-size="14.00">get_users</text>
+</g>
+<!-- dev&#45;&gt;api1 -->
+<g id="edge1" class="edge">
+<title>dev-&gt;api1</title>
+<path fill="none" stroke="black" d="M97.45,-136.83C84.4,-131.59 71.41,-123.63 63.73,-111.6 59.18,-104.46 58.01,-95.55 58.36,-87.16"></path>
+<polygon fill="black" stroke="black" points="61.86,-87.28 59.46,-76.96 54.9,-86.52 61.86,-87.28"></polygon>
+<text text-anchor="middle" x="87.13" y="-99" font-family="Times,serif" font-size="14.00">API call</text>
+</g>
+<!-- api2 -->
+<g id="node3" class="node">
+<title>api2</title>
+<ellipse fill="none" stroke="black" cx="184" cy="-58.8" rx="54.46" ry="18"></ellipse>
+<text text-anchor="middle" x="184" y="-54.6" font-family="Times,serif" font-size="14.00">get_friends</text>
+</g>
+<!-- dev&#45;&gt;api2 -->
+<g id="edge3" class="edge">
+<title>dev-&gt;api2</title>
+<path fill="none" stroke="black" d="M135.83,-129.4C134.72,-118.88 134.86,-105.44 140.12,-94.8 142.5,-90.01 145.86,-85.67 149.69,-81.8"></path>
+<polygon fill="black" stroke="black" points="152.29,-84.18 157.49,-74.95 147.66,-78.92 152.29,-84.18"></polygon>
+<text text-anchor="middle" x="186.94" y="-99" font-family="Times,serif" font-size="14.00">API call (id = 5)</text>
+</g>
+<!-- figureOut -->
+<g id="node4" class="node">
+<title>figureOut</title>
+<ellipse fill="none" stroke="black" cx="373" cy="-58.8" rx="116.39" ry="18"></ellipse>
+<text text-anchor="middle" x="373" y="-54.6" font-family="Times,serif" font-size="14.00">is User 5 friends w Pitbull?</text>
+</g>
+<!-- dev&#45;&gt;figureOut -->
+<g id="edge5" class="edge">
+<title>dev-&gt;figureOut</title>
+<path fill="none" stroke="black" d="M174.36,-134.35C193.28,-127.74 216.96,-119.35 238,-111.6 266.2,-101.21 297.54,-89.21 322.93,-79.38"></path>
+<polygon fill="black" stroke="black" points="324.29,-82.6 332.34,-75.72 321.75,-76.08 324.29,-82.6"></polygon>
+</g>
+<!-- api1&#45;&gt;dev -->
+<g id="edge2" class="edge">
+<title>api1-&gt;dev</title>
+<path fill="none" stroke="black" d="M87.57,-74.86C95.3,-80.51 103.55,-87.38 110,-94.8 116.65,-102.46 122.48,-111.88 127.12,-120.58"></path>
+<polygon fill="black" stroke="black" points="124.06,-122.27 131.69,-129.62 130.31,-119.12 124.06,-122.27"></polygon>
+</g>
+<!-- api2&#45;&gt;dev -->
+<g id="edge4" class="edge">
+<title>api2-&gt;dev</title>
+<path fill="none" stroke="black" d="M212.35,-74.46C227.56,-84.33 241.42,-97.99 232,-111.6 223.46,-123.93 210,-131.92 195.94,-137.1"></path>
+<polygon fill="black" stroke="black" points="194.61,-133.86 186.16,-140.26 196.76,-140.52 194.61,-133.86"></polygon>
+</g>
+</g>
 </svg>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;4: Using individual endpoints (<code>get_users</code> and <code>get_friends</code>) to derive answer to “Is User 5 friends with Pitbull?”</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Using individual endpoints (<code>get_users</code> and <code>get_friends</code>) to derive answer to “Is User 5 friends with Pitbull?”
+</figcaption>
 </figure>
 </div>
-<div id="fig-graphql" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
-<div class="cell" data-fig-width="5" data-fig-height="3">
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-graphql" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-graphql-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-fig-width="5" data-fig-height="3" data-layout-align="default">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode dot code-with-copy"><code class="sourceCode dot"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">digraph</span> <span class="va">G2</span> <span class="ot">{</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="va">newrank</span><span class="ot">=</span><span class="va">true</span><span class="ot">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="at">rankdir</span><span class="ot">=</span><span class="va">TB</span><span class="ot">;</span></span>
@@ -827,64 +916,95 @@ api2-&gt;dev
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ot">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
+<p></p><figure class="figure"><p></p>
 <div>
 <svg width="480" height="288" viewbox="0.00 0.00 502.99 257.20" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 253.2)">
-<title>
-G2
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-253.2 498.99,-253.2 498.99,4 -4,4"></polygon> <g id="clust1" class="cluster">
-<title>
-cluster_00
-</title>
-<polygon fill="none" stroke="black" points="139.51,-8 139.51,-241.2 341.51,-241.2 341.51,-8 139.51,-8"></polygon> <text text-anchor="middle" x="240.51" y="-16.2" font-family="Times,serif" font-size="14.00">(Single) Endpoint</text> </g> <!-- api1 --> <g id="node1" class="node">
-<title>
-api1
-</title>
-<ellipse fill="none" stroke="black" cx="47.51" cy="-75.8" rx="47.52" ry="18"></ellipse> <text text-anchor="middle" x="47.51" y="-71.6" font-family="Times,serif" font-size="14.00">get_users</text> </g> <!-- gqlServer --> <g id="node3" class="node">
-<title>
-gqlServer
-</title>
-<ellipse fill="none" stroke="black" cx="240.51" cy="-75.8" rx="75.82" ry="18"></ellipse> <text text-anchor="middle" x="240.51" y="-71.6" font-family="Times,serif" font-size="14.00">GraphQL Server</text> </g> <!-- api1&#45;&gt;gqlServer --> <g id="edge4" class="edge">
-<title>
-api1-&gt;gqlServer
-</title>
-<path fill="none" stroke="black" d="M95.22,-75.8C113.17,-75.8 134.18,-75.8 154.56,-75.8"></path> <polygon fill="black" stroke="black" points="154.81,-79.3 164.81,-75.8 154.81,-72.3 154.81,-79.3"></polygon> <text text-anchor="middle" x="129.93" y="-83" font-family="Times,serif" font-size="14.00">(internal)</text> </g> <!-- dev --> <g id="node2" class="node">
-<title>
-dev
-</title>
-<ellipse fill="none" stroke="black" cx="240.51" cy="-198.2" rx="51.01" ry="18"></ellipse> <text text-anchor="middle" x="240.51" y="-194" font-family="Times,serif" font-size="14.00">Developer</text> </g> <!-- dev&#45;&gt;gqlServer --> <g id="edge1" class="edge">
-<title>
-dev-&gt;gqlServer
-</title>
-<path fill="none" stroke="black" d="M213.45,-182.63C206.14,-177.25 199.14,-170.42 195.1,-162.2 185.21,-142.1 185.21,-131.9 195.1,-111.8 197.29,-107.35 200.35,-103.3 203.86,-99.67"></path> <polygon fill="black" stroke="black" points="206.42,-102.07 211.55,-92.81 201.76,-96.85 206.42,-102.07"></polygon> <text text-anchor="middle" x="246.22" y="-149.6" font-family="Times,serif" font-size="14.00">GraphQL API call</text> <text text-anchor="middle" x="246.22" y="-132.8" font-family="Times,serif" font-size="14.00">(“is User 5 friends</text> <text text-anchor="middle" x="246.22" y="-116" font-family="Times,serif" font-size="14.00">with Pitbull?”)</text> </g> <!-- gqlServer&#45;&gt;api1 --> <g id="edge3" class="edge">
-<title>
-gqlServer-&gt;api1
-</title>
-<path fill="none" stroke="black" d="M164.83,-75.8C145.03,-75.8 125.22,-75.8 105.42,-75.8"></path> <polygon fill="black" stroke="black" points="105.38,-72.3 95.38,-75.8 105.38,-79.3 105.38,-72.3"></polygon> </g> <!-- gqlServer&#45;&gt;dev --> <g id="edge2" class="edge">
-<title>
-gqlServer-&gt;dev
-</title>
-<path fill="none" stroke="black" d="M277.6,-91.5C285.93,-96.63 293.71,-103.3 298.51,-111.8 309.52,-131.31 309.52,-142.69 298.51,-162.2 294.77,-168.82 289.23,-174.33 283.02,-178.86"></path> <polygon fill="black" stroke="black" points="280.81,-176.12 274.26,-184.46 284.57,-182.02 280.81,-176.12"></polygon> </g> <!-- api2 --> <g id="node4" class="node">
-<title>
-api2
-</title>
-<ellipse fill="none" stroke="black" cx="440.51" cy="-75.8" rx="54.46" ry="18"></ellipse> <text text-anchor="middle" x="440.51" y="-71.6" font-family="Times,serif" font-size="14.00">get_friends</text> </g> <!-- gqlServer&#45;&gt;api2 --> <g id="edge5" class="edge">
-<title>
-gqlServer-&gt;api2
-</title>
-<path fill="none" stroke="black" d="M316.41,-75.8C335.98,-75.8 356.87,-75.8 375.82,-75.8"></path> <polygon fill="black" stroke="black" points="375.83,-79.3 385.83,-75.8 375.83,-72.3 375.83,-79.3"></polygon> <text text-anchor="middle" x="351.1" y="-83" font-family="Times,serif" font-size="14.00">(internal)</text> </g> <!-- api2&#45;&gt;gqlServer --> <g id="edge6" class="edge">
-<title>
-api2-&gt;gqlServer
-</title>
-<path fill="none" stroke="black" d="M385.68,-75.8C365.89,-75.8 346.11,-75.8 326.32,-75.8"></path> <polygon fill="black" stroke="black" points="326.29,-72.3 316.29,-75.8 326.29,-79.3 326.29,-72.3"></polygon> </g> </g>
+<title>G2</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-253.2 498.99,-253.2 498.99,4 -4,4"></polygon>
+<g id="clust1" class="cluster">
+<title>cluster_00</title>
+<polygon fill="none" stroke="black" points="139.51,-8 139.51,-241.2 341.51,-241.2 341.51,-8 139.51,-8"></polygon>
+<text text-anchor="middle" x="240.51" y="-16.2" font-family="Times,serif" font-size="14.00">(Single) Endpoint</text>
+</g>
+<!-- api1 -->
+<g id="node1" class="node">
+<title>api1</title>
+<ellipse fill="none" stroke="black" cx="47.51" cy="-75.8" rx="47.52" ry="18"></ellipse>
+<text text-anchor="middle" x="47.51" y="-71.6" font-family="Times,serif" font-size="14.00">get_users</text>
+</g>
+<!-- gqlServer -->
+<g id="node3" class="node">
+<title>gqlServer</title>
+<ellipse fill="none" stroke="black" cx="240.51" cy="-75.8" rx="75.82" ry="18"></ellipse>
+<text text-anchor="middle" x="240.51" y="-71.6" font-family="Times,serif" font-size="14.00">GraphQL Server</text>
+</g>
+<!-- api1&#45;&gt;gqlServer -->
+<g id="edge4" class="edge">
+<title>api1-&gt;gqlServer</title>
+<path fill="none" stroke="black" d="M95.22,-75.8C113.17,-75.8 134.18,-75.8 154.56,-75.8"></path>
+<polygon fill="black" stroke="black" points="154.81,-79.3 164.81,-75.8 154.81,-72.3 154.81,-79.3"></polygon>
+<text text-anchor="middle" x="129.93" y="-83" font-family="Times,serif" font-size="14.00">(internal)</text>
+</g>
+<!-- dev -->
+<g id="node2" class="node">
+<title>dev</title>
+<ellipse fill="none" stroke="black" cx="240.51" cy="-198.2" rx="51.01" ry="18"></ellipse>
+<text text-anchor="middle" x="240.51" y="-194" font-family="Times,serif" font-size="14.00">Developer</text>
+</g>
+<!-- dev&#45;&gt;gqlServer -->
+<g id="edge1" class="edge">
+<title>dev-&gt;gqlServer</title>
+<path fill="none" stroke="black" d="M213.45,-182.63C206.14,-177.25 199.14,-170.42 195.1,-162.2 185.21,-142.1 185.21,-131.9 195.1,-111.8 197.29,-107.35 200.35,-103.3 203.86,-99.67"></path>
+<polygon fill="black" stroke="black" points="206.42,-102.07 211.55,-92.81 201.76,-96.85 206.42,-102.07"></polygon>
+<text text-anchor="middle" x="246.22" y="-149.6" font-family="Times,serif" font-size="14.00">GraphQL API call</text>
+<text text-anchor="middle" x="246.22" y="-132.8" font-family="Times,serif" font-size="14.00">("is User 5 friends</text>
+<text text-anchor="middle" x="246.22" y="-116" font-family="Times,serif" font-size="14.00">with Pitbull?")</text>
+</g>
+<!-- gqlServer&#45;&gt;api1 -->
+<g id="edge3" class="edge">
+<title>gqlServer-&gt;api1</title>
+<path fill="none" stroke="black" d="M164.83,-75.8C145.03,-75.8 125.22,-75.8 105.42,-75.8"></path>
+<polygon fill="black" stroke="black" points="105.38,-72.3 95.38,-75.8 105.38,-79.3 105.38,-72.3"></polygon>
+</g>
+<!-- gqlServer&#45;&gt;dev -->
+<g id="edge2" class="edge">
+<title>gqlServer-&gt;dev</title>
+<path fill="none" stroke="black" d="M277.6,-91.5C285.93,-96.63 293.71,-103.3 298.51,-111.8 309.52,-131.31 309.52,-142.69 298.51,-162.2 294.77,-168.82 289.23,-174.33 283.02,-178.86"></path>
+<polygon fill="black" stroke="black" points="280.81,-176.12 274.26,-184.46 284.57,-182.02 280.81,-176.12"></polygon>
+</g>
+<!-- api2 -->
+<g id="node4" class="node">
+<title>api2</title>
+<ellipse fill="none" stroke="black" cx="440.51" cy="-75.8" rx="54.46" ry="18"></ellipse>
+<text text-anchor="middle" x="440.51" y="-71.6" font-family="Times,serif" font-size="14.00">get_friends</text>
+</g>
+<!-- gqlServer&#45;&gt;api2 -->
+<g id="edge5" class="edge">
+<title>gqlServer-&gt;api2</title>
+<path fill="none" stroke="black" d="M316.41,-75.8C335.98,-75.8 356.87,-75.8 375.82,-75.8"></path>
+<polygon fill="black" stroke="black" points="375.83,-79.3 385.83,-75.8 375.83,-72.3 375.83,-79.3"></polygon>
+<text text-anchor="middle" x="351.1" y="-83" font-family="Times,serif" font-size="14.00">(internal)</text>
+</g>
+<!-- api2&#45;&gt;gqlServer -->
+<g id="edge6" class="edge">
+<title>api2-&gt;gqlServer</title>
+<path fill="none" stroke="black" d="M385.68,-75.8C365.89,-75.8 346.11,-75.8 326.32,-75.8"></path>
+<polygon fill="black" stroke="black" points="326.29,-72.3 316.29,-75.8 326.29,-79.3 326.29,-72.3"></polygon>
+</g>
+</g>
 </svg>
 </div>
+<p></p></figure><p></p>
 </div>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;5: Answering the same question (“Is User 5 friends with Pitbull?”) directly using GraphQL</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-graphql-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Answering the same question (“Is User 5 friends with Pitbull?”) directly using GraphQL
+</figcaption>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -925,7 +1045,7 @@ api2-&gt;gqlServer
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/standards_2x.png" height="300" class="figure-img"></p>
-<figcaption class="figure-caption">Source: <a href="https://xkcd.com/927/" target="_blank">XKCD #927</a></figcaption>
+<figcaption>Source: <a href="https://xkcd.com/927/" target="_blank">XKCD #927</a></figcaption>
 </figure>
 </div>
 </div>
@@ -949,13 +1069,13 @@ api2-&gt;gqlServer
 <div class="code-with-filename-file">
 <pre><strong>my_data.csv</strong></pre>
 </div>
-<pre class="csv"><code>id,var_A,var_B,var_C\n
+<pre class="csv" data-filename="my_data.csv"><code>id,var_A,var_B,var_C\n
 1,val_1A,val_1B,val_1C\r\n
 2,val_2A,val_2B,val_2C\n
 3,val_3A,val_3B,val_3C\n</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_15f52132ae910342dca1256a18db788d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"assets/my_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1165,14 +1285,16 @@ chr (4): index, var_1, var_2, var_3
 </section>
 <section id="building-and-testing-regex-strings" class="level2 smaller crunch-title crunch-iframe">
 <h2 class="smaller crunch-title crunch-iframe anchored" data-anchor-id="building-and-testing-regex-strings">Building and Testing RegEx Strings</h2>
-<iframe src="https://regexr.com/" height="80%" width="100%"></iframe>
 <p><a href="https://regexr.com" target="_blank">RegExr.com →</a></p>
 </section>
 <section id="tidy-data" class="level2 smaller" data-name="Tidy Data">
 <h2 class="smaller anchored" data-name="Tidy Data" data-anchor-id="tidy-data">Tidy Data</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="tidy-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[[1,1],[1,1]]">
+<div class="quarto-layout-row">
+<div id="tidy-info" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <p><a href="https://r4ds.had.co.nz/tidy-data.html" target="_blank">Overview</a> | <a href="https://doi.org/10.18637/jss.v059.i10" target="_blank">In-Depth</a></p>
 <ul>
 <li>Every <strong>column</strong> is a <span class="cb1"><strong>variable</strong></span></li>
@@ -1180,37 +1302,45 @@ chr (4): index, var_1, var_2, var_3
 <li>Every <strong>cell</strong> is a <span class="cb3"><strong>value</strong></span></li>
 </ul>
 </div>
-<div id="fig-tidy-template" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-tidy-template" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tidy-template-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th></th>
-<th><span class="cb1">Var1</span></th>
-<th><span class="cb1">Var 2</span></th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><span class="cb1">Var1</span></th>
+<th style="text-align: left;"><span class="cb1">Var 2</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="cb2"><strong>Obs 1</strong></span></td>
-<td><span class="cb3">Val 1</span></td>
-<td><span class="cb3">Val 2</span></td>
+<td style="text-align: left;"><span class="cb2"><strong>Obs 1</strong></span></td>
+<td style="text-align: left;"><span class="cb3">Val 1</span></td>
+<td style="text-align: left;"><span class="cb3">Val 2</span></td>
 </tr>
 <tr class="even">
-<td><span class="cb2"><strong>Obs 2</strong></span></td>
-<td><span class="cb3">Val 3</span></td>
-<td><span class="cb3">Val 4</span></td>
+<td style="text-align: left;"><span class="cb2"><strong>Obs 2</strong></span></td>
+<td style="text-align: left;"><span class="cb3">Val 3</span></td>
+<td style="text-align: left;"><span class="cb3">Val 4</span></td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;6: A template for tidy data, with observations in <span class="cb2">blue</span>, variables in <span class="cb1">orange</span>, and values in <span class="cb3">green</span></figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tidy-template-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: A template for tidy data, with observations in <span class="cb2">blue</span>, variables in <span class="cb1">orange</span>, and values in <span class="cb3">green</span>
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="fig-tidy-table1" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
-<div class="cell some-right-margin" data-hash="index_cache/html/tidy-table1_a36cc727230cfd58ebf9311ec6587370">
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-tidy-table1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tidy-table1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell some-right-margin">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>table1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1225,12 +1355,18 @@ chr (4): index, var_1, var_2, var_3
 6 China        2000 213766 1280428583</code></pre>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;7: An example <strong>panel</strong> dataset in <strong>tidy</strong> format</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tidy-table1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: An example <strong>panel</strong> dataset in <strong>tidy</strong> format
+</figcaption>
 </figure>
 </div>
-<div id="fig-tidy-table2" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
-<div class="cell some-left-margin" data-hash="index_cache/html/tidy-table2_61c4c8382e31121a96e251b89b222aa4">
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-tidy-table2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tidy-table2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell some-left-margin">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>table2 <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
@@ -1244,8 +1380,12 @@ chr (4): index, var_1, var_2, var_3
 6 Brazil       1999 population 172006362</code></pre>
 </div>
 </div>
-<figcaption class="figure-caption">Figure&nbsp;8: An example <strong>panel</strong> dataset in <strong>non-tidy</strong> format</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tidy-table2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: An example <strong>panel</strong> dataset in <strong>non-tidy</strong> format
+</figcaption>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -1280,18 +1420,25 @@ chr (4): index, var_1, var_2, var_3
 <section id="tibble" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="tibble"><code>tibble</code></h2>
 <p><a href="https://tibble.tidyverse.org/" target="_blank">Homepage</a> | <a href="https://r4ds.had.co.nz/tibbles.html" target="_blank">Overview</a> | <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/tidyr.pdf" target="_blank">Cheatsheet</a></p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="tibble-backwards" class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: center;">
-<ul>
-<li>Replaces <code>R</code>’s built-in <code>data.frame</code> objects, but retains syntax for backwards compatibility:</li>
-</ul>
-<div class="cell" data-hash="index_cache/html/tibble-backwards_7a8119631cf0f1e1bd65015033d3cf87">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3.4</span>,<span class="fl">1.1</span>,<span class="fl">9.6</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>supervised_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span>data, <span class="at">y=</span>labels)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>supervised_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>supervised_df</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>dsan_df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>code, <span class="sc">~</span>topic, <span class="sc">~</span>credits,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dsan5000"</span>, <span class="st">"Data Science"</span>, <span class="dv">3</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dsan5100"</span>, <span class="st">"Probabilistic Modeling"</span>, <span class="dv">3</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>dsan_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-layout-panel" data-layout="[30,70]">
+<div class="quarto-layout-row">
+<div id="tibble-backwards" class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
+<ul>
+<li>Replaces <code>R</code>’s built-in <code>data.frame</code> objects, but retains syntax for backwards compatibility:</li>
+</ul>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
       x     y
@@ -1302,18 +1449,11 @@ chr (4): index, var_1, var_2, var_3
 </div>
 </div>
 </div>
-<div id="tribble" class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: center;">
+<div id="tribble" class="quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
 <ul>
 <li>Provides a surprisingly useful function: <code>tribble()</code> (tibble defined row-by-row)</li>
 </ul>
-<div class="cell" data-hash="index_cache/html/tribble-example_a3063a28d9d6b27fbae7320d981493aa">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>dsan_df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>code, <span class="sc">~</span>topic, <span class="sc">~</span>credits,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dsan5000"</span>, <span class="st">"Data Science"</span>, <span class="dv">3</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dsan5100"</span>, <span class="st">"Probabilistic Modeling"</span>, <span class="dv">3</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>dsan_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   code     topic                  credits
@@ -1341,10 +1481,10 @@ chr (4): index, var_1, var_2, var_3
 </ul>
 </div><div class="column smallertext" style="width:55%;">
 <p><code>filter()</code>:</p>
-<div class="cell" data-hash="index_cache/html/dplyr-filter_a6ccd3274eef7093e4658470e999ac0e">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
@@ -1363,10 +1503,10 @@ chr (4): index, var_1, var_2, var_3
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><code>select()</code>:</p>
-<div class="cell" data-hash="index_cache/html/dplyr-select_63d3f2fa2739c0b133d0e0e31cfe8196">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">select</span>(country)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">select</span>(country)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 1
@@ -1382,10 +1522,10 @@ chr (4): index, var_1, var_2, var_3
 </div>
 </div><div class="column" style="width:50%;">
 <p><code>arrange()</code>:</p>
-<div class="cell" data-hash="index_cache/html/dplyr-arrange_a5466185282e3077ad437d8ad279faeb">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">arrange</span>(population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">arrange</span>(population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
@@ -1405,10 +1545,10 @@ chr (4): index, var_1, var_2, var_3
 <section id="section-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="section-1"></h2>
 <p><code>mutate()</code>:</p>
-<div class="cell" data-hash="index_cache/html/dplyr-mutate_eb00e6f3603ad726b019c3400b9b4ab1">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">newvar =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">newvar =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
@@ -1428,14 +1568,14 @@ chr (4): index, var_1, var_2, var_3
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><code>summarize()</code>:</p>
-<div class="cell" data-hash="index_cache/html/dplyr-summarize_220db56662952226425749fa21c07a8b">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_cases =</span> <span class="fu">mean</span>(cases),</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop =</span> <span class="fu">mean</span>(population)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_cases =</span> <span class="fu">mean</span>(cases),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop =</span> <span class="fu">mean</span>(population)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
@@ -1446,15 +1586,15 @@ chr (4): index, var_1, var_2, var_3
 </div>
 </div><div class="column" style="width:50%;">
 <p><code>summarize()</code> with <strong>grouping</strong>:</p>
-<div class="cell" data-hash="index_cache/html/dplyr-summarize-group_0a0dffaf96c6aeec7c52a997faf45934">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_cases =</span> <span class="fu">mean</span>(cases),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop =</span> <span class="fu">mean</span>(population)</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>table1 <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_cases =</span> <span class="fu">mean</span>(cases),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop =</span> <span class="fu">mean</span>(population)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
@@ -1486,32 +1626,29 @@ chr (4): index, var_1, var_2, var_3
 <li>Utilities for working with <strong>factor</strong> variables (<code>R</code>’s data structure for <strong>categorical variables</strong>)</li>
 <li><strong>factors</strong> = <strong>data</strong> + <strong>levels</strong>:</li>
 </ul>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell quarto-layout-cell" data-hash="index_cache/html/forcats-example_a6565fb461fbb35b1f063327f283b4f3" style="flex-basis: 50.0%;justify-content: center;">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>month_levels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Jan"</span>,<span class="st">"Jan"</span>,<span class="st">"Feb"</span>,<span class="st">"Dec"</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>month_levels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Jan"</span>,<span class="st">"Jan"</span>,<span class="st">"Feb"</span>,<span class="st">"Dec"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(d)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>dataf <span class="ot">&lt;-</span> <span class="fu">parse_factor</span>(</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    d,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels=</span>month_levels</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dataf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Jan" "Jan" "Feb" "Dec"</code></pre>
 </div>
 </div>
-<div class="cell quarto-layout-cell" data-hash="index_cache/html/forcats-parse-factor_ea527b1df872e72d3fffceb32641def6" style="flex-basis: 50.0%;justify-content: center;">
-<details open="">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dataf <span class="ot">&lt;-</span> <span class="fu">parse_factor</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    d,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels=</span>month_levels</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dataf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] Jan Jan Feb Dec
 Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</code></pre>
@@ -1524,49 +1661,57 @@ Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</code></pre>
 <h2 class="smaller anchored" data-anchor-id="factors-for-ordering-plot-elements">Factors for Ordering Plot Elements</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="cell" data-hash="index_cache/html/relig-data_b7b4fba15787f22cd0f3d6f0e2205e2b">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>relig_summary <span class="ot">&lt;-</span> gss_cat <span class="sc">%&gt;%</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(relig) <span class="sc">%&gt;%</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">tvhours =</span> <span class="fu">mean</span>(tvhours, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>relig_labs <span class="ot">&lt;-</span> <span class="fu">labs</span>(</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"TV Hours / Day"</span>,</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Religion"</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>relig_summary <span class="ot">&lt;-</span> gss_cat <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(relig) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">tvhours =</span> <span class="fu">mean</span>(tvhours, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>relig_labs <span class="ot">&lt;-</span> <span class="fu">labs</span>(</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"TV Hours / Day"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Religion"</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Without <code>forcats</code>:</p>
-<div class="cell" data-hash="index_cache/html/relig-plot_aad35f053a1b7938c89d556a5fa25fb3">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>relig_summary <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(tvhours, relig)) <span class="sc">+</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">yend =</span> relig, <span class="at">x=</span><span class="dv">0</span>, <span class="at">xend =</span> tvhours)) <span class="sc">+</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  relig_labs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>relig_summary <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(tvhours, relig)) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">yend =</span> relig, <span class="at">x=</span><span class="dv">0</span>, <span class="at">xend =</span> tvhours)) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  relig_labs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-revealjs/relig-plot-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-revealjs/relig-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <p>With <code>forcats</code>:</p>
-<div class="cell" data-hash="index_cache/html/relig-plot-factors_d7b022e91b9d280af133c7ff461e9a0f">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>relig_summary <span class="sc">|&gt;</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">relig =</span> <span class="fu">fct_reorder</span>(relig, tvhours)) <span class="sc">|&gt;</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>tvhours, <span class="at">y=</span>relig)) <span class="sc">+</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">yend =</span> relig, <span class="at">x=</span><span class="dv">0</span>, <span class="at">xend =</span> tvhours)) <span class="sc">+</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    relig_labs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>relig_summary <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">relig =</span> <span class="fu">fct_reorder</span>(relig, tvhours)) <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>tvhours, <span class="at">y=</span>relig)) <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size=</span>g_pointsize) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">yend =</span> relig, <span class="at">x=</span><span class="dv">0</span>, <span class="at">xend =</span> tvhours)) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dsan_theme</span>(<span class="st">"half"</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    relig_labs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-revealjs/relig-plot-factors-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-revealjs/relig-plot-factors-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1574,23 +1719,27 @@ Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</code></pre>
 </section>
 <section id="sorting-barplots-with-fct_infreq" class="level2">
 <h2 class="anchored" data-anchor-id="sorting-barplots-with-fct_infreq">Sorting Barplots with <code>fct_infreq()</code></h2>
-<div class="cell" data-hash="index_cache/html/sorting-barplots-labs_b14a97c5028f6cbe05ffe422347062b8">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>barplot_labs <span class="ot">&lt;-</span> <span class="fu">labs</span>(</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Respondents by Marital Status"</span>,</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Marital Status"</span>,</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>barplot_labs <span class="ot">&lt;-</span> <span class="fu">labs</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Respondents by Marital Status"</span>,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"Marital Status"</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="index_cache/html/sorting-barplots_db8996a6da2e4eff55a8fabd71cacfb9">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>gss_cat <span class="sc">|&gt;</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">marital =</span> marital <span class="sc">|&gt;</span> <span class="fu">fct_infreq</span>() <span class="sc">|&gt;</span> <span class="fu">fct_rev</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(marital)) <span class="sc">+</span> <span class="fu">geom_bar</span>() <span class="sc">+</span> barplot_labs <span class="sc">+</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>gss_cat <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">marital =</span> marital <span class="sc">|&gt;</span> <span class="fu">fct_infreq</span>() <span class="sc">|&gt;</span> <span class="fu">fct_rev</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(marital)) <span class="sc">+</span> <span class="fu">geom_bar</span>() <span class="sc">+</span> barplot_labs <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsan_theme</span>(<span class="st">"full"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-revealjs/sorting-barplots-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-revealjs/sorting-barplots-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1599,12 +1748,12 @@ Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Automatically combining using <code>fct_lump()</code>:</p>
-<div class="cell" data-hash="index_cache/html/fct-lump_09942c61a14f513d0042e7a10761367f">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>gss_cat <span class="sc">|&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">relig =</span> <span class="fu">fct_lump</span>(relig)) <span class="sc">|&gt;</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(relig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>gss_cat <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">relig =</span> <span class="fu">fct_lump</span>(relig)) <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(relig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
@@ -1616,22 +1765,22 @@ Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</code></pre>
 </div>
 </div><div class="column" style="width:50%;">
 <p>Manually Combining using <code>fct_recode()</code>:</p>
-<div class="cell" data-hash="index_cache/html/fct-recode_c955680042343b6aded90ccfa10f0acd">
-<details>
+<div class="cell">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>gss_cat <span class="sc">|&gt;</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">partyid =</span> <span class="fu">fct_recode</span>(partyid,</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Republican"</span>  <span class="ot">=</span> <span class="st">"Strong republican"</span>,</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Republican"</span>  <span class="ot">=</span> <span class="st">"Not str republican"</span>,</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Independent"</span> <span class="ot">=</span> <span class="st">"Ind,near rep"</span>,</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Independent"</span> <span class="ot">=</span> <span class="st">"Ind,near dem"</span>,</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Democrat"</span>    <span class="ot">=</span> <span class="st">"Not str democrat"</span>,</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Democrat"</span>    <span class="ot">=</span> <span class="st">"Strong democrat"</span>,</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>       <span class="ot">=</span> <span class="st">"No answer"</span>,</span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>       <span class="ot">=</span> <span class="st">"Don't know"</span>,</span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>       <span class="ot">=</span> <span class="st">"Other party"</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(partyid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>gss_cat <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">partyid =</span> <span class="fu">fct_recode</span>(partyid,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Republican"</span>  <span class="ot">=</span> <span class="st">"Strong republican"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Republican"</span>  <span class="ot">=</span> <span class="st">"Not str republican"</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Independent"</span> <span class="ot">=</span> <span class="st">"Ind,near rep"</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Independent"</span> <span class="ot">=</span> <span class="st">"Ind,near dem"</span>,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Democrat"</span>    <span class="ot">=</span> <span class="st">"Not str democrat"</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Democrat"</span>    <span class="ot">=</span> <span class="st">"Strong democrat"</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>       <span class="ot">=</span> <span class="st">"No answer"</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>       <span class="ot">=</span> <span class="st">"Don't know"</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other"</span>       <span class="ot">=</span> <span class="st">"Other party"</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(partyid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
@@ -1665,9 +1814,11 @@ Warning! <code>read_csv()</code> vs.&nbsp;<code>read.csv()</code>
 </div>
 </div></li>
 </ul>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>gdp_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://gist.githubusercontent.com/jpowerj/fecd437b96d0954893de727383f2eaf2/raw/fec58507f7095cb8341b229d6eb74ce53232d663/gdp_2010.csv"</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>gdp_df <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li>Can handle URLs as well!</li>
 <li><strong>Share data+code</strong> in seconds by using in combination with GitHub Gist</li>
@@ -1675,8 +1826,7 @@ Warning! <code>read_csv()</code> vs.&nbsp;<code>read.csv()</code>
 <li><a href="https://gist.github.com/jpowerj/fecd437b96d0954893de727383f2eaf2" target="_blank">Gist dataset →</a></li>
 </ul>
 </div>
-<div class="cell quarto-layout-cell" data-hash="index_cache/html/read-csv-gist_cb0a25a93d0744aef24cc228cf9b8653" style="flex-basis: 50.0%;justify-content: center;">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>gdp_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://gist.githubusercontent.com/jpowerj/fecd437b96d0954893de727383f2eaf2/raw/fec58507f7095cb8341b229d6eb74ce53232d663/gdp_2010.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 204 Columns: 4
 ── Column specification ────────────────────────────────────────────────────────
@@ -1687,7 +1837,6 @@ dbl (2): year, value
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>gdp_df <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   name           code   year         value
@@ -1709,13 +1858,13 @@ dbl (2): year, value
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Provides an <strong>anonymous function</strong> operator <code>~</code>, arguments get named <code>.x</code>, <code>.y</code>:</p>
-<div class="cell" data-hash="index_cache/html/purrr-map_f7e4c830cff7c900e30370cd5a785cb9">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>my_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Midterm"</span><span class="ot">=</span><span class="dv">18</span>, <span class="st">"Final"</span><span class="ot">=</span><span class="dv">300</span>)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>total_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Midterm"</span><span class="ot">=</span><span class="dv">20</span>, <span class="st">"Final"</span><span class="ot">=</span><span class="dv">400</span>)</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>(avg_score <span class="ot">&lt;-</span> <span class="fu">map2</span>(my_points, total_points,</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">list</span>(<span class="at">frac=</span>.x <span class="sc">/</span> .y, <span class="at">pct=</span>(.x<span class="sc">/</span>.y)<span class="sc">*</span><span class="dv">100</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>my_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Midterm"</span><span class="ot">=</span><span class="dv">18</span>, <span class="st">"Final"</span><span class="ot">=</span><span class="dv">300</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>total_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Midterm"</span><span class="ot">=</span><span class="dv">20</span>, <span class="st">"Final"</span><span class="ot">=</span><span class="dv">400</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>(avg_score <span class="ot">&lt;-</span> <span class="fu">map2</span>(my_points, total_points,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> <span class="fu">list</span>(<span class="at">frac=</span>.x <span class="sc">/</span> .y, <span class="at">pct=</span>(.x<span class="sc">/</span>.y)<span class="sc">*</span><span class="dv">100</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Midterm
@@ -1736,10 +1885,10 @@ $Final$pct
 </div>
 </div><div class="column" style="width:50%;">
 <p>Along with helpful functions for transforming the output</p>
-<div class="cell" data-hash="index_cache/html/purrr-flatten_39c08c3e12d7b7ce58d511a424ea63f2">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_flatten</span>(avg_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_flatten</span>(avg_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Midterm_frac
@@ -1755,10 +1904,10 @@ $Final_pct
 [1] 75</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="index_cache/html/purrr-every_464af186246366396c8981f236e248f3">
-<details open="">
+<div class="cell">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">every</span>(avg_score, <span class="sc">~</span> .x<span class="sc">$</span>frac <span class="sc">&gt;</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">every</span>(avg_score, <span class="sc">~</span> .x<span class="sc">$</span>frac <span class="sc">&gt;</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
@@ -1781,8 +1930,8 @@ Caution: Importing <code>lubridate</code>
 </div>
 <div class="callout-body-container callout-body">
 <p>Note that <code>lubridate</code> <strong>does not</strong> get loaded with the other packages in the <code>tidyverse</code> when you call <code>library(tidyverse)</code>. It needs to be imported explicitly:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -1800,19 +1949,32 @@ Caution: Importing <code>lubridate</code>
 }
 </style>
 <p><em>Text Preprocessing For Unsupervised Learning: Why It Matters, When It Misleads, And What To Do About It</em> <span class="citation" data-cites="denny_text_2018">(<a href="#ref-denny_text_2018" role="doc-biblioref">Denny and Spirling 2018</a>)</span> (<a href="https://www.cambridge.org/core/journals/political-analysis/article/abs/text-preprocessing-for-unsupervised-learning-why-it-matters-when-it-misleads-and-what-to-do-about-it/AA7D4DE0AA6AB208502515AE3EC6989E" target="_blank">PDF Link</a>)</p>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="fig-denny-spirling" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 50.0%;justify-content: center;">
-<figure class="figure">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-denny-spirling" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-denny-spirling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <p><img src="images/denny_spirling.gif" width="200" align="center" style="margin-top: 0px !important; margin-bottom: 0px !important;" class="figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;9: A plot where <span class="math inline">\(x\)</span>-axis represents UK party manifestos (arranged on left-right ideology dimension, <span class="math inline">\(y\)</span>-axis slots represent an ordering of preprocessing steps, and a filled bar means the manifesto was <strong>placed incorrectly</strong> on the ideological dimension when that preprocessing combination was used.</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-denny-spirling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: A plot where <span class="math inline">\(x\)</span>-axis represents UK party manifestos (arranged on left-right ideology dimension, <span class="math inline">\(y\)</span>-axis slots represent an ordering of preprocessing steps, and a filled bar means the manifesto was <strong>placed incorrectly</strong> on the ideological dimension when that preprocessing combination was used.
+</figcaption>
 </figure>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-missingno" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/missingno.svg" class="img-fluid figure-img" width="200"></p>
-<figcaption class="figure-caption">Figure&nbsp;10: An ancient hieroglyph</figcaption>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-missingno" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-missingno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/missingno.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="200">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-missingno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: An ancient hieroglyph
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1821,42 +1983,47 @@ Caution: Importing <code>lubridate</code>
 </section>
 <section id="the-secret-behind-all-text-analysis" class="level2 smaller crunch-title crunch-figures">
 <h2 class="smaller crunch-title crunch-figures anchored" data-anchor-id="the-secret-behind-all-text-analysis">The Secret Behind All Text Analysis</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-center">
-<div id="fig-corpus" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 100.0%;justify-content: center;">
-<figure class="figure">
-<div class="quarto-layout-panel">
+<div data-layout="[[45],[45,10,45]]" data-layout-valign="center">
+<div id="fig-corpus" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corpus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/text_as_data.jpeg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/finnegans_wake_morecrop.jpeg" class="img-fluid figure-img" width="390"></p>
+<p><img src="images/text_as_data.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/tidytext.jpeg" class="img-fluid figure-img"></p>
+<p><img src="images/finnegans_wake_morecrop.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="390"></p>
 </figure>
 </div>
 </div>
-</div>
-</div>
-<figcaption class="figure-caption">Figure&nbsp;11: Excerpts from two data science textbooks, plus another book</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-center">
-<div id="fig-dtm" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 45.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
+<p><img src="images/tidytext.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corpus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: Excerpts from two data science textbooks, plus another book
+</figcaption>
+</figure>
+</div>
+<div id="fig-dtm" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dtm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <p><i class="bi bi-arrow-down" style="padding-top: 10px !important;"></i></p>
 <table class="table">
 <thead>
@@ -1896,16 +2063,20 @@ Caution: Importing <code>lubridate</code>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;12: The <strong>Document-Term Matrix</strong> (<strong>DTM</strong>)</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dtm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: The <strong>Document-Term Matrix</strong> (<strong>DTM</strong>)
+</figcaption>
 </figure>
 </div>
-<div id="cleaning-arrow" class="quarto-layout-cell" style="flex-basis: 10.0%;justify-content: center;">
+<div id="cleaning-arrow">
 <center>
 <i class="bi bi-arrow-right ps-3"></i>
 </center>
 </div>
-<div id="fig-cleaned-dtm" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 45.0%;justify-content: center;">
-<figure class="figure">
+<div id="fig-cleaned-dtm" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cleaned-dtm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <p><i class="" style="padding-top: 10px !important;">&nbsp;</i></p>
 <table class="table">
 <thead>
@@ -1945,9 +2116,11 @@ Caution: Importing <code>lubridate</code>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;13: The <strong>cleaned</strong> DTM, after <strong>lowercasing</strong>, <strong>lemmatization</strong>, and <strong>unicode standardization</strong></figcaption>
-</figure>
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cleaned-dtm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: The <strong>cleaned</strong> DTM, after <strong>lowercasing</strong>, <strong>lemmatization</strong>, and <strong>unicode standardization</strong>
+</figcaption>
+</figure>
 </div>
 </div>
 </section>
@@ -1962,7 +2135,7 @@ Caution: Importing <code>lubridate</code>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-denny_text_2018" class="csl-entry" role="listitem">
 Denny, Matthew J., and Arthur Spirling. 2018. <span>“Text <span>Preprocessing For Unsupervised Learning</span>: <span>Why It Matters</span>, <span>When It Misleads</span>, <span>And What To Do About It</span>.”</span> <em>Political Analysis</em> 26 (2): 168–89. <a href="https://doi.org/10.1017/pan.2017.44">https://doi.org/10.1017/pan.2017.44</a>.
 </div>
@@ -2062,10 +2235,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -2075,8 +2265,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -2088,7 +2287,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -2132,6 +2454,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -2157,6 +2480,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2217,6 +2566,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

@@ -1,4 +1,3 @@
-import shutil
 # Read the recordings yml file
 import yaml
 

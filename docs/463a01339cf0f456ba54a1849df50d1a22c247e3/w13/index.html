@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeff Jacobs">
 
-<title>DSAN 5000 - Week 13: Association Rule Mining (ARM)</title>
+<title>DSAN 5000 – Week 13: Association Rule Mining (ARM)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -109,6 +116,33 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../styles.css">
 </head>
 
@@ -118,12 +152,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w13/index.html">Week 13: <span class="sec-w13-date">Nov 21</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../w13/index.html">Week 13: <span class="sec-w13-date">Nov 21</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -133,7 +167,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">DSAN 5000</a> 
@@ -296,7 +330,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -356,12 +390,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
     <div class="quarto-title-meta-contents">
     <p class="author">Jeff Jacobs </p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             <a href="mailto:jj1088@georgetown.edu" target="_blank">jj1088@georgetown.edu</a>
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -377,7 +411,9 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
+
 
 <center>
 <a class="h2" href="./slides.html" target="_blank">Open slides in new window →</a>
@@ -386,7 +422,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h1 class="smaller small-title crunch-title crunch-callout" data-name="Schedule">Schedule</h1>
 <div class="hidden">
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../_globals.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -394,7 +430,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 <div class="hidden">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cb_palette <span class="op">=</span> [<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -511,103 +547,122 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li>Network data form <strong>two</strong> tabular datasets: one for <strong>nodes</strong> and one for <strong>edges</strong></li>
 <li>Ex: Network on left could be represented via pair of tabular datasets on right</li>
 </ul>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-pokemon" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pokemon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/pokemon_graph_subsets.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pokemon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Network of some sort of ancient kinship structure
+</figcaption>
+</figure>
+</div>
+</div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<div id="fig-pokemon" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/pokemon_graph_subsets.png" class="img-fluid figure-img" width="500"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Network of some sort of ancient kinship structure</figcaption>
-</figure>
-</div>
-</div>
-<div id="fig-nodes" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 33.3%;justify-content: center;">
-<figure class="figure">
+<div id="fig-nodes" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nodes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>node_id</th>
-<th>label</th>
+<th style="text-align: left;">node_id</th>
+<th style="text-align: left;">label</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>Bulbasaur</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Bulbasaur</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>Ivysaur</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Ivysaur</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\vdots\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\vdots\)</span></td>
 </tr>
 <tr class="even">
-<td>9</td>
-<td>Blastoise</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Blastoise</td>
 </tr>
 <tr class="odd">
-<td>83</td>
-<td>Farfetch’d</td>
+<td style="text-align: left;">83</td>
+<td style="text-align: left;">Farfetch’d</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;2: A tabular dataset representing the <strong>nodes</strong> in the network above</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nodes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: A tabular dataset representing the <strong>nodes</strong> in the network above
+</figcaption>
 </figure>
 </div>
-<div id="fig-edges" class="quarto-figure quarto-figure-center anchored" style="flex-basis: 33.3%;justify-content: center;">
-<figure class="figure">
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<div id="fig-edges" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <thead>
 <tr class="header">
-<th>edge_id</th>
-<th>source</th>
-<th>target</th>
-<th>weight</th>
+<th style="text-align: left;">edge_id</th>
+<th style="text-align: left;">source</th>
+<th style="text-align: left;">target</th>
+<th style="text-align: left;">weight</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>1</td>
-<td>2</td>
-<td>16</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">16</td>
 </tr>
 <tr class="even">
-<td>1</td>
-<td>2</td>
-<td>3</td>
-<td>32</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">32</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td>4</td>
-<td>5</td>
-<td>16</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">16</td>
 </tr>
 <tr class="even">
-<td>3</td>
-<td>5</td>
-<td>6</td>
-<td>36</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">36</td>
 </tr>
 <tr class="odd">
-<td>4</td>
-<td>7</td>
-<td>8</td>
-<td>16</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">16</td>
 </tr>
 <tr class="even">
-<td>5</td>
-<td>8</td>
-<td>9</td>
-<td>36</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">36</td>
 </tr>
 </tbody>
 </table>
-<figcaption class="figure-caption">Figure&nbsp;3: A tabular dataset representing the <strong>edges</strong> in the network above</figcaption>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: A tabular dataset representing the <strong>edges</strong> in the network above
+</figcaption>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -615,7 +670,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <section id="new-toy-over-break-networkx" class="level2 crunch-title crunch-code">
 <h2 class="crunch-title crunch-code anchored" data-anchor-id="new-toy-over-break-networkx">New Toy Over Break: NetworkX!</h2>
 <div class="cell" data-layout-align="center" data-output-location="column">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -651,7 +706,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/networkx-intro-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="index_files/figure-revealjs/networkx-intro-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -659,14 +714,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </section>
 <section id="common-network-topologies" class="level2 crunch-code crunch-quarto-layout-panel">
 <h2 class="crunch-code crunch-quarto-layout-panel anchored" data-anchor-id="common-network-topologies">Common Network Topologies</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="fully-connected" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<center>
-<strong>Fully-Connected: <span class="math inline">\(N = 5\)</span></strong>
-</center>
-<div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -678,42 +726,46 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">32</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> nx.complete_bipartite_graph(<span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> nx.bipartite.sets(B)[<span class="dv">0</span>]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.bipartite_layout(B, top)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  B, pos<span class="op">=</span>pos, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  node_color <span class="op">=</span> <span class="st">'lightblue'</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">4000</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>plt.margins(y<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="fully-connected" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<center>
+<strong>Fully-Connected: <span class="math inline">\(N = 5\)</span></strong>
+</center>
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/fully-connected-graph-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/fully-connected-graph-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<div id="bipartite" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="bipartite" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Bipartite: <span class="math inline">\(M = 4, N = 5\)</span></strong>
 </center>
 <div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> nx.complete_bipartite_graph(<span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> nx.bipartite.sets(B)[<span class="dv">0</span>]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> nx.bipartite_layout(B, top)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  B, pos<span class="op">=</span>pos, with_labels<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  node_color <span class="op">=</span> <span class="st">'lightblue'</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">4000</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.margins(y<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/unnamed-chunk-5-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-5-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -724,59 +776,56 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </section>
 <section id="common-network-topologies-ii" class="level2">
 <h2 class="anchored" data-anchor-id="common-network-topologies-ii">Common Network Topologies II</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="path-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>path_graph <span class="op">=</span> nx.path_graph(<span class="dv">5</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  path_graph, with_labels <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  node_color <span class="op">=</span> <span class="st">'lightblue'</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">4500</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.margins(y<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>path_graph <span class="op">=</span> nx.cycle_graph(<span class="dv">5</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  path_graph, with_labels <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  node_color <span class="op">=</span> <span class="st">'lightblue'</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">4500</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>plt.margins(y<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="path-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Path</strong>
 </center>
 <div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>path_graph <span class="op">=</span> nx.path_graph(<span class="dv">5</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  path_graph, with_labels <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  node_color <span class="op">=</span> <span class="st">'lightblue'</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">4500</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.margins(y<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/path-graph-7.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/path-graph-7.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<div id="cycle-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="cycle-col" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <center>
 <strong>Cycle</strong>
 </center>
 <div class="cell" data-layout-align="center">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>path_graph <span class="op">=</span> nx.cycle_graph(<span class="dv">5</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  path_graph, with_labels <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  node_color <span class="op">=</span> <span class="st">'lightblue'</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">4500</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.margins(y<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/cycle-graph-9.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-revealjs/cycle-graph-9.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -790,9 +839,8 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <h1 data-stack-name="ARM">Association Rule Mining (ARM)</h1>
 <section id="motivating-application-market-basket-analysis" class="level2 title-11 smaller crunch-quarto-layout-cell">
 <h2 class="title-11 smaller crunch-quarto-layout-cell anchored" data-anchor-id="motivating-application-market-basket-analysis">Motivating Application: Market Basket Analysis</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="transaction-cart" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div data-layout="[[1,1],[1]]">
+<div id="transaction-cart">
 <center>
 <strong>Transactions (Cart):</strong>
 </center>
@@ -827,10 +875,11 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </tbody>
 </table>
 </div>
-<div id="transactions-matrix" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="transactions-matrix">
 <center>
 <strong>Transactions (Matrix Format):</strong>
 </center>
+<div>
 <table class="ctable table" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -899,20 +948,22 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </table>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="arm-rules" class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div id="arm-rules">
 <center>
 <strong>What rules can we infer? How can we evaluate these?</strong>
 </center>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="rules-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="rules-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li><span class="math inline">\(R_1 = \{\text{Butter}\} \overset{?}{\Rightarrow} \{\text{Eggs}\}\)</span></li>
 <li><span class="math inline">\(R_2 = \{\text{Milk}, \text{Bread}\} \overset{?}{\Rightarrow} \{\text{Butter}\}\)</span></li>
 </ul>
 </div>
-<div id="rules-right" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="rules-right" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li><span class="math inline">\(R_3 = \{\text{Milk}, \text{Bread}\} \overset{?}{\Rightarrow} \{\text{Coke}, \text{Fruit}\}\)</span></li>
 <li><span class="math inline">\(R_4 = \{\text{Beer}\} \overset{?}{\Rightarrow} \{\text{Butter}\}\)</span></li>
@@ -922,53 +973,52 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
-</div>
 </section>
 <section id="market-basket-network" class="level2">
 <h2 class="anchored" data-anchor-id="market-basket-network">Market Basket Network</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">5000</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>basket_graph <span class="op">=</span> nx.Graph()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> [<span class="st">'Milk'</span>,<span class="st">'Bread'</span>,<span class="st">'Butter'</span>,<span class="st">'Beer'</span>,<span class="st">'Diapers'</span>,<span class="st">'Eggs'</span>,<span class="st">'Fruit'</span>]</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Bread'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Bread'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Butter'</span>,<span class="st">'Eggs'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Butter'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Eggs'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Beer'</span>,<span class="st">'Diapers'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Butter'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Eggs'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Bread'</span>,<span class="st">'Butter'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Bread'</span>,<span class="st">'Eggs'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>spring_pos <span class="op">=</span> nx.spring_layout(</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  basket_graph,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#pos = {'Fruit': (0.5,0.3), 'Beer': (0.5,0.8)},</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#fixed = ['Fruit','Beer'],</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  seed <span class="op">=</span> <span class="dv">5000</span>,</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  basket_graph, spring_pos, with_labels<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">#node_color = 'lightblue',</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">1200</span>,</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">16</span>,</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  node_shape<span class="op">=</span><span class="st">"s"</span>,  node_color<span class="op">=</span><span class="st">"none"</span>,</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  bbox<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">"lightblue"</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, boxstyle<span class="op">=</span><span class="st">'round,pad=0.2'</span>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>edge_labels_dict<span class="op">=</span><span class="bu">dict</span>([((u,v,),d[<span class="st">'weight'</span>]) <span class="cf">for</span> u,v,d <span class="kw">in</span> basket_graph.edges(data<span class="op">=</span><span class="va">True</span>)])</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>edge_labels <span class="op">=</span> nx.draw_networkx_edge_labels(basket_graph, pos<span class="op">=</span>spring_pos, edge_labels<span class="op">=</span>edge_labels_dict, font_size<span class="op">=</span><span class="dv">14</span>, bbox<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">"white"</span>, edgecolor<span class="op">=</span><span class="st">'none'</span>, boxstyle<span class="op">=</span><span class="st">'round,pad=0.2'</span>))</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>plt.gca().set_aspect(<span class="st">'equal'</span>)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>plt.margins(x <span class="op">=</span> <span class="fl">0.4</span>)</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">5000</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>basket_graph <span class="op">=</span> nx.Graph()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> [<span class="st">'Milk'</span>,<span class="st">'Bread'</span>,<span class="st">'Butter'</span>,<span class="st">'Beer'</span>,<span class="st">'Diapers'</span>,<span class="st">'Eggs'</span>,<span class="st">'Fruit'</span>]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Bread'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Bread'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Butter'</span>,<span class="st">'Eggs'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Butter'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Eggs'</span>,<span class="st">'Fruit'</span>,weight<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Beer'</span>,<span class="st">'Diapers'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Butter'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Milk'</span>,<span class="st">'Eggs'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Bread'</span>,<span class="st">'Butter'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>basket_graph.add_edge(<span class="st">'Bread'</span>,<span class="st">'Eggs'</span>,weight<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>spring_pos <span class="op">=</span> nx.spring_layout(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  basket_graph,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#pos = {'Fruit': (0.5,0.3), 'Beer': (0.5,0.8)},</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#fixed = ['Fruit','Beer'],</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  seed <span class="op">=</span> <span class="dv">5000</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>nx.draw(</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  basket_graph, spring_pos, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">#node_color = 'lightblue',</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  node_size <span class="op">=</span> <span class="dv">1200</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  font_size <span class="op">=</span> <span class="dv">16</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  node_shape<span class="op">=</span><span class="st">"s"</span>,  node_color<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  bbox<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">"lightblue"</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>, boxstyle<span class="op">=</span><span class="st">'round,pad=0.2'</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>edge_labels_dict<span class="op">=</span><span class="bu">dict</span>([((u,v,),d[<span class="st">'weight'</span>]) <span class="cf">for</span> u,v,d <span class="kw">in</span> basket_graph.edges(data<span class="op">=</span><span class="va">True</span>)])</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>edge_labels <span class="op">=</span> nx.draw_networkx_edge_labels(basket_graph, pos<span class="op">=</span>spring_pos, edge_labels<span class="op">=</span>edge_labels_dict, font_size<span class="op">=</span><span class="dv">14</span>, bbox<span class="op">=</span><span class="bu">dict</span>(facecolor<span class="op">=</span><span class="st">"white"</span>, edgecolor<span class="op">=</span><span class="st">'none'</span>, boxstyle<span class="op">=</span><span class="st">'round,pad=0.2'</span>))</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>plt.gca().set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>plt.margins(x <span class="op">=</span> <span class="fl">0.4</span>)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="index_files/figure-revealjs/market-basket-network-plot-11.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="index_files/figure-revealjs/market-basket-network-plot-11.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
 </figure>
 </div>
 </div>
@@ -980,6 +1030,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <li><span class="math inline">\(\text{Supp}(X)\)</span>: Measures How often items in <span class="math inline">\(X\)</span> occur together relative to all other transactions</li>
 <li><span class="math inline">\(\text{Supp}({\color{green}\{\text{Milk}, \text{Bread}\}}) = \frac{2}{5}, \text{Supp}({\color{orange}\{\text{Butter}\}}) = \frac{2}{5}\)</span></li>
 </ul>
+<div>
 <style>
 .gc {
   border: 4px solid green;
@@ -1059,6 +1110,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="key-metrics-confidence" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="key-metrics-confidence">Key Metrics: Confidence</h2>
@@ -1075,6 +1127,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 } = \frac{{\color{purple}\boxed{1/5}}}{{\color{green}\boxed{2/5}}} = \frac{1}{2}
 \end{align*}
 \]</span></p>
+<div>
 <style>
 .gc {
   border: 4px solid green;
@@ -1163,6 +1216,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="key-metrics-lift" class="level2 smaller crunch-title crunch-math">
 <h2 class="smaller crunch-title crunch-math anchored" data-anchor-id="key-metrics-lift">Key Metrics: Lift</h2>
@@ -1172,6 +1226,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 <p><span class="math display">\[
 \frac{\text{Supp}(X \cap Y)}{\text{Supp}(X) \cdot \text{Supp}(Y)} = \frac{{\color{purple}\boxed{1/5}}}{{\color{green}\boxed{2/5}} \cdot {\color{orange}\boxed{2/5}}} = \frac{5}{4}
 \]</span></p>
+<div>
 <style>
 .gc {
   border: 4px solid green;
@@ -1265,6 +1320,7 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="lift-as-pointwise-mutual-information-pmi" class="level2 smaller title-12">
 <h2 class="smaller title-12 anchored" data-anchor-id="lift-as-pointwise-mutual-information-pmi">Lift as Pointwise Mutual Information (PMI)</h2>
@@ -1294,9 +1350,12 @@ gtag('config', 'G-ETYTX4E16L', { 'anonymize_ip': true});
 </section>
 <section id="thanksgiving-lesson-from-a-dc-native-settler" class="level2 smaller title-11">
 <h2 class="smaller title-11 anchored" data-anchor-id="thanksgiving-lesson-from-a-dc-native-settler">Thanksgiving Lesson from a DC <span style="text-decoration: line-through;">Native</span> Settler</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="anacostia-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="anacostia-left" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <ul>
 <li>Breaking words apart like this can reveal the “sediments of history”: consider <a href="https://anacostia.si.edu/" target="_blank"><strong>Anacostia</strong></a></li>
 <li><strong>Since 1877</strong>: DC neighborhood + river →</li>
@@ -1333,20 +1392,20 @@ R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^
 <li>Using <code>mlxtend</code></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> [[<span class="st">'Milk'</span>, <span class="st">'Onion'</span>, <span class="st">'Nutmeg'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Eggs'</span>, <span class="st">'Yogurt'</span>],</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Onion'</span>, <span class="st">'Nutmeg'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Eggs'</span>, <span class="st">'Yogurt'</span>],</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Milk'</span>, <span class="st">'Apple'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Eggs'</span>],</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Milk'</span>, <span class="st">'Corn'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Yogurt'</span>],</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Corn'</span>, <span class="st">'Onion'</span>, <span class="st">'Onion'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Ice cream'</span>, <span class="st">'Eggs'</span>]]</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.preprocessing <span class="im">import</span> TransactionEncoder</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>te <span class="op">=</span> TransactionEncoder()</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>te_ary <span class="op">=</span> te.fit(dataset).transform(dataset)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(te_ary, columns<span class="op">=</span>te.columns_)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>disp(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> [[<span class="st">'Milk'</span>, <span class="st">'Onion'</span>, <span class="st">'Nutmeg'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Eggs'</span>, <span class="st">'Yogurt'</span>],</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Onion'</span>, <span class="st">'Nutmeg'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Eggs'</span>, <span class="st">'Yogurt'</span>],</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Milk'</span>, <span class="st">'Apple'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Eggs'</span>],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Milk'</span>, <span class="st">'Corn'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Yogurt'</span>],</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           [<span class="st">'Corn'</span>, <span class="st">'Onion'</span>, <span class="st">'Onion'</span>, <span class="st">'Kidney Beans'</span>, <span class="st">'Ice cream'</span>, <span class="st">'Eggs'</span>]]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.preprocessing <span class="im">import</span> TransactionEncoder</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>te <span class="op">=</span> TransactionEncoder()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>te_ary <span class="op">=</span> te.fit(dataset).transform(dataset)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(te_ary, columns<span class="op">=</span>te.columns_)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>disp(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -1447,107 +1506,109 @@ R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^
 <div class="columns">
 <div class="column" style="width:35%;">
 <div class="cell" data-layout-align="center">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>apriori_df <span class="op">=</span> apriori(df, min_support<span class="op">=</span><span class="fl">0.6</span>, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>apriori_df[<span class="st">'length'</span>] <span class="op">=</span> apriori_df[<span class="st">'itemsets'</span>].<span class="bu">apply</span>(<span class="bu">len</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>format_dict <span class="op">=</span> {</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'support'</span>: <span class="kw">lambda</span> x: <span class="bu">format</span>(x, <span class="st">'.2f'</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'itemsets'</span>: <span class="st">', '</span>.join</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mlxtend.frequent_patterns <span class="im">import</span> apriori</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>apriori_df <span class="op">=</span> apriori(df, min_support<span class="op">=</span><span class="fl">0.6</span>, use_colnames<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>apriori_df[<span class="st">'length'</span>] <span class="op">=</span> apriori_df[<span class="st">'itemsets'</span>].<span class="bu">apply</span>(<span class="bu">len</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>format_dict <span class="op">=</span> {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'support'</span>: <span class="kw">lambda</span> x: <span class="bu">format</span>(x, <span class="st">'.2f'</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">'itemsets'</span>: <span class="st">', '</span>.join</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </div><div class="column" style="width:65%;">
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>apriori_df.style.<span class="bu">format</span>(format_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>apriori_df.style.<span class="bu">format</span>(format_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <style type="text/css">
 </style>
 
-<table id="T_1d5f2" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_84dd8" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_1d5f2_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">support</th>
-<th id="T_1d5f2_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">itemsets</th>
-<th id="T_1d5f2_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">length</th>
+<th id="T_84dd8_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">support</th>
+<th id="T_84dd8_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">itemsets</th>
+<th id="T_84dd8_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">length</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_1d5f2_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">0</td>
-<td id="T_1d5f2_row0_col0" class="data row0 col0">0.80</td>
-<td id="T_1d5f2_row0_col1" class="data row0 col1">Eggs</td>
-<td id="T_1d5f2_row0_col2" class="data row0 col2">1</td>
+<td id="T_84dd8_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">0</td>
+<td id="T_84dd8_row0_col0" class="data row0 col0">0.80</td>
+<td id="T_84dd8_row0_col1" class="data row0 col1">Eggs</td>
+<td id="T_84dd8_row0_col2" class="data row0 col2">1</td>
 </tr>
 <tr class="even">
-<td id="T_1d5f2_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">1</td>
-<td id="T_1d5f2_row1_col0" class="data row1 col0">1.00</td>
-<td id="T_1d5f2_row1_col1" class="data row1 col1">Kidney Beans</td>
-<td id="T_1d5f2_row1_col2" class="data row1 col2">1</td>
+<td id="T_84dd8_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">1</td>
+<td id="T_84dd8_row1_col0" class="data row1 col0">1.00</td>
+<td id="T_84dd8_row1_col1" class="data row1 col1">Kidney Beans</td>
+<td id="T_84dd8_row1_col2" class="data row1 col2">1</td>
 </tr>
 <tr class="odd">
-<td id="T_1d5f2_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">2</td>
-<td id="T_1d5f2_row2_col0" class="data row2 col0">0.60</td>
-<td id="T_1d5f2_row2_col1" class="data row2 col1">Milk</td>
-<td id="T_1d5f2_row2_col2" class="data row2 col2">1</td>
+<td id="T_84dd8_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">2</td>
+<td id="T_84dd8_row2_col0" class="data row2 col0">0.60</td>
+<td id="T_84dd8_row2_col1" class="data row2 col1">Milk</td>
+<td id="T_84dd8_row2_col2" class="data row2 col2">1</td>
 </tr>
 <tr class="even">
-<td id="T_1d5f2_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">3</td>
-<td id="T_1d5f2_row3_col0" class="data row3 col0">0.60</td>
-<td id="T_1d5f2_row3_col1" class="data row3 col1">Onion</td>
-<td id="T_1d5f2_row3_col2" class="data row3 col2">1</td>
+<td id="T_84dd8_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">3</td>
+<td id="T_84dd8_row3_col0" class="data row3 col0">0.60</td>
+<td id="T_84dd8_row3_col1" class="data row3 col1">Onion</td>
+<td id="T_84dd8_row3_col2" class="data row3 col2">1</td>
 </tr>
 <tr class="odd">
-<td id="T_1d5f2_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">4</td>
-<td id="T_1d5f2_row4_col0" class="data row4 col0">0.60</td>
-<td id="T_1d5f2_row4_col1" class="data row4 col1">Yogurt</td>
-<td id="T_1d5f2_row4_col2" class="data row4 col2">1</td>
+<td id="T_84dd8_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">4</td>
+<td id="T_84dd8_row4_col0" class="data row4 col0">0.60</td>
+<td id="T_84dd8_row4_col1" class="data row4 col1">Yogurt</td>
+<td id="T_84dd8_row4_col2" class="data row4 col2">1</td>
 </tr>
 <tr class="even">
-<td id="T_1d5f2_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">5</td>
-<td id="T_1d5f2_row5_col0" class="data row5 col0">0.80</td>
-<td id="T_1d5f2_row5_col1" class="data row5 col1">Kidney Beans, Eggs</td>
-<td id="T_1d5f2_row5_col2" class="data row5 col2">2</td>
+<td id="T_84dd8_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">5</td>
+<td id="T_84dd8_row5_col0" class="data row5 col0">0.80</td>
+<td id="T_84dd8_row5_col1" class="data row5 col1">Kidney Beans, Eggs</td>
+<td id="T_84dd8_row5_col2" class="data row5 col2">2</td>
 </tr>
 <tr class="odd">
-<td id="T_1d5f2_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">6</td>
-<td id="T_1d5f2_row6_col0" class="data row6 col0">0.60</td>
-<td id="T_1d5f2_row6_col1" class="data row6 col1">Onion, Eggs</td>
-<td id="T_1d5f2_row6_col2" class="data row6 col2">2</td>
+<td id="T_84dd8_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">6</td>
+<td id="T_84dd8_row6_col0" class="data row6 col0">0.60</td>
+<td id="T_84dd8_row6_col1" class="data row6 col1">Onion, Eggs</td>
+<td id="T_84dd8_row6_col2" class="data row6 col2">2</td>
 </tr>
 <tr class="even">
-<td id="T_1d5f2_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">7</td>
-<td id="T_1d5f2_row7_col0" class="data row7 col0">0.60</td>
-<td id="T_1d5f2_row7_col1" class="data row7 col1">Milk, Kidney Beans</td>
-<td id="T_1d5f2_row7_col2" class="data row7 col2">2</td>
+<td id="T_84dd8_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">7</td>
+<td id="T_84dd8_row7_col0" class="data row7 col0">0.60</td>
+<td id="T_84dd8_row7_col1" class="data row7 col1">Kidney Beans, Milk</td>
+<td id="T_84dd8_row7_col2" class="data row7 col2">2</td>
 </tr>
 <tr class="odd">
-<td id="T_1d5f2_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">8</td>
-<td id="T_1d5f2_row8_col0" class="data row8 col0">0.60</td>
-<td id="T_1d5f2_row8_col1" class="data row8 col1">Onion, Kidney Beans</td>
-<td id="T_1d5f2_row8_col2" class="data row8 col2">2</td>
+<td id="T_84dd8_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">8</td>
+<td id="T_84dd8_row8_col0" class="data row8 col0">0.60</td>
+<td id="T_84dd8_row8_col1" class="data row8 col1">Kidney Beans, Onion</td>
+<td id="T_84dd8_row8_col2" class="data row8 col2">2</td>
 </tr>
 <tr class="even">
-<td id="T_1d5f2_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">9</td>
-<td id="T_1d5f2_row9_col0" class="data row9 col0">0.60</td>
-<td id="T_1d5f2_row9_col1" class="data row9 col1">Yogurt, Kidney Beans</td>
-<td id="T_1d5f2_row9_col2" class="data row9 col2">2</td>
+<td id="T_84dd8_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">9</td>
+<td id="T_84dd8_row9_col0" class="data row9 col0">0.60</td>
+<td id="T_84dd8_row9_col1" class="data row9 col1">Yogurt, Kidney Beans</td>
+<td id="T_84dd8_row9_col2" class="data row9 col2">2</td>
 </tr>
 <tr class="odd">
-<td id="T_1d5f2_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">10</td>
-<td id="T_1d5f2_row10_col0" class="data row10 col0">0.60</td>
-<td id="T_1d5f2_row10_col1" class="data row10 col1">Onion, Kidney Beans, Eggs</td>
-<td id="T_1d5f2_row10_col2" class="data row10 col2">3</td>
+<td id="T_84dd8_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">10</td>
+<td id="T_84dd8_row10_col0" class="data row10 col0">0.60</td>
+<td id="T_84dd8_row10_col1" class="data row10 col1">Kidney Beans, Eggs, Onion</td>
+<td id="T_84dd8_row10_col2" class="data row10 col2">3</td>
 </tr>
 </tbody>
 </table>
 
 
+</div>
 </div>
 </div>
 </div>
@@ -1556,30 +1617,31 @@ R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^
 <section id="filtering" class="level2 crunch-title crunch-code smaller">
 <h2 class="crunch-title crunch-code smaller anchored" data-anchor-id="filtering">Filtering</h2>
 <div class="cell" data-layout-align="center">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rules_df <span class="op">=</span> apriori_df[ (apriori_df[<span class="st">'length'</span>] <span class="op">&gt;=</span> <span class="dv">2</span>) <span class="op">&amp;</span> (apriori_df[<span class="st">'support'</span>] <span class="op">&gt;=</span> <span class="fl">0.8</span>) ].copy()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>rules_df.style.<span class="bu">format</span>(format_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rules_df <span class="op">=</span> apriori_df[ (apriori_df[<span class="st">'length'</span>] <span class="op">&gt;=</span> <span class="dv">2</span>) <span class="op">&amp;</span> (apriori_df[<span class="st">'support'</span>] <span class="op">&gt;=</span> <span class="fl">0.8</span>) ].copy()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>rules_df.style.<span class="bu">format</span>(format_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
+<div>
 <style type="text/css">
 </style>
 
-<table id="T_8a109" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_ec37f" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_8a109_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">support</th>
-<th id="T_8a109_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">itemsets</th>
-<th id="T_8a109_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">length</th>
+<th id="T_ec37f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">support</th>
+<th id="T_ec37f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">itemsets</th>
+<th id="T_ec37f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">length</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_8a109_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">5</td>
-<td id="T_8a109_row0_col0" class="data row0 col0">0.80</td>
-<td id="T_8a109_row0_col1" class="data row0 col1">Kidney Beans, Eggs</td>
-<td id="T_8a109_row0_col2" class="data row0 col2">2</td>
+<td id="T_ec37f_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">5</td>
+<td id="T_ec37f_row0_col0" class="data row0 col0">0.80</td>
+<td id="T_ec37f_row0_col1" class="data row0 col1">Kidney Beans, Eggs</td>
+<td id="T_ec37f_row0_col2" class="data row0 col2">2</td>
 </tr>
 </tbody>
 </table>
@@ -1587,36 +1649,37 @@ R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^
 
 </div>
 </div>
+</div>
 </section>
 <section id="arm-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="arm-in-r">ARM in R</h2>
 <div class="cell" data-layout-align="center">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arules)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arulesViz)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arules)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arulesViz)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="generating-transaction-data" class="level2">
 <h2 class="anchored" data-anchor-id="generating-transaction-data">Generating Transaction Data</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>market_basket <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>),</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"pear"</span>),</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>),</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"pear"</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(market_basket) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"T"</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">sep=</span><span class="st">""</span>);</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>transactions <span class="ot">&lt;-</span> <span class="fu">as</span>(market_basket, <span class="st">"transactions"</span>)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(transactions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>market_basket <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"beer"</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"pear"</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>, <span class="st">"meat"</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>, <span class="st">"rice"</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"beer"</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"milk"</span>, <span class="st">"pear"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(market_basket) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"T"</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">sep=</span><span class="st">""</span>);</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>transactions <span class="ot">&lt;-</span> <span class="fu">as</span>(market_basket, <span class="st">"transactions"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(transactions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    items                     transactionID
@@ -1634,18 +1697,18 @@ R = \sum_{k=1}^{d-1}\binom{d}{k} \cdot \sum_{j=1}^{d-k}\binom{d-k}{j} = 3^d - 2^
 <section id="training-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="training-the-model">Training the Model</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  transactions,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameter =</span> <span class="fu">list</span>(</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">supp =</span> <span class="fl">0.3</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">conf =</span> <span class="fl">0.5</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxlen =</span> <span class="dv">10</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">minlen =</span> <span class="dv">2</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">target =</span> <span class="st">"rules"</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  transactions,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameter =</span> <span class="fu">list</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">supp =</span> <span class="fl">0.3</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">conf =</span> <span class="fl">0.5</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxlen =</span> <span class="dv">10</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">minlen =</span> <span class="dv">2</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">target =</span> <span class="st">"rules"</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Apriori
@@ -1675,9 +1738,9 @@ creating S4 object  ... done [0.00s].</code></pre>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <div class="cell" data-layout-align="center">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(rules)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    lhs        rhs     support confidence coverage lift     count
@@ -1780,10 +1843,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1793,8 +1873,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1806,7 +1895,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1850,6 +2062,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1875,6 +2088,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1935,6 +2174,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
