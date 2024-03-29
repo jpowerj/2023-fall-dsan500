@@ -3,6 +3,7 @@ title: "Interactive Plots in Quarto with Plotly"
 date: last-modified
 categories:
   - "Extra Writeups"
+sidebar: mainnav
 format:
   html:
     df-print: kable
@@ -48,7 +49,7 @@ Here is a quick interactive plot of random data, to make sure that this fix stil
 
 *(Here I generate $N = 100$ random points, where each one also has a randomly-assigned **cluster** $c \in \{a, b, c\}$, which is used for the color of each point, plus a randomly assigned **label** $\ell \in \{\text{low}, \text{medium}, \text{high}\}$ which you should see in the tooltips which appear when you hover your mouse over the points)*
 
-```python
+```{python}
 #| label: plotly-render-test
 import pandas as pd
 import numpy as np
